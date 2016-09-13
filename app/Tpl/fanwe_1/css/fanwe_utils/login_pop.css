@@ -1,0 +1,90 @@
+.pop-bg {
+  background: url(../images/bg-pop.png);
+  left: 0;
+  position: absolute;
+  top: 0;
+  z-index: 996;
+}
+.pop-container {
+  position: absolute;
+  z-index: 997;
+  width:680px;
+}
+.Js-pop .pop {
+  background: #efefef;
+}
+.Js-pop .titleWrap {
+  position: relative;
+  height: 65px;
+  line-height: 65px;
+  text-align: center;
+  font-size: 30px;
+  color: #fff;
+}
+.Js-pop .titleWrap div {
+  font-size: 30px;
+  height: 65px;
+  line-height: 65px;
+}
+a.shut-down-icon {
+  cursor: pointer;
+  background: url(../images/login_reg.png) no-repeat;
+  background-position: 0 0;
+  width: 16px;
+  height: 16px;
+  display: block;
+  position: absolute;
+  right: 10px;
+  top: 25px;
+}
+.logwrap {
+  width: 600px;
+  margin: 0 auto;
+  font-size: 13px;
+  padding: 40px 40px 50px;
+}
+.logwrap .logleft {
+  float: left;
+  width: 300px;
+  height: 280px;
+}
+.logwrap .logright {
+  float: left;
+  margin-left: 35px;
+  padding-left: 35px;
+  width: 220px;
+  border-left: 1px solid #cbcbcb;
+  height: 280px;
+}
+.logwrap .logright .linebg {
+  margin-top: 30px;
+  margin-bottom: 0;
+  text-align: center;
+  height: 40px;
+  line-height: 40px;
+  font-size:12px;
+}
+.logwrap .logright .linebg b {
+  height: 4px;
+  border-top: 1px solid #cbcbcb;
+  display: inline-block;
+  width: 60px;
+}
+.logwrap .logright .linebg .fond {
+  margin-right: 8px;
+}
+.logwrap .logright .linebg .back {
+  margin-left: 8px;
+}
+.logwrap .textbox{width:160px;}
+.logwrap .control-group .control-label{width:45px;}
+.logwrap .dl2 {
+  width: 35px;
+  height: 35px;
+  margin:5px 10px;
+  float:left;
+}
+.logwrap .dl2 img{
+  width:100%;
+  height:100%;
+}

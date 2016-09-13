@@ -1,0 +1,50 @@
+{include file="inc/header.html"}
+<?php 
+ $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/score.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$pagecss"}" />
+<div class="good_main">
+	<div class="img_div">
+		<img src="{if $goods.img eq ''}{$TMPL}/images/empty_thumb.gif{else}{$goods.img}{/if}" alt="{$goods.name}"></img>
+	</div>
+	<h5 class="good_title">{$goods.name}</h5>
+	<div class="good_money">
+		<span class="f_red">{$goods.score}积分</span>
+	</div>
+	<ul class="good_attribute webkit-box">
+		<span class="tl webkit-box-flex">类别：{$goods.cate_name}</span>
+		<span class="tc webkit-box-flex">{$goods.score}人已兑换</span>
+		<span class="tr webkit-box-flex">还剩：{if $goods.max_bought > 0}{$goods.stock}{else}不限{/if}</span>
+	</ul>
+	<form name="score_form" action="{url_wap r="score_good_show#check_order"}" method="post">
+		<div class="attribute_num clearfix">
+			<span class="f_l">对换数量</span>
+			<div class="buy_main b_radius3 ">
+				<a class="plus" id="minus">-</a>
+				<input type="text" name="num" value="1" class="buy_num" id="buy_num">
+				<a class="minus" id="plus">+</a>
+			</div>
+			<span class="buy_tip hidden" id="buy_tip">你的支持数已达到上限</span>
+		</div>
+		<input type="hidden" name="id" value="{$goods.id}">
+		<div class="button_box">
+			<input class="ui-button theme_color" type="button" name="submit_form" value="立即兑换" rel="ui-button" id="go_check_order">
+		</div>
+	</form>
+</div>
+<div class="blank10"></div>
+<div class="good_brief">
+	<h5 class="brief_title">商品详情</h5>
+	<div class="brief_con">{$goods.description}</div>
+</div>
+<script type="text/javascript">
+	var support_count='{$goods.buy_number}';
+	var is_limit_user='{$goods.is_limit_user}';	
+	var limit_user='{$goods.max_bought}';
+	var maxbuy='{$goods.user_max_bought}';
+	var remain_user_buy='{$goods.remain_user_buy}';
+	var is_login='{$goods.is_login}';
+	var login_url='{url_wap r="user#login"}';
+</script>
+<!-- score_good_show.js -->
+{include file="inc/footer.html"}

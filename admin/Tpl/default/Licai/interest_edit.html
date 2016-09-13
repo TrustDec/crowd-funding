@@ -1,0 +1,79 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<div class="main">
+<div class="main_title">{$vo.name}{%EDIT} <a href="{:u("Licai/interest_index",array("id"=>$vo["licai_id"],))}" class="back_list">{%BACK_LIST}</a></div>
+<div class="blank5"></div>
+<form name="edit" action="__APP__" method="post" enctype="multipart/form-data">
+<table class="form" cellpadding=0 cellspacing=0>
+	<tr>
+		<td colspan=2 class="topTd"></td>
+	</tr>
+	<tr>
+		<td class="item_title">最小购买金额:</td>
+		<td class="item_input"><input type="text" class="textbox require" name="min_money" value="{$vo.min_money_format}" />万元 <span class="tip_span">(第一条收益利率范围最小金额需从0开始)</span></td>
+	</tr>
+    <tr>
+		<td class="item_title">最大购买金额:</td>
+		<td class="item_input"><input type="text" class="textbox require" name="max_money" value="{$vo.max_money_format}" />万元</td>
+	</tr>
+    <tr>
+		<td class="item_title">原手续费率:</td>
+		<td class="item_input"><input type="text" class="textbox" name="buy_fee_rate" value="{$vo.buy_fee_rate}" />%</td>
+	</tr>
+    <tr>
+		<td class="item_title">网站手续费率:</td>
+		<td class="item_input"><input type="text" class="textbox" name="site_buy_fee_rate" value="{$vo.site_buy_fee_rate}" />%</td>
+	</tr>
+    <tr>
+		<td class="item_title">赎回手续费率:</td>
+		<td class="item_input"><input type="text" class="textbox" name="redemption_fee_rate" value="{$vo.redemption_fee_rate}" />%</td>
+	</tr>
+    <tr>
+		<td class="item_title">预热期收益率:</td>
+		<td class="item_input"><input type="text" class="textbox" name="before_rate" value="{$vo.before_rate}" />%</td>
+	</tr>
+    <tr>
+		<td class="item_title">预热期违约收益率:</td>
+		<td class="item_input"><input type="text" class="textbox" name="before_breach_rate" value="{$vo.before_breach_rate}" />%</td>
+	</tr>
+    <tr>
+		<td class="item_title">收益率:</td>
+		<td class="item_input"><input type="text" class="textbox" name="interest_rate" value="{$vo.interest_rate}" />%</td>
+	</tr>
+    <tr>
+		<td class="item_title">违约收益率:</td>
+		<td class="item_input"><input type="text" class="textbox" name="breach_rate" value="{$vo.breach_rate}" />%</td>
+	</tr>
+    
+    <tr>
+		<td class="item_title">平台收益率:</td>
+		<td class="item_input"><input type="text" class="textbox" name="platform_rate" value="{$vo.platform_rate}" />%</td>
+	</tr>
+    <tr>
+		<td class="item_title">保证金比率:</td>
+		<td class="item_input"><input type="text" class="textbox" name="freeze_bond_rate" value="{$vo.freeze_bond_rate}" />%</td>
+	</tr>
+    <tr>
+		<td class="item_title">用户违约平台收益率:</td>
+		<td class="item_input"><input type="text" class="textbox" name="platform_breach_rate" value="{$vo.platform_breach_rate}" />%</td>
+	</tr>
+	<tr>
+		<td class="item_title"></td>
+		<td class="item_input">
+			<!--隐藏元素-->
+			<input type="hidden" name="id" value="{$vo.id}" />
+			<input type="hidden" name="{:conf("VAR_MODULE")}" value="Licai" />
+			<input type="hidden" name="{:conf("VAR_ACTION")}" value="interest_update" />
+			<!--隐藏元素-->
+			<input type="submit" class="button" value="{%EDIT}" />
+			<input type="reset" class="button" value="{%RESET}" />
+		</td>
+	</tr>
+	<tr>
+		<td colspan=2 class="bottomTd"></td>
+	</tr>
+</table>	 
+</form>
+</div>
+<include file="Public:footer" />

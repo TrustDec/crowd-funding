@@ -1,0 +1,267 @@
+<tr class="is_show">
+    <td align="center" colspan="4">其他资料图片（公司没成立则无此项）</td>
+</tr>
+<tr class="is_show">
+    <td align="center" colspan="4">
+    	<div class="f_666">
+    		<label class="f_red">温馨提示：</label>以下上传图片，支持gif、jpg、jpeg、png、bmp格式，图片大小最大不超过<span class="f_red b">{$max_size}</span>
+    	</div>
+    </td>
+</tr>
+<tr class="other_pic other_pic_1 is_show">
+    <td align="right">法人代表身份证：</td>
+    <td colspan="3">
+    	{if !$audit_data_list.legal_id}
+	        <div class="pic_box f_l mr20">
+	            <i class="del_pic"></i>
+	            <div class="pic_show" id="audit_data_legal_0">
+            		<img id="audit_data_legal_0_image" src="{$TMPL}/images/upload_bg.png" />
+		            <input type="hidden" name="audit_data[legal_id][image][0]" id="audit_data_legal_0_url" value="" class="input_row" rel="0" />
+	          	</div>
+	          	<script>
+	              	get_file_fun('audit_data_legal',0);
+	          	</script>
+	        </div>
+			<a href="javascript:void(0);" class="add_pic add_pic_1 theme_fcolor">+</a>
+  		{elseif $audit_data_list.legal_id}
+			{foreach from=$audit_data_list.legal_id.image item=legal_id key=legal_id_num }
+				<div class="pic_box f_l mr20">
+		            <i class="del_pic"></i>
+		            <div class="pic_show" id="audit_data_legal_{$legal_id_num}">
+			            <img id="audit_data_legal_{$legal_id_num}_image" src="{$legal_id}" />
+			            <input type="hidden" name="audit_data[legal_id][image][{$legal_id_num}]" id="audit_data_legal_{$legal_id_num}_url" value="{$legal_id}" class="input_row" rel="{$legal_id_num}" />
+		          	</div>
+		          	<script>
+		              	get_file_fun('audit_data_legal',{$legal_id_num});
+		          	</script>
+		        </div>
+			{/foreach}
+			<a href="javascript:void(0);" class="add_pic add_pic_1 theme_fcolor  ">+</a>
+		{/if}
+    </td>
+</tr>
+<tr class="other_pic other_pic_2 is_show">
+    <td align="right">法人代表个人信用报告：</td>
+    <td colspan="3">
+    	{if !$audit_data_list.legal_credit}
+	        <div class="pic_box f_l mr20">
+	            <i class="del_pic"></i>
+	            <div class="pic_show" id="audit_data_legal_credit_0">
+	                <img id="audit_data_legal_credit_0_image" src="{$TMPL}/images/upload_bg.png" />
+	                <input type="hidden" name="audit_data[legal_credit][image][0]" id="audit_data_legal_credit_0_url" value="" class="input_row" rel="0" />
+	            </div>
+	            <script>
+	                get_file_fun('audit_data_legal_credit',0);
+	            </script>
+	        </div>
+	        <a href="javascript:void(0);" class="add_pic add_pic_2 theme_fcolor">+</a>
+ 		{/if}
+		{if $audit_data_list.legal_credit}
+			{foreach from=$audit_data_list.legal_credit.image item=legal_credit key=legal_credit_num }
+		        <div class="pic_box f_l mr20">
+		            <i class="del_pic"></i>
+		            <div class="pic_show" id="audit_data_legal_credit_{$legal_credit_num}">
+		                <img id="audit_data_legal_credit_{$legal_credit_num}_image" src="{$legal_credit}" />
+		                <input type="hidden" name="audit_data[legal_credit][image][{$legal_credit_num}]" id="audit_data_legal_credit_{$legal_credit_num}_url" value="{$legal_credit}" class="input_row" rel="{$legal_credit_num}" />
+		            </div>
+		            <script>
+		                get_file_fun('audit_data_legal_credit',{$legal_credit_num});
+		            </script>
+		        </div>
+			{/foreach}
+	        <a href="javascript:void(0);" class="add_pic add_pic_2 theme_fcolor">+</a>
+ 		{/if}
+    </td>
+</tr>
+<tr class="other_pic other_pic_3 is_show">
+    <td align="right">营业执照：</td>
+    <td colspan="3">
+    	{if !$audit_data_list.business_license}
+	        <div class="pic_box f_l mr20">
+	            <i class="del_pic"></i>
+	            <div class="pic_show" id="audit_data_business_license_0">
+	                <img id="audit_data_business_license_0_image" src="{$TMPL}/images/upload_bg.png" />
+	                <input type="hidden" name="audit_data[business_license][image][0]" id="audit_data_business_license_0_url" value="" class="input_row" rel="0" />
+	            </div>
+	            <script>
+	                get_file_fun('audit_data_business_license',0);
+	            </script>
+	        </div>
+	        <a href="javascript:void(0);" class="add_pic add_pic_3 theme_fcolor">+</a>
+ 		{/if}
+		{if $audit_data_list.business_license}
+			{foreach from=$audit_data_list.business_license.image item=business_license key=business_license_num }
+				 <div class="pic_box f_l mr20">
+		            <i class="del_pic"></i>
+		            <div class="pic_show" id="audit_data_business_license_{$business_license_num}">
+		                <img id="audit_data_business_license_{$business_license_num}_image" src="{$business_license}" />
+		                <input type="hidden" name="audit_data[business_license][image][{$business_license_num}]" id="audit_data_business_license_{$business_license_num}_url" value="{$business_license}" class="input_row" rel="{$business_license_num}" />
+		            </div>
+		            <script>
+		                get_file_fun('audit_data_business_license',{$business_license_num});
+		            </script>
+		        </div>
+			{/foreach}
+	        <a href="javascript:void(0);" class="add_pic add_pic_3 theme_fcolor">+</a>
+ 		{/if}
+		
+    </td>
+</tr>
+<tr class="other_pic other_pic_4 is_show">
+    <td align="right">税务登记证：</td>
+    <td colspan="3">
+    	{if !$audit_data_list.tax_registration_certificate}
+	        <div class="pic_box f_l mr20">
+	            <i class="del_pic"></i>
+	            <div class="pic_show" id="audit_data_tax_registration_certificate_0">
+	                <img id="audit_data_tax_registration_certificate_0_image" src="{$TMPL}/images/upload_bg.png" />
+	                <input type="hidden" name="audit_data[tax_registration_certificate][image][0]" id="audit_data_tax_registration_certificate_0_url" value="" class="input_row" rel="0" />
+	            </div>
+	            <script>
+	                get_file_fun('audit_data_tax_registration_certificate',0);
+	            </script>
+	        </div>
+	        <a href="javascript:void(0);" class="add_pic add_pic_4 theme_fcolor">+</a>
+ 		{/if}
+		{if $audit_data_list.tax_registration_certificate}
+			{foreach from=$audit_data_list.tax_registration_certificate.image item=tax_registration_certificate key=tax_registration_certificate_num }
+		        <div class="pic_box f_l mr20">
+		            <i class="del_pic"></i>
+		            <div class="pic_show" id="audit_data_tax_registration_certificate_{$tax_registration_certificate_num}">
+		                <img id="audit_data_tax_registration_certificate_{$tax_registration_certificate_num}_image" src="{$tax_registration_certificate}" />
+		                <input type="hidden" name="audit_data[tax_registration_certificate][image][{$tax_registration_certificate_num}]" id="audit_data_tax_registration_certificate_{$tax_registration_certificate_num}_url" value="{$tax_registration_certificate}" class="input_row" rel="{$tax_registration_certificate_num}" />
+		            </div>
+		            <script>
+		                get_file_fun('audit_data_tax_registration_certificate',{$tax_registration_certificate_num});
+		            </script>
+		        </div>
+			{/foreach}
+	        <a href="javascript:void(0);" class="add_pic add_pic_4 theme_fcolor">+</a>
+ 		{/if}
+		
+    </td>
+</tr>
+<tr class="other_pic other_pic_5 is_show">
+    <td align="right">组织机构代码：</td>
+    <td colspan="3">
+    	{if !$audit_data_list.organization_code}
+	        <div class="pic_box f_l mr20">
+	            <i class="del_pic"></i>
+	            <div class="pic_show" id="audit_data_organization_code_0">
+	                <img id="audit_data_organization_code_0_image" src="{$TMPL}/images/upload_bg.png" />
+	                <input type="hidden" name="audit_data[organization_code][image][0]" id="audit_data_organization_code_0_url" value="" class="input_row" rel="0" />
+	            </div>
+	            <script>
+	                get_file_fun('audit_data_organization_code',0);
+	            </script>
+	        </div>
+	        <a href="javascript:void(0);" class="add_pic add_pic_5 theme_fcolor">+</a>
+ 		{/if}
+		{if $audit_data_list.organization_code}
+			{foreach from=$audit_data_list.organization_code.image item=organization_code key=organization_code_num }
+		        <div class="pic_box f_l mr20">
+		            <i class="del_pic"></i>
+		            <div class="pic_show" id="audit_data_organization_code_{$organization_code_num}">
+		                <img id="audit_data_organization_code_{$organization_code_num}_image" src="{$organization_code}" />
+		                <input type="hidden" name="audit_data[organization_code][image][{$organization_code_num}]" id="audit_data_organization_code_{$organization_code_num}_url" value="{$organization_code}" class="input_row" rel="{$organization_code_num}" />
+		            </div>
+		            <script>
+		                get_file_fun('audit_data_organization_code',{$organization_code_num});
+		            </script>
+		        </div>
+			{/foreach}
+	        <a href="javascript:void(0);" class="add_pic add_pic_5 theme_fcolor">+</a>
+ 		{/if}
+    </td>
+</tr>
+<tr class="other_pic other_pic_6 is_show">
+    <td align="right">公司照片：</td>
+    <td colspan="3">
+    	{if $type eq 1}
+			{if $company_info.introduce_image}
+			{foreach from=$company_info.introduce_image item=company_photo key=company_photo_num }
+		        <div class="pic_box f_l mr20">
+		            <div class="pic_show" id="audit_data_company_photo_{$company_photo_num}">
+		                <img id="audit_data_company_photo_{$company_photo_num}_image" src="{$company_photo}"/>
+		                <input type="hidden" name="audit_data[company_photo][image][{$company_photo_num}]" id="audit_data_company_photo_{$company_photo_num}_url" value="{$company_photo}" class="input_row" rel="{$company_photo_num}" />
+		            </div>
+		        </div>
+			{/foreach}
+			{else}
+				<div class="pic_box f_l mr20">
+		            <i class="del_pic"></i>
+		            <div class="pic_show" id="audit_data_company_photo_0">
+		                <img id="audit_data_company_photo_0_image" src="{$TMPL}/images/upload_bg.png" />
+		                <input type="hidden" name="audit_data[company_photo][image][0]" id="audit_data_company_photo_0_url" value="" class="input_row" rel="0" />
+		            </div>
+		            <script>
+		                get_file_fun('audit_data_company_photo',0);
+		            </script>
+		        </div>
+		        <a href="javascript:void(0);" class="add_pic add_pic_6 theme_fcolor">+</a>
+			{/if}
+		{else}
+	    	{if !$audit_data_list.company_photo}
+		        <div class="pic_box f_l mr20">
+		            <i class="del_pic"></i>
+		            <div class="pic_show" id="audit_data_company_photo_0">
+		                <img id="audit_data_company_photo_0_image" src="{$TMPL}/images/upload_bg.png" />
+		                <input type="hidden" name="audit_data[company_photo][image][0]" id="audit_data_company_photo_0_url" value="" class="input_row" rel="0" />
+		            </div>
+		            <script>
+		                get_file_fun('audit_data_company_photo',0);
+		            </script>
+		        </div>
+		        <a href="javascript:void(0);" class="add_pic add_pic_6 theme_fcolor">+</a>
+	 		{/if}
+			{if $audit_data_list.company_photo}
+				{foreach from=$audit_data_list.company_photo.image item=company_photo key=company_photo_num }
+			        <div class="pic_box f_l mr20">
+			            <i class="del_pic"></i>
+			            <div class="pic_show" id="audit_data_company_photo_{$company_photo_num}">
+			                <img id="audit_data_company_photo_{$company_photo_num}_image" src="{$company_photo}" />
+			                <input type="hidden" name="audit_data[company_photo][image][{$company_photo_num}]" id="audit_data_company_photo_{$company_photo_num}_url" value="{$company_photo}" class="input_row" rel="{$company_photo_num}" />
+			            </div>
+			            <script>
+			                get_file_fun('audit_data_company_photo',{$company_photo_num});
+			            </script>
+			        </div>
+				{/foreach}
+		        <a href="javascript:void(0);" class="add_pic add_pic_6 theme_fcolor">+</a>
+	 		{/if}
+		{/if}
+    </td>
+</tr>
+<tr class="other_pic other_pic_7 is_show">
+    <td align="right">场地租赁合同：</td>
+    <td colspan="3">
+    	{if !$audit_data_list.site_contract}
+	        <div class="pic_box f_l mr20">
+	            <i class="del_pic"></i>
+	            <div class="pic_show" id="audit_data_site_contract_0">
+	                <img id="audit_data_site_contract_0_image" src="{$TMPL}/images/upload_bg.png" />
+	                <input type="hidden" name="audit_data[site_contract][image][0]" id="audit_data_site_contract_0_url" value="" class="input_row" rel="0" />
+	            </div>
+	            <script>
+	                get_file_fun('audit_data_site_contract',0);
+	            </script>
+	        </div>
+	        <a href="javascript:void(0);" class="add_pic add_pic_7 theme_fcolor">+</a>
+ 		{/if}
+		{if $audit_data_list.site_contract}
+			{foreach from=$audit_data_list.site_contract.image item=site_contract key=site_contract_num }
+		        <div class="pic_box f_l mr20">
+		            <i class="del_pic"></i>
+		            <div class="pic_show" id="audit_data_site_contract_{$site_contract_num}">
+		                <img id="audit_data_site_contract_{$site_contract_num}_image" src="{$site_contract}" />
+		                <input type="hidden" name="audit_data[site_contract][image][{$site_contract_num}]" id="audit_data_site_contract_{$site_contract_num}_url" value="{$site_contract}" class="input_row" rel="{$site_contract_num}" />
+		            </div>
+		            <script>
+		                get_file_fun('audit_data_site_contract',{$site_contract_num});
+		            </script>
+		        </div>
+			{/foreach}
+	        <a href="javascript:void(0);" class="add_pic add_pic_7 theme_fcolor">+</a>
+ 		{/if}
+    </td>
+</tr>

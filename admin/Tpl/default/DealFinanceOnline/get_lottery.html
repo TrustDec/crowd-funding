@@ -1,0 +1,50 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<php>
+	function get_item_price($deal_item_id)
+	{
+		$price=M("dealItem")->where("id=".intval($deal_item_id))->getField("price");
+		return format_price($price);
+	}
+	function get_winner_status($is_winner,$lottery_draw_time)
+	{
+		if($is_winner ==1)
+		{
+			$str.="是<br />揭晓时间：".to_date($lottery_draw_time);
+		}else
+		{
+			$str="否";
+		}
+		return $str;
+	}
+</php>
+<div class="main">
+<div class="main_title">{$main_title}</div>
+<div class="blank5"></div>
+<div class="search_row">
+	<form name="search" action="__APP__" method="get">	
+		会员名：<input type="text" class="textbox" name="user_name" value="{$user_name}" style="width:100px;" />
+		抽奖号：<input type="text" class="textbox" name="lottery_sn" value="{$lottery_sn}" style="width:100px;" />
+
+		<input type="hidden" value="DealFinanceOnline" name="m" />
+		<input type="hidden" value="get_lottery" name="a" />
+		<input type="hidden" value="{$deal_info.id}" name="id" />
+		<input type="submit" class="button" value="{%SEARCH}" />
+	</form>
+</div>
+<div class="blank5"></div>
+<html:tree_list 
+	id="dataTable" 
+	style="dataTable" 
+	name="lottery" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{%ID}|50px,lottery_sn:抽奖号,is_winner|get_winner_status=$lottery['lottery_draw_time']:幸运号,user_name:会员名,deal_item_id|get_item_price:支持金额,order_id:支持id,create_time|to_date" 
+	actionlist="&nbsp" /> 
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

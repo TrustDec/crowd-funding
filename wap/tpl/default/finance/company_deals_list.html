@@ -1,0 +1,103 @@
+{if $smarty.request.is_ajax neq 1}
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/finance/company_deals_list.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/finance/company_deals_list.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss" c="$dcpagecss"}" />
+<input type="hidden" class="pull_to_refresh_url" value="{url_wap r="finance#index"}" />
+<!-- 默认的下拉刷新层 -->
+<div class="pull-to-refresh-layer">
+    <div class="preloader"></div>
+    <div class="pull-to-refresh-arrow"></div>
+</div>
+<div class="deals_index company_deals_list pull-to-refresh-content">
+{/if}
+	<!-- 筛选 开始 -->
+	<div class="main_menu_box">
+		<div class="hide_list">
+			<div class="abbr">
+		  	   	<div class="all_list" id="first_list">
+		  	   	    <ul>
+						<li class="directory"><a href="{url_wap r="finance" p="state=0"}" title="全部公司" {if $p_status eq ''|| $p_status eq 0} class="current"{/if}>全部公司({$finance_count3})</a></li>
+						<li class="directory"><a href="{url_wap r="finance" p="state=1"}" title="融资中" {if $p_status eq 1} class="current"{/if}>融资中({$finance_count1})</a></li>
+						<li class="directory" ><a href="{url_wap r="finance" p="state=2"}" title="融资完成" {if $p_status eq 2} class="current"{/if}>融资完成({$finance_count2})</a></li>
+		  	   	    </ul>
+		  	   	</div>  
+		  	</div>
+		  	<div class="abbr">
+		  	   	<div class="all_list" id="first_list">
+		  	   	    <ul>
+						<li class="directory"><a href="{url_wap r="finance"  p="loc=$p_loc&state=$state&pha=$p_pha"}" class="current">全部</a></li>
+						{foreach from=$cate_list item=cate_item }
+						<li class="directory"><a href="{$cate_item.url}" title="">{$cate_item.name}</a></li>
+						{/foreach}			
+		  	   	    </ul>
+		  	   	</div>  
+		  	</div>
+		  	<div class="abbr">
+		  	   	<div class="all_list" id="first_list">
+		  	   	    <ul>
+		  	   	    	<li class="directory"><a href="{url_wap r="finance"  p="&id=$p_id&state=$state&pha=$p_pha"}" class="current">全部</a></li>
+		  	   	    	{foreach from=$city_list item=quan key=key}
+						<li class="directory"><a href="{$quan.url}" title="">{$quan.province}</a></li>
+						{/foreach}
+		  	   	    </ul>
+		  	   	</div>  
+		  	</div>
+	  		<div class="abbr">
+		  	   	<div class="all_list" id="first_list">
+		  	   	    <ul>
+						<li class="directory"><a href="{url_wap r="finance"  p="loc=$p_loc&id=$p_id&state=$state"}" class="current">全部</a></li>
+						{foreach from=$phase_list item=phase_item key=key}
+						<li class="directory"><a href="{$phase_item.url}" title="{$phase_item.phase}" {if $p_state eq $key}class="current"{/if}>{$phase_item.phase}</a></li>
+						{/foreach}	
+		  	   	    </ul>
+		  	   	</div>  
+		  	</div>
+	  	</div>
+	  	<div class="main_list">
+	 	   	<ul class="mall-cate webkit-box">
+	 	   	   	<li class="webkit-box-flex">{if $state_name}{$state_name}{else}融资状态{/if}<i class="icon iconfont ml5">&#xe607;</i></li>
+	 	   	   	<li class="webkit-box-flex">{if $p_id_name}{$p_id_name}{else}行业{/if}<i class="icon iconfont ml5">&#xe607;</i></li>
+			   	<li class="webkit-box-flex">{if $p_loc}{$p_loc}{else}地区{/if}<i class="icon iconfont ml5">&#xe607;</i></li>
+			   	<li class="webkit-box-flex">{if $p_pha_name}{$p_pha_name}{else}融资阶段{/if}<i class="icon iconfont ml5">&#xe607;</i></li>
+	 	   	</ul>
+	 	</div>
+ 	</div>
+ 	<!-- 筛选 开始 -->
+ 	<!-- 公司列表 开始 -->
+ 	<div class="company_list">
+ 		{foreach from=$finance_list item=finance_item}
+	 	<div class="company_item">
+	 		<a href="#" onclick="RouterURL('{url_wap r="finance#company_show" p="cid=$finance_item.company_id"}','#finance-company_show',2);">
+		 		<div class="top webkit-box">
+		 			<div class="logo"><img src="{$finance_item.company_logo}" /></div>
+		 			<div class="info webkit-box-flex">
+		 				<div class="item_title">{$finance_item.company_name}</div>
+		 				{if $finance_item.company_tag neq ''}<div class="item_tags"><i class="icon iconfont">&#xe622;</i>&nbsp;{$finance_item.company_tag}</div>{/if}
+		 				<div class="item_money">
+		 					<label>本轮融资：</label>{if $finance_item.access==1}<span class="f_red">{$finance_item.phase}</span>{else}<span class="f_red">仅投资人可见</span>{/if}
+		 				</div>
+		 			</div>
+		 		</div>
+		 		{if $finance_item.company_brief neq ''}
+				<div class="bottom">
+		 			<p>{$finance_item.company_brief}</p>
+		 		</div>
+				{/if}
+	 		</a>
+	 	</div>
+		{/foreach}
+ 	</div>
+ 	<!-- 公司列表 结束 -->
+ 	<div class="blank20"></div>
+	<div class="pages">
+			{$pages}
+	</div>
+	<div class="blank20"></div>
+{if $smarty.request.is_ajax neq 1}
+</div>
+<!-- deals_index.js -->
+{include file="inc/footer.html"}
+{/if}

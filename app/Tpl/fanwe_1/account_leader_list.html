@@ -1,0 +1,118 @@
+{include file="inc/header.html"}
+{include file="inc/home_user_info.html"}
+<!--中间开始-->
+<div class="dlmain Myhomepage">
+	{include file="inc/account_left.html"}
+	<div class="homeright pageright f_r account_leader_list">
+		<div class="list_title clearfix">
+			{if app_conf("IS_ENQUIRY") eq 1}
+			<div>
+				<a href="{url r="account#get_investor_status" p="type=0&id=$deal_id"}">询价</a>
+			</div>
+			{/if}
+			<div>
+				<a href="{url r="account#get_investor_status" p="type=1&id=$deal_id"}">领投</a>
+			</div>
+			<div>
+				<a href="{url r="account#get_investor_status" p="type=2&id=$deal_id"}">跟投</a>
+			</div>
+			<div class="cur">
+				<a href="{url r="account#get_leader_list" p="type=2&id=$deal_id"}">领投资格</a>
+			</div>
+		</div>
+		<div class="list_conment account_view_order">
+			<div class="page_title">
+				<a href="{url p="deal#show" r="id=$deal.id"}" target="_blank">{$deal.name}</a>-领投申请列表
+			</div>
+			{if $investor_list}
+			{foreach from=$investor_list item=item}
+			{if $item}
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc_table invester_table">
+				<tr>
+					<td class="deal_name" width=150>领投人：</td>
+					<td>
+						<span class="inline_user_name user_name f16">{$item.user_name}</span>
+						{if $item.status==1}<i class="inline_leader_icon leader_icon" title="项目领投人"></i>{/if}
+						{if $item.user_icon}
+		                <img src="{$item.user_icon}" title="会员等级" class="inline_level_icon level_icon" />
+						{/if}
+						<i class="inline_investor_type investor_type {if $item.is_investor==0 || $item.is_investor==1}personal_icon{else}agency_icon{/if}" title="{if $item.is_investor==0 || $item.is_investor==1}个人投资者{else}机构投资者{/if}"></i>
+					</td>
+				</tr>
+				<tr>
+					<td class="deal_name" width=150>申请时间：</td>
+					<td>{function name=""to_date v=$item.create_time}</td>
+				</tr>
+				<tr>
+					<td class="deal_name" width=150>手机号：</td>
+					<td>{$item.mobile}</td>
+				</tr>
+				<tr>
+					<td class="deal_name" width=150>关注的投资领域：</td>
+					<td>{foreach from=$item.cates item=cate key=k}{$cate}{if $k neq 0},{/if}{/foreach}</td>
+				</tr>
+				<tr>
+					<td class="deal_name" width=150>投资人简介：</td>
+					<td>{$item.introduce}</td>
+				</tr>
+				<tr>
+					<td class="deal_name" width=150>审核结果：</td>
+					<td>
+						{if $item.status eq 0}
+						<div class="ui-button theme_bgcolor mr10 lead_yes" rel="{$item.id}">允许成为领投人</div>
+						<div class="ui-button bg_red lead_no" rel="{$item.id}">不允许成为领投人</div>
+						{elseif $item.status eq 1}
+							<span class="check_status theme_bgcolor f14">投资人审核通过</span>
+							{elseif $item.status eq 2}
+							<span class="check_status bg_red f14">投资人审核不通过</span>
+						{/if}
+					</td>
+				</tr>
+			</table>
+			{/if}
+			{/foreach}
+			<div class="blank20"></div>
+			<div class="pages">{$pages}</div>
+			<div class="blank20"></div>
+			{else}
+			<div class="empty_tip">还没有{$title}记录</div>
+			{/if}
+		</div>
+		<div class="blank"></div>
+	</div>
+	<div class="blank"></div>	
+</div>
+<!--中间结束-->
+<div class="blank"></div>
+<script type="text/javascript">
+	$(function(){
+		$(".lead_yes").bind('click',function(){
+ 			var id=$(this).attr("rel");
+ 			deal_lead(id,1,"是否允许该用户成为领投人",2);
+		});
+		$(".lead_no").bind('click',function(){
+			var id=$(this).attr("rel");
+ 			deal_lead(id,0,"是否要拒绝该用户成为领投人",2);
+		});
+	});
+	
+	function deal_lead(id,status,msg,type){
+		var ajaxurl = APP_ROOT+"/index.php?ctl=account&act=lead_examine&status="+status+"&id="+id+"&type="+type;
+		$.showConfirm(msg,function(){
+			$.ajax({
+				url:ajaxurl,
+				dataType:"json",
+				type:'POST',
+				success:function(ajaxobj){
+					if(ajaxobj.status==1){
+						//$.showSuccess(ajaxobj.info);
+						window.location.reload();
+					}else{
+						$.showErr(ajaxobj.info);
+					}
+				}
+			});
+		});
+	}
+</script>
+{include file="inc/footer.html"} 

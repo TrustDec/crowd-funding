@@ -1,0 +1,143 @@
+<style type="text/css">
+	.project_recommend .ui_check{margin-right:15px; margin-top:4px;}
+	.project_recommend ul{
+		height:200px;
+		overflow-y:auto;
+	}
+	.project_recommend li{
+		width:100%;
+		margin-bottom:20px;
+		overflow:hidden;
+	}
+	.project_recommend .r{width:485px}
+	.project_recommend img{
+		width:40px;
+		height:30px;
+		display:inline;
+		float:left;
+		margin-right:10px;
+		border-radius:3px;
+	}
+	.project_recommend .inf{
+		text-align:left;
+		float:left;
+		line-height:30px;
+		overflow:hidden;
+	}
+	.project_recommend .cur .inf{
+		color:#00b0f5;
+	}
+</style>
+<div class="project_recommend overflow_hide">
+	<div class="blank10"></div>
+	<!-- 推荐项目列表 开始 -->
+	<ul class="project_list">
+		{foreach from=$effective_deal_info item=effective_deal_item}
+		<li>
+			<div class="l f_l">
+				<span class="ui_check" type="radio" rel="project_recommend">
+					<input type="radio" name="project_recommend" value="{$effective_deal_item.id}" rel="{$effective_deal_item.type}" rel2="{$effective_deal_item.name}" rel3="{$effective_deal_item.image}"/>
+				</span>
+			</div>
+			<div class="r f_l">
+				<a href="javascript:void(0);">
+					<img src="{function name="get_spec_image" v=$effective_deal_item.image w=40 h=30 g=1}"  alt="{$order_item.deal_name}"/>
+					<span class="inf">{$effective_deal_item.name}</span>	
+				</a>
+			</div>
+		</li>
+		{/foreach}
+	</ul>
+	<!-- 推荐项目列表 结束 -->
+	<div class="blank20"></div>
+	<!-- 自荐理由 开始 -->
+	<div class="tl">自荐理由：</div>
+	<div class="blank10"></div>
+	<textarea class="textareabox" name="memo" id="memo" style="width:522px;height:80px"></textarea>
+	<!-- 自荐理由 结束 -->
+
+	<div class="blank20"></div>
+	<div class="submit_btn_row tc">
+		<div class="ui-center-button theme_bgcolor button_y">立即推荐</div>
+		<div class="ui-center-button bg_red button_n">取消</div>
+		<input type="hidden" value="1" name="ajax" />
+		<!--推荐人id-->
+		<input type="hidden" value="{$recommend_user_id}" name="recommend_user_id" id="recommend_user_id"/>
+		<!--被推荐人id-->
+		<input type="hidden" value="{$user_id}" name="user_id" id="user_id"/>
+	</div>
+	<div class="blank5"></div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		page_style();
+		ajax_recommend_save();
+	});
+	function page_style(){
+		$(".weebox").css("width","600px");
+		//筛选自荐项目
+		$(".ui_check").click(function(){
+			var rel=$(this).attr("rel");
+			$(".ui_check[rel='"+rel+"']").removeClass("ui_checked");
+			$(".ui_check[rel='"+rel+"'] input").attr("checked",false);
+			$(".inf").removeClass("theme_fcolor");
+			$(this).addClass("ui_checked");
+			$(this).find("input").attr("checked","checked");
+			$(this).parent().parent().find(".inf").addClass("theme_fcolor");
+		});
+
+		if($(".project_list").find("li").length <= 4){
+			$(".project_list").css("height","auto");
+		}
+		$(".button_n").click(function(){
+			$.weeboxs.close();
+		});
+	}
+	
+	function ajax_recommend_save(){
+		$(".button_y").bind("click",function(){
+			if($("input[name='project_recommend']:checked").length==0){
+				$.showErr("请选择推荐项目");
+				return false;
+			}
+			if($("#memo").val()==''){
+				$.showErr("推荐理由不能为空！");
+				return false;
+			}
+			var ajaxurl ='{url r="ajax#ajax_recommend_save"}';
+			var deal_image=$("input[name='project_recommend']:checked").attr("rel3");
+			var deal_name=$("input[name='project_recommend']:checked").attr("rel2");
+			var deal_type=$("input[name='project_recommend']:checked").attr("rel");
+			var deal_id=$("input[name='project_recommend']:checked").val();
+			var memo=$("textarea[name='memo']").val();
+			var recommend_user_id=$("#recommend_user_id").val();
+			var user_id=$("#user_id").val();
+			var query=new Object();
+			query.deal_id=deal_id;
+			query.memo=memo;
+			query.recommend_user_id=recommend_user_id;
+			query.user_id=user_id;
+			query.deal_type=deal_type;
+			query.deal_name=deal_name;
+			query.deal_image=deal_image;
+			$.ajax({
+				url: ajaxurl,
+				dataType: "json",
+				data:query,
+				type: "POST",
+				success:function(ajaxobj){
+					if(ajaxobj.status==0){
+						$.showErr(ajaxobj.info);
+						return false;
+					}
+					if(ajaxobj.status==1){
+						$.showSuccess(ajaxobj.info,function(){
+							window.location.reload();
+						});
+					}
+				}
+			});
+		});
+		return false;
+	}
+</script>

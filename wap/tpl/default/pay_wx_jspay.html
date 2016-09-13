@@ -1,0 +1,26 @@
+{include file="./inc/header.html"}
+<?php
+	$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/cart_index.css";	
+	$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/youhui_comment_list.css";
+	$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/user_addr_list.css";
+	$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/pay_order_index.css";	
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$pagecss"}" />
+<div class="pay_order_index p15">
+	{if $data.notice_sn}
+ 	<div class="pay_info">
+		<div class="h font-fc8">订单编号：{$data.notice_sn}</div>
+ 	</div>
+	{/if}
+	<div class="pay_info">
+  	 	<a href="#" class="ui-button theme_color mt10 J_pay">支付 {$data.money}</a>
+	</div>
+</div>
+<script type="text/javascript">
+	var deal_id = '{$data.deal_id}';
+	var jsApiParameters = {$jsApiParameters};
+	var type = '{$type}';
+</script>
+{if $type eq 'V3'}
+{include file="inc/footer.html"} 
+{/if}

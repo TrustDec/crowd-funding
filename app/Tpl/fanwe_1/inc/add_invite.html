@@ -1,0 +1,85 @@
+<script type="text/javascript">
+//	var c_founder_team_ajaxurl = '{url r="settings#save_invite"}';
+	var c_founder_team_checkname_ajaxurl = '{url r="settings#chack_team_name"}';
+</script>
+<form class="ajax_form c_founder_team_form mt15 mb15" action="{url r="settings#save_invite"}">									
+	<div class="control-group small-control-group pr" style="overflow:inherit;">
+		<label class="control-label"><span class="f_red">*</span>姓名</label>
+		<div class="control-text">
+			<div class="holder_tip_box">
+				<input type="text" value="" name="founder_name" class="textbox small_textbox init_data c_founder_team_name c_founder_team_input J_check_u_name" rel="c_founder_team" />
+				<div class="holder_tip small_holder_tip"><span>输入成员姓名</span></div>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<ul class="ui_select_choices c_founder_team_menu hide" role="menu">
+			<li class="ui_select_choices_group">
+			</li>
+		</ul>
+	</div>
+	<div class="control-group small-control-group hide c_founder_team_hide">
+		<label class="control-label"><span class="f_red">*</span>职位</label>
+		<div class="control-text">
+			<input type="text"  name="job" class="small_textbox w250 c_founder_team_job" value="" />
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="control-group small-control-group hide c_founder_team_hide">
+		<label class="control-label"><span class="f_red">*</span>邮箱地址</label>
+		<div class="control-text">
+			<div class="holder_tip_box">
+				<input type="text" value="" name="founder_email" class="textbox small_textbox w250 init_data c_founder_team_email" />
+				<div class="holder_tip small_holder_tip"><span>如：example@163.com</span></div>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="control-group small-control-group" style="height:auto;">
+		<label class="control-label"><span class="f_red">*</span>任职时间段</label>
+		<div class="control-text" style="height:auto;line-height:1.5;">
+			<input readonly="" type="text" class="small_textbox w100 jcDate" rel="input-text" value="" name="job_start_time" placeholder="请选择时间">
+			<span class="f_l" style="height:35px;line-height:35px;">&nbsp;-&nbsp;</span>
+			<label class="ui_checkbox mr10 J_c_employee_team_job_time mt10" rel="is_partner">
+				<input type="checkbox" name="job_end_time" checked="checked" value="0" />至今
+			</label>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="blank10"></div>
+	<div class="submit_btn_row control-group">
+		<label class="control-label"></label>
+		<div class="ui-button theme_bgcolor mr10" rel="green">提交邀请</div>
+		<div class="ui_button bg_gray btn_no" rel="green">取消邀请</div>
+		<input type="hidden" value="1" name="ajax" />
+		<input type="hidden" value="{$user_info.identify_business_name}" name="invite_name" />
+		<input type="hidden" value="" name="user_id" />
+	</div>
+</form>
+<script type="text/javascript">
+	$(function(){
+		ui_checkbox();
+		bind_ajax_form();
+		//选择日期控件
+		$("input.jcDate").jcDate({
+			IcoClass: "jcDateIco",
+			Event: "click",
+			Speed: 100,
+			Left: -125,
+			Top: 28,
+			format: "-",
+			Timeout: 100,
+			Oldyearall: 17, // 配置过去多少年
+			Newyearall: 0 // 配置未来多少年
+		});
+		$(".J_c_employee_team_job_time").on('click',function(){
+			add_job_end_time(this);
+		});
+		$(".J_check_u_name").bind('keyup',function(){
+			check_u_name(this,c_founder_team_checkname_ajaxurl,'c_founder_team');
+		});
+		$(".btn_no").on('click',function(){
+			$(".html_add_invite").html('');
+			$(".btn_add_invite").show();
+		});
+	});
+</script>

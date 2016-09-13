@@ -1,0 +1,26 @@
+<div class="footer" pbid="footer" id="J_footer" >
+	<!-- <div class="footer-copy">
+		<div class="footer-wrap">
+			<div class="blank10"></div>
+			<div style="color:#a5a5a5;font:14px 'SimSun';line-height:24px; text-align:center;font-family: '微软雅黑', 'Microsoft YaHei', Helvetica,sansation, Verdana, Arial, sans-serif;">
+				{function name="app_conf" v="SITE_LICENSE"}&nbsp;{function name="app_conf" v="STATE_CDOE"}<br />
+				{function name="app_conf" v="NETWORK_FOR_RECORD"}
+			</div>	
+		</div>
+	</div> -->
+	
+		
+			<div class="copy_text">
+				<div class="">
+				{foreach from=$helps item=help name=helpss}
+					<a href="{$help.url}" title="{$help.title}">{$help.title}</a>{if !$smarty.foreach.helpss.last}<span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>{/if}
+				{/foreach}
+				</div>
+				<div>{function name="app_conf" v="SITE_LICENSE"}&nbsp;{function name="app_conf" v="STATE_CDOE"}</div>
+				<div>{function name="app_conf" v="NETWORK_FOR_RECORD"}</div>
+			</div>	
+		
+	
+</div>
+</body>
+</html>

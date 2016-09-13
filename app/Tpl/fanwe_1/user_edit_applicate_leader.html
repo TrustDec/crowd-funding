@@ -1,0 +1,67 @@
+{include file="inc/header.html"}
+<link href="{$APP_ROOT}/admin/public/kindeditor/themes/default/default.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{$APP_ROOT}/public/runtime/admin/lang.js"></script>
+<script type='text/javascript' src='{$APP_ROOT}/admin/public/kindeditor/kindeditor.js'></script>
+<script type="text/javascript">
+    var ROOT = '{$APP_ROOT}/{$URL_NAME}';
+    var VAR_MODULE = "m";
+    var VAR_ACTION = "a";
+    var WEB_SESSION_ID = '<?php echo es_session::id(); ?>';
+    var EMOT_URL = '{$APP_ROOT}/public/emoticons/';
+    var MAX_FILE_SIZE = "<?php echo (app_conf("MAX_IMAGE_SIZE")/1000000)."MB"; ?>";
+    var FILE_UPLOAD_URL ='{$APP_ROOT}/{$URL_NAME}?m=File&a=do_upload&' ;
+</script>
+<div class="blank20"></div>
+<div class="mod_box project_edit project_agencyAdd_stepthree">
+	<div class="con_tit theme_fcolor f_20">申请领投资格(系统管理员正在审核中...)</div>
+	<div class="con3">
+        <form id="applicat_lead_qualificat_form" name="applicat_lead_qualificat_form" method="post" action="{url r="investor#save_applicate_leader" p="deal_id=$deal_id"}" autocomplete="off">
+            <div class="tit theme_fcolor f18">
+                <div class="tit_l">
+                    <span class="num b">1</span>请选择领投项目行业（最多不超过3项）
+                </div>
+            </div>
+			<!--领投项目行业（最多不超过3项）start-->
+            <div class="pro">
+                <div class="f_l f14">
+						{foreach from=$data.cate_name_lists.name item=data}
+							{$data}&nbsp;&nbsp;&nbsp;
+						{/foreach}
+                </div>
+            </div>
+			<!--领投项目行业（最多不超过3项）end-->
+            <div class="blank20"></div>
+            <div class="tit theme_fcolor f18">
+                <div class="tit_l">
+                    <span class="num b">2</span>请填写个人简介：
+                </div>
+            </div>
+            <div class="pro">
+                <div class="prompt_box f_999 p0" style="border:0;background:none;width:100%">
+                    要求写明个人求学、工作、创业、投资简历。请具体到起止年月、学校专业学历、公司名称部门职务、投资过企业名称等，便于我们做真实性背景调查，否则将不予以受理。
+                </div>
+                <div class="blank10"></div>
+                <div class="ke_form f_l" style="border: #ccc solid 1px;" >
+                  <textarea id='stock[describe]' name='stock[describe]' class='ketext' style='width:900px; height:350px;' readonly="readonly">{$data.introduce}</textarea> 
+                </div>
+                <div class="blank5"></div>
+                <p>个人简介，不少于100字</p>
+            </div>
+            <div class="blank20"></div>
+            <div class="button_row tc">
+                <input type="button" value="返回首页" name="submit_form" class="ui-button theme_bgcolor mr20" id="ui-button" style="display:inline-block;float:none" />
+                <input type="hidden" value="1" name="ajax" />
+                <div class="blank15"></div>
+            </div>
+        </form>
+	</div>
+</div>
+<div class="blank20"></div>
+<script type="text/javascript">
+	$(function(){
+		$("#ui-button").bind("click",function(){
+			window.location.href='{url r="index#index"}';
+		});
+	});
+</script>
+{include file="inc/footer.html"}

@@ -1,0 +1,106 @@
+/* setting_security 开始 */
+.setting_security .security-ul{
+	padding:0 20px;
+	overflow:hidden;
+	font-size:14px;
+}
+.setting_security .security-ul li {
+	clear:both;
+	border-bottom: 1px solid #eee;
+	margin: 0px;
+	padding: 20px 0;
+	overflow:hidden;
+}
+.setting_security .security-ul li .it .nicheng {background-position: 0 3px;}
+.setting_security .security-ul li .it .icon {
+	background: url(../images/security_icon.png) no-repeat 0 0;
+	float: left;
+	margin-right: 30px;
+	height: 30px;
+	width: 34px;
+}
+.setting_security .security-ul li .it h3 {
+	font-weight: bolder;
+	float: left;
+	width: 300px;
+	font-size: 18px;
+	font-weight: 500;
+}
+.setting_security .security-ul li .it p {
+	float: left;
+	width: 250px;
+}
+.setting_security .security-ul li .it .update {
+	float: right;
+	color: #ccc;
+}
+.setting_security .setting_box{
+	margin:20px 100px 0;
+	display:none;
+	overflow:hidden;
+}
+.setting_security .security-ul li .it .reaname {background-position: 0 -29px;}
+.setting_security .security-ul li .it .pwd {background-position: 0 -66px;}
+.setting_security .security-ul li .it .email {background-position: 0px -103px;}
+.setting_security .security-ul li .it .mobile {background-position: 0px -138px;}
+.setting_security .security-ul li .it .paypwd {background-position: 0px -182px;}
+.setting_security .security-ul li .it .verified {background-position: 0px -32px;}
+.setting_security .control-group .fail_form_lable {
+	color:#ff5500;
+	position:relative;
+}
+.setting_security .control-group .fail_form_lable i{
+	position:absolute;
+	top:4px;
+	left:78px;
+	width:17px;
+	height:17px;
+	background:url(../images/all.png) -133px -75px no-repeat;
+	display:block;
+}
+.setting_security .pic_box{z-index:2;}
+.setting_security .pic_show{z-index:1;}
+.setting_security #qy_div{border-top:1px dashed #d4d4d4}
+.setting_security .pic_box{
+	position:relative;
+	width:158px;
+	height:158px;
+	overflow:hidden;
+	margin-bottom:0;
+}
+.setting_security .pic_show {
+	width: 150px;
+	height: 150px;
+	line-height: 18px;
+	background: url(../images/upload_bg.png) no-repeat;
+	color: #666;
+	cursor:pointer;
+	font-family: "SimSun";
+	font-size: 12px;
+	margin-top:8px;
+	overflow:hidden;
+}
+.setting_security .pic_box i{
+	width:16px;
+	height:16px;
+	cursor:pointer;
+	background:url(../images/del_icon.png) no-repeat;
+	display:none;
+	position:absolute;
+	top:0;
+	right:0;
+	z-index:99;
+}
+.setting_security .pic_show img {
+	position: absolute;
+	top:0;
+	left:0;
+	font-size: 0;
+	width: 150px;
+	height: 150px;
+}
+.setting_security .identity_conditions_box .control-label{
+	height:inherit;
+	line-height:1.5;
+}
+/* setting_security 结束 */

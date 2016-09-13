@@ -1,0 +1,103 @@
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/switch_city.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/switch_city.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/add_consignee.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/add_consignee.js";
+?>
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<form name="Jbank_From" class="ajax_form" id="Jbank_From" action="{url r="account#savebank"}" method="post">
+	<div class="control-group small-control-group">
+	    <label class="control-label">开户名：</label>
+	    <div class="control-text">
+	    	<input type="text" disabled="disabled" name="real_name" id="Jbank_real_name" class="small_textbox w250" value="{$user_info.identify_name}">
+	    </div>
+	    <div class="blank0"></div>
+	</div>
+ 	<div class="control-group smaller-control-group">
+	    <label class="control-label">帐户类型：</label>
+	   	<div class="control-text">
+	    	借记卡&nbsp;&nbsp;<span class="f_red">(不支持信用卡)</span>
+	    </div>
+	    <div class="blank0"></div>
+	</div>
+ 	<div class="control-group small-control-group">
+	    <label class="control-label">
+	    	<span class="f_red b">*</span> 选择银行：
+	    </label>
+		<select name="bank_id" id="Jbank_bank_id" class="ui-select field_select small bank_id">
+			<option value="">请选择</option>
+			{foreach from=$bank_list.recommend item=item}
+			<option value="{$item.id}" day="{$item.day}">{$item.name}</option>
+			{/foreach}
+			<option value="other">其他</option>
+		</select>
+		<select name="otherbank" id="Jbank_otherbank" class="ui-select field_select small otherbank">
+			<option value="">请选择</option>
+			{foreach from="$bank_list.other" item="item"}
+			<option value="{$item.id}" day="{$item.day}">{$item.name}</option>
+			{/foreach}
+		</select>	
+	    <div class="blank0"></div>
+	</div>
+	<div class="control-group small-control-group">								
+		<label for="settings-region" class="control-label"><span class="f_red b">*</span> 开户行所在地：</label>
+		<select name="province" id="cityid-1" class="ui-select field_select small">
+			<option value="" rel="0">请选择省份</option>
+			{foreach from=$region_lv2 item=region}
+			<option value="{$region.name}" class="ld-option" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+			{/foreach}	
+		</select>
+		<select name="city" id="cityid-2" class="ui-select field_select small">
+			<option value="" rel="0">请选择城市</option>
+			{foreach from=$region_lv3 item=region}
+			<option class="ld-option" value="{$region.name}" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+			{/foreach}
+		</select>
+		<div class="blank0"></div>
+ 	</div>					
+	<div class="control-group small-control-group">			
+		<label for="settings-bankzone" class="control-label"><span class="f_red b">*</span> 开户行网点：</label>
+		<div class="control-text">
+			<input type="text" name="bankzone" id="Jbank_bankzone" class="small_textbox w250 mr10" value="">
+			<a href="http://www.cardbaobao.com/wangdian/" target="_blank">网点查询</a>
+		</div>
+		<div class="blank0"></div>	
+	</div>
+   	<div class="control-group small-control-group">
+       	<label class="control-label"><span class="f_red b">*</span> 银行卡号：</label>
+       	<div class="control-text">
+       		<input type="text" name="bankcard" class="small_textbox w250 b" id="Jbank_bankcard" value="">
+  	 	</div>
+       	<div class="blank0"></div>
+   	</div>
+   	<div class="control-group small-control-group">
+       	<label class="control-label"><span class="f_red b">*</span> 确认卡号：</label>
+       	<div class="control-text">
+       		<input type="text" name="reBankcard" class="small_textbox w250" id="Jbank_rebankcard" value="">
+       	</div>
+       	<div class="blank0"></div>
+   	</div>
+   	<div class="blank10"></div>
+	<div class="submit_btn_row control-group">
+		<label class="control-label"></label>
+		<input type="button" value="确认添加" class="ui-button theme_bgcolor mr10">
+		<input type="button" value="取消" class="ui_button bg_red cancel">
+		<input type="hidden" name="ajax" value="1">
+    </div>    
+</form>
+<script type="text/javascript">
+	$("#Jbank_bankcard,#Jbank_rebankcard").bankInput(); 
+ 	$(function(){
+		$("#Jbank_bank_id").bind("change",function(){
+			if($(this).val()=='other'){
+				$("dl.otherbank").show();
+			}else{
+				$("dl.otherbank").hide();
+			}
+		});
+		
+	});
+	$(".cancel").click(function(){
+		close_pop();
+	});
+</script>

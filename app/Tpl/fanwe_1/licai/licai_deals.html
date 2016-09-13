@@ -1,0 +1,286 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/countUp.min.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/countUp.min.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jquery.SuperSlide.2.1.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jquery.SuperSlide.2.1.js";
+?>
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+
+<div class="blank0"></div>
+<div class="licai">
+	<div class="licai_deals">
+		<div class="banner_box pr">
+			<!--  海报区域开始  1-->
+			<div class="banner slideBox" id="banner">
+				<div class="banner_cont effect_bd">
+					<ul>
+						{foreach from=$image_list item=image_item}
+						<li><a href="{$image_item.url}" target=_blank style="display:block;background: url({function name="get_spec_image" v=$image_item.image w=1920 h=400 g=1}) 50% 50% no-repeat;"></a></li>
+						{/foreach}
+					</ul>
+				</div>
+				<div class="btn_tit effect_hd">
+					{foreach from=$image_list item=image_item}
+					<span></span>
+					{/foreach}
+				</div>
+			</div>
+			<script type="text/javascript"> 
+				if(!$(".banner_cont ul").has('li').length){ 
+					$("#banner").css("display","none");
+				} 
+				if($(".banner_cont ul").find('li').length==1){ 
+					$(".btn_tit").css("display","none");
+				}
+				else if($(".banner_cont ul").find('li').length>1){
+					$(".btn_tit").css("display","block");
+				}
+				if($(".banner_cont ul").find('li').length>1){
+					jQuery("#banner").slide({mainCell:".banner_cont ul",titCell:".effect_hd span",effect:"fold",autoPlay:false,delayTime:700});
+					$("#banner").mousemove(function(){
+						$(this).find(".prev").show();
+						$(this).find(".next").show();
+					}).mouseout(function(){
+						$(this).find(".prev").hide();
+						$(this).find(".next").hide();
+					});
+				}
+			</script>
+			<!--  海报区域结束  -->
+			<!-- 悬浮登录窗口 开始 -->
+			<div class="xf_m">
+				<div class="xf_wrap">
+					<div class="xf_main">
+						<div class="xf_body">
+							<div class="xf_text" id="xf_text">
+								<div class="xf_hd effect_hd">
+									{foreach from="$rectype_list" item="rectype_item" name="rectype_items"}
+									<span></span>
+									{/foreach}
+								</div>
+								<div class="xf_cont effect_bd">
+									<ul class="xf_cont_ul">
+										{foreach from="$rectype_list" item="rectype_item" name="rectype_items"}
+										<li>
+											<div class="l_box">
+												<h3><span class="f20 f_red mr15">{function name="msubstr" v=$rectype_item.name b=0 e=20}</span><a href="{$rectype_item.url}" target="_blank"  class="ui_button theme_bgcolor">抢先购买</a></h3>
+												<div class="data_box">
+													<ul>
+														<li class="tl">
+															<div class="data_hd">七日年化收益率</div>
+															<div class="data_bd f_money"><span>{function name="number_format" v=$rectype_item.average_income_rate f="2"}</span>%</div>
+														</li>
+														<li class="tc">
+															<div class="data_hd">当前日期</div>
+															<div class="data_bd now_time"></div>
+														</li>
+														<li class="tr last">
+															<div class="data_hd">每万份收益</div>
+															<div class="data_bd">{$rectype_item.per_million_revenue}</div>
+														</li>
+													</ul>
+												</div>
+												<div class="total_box">
+													<span class="first">当前成交总额：<span class="f_red">{$rectype_item.subscribing_amount}</span></span>
+													<span>产品规模：<span class="f_red">{$rectype_item.product_size}</span></span>
+												</div>
+											</div>
+											<div class="r_box">
+												<div class="item_tt">
+													<span>推荐产品</span>
+												</div>
+												<div class="blank10"></div>
+												<div class="item_bd">
+													<ul>
+														<li>
+															<span>*平均1个工作日购买成功，节假日顺延</span>
+														</li>
+														<li>
+															<span>*购买成功后，每日15:00可在余额宝账户中查看收益</span>
+														</li>
+														<li>
+															<span>*随时支取，结算当日不计利息</span>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</li>
+										{/foreach}
+									</ul>
+								</div>
+							</div>
+							<script type="text/javascript">
+								// 悬浮banner
+								(function(){
+									if($(".xf_hd").find("span").length <= 1){
+										$(".xf_hd").find("span").remove();
+									}
+									var $xf_text=$(".xf_text"),
+									 	$xf_hd=$(".xf_text").find(".xf_hd"),
+									 	$xf_cont_ul=$(".xf_text").find(".xf_cont_ul");
+									$xf_cont_ul.find("li:first").animate({
+										top:0, opacity:'show'
+									},600);
+									$xf_hd.find("span:first").addClass("on");
+									$xf_hd.find("span").each(function(i){
+										var $obj=$(this);
+										$obj.on('mousemove',function(){
+											$obj.addClass("on").siblings().removeClass("on");
+											$(".xf_cont_ul>li").eq(i).animate({
+												top:0, opacity: 'show'
+											},600).siblings().stop(true).css("top","8px").hide();
+										});
+									});
+								})();
+							</script>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 悬浮登录窗口 结束 -->
+		</div>
+		<div class="totals_box">
+			<div class="wrap">
+				<span>理财宝已经为用户赚了：<span class="f22 f_money" id="total_money"></span>&nbsp;收益</span>
+			</div>
+		</div>
+		<div class="wrap">
+			<div class="selects_box">
+				<dl>
+					<dt>起购金额：</dt>
+					{foreach from="$money_url" item="money"}
+					<dd><a href="{$money.url}" {if $money.selected eq 1}class="cur"{/if}>{$money.name}</a></dd>
+					{/foreach}
+				</dl>
+				<div class="blank20"></div>
+				<dl>
+					<dt>年化收益：</dt>
+					{foreach from="$rate_url" item="rate"}
+					<dd><a href="{$rate.url}" {if $rate.selected eq 1}class="cur"{/if}>{$rate.name}</a></dd>
+					{/foreach}
+				</dl>
+			</div>
+			<div class="deals_box">
+				<div class="deals_select">
+					<ul>
+						{foreach from="$orderby_url" item="orderby"}
+						<li>
+							<a href="{$orderby.url}" {if $orderby.selected eq 1}class="cur"{/if}>
+							{if $orderby.key neq ''}<i class="{if $orderby.descby eq 'DESC'}down{else}up{/if}"></i>{/if}{$orderby.name}
+							</a>
+						</li>
+						{/foreach}
+					</ul>
+				</div>
+				<div class="deals_list">
+					{include file="licai/inc/licai_deal_list.html"}
+				</div>
+			</div>
+			<div class="l_r_layout">
+				<div class="l_layout">
+					<div class="hot_box">
+						<h3 class="common_tt"><span class="theme_fcolor">热卖产品</span></h3>
+						<div class="main">
+							<div class="main_hd">
+								<span class="f_red">猜你喜欢</span>
+							</div>
+							<div class="main_bd">
+								<ul>
+									{foreach from="$hot_list" item="hot_item" name="hot_items"}
+										{if $smarty.foreach.hot_items.iteration lte 6}
+									 	{if $smarty.foreach.hot_items.iteration mod 3 eq 1}
+				                        <li>
+				                        {/if}
+											<div class="list_box">
+												<a href="{$hot_item.url}" target="_blank">
+													<div class="img mr20 f_l">
+														<img src="{if $hot_item.img eq ''}{$TMPL}/images/empty_thumb.gif{else}{function name="get_spec_image" v=$hot_item.img w="200" h="200"}{/if}" alt="{$hot_item.name}" />
+													</div>
+													<div class="text f_l">
+														<div class="text_hd">
+															<div class="big_tt">{$hot_item.name}</div>
+															{if $smarty.foreach.hot_items.iteration mod 3 eq 1}
+															<div class="small_tt f_999">最近3个月收益率&nbsp;{function name="number_format" v=$hot_item.average_income_rate f="2"}%</div>
+															<div class="blank5"></div>
+															<span class="f12 f_999">( 截止{$hot_item.end_buy_date} )</span>
+															{/if}
+														</div>
+														<div class="text_bd">
+															<dl class="dl_l">
+																<dt>最新净值</dt>
+																<dd class="f_red"><span class="f_money">{$hot_item.net_value}</span>元</dd>
+															</dl>
+															<dl class="dl_r">
+																<dt>投资风险</dt>
+																<dd>{if $hot_item.risk_rank eq 0}低{elseif $hot_item.risk_rank eq 1}中{else}高{/if}</dd>
+															</dl>
+														</div>
+													</div>
+												</a>
+											</div>
+									 	{if $smarty.foreach.hot_items.iteration % 3 eq 0}
+				                        </li>
+				                        {/if}
+			                        {/if}
+									{/foreach}
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="r_layout">
+					<h3 class="common_tt" style="text-indent:-999em"><span>推广</span></h3>
+					<div class="r_m_banner">
+						<a href="" target="_blank"><img src="{$TMPL}/images/licai/m_banner.jpg" /></a>
+					</div>
+					<div class="blank20"></div>
+					<div class="r_m_banner">
+						<a href="" target="_blank"><img src="{$TMPL}/images/licai/m_banner.jpg" /></a>
+					</div>
+					<div class="blank20"></div>
+					<div class="r_m_banner">
+						<a href="" target="_blank"><img src="{$TMPL}/images/licai/m_banner.jpg" /></a>
+					</div>
+					<div class="blank20"></div>
+					<div class="r_m_banner">
+						<a href="" target="_blank"><img src="{$TMPL}/images/licai/m_banner.jpg" /></a>
+					</div>
+				</div>
+				<div class="blank0"></div>
+			</div>
+			<div class="blank20"></div>
+			<div class="mb20">
+				<a href=""><img src="{$TMPL}/images/licai/banner3.jpg" width="1080" /></a>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+(function(){
+	// 统计数值滚动
+	var options = {
+	    useEasing : true, 
+	    useGrouping : true, 
+	    separator : ',', 
+	    decimal : '.', 
+	    prefix : '', 
+	    suffix : '' 
+	};
+	var total_money = new countUp("total_money", 0, {$user_income}, 2, 2.5, options);
+	total_money.start();
+})();
+
+(function(){
+	$hot_box_li=$(".hot_box li");
+	$hot_box_li.find(".list_box:first").addClass("l_box").siblings().addClass("r_box");
+	$hot_box_li.find(".list_box:nth-child(2)").addClass("mb20");
+})();
+(function(){
+	var d = new Date();
+	var d_str = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
+	$(".now_time").html(d_str);
+})();
+</script>
+<div class="blank0"></div>
+{include file="inc/footer.html"}

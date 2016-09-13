@@ -1,0 +1,100 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/home_organize.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/u_home_recommend_project.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/u_home_recommend_project.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jquery.SuperSlide.2.1.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jquery.SuperSlide.2.1.js";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<style type="text/css">
+	body{background:#f3f4f6;}
+</style>
+<div id="J_wrap">
+	<div class="blank20"></div>
+	<div class="userhome">
+		<div class="ui_deals_filter">
+			<div class="ui_deals_filter_item">
+				<div class="filter_item">
+					<label class="f_l">所属行业：</label>
+					<div class="filter_text f_l">
+						<ul>
+							<li {if $cate_id}{else}class="current"{/if}>
+								<a href="{url r="home#organize_list"}" title="全部">全部</a>
+							</li>
+							{foreach from=$finance_cate_list item=finance_cate_item}
+							<li {if $cate_id}class="current"{/if}>
+								<a href="{url r="home#organize_list" p="cate_id=$finance_cate_item.id"}" title="">{$finance_cate_item.cate_name}</a>
+							</li>
+							{/foreach}
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="userhomebd">
+			<div class="invest-cases ng-scope">
+				<div class="container clearfix">
+					<div class="bd list">
+						
+						{foreach from=$finance_list item=finance_item}
+						<div class="bd list">
+							<div class="item c_invest_exp_autoheight_wrap">
+	                    		<div class="basic">
+	                    			<a class="logo" href="{url r="finance#company_show" p="cid=$finance_item.id"}" target="_blank">
+	                    				<img src="{if $finance_item.company_logo eq ''}{$TMPL}/images/empty_thumb.gif{else}{$finance_item.company_logo}" w="300" h="210" g="1"}{/if}" alt="{$finance_item.company_name}" lazy="true" />
+                    				</a>
+		                    		<div class="desc">
+		                            	<a class="ng-binding" href="{url r="finance#company_show" p="cid=$finance_item.id"}" target="_blank">{$finance_item.company_name}</a>
+			                            <div class="brief ng-binding">
+			                                {$finance_item.company_brief}
+			                            </div>
+		                        	</div>
+		                        	<div class="blank0"></div>
+		                    	</div>
+	                    		<ul class="detail">
+	                    			{foreach from=$finance_item.deal_list item=deal_item}
+									<li class="ng-scope">
+	                            		<span class="time ng-binding">{function name="to_date" v=$deal_item.end_time f="Y-m-d"}</span>
+	                           	 		<div class="content">
+	                                		<p>
+	                                   			<span class="ng-binding ng-scope">{function name="get_invest_phase" v=$deal_item.invest_phase} &nbsp;|&nbsp;</span>
+	                                    		投资金额 &nbsp;
+	                                    		<span class="ng-binding ng-scope">
+													<span class="ng-scope">¥</span>{$deal_item.total_price}万&nbsp;&nbsp;
+	                               			 	</span>                                      		
+	                                		</p>
+			                                
+	                            		</div>
+	                            		<div class="clear"></div>
+	                   			 	</li>
+									{/foreach}
+	                			</ul>
+								<div class="toggle-more ng-scope">
+									<a class="J_fold_btn tr theme_fcolor" rel="c_invest_exp" onclick="trigger_detail(this);">展开 </a>
+			                    </div>
+	                    		<div class="group"></div>
+	           			 	</div>
+				
+						</div>
+						{/foreach}
+						<div class="blank20"></div>
+						<div class="pages">{$pages}</div>
+						<div class="blank20"></div>
+						<div class="item ng-scope item_last" style=" display:none">
+                    		
+           			 	</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+    function VisibleController($scope) {
+    	var detail_length = $(".detail").find("li").length;
+        $scope.detail_length = detail_length;
+    }
+</script>
+{include file="inc/footer.html"} 

@@ -1,0 +1,47 @@
+{include file="inc/header.html"}
+<style>
+  .inc{ border:#e2e2e2 solid 1px;}  
+  .user_inc_top{ margin:0 15px; padding:25px 0 15px 45px; border-bottom:1px solid #E7E7E7; font-size:24px; color:#666; font-family:"\5FAE\8F6F\96C5\9ED1","\9ED1\4F53"}
+  .user_inc_top span{ font-size:18px; position:relative; top:2px;}
+  .msg_box{ padding:10px; text-align:center; }
+.msg_box .notice{ text-align:center; display:block; font-size:14px; padding:20px; line-height:30px;}
+.msg_box .notice a{ color:#4780c0; }
+.msg_box .notice a:hover{ color:#f60; }
+.help-tip{ padding-top:15px;}
+</style>
+<div class="blank"></div>
+	<div class="inc">
+		<div class="user_inc_top">{$page_title}</div>
+		<div class="inc_main pd10 clearfix">
+				<div class="msg_box">
+                                      <h2>恭喜您，验证邮件发送成功</h2>												
+						<div class="notice">
+							<h2 class="notice-title">下一步，请验证您的Email</h2>
+							<div>
+								<p>
+									<?PHP echo sprintf("我们发送了一封验证邮件到%s，请到您的邮箱收信，并点击其中的链接验证您的邮箱。","<span class='red'>".$this->_var['user_email']."</span>");?>																
+								</p>
+							</div>
+							
+							{if $gocheck_url neq ''}
+							<a target="_blank" href="{$gocheck_url}" class="gomailcheck">立刻去邮箱激活帐户l</a>
+							{/if}
+							<div class="help-tip">
+								<h3 class="help-title">收不到邮件？</h3>
+								<ul class="help-list">
+									<li>有可能被误判为垃圾邮件了，请到垃圾邮件文件夹找找。</li>
+									<li>
+										<?PHP echo sprintf("用  %s 向 %s 发送一封任意内容的邮件，几分钟后即可直接登录。",$this->_var['user_email'],app_conf("REPLY_ADDRESS"));?>
+										
+									</li>
+
+								</ul>
+							</div>
+						</div>
+				</div>		
+		</div><!--end inc_main-->		
+		<div class="inc_foot"></div>
+	</div>
+
+
+{include file="inc/footer.html"} 

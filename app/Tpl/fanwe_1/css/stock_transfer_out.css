@@ -1,0 +1,14 @@
+.ui-small-center-button{margin:0 0 0 5px;}
+.uc_table_info .left{width:710px;}
+.uc_table_info .right{
+	width:160px;
+	text-align:right;
+}
+.uc_table_info{border-bottom:1px solid #e3e3e3;}
+.uc_table_info .left li{width:34%;}
+.uc_table_info .left li.w{
+	width:38%;
+}
+.uc_table_info .left li.l{
+	width:28%;
+}

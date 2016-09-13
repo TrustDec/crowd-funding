@@ -1,0 +1,69 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<load href='__TMPL__Common/js/jquery.bgiframe.js' />
+<load href='__TMPL__Common/js/jquery.weebox.js' />
+<load href='__TMPL__Common/js/carry.js' />
+<load href='__TMPL__Common/style/weebox.css' />
+
+<div class="main">
+<div class="main_title">手续费设置 </div>
+<div class="blank5"></div>
+<form action="{:U("UserCarry/saveconfig")}"  method="post">
+	<table id="dataTable" class="dataTable" cellpadding="0" cellspacing="0">
+		<tbody>
+			<tr><td colspan="5" class="topTd">&nbsp; </td></tr>
+			<tr >
+				<td colspan="5">勾去掉提交即删除</td>
+			</tr>
+			<tr class="row">
+				<th width="50px">保留</th>
+				<th>简称</th>
+				<th>最低金额</th>
+				<th>最高金额</th>
+				<th>手续费</th>
+			</tr>
+			<php>$idx = 1;</php>
+			<foreach name="list" item="item">
+			<tr>
+				<td align="center"><input type="checkbox" name="config[id][{$idx}]" checked="checked" value="{$item.id}" /></td>
+				<td><input type="text" class="textbox"  name="config[name][{$idx}]" value="{$item.name}" /></td>
+				<td><input type="text" class="textbox"  name="config[min_price][{$idx}]" value="{$item.min_price}" /></td>
+				<td><input type="text" class="textbox"  name="config[max_price][{$idx}]" value="{$item.max_price}" /></td>
+				<td>
+					<input type="text" class="textbox"  name="config[fee][{$idx}]" value="{$item.fee}" />
+					<select name="config[fee_type][{$idx}]">
+						<option value="0" <if condition="$item['fee_type'] eq 0">selected="selected"</if>>&yen;</option>
+						<option value="1" <if condition="$item['fee_type'] eq 1">selected="selected"</if>>%</option>
+					</select>
+				</td>
+			</tr>
+			<php>++$idx;</php>
+			</foreach>
+			<tr>
+				<td align="center">新增</td>
+				<td><input type="text" class="textbox"  name="aconfig[name][{$idx}]" value="" /></td>
+				<td><input type="text" class="textbox"  name="aconfig[min_price][{$idx}]" value="" /></td>
+				<td><input type="text" class="textbox"  name="aconfig[max_price][{$idx}]" value="" /></td>
+				<td>
+					<input type="text" class="textbox"  name="aconfig[fee][{$idx}]" value="" />
+					<select name="aconfig[fee_type][{$idx}]">
+						<option value="0">&yen;</option>
+						<option value="1">%</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td colspan="4">
+					<input type="submit" class="button" value="提交" />
+					<input type="reset" class="button" value="重置" />
+				</td>
+			</tr>
+			<tr><td colspan="5" class="bottomTd"> &nbsp;</td></tr>
+		</tbody>
+	</table>
+</form>
+<div class="blank5"></div>
+
+<include file="Public:footer" />

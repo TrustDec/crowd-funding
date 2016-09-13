@@ -1,0 +1,77 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/deal_invest_show.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/finance/company_deal_overviews.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/deal_support.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/fancybox.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/jquery.fancybox.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/jquery.fancybox.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/deal.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/deal.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jquery.SuperSlide.2.1.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jquery.SuperSlide.2.1.js";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+{if $deal_info.type eq 2}
+<link rel="stylesheet" type="text/css" href="{$TMPL}/css/deal_house_show.css" />
+{/if}
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<div class="blank"></div>
+<!--中间开始-->
+<div class="xqmain">
+	<!--中间页面头部start-->	
+	{if $deal_info.type eq 0}
+		{include file="inc/deal_header.html"}
+	{/if}
+	{if $deal_info.type eq 2}
+		{include file="inc/deal_house_header.html"}
+	{/if}
+	<!--中间页面头部end-->	
+	 <div class="blank20"></div> 
+	<div class="xqmain_main">
+		<!--左-->	
+		<div class="xqmain_left">
+			<div class="box_main">
+				{if $support_list}
+				{foreach from=$support_list item=support_item}
+				<div class="zcz_1 f_l">
+					<div class="tu2 f_l support_avatar">
+					{function name="show_avatar" p="$support_item.user_id"}
+					</div>
+					<div class="nro f_l">
+						<span class="nur_title"><a href="{url r="home" p="id=$support_item.user_id"}">{$support_item.user_info.user_name}</a></span>
+						<span class="nur_main">支持此项目<em class="f_money"> {function name="format_price" v=$support_item.price}</em></span>
+						<span class="nur_main">支持数：{$support_item.num}</span>
+					</div>	
+				</div>
+				{/foreach}
+				<div class="blank15"></div>
+				<!--翻页-->
+				<div class="page1">{$pages}</div>
+				{/if}
+			</div>
+		</div>
+		<!--右-->
+		{if $deal_info.type eq 0 || $deal_info.type eq 2}
+			{include file="inc/deal_right.html"}
+		{/if}
+		{if $deal_info.type eq 1}
+			{include file="inc/deal_investor_right.html"}
+		{/if}
+		<!--右结束-->
+	</div>
+	<div class="blank"></div>
+</div>
+<!--中间结束-->
+<div class="blank"></div>
+<script type="text/javascript">
+	bind_zoom();
+	// 图片放大镜
+	function bind_zoom(){
+		$(".image_item").bind("click",function(){
+			var img = $(this).find("img").attr("rel");
+			$.fancybox.open(img);
+		});
+	}
+</script>
+{include file="inc/footer.html"} 

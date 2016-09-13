@@ -1,0 +1,91 @@
+<style type="text/css">
+	#Jbank_From .field {line-height: 30px;font-size: 12px;margin: 5px auto 5px;}
+	#Jbank_From .field label{ width:130px}
+	#Jbank_From .field input.f-input{ height:20px; line-height:20px; padding:5px}
+	#Jbank_From .field select{ height:30px; line-height:30px; }
+</style>
+<form name="Jbank_From" id="Jbank_From" action="{url x="index" r="uc_money#savebank"}" method="post">
+	<div class="field">
+	    <label>开户名：</label>
+	    <span><input type="text" readonly="readonly" name="real_name" id="Jbank_real_name" class="f-input readonly" style="width:100px;" value="{$user_info.real_name}"></span>
+	</div>
+	<div class="blank1"></div>
+ 	<div class="field">
+	    <label> 帐户类型：</label>
+	    <span>借记卡&nbsp;&nbsp;<span class="f_red">(不支持信用卡)</span></span>
+	</div>
+	<div class="blank1"></div>
+ 	<div class="field">
+	    <label>
+	    	<span class="f_red b">*</span> 选择银行：
+	    </label>
+	    <span>
+	    	<select id="Jbank_bank_id" name="bank_id">
+	    		<option value="">请选择</option>
+				{foreach from="$bank_list" item="item"}
+				{if $item.is_rec eq 1}
+				<option value="{$item.id}" day="{$item.day}">{$item.name}</option>
+				{/if}
+				{/foreach}
+				<option value="other">其他</option>
+			</select>
+			<select id="Jbank_otherbank" name="otherbank" class="hide">
+	    		<option value="">请选择</option>
+				{foreach from="$bank_list" item="item"}
+				{if $item.is_rec eq 0}
+				<option value="{$item.id}" day="{$item.day}">{$item.name}</option>
+				{/if}
+				{/foreach}
+			</select>                     
+	    </span>
+	</div>
+	<div class="blank1"></div>
+	<div class="field" >													
+		<label for="settings-region"><span class="f_red b">*</span> 开户行所在地：</label>
+		{$LANG.REGION_LV1}：
+		<select name="region_lv1">
+		    <option value="0">={$LANG.SELECT_PLEASE}=</option>
+			{foreach from=$region_lv1 item=lv1}
+			<option {if $lv1.selected eq 1}selected="selected"{/if} value="{$lv1.id}">{$lv1.name}</option>
+			{/foreach}
+	  	</select>							
+		{$LANG.REGION_LV2}：
+		<select name="region_lv2">
+			<option value="0">={$LANG.SELECT_PLEASE}=</option>
+	  	</select>								
+		{$LANG.REGION_LV3}：
+		<select name="region_lv3">
+			<option value="0">={$LANG.SELECT_PLEASE}=</option>	
+		</select>			
+		{$LANG.REGION_LV4}：
+		<select name="region_lv4" id="Jbank_region_lv4">
+			<option value="0">={$LANG.SELECT_PLEASE}=</option>			
+	  	</select>
+ 	</div>				
+	<div class="blank1"></div>		
+	<div class="field">								
+		<label for="settings-bankzone"><span class="f_red b">*</span> 开户行网点：</label>
+		<span>
+			<input type="text" name="bankzone" id="Jbank_bankzone" class="f-input" style="width:270px;" value="">
+		</span>&nbsp;&nbsp;<a href="http://www.cardbaobao.com/bank/index.asp" target="_blank">网点查询</a>
+	</div>
+	<div class="blank1"></div>
+   	<div class="field">
+       	<label><span class="f_red b">*</span> 银行卡号：</label>
+       	<span><input type="text" name="bankcard" class="f-input" id="Jbank_bankcard" style="width:270px;font-weight:bolder;" value=""></span>
+   	</div>
+   	<div class="blank1"></div>
+   	<div class="field">
+       	<label><span class="f_red b">*</span> 确认卡号：</label>
+       	<span><input type="text" name="reBankcard" class="f-input" id="Jbank_rebankcard" style="width:270px;font-weight:bolder;" value=""></span>
+   	</div>
+   	<div class="blank20"></div>
+	<div class="tc">
+		<input type="button" value="确认添加" class="sub_btn">
+		<input type="button" value="取消" class="reset_btn">
+    </div>
+	<div class="blank20"></div>      
+</form>
+<script type="text/javascript">
+	$("#Jbank_bankcard,#Jbank_rebankcard").bankInput(); 
+</script>

@@ -1,0 +1,23 @@
+<div class="list_title clearfix">
+	<div {if $module eq 'account'&& $action eq 'money_index'}class="cur"{/if}>
+		<a href="{url r="account#money_index"}">账户主页</a>
+	</div>
+	<div {if $module eq 'account'&& $action eq 'money_inchange'}class="cur"{/if}>
+		<a href="{url r="account#money_inchange"}">会员充值</a>
+	</div>
+	<div {if $module eq 'account'&& ($action eq 'record'||$action eq 'pay')}class="cur"{/if}>
+		<a href="{url r="account#record"}">充值日志</a>
+	</div>
+	<div {if $module eq 'account'&& ($action eq 'money_carry_bank'|| $action eq 'money_carry')}class="cur"{/if}>
+		<a href="{url r="account#money_carry_bank"}">会员提现</a>
+	</div>
+	<div {if $module eq 'account'&& $action eq 'refund'}class="cur"{/if}>
+		<a href="{url r="account#refund"}">提现日志</a>
+	</div>
+	<div {if $module eq 'account'&& $action eq 'credit'}class="cur"{/if}>
+		<a href="{url r="account#credit"}">收支明细</a>
+	</div>
+	<div {if $module eq 'account'&& $action eq 'score'}class="cur"{/if}>
+		<a href="{url r="account#score"}">积分明细</a>
+	</div>
+</div>

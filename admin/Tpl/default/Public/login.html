@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{:app_conf("SITE_NAME")} - {:l("SYSTEM_LOGIN")}</title>
+<script type="text/javascript">
+	//定义JS语言
+	var ADM_NAME_EMPTY = '{:l("ADM_NAME_EMPTY")}';
+	var ADM_PASSWORD_EMPTY = '{:l("ADM_PASSWORD_EMPTY")}';
+	var ADM_VERIFY_EMPTY = '{:l("ADM_VERIFY_EMPTY")}';
+	var L_jumpUrl = '{:U("Index/index")}';
+	function resetwindow()
+	{
+		if(top.location != self.location)
+		{
+			top.location.href = self.location.href;
+			return 
+		}
+	}
+	resetwindow();
+	
+</script>
+<load href='__TMPL__Common/style/login.css' />
+<load href='__TMPL__Common/js/des.js' />
+<load href='__TMPL__Common/js/jquery.js' />
+<load href='__TMPL__Common/js/jquery.timer.js' />
+<load href='__TMPL__Common/js/login.js' />
+<load href='__TMPL__Common/js/check_dog.js' />
+<load href='__TMPL__Common/js/IA300ClientJavascript.js' />
+<script type="text/javascript">
+	var __LOGIN_KEY = "{:LOGIN_DES_KEY()}";
+</script>
+</head>
+<body onLoad="javascript:DogPageLoad();">
+<form action="{:u("Public/do_login")}">
+  <div class="login_bar">
+  <!--<h3 class="login_h3">酒店众筹管理系统</h3>-->
+  <img src="__TMPL__Common/images/login/logo.png"/>
+    <table border="0" cellpadding="0" cellspacing="15" align="center"style="margin:0px auto;">
+      <tr>
+        <td>&nbsp;</td>
+        <td id="login_msg">&nbsp;</td>
+      </tr>
+      <tr>
+        <td><b>账&nbsp;&nbsp;户：</b></td>
+        <td><input type="text" name="adm_name" class="adm_name"></td>
+      </tr>
+      <tr>
+        <td><b>密&nbsp;&nbsp;码：</b></td>
+        <td><input type="password"  name="adm_password" class="adm_password"></td>
+      </tr>
+      <tr>
+        <td><b>验证&nbsp;码：</b></td>
+        <td><input type="text"  class="login_input adm_verify" name="adm_verify">
+          <img src="__ROOT__/verify.php?name=verify" alt="__ROOT__/verify.php?name=verify"  id="verify" align="absmiddle" /></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td><div class="login_button submit" id="login_btn">登录</div></td>
+      </tr>
+    </table>
+  </div>
+</form>
+<script type="text/javascript">
+	if(CHECK_DOG){
+		$("#CHECK_DOG_BOX").show();
+	}
+</script>
+</body>
+</html>

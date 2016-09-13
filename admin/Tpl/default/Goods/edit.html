@@ -1,0 +1,235 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<load href='__TMPL__Common/js/conf.js' />
+<script type="text/javascript" src="__TMPL__Common/js/calendar/calendar.php?lang=zh-cn" ></script>
+<script type="text/javascript">
+	var attr_cfg_json = {$attr_cfg_json};
+	var attr_stock_json = {$attr_stock_json};
+</script>
+<load href='__TMPL__Common/js/calendar/calendar.css' />
+<load href='__TMPL__Common/js/calendar/calendar.js' />
+<load href='__TMPL__Common/js/goods.js' />
+<script type="text/javascript">
+	window.onload = function()
+	{
+		init_dealform();
+	}
+</script>
+<div class="main">
+<div class="main_title">{$vo.name}{%EDIT}  <a href="{:u("Goods/index")}" class="back_list">{%BACK_LIST}</a></div>
+<div class="blank5"></div>
+<form name="edit" action="__APP__" method="post" enctype="multipart/form-data">
+<div class="button_row">
+	<input type="button" class="button conf_btn" rel="1" value="{%SHOP_BASE_INFO}" />&nbsp;
+	<input type="button" class="button conf_btn" rel="2" value="{%ATTR_SETTING}" />&nbsp;	
+	<input type="button" class="button conf_btn" rel="3" value="{%SEO_CONFIG}" />&nbsp;	
+</div>
+<div class="blank5"></div>
+<table class="form conf_tab" cellpadding=0 cellspacing=0 rel="1">
+	<tr>
+		<td colspan=2 class="topTd"></td>
+	</tr>
+	<tr>
+		<td class="item_title">{%GOODS_NAME}:</td>
+		<td class="item_input"><input type="text" class="textbox require" name="name" style="width:500px;" value="{$vo.name}" /></td>
+	</tr>
+	<tr>
+		<td class="item_title">{%DEAL_SUB_NAME}:</td>
+		<td class="item_input"><input type="text" class="textbox require" name="sub_name"  value="{$vo.sub_name}"/> <span class='tip_span'>{%GOODS_SUB_NAME_TIP}</span></td>
+	</tr>
+	<!--
+	<tr>
+		<td class="item_title">{%GOODS_BRIEF}:</td>
+		<td class="item_input"><textarea class="textarea" name="brief" >{$vo.brief}</textarea></td>
+	</tr>
+	-->
+	<tr>
+		<td class="item_title">{%CATE_TREE}:</td>
+		<td class="item_input">
+		<select name="cate_id" class="require">
+			<option value="0" <if condition="$vo['cate_id'] eq 0">selected="selected"</if>>=={%NO_SELECT_CATE}==</option>
+			<foreach name="cate_tree" item="cate_item">
+				<option value="{$cate_item.id}" <if condition="$vo['cate_id'] eq $cate_item['id']">selected="selected"</if>>{$cate_item.title_show}</option>
+			</foreach>
+		</select>
+		</td>
+	</tr>	
+	<tr>
+		<td class="item_title">{%GOODS_ICON}:</td>
+		<td class="item_input">
+			<html:imgUpload name="img" id="img" value="$vo.img" />
+			<span class="tip_span">&nbsp;[建议上传图片大小：600px * 450px]</span>
+		</td>
+	</tr>
+	
+	<tr>
+		<td class="item_title">购买所需积分:</td>
+		<td class="item_input"><input type="text" class="textbox require" name="score" value="{$vo.score}" /></td>
+	</tr>
+	<tr>
+		<td class="item_title">虚拟购买数:</td>
+		<td class="item_input"><input type="text" class="textbox" name="invented_number" value="{$vo.invented_number}" /></td>
+	</tr>
+	<tr class="max_bought">
+		<td class="item_title">{%STOCK_NUM}:</td>
+		<td class="item_input">
+			<input type="text" class="textbox" name="max_bought" value="{$vo.max_bought}" />
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">{%DEAL_USER_MAX_BOUGHT}:</td>
+		<td class="item_input"><input type="text" class="textbox" name="user_max_bought" value="{$vo.user_max_bought}" /></td>
+	</tr>
+	<tr>
+		<td class="item_title">{%SORT}:</td>
+		<td class="item_input"><input type="text" class="textbox" name="sort" value="{$vo.sort}" /></td>
+	</tr>
+	
+	<tr>
+		<td class="item_title">{%IS_EFFECT}:</td>
+		<td class="item_input">
+			<lable>{%IS_EFFECT_1}<input type="radio" name="is_effect" value="1" <if condition="$vo['is_effect'] eq 1">checked="checked"</if> /></lable>
+			<lable>{%IS_EFFECT_0}<input type="radio" name="is_effect" value="0" <if condition="$vo['is_effect'] eq 0">checked="checked"</if> /></lable>
+		</td>
+	</tr> 
+	<tr>
+		<td class="item_title">{%GOODS_DESCRIPTION}:</td>
+		<td class="item_input">
+			 <html:editor id="description" name="description" type="KINDEDITOR" content="{$vo.description}" />
+		</td>
+	</tr>
+	<tr>
+		<td colspan=2 class="bottomTd"></td>
+	</tr>
+</table>
+
+
+
+<table class="form conf_tab" cellpadding=0 cellspacing=0 rel="2">
+	<tr>
+		<td colspan=2 class="topTd"></td>
+	</tr>
+	
+	<tr class="buy_type_0">
+		<td class="item_title">{%IS_HOT}:</td>
+		<td class="item_input">
+			<select name="is_hot">
+				<option value="0" <if condition="$vo['is_hot'] eq 0">selected="selected"</if>>{%IS_HOT_0}</option>
+				<option value="1" <if condition="$vo['is_hot'] eq 1">selected="selected"</if>>{%IS_HOT_1}</option>
+			</select>
+		</td>
+	</tr>
+	
+	<tr class="buy_type_0">
+		<td class="item_title">是否新品:</td>
+		<td class="item_input">
+			<select name="is_new">
+				<option value="0" <if condition="$vo['is_new'] eq 0">selected="selected"</if>>{%IS_BEST_0}</option>
+				<option value="1" <if condition="$vo['is_new'] eq 1">selected="selected"</if>>{%IS_BEST_1}</option>
+			</select>
+		</td>
+	</tr>
+	<tr class="buy_type_0">
+		<td class="item_title">是否推荐:</td>
+		<td class="item_input">
+			<select name="is_recommend">
+				<option value="0" <if condition="$vo['is_recommend'] eq 0">selected="selected"</if>>否</option>
+				<option value="1" <if condition="$vo['is_recommend'] eq 1">selected="selected"</if>>是</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">{%DEAL_IS_DELIVERY}:</td>
+		<td class="item_input">
+			<select name="is_delivery">
+				<option value="0" <if condition="$vo['is_delivery'] eq 0">selected="selected"</if>>{%IS_DELIVERY_0}</option>
+				<option value="1" <if condition="$vo['is_delivery'] eq 1">selected="selected"</if>>{%IS_DELIVERY_1}</option>
+			</select>
+			<span class='tip_span'>[{%DEAL_IS_DELIVERY_TIP}]</span>
+		</td>
+	</tr>
+	
+	<tr id="filter_row"  class="buy_type_0">
+		<td class="item_title">{%FILTER_GROUP}:</td>
+		<td class="item_input">
+			<div id="filter"></div>
+		</td>
+	</tr>
+	<!--
+	<tr class="buy_type_0">
+		<td class="item_title">{%GOODS_TYPE}:</td>
+		<td class="item_input">
+			<select name="goods_type_id">
+			<option value="0" <if condition="$vo['goods_type_id'] eq 0">selected="selected"</if>>=={%NO_SELECT_GOODS_TYPE}==</option>
+			<foreach name="goods_type_list" item="goods_type_item">
+				<option value="{$goods_type_item.id}" <if condition="$vo['goods_type_id'] eq $goods_type_item['id']">selected="selected"</if>>{$goods_type_item.name}</option>
+			</foreach>
+			</select>
+		</td>
+	</tr>
+	<tr id="deal_attr_row"   style="display:none;">
+		<td class="item_title">{%GOODS_ATTR}:</td>
+		<td class="item_input">
+			<div id="deal_attr"></div>
+		</td>
+	</tr>-->
+	<tr>
+		<td colspan=2 class="bottomTd"></td>
+	</tr>
+</table>
+
+
+<table class="form conf_tab" cellpadding=0 cellspacing=0 rel="3">
+	<tr>
+		<td colspan=2 class="topTd"></td>
+	</tr>
+	<tr>
+		<td class="item_title">{%GOODS_SEO_TITLE}:</td>
+		<td class="item_input"><textarea class="textarea" name="seo_title" >{$vo.seo_title}</textarea></td>
+	</tr>
+	<tr>
+		<td class="item_title">{%GOODS_SEO_KEYWORD}:</td>
+		<td class="item_input"><textarea class="textarea" name="seo_keyword" >{$vo.seo_keyword}</textarea></td>
+	</tr>
+	<tr>
+		<td class="item_title">{%GOODS_SEO_DESCRIPTION}:</td>
+		<td class="item_input"><textarea class="textarea" name="seo_description" >{$vo.seo_description}</textarea></td>
+	</tr>
+	<tr>
+		<td colspan=2 class="bottomTd"></td>
+	</tr>
+</table>
+
+<div class="blank5"></div>
+	<table class="form" cellpadding=0 cellspacing=0>
+		<tr>
+			<td colspan=2 class="topTd"></td>
+		</tr>
+		<tr>
+			<td class="item_title"></td>
+			<td class="item_input">
+			<!--隐藏元素-->
+			<input type="hidden" name="id" value="{$vo.id}" />
+			<input type="hidden" name="{:conf("VAR_MODULE")}" value="Goods" />
+			<input type="hidden" name="{:conf("VAR_ACTION")}" value="update" />
+			<!--隐藏元素-->
+			<input type="submit" class="button" value="{%EDIT}" />
+			<input type="reset" class="button" value="{%RESET}" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan=2 class="bottomTd"></td>
+		</tr>
+	</table> 	 
+</form>
+</div>
+<include file="Public:footer" />
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+	load_attr_html();
+});
+
+</script>	

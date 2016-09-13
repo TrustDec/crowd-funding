@@ -1,0 +1,186 @@
+<script type="text/javascript">
+var support_count='{$deal_item.support_count}';
+var is_limit_user='{$deal_item.is_limit_user}';	
+var limit_user='{$deal_item.limit_user}';
+var maxbuy='{$deal_item.maxbuy}';
+var remain_user_buy='{$deal_item.remain_user_buy}';
+</script>
+<div class="dedicate_box">
+	<form id='ajax_form_lottery' action="{url_wap r="cart#index" }" method="post">
+		<div class="blank15"></div>
+		<div class="form_content buy_box">
+			<span class="buy_title">数量：</span>
+			<div class="buy_main">
+				<a href="#" class="plus" id="minus" >-</a>
+				<input type="text" name="num" value="{if $deal_item.maxbuy gt 0 && $deal_item.remain_user_buy eq 0}0{else}1{/if}" class="buy_num" id="buy_num">
+				<a href="#" class="minus" id="plus" >+</a>
+			</div>
+			<span class="buy_tip {if $deal_item.maxbuy gt 0 && $deal_item.remain_user_buy eq 0}{else}hidden{/if}" id="buy_tip">你的支持数已达到上限</span>
+			<div class="blank15"></div>
+		</div>
+		<div class="blank10"></div>
+		<div class="blank15"></div>
+		<div class="webkit-box">
+			<input type="hidden" name="id" value="{$deal_item.id}">
+			<input type="hidden" name="ctl" value="cart">
+			<input type="button" name="lottery_go_cart" value="确定" class="ui-button ui-two-button theme_color" />
+			<input type="button" value="取消" class="ui-button ui-two-button bg_gray button_n" />
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	//minus 减
+	$("#minus").bind('click',function(){
+		var num=parseInt($("#buy_num").val());
+		var hidden_tip=0;
+		if(num <=1)
+			num=1;
+		else
+		{
+			num -=1
+		}
+		if(maxbuy >0 && remain_user_buy ==0)
+		{
+			$("#buy_num").val(0);
+			$("#buy_tip").removeClass("hidden");
+			$("#buy_tip").html("你的支持数已达到上限");
+		}else{
+			$("#buy_num").val(num);
+		
+			var buy_tip_view=$("#buy_tip").is(":visible");
+			if(buy_tip_view)
+			{
+				if(is_limit_user ==1 && limit_user >0)
+				{
+					var useful_count =limit_user - support_count;
+					if(useful_count <0) useful_count=0;
+					
+					if((maxbuy >0 &&  useful_count <=remain_user_buy && num<= useful_count) || (maxbuy >0 &&  useful_count >remain_user_buy && num<= remain_user_buy) )
+					{
+						$("#buy_tip").addClass("hidden");
+					}
+					else
+					{
+						if(num <=useful_count)
+							$("#buy_tip").addClass("hidden");
+					}
+				}else if(maxbuy >0 && num <=maxbuy)
+				{
+					$("#buy_tip").addClass("hidden");
+				}
+			}
+		}
+		
+		
+	});
+	
+	//plus 加
+	$("#plus").bind('click',function(){
+		var num=parseInt($("#buy_num").val());
+		var buy_tip='';
+		var num_view =num+1;
+		if (maxbuy > 0 && remain_user_buy == 0) {
+			$("#buy_num").val(0);
+			$("#buy_tip").removeClass("hidden");
+			$("#buy_tip").html("你的支持数已达到上限");
+		}
+		else {
+			if( maxbuy >0 && num >=remain_user_buy)
+			{
+				num_view=remain_user_buy;
+				buy_tip='最多抽'+remain_user_buy+'次';
+			}
+	
+			if(is_limit_user ==1 && limit_user >0)
+			{
+				var useful_count =limit_user - support_count;
+				if(useful_count <0)
+					useful_count=0;
+					
+				if(num_view >useful_count)
+				{
+					num_view=useful_count;
+					buy_tip='库存不足，最多抽'+useful_count+'次';
+				}
+			}
+			
+			$("#buy_num").val(num_view);
+			if(buy_tip !='')
+			{
+				$("#buy_tip").show();
+				$("#buy_tip").html(buy_tip);
+				setTimeout(function(){
+					$("#buy_tip").fadeOut("slow");
+				},1000)
+			}else
+			{
+				$("#buy_tip").hide();
+			}
+		}
+		
+	});
+	
+	//buy_num change
+	$("#buy_num").bind('change',function(){
+		var num=parseInt($("#buy_num").val());
+		var buy_tip='';
+		var num_view =num;
+		//alert(num);
+		if (maxbuy > 0 && remain_user_buy == 0) {
+			$("#buy_num").val(0);
+			$("#buy_tip").removeClass("hidden");
+			$("#buy_tip").html("你的支持数已达到上限");
+		}
+		else {
+			//limit_user remain_user_buy maxbuy
+			if( maxbuy >0 && num > remain_user_buy)
+			{	
+				num_view=remain_user_buy;
+				buy_tip='最多抽'+remain_user_buy+'次';
+			}
+			 
+			if(is_limit_user ==1 && limit_user >0)
+			{
+				var useful_count =limit_user - support_count;
+				if(useful_count <0)
+					useful_count=0;
+					
+				if(num_view >useful_count)
+				{
+					num_view=useful_count;
+					buy_tip='库存不足，最多抽'+useful_count+'次';
+				}
+			}
+			
+			$("#buy_num").val(num_view);
+			if(buy_tip !='')
+			{
+				$("#buy_tip").show();
+				$("#buy_tip").html(buy_tip);
+				setTimeout(function(){
+					$("#buy_tip").fadeOut("slow");
+				},1000)
+			}else
+			{
+				$("#buy_tip").hide();
+			}
+		}
+	});
+	
+	$("input[name='lottery_go_cart']").bind('click',function(){
+		var num=parseInt($("input[name='num']").val());
+		if(num <=0)
+		{
+			showErr("请输入数量");
+			return false;
+		}
+		
+		$("#ajax_form_lottery").submit();
+	});
+	
+	$(".button_n").bind("click",function(){
+		$.closeModal();
+	});
+});
+</script>

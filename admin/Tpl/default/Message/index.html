@@ -1,0 +1,80 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<PHP>
+	function get_order_status($status)
+	{
+		if($status==0)return "未支付";
+		if($status==1)return "过期支付";
+		if($status==2)return "限额已满";
+		if($status==3)return "已支付";
+	}
+</PHP>
+<include file="Public:header" />
+<load href='__TMPL__Common/js/jquery.bgiframe.js' />
+<load href='__TMPL__Common/js/jquery.weebox.js' />
+<load href='__TMPL__Common/js/deal.js' />
+<script type="text/javascript">
+	function view(id)
+	{
+		location.href = ROOT+"?"+VAR_MODULE+"="+MODULE_NAME+"&"+VAR_ACTION+"=view&id="+id;
+	}
+	function show_content(id)
+	{
+		$.ajax({ 
+			url: ROOT+'?m=Message&a=content&id='+id, 
+			data: "ajax=1",
+			dataType: "json",
+			success: function(msg){
+				if(msg.status==0){
+					alert(msg.info);
+				}
+			},
+			error: function(){
+				$.weeboxs.open(ROOT+'?m=Message&a=content&id='+id, {contentType:'ajax',showButton:false,title:LANG['SHOW_CONTENT'],width:800,height:400});
+			}
+		});
+		
+	}
+</script>
+<load href='__TMPL__Common/style/weebox.css' />
+<div class="main">
+<div class="main_title">留言列表</div>
+<div class="blank5"></div>
+<div class="button_row">
+	<input type="button" class="button" value="删除" onclick="del();" />
+</div>
+<div class="blank5"></div>
+<div class="search_row">
+	<form name="search" action="__APP__" method="get">	
+		 分类:<select name="cate_id">
+				<option value="0" <if condition="$_REQUEST['cate_id'] eq 0">selected="selected"</if>>全部</option>
+				<foreach name="cate_list" item="cate_item">
+					<option value="{$cate_item.id}" <if condition="$_REQUEST['cate_id'] eq $cate_item['id']">selected="selected"</if>>{$cate_item.cate_name}</option>
+				</foreach>
+			</select>
+		<input type="hidden" value="Message" name="m" />
+		<input type="hidden" value="index" name="a" />
+		<input type="submit" class="button" value="{%SEARCH}" />
+	</form>
+</div>
+<div class="blank5"></div>
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="deal" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{%ID}|50px
+		,user_id:会员ID
+ 		,user_name:评论人
+		,tel:联系电话
+		,content|get_title:内容
+		,content|show_content=$deal['id']:查看详细
+		,create_time|to_date:创建时间" 
+	actionlist="del:删除" /> 
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

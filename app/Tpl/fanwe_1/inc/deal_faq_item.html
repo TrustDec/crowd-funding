@@ -1,0 +1,20 @@
+<div class="faq_item">
+	<div class="faq_item1">
+		<input type="text" value="{if $faq_item.question neq ''}{$faq_item.question}{/if}" class="pro_lf textbox" name="question[]" />&nbsp;&nbsp;
+		<span class="holder_tip">请输入问题</span>
+		<span ><a href="javascript:void(0);" onclick='del_faq(this);' class="setmid se">删除</a></span>
+		<div class="blank0"></div>
+	</div>
+	<div class="blank5"></div>
+	<div class="faq_item1">
+		<textarea name="answer[]" class="textareabox w350 textbox">{if $faq_item.answer neq ''}{$faq_item.answer}{/if}</textarea>
+		<span class="holder_tip">请输入问题</span>
+		<div class="blank0"></div>
+	</div>
+</div>
+<div class="blank10"></div>
+<script type="text/javascript">
+	$(function(){
+		show_tip();
+	});
+</script>

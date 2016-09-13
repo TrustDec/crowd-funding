@@ -1,0 +1,177 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/cart.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+{if $order_info.ips_bill_no eq "" || !$is_tg}
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/cart_pay.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/cart_pay.js";
+?>
+{else}
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/cart_pay_tg.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/cart_pay_tg.js";
+?>
+{/if}
+
+<script type="text/javascript">
+	var trade_score='{function name='app_conf' value='SCORE_TRADE_NUMBER'}';
+	trade_score=parseInt(trade_score)>0?parseInt(trade_score):0;
+</script>
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+
+{include file="inc/home_user_info.html"}
+<div class="dlmain Myhomepage">
+	{include file="inc/account_left.html"} 
+	<div class="homeright pageright f_r">
+		<div class="list_title clearfix">
+			<div class="cur">
+				<span>股权转让设置</span>
+			</div>
+		</div>
+		<div class="list_conment account_view_order">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc_table">
+				<tr>
+					<td class="deal_name" width="30%">项目名称</td>
+					<td>
+						{if $order_info}
+						<a href="{url r="deal#show" p="id=$order_info.deal_id"}" target="_blank" class="theme_fcolor">{$order_info.deal_name}</a>
+						{else}
+						{$order_info.deal_name}
+						{/if}
+					</td>
+				</tr>				
+				<tr>
+					<td class="deal_name">项目原出让股份</td>
+					<td width=193 class="tl">{$order_info.transfer_share}%</td>
+				</tr>
+				<tr>
+					<td class="deal_name">项目原出让金额</td>
+					<td width=193 class="tl">{$order_info.stock_value}元</td>
+				</tr>
+				<tr>
+					<td class="deal_name">用户所占股份</td>
+					<td width=193 class="tl">{$order_info.user_stock}%</td>
+				</tr>
+				<tr>
+					<td class="deal_name">股份所占金额</td>
+					<td>
+						{$order_info.total_price}元
+					</td>
+				</tr>	
+				<tr>
+					<td class="deal_name">用户所拥有股数</td>
+					<td width=193 class="tl" >{$order_info.user_num}股</td>
+				</tr>
+				<tr>
+					<td class="deal_name">转让股数</td>
+					<td class="item_input"><input type="text" class="textbox require" name="num" id="num" value="{$stock_transfer_info.num}"/></td>
+					<td>股</td>
+				</tr>
+				<tr>
+					<td class="deal_name">转让金额</td>
+					<td class="item_input"><input type="text" class="textbox require" name="price" id="price" value="{$stock_transfer_info.price}"/></td>
+					<td>元</td>
+				</tr>				
+				<tr>
+					<td class="deal_name">天数</td>
+					<td class="item_input"><input type="text" class="textbox require" name="day" id="day" value="{$stock_transfer_info.day}"/></td>
+					<td>天</td>
+				</tr>	
+	
+			</table>
+		</div>
+		<div class="blank"></div>
+		<div class="submit_btn_row control-group">
+					<label class="control-label"></label>
+					<div class="ui-button theme_bgcolor" rel="green" >提交</div>				
+					<input type="hidden" value="1" name="ajax" />
+					<div class="blank0"></div>				
+				</div>
+	</div>
+	<div class="blank"></div>
+</div>
+<div class="blank"></div>
+
+<script>
+	$(function(){
+		update({$stock_transfer_info.id},{$order_info.invote_mini_money},{$order_info.user_num});
+	});
+	function update(id,invote_mini_money,user_num){
+		$(".theme_bgcolor").bind("click",function(){
+			if($("#price").val()==''){
+				$.showErr("金额不能为空！");
+				return false;
+			}
+			if($("#num").val()==''){
+				$.showErr("转让股数不能为空！");
+				return false;
+			}
+			if($("#day").val()==''){
+				$.showErr("天数不能为空！");
+				return false;
+			}	
+			if($("#num").val()>user_num){
+				$.showErr("转让股数不能大于拥有股数！！");
+				return false;
+			}	
+			var ajaxurl ='{url r="account#stock_transfer_update"}';
+			var price=$("#price").val();
+			var num=$("#num").val();
+			var day=$("#day").val();	
+			
+			if(!/^[0-9]+(.[0-9]{2})?$/.test(price) &&!/^[0-9]+(.[0-9]{1})?$/.test(price) ){  
+				$.showErr("价格至多保留两位小数!"); 
+				return false;
+		    } 
+			if(!/^[0-9]*$/.test(num)){  
+				$.showErr("天数必须是正整数!"); 
+				return false;
+		    } 
+			if(!/^[0-9]*$/.test(day)){  
+				$.showErr("股数必须是正整数!"); 
+				return false;
+		    } 
+			
+			var query = new Object();
+			query.price=price;
+			query.num=num;
+			query.day=day;
+			query.id=id;
+			query.stock_value=invote_mini_money*num;
+			
+			$.ajax({
+				url: ajaxurl,
+				data:query,
+				type: "POST",
+				dataType: "json",
+				success:function(data){
+					if(data.status==0){
+						$.showErr(data.info,function(){
+							if(data.jump!="")
+							{
+								location.href = data.jump;
+							}
+						});
+						return false;
+					}
+					if(data.status==2){
+						$.showErr(data.info);
+						return false;
+					}
+					if(data.status==1){
+						$.showSuccess("提交成功",function(){
+							if(data.jump!="")
+							{
+								location.href = data.jump;
+							}
+						});
+					}
+				}
+			});
+		});		
+		return false;
+	}
+</script>
+{include file="inc/footer.html"} 

@@ -1,0 +1,197 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/account.css";
+?>
+{if $deal_info.ips_bill_no eq "" || !$is_tg}
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/cart_pay_tg.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/cart_pay_tg.js";
+?>
+{else}
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/cart_pay_tg.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/cart_pay_tg.js";
+?>
+{/if}
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<style>
+.xqmain { margin:0 auto; }
+.white_box1{width:1138px}
+.page_title{padding:0;}
+.page_content {
+	border: 1px solid #ccc;
+	background: #EEF9FF;
+	margin-top: 40px;
+	width:1076px;
+	padding:30px;
+}
+.page_content .text {
+	line-height:30px;
+	font-size:15px;
+	color: #666;
+}
+.tit {
+	background: url({$TMPL}/images/icon_bg4.gif) 0 center no-repeat;
+	height:40px;
+	line-height:40px;
+	padding:0 15px;
+}
+</style>
+<div id="J_wrap">
+	<div class="blank20"></div>
+	<div class="wrap">
+		<div class="white_box1 p30">
+			<div class="page_title">
+				<div class="credit_box">缴纳诚意金 <span class="price">{function name="format_price" v=$money p=2}</span> 元</div>
+			</div>
+			<div class="page_content">
+		        <div class="text">
+		        	<span class="f_b">温馨提示：</span><br>
+					缴纳询价认筹诚意金{function name="format_price" v=$money p=2}元后，您可以获得每个项目&nbsp;<span class="f_ora f_b">{function name="app_conf" v="ENQUIER_NUM"}</span>&nbsp;次询价的机会，只要您不反悔，取得的项目询价认筹资格永远有效；您永远拥有对每个项目2次询价的机会！<br>
+		            <span class="f_b">出现下面任一情况，均属于投资人反悔：</span><br>
+		            <span class="f_red">①&nbsp;投资人询价认筹成功后，又要求取消认投的；<br>②&nbsp;项目达到付款阶段，接到付款通知在规定时间内不付款的；</span>
+		   	 	</div>
+		    </div>
+			<div class="blank20"></div>
+			{if $deal_info.ips_bill_no neq "" && $is_tg}
+				<div class="tit f20 theme_fcolor">第三方托管支付</div>
+				<div class="full">
+					<form class="pay_form" action="{url r="account#go_pay"}" target="_blank" method="post">
+						{if $deal_info.ips_bill_no neq "" && $is_tg}
+							<div class="control-group smaller-control-group">
+								<label class="control-label" >支付方式:</label>
+								<div class="control-text">
+									<span>{$coll.name}</span>
+								</div>
+								<input type="hidden" name="is_tg" value="1">
+								<div class="blank0"></div>
+							</div>
+						{else}
+	  						{$payment_html}
+						{/if}
+						{if app_conf("PAYPASS_STATUS")}
+						<div class="control-group">
+							<label class="control_label">支付密码:</label>
+							<div class="control-text">
+								<input type="password"  autocomplete="off" class="textbox w200" value="" name="paypassword" ><span class="f12 f_666">忘记了？<a href="{url r="settings#security" v="method=setting-pass-box"}" target="_blank" class="theme_fcolor">点这里</a></span>
+							</div>
+						</div>
+						{/if}
+	 					<div class="blank15"></div>
+						<div class="submit_row control-group">
+							<label class="control_label"></label>
+							<div class="ui-button theme_bgcolor" rel="green">
+								<div>
+									<span>确定，去付款</span>
+								</div>
+							</div>				
+							<input type="hidden" id="back_url" value="{url r="account#mortgate_pay" p="deal_id=$deal_id"} " />	
+							<input type="hidden" value="{$money}" name="money" />
+							<input type="hidden" value="1" name="ajax" />
+							<input type="hidden" value="1" name="is_mortgate">	
+							<input type="hidden" value="{$deal_id}" name="deal_id">					
+							<div class="blank15"></div>
+						</div>
+						
+					</form>
+					
+				</div><!--full-->
+			{else}
+				{if $left_money}
+				<div class="full"><a href="{url r="account#money_inchange" p="money=$left_money"}" target="_blank">余额不够，点击充值</a></div>
+				{else}
+				<div class="tit f20 theme_fcolor">余额支付</div>
+				<div class="full">
+					<form class="pay_form" action="{url r="account#ye_mortgage_pay"}" target="_blank" method="post">
+ 						<div class="form_row control-group" style="margin-left:0">
+							<label class="title form_lable" style="width:auto">可用余额：&nbsp;{function name="format_price" v=$user_info.money}</label>
+ 						</div>
+ 						{if app_conf("PAYPASS_STATUS")}
+ 						<div class="form_row control-group" style="margin-left:0">
+							<label class="title form_lable" style="width:auto">支付密码:</label>
+							<div class="control_text">
+								<input type="password"  autocomplete="off" class="textbox w200 mr10" value="" name="paypassword" >  忘记了？<a href="{url r="settings#security" v="method=setting-pass-box"}" target="_blank" class="theme_fcolor">点这里</a>
+							</div>
+						</div>
+						{/if}
+	 					<div class="blank20"></div>
+						<div>
+							<div class="ui-button theme_bgcolor" rel="green">
+								<div>
+									<span>确定，去付款</span>
+								</div>
+							</div>				
+							<input type="hidden" id="back_url" value="{url r="account#mortgate_pay" p="deal_id=$deal_id"} " />	
+							<input type="hidden" value="{$money}" name="money" />
+							<input type="hidden" value="1" name="ajax" />
+							<input type="hidden" value="1" name="is_mortgate">	
+							<input type="hidden" value="{$deal_id}" name="deal_id">		
+							<input type="hidden" value="{$deal_info.type}" name="type">			
+							<div class="blank15"></div>
+						</div>
+						
+					</form>
+					
+				</div> 
+				{/if}
+			{/if}
+			
+			<div class="blank"></div>
+			
+		</div>
+	</div>
+	<div class="blank20"></div>	
+</div>
+<script type="text/javascript">
+{if $deal_info.ips_bill_no eq "" || !$is_tg}
+	var payType = 0;
+	var ips_submit_lock = true;
+	function SelectPayType(i){
+  		switch(i){
+			case 0:
+				payType = 0;
+				$("#J_online_pay").show();
+ 				$("#J_ips_pay").hide();
+				$("#J_ips_pay_1").hide();
+				$(".pay_form").attr("action","{url r="account#go_pay"}");
+ 				break;
+ 			case 1:
+				payType=1;
+ 				$("input[name='payment']").attr("checked","");
+				payType = 1;
+				$("#J_online_pay").hide();
+ 				$("#J_ips_pay").show();
+				$("#J_ips_pay_1").show();
+				url = APP_ROOT+"/index.php?ctl=collocation&act=DoDpTrade&user_type=0&user_id={$user_info.id}"+"&pTrdAmt="+$("input[name='money']").val();
+				$(".pay_form").attr("action",url);
+ 				break;
+		}
+	}
+	$("input[name='money']").bind("blur",function(){
+		if(payType==1){
+			url = APP_ROOT+"/index.php?ctl=collocation&act=DoDpTrade&user_type=0&user_id={$user_info.id}"+"&pTrdAmt="+$("input[name='money']").val();
+ 			$(".pay_form").attr("action",url);
+			get_pay_url="{url r="ajax#get_carry_fee"}";
+			var query = new Object();
+			query.money=$("input[name='money']").val();
+			$.ajax({
+				url: get_pay_url,
+				dataType: "json",
+				data:query,
+				type: "POST",
+				success:function(ajaxobj){
+ 					if(ajaxobj.status==1){
+ 						 $("#incharge_fee").html(ajaxobj.fee+" 人民币(元)");
+						 end_money=parseFloat(query.money)- parseFloat(ajaxobj.fee);
+						 $("#incharge_fee_end").html(end_money+" 人民币(元)");
+					}
+				}
+			});
+		}else{
+			$(".pay_form").attr("action","{url r="account#go_pay"}");
+		}
+	});
+{/if}
+ </script>
+{include file="inc/footer.html"} 

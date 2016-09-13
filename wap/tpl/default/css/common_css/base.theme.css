@@ -1,0 +1,92 @@
+/* 主题色系 开始 */
+.theme_color ,
+.index_nav i ,
+nav.tab_hd a.cur ,
+.foot .invest_plus ,
+.selectbj .search_cate.cur ,
+.seach_submit ,
+.swiper-pagination-bullet-active{ background:#55acef; }
+.theme_color1 { background:#468cd4; }
+.theme_fcolor ,
+.index_nav li.curr a ,
+.settings_security .fa ,
+.settings_security .iconfont ,
+.project_add .reward_add a ,
+.tab-nav li.current a ,
+.foot a ,
+.user_icon ,
+.user_center .iconfont ,
+div#panel-left-box .list-block ul li.current a,
+div#panel-left-box .list-block ul li.current .iconfont ,
+.index_category .all_items .item a{ color:#55acef; }
+
+nav.tab_hd a ,
+.selectbox1 .search ,
+.selectbj .search_cate { border:1px solid #55acef;}
+.tab-nav li.current a{ border-bottom:2px solid #55acef;}
+
+div#panel-left-box .list-block ul li.current:before{border-left:3px solid #55acef;}
+
+.theme_fcolor1 { color:#468cd4; }
+
+.bg_red ,
+.bg_red.button-fill{ background:#ff4800; }
+.bg_gray { background:#ccc; }
+.bg_green{background:#64bd66;}
+.bg_eee{background:#eee;}
+
+.f_red ,
+.attention_focus_deal .is_focus ,
+.attention_focus_deal .no_focus ,
+.attention_focus_deal.gz { color:#ff4800 !important; }
+.f_gray { color:#ccc; }
+.f_555 { color:#555; }
+.f_666 { color:#666; }
+.f_999 { color:#999 !important; }
+
+/* 按钮颜色 开始 */
+.theme_bgcolor.button-fill{ background:#55acef; }
+.theme_bgcolor.button-fill:active {
+  background-color: #55acef;
+}
+.bg_red.button-fill{ background:#ff4800; }
+.bg_red.button-fill:active {
+  background-color: #cc5200;
+}
+.bg_gray.button-fill{ background:#ccc; }
+.bg_gray.button-fill:active {
+  background-color: #bbb;
+}
+
+a.button-dark , .button-dark {
+  	border-color: #bbb;
+  	color: #888;
+}
+a.button-success , .button-success {
+  	border-color: #55acef;
+  	color: #55acef;
+}
+a.button-warning , .button-warning {
+  	border-color: #ff4800;
+  	color: #ff4800;
+}
+/* 按钮颜色 结束 */
+
+/* sui_mobile */
+.header_nav{
+	background:#55acef;
+}
+.buttons-tab .button.active ,
+.buttons-tab .button.active a {
+	color: #55acef;
+  	border-color: #55acef;
+}
+/* 主题色系 结束 */
+
+/*color*/
+.white{color:#fff;margin-top:2px;}
+.red{color:#ff3737;}
+.blak{color:#555;}
+.gray{color:#adadad;}
+.blue{color:#468cd4;}
+.orange{color:#ff6c00;}

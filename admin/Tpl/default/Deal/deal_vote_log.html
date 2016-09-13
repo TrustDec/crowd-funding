@@ -1,0 +1,77 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<load href='__TMPL__Common/js/jquery.bgiframe.js' />
+<load href='__TMPL__Common/js/jquery.weebox.js' />
+<load href='__TMPL__Common/js/deal.js' />
+<load href='__TMPL__Common/style/weebox.css' />
+<div class="main">
+<div class="main_title">投票详细列表</div>
+<div class="blank5"></div>
+<div class="button_row">
+	<input type="button" class="button" value="删除" onclick="del_deal_vote_log();" />
+</div>
+<script type="text/javascript">
+	function del_deal_vote_log(id)
+	{
+		if(!id)
+		{
+			idBox = $(".key:checked");
+			if(idBox.length == 0)
+			{
+				alert("请选择需要删除的项目");
+				return;
+			}
+			idArray = new Array();
+			$.each( idBox, function(i, n){
+				idArray.push($(n).val());
+			});
+			id = idArray.join(",");
+		}
+		if(confirm("确定要删除选中的项目吗？"))
+		$.ajax({ 
+				url: ROOT+"?"+VAR_MODULE+"=Deal&"+VAR_ACTION+"=del_deal_vote_log&id="+id, 
+				data: "ajax=1",
+				dataType: "json",
+				success: function(obj){
+					$("#info").html(obj.info);
+					if(obj.status==1)
+					location.href=location.href;
+				}
+		});
+	}
+</script>
+<PHP>
+	function get_vote_log_status($status)
+	{
+		if($status==0)
+		{
+			return "不同意";
+		}
+		else{
+			return "同意";
+		}
+	}
+	function get_user_name($user_id)
+	{
+		$user_name = $GLOBALS['db']->getOne("select user_name from ".DB_PREFIX."user where id= $user_id ");
+		return $user_name;
+	}
+</PHP>
+<div class="blank5"></div>
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="deal_vote" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{%ID}|50px
+		,user_id|get_user_name:用户名
+		,vote_status|get_vote_log_status:是否同意" 
+	actionlist="del_deal_vote_log:删除" /> 
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

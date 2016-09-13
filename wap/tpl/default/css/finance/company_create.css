@@ -1,0 +1,149 @@
+body{background:#ececec;}
+textarea[disabled], input[disabled], select[disabled], .img_upload[disabled]{
+  cursor: not-allowed;
+}
+.create_company_wrap {
+  background: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 1px 1px rgba(0,0,0,.05);
+  overflow: hidden;
+}
+.create_company_wrap .form_title {
+  padding: 40px 0;
+  margin: 0;
+  font-size: 27px;
+  font-weight: normal;
+}
+.create_company_form {
+	width: 680px;
+}
+.create_company_form .textbox { width: 450px; }
+
+/* 上传图片 开始 */
+.img_upload {
+	width: 70px;
+  	height: 70px;
+  	line-height: 18px;
+  	background: url(../images/finance/default_logo.png) no-repeat;
+  	color: #666;
+ 	cursor: pointer;
+  	font-family: "SimSun";
+  	font-size: 12px;
+  	margin-top: 8px;
+  	overflow: hidden;
+  	position: relative;
+  	float: left;
+}
+.img_upload_card{
+	display: inline-block;
+  	position: relative;
+  	width: 90px;
+  	height: 30px;
+  	border: 1px solid #ccc;
+  	text-align: center;
+  	line-height: 30px;
+  	background:#fff;
+  	margin-top: 2px;
+  	cursor:pointer;
+  	*float:left;
+  	*margin-right: 10px;
+}
+.img_upload .pic_show img {
+  	position: absolute;
+  	top: 0;
+  	left: 0;
+ 	font-size: 0;
+  	width: 70px;
+  	height: 70px;
+}
+/* 上传图片 结束 */
+
+.create-tips {
+  padding: 40px 146px;
+  background-color: #f8f8f8;
+  line-height: 20px;
+  color: #666;
+}
+.create-tips h4 {
+  font-size: 15px;
+  color: #f28e00;
+  font-weight: 400;
+}
+.create-tips ol li {
+  margin: 16px 0;
+}
+.create-tips ol span {
+  color: #333;
+  font-weight: 700;
+}
+
+.create_company_wrap .ac-container {
+  background-color: #f7f7f7!important;
+  border: 1px solid #d9d9d9;
+  font-size: 14px;
+  overflow: hidden;
+  position: absolute;
+  top: 42px;
+  left: 100px;
+  z-index: 99;
+  width: 466px;
+}
+.create_company_wrap .ac-container .ac-menu {
+  background-color: #f7f7f7;
+  border: none 0;
+  box-shadow: none;
+}
+.create_company_wrap .ac-container .ac-menu li {
+  border: none 0;
+}
+.ac-container .ac-menu .ac-menu-item {
+  border-bottom: 1px dotted #ccc;
+  line-height: 35px;
+  margin: 0;
+}
+.ac-container .ac-menu .ac-menu-item:last-child {
+  border-bottom: 0;
+}
+.create_company_wrap .ac-container a {
+  padding: 0!important;
+  background-color: #f7f7f7;
+  position: relative;
+  z-index: 100;
+}
+.create_company_wrap .ac-container a:hover{
+  background:#bfbfbf;
+  color:#fff;
+}
+.ac-container .ac-menu a {
+  padding-left: 5px;
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+.create_company_wrap .ac-container .ac-menu li .coList {
+  margin: 0 0 0 25px;
+  border-top: 1px solid #dedede;
+}
+.create_company_wrap .ac-container a .newCo {
+  padding: 0 0 0 25px;
+  background-color: #ccc;
+  color: #f7f7f7;
+}
+.create_company_wrap .ac-container img {
+  width: 25px;
+  height: 25px;
+  line-height: 24px;
+  border-radius: 3px;
+  margin: 3px 5px 0;
+  overflow: hidden;
+  float: left;
+}
+.create_company_wrap .ac-container:before {
+  display: block;
+  width: 100%;
+  padding: 0 0 0 35px;
+  line-height: 35px;
+  content: '已出现公司直接选中，没有则选择创建';
+  color: #a0a0a0;
+  background-color: #f7f7f7;
+}

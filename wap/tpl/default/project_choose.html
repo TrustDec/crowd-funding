@@ -1,0 +1,73 @@
+{include file="inc/header.html"}
+<section class="project_choose">
+	
+	<div class="ul_block">
+		<ul>
+			{if app_conf("INVEST_STATUS") eq 0}
+			<li>
+				<a href="#" onclick="RouterURL('{url_wap r="project#add"}','#project-add',2);" class="webkit-box">
+					<div class="text webkit-box-flex">
+						<p class="f16 mb5">回报众筹</p>
+						<span class="f12 f_999">我有一个梦想，有创意项目，有创意产品，点击发布回报众筹</span>
+					</div>
+					<i class="fa fa-chevron-right"></i>
+				</a>
+			</li>
+			<li style="display:none">
+				<a href="{url_wap r="project#investor_index1"}" class="webkit-box">
+					<div class="text webkit-box-flex">
+						<p class="f16 mb5">{$gq_name}</p>
+						<span class="f12 f_999">我有创业梦想，有融资需求，点击发布{$gq_name}</span>
+					</div>
+					<i class="fa fa-chevron-right"></i>
+				</a>
+			</li>
+			{elseif app_conf("INVEST_STATUS") eq 1}
+			<li>
+				<a href="#" onclick="RouterURL('{url_wap r="project#add"}','#project-add',2);" class="webkit-box">
+					<div class="text webkit-box-flex">
+						<p class="f16 mb5">回报众筹</p>
+						<span class="f12 f_999">我有一个梦想，有创意项目，有创意产品，点击发布回报众筹</span>
+					</div>
+					<i class="fa fa-chevron-right"></i>
+				</a>
+			</li>
+			{elseif app_conf("INVEST_STATUS") eq 2}
+			<li style="display:none">
+				<a href="{url_wap r="project#investor_index1"}" class="webkit-box">
+					<div class="text webkit-box-flex">
+						<p class="f16 mb5">{$gq_name}</p>
+						<span class="f12 f_999">我有创业梦想，有融资需求，点击发布{$gq_name}</span>
+					</div>
+					<i class="fa fa-chevron-right"></i>
+				</a>
+			</li>
+			{/if}
+			
+			{if app_conf("IS_SELFLESS") eq 1}
+			<li>
+				<a href="#" onclick="RouterURL('{url_wap r="project#add_selfless"}','#project-add_selfless',2);" class="webkit-box">
+					<div class="text webkit-box-flex">
+						<p class="f16 mb5">公益众筹</p>
+						<span class="f12 f_999">我有一个梦想，有创意项目，有创意产品，点击发布公益众筹</span>
+					</div>
+					<i class="fa fa-chevron-right"></i>
+				</a>
+			</li>
+			{/if}
+			
+			{if app_conf("IS_HOUSE") eq 1 && $user_info.is_investor eq 2 && $user_info.investor_status eq 1}
+			<li>
+				<a href="#" onclick="RouterURL('{url_wap r="project#add_house"}','#project-add_house',2);" class="webkit-box">
+					<div class="text webkit-box-flex">
+						<p class="f16 mb5">房产众筹</p>
+						<span class="f12 f_999">我有一个梦想，有创意项目，有创意产品，点击发布公益众筹</span>
+					</div>
+					<i class="fa fa-chevron-right"></i>
+				</a>
+			</li>
+			{/if}
+		</ul>
+	</div>
+</section>
+{include file="inc/footer.html"} 

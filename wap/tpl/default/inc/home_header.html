@@ -1,0 +1,27 @@
+<div class="deal_header">
+	<div class="deal_header_content tc">
+		<div class="logo">{function name="show_avatar" p="$home_user_info.id" t="big"}</div>
+		<div class="name">
+			{$home_user_info.user_name} 
+			{if $home_user_info.user_icon}
+				<img src="{$home_user_info.user_icon}" title="会员等级" class="inline_level_icon level_icon">
+			{/if}
+			<i class="icon iconfont theme_fcolor" rel="个人投资者认证">&#xe609;</i>
+		</div>
+		<div class="info">{function name="to_date" v=$home_user_info.create_time f="Y年m月d日"} 加入 {function name="app_conf" v="SITE_NAME"}</div>
+		{if $home_user_info.province}
+		<div class="other">
+			<p>
+				<span><i class="icon iconfont">&#xe624;</i>{if $home_user_info.province}{$home_user_info.province} {$home_user_info.city}{/if}</span>
+			</p>
+		</div>
+		{/if}
+		<div class="operat">
+			<a href="#" rel="{$home_user_info.id}" name="recommend_project" onclick="ajax_get_recommend_project(this);" class="btn_custom">自荐我的项目</a>
+			<a href="#" class="btn_custom" onclick="send_message({$home_user_info.id});">私信</a>
+		</div>
+	</div>
+</div>
+<script>
+	var user_info_id = '{$user_info.id}';
+</script>

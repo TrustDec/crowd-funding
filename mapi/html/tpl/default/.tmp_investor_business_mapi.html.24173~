@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="Generator" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=0,minimum-scale=0.5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{if $page_title neq ''}{$page_title} - {/if}{$site_name} - {$seo_title}</title>
+    <meta name="keywords" content="{$seo_keyword}" />
+    <meta name="description" content="{$seo_description}" />
+    <?php
+	$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/layout.css";
+	$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/style.css";
+	?>
+    <link rel="stylesheet" type="text/css" href="{$REAL_APP_ROOT}/public/script/Font-Awesome-4.2.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$pagecss"}" />
+    <!--百度轻应用-->
+    <meta name="baidu-tc-cerfication" content="688cdfaa49f7c8f87fd5883492587d8e">
+</head>
+<body>
+    <div class="wraper">
+		<!-- 中间 开始 -->
+		<div class="l_main_bd slideTxtBox">
+		    <div class="effect_bd">
+		        <!-- 市场定位与商业模式 开始 -->
+		         <div class="investor_info_box" id="pro_con_1" style="display:block;">
+		            <div class="title f_red">
+		                <i class="fa fa-tags mr5"></i>目标用户或客户群体定位
+		            </div>
+		            <div class="text">{$deal_item.description_2}</div>
+		            <div class="blank15"></div>
+		            <div class="title f_red"> 
+		                <i class="fa fa-tags mr5"></i>目标用户或客户群体目前困扰或需求定位
+		            </div>
+		            <div class="text">{$deal_item.description_3}</div>
+		            <div class="blank15"></div>
+		            <div class="title f_red">
+		                <i class="fa fa-tags mr5"></i>用户或客户需求的产品或服务模式说明
+		            </div>
+		            <div class="text"> {$deal_item.description_4} </div>
+		            <div class="blank15"></div>
+		            <div class="title f_red">
+		                <i class="fa fa-tags mr5"></i>项目赢利模式说明
+		            </div>
+		            <div class="text">{$deal_item.description_5}</div>
+		            <div class="blank15"></div>
+		            <div class="title f_red">
+		                <i class="fa fa-tags mr5"></i>市场主要同行或竞争对手概述
+		            </div>
+		            <div class="text">{$deal_item.description_6}</div>
+		            <div class="blank15"></div>
+		            <div class="title f_red">
+		                <i class="fa fa-tags mr5"></i>项目主要核心竞争力说明
+		            </div>
+		            <div class="text">{$deal_item.description_7}</div>                       
+		        </div>
+		        <!-- 市场定位与商业模式 结束 -->
+		    </div>   
+		</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,117 @@
+.invest {
+	margin:15px;
+}
+.invest_tit {
+	}
+.invest_tit {
+	height: 30px;
+	width: 100%;
+	border: none;
+	font-size:15px;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+}
+.invest_tit .State {
+	color: #fff;
+	line-height: 30px;
+	padding: 0 10px;
+}
+.invest_tit .verticalline {
+	height: 11px;
+	display: inline-block;
+	border-right: 1px solid #fff;
+}
+.invest_tit .sub_name {
+	line-height: 30px;
+	color: #fff;
+	padding: 0 10px;
+}
+.gray {
+	background: #b5b5b5;
+}
+.content_list span:nth-child(1) {
+	padding: 0px;
+}
+
+
+.earn-list {
+  padding: 10px 10px 0;
+  overflow: hidden;
+}
+.earn-list .earn-item {
+  position: relative;
+  background-color: #fff;
+  border: 1px solid #e6e6e6;
+  padding: 25px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.earn-list .earn-item .earn-title {
+  position: relative;
+  font-size: 15px;
+  color: #333;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  border-bottom: 1px solid #e6e6e6;
+  padding: 0 8px 10px 0;
+}
+.earn-list .earn-item .earn-body {
+  margin-top: 10px;
+}
+.earn-list .earn-item .earn-body:after, .earn-list .earn-item .earn-body:before {
+  content: " ";
+  display: table;
+}
+.earn-list .earn-item .earn-body:after {
+  clear: both;
+}
+.earn-list .earn-item .earn-body .earn-profit {
+  float: left;
+  font-size: 7px;
+}
+.earn-list .earn-item .earn-body .earn-profit .earn-profit-percent {
+  color: #FF801A;
+}
+.earn-list .earn-item .earn-body .earn-profit .earn-profit-percent span {
+  font-size: 24px;
+}
+.earn-list .earn-item .earn-body .earn-info {
+  float: right;
+}
+.earn-list .earn-item .earn-body .earn-info .earn-info-list {
+  font-size: 7px;
+}
+.earn-list .earn-item .earn-body .earn-info .earn-info-list li {
+  padding: .3em 0;
+  border-bottom: 1px solid #e6e6e6;
+  list-style: inside disc;
+  white-space: nowrap;
+}
+.earn-list .earn-item .earn-body .earn-info .earn-info-list li span {
+  float: right;
+  text-indent: 1.8em;
+}
+.earn-list .earn-item .earn-submit {
+  display: block;
+  width: 100%;
+  height: 2.20px;
+  line-height: 2.20px;
+  color: #fff;
+  font-size: 10px;
+  text-align: center;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  margin: 15px auto 0;
+}
+.earn-list .earn-item .earn-title .earn-entry {
+  position: absolute;
+  right: 0;
+  top: 4px;
+  width: 8px;
+  height: 1.5em;
+  color:#d2d2d2;
+}

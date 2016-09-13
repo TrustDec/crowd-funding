@@ -1,0 +1,59 @@
+{include file="inc/header.html"} 
+<section class="account_money_carry_log">
+	<ul class="tab-nav webkit-box">
+		{if $is_tg && $user_info.ips_acct_no}
+		<li class="webkit-box-flex tc current">
+			<a href="#" onclick="RouterURL('{url_wap r="account#refund"}','#account-refund',2);">本站提现</a>
+		</li>
+		<li class="webkit-box-flex tc">
+			<a href="#" onclick="RouterURL('{url_wap r="account#yeepay_withdraw"}','#account-yeepay_withdraw',2);">第三方提现</a>
+		</li>
+		{else}
+		<li class="webkit-box-flex tc">
+			<a href="#" onclick="RouterURL('{url_wap r="account#refund"}','#account-refund',2);">本站提现</a>
+		</li>
+		{/if}
+	</ul>
+	<div class="blank15"></div>
+	{if $refund_list}
+	<ul class="ui_account_record">
+		{foreach from=$refund_list item=refund_item}
+		<li class="webkit-box sizing pr" {if $refund_item.is_pay eq 3}style="padding-top:15px;"{/if}>
+			<div class="accountlist_fl half tl">
+				<h1>本站提现</h1>
+				<span class="f_999">{function name="to_date" v=$refund_item.create_time}</span>
+			</div>
+			<div class="accountlist_fr half tr">
+				<h2 class="f_money">{function name="format_price" v=$refund_item.money}</h2>
+				{if $refund_item.memo}
+				<span>
+					<em class="f_999">提现备注：</em>{$refund_item.memo}
+					<div class="blank0"></div>
+				</span>
+				{/if}
+				<span>
+					<em class="f_999">审核状态：</em>
+					<span>{if $refund_item.is_pay eq 1}申请通过，请耐心等待金额支付 {$refund_item.reply}{elseif $refund_item.is_pay eq 2}申请未通过 {$refund_item.reply}{elseif $refund_item.is_pay eq 3}提现成功，金额已发放，请查收 {$refund_item.pay_log}{else}审核中，请耐心等待{/if}</span>
+				</span>
+			</div>
+			{if $refund_item.is_pay eq 3}
+			<div class="del_btn">
+				<a href="#" class="delrefund linkgreen f_red" rel="{$refund_item.id}">
+					<i class="icon iconfont">&#xe620;</i>
+				</a>
+			</div>
+			{/if}
+		</li>
+		{/foreach}
+	</ul>
+	<div class="blank15"></div>
+	<div class="pages">{$pages}</div>
+	<div class="blank15"></div>
+	{else}
+	<div class="empty_tip tc">还没任何提现记录</div>
+	<div class="blank15"></div>
+	{/if}
+</section>
+<div class="blank15"></div>
+<!-- account_money_carry.js -->
+{include file="inc/footer.html"} 

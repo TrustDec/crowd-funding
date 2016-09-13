@@ -1,0 +1,127 @@
+<style type="text/css">
+	.luckyer_title{ margin: 0px auto; height: 60px;line-height: 60px; text-align:left;font-size:16px;font-weight:bolder;color:#3d9eeb}
+</style>
+<div class="luckyer_title">
+	抽奖中...
+</div>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc_table">
+	<thead>
+		<tr>
+			<th>幸运号</th>
+			<th>会员名</th>
+			<th>支持金额</th>
+			<th>号段</th>
+		</tr>
+	</thead>
+	<tbody>
+		{foreach from="$winner_list" item="list"}
+		<tr>
+			<td>
+				<input type="text" name="lottery_num"  value="{$list.lottery_sn}" rel="{$list.number}" data_id={$list.deal_id} ori="{$list.lottery_sn}" class="small_textbox textbox w150" />
+			</td>
+			<td>
+				<span rel="user_name">{$list.user_name}</span>
+			</td>
+			<td>
+				<span rel="support_money" class="b f_money">{function name="format_price" v=$list.deal_price}</span>
+			</td>
+			<td>
+				<span rel="section" class="">{$list.section_view}</span>
+			</td>
+		</tr>
+		{/foreach}
+	</tbody>
+</table>
+<div class="blank10"></div>
+<div class="submit_row tc">
+	<input type="hidden" name="deal_id" value="{$deal_id}">
+	<span class="ui-center-button theme_bgcolor" id="btn_yes">确定</span>
+	<span class="ui-center-button bg_red" id="btn_no">取消</span>
+</div>
+<div class="blank20"></div>
+<div class="blank20"></div>
+<div style="border-top:1px solid #eee;"></div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#btn_no").bind("click",function(){
+			$("#lottery_luckyer_box").hide();
+			$(".lottery_start").show();
+			$("#search_but").removeClass("change_css");
+			$("#lottery_table").removeClass("table_change");
+		});
+		$("input[name='lottery_num']").bind("change",function(){
+			var obj=$(this);
+			var query=new Object();
+			query.lottery_sn=obj.val();
+			query.deal_id=obj.attr('data_id');
+			query.number=obj.attr('rel');
+			
+			$.ajax({
+				url:APP_ROOT+"/index.php?ctl=ajax&act=lottery_sn_check",
+				type:"GET",
+				data:query,
+				dataType:'json',
+				success:function(o){
+					if(o.status ==1)
+					{
+						obj.parent().parent().find("span['rel=user_name']").hmtl(o.user_name);
+					}
+					else if(o.status ==2)
+					{	
+						$.showErr(o.info,function(){
+							var ori=obj.attr("ori");
+							obj.val(ori);
+						});
+						
+					}
+					else if(o.status ==-1)
+						show_paop_login();
+					else
+					{
+						$.showErr(o.info,function(){
+							location.href=o.url;
+						});
+					}
+				}
+			});
+		});
+		
+		$("#btn_yes").bind('click',function(){
+			var query=new Object();
+			query.lottery_num=$("input[name='lottery_num']").val();
+			query.deal_id=$("input[name='deal_id']").val();
+			
+			var lottery_num = new Array();
+			$("input[name='lottery_num']").each(function(i,o){			
+				lottery_num.push($(o).val());
+			});	
+			query['lottery_num[]'] = lottery_num;
+			
+			$.ajax({
+				url:APP_ROOT+"/index.php?ctl=ajax&act=do_lottery_luckyer",
+				type:'GET',
+				data:query,
+				dataType:'json',
+				success:function(o){
+					if(o.status ==1)
+					{
+						$.showSuccess("抽奖成功",function(){
+							 location.reload();
+						});
+					}
+					else if(o.status ==-1)
+						show_paop_login();
+					else
+					{
+						$.showErr(o.info,function(){
+							if(o.url !='')
+								location.href=o.url;
+						});
+					}
+				}
+			});
+			
+		});
+		
+	});
+</script>

@@ -1,0 +1,43 @@
+<tr class="{$row_type}<if condition="$row_type eq 'sub'">{$row_type}_{$item.pid}<else /> {$row_type}_{$item.pid}</if>">
+	<td>
+ 		<if condition="$row_type eq 'sub'">
+		<i class="board">&nbsp;&nbsp;</i>
+		</if>
+		<input type="text" name="sort[]" class=" ipt_require" size="5" value="<if condition="$item.sort">{$item.sort}<else /> 0</if>"  />
+		<input type="hidden" name="id[]" value="{$item.id}" />
+		<input type="hidden" name="pid[]" value="{$item.pid}" />
+		<input type="hidden" name="row_type[]" value="{$row_type}" />
+	</td>
+	<td>
+		<if condition="$row_type eq 'sub'">
+		<i class="board">&nbsp;&nbsp;</i>
+		</if>
+		<input type="text" name="name[]"  class="ipt_require" value="{$item.name}"  />
+		<span class="maroon">*</span>
+ 		<if condition="$item.id gt 0 && $row_type eq 'main'">
+		<a href="javascript:void(0);" class="add_sub_nav"  rel="{:u("WeixinInfo/new_nav_row",array("row_type"=>"sub","id"=>$nav.id))}" pid="{$item.id}">+</a>
+		</if>
+	</td>
+	<td>
+		<select name="u_module[]">
+				<option value="">{%U_DEFINE}</option>
+				<foreach name="navs" item="nav_item" key="key" >
+					<option value="{$key}" <if condition="$key eq $item['u_module']">selected="selected"</if> >{$nav_item.name}</option>
+				</foreach>
+		</select>
+		<span class="u_act" style="display:none;">
+			<input type="hidden" class="textbox" name="u_action[]"  value=""/>
+		</span>
+		<span class="u_config" style="display:none;">				
+			{%U_PARAM}：<input type="text" class="textbox" name="u_param[]"  value="{$item.u_param} "/>
+		</span>
+		
+		<span class="u_define">
+			<input type="text" class="textbox" name="key_or_url[]" value="{$item.key_or_url}" />
+		</span>
+			<span class="maroon">*</span>
+	 
+	</td>
+	<td>未同步</td>
+	<td><a href="javascript:void(0);" class="del_nav">删除</a></td>
+</tr>

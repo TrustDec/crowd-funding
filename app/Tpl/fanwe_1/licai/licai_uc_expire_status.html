@@ -1,0 +1,177 @@
+<form name="Jbank_From" class="ajax_licai_uc_expire_form" action="{url r="licai#set_status"}" method="post">
+	<div class="control-group smaller-control-group">
+	    <label class="control-label">申请金额:</label>
+	    <div class="control-text">
+	    	<span class="f_money">{$vo.money_format}</span>
+	    </div>
+	    <div class="blank0"></div>
+	</div>
+ 	<div class="control-group small-control-group">
+	    <label class="control-label">
+	    	<span class="f_red b">*</span> 收益：
+	    </label>
+	    <div class="control-text">
+    	 	<input type="text" class="small_textbox w250 mr10" name="earn_money" id="earn_money" value="{$vo.earn_money}" />元
+	    </div>
+        <div class="blank0"></div>
+	</div>
+ 	<div class="control-group">
+	    <label class="control-label">
+	    	<span class="f_red b">*</span> 手续费：
+	    </label>
+	    <div class="control-text">
+        	<input type="text" class="small_textbox w250 mr10" name="fee" id="fee" value="{$vo.fee}" />元
+    	</div>
+	    <div class="blank0"></div>
+	</div>
+    <div class="control-group smaller-control-group">
+	    <label class="control-label">平台收益：</label>
+	    <div class="control-text">
+        	<span>{$vo.organiser_fee}元</span>
+    	</div>
+	    <div class="blank0"></div>
+	</div>
+   	<div class="blank20"></div>
+	<div class="button_row tc">
+		<input type="hidden" name="ajax" value="1">
+        <input type="hidden" name="id" value="{$vo.id}">
+		<input type="button" value="确认" class="ui-button ui-center-button bg_red">
+		<input type="button" value="取消" class="ui_button ui-center-button bg_gray cancel">
+    </div>
+	<div class="blank20"></div>      
+</form>
+<script>
+	$(".cancel").click(function(){
+		close_pop();
+	});
+</script>
+<script type="text/javascript">
+	bind_ajax_licai_uc_expire_form();
+	
+	// 绑定ajax_form
+	function bind_ajax_licai_uc_expire_form()
+	{
+		$(".ajax_licai_uc_expire_form").find(".ui-button").bind("click",function(){
+	 		$(".ajax_licai_uc_expire_form").submit();
+		});
+		$(".ajax_licai_uc_expire_form").bind("submit",function(){
+			var ajaxurl = $(this).attr("action");
+			var query = $(this).serialize();
+			$.ajax({ 
+				url: ajaxurl,
+				dataType: "json",
+				data:query,
+				type: "POST",
+				success: function(ajaxobj){
+					if(ajaxobj.status==1)
+					{
+						if(ajaxobj.info!="")
+						{
+							$.showSuccess(ajaxobj.info,function(){
+								if(ajaxobj.jump!="")
+								{
+									location.href = ajaxobj.jump;
+								}
+							});	
+						}
+						else
+						{
+							if(ajaxobj.jump!="")
+							{
+								location.href = ajaxobj.jump;
+							}
+						}
+					}
+					else if(ajaxobj.status==2){
+						if(ajaxobj.info!="")
+						{
+							$.showConfirm(ajaxobj.info,function(){
+								query = query+"&pay_type=1";
+								$.ajax({ 
+									url: ajaxurl,
+									dataType: "json",
+									data:query,
+									type: "POST",
+									success: function(ajaxobj){
+										if(ajaxobj.status==1){
+											if(ajaxobj.info!="")
+											{
+												$.showSuccess(ajaxobj.info,function(){
+													if(ajaxobj.jump!="")
+													{
+														location.href = ajaxobj.jump;
+													}
+												});	
+											}
+											else
+											{
+												if(ajaxobj.jump!="")
+												{
+													location.href = ajaxobj.jump;
+												}
+											}
+										}
+										else{
+											if(ajaxobj.info!="")
+											{
+												$.showErr(ajaxobj.info,function(){
+													if(ajaxobj.jump!="")
+													{
+														location.href = ajaxobj.jump;
+													}
+												});	
+											}
+											else
+											{
+												if(ajaxobj.jump!="")
+												{
+													location.href = ajaxobj.jump;
+												}
+											}
+										}
+									},
+									error:function(ajaxobj){}
+								});
+								return false;
+										
+							});	
+						}
+						else
+						{
+							if(ajaxobj.jump!="")
+							{
+								location.href = ajaxobj.jump;
+							}
+						}				
+					}
+					else
+					{
+						
+						if(ajaxobj.info!="")
+						{
+							$.showErr(ajaxobj.info,function(){
+								if(ajaxobj.jump!="")
+								{
+									location.href = ajaxobj.jump;
+								}
+							});	
+						}
+						else
+						{
+							if(ajaxobj.jump!="")
+							{
+								location.href = ajaxobj.jump;
+							}
+						}							
+					}
+				},
+				error:function(ajaxobj)
+				{
+					if(ajaxobj.responseText!='')
+					alert(ajaxobj.responseText);
+				}
+			});
+			return false;
+		});
+	}
+</script>

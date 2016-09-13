@@ -1,0 +1,97 @@
+{include file="inc/header.html"}
+<div class="blank15"></div>
+<section class="account_money_freeze">
+	{if $money_freeze_list}
+	<ul class="ui_account_record">
+		{foreach from=$money_freeze_list item=money_freeze_item}
+		<li class="webkit-box sizing p10">
+			<div class="accountlist_fl half tl">
+				<h1>{function name="msubstr" v=$money_freeze_item.deal_name b=0 e=20}</h1>
+				<h1>{if $money_freeze_item.status eq 1}冻结{elseif $money_freeze_item.status eq 2}解冻{else}申请解冻{/if}</h1>
+				<span class="f_999">{function name="to_date" v=$money_freeze_item.create_time}</span>
+			</div>
+			<div class="accountlist_fr half tr">
+				<h2 class="f_money">{function name="format_price" v=$money_freeze_item.amount}</h2>
+				<span>
+					<em class="f_999">支付类型：</em>{if $money_freeze_item.pay_type eq 0}第三方托管支付{else}网站余额支付{/if}
+					<div class="blank0"></div>
+				</span>
+				<span>
+					<em class="f_999">状态：</em>
+					{if $money_freeze_item.status eq 1}
+					诚意金已冻结，<a href="#" onclick="bind_money_unfreeze({$money_freeze_item.id});" class="city_like f_red ">申请解冻</a>
+					<script>
+						function bind_money_unfreeze(unfreeze_id){
+							var ajaxurl = "{url_wap r="account#set_money_unfreeze"}";
+							var obj=new Object();
+							obj.ajax=1;
+							obj.id=unfreeze_id;
+							$.ajax({
+								url:ajaxurl,
+								type:"POST",
+								data:obj,
+								dataType:"json",
+								success:function(ajaxobj){
+									if(ajaxobj.status==1){
+										$.showSuccess(ajaxobj.info,function(){
+											if(ajaxobj.jump!="")
+											{
+												href = ajaxobj.jump;
+												$.router.loadPage(href);
+											}
+										});
+									}else{
+										$.showErr(ajaxobj.info);
+									}
+								}
+							});
+						}
+					</script>		
+					{elseif $money_freeze_item.status eq 2}
+					诚意金已解冻
+					{else}
+					申请解冻审核中，<a href="#" onclick="bind_money_freeze({$money_freeze_item.id});" class="city_like f_red ">取消申请</a>
+					<script>
+						function bind_money_freeze(freeze_id){
+							var ajaxurl = "{url_wap r="account#set_money_freeze"}";
+							var obj=new Object();
+							obj.ajax=1;
+							obj.id=freeze_id;
+							$.ajax({
+								url:ajaxurl,
+								type:"POST",
+								data:obj,
+								dataType:"json",
+								success:function(ajaxobj){
+									if(ajaxobj.status==1){
+										$.showSuccess(ajaxobj.info,function(){
+											if(ajaxobj.jump!="")
+											{
+												href = ajaxobj.jump;
+												$.router.loadPage(href);
+											}
+										});
+									}else{
+										$.showErr(ajaxobj.info);
+									}
+								}
+							});
+						}
+					</script>			
+					{/if}
+				</span>
+			</div>
+		</li>
+		{/foreach}
+	</ul>
+	<div class="blank15"></div>
+	<div class="pages">{$pages}</div>
+	<div class="blank15"></div>
+	{else}
+	<div class="empty_tip tc">还没有诚意金记录</div>
+	<div class="blank15"></div>
+	{/if}
+</section>
+<div class="blank15"></div>
+<!--中间开始-->
+{include file="inc/footer.html"} 

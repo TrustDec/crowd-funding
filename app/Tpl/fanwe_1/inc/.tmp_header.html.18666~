@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="Generator" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{if $page_title neq ''}{$page_title} - {/if}{$site_name} - {$seo_title}</title>
+<meta name="keywords" content="{$seo_keyword}" />
+<meta name="description" content="{$seo_description}" />
+<?php
+$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/css/font-awesome.css";
+$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/css/index.css";
+$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/css/style.css";
+$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/weebox.css";
+$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/jquery-1.8.2.min.js";
+$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/jquery.bgiframe.js";
+$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/jquery.weebox.js";
+$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/jquery.pngfix.js";
+$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/lazyload.js";
+$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/script.js";
+$this->_var['cpagejs'][] = $this->_var['TMPL_REAL']."/js/script.js";
+if(app_conf("APP_MSG_SENDER_OPEN")==1)
+{
+$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/msg_sender.js";
+$this->_var['cpagejs'][] = $this->_var['TMPL_REAL']."/js/msg_sender.js";
+}
+if(HAS_DEAL_NOTIFY>0)
+{
+$this->_var['notifypagejs'][] = $this->_var['TMPL_REAL']."/js/notify_sender.js";
+$this->_var['cnotifypagejs'][] = $this->_var['TMPL_REAL']."/js/notify_sender.js";	
+}
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$pagecss"}" />
+<script type="text/javascript">
+var APP_ROOT = '{$APP_ROOT}';
+var LOADER_IMG = '{$TMPL}/images/lazy_loading.gif';
+var ERROR_IMG = '{$TMPL}/images/image_err.gif';
+{if app_conf("APP_MSG_SENDER_OPEN") eq 1}
+var send_span = {function name="app_conf" v="SEND_SPAN"}000;
+{/if}
+</script>
+<script type="text/javascript" src="{function name="parse_script" v="$pagejs" c="$cpagejs"}"></script>
+{if HAS_DEAL_NOTIFY>0}
+<script type="text/javascript" src="{function name="parse_script" v="$notifypagejs" c="$cnotifypagejs"}"></script>
+{/if}
+
+<!--[if IE 6]>
+	<script src="{$TMPL}/js/DD_belatedPNG_0.0.8a-min.js"></script>
+	<script>
+	DD_belatedPNG.fix('.banner .btn_tit ul li.on , .banner .btn_tit ul li , .mx_1 , .mx_2 , .mx_3 , .mx_4 , .xzdq1 , .zcz , .timeline-left-gray , .deal_log_title .title , .timeline-comment-top , .timeline-start span , .pageleft a , .dz , .kj , .boxaddress , .xzdq'); 
+	</script>
+<![endif]-->
+
+</head>
+<body>	
+<div class="header" id="J_head">
+	<div class="wrap">
+		<div class="logo f_l">
+			<a class="link" href="{$APP_ROOT}/">
+				<?php
+					$this->_var['logo_image'] = app_conf("SITE_LOGO");
+				?>
+				{function name="load_page_png" v=$logo_image}
+			</a>
+		</div>
+		<ul class="main_nav f_l">
+		{foreach from=$nav_list item=nav_item}
+			<li {if $nav_item.current eq 1}class="current"{/if}>
+				<span>
+					<a href="{$nav_item.url}"  target="{if $nav_item.blank eq 1}_blank{/if}" title="{$nav_item.name}">{$nav_item.name}</a>	
+				</span>		
+			</li>
+		{/foreach}	
+		</ul>
+		<div class="f_l">
+			<form action="{url r="deals"}" method="post" id="header_search_form">
+			<div class="header_seach f_l">		
+			<input type="button" value="" class="seach_submit" id="header_submit">
+			<input type="text" id="header_keyword" name="k" placeholder="搜索项目" class="seach_text">	
+			<input type="hidden" name="redirect" value="1">				
+			</div>
+			</form>	
+        </div>
+		<div class="f_r" style="width:300px;">		
+			{insert name="login_tip"}
+		</div>
+	</div>		
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		//解决input中placeholder值在ie中无法支持的问题
+		var doc=document,inputs=doc.getElementsByTagName('input'),supportPlaceholder='placeholder'in doc.createElement('input'),placeholder=function(input){var text=input.getAttribute('placeholder'),defaultValue=input.defaultValue;
+		if(defaultValue==''){
+			input.value=text}
+			input.onfocus=function(){
+				if(input.value===text){
+				this.value=''
+				}
+			};
+			input.onblur=function(){
+				if(input.value===''){
+					this.value=text
+				}
+			}
+		};
+		if(!supportPlaceholder){
+			for(var i=0,len=inputs.length;i<len;i++){
+				var input=inputs[i],text=input.getAttribute('placeholder');
+				if(input.type==='text'&&text){
+					placeholder(input)
+				}
+			}
+		}
+	});
+</script>

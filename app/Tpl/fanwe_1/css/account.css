@@ -1,0 +1,667 @@
+@charset "utf-8";
+body{
+	background:#f5f5f5;
+}
+.Myhomepage{
+	width:1198px;
+	border:1px solid #d5d5d5;
+	border-top:0;
+	border-bottom:0;
+	background:url(../images/u_bg.gif) #fff repeat-y;
+	overflow:visible;
+}
+.Myhomepage .homeleft{
+	width:210px;
+	background:#e2e6ee;
+}
+.homeleft .homeleft_title{
+	padding:15px;
+	overflow:hidden;
+	background:#00e3ed;
+	margin-bottom:10px;
+}
+.homeleft .homeleft_title .progress_bg ,
+.homeleft .homeleft_title .progress_bg span{
+	height:7px;
+	font-size: 0px;
+	line-height:0px;
+	overflow:hidden;
+	-moz-border-radius:11px; -khtml-border-radius:11px; -webkit-border-radius:11px; border-radius:11px;
+}
+.homeleft .homeleft_title .progress_bg{
+	position:relative;
+	background:#fff;
+}
+.homeleft .homeleft_title .progress_bg span{
+	position:absolute;
+	top:0;
+	left:0;
+	display:block;
+}
+.homeleft .homemenulist{
+	display:none;
+}
+.homeleft .menutitle{
+	height:40px;
+	line-height:40px;
+	color: #4e4e4e;
+	font-size:14px;
+	font-weight: bold;
+	padding:0 15px;
+	cursor:pointer;
+}
+.homeleft .menutitle.cur{
+	width:181px;
+	background:#fff;
+	margin-left: -3px;
+	border-top:1px solid #ced4e0;
+	border-bottom:1px solid #ced4e0;
+}
+.homeleft .menutitle .icon{
+	font-size:14px;
+	font-weight:normal;
+	float:right;
+}
+.homeleft .menutitle .iconfont_down{
+	display:none;
+}
+.homeleft .menutitle .icons{
+	width:14px;
+	height:15px;
+	display:block;
+	float:left;
+	background:url(../images/menuimg.png) no-repeat;
+	margin:12px 10px 0 0;
+}
+.homeleft .menutitle_account .icons{
+	background-position:0 0;
+}
+.homeleft .menutitle_item .icons{
+	background-position:0 -17px;
+}
+.homeleft .stock .icons{
+	background-position:0 -173px;
+}
+.homeleft .financ .icons{
+	background-position:0 -212px;
+}
+.homeleft .management .icons{
+	background-position:0 -193px;
+}
+.homeleft .menutitle_set .icons{
+	background-position:0 -152px;
+}
+.homeleft .menutitle_news .icons{
+	background-position:0 -54px;
+}
+.homeleft .menutitle_invite .icons{
+	background-position:0 -72px;
+}
+.homeleft .points_exchange .icons{
+	background-position:0 -111px;
+}
+.homeleft .licai .icons{
+	background-position:0 -92px;
+}
+.homeleft .company .icons{
+	background-position:0 -279px;
+}
+.homeleft .welfare .icons{
+	background-position:0 -257px;
+}
+.homeleft .house .icons{
+	background-position:0 -235px;
+}
+.pageleft{
+	width: 175px;
+	background:#f9f9f9;
+	border-right: #e3e3e3 solid 1px;
+}
+.pageleft li{
+	height:36px;
+	line-height:36px;
+	border-bottom:1px solid #dbdfea;
+	font-size:0;
+	color:#666;
+}
+.pageleft li a{
+	background:#f2f4f9;
+	display:block;
+	font-size:14px;
+}
+.pageleft li a:hover .iconfont{
+	display:block;
+}
+.pageleft li .icon{
+	width:11px;
+	height:36px;
+	line-height:36px;
+	font-size:13px;
+	margin-right:8px;
+	display:block;
+	float:left;
+}
+.pageleft .homemenulist .text{
+	padding-left:25px;
+	font-size:14px;
+	color:#666;
+}
+.homemenulist li.select a .text ,
+.pageleft li a:hover .text {
+	color:#fff;
+}
+.pageleft li.select a i{
+	background-position-x:-30px;
+}
+.pageright{
+	background:#fff;
+	width:793px;
+	padding:15px;
+	overflow:hidden;
+}
+.homemenulist li.select{
+	background:#e2e5ed;
+}
+.homemenulist li.select a span {
+	font-size:14px;
+	font-weight: bold;
+}
+.pageleft .a1 i{background-position:0 2px;}
+.pageleft .a2 i{background-position:0 -40px;}
+.pageleft .a3 i{background-position:0 -80px;}
+.pageleft .a4 i{background-position:0 -125px;}
+.pageleft .a5 i{background-position:0 -215px;}
+.pageleft .a6 i{background-position:0 -260px;}
+.pageleft .a7 i{background-position:0 -300px;}
+.pageleft .a8 i{background-position:0 -343px;}
+.pageleft .a9 i{background-position:0 -384px;}
+.pageleft .a10 i{background-position:0 -427px;}
+.pageleft .a11 i{background-position:0 -164px;}
+.pageleft .a12 i{background-position:0 -469px;}
+.pageleft .a13 i{background-position:0 -508px;}
+
+.Myhomepage .homeright{
+	width:947px;
+	padding:20px;
+	_padding:19px;
+}
+.u_m_title_t {
+	font-size:30px;
+	line-height:1.5;
+	margin-top:33px;
+	margin-bottom:0;
+	text-align:center;
+}
+
+/* u_header 开始 */
+.u_header{
+	width:100%;
+	height:158px;
+	background:#fff;
+	border-bottom:1px solid #d4d4d4;
+	overflow:hidden;
+	padding-top:22px;
+}
+.u_header .recharge .btn_inchange{
+	padding:0 20px;
+	height:30px;
+	line-height:30px;
+	-moz-border-radius:15px; -khtml-border-radius:15px; -webkit-border-radius:15px; border-radius:15px;
+}
+.u_header .recharge .recharge_m1{
+	margin-top:4px;
+}
+.u_header .u_box { width:1200px; overflow:hidden; }
+.u_header .u_img_box ,
+.u_money_box {
+	overflow:hidden;
+	margin:0;
+}
+.u_header .u_img{
+	position:relative;
+	width:114px;
+	height:114px;
+	overflow:hidden;
+}
+.u_header .u_img .u_img_bg {
+	position:absolute;
+	top:0;
+	left:0;
+	width:114px;
+	height:114px;
+	background:url(../images/uc_txbg.png) no-repeat;
+}
+.u_header .u_img img {
+	width:117px;
+	height:117px;
+	border:1px solid #e3e3e3;
+	padding:1px;
+	overflow:hidden
+}
+.u_header .u_infobox {
+	color:#666;
+	font-size:14px;
+	margin:0;
+	overflow:hidden;
+}
+.u_header .u_infobox .u_l1 {
+	display:block;
+	clear:both;
+	padding:2px 0;
+	overflow:hidden;
+	float:left;
+	margin:0;
+}
+.u_header .u_infobox .user_name{
+	color:#444;
+	line-height:24px;
+	font-weight:bold;
+}
+.u_header .u_infobox .user_name ,
+.u_header .u_infobox .position{
+	margin-bottom:7px;
+}
+.u_header .u_infobox .position i {
+	color:#ccc;
+	font-size:14px;
+	float:left;
+	margin-right:5px;
+	display:inline;
+}
+.uinfo_settting .set{margin-right:10px; display:block; float:left; height:21px; line-height:300px; overflow:hidden; width:29px; background:url(../images/passedstatus.png) no-repeat 0 0; }
+.uinfo_settting .smobile{background-position:-120px 0; width:16px;}
+.uinfo_settting .smobilepassed{background-position:-120px -31px; width:16px;}
+
+.uinfo_settting .saccount{background-position:0 0;}
+.uinfo_settting .saccountpassed{background-position:0 -31px;}
+
+.uinfo_settting .spaypwd{background-position:-40px 0;}
+.uinfo_settting .spaypwdpassed{background-position:-40px -31px;}
+
+.uinfo_settting .semail{background-position:-80px 1px;}
+.uinfo_settting .semailpassed{background-position:-80px -31px;}
+
+.uinfo_settting .ssetting{ background-position:-147px -31px;}
+
+.u_header .u_total_box {
+	width:300px;
+	height:87px;
+	padding:3px 0 0 84px;
+	overflow:hidden;
+	background:url(../images/accounts_bg.png) 0 0 no-repeat;
+	*width:300px;
+}
+.u_header .u_total_box .u_total_m{
+	height:57px;
+	border:1px solid #e2e2e2;
+	background:#fffef6;
+	border-left:0;
+	overflow:hidden;
+	padding:14px;
+	-moz-border-radius:5px; -khtml-border-radius:5px; -webkit-border-radius:5px; border-radius:5px;
+	-moz-border-top-left-radius:0; -khtml-border-top-left-radius:0; -webkit-border-top-left-radius:0; border-top-left-radius:0;
+	-moz-border-bottom-left-radius:0; -khtml-border-bottom-left-radius:0; -webkit-border-bottom-left-radius:0; border-bottom-left-radius:0;
+}
+.u_total_box .u_total_m h3{
+	font-size:14px;
+	font-weight:normal;
+}
+.u_header .u_total_box .u_money ,
+.u_header .trusteeship_total_box .u_money {
+	display:block;
+	clear both;
+	font-size:24px;
+	line-height:24px;
+	font-family:arial;
+	font-weight:bold;
+	margin-top:10px;
+	white-space:nowrap;
+}
+.u_header .u_total_box .sincerity_money {
+	font-size:16px;
+	display:block;
+	color:#444;
+}
+.u_header .trusteeship_total_box{
+	background-position:0 -90px;
+}
+/* u_header 结束 */
+
+.money_box{ border:#d8d8d8 solid 1px; margin:10px; padding:20px; background:#fafafa;}
+.money_box .recharge , .money_box .withdraw { margin-right:5px; color:#fff; background:#00b0f5; height:32px; line-height:32px; padding:0 20px; display:inline-block; -moz-border-radius:4px; -khtml-border-radius:4px; -webkit-border-radius:4px; border-radius:4px; }
+.money_box .recharge:hover , .money_box .withdraw:hover { color:#fff; }
+.money_box .withdraw { background:#3bc737; }
+.credit_box{ font-size:20px; font-family:"微软雅黑"; }
+.price{ color:#ED5F59; }
+.incharge_tip{ font-size:14px; color:#666; overflow:hidden; }
+.incharge_tip a{ color:#12ADFF; font-weight:bolder; text-decoration:none;}
+.incharge_tip a:hover{ color:#12ADFF; font-weight:bolder; text-decoration:none; }
+.cancel_incharge{ line-height:40px; padding-left:10px; float:left;  font-size:12px; color:#12adff; text-decoration:none;}
+
+.pay_tip_box{ font-size:14px; padding:5px 10px;}
+.choose{ font-size:12px; }
+
+.data-table .data-title{ width:48px; background:#f5f5f5; font-weight:bolder;  text-align:right; }
+.data-table .data-split{ height:1px; _height:2px; *height:2px; font-size:0; line-height:0px; padding:0px; }
+.data-table .tl{ text-align:left;}
+
+.repay_memo{ width:400px; min-width:400px; max-width:400px; float:left;  border:#ccc solid 1px; height:100px; padding:5px; color:#666; font-size:14px; line-height:18px; border-radius:3px; min-height:60px; max-height:60px; }
+.set_repay{ float:left; display:inline-block; margin-top:20px; }
+.repay_tip{ color:#ccc;}
+
+.order_table td,.order_table th{ padding:10px 10px;}
+
+#left_time{ color:red;}
+.ui-btn-m a {
+text-decoration: none;
+}
+.btn_creat{ height:30px; font-size:14px; line-height:30px; padding:0 15px; background:#12adff; color:#fff; display:inline-block; -moz-border-radius:3px; -khtml-border-radius:3px; -webkit-border-radius:3px; border-radius:3px;  }
+.btn_creat:hover{ color:#fff; }
+.empty_tip{
+	padding:15px 0;
+	text-align:center;
+	font-size:14px;
+}
+
+/* 切换标题栏 开始 */
+.list_title {
+	border-left:1px solid #eee;
+	border-bottom:2px solid #eee;
+	color: #494949;
+	font-size: 12px;
+	font-family: "Microsoft YaHei";
+	height: 41px;
+	line-height: 40px;
+	margin-bottom:20px;
+}
+.list_title div {
+	background-color: #fff;
+	border:1px solid #eee;
+	border-left:0;
+	border-bottom:0;
+	float: left;
+	font-size:14px;
+	padding: 0 25px;
+	cursor: pointer;
+}
+.list_title .cur{}
+.list_title div a {color: #555;}
+.list_title .cur , .list_title .cur a{color:#333;}
+/* 切换标题栏 结束 */
+
+/* 会员中心搜索 开始 */
+.account_search{
+	overflow:hidden;
+}
+.account_search .small_form_lable{
+	width:65px;
+	margin-right:10px;
+}
+.account_search .small_form_lable,
+.account_search .small_form_text{
+	font:12px/24px 'SimSun' !important;
+	height:24px;
+	float:left;
+}
+.account_search .small_textbox{
+	font:12px 'SimSun' !important;
+	padding:4px;
+	-moz-border-radius:0; -khtml-border-radius:0; -webkit-border-radius:0; border-radius:0;
+}
+.account_search .jcDateIco{
+	background-position:89px center;
+}
+.account_search .holder_tip{
+	top:0;
+	left:0;
+	width:86px;
+	height:24px;
+	font:12px/24px 'SimSun' !important;
+}
+.account_search .field_select dt{
+	height:22px;
+	font:12px/24px 'SimSun' !important;
+	padding:0 17px 0 10px;
+}
+.account_search .field_select dt i{
+	top:10px;
+}
+.account_search .ui-button{
+	border:0;
+	height:24px;
+	line-height:24px;
+	font:12px/24px 'SimSun' !important;
+	margin: 5px 0 15px 0;
+	-moz-border-radius:0; -khtml-border-radius:0; -webkit-border-radius:0; border-radius:0;
+}
+.account_search #more_search{
+	display:none;
+}
+.account_search .more_search_btn{
+	height:24px;
+	font:12px/24px 'SimSun' !important;
+	display:inline;
+	float:left;
+	margin:5px 0 15px 20px;
+}
+.account_search .more_search_btn .iconfont_up{
+	display:none;
+}
+/* 会员中心搜索 结束 */
+
+/* account_money 开始 */
+.account_money .money_box{
+	margin:0;
+}
+.account_money .t_name {
+	color: #666;
+	font-size: 14px;
+	font-weight: bold;
+}
+.account_money .item_group {
+	height: 30px;
+	line-height: 30px;
+	margin: 0 auto;
+}
+.account_money .item_bank {
+	width: 224px;
+	height: 130px;
+	text-align: left;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	float: left;
+	margin: 10px 7px 20px 20px;
+	margin-right: 7px;
+	display: inline;
+	cursor: pointer;
+	overflow: hidden;
+	position: relative;
+	box-shadow: 3px 3px 3px #ebebed;
+}
+.account_money .item_bank .tip {
+	padding: 5px 10px;
+	text-align: center;
+	border-bottom: 1px dashed #ccc;
+}
+.account_money .item_bank .edit_card {
+	text-align: center;
+	padding-top: 5px;
+}
+.account_money .add_bank {margin-right: 0;}
+.account_money .add_bank p {font: 16px/24px "simsun";}
+/* account_money 结束 */
+
+/* 添加银行卡 开始 */
+.#Jbank_From .field {
+	line-height: 30px;
+	font-size: 12px;
+	margin: 5px auto 5px;
+}
+#Jbank_From .field label {
+width: 130px;
+}
+#Jbank_From .field input.f-input {
+height: 20px;
+line-height: 20px;
+padding: 5px;
+}
+.field .f-input {
+float: left;
+}
+.readonly {
+background: #f1f1f1;
+}
+/* 添加银行卡 结束 */
+
+/* 提现 开始 */
+.account_money_carry .control-group{margin-left:0;}
+.account_money_carry .control-label{
+	width:200px;
+}
+.account_money_carry .total{border-bottom:1px dashed #e3e3e3;}
+.account_money_carry .prompt {
+	width:auto;
+	border-bottom: 1px dashed #e3e3e3;
+}
+.account_money_carry p {
+	color: #666;
+	font-size: 14px;
+	line-height:24px;
+	padding:6px 0;
+}
+.account_money_carry i {
+	background: url(../images/prompt.gif) no-repeat;
+	display: inline-block;
+	height: 5px;
+	margin: 9px 10px 0 0;
+	_margin-top: 4px;
+	vertical-align: top;
+	width: 5px;
+}
+.account_money_carry p.f_red {color:#ff5500;}
+/* 提现 结束 */
+
+/* 放款记录 开始 */
+.account_paid .deal_name_title{
+	width:450px;
+	height:58px;
+	line-height:58px;
+	padding:0 20px;
+	float:left;
+	color:#fff;
+}
+/* 放款记录 结束 */
+
+/* 资金记录 开始 */
+.account_credit .opt{
+	height:24px;
+	line-height:24px;
+	padding:0 10px;
+	float:left;
+	display:inline;
+}
+.account_credit .opt.cur{
+	color:#fff;
+}
+.account_credit .ui-button{
+	margin-left:10px;
+	display:inline;
+}
+/* 资金记录 结束 */
+
+/* 回报信息 开始 */
+.account_view_order .deal_name{
+	color:#fff;
+}
+.account_view_order .uc_table .deal_name{
+	border-bottom:1px solid #fff;
+}
+/* 回报信息 结束 */
+/* view_order */
+.order_table td { font-size:14px; }
+.order_table td.deal_name { text-align:center }
+.money_box{margin:20px;}
+.full{padding:20px;}
+.title{font-size:18px}
+.control-group{margin-left:0}
+.control-group label{width:auto;}
+.ui-small-center-button{font-size:12px;}
+.pay_all{padding:10px 0px;font-size:14px;line-height:24px;}
+.pay_branch {display:none}
+/* view_order */
+
+/* invest_choice_btn 开始 */
+.invest_choice_btn{
+	width:472px;
+	height:60px;
+	line-height:60px;
+	float:left;
+	overflow:hidden;
+	text-align:center;
+	background:#fafafa;
+	font-size:16px;
+	font-weight:bold;
+	border-bottom:1px solid #e3e3e3;
+}
+.invest_choice_btn.cur{
+  	position:relative;
+	background:#fff;
+	margin-top:-6px;
+	height:65px;
+	line-height:65px;
+	border-left:1px solid #e3e3e3;
+ 	-webkit-box-shadow:3px -3px 3px #e5e5e5;  
+  	-moz-box-shadow:3px -3px 3px #e5e5e5  
+  	box-shadow:3px -3px 3px #e5e5e5;
+}
+.invest_choice_btn.cur_right{
+	border-right:1px solid #e3e3e3;
+ 	-webkit-box-shadow:-3px -3px 3px #e5e5e5;  
+  	-moz-box-shadow:-3px -3px 3px #e5e5e5  
+  	box-shadow:-3px -3px 3px #e5e5e5;
+}
+/* invest_choice_btn 结束 */
+
+/* account_leader_list 开始 */
+.account_leader_list .page_title{padding:0;}
+.account_leader_list .uc_table{margin-bottom:20px;}
+.account_leader_list .uc_table td{padding:10px 20px;}
+.account_leader_list .uc_table td.deal_name{padding:10px 0;}
+.account_leader_list .uc_table td.deal_name{padding:0}
+.account_leader_list .check_status{
+	padding:2px 5px;
+	color:#fff;
+}
+/* account_leader_list 结束 */
+
+/* account_set_repay 开始 */
+.account_set_repay .holder_tip{
+	top:5px;
+	left:5px;
+}
+.account_set_repay .pr{
+	padding:5px;
+	overflow:hidden;
+	float:left;
+	display:inline;
+}
+.account_set_repay .pr .textbox{
+	margin:0;
+}
+.account_set_repay .uc_table td,
+.account_view_order .uc_table td{
+	text-align:left;
+	padding-left:20px;
+	padding-right:20px;
+}
+.account_set_repay .uc_table td.deal_name,
+.account_view_order .uc_table td.deal_name{
+	text-align:center;
+	padding-left:0;
+}
+.account_set_repay .ui-button{
+	float:none;
+	display:block;
+	margin:0 auto;
+}
+/* account_set_repay 结束 */

@@ -1,0 +1,48 @@
+.order_list li {
+	margin-bottom:10px;
+	overflow:hidden;
+	position:relative;
+	height:207px;
+	border: 1px solid #e3e3e3;
+}
+.order_list li .top_block {
+	height:40px;
+	background:#f1f1f1;
+	padding:0 10px;
+	line-height:40px;
+}
+.order_list li .order_detail_t {
+	padding:10px 10px 10px 10px;
+}
+.order_list li .order_h_t {
+	color:#000;
+	font-size:16px;
+	line-height:40px;
+	font-weight:bolder;
+	border-bottom:1px solid #ececec;
+}
+.goods_info_t {
+	font-size:12px;
+	line-height:20px;
+	overflow:hidden;
+}
+.Unfold {
+	cursor:pointer;
+	position:absolute;
+	bottom:0px;
+	right:0px;
+	line-height:40px;
+	padding-right:10px;
+	color:red;
+}
+.goods_info_t_Point {
+	width:16%;
+	height:100px;
+	float:left;
+	padding-top:20px;
+	text-align:center;
+}
+.order_h_t a.del_order {
+	float:right;
+	font-size:12px;
+}

@@ -1,0 +1,143 @@
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/score/score_check_order.css";
+
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/switch_city.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/switch_city.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/score/score_check_order.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/score/score_check_order.js";
+?>
+<script type="text/javascript">
+	var is_delivery='{$goods.is_delivery}';
+	var have_consignee='{$have_consignee}';
+</script>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<div class="score_check_order">
+	<h3>收货信息</h3>
+	<div class="score_check_order_main">
+		<form id="ajax_score_order_form" action="{url_wap r="score_good_show#mobile_binding"}">
+			<!-- 确认商品属性 开始 -->
+			<div class="control-group smaller-control-group confirm_attr">
+				{foreach from=$view_attr item=arrt}
+				<label class="control-label">{$arrt.name}:</label>
+				<div class="control-text">
+					<span>{$arrt.attr_val}</span>
+				</div>
+				<div class="blank0"></div>
+				{/foreach}
+				<div class="blank0"></div>
+			</div>
+			<div class="control-group smaller-control-group confirm_attr">
+				<label class="control-label">兑换数量:</label>
+				<div class="control-text">
+					<span>{$number}</span>
+				</div>
+				<div class="blank0"></div>
+			</div>
+			<!-- 确认商品属性 结束 -->
+			{if $goods.is_delivery eq 1}
+			<div class="blank10"></div>
+			<!-- 收货地址 开始 -->
+			<p class="b mb5" rel="{$have_consignee}" id="consignee_info">{if $have_consignee}选择{else}填写{/if}配送地址</p>
+			{if $have_consignee}
+			{foreach from=$consignee_list item=consignee key=key}
+			<label class="ui_radiobox mr10" rel="consignee"><input type="radio" name="consignee_id" value="{$consignee.id}" {if $key eq 0}checked=checked{/if} >
+				{$consignee.province}{$consignee.city} {$consignee.address} {$consignee.zip} {$consignee.consignee} {$consignee.mobile}
+			</label>
+			{/foreach}
+				<!-- 自定义收货选择 -->
+			<label class="ui_radiobox mr10 other_consignee_radio" rel="consignee"><input type="radio" name="consignee_id" value="0">其他</label>
+				<!-- 自定义收货地址 -->
+			{/if}
+			<div class="other_consignee {if $have_consignee}hide{/if}">
+				<div class="control-group small-control-group">
+					<label class="control-label">收货人名称</label>
+					<div class="control-text">
+						<input type="text" class="small_textbox w100" value="" name="delivery_name" />
+					</div>
+					<div class="blank0"></div>
+				</div>
+				<div class="control-group small-control-group">
+					<label class="control-label" style="line-height:38px;">选择地区</label>
+					<select name="province" id="province" class="ui-select field_select small">
+						<option value="" rel="0">请选择省份</option>			
+						{foreach from=$region_lv2 item=region}
+						<option value="{$region.name}" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+						{/foreach}
+					</select>
+					<select name="city" id="city" class="ui-select field_select small">
+						<option value="" rel="0">请选择城市</option>
+						{foreach from=$region_lv3 item=region}
+						<option value="{$region.name}" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+						{/foreach}
+					</select>
+					<div class="blank0"></div>
+				</div>
+				<div class="control-group small-control-group">
+					<label class="control-label">详细地址</label>
+					<textarea name="delivery_addr" class="textareabox w250 f_l" style="height:60px;"></textarea>
+					<div class="blank0"></div>
+				</div>
+				<div class="control-group small-control-group">
+					<label class="control-label">邮编</label>
+					<div class="control-text">
+						<input type="text"  name="delivery_zip" class="small_textbox w100" value="" />
+					</div>
+					<div class="blank0"></div>
+				</div>
+				<div class="control-group small-control-group">
+					<label class="control-label">手机</label>
+					<div class="control-text">
+						<input type="text"  name="delivery_tel" class="small_textbox w250" value="" />
+					</div>
+				</div>
+			</div>
+			<!-- 收货地址 结束 -->
+			<p class="b mb5 mt5">选择配送时间</p>
+			<div class="g_attr active_parent" id="delivery_time">
+				<a href="javascript:void(0);" class="attr_a select_a" rel="1" active="true">
+					<span>仅工作日送货</span>
+					<i></i>
+				</a>
+				<a href="javascript:void(0);" class="attr_a" rel="2">
+					<span>仅周末送货</span>
+					<i></i>
+				</a>
+				<a href="javascript:void(0);" class="attr_a" rel="3">
+					<span>任何时间均可</span>
+					<i></i>
+				</a>
+			</div>
+			{/if}
+			<div class="blank10"></div>
+			<div class="control-group small-control-group">
+					<label class="control-label">订单备注：</label>
+					<textarea name="memo" class="textareabox w250 f_l" style="height:60px;"></textarea>
+					<div class="blank0"></div>
+			</div>
+			<div class="blank10"></div>
+			<div class="control-group">
+				<label class="control-label">支付密码</label>
+				<div class="control-text">
+					<div class="holder_tip_box">
+						<input type="password" value="" name="paypassword"  autocomplete="off"  class="textbox w100" />
+						<span class="holder_tip" style="left:0;top:0;">请输入支付密码</span>
+						<span class="f12 f_999">忘记了？<a href="{url r="settings#security" p="method=setting-pass-box"}" target="_blank" class="theme_fcolor">点这里</a></span>
+					</div>
+				</div>
+				<div class="blank0"></div>
+			</div>
+			<div class="submit_row control-group">
+				<label class="control-label"></label>
+				<input type="hidden" value="{$goods.id}" name="id"  class="textbox w100" />
+				<input type="button" value="确认提交" id="score_do_order" class="ui-button theme_bgcolor mr10" />
+				<input type="button" value="取消" class="ui_button theme_bg_gray" onclick="$.weeboxs.close();" />
+				<div class="blank0"></div>
+			</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+
+	
+</script>

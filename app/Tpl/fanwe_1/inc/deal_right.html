@@ -1,0 +1,195 @@
+<!--右start-->
+<div class="xqmain_right">
+	<div class="schedule_box">
+		<div class="box_main">
+			<div class="title line clearfix">
+	            <h3>发起人信息</h3>
+	        </div>
+			<div class="box_promoter">
+				<div class="promoter_img">
+					{function name="show_avatar" p="$deal_info.user_id"}
+				</div>
+				<div class="promoter_text">
+					<span class="boxname">
+						<div class="f_l">{$deal_info.user_name}</div>
+						{if $deal_info.user_icon}
+						<div class="f_l"><img src="{$deal_info.user_icon}" title="会员等级" class="level_icon" /></div>
+						{/if}
+						<div class="f_l">
+							<i class="{if $deal_info.is_investor gt 0}investor_type{/if} {if $deal_info.is_investor eq 1}personal_icon{/if}{if $deal_info.is_investor eq 2}agency_icon{/if}" title="{if $deal_info.is_investor eq 1}个人投资者{/if}{if $deal_info.is_investor eq 2}机构投资者{/if}"></i>
+						</div>
+						<div class="f_l">
+							<a href="javascript:void(0)" onclick="send_message({$deal_info.user_id})" class="btn_send_message">+发私信</a>
+						</div>
+						<div class="blank0"></div>
+					</span>
+					<span class="boxtime">最后登录时间：{function name="to_date" v=$deal_info.login_time}</span>
+					{if $deal_info.province neq '' or $deal_info.city neq ''}
+					<span class="boxaddress"><i class="icon iconfont">&#xe619;</i>{$deal_info.province}&nbsp;{$deal_info.city}</span>
+					{/if}
+				</div>
+			</div>
+		</div>
+	</div>
+	{if $access==1}
+	<div class="repays_box" id="repays_box">
+		<div class="repays_m">
+			{foreach from=$deal_item_list item=deal_item key=key}
+			{if $deal_item.type eq 1}
+			<div class="repays f_l">
+				<div class="repays_hd">
+					<span class="f_l">无私奉献</span>
+					{if ($deal_info.end_time > $now or $deal_info.end_time eq 0) and $deal_info.begin_time < $now and $deal_info.is_effect eq 1 }
+						{if $deal_item.virtual_add_support_person < $deal_item.limit_user or $deal_item.limit_user eq 0}
+							<a class="ui_button f_r theme_bgcolor" href="{url r="cart" p="id=$deal_item.id"}" target="_blank">
+								<div>
+									<span>支持</span>
+								</div>
+							</a>
+						{else}
+						<div class="ui_button f_r bg_gray" disabled="disabled">已满额</div>
+						{/if}
+					{else}
+					<div class="ui_button f_r bg_gray" disabled="disabled">支持</div>
+					{/if}
+				</div>
+				<div class="repays_bd">
+					<div class="repay_intro">
+						{function name="nl2br" v=$deal_item.description}
+					</div>
+					<p class="buy_num">已有<em class="f14 f_red">{$deal_item.support_count}</em>位</p>
+					<div class="repay_num f_l" style="width:100%">
+		 				<div class="deal_item_images" style="overflow:hidden;text-align:left">	
+							<div class="blank5"></div>			
+							{foreach from=$deal_item.images item=image}
+							<div class="image_item">
+								<img src="{function name="get_spec_image" v=$image.image w=50 h=50 g=1}" rel="{function name="get_spec_image" v=$image.image w=570 h=430}" width=50 height=50 />
+							</div>
+							{/foreach}
+						</div>
+		 			</div>
+					<div class="blank0"></div>
+				</div>
+			</div>
+			{else}
+			<div class="repays clearfix">
+				<div class="repays_hd clearfix">
+					<span class="repay_money f_l"><span class="yen">¥</span>{$deal_item.price_format}</span>
+					{if ($deal_info.end_time > $now or $deal_info.end_time eq 0) and $deal_info.begin_time < $now and $deal_info.is_effect eq 1 }
+						{if $deal_item.virtual_add_support_person < $deal_item.limit_user or $deal_item.limit_user eq 0}
+							{if $deal_item.type eq 2}
+								{if !$deal_info.lottery_draw_time}
+								<a class="ui_button f_r theme_bgcolor" href="{url r="cart" p="id=$deal_item.id"}" target="_blank">抽奖</a>
+								{else}
+									<div class="ui_button f_r bg_gray" disabled="disabled">已抽奖</div>
+								{/if}
+							{else}
+								<a class="ui_button theme_bgcolor f_r" href="{url r="cart" p="id=$deal_item.id"}" target="_blank">支持</a>
+							{/if}
+						
+						{else}
+							{if $deal_item.type eq 2 && $deal_info.lottery_draw_time gt 0}
+								<div class="ui_button f_r bg_gray" disabled="disabled">已抽奖</div>
+							{else}
+								<div class="ui_button f_r bg_gray" disabled="disabled">已满额</div>
+							{/if}
+						{/if}
+					{else}
+					<div class="ui_button f_r bg_gray" disabled="disabled">支持</div>
+					{/if}			
+					<div class="clear"></div>
+				</div>
+				<div class="repays_bd">
+					<div class="repay_intro">
+						<span>{function name="nl2br" v=$deal_item.description}</span>
+					</div>
+					<p class="buy_num">{if $deal_item.is_limit_user eq 1}{if $deal_item.limit_user gt 0}限额<em class="f14 f_red">{$deal_item.limit_user}</em>位，{/if}{/if}已有<em class="f14 f_red">{$deal_item.virtual_person_list}</em>位</p>
+					<div class="repay_img tl">		
+						{foreach from=$deal_item.images item=image}
+						<div class="image_item">
+							<img src="{function name="get_spec_image" v=$image.image w=50 h=50 g=1}" rel="{function name="get_spec_image" v=$image.image w=570 h=430}" width=50 height=50 />
+						</div>
+						{/foreach}
+					</div>
+					<div class="repay_num">
+						{if $deal_item.is_delivery eq 1 || ($deal_item.is_share eq 1 && $deal_item.share_fee gt 0)}
+						<div>
+							{if $deal_item.is_delivery eq 1}
+								{if $deal_item.delivery_fee eq 0}
+								运费：包邮
+								{else}
+								运费：¥{function name="round" v=$deal_item.delivery_fee e=2}
+								{/if}
+								&nbsp;&nbsp;
+							{/if}
+							{if $deal_item.is_share eq 1 && $deal_item.share_fee gt 0}
+								分红：¥{function name="round" v=$deal_item.share_fee e=2}
+							{/if}
+						</div>
+						{/if}
+						{if $deal_item.type eq 2 && $deal_item.maxbuy gt 0}
+						<div class="blank5"></div>
+						<div>
+							每个会员最大支持数量：{$deal_item.maxbuy}
+						</div>
+						{/if}
+						{if $deal_item.repaid_day gt 0}
+						<div class="blank5"></div>
+						<div>
+							确认回报时间：回报发放成功后{$deal_item.repaid_day}天内
+						</div>
+						{/if}
+					</div>
+					<div class="blank0"></div>
+				</div>
+			</div>
+			{/if}
+			{/foreach}
+		</div>
+	</div>
+	{if $deal_info.description_1 neq null}
+	<div class="blank20"></div>
+	<div class="box">
+		<div class="box_main" style="background:#fff9e9;">
+			<div class="title line clearfix">
+	            <h3>付款与退款说明</h3>
+	        </div>
+			<div class="content f_666">
+				<span>付款与退款说明付款与退款说明付款与退款说明付款与退款说明付款与退款说明{$deal_info.description_1}</span>
+			</div>
+		</div>
+	</div>
+	<div class="blank"></div>
+	{/if}
+	{else}
+	<div class="blank20"></div>
+	    {if $access eq 0}
+     	<div class="box">
+         	<div class="box_main f16 tc clearfix">
+            	<span>您需要登录后才可以查看该项目详情</span>
+            	<div class="blank10"></div>
+            	<a onclick="javascript:show_pop_login();" class="ui-button ui-button-block theme_bgcolor" style="padding:0">马上登录</a>
+         	</div>
+        </div>
+        {/if}
+     	{if $access eq 2}
+     	<div class="box">
+         	<div class="box_main f16 tc clearfix">
+	            <span>您的会员等级不够，无法查看该项目详情</span>
+	        </div>
+        </div>
+        {/if}
+     	{if $access eq 3}
+        <div class="box">
+         	<div class="box_main f16 tc clearfix">
+         		<span>手机认证后，即可查看该项目详情</span>
+         		<div class="blank10"></div>
+            	<a href="{url r="settings#security" p="method=setting-mobile-box"}" class="ui-button ui-button-block theme_bgcolor" style="padding:0">马上去认证手机</a>
+	        </div>
+        </div>
+        {/if}
+	{/if}
+	<div class="blank"></div>
+	<!--第3部分结束-->	
+</div>
+<!--右end-->

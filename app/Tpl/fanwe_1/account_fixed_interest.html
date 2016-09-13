@@ -1,0 +1,123 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/account_after_vote.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+{include file="inc/home_user_info.html"}
+<!--中间开始-->
+<div class="dlmain Myhomepage">
+	{include file="inc/account_left.html"}
+	<div class="homeright pageright f_r">
+		<div class="list_title clearfix">
+			<div class="cur">
+				<span>固定回报管理</span>
+			</div>
+		</div>
+		{if $deal_info}
+		<div class="list_conment">
+			{foreach from=$deal_info item=deal_item }
+			{if $deal_item.support_list}
+			<div class="i_deal_list clearfix">
+				
+				<div class="uc_table_info clearfix">
+					<h3>{$deal_item.name}</h3>
+					<div class="left">
+						<ul>
+							<li>
+								<label>融资金额：</label>
+								<span>￥{$deal_item.limit_price}</span>
+							</li>
+							<li>
+								<label>投资人数：</label>
+								<span>{$deal_item.invote_num}人</span>
+							</li>
+							<li>
+								<label>预期年利率：</label>
+								<span>{$deal_item.annual_interest_rate}%</span>
+							</li>
+							<li>
+								<label>回报周期：</label>
+								<span>{$deal_item.return_cycle}个月</span>
+							</li>
+							<li>
+								<label>已发放期数：</label>
+								<span>{$deal_item.bonus_num}期</span>
+							</li>
+							<li>
+								<label>已发放回报：</label>
+								<span>{if $deal_item.total_bonus_money gt 0}￥{$deal_item.total_bonus_money}{else}0{/if} </span>
+							</li>
+						</ul>
+					</div>
+					<div class="right">
+						<a href="{url r="account#fixed_interest_apply" p="deal_id=$deal_item.id"}" class="ui-button theme_bgcolor" style="float:right">发放回报</a>
+					</div>
+				</div>
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc_table">
+					<thead>
+						<tr>
+							<th width="10%">编号</th>
+							<th width="8%">回报年度</th>
+							<th width="8%">回报期数</th>
+							<th width="10%">回报金额</th>
+							<th width="12%">回报周期</th>
+							<th width="12%">预期年利率</th>
+							<th width="12%">回报开始时间</th>
+							<th width="12%">回报结束时间</th>
+							<th width="8%">状态</th>
+							<th width="8%" style="text-align:right;padding-right:24px">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{foreach from=$deal_item.user_bonus item=user_bonus_item }
+						<tr>
+							<td>{$user_bonus_item.id}</td>
+							<td>{$user_bonus_item.year}</td>
+							<td>第 {$user_bonus_item.number}期</td>
+							<td><span class="f_money b">￥{$user_bonus_item.money}</span></td>
+							<td>{$user_bonus_item.return_cycle}个月</td>
+							<td>{$deal_item.annual_interest_rate}%</td>
+							<td>{$user_bonus_item.begin_time}</td>
+							<td>{$user_bonus_item.end_time}</td>
+							<td>
+								{if $user_bonus_item.status eq 0}
+									等待审核
+								{elseif $user_bonus_item.status eq 1}
+									通过
+								{else}
+									未通过		
+								{/if}
+							</td>
+							<td class="lf">
+								{if $user_bonus_item.status eq 0}
+									无
+								{elseif $user_bonus_item.status eq 1}
+									<a href="{url r="account#fixed_interest_detail" p="id=$user_bonus_item.id"} ">回报明细</a>
+								{else}				
+									<a href="{url r="account#fixed_interest_apply" p="id=$user_bonus_item.id"}">编辑</a>
+									<a href="{url r="account#del_share_bonus" p="id=$user_bonus_item.id"}">删除</a>
+								{/if}
+							</td>
+						</tr>
+						{/foreach}
+					</tbody>
+				</table>
+			</div>
+			
+			<div class="blank20"></div>
+			{/if}
+			{/foreach}
+
+			<div class="pages">{$pages}</div>
+
+			<div class="blank20"></div>
+		</div>
+		{else}
+			<div class="empty_tip">
+				没有相关的记录
+			</div>
+		{/if}
+	</div>
+	<div class="blank0"></div>
+</div>
+{include file="inc/footer.html"}

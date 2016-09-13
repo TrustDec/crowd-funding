@@ -1,0 +1,37 @@
+{include file="inc/header.html"}
+<section class="settings_bank mod_main">
+	<form>
+	<div class="ul_block">
+		<ul>
+			<li class="webkit-box">
+				<label class="input_lable">真实姓名：</label>
+				<input {if $user_info.is_bank gt 0}readonly="readonly"{/if} value="{$user_info.ex_real_name}" name="ex_real_name" id="ex_real_name" class="textbox webkit-box-flex" type="text" placeholder="开户行的真实姓名">
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">开户银行：</label>
+				<input {if $user_info.is_bank gt 0}readonly="readonly"{/if} value="{$user_info.ex_account_bank}" name="ex_account_bank" id="ex_account_bank" class="textbox webkit-box-flex" type="text" placeholder="请填写您的开户行">
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">银行账号：</label>
+				<input {if $user_info.is_bank gt 0}readonly="readonly"{/if} value="{$user_info.ex_account_info}"  name="ex_account_info" id="Jbank_bankcard"  class="textbox webkit-box-flex" type="text" placeholder="请填写真实的银行账号">
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">联系电话：</label>
+				<input {if $user_info.is_bank gt 0}readonly="readonly"{/if} value="{$user_info.ex_contact}" name="ex_contact" id="ex_contact"  class="textbox webkit-box-flex" type="text" placeholder="请填写有效的联系方式">
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">联系QQ：</label>
+				<input  {if $user_info.is_bank gt 0}readonly="readonly"{/if} value="{$user_info.ex_qq}"  name="ex_qq" id="ex_qq" class="textbox webkit-box-flex" type="text" placeholder="请填写真实的QQ号码">
+			</li>
+		</ul>
+	</div>
+	{if $user_info.is_bank eq 0}	
+	<div class="blank15"></div>
+	<input type="button" value="保存" class="ui-button theme_color J_check_and_postData" />
+	<input type="hidden" value="1" name="ajax" />
+	<div class="blank15"></div>
+	{/if}
+	</form>
+</section>
+<!-- settings_bank.js -->
+{include file="inc/footer.html"}

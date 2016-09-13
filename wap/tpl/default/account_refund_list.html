@@ -1,0 +1,42 @@
+{include file="inc/header.html"}
+<section class="account_cridit">
+	<ul>
+		{foreach from=$refund_list item=item}
+		<li class="webkit-box sizing">
+			<div class="accountlist_fl webkit-box-flex mr5 tl">
+				<h1>{$item.log_info}{$item.money}</h1>
+				<span class="f_999">
+					{function name="to_date" v=$item.create_time}
+ 				</span>
+			</div>
+			<div class="accountlist_fr tr">
+				<h2 class="f_money"><?php echo format_price(abs($this->_var['item']['money'])); ?></h2>
+				<span><em class="f_999">状态:</em>
+					{if $item.is_pay eq 1}
+					申请通过，请耐心等待金额支付 {$item.reply}
+					{elseif $item.is_pay eq 2}
+					申请未通过 {$item.reply}
+					{elseif $item.is_pay eq 3}
+					提现成功，金额已发放，请查收 {$item.pay_log}
+					{else}
+					审核中，请耐心等待
+					{/if}</span>
+			</div>
+		</li>
+		{/foreach}
+	</ul>
+	<div class="blank15"></div>
+	<div class="pages">{$pages}</div>
+	<div class="blank15"></div>
+</section>
+<div class="alwaysfoot">
+     <div class="Recharge f_l tc theme_color1">
+    	<a href="#" onclick="RouterURL('{url_wap r="account#incharge"}','#account-incharge');">充值</a>
+	</div>
+	<div class="withdrawal f_l tc bg_red">
+		<a href="#" onclick="RouterURL('{url_wap r="account#refund"}','#account-refund');">提现</a>
+	</div>
+  
+ 	<div class="blank"></div>
+</div>
+{include file="inc/footer.html"}

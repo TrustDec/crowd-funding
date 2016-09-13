@@ -1,0 +1,36 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<div class="main">
+<div class="main_title">{$main_title}</div>
+<div class="blank5"></div>
+<div class="button_row">
+	<input type="button" class="button" value="{%DEL}" onclick="del();" />
+</div>
+<PHP>
+	function get_q_edit($licai_id,$item)
+    {
+    	return "<a href=\"javascript:edit_module('".$item['id']."','LicaiDealshow')\">".$item['licai_name']."</a>";
+    }
+</PHP>
+<script>
+	//编辑跳转
+function edit_module(id,modul_name){
+	location.href = ROOT+"?"+VAR_MODULE+"="+modul_name+"&"+VAR_ACTION+"=edit&id="+id;
+}
+</script>
+<div class="blank5"></div>
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="item" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{%ID}|50px,licai_id|get_q_edit=$item:关联项目,user_name:会员名,sort:排序" 
+	actionlist="edit:{%EDIT}, del:{%DEL}" /> 
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

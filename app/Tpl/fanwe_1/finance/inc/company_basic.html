@@ -1,0 +1,233 @@
+<div class="block-editor-basic">
+		<!-- 保存生成 开始 -->
+		<div class="item-panel-normal c_company_basic_normal hide clearfix">
+			<div class="container">
+				<div class="basic-section clearfix">
+					<div class="logo">
+	    				<img alt="" src="{$company.company_logo}">			
+		                <div class="basic-row social-row clearfix">
+		                    <div class="link">
+		                        <a href="{$company.company_sina_weibo}" target="_blank" class="ajax_company_sina_weibo"><i class="icon iconfont">&#xe60f;</i></a>
+		                    </div>
+		                    <div class="link">
+		                        <a href="javascript:void(0);" onmouseover="show_tooltip(this);" onmouseout="hide_tooltip(this);" tooltip="{$company.company_weixin}" class="ajax_company_weixin"><i class="icon iconfont">&#xe610;</i></a>
+		                    </div>
+		                </div>
+		            </div>
+		            <div class="basic-info">
+	   		 			<div class="company-name">
+	   		 				<h3 class="ajax_company_name">{$company.company_name}</h3>
+	        				<span class="stopped-icon hide" ng-show="basic.value.operationStatus=='CLOSED'">停止运营</span>
+	            			<a href="javascript:void(0);" class="edit-basic-btn c_company_basic_icon_edit" onclick="f_item.edit_item(this);" rel="c_company_basic" ng-show="is_edit">
+	            				<span class="icon-edit">
+	            					<i class="icon iconfont">&#xe60c;</i>
+	            				</span>编辑
+	            			</a>
+	   	 				</div>
+	    				<div class="info ajax_company_brief">{$company.company_brief}</div>
+	    				<div class="basic-row link-row clearfix">
+	        				<div class="address"><i class="icon iconfont">&#xe614;</i>&nbsp;<span class="ajax_province">{$company.province}</span> <span class="ajax_city">{$company.city}</span></div>
+	    					<a class="website" href="{$company.company_website}" target="_blank">
+	            				<i class="icon iconfont">&#xe612;</i>&nbsp;<span class="ajax_company_website">{$company.company_website}</span>
+	        				</a>
+	    				</div>
+		                <div class="basic-row link-row">
+		                    <div class="tag">
+		                       <i class="icon iconfont" style="font-size:17px;">&#xe613;</i>&nbsp;
+								<span class="ajax_company_tag">{$company.company_tag} </span>
+		                    </div>
+		                </div>
+		                <div class="basic-row link-row tags">
+		                   <span class="icons icon-2 hide"></span>
+		                </div>
+					</div>
+					<div class="share">
+						<label class="f_l">分享：</label>
+						<a href="" class="weixin icon-wechat" target="_blank">
+							<i class="icon iconfont">&#xe610;</i>
+	        				<span class="qr hide" ng-if="qrcodeUrl">
+	            				<img src="http://s.jiathis.com/qrcode.php?url=http%3A%2F%2Frong.36kr.com%2Fm%2F%23%2Fcompany%2F169020" width="110" alt="">
+	        				</span>
+						</a>
+						<a href="" class="qq icon-wechat" target="_blank" share-way="sqq" baidu-share="config" ng-click="shareSyndicate()">
+							<i class="icon iconfont">&#xe615;</i>
+						</a>
+						<a href="" class="weibo icon-wechat" target="_blank" share-way="tsina" baidu-share="config" ng-click="shareSyndicate()">
+							<i class="icon iconfont">&#xe60f;</i>
+						</a>
+						<a href="" class="mail icon-wechat" target="_blank" share-way="mail" baidu-share="mailConfig" ng-click="shareSyndicate()">
+							<i class="icon iconfont">&#xe611;</i>
+						</a>
+					</div>
+					<!--
+					<div class="opt-sns">
+		    			<a class="btn-white">关注</a>
+		            </div>
+					-->
+				</div>
+			</div>
+		</div>
+		<!-- 保存生成 结束 -->
+		<!-- 编辑 开始 -->
+	    <div class="item-panel-edit c_company_basic_edit clearfix edit_form" ng-show="is_edit">
+			<div class="container">
+				<div class="edit-basic-form basic-section">
+					<form class="ajax_company_default_form" action="{url r="finance#do_company_overview" p="method=company_default"}" method="post" target="hidden_iframe" rel="c_company_basic">
+						<!-- 公司logo上传 -->
+						<div class="update-logo">
+		                    <div class="logo-img">
+		                        <img id="company_logo_image" src="{$company.company_logo}" />
+		                    </div>
+							<div class="clear"></div>
+							<div class="ui_button ui_button theme_bgcolor mt10" id="company_logo">上传LOGO</div>
+							<input type="hidden" name="company_logo" value="{$company.company_logo}" id="company_logo_url">
+		                </div>
+		                <!-- 基本信息表单 -->
+		                <div class="edit-basic-info">
+		                	<div class="control-group small-control-group">
+								<label class="control-label"><span class="f_red">*</span>公司简称</label>
+								<div class="control-text">
+									<div class="holder_tip_box">
+										<input type="text" name="company_name" value="{$company.company_name}" disabled="true" class="textbox small_textbox" />
+										<div class="holder_tip small_holder_tip">
+											<span>请填写大众熟知的项目名称</span>
+										</div>
+									</div>
+								</div>
+								<div class="clear"></div>
+							</div>
+							<div class="control-group small-control-group">
+								<label class="control-label">公司全称</label>
+								<div class="control-text">
+									<div class="holder_tip_box">
+										<input type="text" name="company_all_name" value="{$company.company_all_name}" class="textbox small_textbox" />
+										<div class="holder_tip small_holder_tip">
+											<span>如：福建方维信息技术有限公司</span>
+										</div>
+									</div>
+								</div>
+								<div class="clear"></div>
+							</div>
+							<div class="control-group small-control-group">
+								<label class="control-label"><span class="f_red">*</span>一句话简介</label>
+								<div class="control-text" style="height:auto;line-height:1.5;">
+									<div class="holder_tip_box">
+										<textarea name="company_brief" id="company_brief" class="textareabox textbox w350" onkeyup="checkstrlength(this,'#c_company_basic_left_words',30);" value="{$company.company_brief}">{$company.company_brief}</textarea>
+										<div class="holder_tip">
+											<span>如：方维众筹是关注互联网创业的科技媒体及投融资平台</span>
+										</div>
+									</div>
+									<div class="blank5"></div>
+									<p>您还可以输入<span class="f_red" id="c_company_basic_left_words" style="">30</span>个字</p>
+								</div>
+								<div class="clear"></div>
+							</div>
+							<div class="control-group small-control-group">
+								<label class="control-label">公司网址</label>
+								<div class="control-text">
+									<div class="holder_tip_box">
+										<input type="text" name="company_website" value="{$company.company_website}" class="textbox small_textbox" onfocus="auto_write_focus(this);" onblur="auto_write_blur(this);" />
+										<div class="holder_tip small_holder_tip">
+											<span>如：http://www.fanwe.com</span>
+										</div>
+									</div>
+								</div>
+								<div class="clear"></div>
+							</div>
+							<div class="control-group small-control-group">
+								<label class="control-label"><span class="f_red">*</span>所在地</label>
+								<div class="control-text">
+									<select name="province" id="province" class="ui-select field_select small">
+										<option value="" rel="0">请选择省份</option>			
+										{foreach from=$region_lv2 item=region}
+										<option value="{$region.name}" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+										{/foreach}
+									</select>
+									<select name="city" id="city" class="ui-select field_select small">
+										<option value="" rel="0">请选择城市</option>
+										{foreach from=$region_lv3 item=region}
+										<option value="{$region.name}" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+										{/foreach}
+									</select>
+								</div>
+								<div class="clear"></div>
+							</div>
+							<div class="control-group small-control-group">
+								<label class="control-label">创办时间</label>
+								<div class="control-text">
+									<input readonly="" type="text" class="small_textbox w100 jcDate" rel="input-text" value="{$company.company_create_time}" name="company_create_time" id="inputLaunchTime" placeholder="请选择时间">
+								</div>
+								<div class="clear"></div>
+							</div>
+							<div class="control-group small-control-group">
+								<label class="control-label"><span class="f_red">*</span>公司领域</label>
+								<div class="control-text">
+									<select name="cate_id" id='cate_id' class="ui-select field_select small">
+										{foreach from=$cate_list item="field_item" key=key}
+							      		<option value="{$field_item.id}" rel="{$field_item.id}" {if $field_item.id eq $company.cate_id}selected="selected"{/if}>{if $field_item.title_show}|--{/if}{$field_item.name}</option>
+										{/foreach}
+									</select>
+									<div class="holder_tip_box">
+										<input type="text" value="{$company.company_tag}" name="company_tag" class="textbox small_textbox" />
+										<div class="holder_tip small_holder_tip">
+											<span>添加公司标签，最多3个</span>
+										</div>
+									</div>
+									
+								</div>
+								<div class="clear"></div>
+							</div>
+							{if $company.company_sina_weibo neq ''}
+							<div class="control-group small-control-group">
+								<label class="control-label">新浪微博</label>
+								<div class="control-text">
+									<input type="text" value="{$company.company_sina_weibo}" name="company_sina_weibo" class="textbox small_textbox" onfocus="auto_write_focus(this);" onblur="auto_write_blur(this);" />
+								</div>
+								<div class="clear"></div>
+							</div>
+							{/if}
+							{if $company.company_weixin neq ''}
+							<div class="control-group small-control-group">
+								<label class="control-label">微信账号</label>
+								<div class="control-text">
+									<input type="text" value="{$company.company_weixin}" name="company_weixin" class="textbox small_textbox" />
+								</div>
+								<div class="clear"></div>
+							</div>
+							{/if}
+							<div class="control-group small-control-group company_p_status">
+								<label class="control-label">运营状态</label>
+								<div class="control-text">
+									<select name="company_p_status" id="company_p_status" class="ui-select field_select medium">
+										<option {if $company.company_p_status eq 0}selected="selected"{/if} value="0">3个月内上线</option>
+						              	<option {if $company.company_p_status eq 1}selected="selected"{/if} value="1">6个月内上线</option>
+						              	<option {if $company.company_p_status eq 2}selected="selected"{/if} value="2">运营中</option>
+						              	<option {if $company.company_p_status eq 3}selected="selected"{/if} value="3">停止运营</option>
+									</select>
+								</div>
+								<div class="clear"></div>
+							</div>
+							<div class="blank15"></div>
+							<div class="submit_row control-group">
+								<label class="control-label"></label>
+								<a href="javascript:void(0);" class="ui-button theme_bgcolor mr10 save-btn" rel="c_company_basic">保存</a>
+								<a href="javascript:void(0);" class="ui-button bg_gray cancle-btn" rel="c_company_basic">跳过</a>
+								<input type="hidden" name="method" value="company_default">
+								<input type="hidden" name="ajax" value="1">
+								<input type="hidden" name="company_id" value="{$company.id}">
+							</div>
+							<div class="blank15"></div>
+		                </div>
+					</form>
+					<iframe name="hidden_iframe" id="hidden_iframe" class="hide"></iframe>
+				</div>
+			</div>
+	    </div>
+	    <!-- 编辑 结束 -->
+</div>
+<div class="container">
+	<div class="tab-section">
+    	<a href="#/company/166957/overview" class="active">总览</a>
+        <a href="#/company/166957/finance" class="disabled">融资详情</a>
+ 	</div>
+</div>

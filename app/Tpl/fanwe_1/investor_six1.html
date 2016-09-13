@@ -1,0 +1,268 @@
+{include file="inc/header.html"}
+<script type="text/javascript">
+    var ROOT = '{$APP_ROOT}/m.php';
+    var VAR_MODULE = "m";
+    var VAR_ACTION = "a";
+    var WEB_SESSION_ID = '<?php echo es_session::id(); ?>';
+    var EMOT_URL = '{$APP_ROOT}/public/emoticons/';
+    var MAX_FILE_SIZE = "<?php echo (app_conf("MAX_IMAGE_SIZE")/1000000)."MB"; ?>";
+    var UPLOAD_URL ='{$APP_ROOT}/m.php?m=File&a=do_upload&upload_type=0&dir=file' ;
+	var UPLOAD_SWF='{$TMPL}/js/plupload/Moxie.swf';
+	var UPLOAD_XAP='{$TMPL}/js/plupload//Moxie.xap';
+	var ALLOW_IMAGE_EXT= "doc,docx,xls,xlsx,ppt,txt,zip,rar";
+	var MAX_IMAGE_SIZE= "<?php echo (app_conf("MAX_IMAGE_SIZE")/1000000)."MB"; ?>";
+	function get_file_fun(num){
+  		$("table[rel='attach_form'] #attach_"+num).ui_upload({multi:false,
+		FileUploaded:function(ajaxobj){
+ 				if(ajaxobj.error==1)
+				{
+					$.showErr(ajaxobj.info);
+				}else{
+					$("table[rel='attach_form'] #attach_"+num+"_url").val(ajaxobj.url);
+					$.showSuccess("上传成功");
+				}
+			},Error:function(error){
+			$.showErr(error.message);
+ 		}});
+	}
+</script>
+<style type="text/css">
+	.ui-button{height:37px;line-height:37px}
+    .group{position:relative;}
+    .holder_tip{left:0;top:0;height:37px;line-height:37px}
+    .upload_button{border-top-left-radius:0;border-bottom-left-radius:0}
+    .upload_text{border-top-right-radius:0;border-bottom-right-radius:0;border-right:0;float:left}
+</style>
+<div class="blank20"></div>
+<div class="location_box wrap1000">
+    <div class="location f_l">
+        <i class="fl ico loc_ico mr5"></i>
+        <label>您现在的位置：</label><a>发布股权项目</a><em>>></em><a>项目附件</a>
+    </div>
+</div>
+<div class="blank10"></div>
+<div class="step_box step_box6">
+    <ul>
+        <li class="l1"><span>1</span> 项目基本信息</li>
+        <li class="l2"><span>2</span> 市场定位与商业模式</li>
+        <li class="l3"><span>3</span> 编辑及管理团队</li>
+        <li class="l4"><span>4</span> 项目历史执行资料</li>
+        <li class="l5"><span>5</span> 未来三年内计划</li>
+        <li class="l6 cur"><span>6</span> 项目附件</li>
+        <li class="l7"><span>7</span> 提交审核</li>
+    </ul>
+</div>
+<div class="blank20"></div>
+<table style="display:none;">
+<tr id="attach_demo">
+    <td class="tc">
+    	<div class="group">
+        	<input type="text" name="attach[1][title]" value="{$attach.title}" class="small_textbox textbox textbox attach_title">
+        	<span class="holder_tip">请输入附件标题</span>
+        </div>
+    </td>
+    <td class="tc">
+    	<input type="text" value="" name="attach[1][file]" id="attach_1_url" class="small_textbox textbox upload_text attach_but w200 mr10">
+     	<input type="button" value="选择文件"  name="attach_1_but" id="attach_1" class="ui-button upload_button theme_bgcolor" />
+    </td>
+    <td class="tc">
+        <a href="javascript:void(0);" class="ui-button ui-del-button del_attch bg_red">删除</a>
+    </td>
+ 
+</tr>
+</table>
+<div class="mod_box project_edit project_agencyAdd_stepsix">
+	<div class="con_tit theme_fcolor f_20">编辑项目附件</div>
+	<div class="con3">
+    	<form method="post" action="{url r="project#investor_six_save"}" id="agencyAdd_stepsix_form">
+    		<input type="hidden" name="siteid" value="1">
+			<input type="hidden" value="{$id}" name="id" />
+            <div class="xm-content">
+                <table width="100%" border="0" cellpadding=0 cellspacing=0 class="tab3" rel="attach_form" >
+                    <thead>
+                        <tr class="col theme_fcolor">
+                            <td style="width:33.3%">标题</td>
+                            <td style="width:48.3%">附件</td>
+                            <td style="width:18.3%">操作</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    	{if $attach_list}
+						<!--循环-->
+ 							{foreach from=$attach_list item=attach key=attach_key_num }
+								<?php $this->_var['attach_key_num']++; ?>
+								<tr>
+		                            <td class="tc">
+		                            	<div class="group">
+			                                <input type="text" name="attach[{$attach_key_num}][title]" value="{$attach.title}" class="small_textbox textbox attach_title">
+			                            	<span class="holder_tip">请输入附件标题</span>
+			                            </div>
+		                            </td>
+		                            <td class="tc">
+		                            	<input type="text" value="{$attach.file}" name="attach[{$attach_key_num}][file]" id="attach_{$attach_key_num}_url" class="small_textbox textbox upload_text attach_but w250 mr10">
+	                                 	<input type="button" value="选择文件"  name="attach_{$attach_key_num}_but" id="attach_{$attach_key_num}" class="ui-button upload_button theme_bgcolor" />
+		                            </td>
+		                            <td class="tc">
+		                                <a href="javascript:void(0);" class="ui-button ui-del-button del_attch bg_red">删除</a>
+		                            </td>
+									
+		                        </tr>
+								<script>
+									get_file_fun({$attach_key_num});
+								</script>
+							{/foreach}
+ 						{/if}
+                    	{if !$attach_list}
+                        <tr>
+                            <td class="tc">
+                            	<div class="group">
+                                	<input type="text" name="attach[{$attach_num}][title]" value="{$attach.title}" class="small_textbox textbox attach_title">
+                                	<span class="holder_tip">请输入附件标题</span>
+	                            </div>
+                            </td>
+                            <td class="tc">
+                            	<input type="text" value="" name="attach[{$attach_num}][file]" id="attach_{$attach_num}_url" class="small_textbox textbox upload_text attach_1_but attach_but w200 mr10">
+                             	<input type="button" value="选择文件"  name="attach_{$attach_num}_but" id="attach_{$attach_num}" class="ui-button upload_button theme_bgcolor" />
+                            </td>
+                            <td class="tc">
+                                <a href="javascript:void(0);" class="ui-button ui-del-button del_attch bg_red">删除</a>
+                            </td>
+							
+                        </tr>
+						<script>
+							get_file_fun({$attach_num});
+						</script>
+                        {/if}
+                    </tbody>
+                </table>
+                <div class="blank20"></div>
+                <div class="tc" id="add_new_attach_tr">
+                    <input type="hidden" name="attach_num" value="{$attach_num}">
+                    <input type="button" class="ui-button theme_bgcolor" value="添加更多附件" id="add_new_attach" style="float:none;display:inline-block" />
+                </div>
+                <div class="blank0"></div>
+                <div class="tc f14 f_red pt15 pb15 lh24">
+                    （温馨提示：请点击"选择文件"按钮选择您要上传的文件进行上传，单个文件大小不超过3M,文件格式为'doc', 'docx', 'xls', 'xlsx', 'ppt', 'txt', 'zip', 'rar'）
+                </div> 
+            </div>
+            <div class="blank20"></div>
+			{if $item.investor_edit eq 1}
+				<div class="button_row tc">
+					<div class="blank15"></div>
+			 		<input type="button" value="保存" name="submit_form" class="ui-center-button theme_bgcolor" id="ui-button" style="margin:0 5px;*margin-left:400px" />
+					<div class="ui-center-button bg_red" rel="green" onclick="window.history.go(-1)" style="margin:0 5px;">
+						返回
+					</div>
+					<input type="hidden" value="1" name="ajax" />
+					<div class="blank15"></div>
+				</div>
+			{/if}
+			{if !$item.investor_edit}
+	            <div class="button_row">
+	            	<div class="blank15"></div>
+	                <div class="ui-button bg_red" id="previous" style="margin-left:370px;" ><a href="{url r="project#investor_five" p="id=$id"}" style="color:#fff;">上一步</a></div>
+					<input type="button" value="下一步" name="submit_form" class="ui-button theme_bgcolor ml20" id="ui-button" />
+					<input type="hidden" value="1" name="ajax" />
+	                <div class="blank15"></div>
+	            </div>
+			{/if}
+    	</form>
+	</div>
+</div>
+<div class="blank20"></div>
+<script type="text/javascript">
+    $(function(){
+        show_tip();
+    });
+</script>
+<script type="text/javascript">
+	
+    // 添加附件
+ 	$(document).ready(function(){
+		bind_project_form();
+	});
+    $("#add_new_attach").live('click',function(){
+        var demo_attach="<tr>"+$("#attach_demo").html()+"</tr>";
+        num=parseInt($("input[name='attach_num']").val())+1;
+        $("input[name='attach_num']").val(num);
+        var new_attach=demo_attach.replace(/attach_1/g,"attach_"+num);
+        new_attach=new_attach.replace(/attach\[1\]/g,"attach["+num+"]");
+        //demo_attach=demo_attach.replace("url","url_"+num);
+        $("table[rel='attach_form'] tbody").append(new_attach);
+		get_file_fun(num);
+     });
+    // 删除附件
+    $("table[rel='attach_form'] .del_attch").live("click",function(){
+         sort_num=$("table[rel='attach_form'] .del_attch").index($(this));
+         $("table[rel='attach_form'] tbody tr:eq("+sort_num+")").remove("tr");
+    });
+	
+	
+	
+	
+	function bind_project_form()
+	{	
+		$("#agencyAdd_stepsix_form").live("submit",function(){
+			
+			
+			var ajaxurl = $(this).attr("action");
+
+			var query = $(this).serialize();
+ 			$.ajax({ 
+					url: ajaxurl,
+					dataType: "json",
+					data:query,
+					type: "POST",
+					success: function(ajaxobj){
+						if(ajaxobj.status)
+						{
+							$.showSuccess(ajaxobj.info,function(){
+								 location.href = ajaxobj.jump;
+							});
+						}
+						else
+						{
+							if(ajaxobj.jump!="")
+								location.href = ajaxobj.jump;
+							else
+							$.showErr(ajaxobj.info);
+						}						
+					},
+					error:function(ajaxobj)
+					{
+						if(ajaxobj.responseText!='')
+						alert(ajaxobj.responseText);
+					}
+				});
+				return false;
+			});
+	
+		$("#ui-button").live("click",function(){
+			var is_empty=false;
+			$("table[rel='attach_form'] .attach_title").each(function(i){
+				if($("table[rel='attach_form'] .attach_title").eq(i).val()==''){
+					$.showErr("请填写附件标题");
+					is_empty=true;
+					$("table[rel='attach_form'] .attach_title").eq(i).focus();
+					return false;
+				}
+			});
+ 			 if(!is_empty){
+ 				$("table[rel='attach_form'] .attach_but").each(function(i){
+					if($("table[rel='attach_form'] .attach_but").eq(i).val()==''){
+						$.showErr("请添加附件");
+						is_empty=true;
+						$("table[rel='attach_form'] .attach_but").eq(i).focus();
+						return false;
+					}
+				});
+			}
+			 if(!is_empty){
+			 	$("#agencyAdd_stepsix_form").submit();
+			 }
+			
+		});
+	}
+	
+</script>
+{include file="inc/footer.html"} 

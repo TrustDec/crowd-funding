@@ -1,0 +1,98 @@
+@charset "utf-8";
+
+/* 分页 开始 */
+.pages{font-size:14px;}
+.pages a,.pages span{height:26px;line-height:26px;padding:0 10px;background:#ddd;display:inline-block;}
+.pages a{border:1px solid #ddd;background:#fff;}
+.pages span.current{color:#fff;}
+/* 分页 结束 */
+
+/* 通用按钮 开始 */
+.ui-button,.ui-button_active,.ui-button_hover,.ui_button{height:40px;line-height:40px;cursor:pointer;color:#fff !important;display:inline;float:left;font-size:16px;text-align:center;padding:0 20px;-moz-border-radius:3px;-khtml-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;}
+.ui-button a,.ui-small-button a{color:#fff;display:block;}
+.ui-small-button{height:26px;line-height:26px;cursor:pointer;color:#fff !important;;display:block;float:left;font-size:14px;text-align:center;padding:0 10px;-moz-border-radius:2px;-khtml-border-radius:2px;-webkit-border-radius:2px;border-radius:2px;}
+.ui-big-button{padding:0 50px;height:50px;line-height:50px;}
+.btn_do_login,.btn_do_login_hover,.btn_do_login_active{background:#00b0f5;font-family:"Microsoft YaHei";height:42px;line-height:100%;width:97px;text-align:center;font-size:18px;cursor:pointer;color:#fff;-moz-border-radius:3px;-khtml-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;}
+.btn_do_login_hover,.btn_do_login_active{background:#01a5e6;width:97px;}
+.ui-del-button{width:60px;height:37px;line-height:37px;display:inline-block;float:none;padding:0 5px;}
+.ui-center-button{height:40px;line-height:40px;cursor:pointer;color:#fff !important;;display:inline-block;float:none;*display:inline;*float:left;font-size:16px;text-align:center;padding:0 20px;margin:0 10px;-moz-border-radius:3px;-khtml-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;}
+.ui-small-center-button{height:26px;line-height:26px;cursor:pointer;color:#fff !important;;display:inline-block;float:none;*display:inline;*float:left;font-size:16px;text-align:center;padding:0 10px;margin:0 10px;-moz-border-radius:3px;-khtml-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;}
+a.ui_button , a.ui-button { color: #fff !important; }
+.ui-small37-button {height:37px;line-height:37px;cursor:pointer;color:#fff !important;;display:block;float:left;font-size:14px;text-align:center;padding:0 10px;-moz-border-radius:2px;-khtml-border-radius:2px;-webkit-border-radius:2px;border-radius:2px;} 
+.ui-button-block{width:100%;padding:0;}
+.ui-button-sms-activer { color: #999 !important; background: #eee !important; } /* 发送验证码成功按钮状态 */
+/* 通用按钮 结束 */
+
+/* control-group 开始 */
+.control-group{margin-bottom:5px;padding:5px 0;overflow:hidden}
+.control-group label{color:#666;}
+.control-group .control-label,.control-group .control_label,.control-group .form_lable{width:90px;float:left;text-align:right;font-size:14px;margin-right:10px;overflow:hidden;color:#666;}
+.control-group label,.control-group .form_lable,.control-group .control_label,.control-group .control-label,.control-group .control_name,.control-group .form_text,.control-group .control_name,.control-group .control_text,.control-group .control-text{height:41px;line-height:41px;font-size:14px;float:left;}
+.control-group .small_form_lable,.control-group .small_control_label,.control-group .small_form_text,.control-group .small_control_text{height:37px;line-height:37px;font-size:14px;float:left;}
+.small-control-group .control_label,.small-control-group .control-label,.small-control-group .control_text,.small-control-group .control-text{height:37px;line-height:37px;font-size:14px;float:left;}
+.control-group .smaller_form_lable,.control-group .smaller_control_label,.control-group .smaller_form_text,.control-group .smaller_control_text{height:26px;line-height:26px;font-size:14px;float:left;}
+.smaller-control-group .control_label,.smaller-control-group .control-label,.smaller-control-group .control_text,.smaller-control-group .control-text{height:26px;line-height:26px;font-size:14px;float:left;}
+.small-control-group label{height:26px;line-height:26px;}
+.control-group .form_cont{float:left;height:41px;line-height:41px;font-size:14px;}
+.small-control-group .form_cont,.small-control-group .form_cont *{height:26px;line-height:26px;}
+.control-group .fileupload{height:39px;line-height:39px;}
+.control-group .controls select{height:45px;width:180px;}
+/* control-group 结束 */
+
+/* 关于输入框 开始 */
+.textareabox{width:365px;height:115px;line-height:22px;display:block;border:1px solid #d7d7d7;border-radius:5px;padding:10px;}
+.textbox{float:left;margin-right:15px;font-size:14px;border:1px solid #d7d7d7;border-top-left-radius:3px;border-top-right-radius:3px;border-bottom-right-radius:3px;border-bottom-left-radius:3px;padding:10px;width:300px;color:#333;-webkit-transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s;transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s;}
+.small_textbox{float:left;font-size:14px;border:1px solid #d7d7d7;padding:8px;width:300px;color:#333;-moz-border-radius:3px;-khtml-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;-webkit-transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s;transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s;}
+.smaller_textbox{float:left;font-size:14px;border:1px solid #d7d7d7;padding:5px;width:300px;color:#333;-moz-border-radius:3px;-khtml-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;-webkit-transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s;transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s;}
+.textbox:focus,.small_textbox:focus,.smaller_textbox:focus{border-color:#66afe9;outline:0;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,0.6);box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,0.6);}
+/* 关于输入框 结束 */
+
+/* 输入框提示文字 开始 */
+.holder_tip{color:#a9a9a9;text-align:left;font-size:14px;position:absolute;height:41px;line-height:41px;width:298px;top:5px;left:43px;padding:0 12px;}
+.small_holder_tip{height:37px;line-height:37px;}
+.smaller_holder_tip{height:26px;line-height:26px;}
+.holder_tip_box{position:relative;float:left;}
+.holder_tip_box .holder_tip{top:0;left:0;width:100%;padding:0;}
+.holder_tip_box .holder_tip span{padding:0 12px;}
+/* 输入框提示文字 结束 */
+
+/* 关于ui-checkbox 开始 */
+.ui-checkbox{ cursor:pointer; font-size:14px; }
+.common_cbo{ height:14px; background:url(../images/fanwe_ui/ui_cbobg.png) no-repeat 0 0px; padding-left:20px; line-height:14px;}
+.common_cbo_checked{ height:14px; background:url(../images/fanwe_ui/ui_cbobg.png) no-repeat 0 -78px; padding-left:20px;line-height:14px;}
+.common_cbo_hover{ height:14px; background:url(../images/fanwe_ui/ui_cbobg.png) no-repeat 0 -39px; padding-left:20px;line-height:14px;}
+/* 关于ui-checkbox 结束 */
+
+/* 关于ui-radiobox 开始 */
+.ui-radiobox{ cursor:pointer; font-size:14px; }
+.common_rdo{ height:14px; background:url(../images/fanwe_ui/ui_rdobg.png) no-repeat 0 0px; padding-left:20px; line-height:14px;}
+.common_rdo_checked{ height:14px; background:url(../images/fanwe_ui/ui_rdobg.png) no-repeat 0 -78px; padding-left:20px;line-height:14px;}
+.common_rdo_hover{ height:14px; background:url(../images/fanwe_ui/ui_rdobg.png) no-repeat 0 -39px; padding-left:20px;line-height:14px;}
+/* 关于ui-radiobox 结束 */
+
+/* select下拉框 开始 */
+.field_select{margin-right:10px; height:auto; display:inline-block; float:left; }
+.field_select dt{width:100%;background:#fff;cursor: pointer;height:33px;line-height:33px;text-align: left;letter-spacing: 1px;font-size:14px;border:1px solid #d7d7d7;padding: 1px 17px 1px 10px;*padding: 2px 17px 0px 10px;position:relative;overflow:hidden;}
+.field_select dt i{height: 0;width: 0;position:absolute;right:8px;top:14px;overflow:hidden;
+border-left: 4px solid transparent;
+border-right: 4px solid transparent;
+border-top: 5px solid transparent;
+border-top-color:#666;
+_border-left-color: tomato;
+_border-right-color: tomato;
+_filter: chroma(color=tomato);  
+}
+.field_select.dropdown dt i{height:0;width:0;position:absolute;right:8px;top:14px;overflow:hidden;border-left: 4px solid transparent;border-right: 4px solid transparent;border-bottom: 5px solid transparent;border-bottom-color: #666;border-top:none;}
+.field_select dd {width:83px;background:#fff !important;border:1px solid #d7d7d7;border-top:none;line-height:24px;letter-spacing:1px; font-size:14px;overflow-x:hidden;overflow-y:auto;max-height:200px;}
+.field_select dd a{ height:24px; cursor:pointer;text-align: left;padding-left: 10px;overflow:hidden;float:none;line-height:24px; margin-right:0px;}
+.field_select dd a.current{ background:#44b4ff; color:#fff;}
+.field_select dd a:hover{ background:#0099ff; color:#fff;}
+
+.field_select.big dt{width:150px;}
+.field_select.medium dt{width:120px;}
+.field_select.small dt{width:85px;}
+
+.field_select.big dd{width:177px;}
+.field_select.medium dd{width:147px;}
+.field_select.small dd{width:112px;}
+/* select下拉框 结束 */

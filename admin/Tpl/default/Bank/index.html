@@ -1,0 +1,40 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<script type="text/javascript">
+	function adv(id)
+	{
+		location.href = ROOT+"?m=Adv&a=index&rel_table=deal_cate&rel_id="+id;
+	}
+</script>
+<div class="main">
+<div class="main_title">{$main_title}</div>
+<div class="blank5"></div>
+<div class="button_row">
+	<input type="button" class="button" value="{%ADD}" onclick="add();" />
+	<input type="button" class="button" value="{%DEL}" onclick="del();" />
+</div>
+<php>
+	
+</php>
+<div class="blank5"></div>
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="deal" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{%ID}|50px
+		,name:名称 :edit
+		,day:日期 |25%
+		,sort|get_sort=$deal['id']:{%SORT}
+		,is_rec|get_isrec=$deal['id']:是否推荐
+		,is_support_tzt|get_toogle_status=$deal['id']#is_support_tzt:是否支持投资通" 
+	actionlist="edit:{%EDIT}, del:{%DEL}" 
+	actionwidth="100px"/> 
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

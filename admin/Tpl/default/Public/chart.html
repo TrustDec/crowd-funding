@@ -1,0 +1,216 @@
+<script type="text/javascript" src="__TMPL__Common/js/flash/js/json/json2.js"></script>
+<script type="text/javascript" src="__TMPL__Common/js/flash/js/swfobject.js"></script>
+<script type="text/javascript">
+var flashvars = {};
+var params = {wmode:"opaque"};
+<?php if(!empty($chart_list[0][0]['line'])){  ?>
+swfobject.embedSWF("__TMPL__Common/js/flash/open-flash-chart.swf", "my_chart", "900", "300", "9.0.0" , "expressInstall.swf", flashvars,params);
+<?php } ?>
+
+function ofc_ready()
+{
+}
+
+
+function open_flash_chart_data()
+{
+	var index = 0;
+	if((!isNaN($("#conf_tab_index").val())) && $("#conf_tab_index").val() != ''){
+		index = $("#conf_tab_index").val();
+		//alert('open_flash_chart_data:' + $("#conf_tab_index").val());
+	}
+	
+	var data_line_name = "data" + index + "_line0";
+	var data_bar_name = "data" + index + "_bar0";
+	
+	var data_line;
+	var data_bar;
+	
+	data_line = window.eval(data_line_name);
+	data_bar = window.eval(data_bar_name); 
+	//alert(data_line);
+	$("#my_now").attr('line',JSON.stringify(data_line));
+	$("#my_now").attr('bar',JSON.stringify(data_bar));
+	//$("#my_now").attr('name','info_' + index + '_bar');
+	//$("#my_now").attr('name_num','0');
+	
+	//$("#my_now").attr('line_bar_id','info_' + index + '_bar_0');
+	//设置对应的：条形图 也有选择状态			
+	$('#info_' + index + '_bar_0').attr('checked','checked');
+	
+	return JSON.stringify(data_line);
+	
+}
+
+
+function findSWF(movieName) {
+  if (navigator.appName.indexOf("Microsoft")!= -1) {
+    return window[movieName];
+  } else {
+    return document[movieName];
+  }
+}
+
+   <?php foreach($chart_list as $k=>$v){ ?>
+	   <?php foreach($v as $k1=>$v1){ ?>
+	  	 function load<?php echo $k; ?>_line<?php echo $k1; ?>()
+		{
+	  		 //alert('info_<?php echo $k; ?>_bar_<?php echo $k1; ?>');
+			$("#my_now").attr('line',JSON.stringify(data<?php echo $k; ?>_line<?php echo $k1; ?>) );
+			$("#my_now").attr('bar',JSON.stringify(data<?php echo $k; ?>_bar<?php echo $k1; ?>) );
+			$("#my_now").attr('line_bar_id','info_<?php echo $k; ?>_bar_<?php echo $k1; ?>');
+			//设置对应的：条形图 也有选择状态			
+			$('#info_<?php echo $k; ?>_bar_<?php echo $k1; ?>').attr('checked','checked');
+	 		 tmp = findSWF("my_chart");
+	 		 x = tmp.load( JSON.stringify(data<?php echo $k; ?>_line<?php echo $k1; ?>) );
+		}
+	  	 
+		function load<?php echo $k; ?>_bar<?php echo $k1; ?>()
+		{
+			//alert('info_<?php echo $k; ?>_line_<?php echo $k1; ?>');
+			$("#my_now").attr('line',JSON.stringify(data<?php echo $k; ?>_line<?php echo $k1; ?>) );
+			$("#my_now").attr('bar',JSON.stringify(data<?php echo $k; ?>_bar<?php echo $k1; ?>) );			
+			//设置对应的：曲线图 也有选择状态
+			$('#info_<?php echo $k; ?>_line_<?php echo $k1; ?>').attr('checked','checked');
+	 		 tmp = findSWF("my_chart");
+	 		 x = tmp.load( JSON.stringify(data<?php echo $k; ?>_bar<?php echo $k1; ?>) );			 
+		}
+	   var data<?php echo $k; ?>_line<?php echo $k1; ?> = <?php echo $v1['line']; ?>;
+	   var data<?php echo $k; ?>_bar<?php echo $k1; ?> = <?php echo $v1['bar']; ?>;
+	    <?php }  ?>
+   <?php } ?>
+   
+	var pic = 0;
+	    var line = 0;
+	    var bar = 0;
+	function updatechart(p){
+	    	if(pic == p)
+	    		return;
+	    	pic = p;
+	    	
+	    	if(pic == 0){
+	    		$("#chart_select").attr('val','0');
+	    		$("#chart_line").css("background","url(__TMPL__Common/images/top_1/line_actived.gif)");
+	    		$("#chart_column").css("background","url(__TMPL__Common/images/top_1/bar.gif)");
+				$(".line").css('display','block');
+				$(".bar").css('display','none');
+				tmp = findSWF("my_chart");
+ 				x = tmp.load($("#my_now").attr('line'));
+	    	}
+	    	if(pic == 1){
+	    		$("#chart_select").attr('val','1');
+	    		$("#chart_column").css("background","url(__TMPL__Common/images/top_1/bar_actived.gif)");
+	    		$("#chart_line").css("background","url(__TMPL__Common/images/top_1/line.gif)");
+				$(".line").css('display','none');
+				$(".bar").css('display','block');
+				
+				tmp = findSWF("my_chart");
+ 				x = tmp.load($("#my_now").attr('bar'));
+	    	}
+			
+	    	line = 0;
+	    	bar = 0;
+	    }
+	    function updateline(p){
+	    	if(pic == p)
+	    		return;
+	    	if(line == 0){
+	    		$("#chart_line").css("background","url(__TMPL__Common/images/top_1/line_hover.gif)");
+	    		line = 1;
+	    	}
+	    	else{
+	    		$("#chart_line").css("background","url(__TMPL__Common/images/top_1/line.gif)");
+	    		line = 0;
+	    	}
+	    }
+	    function updatebar(p){
+	    	if(pic == p)
+	    		return;
+	    	if(bar == 0){
+	    		$("#chart_column").css("background","url(__TMPL__Common/images/top_1/bar_hover.gif)");
+	    		bar = 1;
+	    	}
+	    	else{
+	    		$("#chart_column").css("background","url(__TMPL__Common/images/top_1/bar.gif)");
+	    		bar = 0;
+	    	}
+	    	    
+	    }
+	    
+	    
+	    function load_data(tab){
+	 	   
+	 	   var load_fun;
+	 	   var radio;
+	 	   if ($("#chart_select").attr('val') == 1){
+	 		 //bar
+	 		   var index = 0;
+	 		   radio = 'input:radio[name=info_'+tab+'_bar]:checked';
+	 		   if ($(radio).val() != ''){
+	 			   index = $(radio).val();
+	 		   }
+	 		   load_fun ="load" + tab + "_bar"+index+"()";
+
+	 	   }else{
+	 		   //line
+	 		   var index = 0;
+	 		  radio = 'input:radio[name=info_'+tab+'_line]:checked';
+	 		   if ($(radio).val() != ''){
+	 			   index = $(radio).val();
+	 		   }
+	 		   
+	 		   load_fun = "load" + tab + "_line"+index+"()";
+	 	   }
+	 	   
+	 	  if((!isNaN($(radio).val())) && $(radio).val() != ''){
+	 		 window.eval(load_fun);
+	 	  }
+	 	  /*
+	 	 //var load_fun_sender = window.setInterval(load_fun,1);
+	 	    if(!!(window.attachEvent && !window.opera)){
+	 	    	//ie
+	 	    	execScript(load_fun); 
+	 	    }else{
+	 	    	//not ie
+	 	    	window.eval(load_fun);
+	 	    }
+	 	    */
+	    }	    
+</script>
+<style>
+	.dataline_default .chart_column {
+float: right;
+border: 1px solid #DCE1E5;
+font-size: 12px;
+height: 20px;
+line-height: 25px;
+margin: 0px;
+padding: 0px 14px 0px 10px;
+background-repeat: no-repeat;
+}
+.dataline_default .chart_line {
+float: right;
+border: 1px solid #DCE1E5;
+font-size: 12px;
+height: 20px;
+line-height: 25px;
+margin: 0px;
+padding: 0px 18px 0px 5px;
+background-repeat: no-repeat;
+}
+</style>
+<div class="dataline_default" style="position:relative;">
+	<div class="main_title"><div class="main_title_content">统计图表<span class="main_title_span"></span></div></div>
+	<span class="chart_select" id= "chart_select" style="position:absolute; right:0; top:0;">
+		<a class="chart_column" id="chart_column" style="background-image: url(__TMPL__Common/images/top_1/bar.gif); background-position: initial initial; background-repeat: initial initial;" title="条形图" href="javascript:updatechart(1)" onmouseover="updatebar(1)" onmouseout="updatebar(1)"></a>
+		<a class="chart_line" id="chart_line" style="background-image: url(__TMPL__Common/images/top_1/line_actived.gif); background-position: initial initial; background-repeat: initial initial;" title="曲线图" href="javascript:updatechart(0)" onmouseover="updateline(0)" onmouseout="updateline(0)"></a>
+	</span>
+</div>
+<div class="blank5"></div>
+<div class="blank5"></div>
+<div id="my_chart"></div>
+<?php if(is_array($chart_list)&&count($chart_list)>0){ ?>
+<div id="my_now" style="display:none;" title=""></div>
+<?php }else{ ?>
+<div  title="">没有数据</div>
+<?php } ?>

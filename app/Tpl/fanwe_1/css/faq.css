@@ -1,0 +1,130 @@
+/* 文章列表 开始 */
+.article_main{
+	width:1200px;
+	/*background: url(../images/bg_help_bg.gif) repeat-y;*/
+	padding:0;
+	overflow:hidden;
+}
+.article_main .mod_title{
+	border-bottom:2px solid #d4d4d4;
+}
+.article_l {
+	background:#fff;
+	float:left;
+	width:300px;
+	overflow:hidden;
+	margin-top:30px;
+}
+.article_l ul{
+	border-bottom:1px solid #ccc;
+}
+.article_l li {
+	border: 1px solid #ccc;
+	border-bottom: none;
+	height: 80px;
+	line-height: 80px;
+	font-size: 28px;
+	text-align:center;
+}
+.article_l li.on {
+	background: #09F url(../images/bg_help_bg2.png) right center no-repeat;
+	border: none;
+	color: #FFF;
+}
+.article_l li.on a{
+	color:#fff;
+}
+.article_r{
+	background:#fff;
+	float:right;
+	width:800px;
+	overflow: hidden;
+	padding:0 50px;
+}
+.article_r_list{
+	width:800px;
+	border-bottom: 1px dashed #ccc;
+	padding:30px 0;
+}
+.article_r_list .list_l{
+	float: left;
+	background: url(../../img/v3/bg_help_bg3.gif) 0 6px no-repeat;
+	width: 680px;
+	height: 30px;
+	line-height: 30px;
+	font-size: 24px;
+	padding-left: 50px;
+	overflow: hidden;
+}
+.article_box .article_r_list h3{
+	position:relative;
+	float:left;
+	width:750px;
+	height: 30px;
+	line-height: 30px;
+	font-size:22px;
+	overflow: hidden;
+	font-weight:normal;
+	padding-left:50px;
+}
+.article_box .article_r_list h3 i ,
+.faq_box .article_r_list h3 i{
+	position:absolute;
+	left:0;
+	top:4px;
+	width:40px;
+	height:20px;
+	background: url(../images/all.png) 0 -270px no-repeat;
+	display:block;
+}
+.faq_box{ padding:20px; }
+.faq_title { 
+	font-size:16px;
+	font-weight:bolder;
+	padding:5px 0px;
+}
+.faq_box .article_r_list h3{
+	position:relative;
+}
+.faq_box .article_r_list h3 i{
+	background-position:0 -295px;
+}
+.article_r_list h3 a{width:620px;}
+.article_r_list .muted{
+	font-size:12px;
+	width:130px;
+	text-align:center;
+}
+.article_box .article_r_list .text {
+	position:relative;
+	line-height:24px;
+	margin:15px 0 5px 0;
+	color:#666;
+	font-size:14px;
+	padding-left:50px;
+	overflow:hidden;
+}
+.article_box .article_r_list .text i{
+	position:absolute;
+	left:20px;
+	top:5px;
+	width:20px;
+	height:20px;
+	background: url(../images/all.png) -45px -270px no-repeat;
+	display:block;
+}
+.faq_box .article_r_list .text i{
+	background-position:-45px -295px;
+}
+.article_box .article_r_list h3{
+	width:750px;
+	height:auto;
+}
+.faq_box .article_r_list h3 {width:725px}
+.faq_box .article_r_list h3 a{
+	width:725px;
+}
+.faq_box .article_r_cont{padding:0 15px;}
+.faq_box .article_r_list{width:770px}
+.faq_box .last{border:0;}
+/* 文章列表 结束 */

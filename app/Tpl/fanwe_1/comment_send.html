@@ -1,0 +1,42 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/comment.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/account.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/comment.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/comment.js";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<style type="text/css">
+	.comment_content{width:839px;}
+</style>
+<div id="J_wrap">
+	{include file="inc/home_user_info.html"}
+	<div class="dlmain Myhomepage">
+	 	{include file="inc/account_left.html"} 
+		<div class="homeright pageright f_r">
+			<div class="list_title clearfix">
+				<div {if ACTION_NAME eq 'index'}class="cur"{/if}>
+					<a href="{url r="comment"}">收到的评论</a>
+				</div>
+				<div {if ACTION_NAME eq 'send'}class="cur"{/if}>
+					<a href="{url r="comment#send"}">发出的评论</a>
+				</div>
+			</div>	
+			<div class="deal_update">
+				{if $comment_list}
+				{foreach from=$comment_list item=comment_item}
+				{include file="inc/comment_send_item.html"}
+				{/foreach}
+				{else}
+				<div class="empty_tip">没有发表过任何评论</div>
+				{/if}
+				<div class="blank20"></div>
+				<div class="pages">{$pages}</div>
+			</div>
+		</div>
+		<div class="blank0"></div>
+	</div>
+	<div class="blank"></div>
+ </div>
+{include file="inc/footer.html"} 

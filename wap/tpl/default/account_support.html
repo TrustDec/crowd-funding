@@ -1,0 +1,207 @@
+{include file="inc/header.html"} 
+<section class="account_support">
+	{if $support_list}
+	{if $deal_info.type eq 1}
+	<h1 class="p10 mb5" style="background:#fff;border-bottom:1px solid #e5e5e5;">
+		项目融资金额：<span class="f_money">{function name="format_price" v=$deal_info.limit_price}</span>
+		<div class="blank5"></div>
+		目出让股份：<span class="f_money">{$deal_info.transfer_share}%</span>
+	</h1>
+	<div class="blank5"></div>
+	{else}
+	<div class="blank15"></div>
+	{/if}
+	<div class="ul_block ul_block_list">
+		{if $deal_info.type eq 0 || $deal_info.type eq 2 || $deal_info.type eq 3}
+		{foreach from=$support_list item=support_item}
+		<ul>
+			<li class="webkit-box">
+				<label class="input_lable">编号：</label>
+				<div class="text webkit-box-flex">{$support_item.id}</div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">会员名称：</label>
+				<div class="text webkit-box-flex">
+					{$support_item.user_name}{if $support_item.is_winner eq 1}(幸运星){/if}
+				</div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">支付金额：</label>
+				<div class="text webkit-box-flex">
+					<span class="f_money">
+						{if $support_item.delivery_fee gt 0}
+							{function name="format_price" v=$support_item.deal_price}+运费{function name="format_price" v=$support_item.delivery_fee}={function name="format_price" v=$support_item.total_price}
+						{else}
+							{function name="format_price" v=$support_item.total_price}
+						{/if}
+						{if $support_item.type eq 3}(抽奖){/if}
+					</span>
+				</div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">分红金额：</label>
+				<div class="text webkit-box-flex">
+					{if $support_item.share_fee}
+					<span class="f_money">{function name="format_price" v=$support_item.share_fee}</span>
+					{else}
+					- -
+					{/if}
+				</div>
+			</li>
+			<li class="textarea webkit-box">
+				<label class="input_lable">回报内容：</label>
+				<div class="text webkit-box-flex">
+					<span>{$support_item.item_description}</span>
+				</div>
+			</li>
+			{if $support_item.support_memo}
+			<li class="textarea webkit-box">
+				<label class="input_lable">回报备注：</label>
+				<div class="text webkit-box-flex">
+					<span>{$support_item.support_memo}</span>
+				</div>
+			</li>
+			{/if}
+			<li class="textarea webkit-box">
+				<label class="input_lable">收货信息：</label>
+				<div class="text webkit-box-flex">
+					{if $support_item.is_delivery eq 1}
+					<div class="mb5">收件人：{$support_item.consignee}</div>
+					<div class="mb5">地址：{$support_item.province}{$support_item.city}{$support_item.address}</div>
+					<div class="mb5">邮编：{$support_item.zip}</div>
+					<div class="mb5">电话：{$support_item.mobile}</div>
+					<div class="blank5"></div>
+					<div class="mb5 pt5" style="border-top:1px dashed #ddd;">物流公司：{if $support_item.logistics_company}<a href="{$support_item.logistics_links}" target="_blank" style="text-decoration:underline" class="theme_fcolor">{$support_item.logistics_company}</a>{else}无{/if}</div>
+					<div>物流编号：{if $support_item.logistics_number}{$support_item.logistics_number}{else}无{/if}</div>
+					{else}
+					无
+					{/if}
+				</div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">回报操作：</label>
+				<div class="text webkit-box-flex">
+					{if $support_item.is_success eq 1}
+						{if $support_item.order_status eq 3 && $support_item.repay_time gt 0}
+							{if $support_item.repay_make_time gt 0}
+								<span>会员确认收到</span>
+							{else}
+								<span>已发放回报</span>
+							{/if}
+						{else}
+							{if $support_item.type eq 3 }
+								{if $support_item.is_winner eq 1}
+									<a href="#" onclick="RouterURL('{url_wap r="account#set_repay" p="id=$support_item.id"}','#account-set_repay',2);" rel="{$support_item.id}" class="ui_button ui_small_button theme_color">立即设置回报</a>
+								{else}
+									抽奖支持
+								{/if}
+							{else}
+								<a href="#" onclick="RouterURL('{url_wap r="account#set_repay" p="id=$support_item.id"}','#account-set_repay',2);" rel="{$support_item.id}" class="ui_button ui_small_button theme_color">立即设置回报</a>
+							{/if}
+						{/if}
+					{else}
+						<span>未成功</span>
+					{/if}
+				</div>
+			</li>
+		</ul>
+		<div class="blank10"></div>
+		{/foreach}
+		{/if}
+		{if $deal_info.type eq 1 or $deal_info.type eq 4}
+		{foreach from=$support_list item=support_item}
+		<ul>
+			<li class="webkit-box">
+				<label class="input_lable">编号：</label>
+				<div class="text webkit-box-flex">{$support_item.id}</div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">投资人：</label>
+				<div class="text webkit-box-flex">
+					{$support_item.user_name}
+				</div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">项目估值：</label>
+				<div class="text webkit-box-flex">
+					{if $support_item.investment_stock_value eq '0.00' }
+						<span>无</span>
+					{else}
+						<span>{function name="format_price" v=$support_item.investment_stock_value}</span>
+					{/if}
+				</div>
+			</li>
+			<li class="textarea webkit-box">
+				<label class="input_lable">投资金额：</label>
+				<div class="text webkit-box-flex">
+					{if $support_item.delivery_fee gt 0}
+					<span class="f_money">{function name="format_price" v=$support_item.deal_price}+运费{function name="format_price" v=$support_item.delivery_fee}={function name="format_price" v=$support_item.total_price}</span>（{$support_item.invest_type_val}）
+					{else}
+					<span class="f_money">{function name="format_price" v=$support_item.total_price}</span>（{$support_item.invest_type_val}）
+					{/if}
+				</div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">所占股份：</label>
+				<div class="text webkit-box-flex">
+					<span class="f_money">{$support_item.user_stock}%</span>
+				</div>
+			</li>
+			<li class="textarea webkit-box">
+				<label class="input_lable">支付时间：</label>
+				<div class="text webkit-box-flex">
+					{function name="to_date" v=$support_item.pay_time}
+				</div>
+			</li>
+			<li class="textarea webkit-box">
+				<label class="input_lable">状态：</label>
+				<div class="text webkit-box-flex">
+					{if $support_item.order_status eq 3 && $support_item.repay_time gt 0}
+						{if $support_item.repay_make_time gt 0}
+							<span>会员确认收到</span>
+						{else}
+							<span>已发放回报</span>
+						{/if}
+					{else}
+					<span>待发放回报</span>
+					{/if}
+				</div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">回报操作：</label>
+				<div class="text webkit-box-flex">
+					{if $support_item.order_status eq 3 && $support_item.repay_time gt 0}
+						{if $support_item.repay_make_time gt 0}
+							<span>会员确认收到</span>
+						{else}
+							<span>已发放回报</span>
+						{/if}
+					{else}
+					
+						{if $support_item.type eq 3 }
+							{if $support_item.is_winner eq 1}
+								<span class="f_red">(幸运星)<span><br />
+								<a href="#" onclick="RouterURL('{url_wap r="account#set_repay" p="id=$support_item.id&type=1"}','#account-set_repay',2);" rel="{$support_item.id}" class="ui_button ui_small_button theme_color">立即发放</a>
+							{else}
+								抽奖支持
+							{/if}
+						{else}
+						<a href="#" onclick="RouterURL('{url_wap r="account#set_repay" p="id=$support_item.id&type=1"}','#account-set_repay',2);" rel="{$support_item.id}" class="ui_button ui_small_button theme_color">立即发放</a>
+						{/if}
+					{/if}
+				</div>
+			</li>
+		</ul>
+		<div class="blank10"></div>
+		{/foreach}
+		{/if}
+	</div>
+	<div class="blank5"></div>
+	<div class="pages">{$pages}</div>
+	<div class="blank15"></div>
+	{else}
+	<div class="empty_tip tc">没有任何支持记录</div>
+	<div class="blank15"></div>
+	{/if}
+</section>
+{include file="inc/footer.html"} 

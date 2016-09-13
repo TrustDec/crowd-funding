@@ -1,0 +1,50 @@
+{include file="inc/header.html"}
+<section class="account_yeepay_recharge">
+	<ul class="tab-nav webkit-box">
+		{if $is_tg && $user_info.ips_acct_no}
+		<li class="webkit-box-flex tc">
+			<a href="#" onclick="RouterURL('{url_wap r="account#refund"}','#account-refund',2);">本站提现</a>
+		</li>
+		<li class="webkit-box-flex tc current">
+			<a href="#" onclick="RouterURL('{url_wap r="account#yeepay_withdraw"}','#account-yeepay_withdraw',2);">第三方提现</a>
+		</li>
+		{else}
+		<li class="webkit-box-flex tc current">
+			<a href="#" onclick="RouterURL('{url_wap r="account#refund"}','#account-refund',2);">本站提现</a>
+		</li>
+		{/if}
+	</ul>
+	<div class="blank15"></div>
+	{if $yeepay_withdraw_list}
+	<ul class="ui_account_record">
+		{foreach from=$yeepay_withdraw_list item=yeepay_withdraw_item}
+		<li class="webkit-box sizing p10">
+			<div class="accountlist_fl half tl">
+				<h1>第三方托管</h1>
+				<span class="f_999">商户提现订单号：{$yeepay_withdraw_item.requestNo}</span>
+				<span class="f_999">{function name="to_date" v=$yeepay_withdraw_item.create_time}</span>
+			</div>
+			<div class="accountlist_fr half tr">
+				<h2 class="f_money">¥{$yeepay_withdraw_item.amount}</h2>
+<!-- 				<span>
+					<em class="f_999">平台手续费：</em>¥{$yeepay_withdraw_item.fee}
+					<div class="blank0"></div>
+				</span> -->
+				<span>
+					<em class="f_999">状态：</em>{if $yeepay_withdraw_item.code eq 1}提现成功{else}提现失败{/if}
+				</span>
+			</div>
+		</li>
+		{/foreach}
+	</ul>
+	<div class="blank15"></div>
+	<div class="pages">{$pages}</div>
+	<div class="blank15"></div>
+	{else}
+	<div class="empty_tip tc">还没有提现记录</div>
+	<div class="blank15"></div>
+	{/if}
+</section>
+<div class="blank15"></div>
+<!--中间开始-->
+{include file="inc/footer.html"} 

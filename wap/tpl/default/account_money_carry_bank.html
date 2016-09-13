@@ -1,0 +1,98 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/account.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<section class="account_money_carry_bank">
+	<nav class="tab_hd webkit-box">
+		{if $is_tg && $user_info.ips_acct_no}
+	  	<a href="#" class="nav_l sizing J_carry_bank cur" rel="carry_type1">网站余额提现</a>
+	  	<a href="#" class="nav_r sizing J_carry_bank" rel="carry_type2">第三方余额提现</a>
+	  	{else}
+	  	<a href="#" class="nav_all sizing cur" rel="carry_type1">网站余额提现</a>
+	  	{/if}
+	</nav>
+	<div class="tab_bd mod_main">
+		<div class="tab_bd_text" id="carry_type1" {if !($is_tg && $user_info.ips_acct_no)}style="display:block"{/if}>
+			{foreach from=$banks item=bank}
+			<div class="item_bank sizing webkit-box">
+				<a href="#" onclick="RouterURL('{url_wap r="account#money_carry" p="id=$bank.id"}','#account-money_carry',2);" class="webkit-box-flex">
+	        	 	<img src="{$TMPL}/images/bank/{$bank.bank_id}.jpg" width="50" height="40" class="bank_img">
+				 	<div class="bank_text">
+					 	<p>{$bank.bank_name}</p>
+					 	<p class="small f_999">{$bank.bankcard}&nbsp;{$bank.real_name}</p>
+				 	</div>
+				</a>
+				<div class="deal_bank J_deal_bank f_red" dataid="{$bank.id}">
+			 		<i class="icon iconfont">&#xe620;</i>
+			 	</div>
+			</div>
+			{/foreach}
+			<div class="item_bank item_add_bank sizing">
+				<a href="#" class="webkit-box" id="add_bank">
+					<span class="webkit-box-flex">添加银行卡</span>
+					<i class="fa fa-chevron-right go_see"></i>
+				</a>
+			</div>
+		</div>
+		{if $is_tg && $user_info.ips_acct_no}
+		<div class="tab_bd_text hide" id="carry_type2">
+			<div id="IPS_CARRY">
+				<form id="IPS_CARRY_FORM" name="IPS_CARRY_FORM">
+					<div class="ul_block">
+						<ul>
+							<li class="webkit-box">
+								<label class="input_lable">可用资金：</label>
+								<span class="form_cont f_red J_u_money_0">0元</span>
+								<input id="Jcarry_totalAmount" type="hidden" value="0" />
+							</li>
+							<li class="last webkit-box">
+								<label class="input_lable"><span class="f_red b">*</span>提取金额：</label>
+								<input type="text" placeholder="请输入提取金额" autocomplete="off" name="money" class="textbox webkit-box-flex" id="Jcarry_amount" onKeyUp="amount(this)" /><span>元</span>
+							</li>
+							<li class="webkit-box hide">
+								<label class="input_lable">提现费用：</label>
+								<span id="Jcarry_fee" class="form_cont">0.00 元</span>
+								<!-- {if $fee_config}
+								<img src="{$TMPL}/images/tips_wh.jpg" id="imgtips" style="position:relative;top:3px;left:15px;z-index:999; cursor:pointer;" onmouseover="tips(this,'第三方收取提现手续费:&lt;/br&gt;&lt;table width=\'100%\' class=\'tiptable\' cellspacing=\'1\' border=\'0\' &gt;&lt;tr style=\'background:#eff5fe;text-align:center\'&gt;{foreach from="$fee_config" item="fee"}&lt;td height=\'22\'&gt;{$fee.name}&lt;/td&gt;{/foreach}&lt;/tr&gt;&lt;tr class=\'bg\'&gt;{foreach from="$fee_config" item="fee"}&lt;td&gt;{$fee.fee_format}&lt;/td&gt;{/foreach}&lt;/tr&gt;&lt;/table&gt;',70,290)"><br>
+				            	{/if} -->
+							</li>
+							<li class="webkit-box hide">
+								<label class="input_lable">实付金额：</label>
+								<span id="Jcarry_realAmount" class="form_cont">0.00 元</span>
+							</li>
+							<li class="webkit-box hide">
+								<label class="input_lable">提现后账户可用余额：</label>
+								<span id="Jcarry_acount_balance" class="form_cont">0.00 元</span>
+								<input type="hidden" name="Jcarry_acount_balance_amount" value="" />
+							</li>
+						</ul>
+					 	<div class="blank15"></div>
+					 	<div class="f_red tc">
+					 		<span>警告：禁止信用卡套现、虚假交易等行为，一经确认，将终止该账户的使用。</span>
+					 	</div>
+					 	<div class="blank15"></div>
+					 	<div class="button_row">
+				            <input type="button" id="Jcarry_submit" value="申请提现" class="ui-button theme_color" />
+				            <input type="hidden" name="acount_balance" id="Jcarry_acount_balance_res" />
+				        </div>
+				        <div class="blank15"></div>
+					</div>
+				</form>
+			</div>
+		</div>
+		{/if}
+	</div>
+</section>
+<script type="text/javascript">
+	var user_info_id = '{$user_info.id}';
+	var is_tg = '{$is_tg}';
+	var ips_acct_no = '$user_info.ips_acct_no';
+	if(is_tg && ips_acct_no){
+		var json_fee = {$json_fee};
+		var end_money=0;
+		var tg_end_money=0;
+	}
+</script>
+<!-- account_money_carry.js -->
+{include file="inc/footer.html"} 

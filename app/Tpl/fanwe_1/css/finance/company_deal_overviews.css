@@ -1,0 +1,377 @@
+.xqmain{background:none;}
+.container{
+	width:1200px;
+	padding:0;
+}
+.content-detail{padding:0;}
+.company-basic{padding:0;}
+.company-basic .year {
+  font-size: 16px;
+  margin-left: 10px;
+  color: #bbb;
+}
+.company-basic .stopped-icon {
+  padding: 2px 5px;
+  color: #999;
+  background: #e2e3e5;
+  display: inline-block;
+  margin-left: 10px;
+  border-radius: 3px;
+  font-size: 12px;
+  vertical-align: top;
+  position: relative;
+  top: 8px;
+}
+.title.line{display:block;}
+.gray-icon.manager {
+  background: #17b565;
+  color: #fff;
+}
+.deal_left{
+	float:left;
+	width:830px;
+}
+.deal_right{
+	float:right;
+	width:350px;
+}
+.schedule_box{
+	width:100%;
+  background:#fff;
+}
+.schedule_box .schedule_m{
+  width:310px;
+  padding:70px 20px 30px;
+}
+.other_box{
+	padding:0;
+	width:350px;
+}
+.box_money .sub{margin:0 8px;}
+.tab1 td{
+	background: #fff;
+	border: 1px solid #e5e5e5;
+}
+.l_main_hd{background:#fff;}
+.pro_hd{
+	width:830px;
+}
+.finance_status{
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.finance_status i{
+  width:69px;
+  height:62px;
+  display:block;
+  background: url(../images/finance/xmqkBg.png) no-repeat transparent;
+  text-indent:-999em;
+}
+.finance_status .preheat{
+  background-position:0 0;
+}
+.finance_status .financing{
+  background-position:0 -62px;
+}
+.finance_status .success{
+  background-position:0 -124px;
+}
+.finance_status .fail{
+  background-position:0 -186px;
+}
+.finance_status .audit_wait{
+  background-position:0 -248px;
+}
+.finance_status .audit_fail{
+  background-position:0 -310px;
+}
+.shenhe{
+  background:#fff;
+}
+.schedule_box .box_promoter .promoter_bg{
+  background:none;
+}
+.schedule_box .box_promoter{margin:0;}
+.schedule_box .box_promoter .promoter_img img{
+  -moz-border-radius:50%; -khtml-border-radius:50%; -webkit-border-radius:50%; border-radius:50%;
+}
+.box_main{
+  padding:20px;
+  background:#fff;
+}
+
+.loading-progress {
+  position: relative;
+  width: 302px;
+  height: 20px;
+  background-color: #ececec;
+  border-radius: 15px;
+  padding: 4px;
+  margin-bottom:60px;
+}
+.loading-progress .loading-bar {
+  position: relative;
+  width: auto;
+  height: 100%;
+  line-height: 21px;
+  color: #fff;
+  border-radius: 15px;
+  background-color: #73c8ff;
+  text-align: center;
+  -webkit-transition: all 2s;
+  transition: all 2s;
+  cursor: pointer;
+  margin:0;
+  padding:0;
+  word-wrap: normal;
+}
+.loading-progress .loading-bar span{
+	position:absolute;
+	word-break: break-all;
+	width:50px;
+}
+.loading-progress .loading-container {
+  position: absolute;
+  width: auto;
+  top: -28px;
+  padding-left: 5px;
+  color: #73c8ff;
+}
+.loading-progress .loading-container .myCanvas {
+  position: relative;
+  top: 5px;
+  vertical-align: middle;
+  width:15px;
+  height:15px;
+  display:inline-block;
+  background:url(../images/finance/icon_progress.png) no-repeat;
+}
+.loading-progress .loading-point {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #73c8ff;
+}
+.loading-progress .loading-container .loading-detail {
+  color: #555;
+}
+.loading-progress .loading-container .loading-point {
+  margin: 0 5px;
+}
+.loading-progress .loading-container.syndicate-goal {
+  top: 35px;
+  right: 10px;
+}
+.loading-progress .loading-container .loading-detail {
+  color: #555;
+}
+.loading-progress .loading-point {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #73c8ff;
+}
+.loading-progress .loading-container .loading-point {
+  margin: 0 5px;
+}
+.loading-progress .loading-container.syndicate-goal .loading-point {
+  background-color: #ddd;
+}
+.loading-progress .loading-container.syndicate-goal .myCanvas {
+  top: -8px;
+  background-position:0 -15px;
+}
+.info-area {
+  position: relative;
+  background-color: #f8f9fb;
+  width: 350px;
+  height: 73px;
+}
+.info-area .info-content {
+  width: 33%;
+  float: left;
+  height: 56px;
+  text-align: center;
+  padding-top: 17px;
+}
+.info-area .info-content .content-val {
+  color: #f28d00;
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 2px;
+}
+.info-area .info-content .start-num {
+  color: #999;
+}
+.info-area .info-line {
+  position: absolute;
+  top: 0;
+  left: 33%;
+  width: 2px;
+  height: 100%;
+  background-color: #fff;
+}
+.info-area .info-line {
+  position: absolute;
+  top: 0;
+  left: 33%;
+  width: 2px;
+  height: 100%;
+  background-color: #fff;
+}
+.info-area .info-line.next {
+  left: 66%;
+}
+.invest_btn_box{
+  margin:0;
+}
+.box6{padding:0;}
+.mod_conment{margin:0;}
+.box4 .mod_conment .r, .box5 .mod_conment .r{width:210px;}
+.shenhe{
+  width:100%;
+  border:0;
+}
+.shenhe_tt{
+  background:#f1f1f1;
+  height:40px;
+}
+.shenhe .shenhe_tt span{
+  height:40px;
+  line-height:40px;
+}
+.shenhe .shenhe_tt .xiangmu{width:210px;font-size:15px;}
+.shenhe .shenhe_tt .zhuangtai{width:96px;}
+.shenhe .shenhe_info li.no{ background-position: 250px -33px;}
+
+.box6 .mod_conment .r .title{margin-bottom:0}
+
+.shenhe{margin:0;}
+.pro_hd{
+  width:830px;
+  margin:0 -20px;
+}
+
+.item_focuser_list{
+  max-height:192px;
+  overflow:hidden;
+}
+.item_focuser_list.autoheight_wrap{
+  height:auto;
+  max-height:none;
+  overflow:hidden;
+}
+.item_focuser_list li{
+  float:left;
+  margin:0 10px 10px 0;
+}
+.item_focuser_list li.last{margin-right:0}
+.item_focuser_list li a{
+  width:54px;
+  height:54px;
+  display:block;
+}
+.item_focuser .view_all{
+  height:45px;
+  line-height:45px;
+  background:#f5f7f9;
+  color:#666;
+  display:block;
+}
+
+.company-fans-wrap .fans-list .fans-item {
+  list-style: none;
+  float: left;
+  margin: 0;
+  padding: 0;
+  width: 393px;
+  height: 96px;
+  background: #fff;
+  border: 1px solid transparent;
+}
+.company-fans-wrap .fans-list .fans-item:hover {
+  background: #f8f9fa;
+  border: 1px solid transparent;
+  border-radius: 3px;
+}
+.company-fans-wrap .fans-list .fans-item .fcol1, .company-fans-wrap .fans-list .fans-item .fcol2, .company-fans-wrap .fans-list .fans-item .fcol3 {
+  float: left;
+  height: 100%;
+}
+.company-fans-wrap .fans-list .fans-item .fcol1 {
+  width: 70px;
+  text-align: right;
+}
+.company-fans-wrap .fans-list .fans-item .fcol1 .fans-head {
+  margin-top: 17px;
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+}
+.company-fans-wrap .fans-list .fans-item .fcol2 {
+  width: 220px;
+}
+.company-fans-wrap .fans-list .fans-item .fcol2 .fans-name {
+  margin-top: 17px;
+  padding: 0 10px;
+}
+.company-fans-wrap .fans-list .fans-item .fcol2 .fans-name a {
+  color: #333;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 25px;
+}
+.company-fans-wrap .fans-list .fans-item .fcol2 .fans-brief {
+  color: #666;
+  font-size: 13px;
+  line-height: 22px;
+  padding: 0 10px;
+}
+.company-fans-wrap .fans-list .fans-item .fcol3 {
+  width: 100px;
+}
+.company-fans-wrap .fans-list .fans-item .fcol3 .fans-btn{
+  margin-top:30px;
+  display:none;
+}
+.company-fans-wrap .fans-list .fans-item:hover .fcol3 .fans-btn{display:block;}
+
+/* 分享 */
+.basic-section .share label{
+  height:40px;
+  line-height:40px;
+}
+.share .bdsharebuttonbox a{
+  width:40px;
+  height:40px;
+  padding:0;
+  margin:0 0 0 10px;
+  background-image:url(../images/finance/icon_share.png);
+}
+.share .bdsharebuttonbox .bds_weixin {
+  background-position: 0 0;
+}
+.share .bdsharebuttonbox .bds_sqq {
+  background-position: 0 -40px;
+}
+.share .bdsharebuttonbox .bds_tsina {
+  background-position: 0 -80px;
+}
+.share .bdsharebuttonbox .bds_mail {
+  background-position: 0 -120px;
+}
+
+.share .overview-intro .invest-col .details{
+  max-height:none;
+}
+
+.banner .fy_box{width:874px;padding:0;}
+.banner:hover .fy_box{width:790px;}
+.banner .fy_prev{left:0;}
+.banner .fy_next{right:0;}
+.banner:hover .fy_prev{left:20px;}
+.banner:hover .fy_next{right:20px;}

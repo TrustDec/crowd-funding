@@ -1,0 +1,35 @@
+{include file="inc/header.html"}
+<div class="card">
+      <!--<div class="card-header">我管理的公司:</div>-->
+      <div class="card-content">
+      	{if $focus_list}
+        <div class="list-block media-list">
+          <ul>
+          	{foreach from=$focus_list item=item}
+            <li class="item-content item-link">
+              <div class="item-media">
+				<a href="#" onclick="RouterURL('{url_wap r="finance#company_show" p="cid=$item.cid"}','#finance-company_show',2);" class="avatar">
+	                <img src="{$item.company_logo}"  width="44"/>
+	            </a>
+              </div>
+              <div class="item-inner">
+                <div class="item-title-row">
+                  <div class="item-title">
+                  	<a href="#" onclick="RouterURL('{url_wap r="finance#company_show" p="cid=$item.cid"}','#finance-company_show',2);">{$item.company_name}</a>
+				  </div>
+                </div>
+                <div class="item-subtitle">
+                	 <a href="#" onclick="RouterURL('{url_wap r="finance#company_update" p="id=$item.id"}','#finance-company_update',2);">公司动态</a>
+				</div>
+              </div>
+            </li>
+			{/foreach}
+          </ul>
+        </div>
+		{/if}
+      </div>
+	  <div class="blank10"></div>
+	  <div class="pages">{$pages}</div>
+	  <div class="blank10"></div>
+    </div>
+{include file="inc/footer.html"}

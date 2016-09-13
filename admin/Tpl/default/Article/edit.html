@@ -1,0 +1,123 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<load href='__TMPL__Common/js/article.js' />
+<div class="main">
+<div class="main_title">{$vo.title}{%EDIT} <a href="{:u("Article/index")}" class="back_list">{%BACK_LIST}</a></div>
+<div class="blank5"></div>
+<form name="edit" action="__APP__" method="post" enctype="multipart/form-data">
+<table class="form" cellpadding=0 cellspacing=0>
+	<tr>
+		<td colspan=2 class="topTd"></td>
+	</tr>
+	<tr>
+		<td class="item_title">{%ARTICLE_TITLE}:</td>
+		<td class="item_input"><input type="text" class="textbox require" name="title" value="{$vo.title}" /></td>
+	</tr>
+	<tr>
+		<td class="item_title">附标题:</td>
+		<td class="item_input"><input type="text" class="textbox" name="sub_title" value="{$vo.sub_title}" /> 
+			<span class="tip_span">[仅用于公告的推荐显示]</span>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">发布的人:</td>
+		<td class="item_input"><input type="text" class="textbox require" name="writer" value="{$vo.writer}" /></td>
+	</tr>
+	<tr>
+		<td class="item_title">简介:</td>
+		<td class="item_input"><textarea class="textarea" name="brief" >{$vo.brief}</textarea></td>
+	</tr>
+	<tr>
+		<td class="item_title">展示图标:</td>
+		<td class="item_input">
+			<html:imgUpload id="icon" name="icon" value='$vo.icon' />
+			<span class="tip_span">&nbsp;推荐尺寸：285px*200px</span>
+ 		</td>
+	</tr>
+	<tr>
+		<td class="item_title">{%URL_UNAME}:</td>
+		<td class="item_input"><input type="text" class="textbox word-only" name="uname" value="{$vo.uname}" /> </td>
+	</tr>
+	<tr>
+		<td class="item_title">{%REL_URL}:</td>
+		<td class="item_input"><input type="text" class="textbox" name="rel_url" value="{$vo.rel_url}" /></td>
+	</tr>
+	<tr>
+		<td class="item_title">{%SORT}:</td>
+		<td class="item_input"><input type="text" class="textbox" name="sort" value="{$vo.sort}" /></td>
+	</tr>
+	<tr>
+		<td class="item_title">标签:</td>
+		<td class="item_input"><input type="text" class="textbox require" name="tags" style="width:500px;" value="{$vo.tags}" /> <span class='tip_span'>用空格分隔</span></td>
+	</tr>
+	<tr>
+		<td class="item_title">{%CATE_TREE}:</td>
+		<td class="item_input">
+		<select name="cate_id" class="require">
+			<option value="0">=={%NO_SELECT_CATE}==</option>
+			<foreach name="cate_tree" item="cate_item">
+				<option value="{$cate_item.id}" <if condition="$vo['cate_id'] eq $cate_item['id']">selected="selected"</if>>{$cate_item.title_show}</option>
+			</foreach>
+		</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">{%IS_HOT}:</td>
+		<td class="item_input">
+			<lable>{%IS_HOT_0}<input type="radio" name="is_hot" value="0" <if condition="$vo['is_hot'] eq 0">checked="checked"</if> /></lable>
+			<lable>{%IS_HOT_1}<input type="radio" name="is_hot" value="1" <if condition="$vo['is_hot'] eq 1">checked="checked"</if> /></lable>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">{%IS_WEEK}:</td>
+		<td class="item_input">
+			<lable>{%IS_WEEK_0}<input type="radio" name="is_week" value="0" <if condition="$vo['is_week'] eq 0">checked="checked"</if> /></lable>
+			<lable>{%IS_WEEK_1}<input type="radio" name="is_week" value="1" <if condition="$vo['is_week'] eq 1">checked="checked"</if> /></lable>
+		
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">{%IS_EFFECT}:</td>
+		<td class="item_input">
+			<lable>{%IS_EFFECT_1}<input type="radio" name="is_effect" value="1" <if condition="$vo['is_effect'] eq 1">checked="checked"</if> /></lable>
+			<lable>{%IS_EFFECT_0}<input type="radio" name="is_effect" value="0" <if condition="$vo['is_effect'] eq 0">checked="checked"</if> /></lable>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">{%ARTICLE_CONTENT}:</td>
+		<td class="item_input">
+			 <html:editor id="editor" name="content" type="KINDEDITOR" content="{$vo.content}" />
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">{%ARTICLE_SEO_TITLE}:</td>
+		<td class="item_input"><textarea class="textarea" name="seo_title" >{$vo.seo_title}</textarea></td>
+	</tr>
+	<tr>
+		<td class="item_title">{%ARTICLE_SEO_KEYWORD}:</td>
+		<td class="item_input"><textarea class="textarea" name="seo_keyword" >{$vo.seo_keyword}</textarea></td>
+	</tr>
+	<tr>
+		<td class="item_title">{%ARTICLE_SEO_DESCRIPTION}:</td>
+		<td class="item_input"><textarea class="textarea" name="seo_description" >{$vo.seo_description}</textarea></td>
+	</tr>
+	<tr>
+		<td class="item_title"></td>
+		<td class="item_input">
+			<!--隐藏元素-->
+			<input type="hidden" name="id" value="{$vo.id}" />
+			<input type="hidden" name="{:conf("VAR_MODULE")}" value="Article" />
+			<input type="hidden" name="{:conf("VAR_ACTION")}" value="update" />
+			<!--隐藏元素-->
+			<input type="submit" class="button" value="{%EDIT}" />
+			<input type="reset" class="button" value="{%RESET}" />
+		</td>
+	</tr>
+	<tr>
+		<td colspan=2 class="bottomTd"></td>
+	</tr>
+</table>	 
+</form>
+</div>
+<include file="Public:footer" />

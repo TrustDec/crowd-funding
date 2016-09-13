@@ -1,0 +1,92 @@
+{include file="inc/header.html"}
+<script type="text/javascript" src="{$TMPL}/js/investor_index.js"></script>
+<div id="J_wrap">
+	<div class="investor_index wrap1000">
+		<div class="blank20"></div>
+		<div class="progress_box">
+			<div class="progress_bar progress_bar_one"></div>
+			<div class="blank10"></div>
+			<ul class="progress_inf">
+				<li class="theme_fcolor">填写个人信息</li>
+				<li>进行身份验证</li>
+				<li>认证中</li>
+			</ul>
+		</div>
+		<div class="blank20"></div>
+		<div class="mod_box">
+			<div class="item">
+				<form id="investor_index_form" name="investor_index_form" action="" autocomplete="off">
+				<div class="form_row control-group mycontrol-group">
+					<label class="form_lable">身份类型：</label>
+					<div class="f_l f14 mt10">
+						<!--is_investor:0普通用户，1个人投资者，2机构投资者-->
+						<span class="ui_check ui_checked" type="radio" rel="usertype">
+							<input type="radio" name="is_investor" value="1" checked="checked"/>
+						</span>
+						个人投资者
+						<span class="ui_check ml10" type="radio" rel="usertype" >
+							<input type="radio" name="is_investor" value="2" />
+						</span>	
+						机构投资者
+					</div>
+				</div>
+				<div class="blank0"></div>
+				<div class="form_row control-group mycontrol-group">
+					<label class="form_lable">手机号码：</label>
+					<input type="text" value="{$user_info.mobile}" id="settings-mobile" name="mobile" class="textbox" {if $mobile_is_bind neq null}disabled="disabled"{/if} />
+					{if $mobile_is_bind eq null}
+					<input type="button" value="获取验证码" class="send_sms_verify ui-button 	bg_red f_l" id="J_send_sms_verify" rel="ui-button">
+					{/if}
+					<div class="tip_box"></div>
+				</div>
+				<div class="blank0"></div>
+				{if $mobile_is_bind eq null}
+				<div class="form_row control-group">
+					<label class="form_lable">验证码：</label>
+					<input type="text" value="" name="verify_coder" id="verify_coder"  class="textbox" />
+					<div class="tip_box"></div>
+				</div>
+				{/if}
+				<div class="blank0"></div>
+				<div class="agreement control-group pr f14">
+					<label class="form_lable"></label>
+					<span class="ui_check ui_checked" >
+						<input type="checkbox" id="J_agreement" name="J_agreement" checked="checked"/>
+					</span>
+					我已经阅读并同意<a class="theme_fcolor" href="javascript:void(0)" onclick="javascript:help_item();">《{function name="app_conf" v="SITE_NAME"}服务条款》</a>
+				</div>
+				<div class="blank15"></div>
+				<div class="button_row">
+					<input type="button" value="同意，下一步" name="submit_form" class="ui-button theme_bgcolor" id="ui-button" {if $mobile_is_bind eq null}onclick="javascript:investor_save_mobile();"{/if}{if $mobile_is_bind neq null}onclick="javascript:investor_save_mobile2();"{/if} rel="ui-button" style="margin-left:110px;" />
+					<input type="hidden" value="1" name="ajax" />
+					<input type="hidden" value="{url r="investor#investor_two"}" name="investor_two_url" />
+					<div class="blank15"></div>
+				</div>
+				</form>
+			</div>
+		</div>
+		<div class="blank20"></div>
+	</div>
+</div>
+<div style="display:none;" id="show_html">{$help_item.content}</div>
+<script>
+	function help_item()
+	{
+		var html_var=$("#show_html").html();
+		if(html_var){
+			$.weeboxs.open(html_var, {contentType:'text',showButton:true,title:'{$help_item.title}',width:800,height:300,type:'wee'});
+		}	
+	}	
+</script>
+<style>
+	.weedialog .dialog-content {
+background: #fff !important;
+clear: both;
+font-size: 14px;
+padding: 20px;
+overflow-y: auto;
+overflow-x: hidden;
+text-align: left; 
+}
+</style>
+{include file="inc/footer.html"} 

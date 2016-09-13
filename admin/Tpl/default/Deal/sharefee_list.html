@@ -1,0 +1,88 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<load href='__TMPL__Common/js/jquery.bgiframe.js' />
+<load href='__TMPL__Common/js/jquery.weebox.js' />
+<load href='__TMPL__Common/js/deal.js' />
+<load href='__TMPL__Common/style/weebox.css' />
+<PHP>
+	function get_deal_item($deal_item_id){
+		$deal_item=D("DealItem")->where("id=".intval($deal_item_id))->find();
+		$return=format_price($deal_item['price']);
+		$return .="(id:".$deal_item['id'].")";
+		return $return;
+	}
+	function get_share_status($share_status){
+		if($share_status ==1)
+			$return="已发放";
+		else
+			$return="未发放";
+		return $return;
+	}
+	function get_deal_order($id){
+		return "<a href='".u("DealOrder/view",array('id'=>$id))."'>".$id."</a>";
+	}
+</PHP>
+<div class="main">
+<div class="main_title">
+	{$deal_info.name} 分红列表&nbsp;&nbsp;
+	<a href="{$back_pay_log}">返回发放记录</a>&nbsp;&nbsp;
+	<a href="{$back_deal}">上线项目列表</a>
+</div>
+<div class="blank5"></div>
+<div class="main_title" style="font-size:12px; font-weight:normal;">
+	<div class="">
+		分红：
+		应发分红{$share_fee_total|format_price}
+		&nbsp;
+		已发分红{$share_fee_issue|format_price}
+	</div>
+	<div class="blank5"></div>
+	<div class="">
+		<form name="search" action="__APP__" method="get">	
+			会员名：<input type="text" class="textbox" name="user_name" value="{$user_name}" style="width:100px;" />
+			会员id：<input type="text" class="textbox" name="user_id" value="{$user_id}" style="width:100px;" />
+			子项目:<select name="deal_item_id">
+					<option value="0" <if condition="$deal_item_id eq 0">selected="selected"</if>>全部</option>
+					<foreach name="deal_item_list" item="deal_item">
+						<option value="{$deal_item.id}" <if condition="$deal_item_id eq $deal_item['id']">selected="selected"</if>>{$deal_item.price|format_price}(id:{$deal_item.id})</option>
+					</foreach>
+				</select>
+			
+			发放状态:<select name="share_status">
+				<option value="-1" <if condition="$share_status eq -1">selected="selected"</if> >全部</option>
+				<option value="0" <if condition="$share_status eq '0'">selected="selected"</if> >未发放</option>
+				<option value="1" <if condition="$share_status eq '1'">selected="selected"</if> >已发放</option>
+				</select>
+			<input type="hidden" value="Deal" name="m" />
+			<input type="hidden" value="sharefee_list" name="a" />
+			<input type="hidden" value="{$deal_info.id}" name="deal_id" />
+			<input type="submit" class="button" value="{%SEARCH}" />
+		</form>
+	</div>
+</div>
+<div class="blank5"></div>
+<div class="button_row">
+	<input type="button" class="button" value="已发分红" onclick="get_sharefee_list({$deal_info.id},1);" />
+	<input type="button" class="button" value="未发分红" onclick="get_sharefee_list({$deal_info.id},0);" />
+	<input type="button" class="button" value="全部" onclick="get_sharefee_list({$deal_info.id},-1);" />
+</div>
+<div class="blank5"></div>
+<html:list
+	id="dataTable" 
+	style="dataTable" 
+	name="dealorder" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id|get_deal_order:支持号|100px
+		,share_fee|format_price:分红金额
+		,user_name:会员
+		,deal_item_id|get_deal_item:子项目
+		,share_status|get_share_status:发放状态"
+	actionlist="&nbsp;无" />
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

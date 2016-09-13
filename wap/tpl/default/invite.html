@@ -1,0 +1,83 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/account.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/consignee.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+
+<!--中间开始-->
+<section class="account_view_order">
+	<div class="ul_block ul_block_list">
+		<div class="blank15"></div>
+		{if $invite_list}
+		{foreach from=$invite_list item=invite_item}
+		<ul>
+			<li class="webkit-box">
+				<label class="input_lable mr10">邀请人姓名</label>
+				<div class="list_con webkit-box-flex tr">
+					{$invite_item.user_name}
+				</div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable mr10">邀请类型</label>
+				<div class="list_con webkit-box-flex tr">
+					{if $invite_item.type eq 0}
+						创始团队的邀请
+					{elseif $invite_item.type eq 1}
+						团队成员的邀请
+					{elseif $invite_item.type eq 2}
+						过往成员的邀请
+					{elseif $invite_item.type eq 3}
+						过往投资方的邀请
+					{elseif $invite_item.type eq 4}	
+						投资机构的邀请
+					{/if}
+				</div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable mr10">
+					{if $invite_item.type eq 4}
+						机构名字
+					{else}
+						公司名字
+					{/if}
+				</label>
+				<div class="list_con webkit-box-flex tr">{$invite_item.invite_name}</div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable mr10">邀请时间</label>
+				<div class="list_con webkit-box-flex tr">
+					{if $invite_item.update_time eq 0}		
+						{function name="to_date" v=$invite_item.create_time}
+					{else}
+						{function name="to_date" v=$invite_item.update_time}
+					{/if}
+				</div>
+			</li>
+	
+			<li class="webkit-box">
+				<label class="input_lable mr10">操作</label>
+				<div class="list_con webkit-box-flex tr">
+					{if $invite_item.status eq 0}
+						<a href="#" class="button button-success J_invite_accept" style="width:inherit;" rel="{$invite_item.id}">接受邀请</a>
+						<a href="#" class="button button-warning J_invite_refuse" style="width:inherit;" rel="{$invite_item.id}">拒绝邀请</a>
+					{elseif  $invite_item.status eq 1}
+						<span class="theme_fcolor">已经接受邀请</span>
+					{else}
+						<span class="f_red">已经拒绝邀请</span>
+					{/if}
+				</div>
+			</li>
+		</ul>
+		<div class="blank15"></div>
+		{/foreach}
+		<div class="pages">{$pages}</div>
+		<div class="blank15"></div>
+		{else}
+			<p class="tc">还没有邀请记录</p>
+		{/if}
+	</div>	
+</section>
+<div class="blank15"></div>
+<!-- invite.js -->
+{include file="inc/footer.html"} 

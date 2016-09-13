@@ -1,0 +1,535 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/countUp.min.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/countUp.min.js";
+?>
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+
+<div class="blank0"></div>
+<div class="licai">
+	<div class="licai_deal">
+		<div class="totals_box">
+			<div class="wrap">
+				<span>一键理财已经为用户赚了：<span class="f22 f_money" id="total_money"></span>&nbsp;收益</span>
+			</div>
+		</div>
+		<div class="wrap">
+			<div class="deal_top">
+				<div class="deal_top_l">
+					<div class="deal_top_l_hd theme_bgcolor">
+						<div class="sp_box">
+							<span class="sp1" title="{$licai.name}">{function name="msubstr" v=$licai.name b=0 e=20}</span>
+							<span class="sp2" title="{$licai.licai_sn}">项目编号:{$licai.licai_sn}</span>
+						</div>
+						<span class="sp3" data="{function name="to_timespan" v="$licai.end_buy_date"}" id="left_time">
+							<label class="f_l">剩余购买时间：</label>
+							<em class="s day">--</em>
+							<em class="l">天</em>
+							<em class="s hour">--</em>
+							<em class="l">时</em>
+							<em class="s min">--</em>
+							<em class="l">分</em>
+							<em class="s sec">--</em>
+							<em class="l mr0">秒</em>
+						</span>
+					</div>
+					<div class="deal_top_l_bd">
+						<div class="bd_top clearfix">
+							<div class="img">
+								<img src="{if $licai.img eq ''}{$TMPL}/images/empty_thumb.gif{else}{$licai.img}{/if}" alt="{$deal_item.name}" />
+							</div>
+							<div class="text">
+								<div class="data_box">
+									<ul>
+										<li class="tl">
+											<div class="data_hd">预期到期收益率</div>
+											<div class="data_bd">
+												{if $licai.scope}
+													<span class="f_money">{$licai.scope}</span>
+												{else}
+													{if $licai.type eq 0}
+													<span class="f_money">{function name="number_format" v=$licai.average_income_rate f="2"}%</span>
+													{else}
+													<span class="f_money">{function name="number_format" v=$min_interest_rate f=2}%</span><font class="f14 f_money">起</font>
+													{/if}
+												{/if}
+													
+											</div>
+										</li>
+										<li class="tc">
+											<div class="data_hd">理财期限</div>
+											<div class="data_bd">{if $licai.date_limit neq "无限期"}{if $licai.date_limit >= 0}{$licai.date_limit}天{else $licai.date_limit < 0}已结束{/if}{else}无限期{/if}</div>
+										</li>
+										<li class="tr last">
+											<div class="data_hd">最低投资额</div>
+											<div class="data_bd">{$licai.min_money_format_num}</div>
+										</li>
+									</ul>
+									<div class="blank0"></div>
+								</div>
+								<div class="note_box f_red">
+									<span class="f_999">注：一键理财不等同于银行存款，过往业绩不预示其未来表现。</span>
+								</div>
+								<div  class="total_box">
+									<span>产品规模：<span class="f_red">{$licai.product_size_format_num}</span></span>
+								</div>
+							</div>
+							<div class="blank0"></div>
+						</div>
+						<div class="bd_bottom">
+							<span class="f_red">*您需要满足年龄：18~65岁 条件才能投资此项目</span>
+							<span>到期时间：{if to_timespan($licai['end_date']) eq 0}永久有效{else}{$licai.end_date}{/if}</span>
+                            <span class="last" title='{$licai.profit_way}'>获取收益方式：{function name='msubstr' v="$licai.profit_way" }</span>
+						</div>
+					</div>
+				</div>
+				<div class="deal_top_r">
+					<div class="deal_top_r_hd">
+						当前成交总额：<span class="f22 f_money">{$licai.subscribing_amount_format_num}</span><em class="f_red">&nbsp;万元</em>
+					</div>
+					<div class="deal_top_r_bd" id="deal_top_r_bd">
+						<form class="ajax_money_form" action="{url r="licai#bid"}" method="post">
+							<div class="input_group">
+								<label class="f_l">购买金额(元):</label>
+								<div class="short_note note tr f_red" id="user_left_money_tip" style="display:none">*余额不足，<a href="{url r="account#money_inchange"}" target="_blank" class="f_red b">去充值</a></div>
+								<div class="blank0"></div>
+								<div class="pr">
+									<input type="text" name="money" value="" class="textbox" onkeyup="amount(this)" autocomplete="off" />
+									<span class="holder_tip">{$licai.min_money_format_num}起</span>
+									<input type="hidden" name="min_money" value="{$licai.min_money}" />
+								</div>
+								{if $user_info.id}
+								<span class="note f_999 f_r" id="user_left_money_box">账户可用余额：<span id="user_left_money" data="{$user_info.money}">{function name="format_price" v=$user_info.money p=2}</span></span>
+								{/if}
+								<div class="blank0"></div>
+							</div>
+							<div class="input_group">
+								<label>预计到期收益(元):</label>
+								<input type="text" name="income_money" value="" class="textbox" readonly="readonly" />
+								<input type="hidden" name="income_money_val" value="1.18" />
+								<span class="note" style="display:none;">预计收益到账时间：{$licai.end_interest_date}</span>
+								<div class="blank0"></div>
+							</div>
+							<div class="blank10"></div>
+							{if $user_info.id eq 0}
+								{if ($licai.end_buy_date_time && $licai.end_buy_date_time neq '0000-00-00' && $licai.end_buy_date_time < $now) || ($licai.end_date_time && $licai.end_date_time neq '0000-00-00' && $licai.end_date_time < $now)}
+									<div class="sold_out"></div>
+								{else}
+									{if $licai.begin_buy_date_time neq '0000-00-00' && $licai.begin_buy_date_time > $now}
+										<div class="to_begin"></div>
+									{/if}
+									{if ($licai.begin_buy_date_time neq '0000-00-00' && $licai.begin_interest_date_time neq '0000-00-00') && ($licai.begin_buy_date_time <= $now && $licai.begin_interest_date_time >= $now)}
+										<div class="submit_row tc">
+											<input type="button" value="我要预约" class="ui_button ui-center-button bg_red" style="width:100%;padding:0;margin:0" />
+											<input type="hidden" name="paypassword" value="" />
+											<input type="hidden" value="1" name="ajax" />
+											<input type="hidden" value="{$licai.id}" name="id" />
+										</div>
+										<div class="tc p10"><a href="{url r="user#register"}" target="_blank" class="theme_fcolor">注册</a>&nbsp;或者&nbsp;<a href="javascript:void(0);" onclick="javascript:show_pop_login();" class="f_red">登录</a></div>
+									{/if}
+									{if $licai.type eq 0}
+										{if ($licai.begin_buy_date_time neq '0000-00-00' && $licai.end_date_time neq '0000-00-00') && ($now >= $licai.begin_buy_date_time && $now <= $licai.end_date_time)}
+											<div class="submit_row tc">
+												<input type="button" value="我要抢购" class="ui_button ui-center-button bg_red" style="width:100%;padding:0;margin:0" />
+												<input type="hidden" name="paypassword" value="" />
+												<input type="hidden" value="1" name="ajax" />
+												<input type="hidden" value="{$licai.id}" name="id" />
+											</div>
+											<div class="tc p10"><a href="{url r="user#register"}" target="_blank" class="theme_fcolor">注册</a>&nbsp;或者&nbsp;<a href="javascript:void(0);" onclick="javascript:show_pop_login();" class="f_red">登录</a></div>
+										{/if}
+									{else}
+										{if ($licai.begin_interest_date_time neq '0000-00-00' && $licai.end_buy_date_time neq '0000-00-00') && ($now >= $licai.begin_interest_date_time && $now <= $licai.end_buy_date_time)}
+											<div class="submit_row tc">
+												<input type="button" value="我要抢购" class="ui_button ui-center-button bg_red" style="width:100%;padding:0;margin:0" />
+												<input type="hidden" name="paypassword" value="" />
+												<input type="hidden" value="1" name="ajax" />
+												<input type="hidden" value="{$licai.id}" name="id" />
+											</div>
+											<div class="tc p10"><a href="{url r="user#register"}" target="_blank" class="theme_fcolor">注册</a>&nbsp;或者&nbsp;<a href="javascript:void(0);" onclick="javascript:show_pop_login();" class="f_red">登录</a></div>
+										{/if}
+									{/if}
+								{/if}
+							{else}
+								{if ($licai.end_buy_date_time && $licai.end_buy_date_time neq '0000-00-00' && $licai.end_buy_date_time < $now) || ($licai.end_date_time && $licai.end_date_time neq '0000-00-00' && $licai.end_date_time < $now)}
+									<div class="sold_out"></div>
+								{else}
+									{if $licai.begin_buy_date_time neq '0000-00-00' && $licai.begin_buy_date_time > $now}
+										<div class="to_begin"></div>
+									{/if}
+									{if ($licai.begin_buy_date_time neq '0000-00-00' && $licai.begin_interest_date_time neq '0000-00-00') && ($licai.begin_buy_date_time <= $now && $licai.begin_interest_date_time >= $now)}
+										<div class="submit_row tc">
+											<input type="button" value="我要预约" class="ui_button ui-center-button bg_red" style="width:100%;padding:0;margin:0" />
+											<input type="hidden" name="paypassword" value="" />
+											<input type="hidden" value="1" name="ajax" />
+											<input type="hidden" value="{$licai.id}" name="id" />
+										</div>
+									{/if}
+									{if ($licai.begin_interest_date_time neq '0000-00-00' && $licai.end_buy_date_time neq '0000-00-00') && ($now >= $licai.begin_interest_date_time && $now <= $licai.end_buy_date_time)}
+										<div class="submit_row tc">
+											<input type="button" value="我要抢购" class="ui_button ui-center-button bg_red" style="width:100%;padding:0;margin:0" />
+											<input type="hidden" name="paypassword" value="" />
+											<input type="hidden" value="1" name="ajax" />
+											<input type="hidden" value="{$licai.id}" name="id" />
+										</div>
+									{/if}
+								{/if}
+							{/if}
+							{if $licai.user_id == $user_info.id}
+								<input type="hidden" name="own_pro" value="1" />
+							{/if}
+								<input type="hidden" name="user_info_id" value="{$user_info.id}" />
+						</form>
+					</div>
+				</div>
+			</div>
+			{if $licai.rule_info}
+			<div class="deal_middle">
+				<div class="deal_middle_r">
+					<h3 class="deal_middle_hd">
+						<span>一键理财规则</span>
+					</h3>
+					<div class="deal_middle_bd deal_middle_r_bd">
+						{$licai.rule_info}
+					</div>
+				</div>
+			</div>
+			{/if}
+			<div class="deal_bottom">
+				<h3 class="deal_bottom_hd">
+					<span class="theme_bgcolor">产品详情</span>
+				</h3>
+				<div class="deal_bottom_bd">
+					<div class="data_box">
+                      	<div class="jijin_showa">
+                          	<div class="jijin_lan">
+                                <div class="name_jijin">产品名称：</div>
+								<div class="canshu_jijin" title="{$licai.name}">{function name="msubstr" v=$licai.name b=0 e=20}</div>
+                          	</div>
+                          	{if $licai.risk_rank_format}
+                          	<div class="jijin_lan">
+								<div class="name_jijin">风险等级：</div>
+								<div class="canshu_jijin">{$licai.risk_rank_format} </div>
+                          	</div>
+                  			{/if}
+                            {if $licai.licai_interest.0.site_buy_fee_rate  neq 0 }
+                            <div class="jijin_lan">
+								<div class="name_jijin">认/申购费率：</div>
+								<div class="canshu_jijin">{if $licai.type eq 0}无{else}{$licai.licai_interest.0.site_buy_fee_rate}%{/if}</div>
+                            </div>
+                            {/if}
+                            {if $licai.fund_brand_name}
+                            <div class="jijin_lan">
+								<div class="name_jijin">基金品牌：</div>
+								<div class="canshu_jijin">{$licai.fund_brand_name}</div>
+                            </div>
+                            {/if}
+                            {if $licai.fund_type_id}
+                            <div class="jijin_lan">
+								<div class="name_jijin">基金类型：</div>
+								<div class="canshu_jijin">{if $licai.fund_type_id eq 1}货币型{elseif $licai.fund_type_id eq 2}股票型{elseif $licai.fund_type_id eq 3}债券型{elseif $licai.fund_type_id eq 4}混合型{elseif $licai.fund_type_id eq 5}理财型{elseif $licai.fund_type_id eq 6}标准{elseif $licai.fund_type_id eq 7}QDII{else}其他型{/if}</div>
+                            </div>
+                            {/if}
+                      	</div>
+                      	<div class="jijin_showb">
+                      		{if $licai.fund_key}
+                           	<div class="jijin_lan">
+								<div class="name_jijin">基金代码：</div>
+								<div class="canshu_jijin">{$licai.fund_key}</div>
+                           	</div>
+                      		{/if}
+                           	{if $licai.purchasing_time}
+                            <div class="jijin_lan">
+								<div class="name_jijin">赎回到账时间：</div>
+								<div class="canshu_jijin" title="{$licai.purchasing_time}">{function name="msubstr" v=$licai.purchasing_time b=0 e=11}</div>
+                            </div>
+                           	{/if}    
+                            <div class="jijin_lan">
+								<div class="name_jijin">默认分红方式：</div>
+								<div class="canshu_jijin">现金分红</div>
+                            </div>   
+                            <div class="jijin_lan">
+                                <div class="name_jijin">收费方式：</div>
+								<div class="canshu_jijin">线上</div>
+                            </div>      
+                        </div>
+                      	<div class="jijin_showc">
+                            {if $licai.buy_limit_format}
+                            <div class="jijin_lan">
+								<div class="name_jijin">运作期限：</div>
+								<div class="canshu_jijin">{$licai.buy_limit_format}{if $licai.buy_limit_format neq "无限期"}天{/if}</div>
+                           	</div>
+                         	{/if}   
+                           	{if $licai.begin_buy_date}
+                           	<div class="jijin_lan">
+								<div class="name_jijin">成立时间：</div>
+								<div class="canshu_jijin">{$licai.begin_buy_date}</div>
+					        </div>
+                            {/if}
+                         </div>
+					</div>
+					<div class="info_box">
+						{$licai.description}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="password_hide" style="display:none">
+	<div class="control-group smaller-control-group">
+		<label class="control-label">确认金额：</label>
+		<div class="control-text">
+			<span id="verify_money"></span>元
+		</div>
+		<div class="blank0"></div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">支付密码：</label>
+		<div class="control-text">
+			{if $user_info.paypassword}
+			<div class="pr f_l">
+				<input type="password"  autocomplete="off" value="" name="pwd"  class="textbox w100" />
+				<span class="holder_tip" style="left:0;top:0;">请输入支付密码</span>
+				<span>忘记了？<a href="{url r="settings#security" p="method=setting-pass-box"}" target="_blank" class="theme_fcolor">点这里</a></span>
+			</div>
+			{else}
+			还未设置，<a href='{url r="settings#security"  p="method=setting-pass-box"}' target="_blank" class="f_red">点击设置</a>。
+			{/if}
+		</div>
+		<div class="blank0"></div>
+	</div>
+	{if $user_info.paypassword}
+	<div class="blank10"></div>
+	<div class="submit_row control-group">
+		<label class="control-label"></label>
+		<input type="button" value="确定投资" class="ui-button bg_red" id="invest_btn" />
+	</div>
+	{/if}
+</div>
+<script type="text/javascript">
+	(function(){
+		// 统计数值滚动
+		var options = {
+		    useEasing : true, 
+		    useGrouping : true, 
+		    separator : ',', 
+		    decimal : '.', 
+		    prefix : '', 
+		    suffix : '' 
+		};
+		var total_money = new countUp("total_money", 0, {$user_income}, 2, 2.5, options);
+		total_money.start();
+	})();
+</script>
+<script type="text/javascript">
+	$(function(){
+		fun_money();
+		leftTimeAct("#left_time");
+	});
+
+	var system_time= <?php echo NOW_TIME;?>;
+	var licai_type =  {$licai.type};
+	var licai_interest_json = {$licai_interest_json};
+	var before_day = {$licai.before_day};
+	var buy_day = {$licai.buy_day};
+	var before_money_val = 0;
+	var site_buy_fee_rate= 0;
+	var redemption_fee_rate = 0;
+	function fun_money(){
+		// 预期一天收益
+		var $deal_top_r_bd=$("#deal_top_r_bd"),
+			$min_money=$deal_top_r_bd.find("input[name='min_money']"),
+			$money=$deal_top_r_bd.find("input[name='money']"),
+			$income_money=$deal_top_r_bd.find("input[name='income_money']"),
+			endTime = parseInt($("#left_time").attr("data")),
+			leftTime = endTime - system_time;
+		
+		if(!($money.val())){
+			$income_money.attr("value",0);
+		}
+		$money.bind("blur",function(){
+			var income_money_val = 0;
+			var money_val=$money.val();
+			$("#verify_money").html(money_val);
+			$income_money.attr("value",0);
+			if(parseFloat($("#user_left_money").attr("data")) < parseFloat(money_val)){
+				$("#user_left_money_tip").show();
+			}
+			else{
+				$("#user_left_money_tip").hide();
+			}
+			//if(licai_interest_json.length){
+				if(licai_type > 0){
+					if(parseInt(licai_interest_json[licai_interest_json.length - 1]['max_money']) <= money_val){
+						income_money_val = parseFloat(licai_interest_json[licai_interest_json.length - 1]['interest_rate']);
+						before_money_val = parseFloat(licai_interest_json[licai_interest_json.length - 1]['before_rate']);
+						site_buy_fee_rate= parseFloat(licai_interest_json[licai_interest_json.length - 1]['site_buy_fee_rate']);
+						redemption_fee_rate= parseFloat(licai_interest_json[licai_interest_json.length - 1]['redemption_fee_rate']);
+					}
+					else{
+						$.each(licai_interest_json,function(i,v){
+							if((money_val >= parseInt(v['min_money'])) && (money_val <= parseInt(v['max_money']))){
+								income_money_val = parseFloat(v['interest_rate']);
+								before_money_val = parseFloat(v['before_rate']);
+								site_buy_fee_rate= parseFloat(v['site_buy_fee_rate']);
+								redemption_fee_rate= parseFloat(v['redemption_fee_rate']);
+							}
+						});
+					}
+				}
+				else{
+					income_money_val = licai_interest_json;
+				}
+				 
+				$("#verify_money").html(money_val);
+			if(money_val){
+				if(licai_type > 0){
+					var normal_rate=income_money_val/100;  // 正常利率
+					var preheat_rate=before_money_val/100;  // 预热利率
+					var procedures_rate=site_buy_fee_rate/100;  // 网站手续费率
+					var redemption_rate=redemption_fee_rate/100;  // 赎回手续费率
+					var new_money_val=money_val-money_val*procedures_rate;  // 扣除手续费后金额
+					
+					// 收益
+					var income_money=(new_money_val*normal_rate*buy_day)/365 + (new_money_val*preheat_rate*before_day)/365;
+					var redemption_money=((new_money_val)*redemption_rate*(buy_day+before_day))/365; // 赎回手续费
+					var new_income_money=(income_money-redemption_money).toFixed(2);
+					$income_money.attr("value",new_income_money);
+				}
+				else
+				{
+					if(income_money_val["average_income_rate"]>0){
+						var redemption_fee_rate = income_money_val['redemption_fee_rate'];
+						var site_buy_fee_rate = income_money_val['site_buy_fee_rate'];
+						var platform_rate = income_money_val['platform_rate'];
+						var average_income_rate = income_money_val['average_income_rate']; // 平均收益率
+						var interest_rate = income_money_val['interest_rate']; // 收益率总和
+						var procedures_rate=parseFloat(site_buy_fee_rate/100);  // 网站手续费率
+						var redemption_rate=parseFloat(redemption_fee_rate/100);  // 赎回手续费率
+						var preheat_rate = parseFloat(interest_rate/100);	//收益
+						var new_money_val=parseFloat(money_val-(money_val*procedures_rate));  // 扣除手续费后金额
+						//收益
+						var income_money= parseFloat((new_money_val*preheat_rate)/365);
+						var redemption_money=parseFloat((new_money_val*redemption_rate*buy_day)/365);  // 赎回手续费
+						var new_income_money=(income_money-redemption_money).toFixed(2);
+						$income_money.attr("value",new_income_money);
+					}
+				}
+			}
+			if(!income_money_val){
+				$income_money.attr("value",0);
+			}
+			//}
+		});
+
+		// 我要投资
+		buy();
+		function buy(){
+			$(".ajax_money_form").find(".ui_button").bind("click",function(){
+				if($("input[name='user_info_id']").val()){
+					if(endTime!=0&&leftTime<=0){
+						$.showErr("项目已结束！");
+						return false;
+					}
+					if($deal_top_r_bd.find("input[name='own_pro']").length){
+						$.showErr("不能购买自己发布的理财产品");
+						return false;
+					}
+					if(parseFloat($("#user_left_money").attr("data")) < parseFloat($money.val())){
+						$.showErr("您的账户余额不足！");
+						return false;
+					}
+					if(!($money.val())){
+						$.showErr("请输入金额");
+						return false;
+					}
+					else if(parseFloat($money.val()) < parseFloat($min_money.val())){
+						$.showErr("最低金额不能低于"+$min_money.val()+"元");
+						return false;
+	 				}
+	 				else{
+						var password_hide=$("#password_hide").html();
+						var password_new_hide=password_hide.replace(/invest_btn/g,"invest_btns");
+						$.weeboxs.open(password_new_hide, {boxid:'fanwe_success_box',contentType:'text',showButton:false,title:'我要投资',width:400,type:'wee',onopen:function(){
+							$("input[name='pwd']").bind('blur',function(){
+				 				var pwd_val=$(this).val();
+				 				$deal_top_r_bd.find("input[name='paypassword']").attr("value",pwd_val);
+				 			});
+				 			$("#invest_btns").bind("click",function(){
+				 				if($money.val() <=0 || $money.val()==""){
+				 					$.showErr("请输入金额");
+									return false;
+				 				}
+				 				$(".ajax_money_form").submit();
+				 			});
+						}});
+	 				}
+				}
+				else{
+					$.showErr("请先登录",function(){
+						show_pop_login();
+					});
+				}
+			});
+			$(".ajax_money_form").bind("submit",function(){
+				var ajaxurl = $(this).attr("action");
+				var query = $(this).serialize();
+				$.ajax({
+				 	url:ajaxurl,
+					dataType:"json",
+					data:query,
+					async:false,
+					type:'POST',
+					success:function(ajaxobj){
+						if(ajaxobj.status==1){
+							$.showSuccess("投资成功!",function(){
+								window.location.reload();
+							});
+						}else{
+							$.showErr(ajaxobj.info,function(){
+								$.weeboxs.close();
+							});
+							
+						}
+					}
+				});
+				return false;
+			});
+		}
+	}
+
+	// 项目剩余时间倒计时
+	function leftTimeAct(left_time){
+    	var leftTimeActInv = null;
+		clearTimeout(leftTimeActInv);
+		$(left_time).each(function(){
+			var endTime = parseInt($(this).attr("data"));
+			var leftTime = endTime - system_time ;
+			if(endTime){
+				if(leftTime > 0){
+					var day  =  parseInt(leftTime / 24 /3600);
+					var hour = parseInt((leftTime % (24 *3600)) / 3600);
+					var min = parseInt((leftTime % 3600) / 60);
+					var sec = parseInt((leftTime % 3600) % 60);
+					$(this).find(".day").html((day<10?"0"+day:day));
+					$(this).find(".hour").html((hour<10?"0"+hour:hour));
+					$(this).find(".min").html((min<10?"0"+min:min));
+					$(this).find(".sec").html((sec<10?"0"+sec:sec));
+					system_time++;
+					//$(this).attr("data",leftTime);
+				}
+				else{
+					$(this).html("剩余购买时间：已结束");
+				}
+			}
+			else{
+				$(this).html("剩余购买时间：永久有效");
+			}
+		});
+		leftTimeActInv = setTimeout(function(){
+			leftTimeAct(left_time);
+		},1000);
+	}
+</script>
+<div class="blank0"></div>
+{include file="inc/footer.html"}

@@ -1,0 +1,160 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<load href='__TMPL__Common/js/deal_item_edit.js' />
+<script type="text/javascript" src="__ROOT__/public/region.js"></script>	
+<load href='__TMPL__Common/js/deal_edit.js' />
+<script type="text/javascript">
+	var support_count='{$vo.support_count}';
+	var delivery_fee='{$vo.delivery_fee}';
+</script>
+<style>
+	<if condition="$vo['type'] eq 1">
+	.type_class{ display:none; }
+	</if>
+</style>
+<div class="main">
+<div class="main_title">{%EDIT} <a href="{:u("DealSelflessSubmit/deal_item",array("id"=>$vo['deal_id']))}" class="back_list">{%BACK_LIST}</a></div>
+<div class="blank5"></div>
+<form name="edit" action="__APP__" method="post" enctype="multipart/form-data" rel="deal_item_edit">
+<table class="form conf_tab" cellpadding=0 cellspacing=0 >
+	<tr>
+		<td colspan=2 class="topTd"></td>
+	</tr>
+	<tr>
+		<td class="item_title">图片:</td>
+		<td class="item_input">
+			<html:imgUpload name = 'img0' id='img0' value='$img_list.0' />
+			<html:imgUpload name = 'img1' id='img1' value='$img_list.1' />
+			<html:imgUpload name = 'img2' id='img2' value='$img_list.2' />
+			<html:imgUpload name = 'img3' id='img3' value='$img_list.3' />
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">项目类型</td>
+		<td class="item_input">
+ 			<label>产品回报<input type="radio" name="type" value="0" <if condition="$vo['type'] eq 0">checked="checked"</if>></label>
+			<label>无私奉献<input type="radio" name="type" value="1" <if condition="$vo['type'] eq 1">checked="checked"</if> ></label>
+			<label>抽奖<input type="radio" name="type" value="2" <if condition="$vo['type'] eq 2">checked="checked"</if> ></label>
+ 			<span class="tip_span">项目成功，抽奖完成后，不能再增加/编辑抽奖子项目</span>
+		</td>
+	</tr>
+	<tr  class="type_class type2_class">
+		<td class="item_title">价格:</td>
+		<td class="item_input"><input type="text" class="textbox require" name="price" value="{$vo.price}" /></td>
+	</tr>
+	<tr  class="type_class">
+		<td class="item_title">虚拟购买人数:</td>
+		<td class="item_input"><input type="text" class="textbox" name="virtual_person" value="{$vo.virtual_person}"/>
+		<span class="tip_span">当为0或不填写时不启用虚拟购买人数</span>
+		</td>
+	</tr>
+	
+	<tr class="type2_class" <if condition="$vo['type'] neq 2">style="display:none"</if> >
+		<td class="item_title">抽奖量数:</td>
+		<td class="item_input"><input type="text" class="textbox" style="border-left:#f30 solid 2px;" name="lottery_measure" value="{$vo.lottery_measure}" />
+		<span class="tip_span">如：值为100，即每100人抽一人，不满100也抽</span>
+		</td>
+	</tr>
+	<tr class="type2_class" <if condition="$vo['type'] neq 2">style="display:none"</if> >
+		<td class="item_title">每个会员最大支持数量:</td>
+		<td class="item_input"><input type="text" class="textbox" name="maxbuy" value="{$vo.maxbuy}" />
+		<span class="tip_span">当为0或不填写时，不限制</span>
+		</td>
+	</tr>
+	
+	<tr>
+		<td class="item_title">简介:</td>
+		<td class="item_input"><textarea name="description" class="textarea">{$vo.description}</textarea></td>
+	</tr>
+	<tr  class="type_class type2_class">
+		<td class="item_title">是否需要配送</td>
+		<td class="item_input">
+			<select name="is_delivery">
+				<option value="0" <if condition="$vo['is_delivery'] eq 0">selected="selected"</if> >否</option>
+				<option value="1" <if condition="$vo['is_delivery'] eq 1">selected="selected"</if> >是</option>
+			</select>
+		</td>
+	</tr>
+	<tr id="delivery_fee"  class="type_class type2_class">
+		<td class="item_title">运费:</td>
+		<td class="item_input">
+			<if condition="$vo['type'] eq 2">
+			免运费
+			<else />
+			<input type="text" class="textbox" name="delivery_fee" value="{$vo.delivery_fee}" />
+			</if>
+		</td>
+	</tr>
+	
+	<tr  class="type_class type2_class">
+		<td class="item_title">是否限购</td>
+		<td class="item_input">
+			<select name="is_limit_user">
+				<option value="0" <if condition="$vo['is_limit_user'] eq 0">selected="selected"</if> >否</option>
+				<option value="1" <if condition="$vo['is_limit_user'] eq 1">selected="selected"</if> >是</option>
+			</select>
+		</td>
+	</tr>
+	<tr id="limit_user"  class="type_class type2_class">
+		<td class="item_title">限购人数:</td>
+		<td class="item_input">
+			<input type="text" class="textbox" name="limit_user" value="{$vo.limit_user}" />
+			<span class="tip_span">总支持数量</span>
+		</td>
+		
+	</tr>
+	
+	<tr  class="type_class">
+		<td class="item_title">是否分红</td>
+		<td class="item_input">
+			<select name="is_share">
+				<option value="0" <if condition="$vo['is_share'] eq 0">selected="selected"</if>>否</option>
+				<option value="1" <if condition="$vo['is_share'] eq 1">selected="selected"</if> >是</option>
+			</select>
+		</td>
+	</tr>
+	<tr id="share_fee"  class="type_class">
+		<td class="item_title">分红金额:</td>
+		<td class="item_input"><input type="text" class="textbox" name="share_fee" value="{$vo.share_fee}" /></td>
+	</tr>
+	<tr  class="type_class type2_class">
+		<td class="item_title">回报确认天数:</td>
+		<td class="item_input"><input type="text" class="textbox" name="repaid_day" value="{$vo.repaid_day}" /></td>
+	</tr>
+	
+	<tr>
+		<td colspan=2 class="bottomTd"></td>
+	</tr>
+</table>
+
+<div class="blank5"></div>
+	<table class="form" cellpadding=0 cellspacing=0>
+		<tr>
+			<td colspan=2 class="topTd"></td>
+		</tr>
+		<tr>
+			<td class="item_title"></td>
+			<td class="item_input">
+			<!--隐藏元素-->
+			<input type="hidden" name="{:conf("VAR_MODULE")}" value="DealSelflessSubmit" />
+			<input type="hidden" name="{:conf("VAR_ACTION")}" value="update_deal_item" />
+			<input type="hidden" name="deal_id" value="{$vo.deal_id}" />
+			<input type="hidden" name="id" value="{$vo.id}" />
+			<!--隐藏元素-->
+			<input type="submit" class="button" value="{%EDIT}" />
+			<input type="reset" class="button" value="{%RESET}" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan=2 class="bottomTd"></td>
+		</tr>
+	</table> 		 
+</form>
+</div>
+<script>
+	$(document).ready(function(){
+		
+	});
+</script>
+<include file="Public:footer" />

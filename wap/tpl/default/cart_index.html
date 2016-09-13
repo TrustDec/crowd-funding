@@ -1,0 +1,238 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/cart.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<div class="blank15"></div>
+<section class="cart_index">
+    <form class="pay_form" action="{url_wap r="cart#go_pay"}"  method="post">
+        <h3 class="pl15 mb5 f16">支持详情</h3>
+        <div class="blocktop webkit-box">
+            <div class="imglist">
+                <img src="{$deal_info.image}">
+            </div>
+            <div class="rtimglist webkit-box-flex">
+                <h1>{$deal_info.name}</h1>
+                <label>发起人：</label>
+                <a>{$deal_info.user_info.user_name}</a>
+            </div>
+            <div class="blank"></div>
+        </div>
+ 	 	<div class="ul_block ul_block_list">
+	  		<ul id="real_total_box">
+            	<li class="webkit-box">
+        		  	<label class="input_lable mr10">支持金额</label>
+                    <div class="text webkit-box-flex">
+	                    <span class="f_money">¥{$deal_item.price_format}</span>
+	                </div>
+            	</li>
+				{if $deal_item.type eq 2}
+				<li class="webkit-box">
+        		  	<label class="input_lable mr10">数量</label>
+                    <div class="text webkit-box-flex">
+	                    <span class="f_money">{$deal_item.num}</span>
+	                </div>
+            	</li>
+				{/if}
+            	<li class="webkit-box">
+        		  	<label class="input_lable mr10">配送费用</label>
+                    <div class="text webkit-box-flex">
+	                    <span>{if $deal_item.delivery_fee eq 0}免运费{else}{$deal_item.delivery_fee}{/if}</span>
+	                </div>
+            	</li>
+            	<li class="textarea webkit-box">
+        		  	<label class="input_lable mr10">回报内容</label>
+                    <div class="text webkit-box-flex">
+	                    <span>{$deal_item.description}</span>
+	                </div>
+            	</li>
+            	<li class="textarea webkit-box">
+        		  	<label class="input_lable mr10">项目备注</label>
+                    <div class="text webkit-box-flex">
+	                    <textarea placeholder="给发起人留言" rows=1 cols=40 style='height:50px;overflow:scroll;overflow-y:auto;overflow-x:hidden;padding:0;' 
+onfocus="window.activeobj=this;this.clock=setInterval(function(){activeobj.style.height=activeobj.scrollHeight+'px';},200);" onblur="clearInterval(this.clock);" name="memo" value="" class="textareabox"></textarea>
+	                </div>
+            	</li>
+            </ul>
+        </div>
+        {if $deal_item.is_delivery}
+        <div class="blank10"></div>
+     	<h3 class="pl15 mb5 f16">收货地址</h3>
+        <div class="sbmbj">
+            {if $consignee_list}
+            {foreach from=$consignee_list item=consignee key=k}
+            <div class="consignee_radio_row p15 pt10 pb10">
+                <label class="Address webkit-box">
+                    <address class="webkit-box-flex mr10">
+                        {$consignee.province}&nbsp;{$consignee.city}&nbsp;{$consignee.address}&nbsp;{$consignee.zip}&nbsp;{$consignee.consignee}&nbsp;{$consignee.mobile}   
+                    </address>
+                    <input type="radio" name="consignee_id" {if $consignee.is_default}checked="checked"{else}{if $k eq 0}checked="checked"{/if}{/if} value="{$consignee.id}" class="mt" />
+                </label>
+            </div>
+            {/foreach}
+            {/if}
+         	<div class="mainlist addadd">
+            	<a href="{$deal_item.consigee_url}" class="webkit-box">
+	                <label class="webkit-box-flex">添加新地址</label>
+	                <em class="jh"><i class="fa fa-angle-right "></i></em>
+                </a>
+            </div>
+        </div>
+		<input type="hidden" name="is_address" value="1">
+		{else}
+		<input type="hidden" name="is_address" value="0">
+        {/if}
+        <div class="blank10"></div>
+        <div class="ul_block ul_block_list">
+    	  	<ul id="real_total_box">
+	            <li class="webkit-box">
+                    <label class="input_lable">应付金额</label>
+                    <div class="text webkit-box-flex tr">
+	                    <span class="f_money">¥{$deal_item.total_price_format}</span>
+	                </div>
+	            </li>
+	            <li class="webkit-box" id="real_money_box">
+                  	<label class="input_lable">余额支付</label>
+                  	<div class="text webkit-box-flex tr">
+                  		<span class="f_money" id="real_money_val"></span>
+                  	</div>
+	            </li>
+              	<li class="webkit-box" id="real_score_box">
+                  	<label class="input_lable">积分支付</label>
+                  	<div class="text webkit-box-flex tr">
+                  		<span class="f_money" id="real_score_money"></span>
+                  	</div>
+	            </li>
+            	<li class="webkit-box" id="real_online_box">
+                  	<label class="input_lable">在线应付</label>
+                  	<div class="text webkit-box-flex tr">
+                  		<span class="f_money pay_val" id="real_online_money"></span>
+                  	</div>
+	            </li>
+	        </ul>
+        </div>
+		{if $deal_info.ips_bill_no neq "" && $is_tg}
+		<div class="blank10"></div>
+		<div class="ul_block">
+			<ul>
+				<li class="webkit-box">
+					<label class="input_lable mr10">支付方式</label>
+					<div class="text webkit-box-flex tr">{$coll.name}</div>
+					<input type="hidden" name="is_tg" value="1" />
+				</li>
+			</ul>
+		</div>
+		{else}
+		<div class="blank10"></div>
+		<div class="ul_block"  id="instation_pay">
+		 	<div class="pl15 mb5 f16">选择支付方式</div>
+			<ul>
+				{if $user_info.money gt 0}
+				<li class="webkit-box dotted">
+					<label class="input_lable mr10">余额支付</label>
+					<input type="text" class="textbox webkit-box-flex mr10" value="0" name="credit" /> 
+					<input type="checkbox" name="ye_check" class="mt" />
+				</li>
+				<li class="small_li">
+					<div class="tr">
+						可用余额&nbsp;<span class="f_money">{function name="format_price" v=$user_info.money}</span>
+						<input type="hidden" name="max_credit" value="{$user_info.money}" />
+                    	<input type="hidden" name="max_pay" value="{$order_info.total_price}" />
+					</div>
+				</li>
+				{/if}
+				{if $user_info.score gt 0 && app_conf("SCORE_TRADE_NUMBER") >0}
+				<li class="webkit-box dotted">
+					<label class="input_lable mr10">积分支付</label>
+					<input type="text" class="textbox webkit-box-flex mr10" value="0" name="pay_score" disabled='disabled' />抵用<span id="score_trade_money" class="f_money mr5">¥0</span>
+					<input type="checkbox" name="score_check" value="0" class="mt" />
+				</li>
+				<li class="small_li">
+					<div class="tr">
+						可用积分&nbsp;<span class="f_money">{$user_info.score}</span>
+					</div>
+				</li>
+				{/if}
+			</ul>
+		 	<input type="hidden" name="max_credit" value="{$user_info.money}" />
+            <input type="hidden" name="max_pay" value="{$deal_item.total_price}" />
+        </div>
+        {if $payment_html}
+		<div class="ul_block pay_way_list">
+			<ul {if $payment_html && $payment_list}style="border-bottom:0"{/if}>
+				<li>{$payment_html}</li>
+			</ul>
+		</div>
+		{/if}
+		{if $payment_list}
+		<div class="ul_block pay_way_list pay_way_bank_list">
+			<ul>
+				{foreach from=$payment_list item=payment name=payment key=k}
+				{if $payment.name neq '牛付银行支付(WAP版本)'}
+		   		<li {if $payment.class_name eq 'Wbfpay'}class="textarea"{/if}>
+		   			<label class="webkit-box">
+		   				{$payment.name}{if $payment.logo}<img src="{$payment.logo}" />{/if}
+						{if $payment.class_name eq 'Offlinepay'}
+						<div class="text webkit-box-flex tr">
+							<input type="radio" value="{$payment.id}" name="payment" paytype="offline" class="mt" />
+						</div>
+						{else}
+						<div class="text webkit-box-flex tr">
+							<input type="radio" value="{$payment.id}" name="payment" class="mt" />
+						</div>
+						{/if}
+					</label>
+					{if $payment.class_name eq 'Wbfpay'}
+					<div class="bank_list hide clearfix">
+						{foreach from=$payment_payid item=payment_pay name=payment_pay key=i}
+						<label class="p5">
+							<input type="radio" value="{$i}" name="bank_id" class="mt" />&nbsp;{$payment_pay}
+						</label>
+						{/foreach}
+					</div>
+			    	{/if}
+		    	</li>
+				{/if}
+		    	{/foreach}
+	    	</ul>
+	    </div>
+	    {/if}
+		{/if}
+		<div class="blank10"></div>
+		{if app_conf("PAYPASS_STATUS")}
+	    <div class="ul_block">
+			<ul>
+				<li class="webkit-box">
+					<label class="input_lable mr10">付款密码</label>
+					<input type="password"  autocomplete="off" placeholder="请输入付款密码" class="textbox webkit-box-flex" value="" name="paypassword" >
+					<span class="f12 f_999">&nbsp;&nbsp;忘记了？<a href="#" onclick="RouterURL('{url_wap r="settings#security" v="method=setting-pass-box"}','#settings-security');" class="theme_fcolor">点这里</a></span>
+				</li>
+			</ul>
+		</div>
+		{/if}
+        <div class="submit_btn_row mod_main">		 
+		  	<input class="ui-button theme_color" type="button" value="提交表单" />
+            <input type="hidden" id="back_url" value="{url_wap r="account"}" />        
+			<input type="hidden" value="wap" name="from" />
+            <input type="hidden" value="{$deal_item.id}" name="id" />
+			<input type="hidden" value="{$deal_item.num}" name="num" />
+            <input type="hidden" value="1" name="ajax" />
+			{if $deal_item.type eq 1}
+			<input type="hidden" value="{$pay_money}" name="pay_money">
+			{/if}	
+		</div>
+    </form> 
+</section>
+<div class="blank15"></div>
+<script type="text/javascript">
+	var ips_bill_no = '{$deal_info.ips_bill_no}';
+	var is_tg = '{$is_tg}';
+	if(ips_bill_no == '' || !is_tg){
+	   	var left_money=parseFloat({$user_info.money});
+		var need_money=parseFloat({$deal_item.total_price});
+		var score={$user_info.score};
+		var trade_score='{function name='app_conf' value='SCORE_TRADE_NUMBER'}';
+	}          
+</script>
+<!-- cart_pay.js -->
+{include file="inc/footer.html"}

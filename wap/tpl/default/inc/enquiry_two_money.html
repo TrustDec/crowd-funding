@@ -1,0 +1,61 @@
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/count_invest_money.css";
+// $this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/enquiry.js";
+// $this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/enquiry.js";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript">
+	var invote_mini_money = parseFloat({$invote_mini_money}/10000);
+	var total_num = '{$total_num}';
+</script>
+<div class="full">
+<form id="add_enquiry_money" action="{url_wap r="investor#enquiry_money_save"}">
+	<div class="ui_list ui_small_list">
+		<ul>
+			<li>
+				<label class="ui_list_label">追加投资金额:</label>
+				<div class="ui_list_content flex">
+					<div class="tr">
+						<span id="money"></span>万元
+						<input type="hidden" name="money" value="" />
+					</div>
+				</div>
+			</li>
+			<li class="list_num">
+				<label class="ui_list_label">投资份数:</label>
+				<input type="text" name="num" value="1" class="ui_text ui_small_text mr5 webkit-box-flex" id="buy_num" />
+				<a href="#" class="btn_count plus" id="minus" >-</a>
+				<a href="#" class="btn_count minus" id="plus" >+</a>
+			</li>
+		</ul>
+	</div>
+	<div class="blank10"></div>
+	<div>
+		{if app_conf("IS_LIMITED_PARTNER") eq 1}
+		<label class="f_l f_666">是否愿意担任合伙人：</label>
+		<div class="f14 f_l">
+			<!--0表示无状态 1表示愿意承担企业合伙人 2表示不愿意承担企业合伙人-->
+			<span class="info_view" type="radio" rel="genera_partners">
+		    	<input type="radio" class="mt f_l mr5" name="is_partner" value="1" checked="checked"/>
+			    <span class="f_l mr10">是</span>
+			</span>
+			<span class="info_view" type="radio" rel="genera_partners">
+			    <input type="radio" class="mt f_l mr5" name="is_partner" value="2" />
+			    <span class="f_l">否</span>
+			</span> 
+		</div>
+		{else}
+			<input type="hidden" name="is_partner" checked="checked" value="0" />
+		{/if}
+	</div>
+	<div class="blank20"></div>
+	<div class="submit_btn_row webkit-box">
+		<div class="ui-button ui-two-button theme_color button_y">确认</div>
+		<div class="ui-button ui-two-button bg_gray button_n" onclick="$.closeModal();">取消</div>
+		<input type="hidden" value="1" name="ajax" />
+		<input type="hidden" value="{$deal_id}" name="deal_id" />
+		<input type="hidden" value="{$user_id}" name="user_id" />
+	</div>
+	<div class="blank5"></div>
+</form>
+</div>

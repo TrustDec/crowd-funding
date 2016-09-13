@@ -1,0 +1,307 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/index.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/index.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/discover.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/discover.js";
+?>
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+
+<div class="blank"></div>
+<!--banner-->	
+<script type="text/javascript">
+function banner(){	
+	var bn_id = 0;
+	var bn_id2= 1;
+	var speed33=5000;
+	var qhjg = 1;
+    var MyMar33;
+	$("#banner .d1").hide();
+	$("#banner .d1").eq(0).fadeIn("slow");
+	if($("#banner .d1").length>1)
+	{
+		$("#banner_id li").eq(0).addClass("nuw");
+		function Marquee33(){
+			bn_id2 = bn_id+1;
+			if(bn_id2>$("#banner .d1").length-1)
+			{
+				bn_id2 = 0;
+			}
+			$("#banner .d1").eq(bn_id).css("z-index","2");
+			$("#banner .d1").eq(bn_id2).css("z-index","1");
+			$("#banner .d1").eq(bn_id2).show();
+			$("#banner .d1").eq(bn_id).fadeOut("slow");
+			$("#banner_id li").removeClass("nuw");
+			$("#banner_id li").eq(bn_id2).addClass("nuw");
+			bn_id=bn_id2;
+		};
+	
+		MyMar33=setInterval(Marquee33,speed33);
+		
+		$("#banner_id li").click(function(){
+			var bn_id3 = $("#banner_id li").index(this);
+			if(bn_id3!=bn_id&&qhjg==1)
+			{
+				qhjg = 0;
+				$("#banner .d1").eq(bn_id).css("z-index","2");
+				$("#banner .d1").eq(bn_id3).css("z-index","1");
+				$("#banner .d1").eq(bn_id3).show();
+				$("#banner .d1").eq(bn_id).fadeOut("slow",function(){qhjg = 1;});
+				$("#banner_id li").removeClass("nuw");
+				$("#banner_id li").eq(bn_id3).addClass("nuw");
+				bn_id=bn_id3;
+			}
+		})
+		$("#banner_id").hover(
+			function(){
+				clearInterval(MyMar33);
+			}
+			,
+			function(){
+				MyMar33=setInterval(Marquee33,speed33);
+			}
+		)	
+	}
+	else
+	{
+		$("#banner_id").hide();
+	}
+}
+</script>
+                <div class="banner" id="banner">
+                    {foreach from=$image_list item=image_item}
+						<a href="{$image_item.url}" class="d1" style="display: none; z-index: 2; background: url({function name="get_spec_image" v=$image_item.image w=1400 h=350 g=1}) 50% 50% no-repeat;"></a>
+					{/foreach}
+				    <div class="d2" id="banner_id">
+                        <ul>
+                        	{foreach from=$image_list item=image_item}
+	                            <li class="first"></li>
+							{/foreach}
+                        </ul>
+                    </div>
+                </div>
+                <script type="text/javascript">banner()</script>
+ <div style="background: #ffffff;width:100%;height:360px;margin-bottom:20px;padding-top:20px;">
+  <!--选项卡-->
+<div id="getId">
+<div class="tabT">
+		<ul class="tab">
+			{foreach from=$cate_list item=cate_item key=k1 name=cate}
+				{if $smarty.foreach.cate.index lt 7}
+					<li id="tabId1" class="current" onclick="tab('tabId{$k1}','tabC{$k1}');">{$cate_item.name}</li>
+				{/if}
+			{/foreach}
+		</ul>
+	</div>
+	{foreach from=$deal_list item=deal_item key=key name=deal_items}
+		{if $smarty.foreach.deal_items.index lt 1}
+		<div {if $key}class="hidden"{else}class="show"{/if} id="tabC{$key}">
+		    <div class="con">	
+				<img src="{if $deal_item.image eq ''}{$TMPL}/images/empty_thumb.gif{else}{function name="get_spec_image" v=$deal_item.image w="205" h="160" g="1"}{/if}" alt="{$deal_item.name}" alt="{$deal_item.name}">
+			</div>
+		    <div class="con2">
+		        <!--1-->
+					<div class="deal_content_box">
+						<div style="height:40px;font-size:22px;color:#000;line-height: 30px;padding:30px;">{function name="msubstr" v=$deal_item.name b=0 e=23}</div></br>
+		                <div style="height:50px;"><a href="{url r="deal#show" p="id=$deal_item.id"}"><span class="common-sprite1">立即支持</span></a></br></div>
+		                <div style="padding:0 30px;font-size:15px;color: #999"> <span>{function name="msubstr" v=$deal_item.brief b=0 e=33}</span></div>
+					</div>
+		    
+		                <!--2-->
+					<div class="paiduan" style="height:30px;padding:10px 30px 0 30px ;line-height: 20px;color: #A4A4A4;">
+		            	<span class="caption-title">目标：<em>{$deal_item.num_days}天</em> <em><i class="font-yen">¥</i>{function name="round" v=$deal_item.limit_price e=2}</em></span>
+							<span class="f_r ">
+								{if $deal_item.begin_time > $now}
+									<span class="common-begin">即将开始</span>
+								
+								{elseif $deal_item.end_time < $now and $deal_item.end_time neq 0}
+									 <span  {if $deal_item.percent gte 100}class="common-success"{else}class="common-fail"{/if}>
+		                                {if $deal_item.percent gte 100}已成功
+										{else $deal_item.percent gt 0}筹资失败
+										{/if}
+		                            </span> 	 
+								{else}
+										<span class="common-sprite">
+											{if $deal_item.end_time eq 0}
+												长期项目
+											{else}
+												筹资中
+											{/if}
+										</span>
+								{/if}
+							</span>
+		            </div>
+		             <!--3-->
+		            
+					<div class="deal_content_box" style="padding:0 30px; ">             
+						 {if $deal_item.begin_time > $now}
+							<div class="ui-progress">
+								<span style="width:{$deal_item.percent}%;background: #ffae00;"></span>
+							</div>
+						{elseif $deal_item.end_time < $now and $deal_item.end_time neq 0}
+			                {if $deal_item.percent gte 100}				
+								<div class="ui-success">
+									<span style="width:{$deal_item.percent}%;"></span>
+								</div>
+							{else $deal_item.percent gt 0}
+								<div class="ui-progress">
+									<span style="width:{$deal_item.percent}%;background: #4d4d4f;"></span>
+								</div>
+							{/if}
+						{else}
+							{if $deal_item.end_time eq 0}
+								<div class="ui-progress">
+									<span style="width:{$deal_item.percent}%;"></span>
+								</div>
+							{else}
+								<div class="ui-progress">
+									<span style="width:{$deal_item.percent}%;"></span>
+								</div>
+							{/if}
+						
+						{/if}
+						<div class="blank"></div>
+						<div class="div3" style="text-align:left;"><span class="num">{$deal_item.percent}%</span><span class="til">已达</span></div>
+						<div class="div3"><span class="num"><font>{function name="round" v=$deal_item.support_amount e=2}</font>元</span><span class="til">已筹资</span></div>
+						<div class="div3" style="text-align:right;">
+							{if $deal_item.begin_time > $now}
+								<span class="num"><font>{$deal_item.left_days}</font>天</span>
+							{elseif $deal_item.end_time < $now and $deal_item.end_time neq 0}
+								<span class="num">{if $deal_item.percent gt 100}{function name="to_date" v="$deal_item.success_time" f="y/m/d"}{else}{function name="to_date" v="$deal_item.end_time" f="y/m/d"}{/if}</span>
+							{else}
+								<span class="num">
+									{if $deal_item.end_time eq 0}
+									长期项目
+									{else}
+									<font>{$deal_item.remain_days}</font>天
+									{/if}
+								</span>
+							{/if}	
+							<span class="til">
+								{if $deal_item.begin_time > $now}
+									已经预热
+								{elseif ($deal_item.end_time < $now and $deal_item.end_time neq 0) }
+									结束时间
+								{else}
+									{if $deal_item.end_time eq 0}
+										长期项目
+									{else}
+										剩余时间
+									{/if}
+								{/if}
+							</span>				
+		                		
+						</div>
+						<div class="blank1"></div>
+					</div>
+		    </div>
+	    </div>
+		{/if}
+	{/foreach}
+    <script type="text/javascript" language="javascript">
+<!--
+function tab(tabId, tabC){
+	var len =document.getElementById('getId').getElementsByTagName('li').length;
+	for(i=1; i <= len; i++){
+	if ("tabId"+i==tabId){
+		document.getElementById(tabId).className="current";
+	}else{
+		document.getElementById("tabId"+i).className="";
+	}
+	if ("tabC"+i==tabC){
+		document.getElementById(tabC).className="show";
+	}else{
+		document.getElementById("tabC"+i).className="hidden";
+	}
+	}
+}
+//-->
+</script>   
+</div>
+<!--选项卡end-->
+</div> 
+
+
+
+<div class="wrap">
+
+<div  style="background:#ffffff;height:33px;padding-top:17px;">
+
+	<div class="f_l" style="margin-left:15px;">
+		<ul class="tab-nav">
+			<li><a href="{url r="deals" p="r=rec"}">推荐项目</a></li>
+			<li><a href="{url r="deals" p="r=new"}">最新上线</a></li>
+			<li><a href="{url r="deals" p="r=nend"}">即将结束</a></li>
+			<li><a href="{url r="deals" p="r=classic"}">经典项目</a></li>
+			{foreach from=$cate_list item=cate_item}
+				<li>{if $cate_item.pid eq 0}<a href="{url r="deals" p="id=$cate_item.id"}" title="{$cate_item.name}">{$cate_item.name}</a>{/if}</li>
+			{/foreach}
+		</ul>
+	</div>
+	<div class="f_r">
+		<ul class="tab-nav">
+
+					</ul>
+	</div>
+</div>
+	<div class="blank"></div>
+	<div class="blank"></div>
+	<div class="blank"></div>
+
+
+
+	<div id="pin_box">
+	{include file="inc/deal_list.html"}
+<div class="blank"></div>
+
+<!--梦想开始的地方-->
+<div class="support">
+
+    <div class="wrap" style="position:relative;">  
+    <div class="ckgd"><a  href="{url r="deals"}">查看更多项目</a></div>
+    <div class="mod-title" style="width:450px;margin:40px auto;text-align:center;line-height: 40px;">
+            <span style="font-size:36px;color:#766262;">梦想开始的地方</span></br>
+           <span style="font-size:19px;color:#969595;"> 手里有闲钱不知道怎么花，支持这些有趣的项目</span>
+        </div>
+        <div class="support-con clearfix">
+            <ul class="support-big clearfix">
+                <li><span class="icon-sup mx_1"></span>
+                    <h3>我有项目</h3>
+                    <p><a href="#" alt="点击查看创业者指南" title="点击查看创业者指南">点击查看创业者指南  <i class="fa fa-arrow-right"></i></a></p>
+                </li>
+                <li><span class="icon-sup mx_2"></span>
+                    <h3>我想投资</h3>
+                    <p><a href="#" alt="点击查看投资人手册" title="点击查看投资人手册">点击查看投资人手册  <i class="fa fa-arrow-right"></i></a></p>
+                </li>
+                <li><span class="icon-sup mx_3"></span>
+                    <h3>新手指南</h3>
+                    <p><a href="#" alt="点击查看新手手册" title="点击查看新手手册">点击查看新手手册  <i class="fa fa-arrow-right"></i></a></p>
+                </li>
+                <li><span class="icon-sup mx_4"></span>
+                    <h3>新手指南</h3>
+                    <p><a href="#" alt="点击查看新手手册" title="点击查看新手手册">点击查看新手手册  <i class="fa fa-arrow-right"></i></a></p>
+                </li>              
+            </ul>
+            <ul class="support-sm clearfix" style="float:right;">
+                <li><span class="icon-sup mxr_3"></span>
+                    <h3>项目总数</h3>
+                    <p class="red">{$sum}<em>个</em></p>
+                </li>
+                <li><span class="icon-sup mxr_2"></span>
+                    <h3>累计支持人</h3>
+                    <p class="violet">{$support_count}<em>人</em></p>
+                </li>
+                <li><span class="icon-sup mxr_1"></span>
+                    <h3>累计筹资金额</h3>
+                    <p class="yellow"><em>¥</em>{$support_amount}</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--结束-->
+</div>
+</div>
+<div class="blank"></div>
+<div id="gotop" style="display: block;z-index:99;"></div>
+{include file="inc/footer.html"} 

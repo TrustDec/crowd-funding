@@ -1,0 +1,74 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<load href='__TMPL__Common/js/referrals.js' />
+<php>
+	function get_register_time($user_id)
+	{
+		$create_time=M("User")->where("id=".intval($user_id))->getField("create_time");
+		return to_date($create_time);
+	}
+	function get_order_time($order_id,$type)
+	{
+		if($type ==1)
+		{
+			$order_create_time=M("DealOrder")->where("id=".intval($order_id))->getField("create_time");
+			return to_date($order_create_time);
+		}
+		else
+		{
+			return "注册奖励";
+		}
+		
+	}
+	function get_order_view($order_id,$type)
+	{
+		if($type ==1)
+			return $order_id;
+		else
+			return "注册奖励";
+	}
+</php>
+<div class="main">
+<div class="main_title">
+	邀请返利列表
+</div>
+<div class="blank5"></div>
+<div class="button_row">
+	<input type="button" class="button" value="{%DEL}" onclick="del();" />
+</div>
+<div class="blank5"></div>
+<div class="search_row">
+	<form name="search" action="__APP__" method="get">	
+		推荐人：<input type="text" class="textbox" name="user_name" value="{$user_name}" style="width:100px;" />
+		被推荐人：<input type="text" class="textbox" name="rel_user_name" value="{$rel_user_name}" style="width:100px;" />
+
+		<input type="hidden" value="Referrals" name="m" />
+		<input type="hidden" value="index" name="a" />
+		<input type="hidden" value="{$user_id}" name="user_id" />
+		<input type="submit" class="button" value="{%SEARCH}" />
+		<input type="button" class="button" value="导出" onclick="export_csv();">
+	</form>
+</div>
+<div class="blank5"></div>
+<html:list
+	id="dataTable" 
+	style="dataTable" 
+	name="referrals" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{%ID}|50px
+		,user_name:推荐人
+		,rel_user_name:被推荐人
+		,rel_user_id|get_register_time:注册时间
+		,order_id|get_order_view=$referrals['type']:订单号
+		,order_id|get_order_time=$referrals['type']:下单时间
+		,pay_time|to_date:奖励发放时间
+		,score:邀请奖励（积分）"
+	actionlist="del:删除" />
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

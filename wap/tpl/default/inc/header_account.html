@@ -1,0 +1,59 @@
+	{include file="inc/sui_mobile_header.html"}
+    <?php
+        $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/js/sui_mobile/sm.min.css";
+        $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/js/sui_mobile/sm-extend.min.css";
+        $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/common_css/sm_jianrong.css";
+
+        $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/common_css/base.reset.css";
+        $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/common_css/base.frame.css";
+        $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/common_css/base.theme.css";
+        $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/common_css/base.ui.css";
+        $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/common_css/style.css";
+		
+        $this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/sui_mobile/zepto.min.js";
+        $this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/fastclick.js";
+        $this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/jquery.bank.js";
+        $this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/lazyload.js";
+        $this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/fanweUI.js";
+        $this->_var['cpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/fanweUI.js";
+        $this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/common_js/script.js";
+        $this->_var['cpagejs'][]='';
+        if(app_conf("APP_MSG_SENDER_OPEN")==1)
+        {
+            $this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/msg_sender.js";
+            $this->_var['cpagejs'][] = $this->_var['TMPL_REAL']."/js/msg_sender.js";
+        }
+        $this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/plupload/plupload.full.min.js";
+        $this->_var['cpagejs'][] = $this->_var['TMPL_REAL']."/js/plupload/plupload.full.min.js";
+    ?>
+    <link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$pagecss"}" />
+    <script type="text/javascript" src="{function name="parse_script" v="$pagejs" c="$cpagejs"}"></script>
+    <script type='text/javascript' src='{$APP_ROOT}/public/region.js'></script>
+    <script type="text/javascript">
+        var APP_ROOT = '{$APP_URL}';
+        var APP_ROOT_ORA = '{$PC_URL}';
+        {if app_conf("APP_MSG_SENDER_OPEN") eq 1}
+        var send_span = {function name="app_conf" v="SEND_SPAN"}000;
+        {/if}
+		var __HASH_KEY__ = "{$hash_key}";
+		var isapp = '{$is_app}';
+    </script>
+    <script type="text/javascript">
+        if ('addEventListener' in document) {
+            document.addEventListener('DOMContentLoaded', function() {
+                FastClick.attach(document.body);
+            }, false);
+        }
+    </script>
+</head>
+<body>
+    <!-- page 开始 -->
+    <div class="page" id="{$mobile_id}" {if $is_app} title='{"is_show_header":1,"is_show_left_button":"{$left_app_msg}","title":"{if $page_title}{$page_title}{else}{$site_name}{/if}","is_show_right_button":"{$right_app_msg}","is_back_first":"{$is_back_first}","is_back":{$is_back}}' {/if}>
+        <!-- header 开始 -->
+        {include file="inc/sui_mobile_title.html"}
+		{include file="inc/sui_mobile_user_status.html"}
+        <!-- header 结束 -->
+        <!-- content 开始 -->
+        <div class="content {if $is_loop}infinite-scroll{/if}" id="content_box" {if $mobile_id eq 'index-index'}data-type="js"{/if}>
+            
+            {include file="inc/header_search.html"}

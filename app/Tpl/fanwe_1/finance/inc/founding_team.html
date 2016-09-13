@@ -1,0 +1,188 @@
+<script type="text/javascript">
+	var c_founder_team_ajaxurl = '{url r="finance#do_company_overview" p="method=company_team"}';
+	var c_founder_team_checkname_ajaxurl = '{url r="finance#chack_team_name"}';
+</script>
+<div class="edit-panel clearfix">
+	<div class="title line clearfix">
+        <h3>创始团队 <span>（ 目前任职 ）</span></h3>
+	    <a href="javascript:void(0);" class="icon-add c_founder_team_icon_edit" onclick="f_item.add_item(this);" rel="c_founder_team" ng-show="is_edit"><i class="icon iconfont">&#xe60e;</i></a>
+	</div>
+	<div class="edit-inner clearfix">
+		<!-- 创始团队 开始 -->
+		<div class="block-editor-founder">
+			<!-- 编辑 -->
+			<div class="item-panel-edit c_founder_team_edit edit_form hide" ng-show="is_edit">
+		    	<form class="ml20 ajax_companty_founder_team_form c_founder_team_form" action="{url r="finance#do_company_overview" p="method=company_team"}" method="post" rel="c_founder_team">
+					<div class="control-group small-control-group pr" style="overflow:inherit;">
+						<label class="control-label"><span class="f_red">*</span>姓名</label>
+						<div class="control-text">
+							<div class="holder_tip_box">
+								<input type="text" value="" name="founder_name" class="textbox small_textbox init_data c_founder_team_name c_founder_team_input J_check_c_founder_team_name" rel="c_founder_team" />
+								<div class="holder_tip small_holder_tip"><span>输入网站注册会员姓名，在下拉单中选中</span></div>
+							</div>
+						</div>
+						<div class="clear"></div>
+						<ul class="ui_select_choices c_founder_team_menu hide" role="menu">
+							<li class="ui_select_choices_group">
+							</li>
+						</ul>
+					</div>
+					<div class="control-group small-control-group">
+						<label class="control-label"><span class="f_red">*</span>职位</label>
+						<div class="control-text">
+							<select name="company_level" id="company_level" class="ui-select field_select small">
+								<option selected="selected" value="0">创始人</option>
+				              	<option value="1">联合创始人</option>
+							</select>
+							<div class="holder_tip_box">
+								<input type="text" name="company_job" value="" class="textbox small_textbox init_data" style="width:176px" />
+								<div class="holder_tip small_holder_tip">
+									<span>如：CEO/市场/产品/技术</span>
+								</div>
+							</div>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="control-group small-control-group hide c_founder_team_hide">
+						<label class="control-label"><span class="f_red">*</span>邮箱地址</label>
+						<div class="control-text">
+							<div class="holder_tip_box">
+								<input type="text" value="" name="founder_email" class="textbox small_textbox init_data c_founder_team_email" />
+								<div class="holder_tip small_holder_tip"><span>如：example@163.com</span></div>
+							</div>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="control-group small-control-group hide c_founder_team_hide">
+						<label class="control-label">成员介绍</label>
+						<div class="control-text" style="height:auto;line-height:1.5;">
+							<textarea name="founder_intro" id="founder_intro" class="textareabox textbox w350 init_data" onkeyup="checkstrlength(this,'#founder_intro_left_words',30);"></textarea>
+							<div class="blank5"></div>
+							<p class="f12 f_999">您还可以输入<span class="f_red" id="founder_intro_left_words" style="">30</span>个字</p>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="control-group small-control-group" style="height:auto;">
+						<label class="control-label"><span class="f_red">*</span>任职时间段</label>
+						<div class="control-text" style="height:auto;line-height:1.5;">
+							<input readonly="" type="text" class="small_textbox w100 jcDate" rel="input-text" value="{$company.job_start_time}" name="job_start_time" placeholder="请选择时间">
+							<span class="f_l" style="height:35px;line-height:35px;">&nbsp;-&nbsp;</span>
+							<label class="ui_checkbox mr10 J_c_founder_team_job_time" rel="is_partner">
+								<input type="checkbox" name="job_end_time" checked="checked" value="0" />至今
+							</label>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="submit_row clearfix">
+						<a href="javascript:void(0);" class="ui-button bg_gray cancle-btn" rel="c_founder_team">跳过</a>
+						<a href="javascript:void(0);" class="ui-button theme_bgcolor mr10 save-btn" rel="c_founder_team">保存</a>
+						<input type="hidden" name="company_id" value="{$company.id}">
+						<input type="hidden" name="user_id" value="">
+						<input type="hidden" name="type" value="0">
+						<input type="hidden" name="ajax_act" value="save">
+					</div>
+				</form>
+			</div>
+			<!-- 生成 -->
+			<div class="item-panel-normal c_founder_team_normal">
+		    	<form name="company_case" class="ajax_companty_form" action="{url r="finance#do_company_overview" p="method=company_team"}" method="post">
+					<ul class="list-unstyled panel-model-a c_founder_team_normal_list clearfix">
+						{if $company_team}
+					 	{foreach from=$company_team item=company_team_item}
+						 {if $company_team_item.is_manager eq 1 }
+							<!--默认-->
+							<li>
+								<a class="media-avatar"  target="_blank" href="{url r="home" p="id=$company_team_item.user_id"}">
+									<img alt="" width="70" height="70" src="{function name="get_user_avatar" uid=$company_team_item.user_id type="middle"}">
+								</a>
+								<div class="media-body">
+									<div class="media-heading">
+										<span class="member-name">{$company_team_item.name}</span>
+										<i class="gray-icon manager hide">管理员</i>
+									</div>
+									<span class="member-position">{if $company_team_item.company_level eq 0}创始人{else}联合创始人{/if} {$company_team_item.company_job}</span>
+									<p class="ng-binding">{$company_team_item.intro}</p>
+								</div>
+							</li>
+							<!--默认 end-->
+						 {else}
+							 <li class="c_founder_team_{$company_team_item.id}_item">
+									<a class="media-avatar" target="_blank" href="{url r="home" p="id=$company_team_item.user_id"}">
+										<img alt="" width="70" height="70" src="{function name="get_user_avatar" uid=$company_team_item.user_id type="middle"}">
+									</a>
+									<div class="media-body">
+										<div class="media-heading">
+											<span class="member-name">{$company_team_item.name}</span>
+											<i class="gray-icon">{if $company_team_item.status eq 1}已确认{elseif $company_team_item.status eq 2}已拒绝{else}待确认{/if}</i>
+										</div>
+										<span class="member-position">{if $company_team_item.level eq 0}创始人{else}联合创始人{/if} {$company_team_item.position}</span>
+										{if $company_team_item.job_start_time neq ''} <div class="position">{$company_team_item.job_start_time}  {if $company_team_item.job_end_time neq 0}{$company_team_item.job_end_time}{else}至今{/if}</div>{/if}
+										<p class="ng-binding">{$company_team_item.intro}</p>
+									</div>
+									<a href="javascript:void(0)" class="icon-del btn-delete c_founder_team_ajax_del" ajax_act="del" rel="c_founder_team_{$company_team_item.id}" ng-show="is_edit">
+										<i class="icon iconfont">&#xe604;</i>
+									</a>
+									<input type="hidden" name="ajax_item_id" value="{$company_team_item.id}" />
+						            <input type="hidden" name="method" value="company_team" />
+									<input type="hidden" name="ajax" value="1" />
+									<input type="hidden" name="ajax_url" value="{url r="finance#company_sub_project" p="method=company_team"}" />
+								</li>
+						 {/if}
+					 	{/foreach}
+						{/if}
+					</ul>
+				</form>
+			</div>
+			<div class="blank15"></div>
+		</div>
+		<!-- 创始团队 结束 -->
+		<!-- 团队优势 开始 -->
+		<div class="block-editor-advanta">
+			<div class="company-story">
+				<div class="op-tit clearfix">
+		            <h4 class="sub-tit">
+		            	团队优势
+		            	<small>（ 相对于竞争对手，说说你们的团队优势以及核心团队成员的背景 ）</small>
+		            </h4>
+		            <a href="javascript:void(0)" class="icon-edit c_company_case_icon_edit" onclick="f_item.edit_item(this);" rel="c_company_case" ng-show="is_edit"><i class="icon iconfont">&#xe60c;</i></a>
+		        </div>
+		        <div class="add-item c_company_case_btn_add {if $company.team_advantage}hide{/if}" onclick="f_item.add_item(this);" rel="c_company_case" ng-show="is_edit">
+		        	<span class="icon-big-add"><i class="icon iconfont">&#xe60d;</i></span> 添加团队优势
+		        </div>
+		     	<!-- 生成 -->
+		        <div class="item-panel-normal c_company_case_normal c_company_case_normal_list {if !$company.team_advantage}hide{/if}">
+		        	<div class="our-story">
+						<p class="mb10 ajax_team_advantage">{$company.team_advantage}</p>
+					</div>
+		        </div>
+		        <!-- 编辑 -->
+		        <div class="item-panel-edit c_company_case_edit edit_form hide" ng-show="is_edit">
+		        	<form name="company_case" class="ajax_company_case_form" action="{url r="finance#do_company_overview" p="method=company_case"}" method="post" rel="c_company_case">
+						<textarea name="story" id="story" class="textareabox" onkeyup="checkstrlength(this,'#company_case_left_words',500);" placeholder="首先简要概括团队做这个项目的核心优势，然后分别介绍创始团队成员的背景和工作分工">{$company.team_advantage}</textarea>
+						<div class="blank5"></div>
+						<p class="f12 f_999">您还可以输入<span class="f_red" id="company_case_left_words" style="">500</span>个字</p>
+					   	<div class="submit_row clearfix">
+							<a href="javascript:void(0);" class="ui-button bg_gray cancle-btn" rel="c_company_case">跳过</a>
+							<a href="javascript:void(0);" class="ui-button theme_bgcolor mr10 save-btn" rel="c_company_case">保存</a>
+							<input type="hidden" name="company_id" value="{$company.id}">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!-- 团队优势 结束 -->
+	</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		$(".c_founder_team_ajax_del").live('click',function(){
+			f_item.del_ajax_item(this,'{url r="finance#do_company_overview" p="method=company_team"}');
+		});
+		$(".J_check_c_founder_team_name").bind('keyup',function(){
+			check_u_name(this,c_founder_team_checkname_ajaxurl,'c_founder_team');
+		});
+		$(".J_c_founder_team_job_time").on('click',function(){
+			f_item.add_job_end_time(this);
+		});
+	});
+</script>

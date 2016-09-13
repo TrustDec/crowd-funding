@@ -1,0 +1,111 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<load href='__TMPL__Common/js/jquery.bgiframe.js' />
+<load href='__TMPL__Common/js/jquery.weebox.js' />
+<load href='__TMPL__Common/js/deal.js' />
+<load href='__TMPL__Common/style/weebox.css' />
+<script type="text/javascript" src="__TMPL__Common/js/calendar/calendar.php?lang=zh-cn" ></script>
+<load href='__TMPL__Common/js/calendar/calendar.css' />
+<load href='__TMPL__Common/js/calendar/calendar.js' />
+
+<PHP>
+function get_bonus_status($status){
+	if($status==0)return "等待审核";
+	if($status==1)return "通过";
+	if($status==2)return "未通过	";
+	if($status==3)return "已取消	";
+	if($status==4)return "已经删除	";
+}
+function get_purchaser($purchaser_name){
+	if($purchaser_name=="")return "暂无";
+	return $purchaser_name;
+}
+function get_success($is_success){
+	if($is_success==0)return "未成功";
+	if($is_success==1)return "已成功";
+}
+
+function edit_investor_index($id){
+			return "<a href=\"javascript:edit_investor_index('".$id."')\">编辑上架</a>";
+	}
+function get_item($id){
+			return "<a href=\"javascript:get_item('".$id."')\">查看项目</a>";
+		
+	}
+function stock_transfer_cancel($id,$stocktransfer){
+	if($stocktransfer['is_success']==1)return "无操作";
+	if($stocktransfer['is_success']==0)
+			return "<a href=\"javascript:stock_transfer_cancel('".$id."')\">取消交易</a>";
+	
+	}
+
+</PHP>
+<script>
+	//编辑跳转
+ 
+function get_item(id)
+{
+	location.href = ROOT+"?m=StockTransferList&a=edit&id="+id;
+}
+function edit_investor_index(id)
+{
+	location.href = ROOT+"?m=StockTransferList&a=edit_investor&id="+id;
+}
+function stock_transfer_cancel(id)
+{
+	location.href = ROOT+"?m=StockTransferList&a=stock_transfer_cancel&id="+id;
+}
+</script>
+<div class="main">
+<div class="main_title">已审核股权项目</div>
+<div class="blank5"></div>
+<div class="button_row">
+	
+
+</div>
+<div class="blank5"></div>
+<div class="search_row">
+	<form name="search" action="__APP__" method="get">	
+		项目名称：<input type="text" class="textbox" name="deal_name" value="{:trim($_REQUEST['deal_name'])}" style="width:100px;" />
+		发起人ID: <input type="text" class="textbox" name="user_id" value="{:trim($_REQUEST['user_id'])}" style="width:30px;" />
+		<div class="blank10"></div>
+		创建时间：<input type="text" class="textbox" name="create_time_1" id="create_time_1" value="{$_REQUEST['create_time_1']}" onfocus="this.blur(); return showCalendar('create_time_1', '%Y-%m-%d', false, false, 'btn_create_time_1');" />
+			   <input type="button" class="button" id="btn_create_time_1" value="{%SELECT_TIME}" onclick="return showCalendar('create_time_1', '%Y-%m-%d', false, false, 'btn_create_time_1');" />	
+		至 <input type="text" class="textbox" name="create_time_2" id="create_time_2" value="{$_REQUEST['create_time_2']}" onfocus="this.blur(); return showCalendar('create_time_2', '%Y-%m-%d', false, false, 'btn_create_time_2');" />
+		<input type="button" class="button" id="btn_create_time_2" value="{%SELECT_TIME}" onclick="return showCalendar('create_time_2', '%Y-%m-%d', false, false, 'btn_create_time_2');" />	
+		
+		<input type="hidden" value="StockTransferList" name="m" />
+		<input type="hidden" value="submit_stock_transfer" name="a" />
+		<input type="submit" class="button" value="{%SEARCH}" />
+	</form>
+</div>
+<div class="blank5"></div>
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="stocktransfer" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{%ID}|50px
+		,deal_name:项目名称
+		,user_name:发起人|50px
+		,price|format_price:转让金额|100px
+		,stock_value|format_price:股权价值|100px
+		,create_time|to_date:创建时间
+		,num:交易股份数
+		,begin_time|to_date:开始时间
+		,end_time|to_date:结束时间
+		,day:交易天数
+		,purchaser_name|get_purchaser:购买人|50px
+		,status|get_bonus_status:状态 
+		,is_success|get_success:是否成功"		
+		actionlist="id|stock_transfer_cancel=$stocktransfer" /> 
+
+	
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

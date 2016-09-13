@@ -1,0 +1,91 @@
+{include file="inc/header.html"}
+<script type='text/javascript' src='{$APP_ROOT}/admin/public/kindeditor/kindeditor.js'></script>
+<script type='text/javascript' src='{$TMPL}/js/jQuery-jcDate.js'></script>
+<link rel="stylesheet" type="text/css" href="{$TMPL}/css/jcDate.css">
+<div class="blank20"></div>
+<div class="mod_box project_edit project_agencyAdd_stepsix">
+	<div class="con_tit theme_fcolor f_20">编辑项目附件</div>
+	<div class="con3">
+    	<form method="post" action="" id="agencyAdd_stepsix_form">
+    		<input type="hidden" name="siteid" value="1">
+            <div class="xm-content">
+                <table width="100%" border="0" cellpadding=0 cellspacing=0 class="tab3" rel="attach_form" >
+                    <thead>
+                        <tr class="col theme_fcolor">
+                            <td style="width:33.3%">标题</td>
+                            <td style="width:43.3%">附件</td>
+                            <td style="width:23.3%">操作</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="tc">
+                                <input type="text" name="attach[1][title]" value="{$attach.title}" class="small_textbox">
+                            </td>
+                            <td class="tc">
+                                <input type="text" class="kefile_url small_textbox"  name="attach[1][file]" value="{$attach.file}" readonly="readonly" style="width:200px;" />
+                                <label class="fileupload" onclick="upd_file(this,'imgFile');" style="width:97px;height:39px;margin:0;">
+                                    <input type="file" class="filebox kefile" name="imgFile" id="image_file" rel="num" />
+                                </label>
+                            </td>
+                            <td class="tc">
+                                <a href="javascript:void(0);" class="ui-button ui-del-button del_attch bg_red">删除</a>
+                            </td>
+                        </tr>
+                        <tr id="demo_attach" style="display:none;">
+                            <td>
+                                <input type="text" name="attach[1][title]" value="" class="small_textbox"></td>
+                            <td>
+                                <input type="text" class="kefile_url small_textbox" name="attach[1][file]" value="" readonly="readonly" style="width:200px;" />
+                                <label class="fileupload" onclick="upd_file(this,'imgFile');" style="width:97px;height:39px;margin:0;">
+                                    <input type="file" class="filebox kefile" name="imgFile" id="image_file" rel="num" />    
+                                </label>
+                            </td>
+                            <td>
+                                <a href="javascript:void(0);" class="ui-button ui-del-button del_attch bg_red">删除</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="blank20"></div>
+                <div class="tc" id="add_new_attach_tr">
+                    <input type="hidden" name="attach_num" value="1">
+                    <input type="button" class="ui-button theme_bgcolor" value="添加附件" id="add_new_attach" style="float:none;display:inline-block" />
+                </div>
+                <div class="blank0"></div>
+                <div class="tc f14 f_red pt15 pb15 lh24">
+                    （温馨提示：请点击"浏览"按钮选择您要上传的文件进行上传，单个文件大小不超过3M）
+                </div> 
+            </div>
+            <div class="blank20"></div>
+            <div class="button_row">
+                <div class="ui-button bg_red" id="previous" style="margin-left:370px;" onclick="history.go(-1)">上一步</div>
+                 <a href="./index.php?ctl=project&act=project_agencyAdd_stepseven">
+					<input type="button" value="下一步" name="submit_form" class="ui-button theme_bgcolor ml20" id="ui-button" />
+                </a>
+				<input type="hidden" value="1" name="ajax" />
+                <div class="blank15"></div>
+            </div>
+    	</form>
+	</div>
+</div>
+<div class="blank20"></div>
+<script type="text/javascript">
+    // 添加附件
+    $("#add_new_attach").live('click',function(){
+        var demo_attach="<tr>"+$("#demo_attach").html()+"</tr>";
+        num=parseInt($("input[name='attach_num']").val())+1;
+        $("input[name='attach_num']").val(num);
+        demo_attach=demo_attach.replace("imgFile","imgFile_"+num);
+        demo_attach=demo_attach.replace(/attach\[1\]/g,"attach["+num+"]");
+        //demo_attach=demo_attach.replace("url","url_"+num);
+        $("table[rel='attach_form'] tbody").append(demo_attach);
+        bindFileUpload();
+    });
+    // 删除附件
+    $(".del_attch").live("click",function(){
+         sort_num=$(".del_attch").index($(this));
+         $("table[rel='attach_form'] tbody tr:eq("+sort_num+")").remove("tr");
+    });
+</script>
+{include file="inc/footer.html"} 

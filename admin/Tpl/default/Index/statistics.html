@@ -1,0 +1,114 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Common/js/calendar/calendar.php?lang=zh-cn" ></script>
+<load href='__TMPL__Common/js/calendar/calendar.css' />
+<load href='__TMPL__Common/js/calendar/calendar.js' />
+<div class="main">
+<div class="main_title">网站数据统计</div>
+<div class="blank5"></div>
+<style>
+.statistics{padding-left:8px;}
+.item_title_s{  text-align: right; width:120px;}
+.right_table td { border-width:0 !important;
+  }
+a{
+text-decoration:none;
+}
+</style>
+
+
+<table class="form" cellpadding=0 cellspacing=0>
+		<tr>
+			<td colspan=2 class="topTd"></td>
+		</tr>
+		<tr>
+			<td class="item_title" style="width:200px;">
+				会员统计
+			</td>
+			<td class="item_input">
+			<span id="version_tip">			
+			<span class="statistics"><a href="{$URL_NAME}?m=User&a=index&">{$user_count}个注册用户</a>; </span> 
+		<span class="statistics"> <a href="{$URL_NAME}?m=User&a=index&">{$user_level}个普通用户</a>; </span> 
+		<span class="statistics"><a href="{$URL_NAME}?m=User&a=index&is_investor=1"> 投资人:{$is_investor}个</a>;</span> 
+		<span class="statistics"> <a href="{$URL_NAME}?m=User&a=index&is_investor=2"> 投资机构:{$institution}个</a>;</span> 
+		<span class="statistics"> <a href="{$URL_NAME}?m=User&a=index&is_investor=1">通过实名认证{$is_identify}个</a></span> 
+			
+			</span>
+			</td>
+		</tr>		
+		<tr>
+		<td class="item_title" style="width:200px;">网站资金统计</td>
+		
+		<td>		
+		<table class="right_table">		
+		<tr><td class="item_title_s" >会员充值：</td>   <td>￥{$money_diy}</td></tr>
+		<tr><td class="item_title_s">管理员充值:</td>   <td>+￥{$money_admin}</td></tr>
+		<tr><td class="item_title_s">会员提现: </td>   <td>-￥ {$user_refund} <a href="{$URL_NAME}?m=UserRefund&a=index">查看详情</a></td></tr>
+		<tr><td class="item_title_s">网站余额统计:</td>   <td> ￥{$web_amount} </td></tr>		
+		</table>			
+		</td></tr>		
+		<tr>
+			<td class="item_title" style="width:200px;">
+				第三方资金统记
+			</td>
+			<td class="item_input">		
+		<table class="right_table">		
+		<tr><td class="item_title_s" >会员充值:</td>   <td>+￥{$three_rechange}  <a href="{$URL_NAME}?m=YeepayRecharge&a=index">查看详情</a></td></tr>
+		<tr><td class="item_title_s"> 会员提现:</td>   <td>-￥{$three_yeepay_withdraw}  <a href="{$URL_NAME}?m=YeepayWithdraw&a=index">查看详情</a></td></tr>
+		<tr><td class="item_title_s"> 第三方余额统计: </td>   <td>+￥{$three_balance}</td></tr>	
+		</table>
+			</td>
+		</tr>
+		<tr>
+			<td class="item_title" style="width:150px;">
+				项目统计
+			</td>
+			<td class="item_input">
+			
+		<table class="right_table" >		
+		<tr><td class="item_title_s"   style="width:150px;>待审核项目：</td>   <td>{$no_effect}个</td></tr>
+		<tr><td class="item_title_s"> 预热项目:</td>   <td>{$no_begain}  个</td></tr>
+		<tr><td class="item_title_s"> 进行中项目: </td>   <td>{$is_effect}个</td></tr>	
+		<tr><td class="item_title_s">筹资成功回报项目： </td><td>{$is_success}个</td></tr>	
+		<tr><td class="item_title_s">筹资失败回报项目： </td><td>{$no_success}个</td></tr>	
+		<tr><td class="item_title_s"> 融资成功项目：</td><td>{$stock_is_success}个</td></tr>	
+		<tr><td class="item_title_s"> 融资失败项目：</td><td>{$stock_no_success}个</td></tr>	
+		<tr><td class="item_title_s">未通过审核项目: </td><td>{$is_effect_forbid}个</td></tr>	
+		</table>
+			</td>
+		</tr>
+		<tr>
+			<td class="item_title" style="width:200px;">
+				筹款统记
+			</td>
+			<td class="item_input">
+			
+		<table class="right_table" >	
+	    <tr><td class="item_title_s" >成功筹款:</td><td>{$success_amount}￥</td></tr>
+	    <tr><td class="item_title_s">已发放筹款: </td><td>{$deal_pay_log}￥</td></tr>	
+	    <tr><td class="item_title_s">待发放筹款:</td><td>{$no_deal_pay_log}￥</td></tr>	
+		</table>
+			</td>
+		</tr>
+		<tr>
+			<td class="item_title" style="width:200px;">
+			网站收益
+			</td>
+			<td class="item_input" style="padding-left:20px;">
+				 项目佣金:￥{$commission}
+			</td>
+		</tr>
+		<tr>
+			<td class="item_title" style="width:200px;">
+				用户缴纳的诚意金
+			</td>
+			<td class="item_input" style="padding-left:21px;">
+				 用户缴纳的诚意金:￥{$margator_money}
+			</td>
+		</tr>
+ 		<tr>
+			<td colspan=2 class="bottomTd"></td>
+		</tr>
+	</table>	
+<include file="Public:footer" />

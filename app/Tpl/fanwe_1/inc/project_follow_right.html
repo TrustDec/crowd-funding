@@ -1,0 +1,369 @@
+
+<!--右start-->
+<div class="xqmain_right">
+	<!-- 第一部分 开始 -->
+	<div class="box f_l">
+		<div>
+			<span class="zcz f_r">
+			{if $deal_info.begin_time > $now}
+			预热中
+			{elseif $deal_info.end_time < $now and $deal_info.end_time neq 0}
+				{if $deal_info.is_success eq 1}
+			已成功
+				{else}
+			筹资失败
+				{/if}	 
+			{else}
+				{if $deal_info.percent gte 100}
+					已成功
+				{elseif $deal_info.end_time eq 0}
+			长期项目
+				{else}
+			融资中
+				{/if}
+			{/if}
+			</span>	
+		</div>
+		<div class="blank10"></div>
+		<div class="con6 tc">
+		    <div class="sub pic1">
+		    	<p>认投金额</p>
+		    	<span class="f_red f20"><em style="font-size:17px;">¥</em>{$yu_money}</span>
+		    </div>
+		    <div class="sub pic2">
+		    	<p>跟投人数</p>
+		    	<span class="f_red f20">
+		    		<a href="" target="_blank" style="color:#ff6600">{$gen_num}人</a>
+		    	</span>
+		    </div>
+		     <div class="sub pic3">
+		     	<p>询价人数</p>
+		     	<span class="f_red f20">{$xun_num}人</span>
+		     </div>
+		    <div class="clear"></div>
+		</div>
+		<div class="blank"></div>
+		<div class="jd">
+			<div class="f_l" style="width:260px;*width:258px;margin-top:8px;">
+				<div class="ui-progress" style="width:260px;*width:258px;">
+					<span class="theme_bgcolor" style="width:{$percent_invest}%;"></span>
+				</div>
+			</div>		  
+			
+	        <div class="f_r">{$percent_invest}%</div>
+		</div>
+		<div class="blank10"></div>
+		<div class="jd1">
+			<span class="zs f_l">融资金额</span>
+			<span class="nu1 f_r">{$deal_info.limit_price_format}元</span>
+		</div>
+		{if $deal_info.end_time neq 0}	
+		<div class="jd1">
+			<span class="zs f_l">剩余时间</span>
+			<span class="nu1 f_r">{if $deal_info.remain_days < 0}{if $deal_info.percent gt 100}已成功{else}已过期{/if}{else}{$deal_info.remain_days}天{/if}</span>
+		</div>
+		{/if}
+		<div class="jd1">
+			<span class="zs f_l">支持人数</span>
+			{if $deal_info.virtual_person eq 0}
+			<span class="nu1 f_r">{$deal_info.support_count}人</span>
+			{/if}
+			{if $deal_info.virtual_person neq 0}
+			<span class="nu1 f_r">{$deal_info.person}人</span>
+			{/if}
+		</div>
+		<div class="jd1">
+			<span class="zs f_l">款项拨付方式</span>
+			<span class="nu1 f_r">一次性全额到账</span>
+		</div>
+		<div class="blank10"></div>
+		<div class="con5 hidden">
+		    <div class="sub2">
+				<div class="tit">款项拨付方式</div>
+		        <div class="val f18 f_red">
+		        	一次性全额到账
+		        </div>
+		    </div>
+		</div>
+		<div class="blank10"></div>
+		<div class="jd2 f_red">项目截止时间：{function name="to_date" v=$deal_info.end_time f="Y年m月d日H时i分"}</div>
+	</div>
+	<div class="blank20"></div>
+	<div class="box4">
+		<!--领投-->
+		<a class="{if $deal_info.pay_end_time lt NOW_TIME}btn_uninvest{else}btn_invest{/if} first_invest mr20 mb10" name="applicate_leader" id="applicate_leader"></a>
+		<input name="leader_ajax" id="leader_ajax" value="1" type="hidden"/>
+		<a href="javascript:void(0);" class="{if $deal_info.pay_end_time lt NOW_TIME}btn_uninvest{else}btn_invest{/if} conver" onclick="send_message({$deal_info.user_id});"></a>
+		<div class="blank0"></div>
+		<!--跟投-->
+		<a name="continue_investor" id="continue_investor" class="{if $deal_info.pay_end_time lt NOW_TIME}btn_uninvest{else}btn_invest{/if} follow_invest mr20 mb10"></a>
+		<input name="continue_ajax" id="continue_ajax" value="1" type="hidden"/>
+		
+		{if $is_focus}
+		<a class="d_qxgz attention_focus_deals f_l {if $deal_info.pay_end_time lt NOW_TIME}btn_uninvest{else}btn_invest{/if} collect" id="{$deal_info.id}" style="float:left !important"></a>	
+		{else}
+		<a class="d_gz attention_focus_deals f_l {if $deal_info.pay_end_time lt NOW_TIME}btn_uninvest{else}btn_invest{/if} collect" id="{$deal_info.id}" style="float:left !important"></a>	
+		{/if}	
+		<!--<a href="" class="{if $deal_info.pay_end_time lt NOW_TIME}btn_uninvest{else}btn_invest{/if} collect"></a>-->
+		
+		<div class="blank20"></div>
+	</div>	
+	<!-- 第一部分 结束 -->
+
+	{if $deal_info.description_1 neq null}
+	<div class="blank"></div>
+	<div class="box3" style="background:#fff9e9;">
+		<div class="box31">付款与退款说明：</div>
+		<div class="box32" style="padding-bottom:0">
+				{$deal_info.description_1}
+		</div>
+	</div>
+	<div class="blank"></div>
+	{/if}
+
+	<!-- 第三部分 开始 -->
+	<div class="box3">
+		<div class="box31">发起人信息</div>
+		<div class="box32">
+			<div class="box_image f_l">
+				{function name="show_avatar" p="$deal_info.id"}
+			</div>
+			<div class="f_l" style=" height:80px; overflow:hidden;">
+			{if $deal_info.user_name}
+				<span class="boxname">{$deal_info.user_name}</span>
+				<span class="boxtime">最后登录时间：{function name="to_date" v=$deal_info.login_time}</span>
+				{if $deal_info.province neq '' or $deal_info.city neq ''}
+				<span class="boxaddress">{$deal_info.province}&nbsp;{$deal_info.city}</span>
+				{/if}
+				<a href="javascript:send_message({$deal_info.id});" class="boxmail">发信息</a>
+			{else}	
+				<span class="boxname">{$site_name}</span>
+			{/if}
+			</div>
+			
+		</div>
+	</div>
+	<div class="blank20"></div>
+	<!-- 第三部分 结束 -->
+</div>
+<!--右end-->
+<script type="text/javascript">
+	$(function(){
+		//领投ajax请求方法
+		ajax_applicate_leader();
+		//跟投ajax方法
+		ajax_continue_investor();
+		attention_bind_focuss();
+		leader_detailed_information();
+	});
+	//领投ajax请求方法
+	function ajax_applicate_leader(){
+		$("#applicate_leader").bind("click",function(){
+			var ajaxurl='{url r="investor#leader_ajax" p="deal_id=$deal_info.id"}';
+			var leader_ajax=$("#leader_ajax").val();
+			var query =new Object();
+			query.leader_ajax=leader_ajax;
+			$.ajax({
+				url: ajaxurl,
+				dataType: "json",
+				type: "POST",
+				data:query,
+				success:function(ajaxobj){
+					if(ajaxobj.status==0){
+						window.location.href="{url r="investor#applicate_leader" p="deal_id=$deal_info.id"}"; 
+					}
+					if(ajaxobj.status==1){
+						$.weeboxs.open(ajaxobj.html, {boxid:'append_money',contentType:'text',showButton:false, showCancel:false, showOk:false,title:'领投投资',width:480,type:'wee'});
+					}
+					if(ajaxobj.status==4){
+						$.weeboxs.open(ajaxobj.html, {boxid:'append_one_money',contentType:'text',showButton:false, showCancel:false, showOk:false,title:'追加投资',width:480,type:'wee'});
+					}
+					if(ajaxobj.status==6){
+						//领投申请不通过
+						$.showConfirm(ajaxobj.info,function(){
+							location.href=ajaxobj.url;
+						});
+					}
+					if(ajaxobj.status==3){
+						//支付诚意金
+						location.href="{url r="account#mortgate_pay" p="deal_id=$deal_info.id"}";
+					}
+					if(ajaxobj.status==7){
+						//已经“领投”,无法再跟投
+						$.showErr(ajaxobj.info);
+						return false;
+					}
+					if(ajaxobj.status==5){
+						//投资不通过,资金无法再次追加了！
+						$.showErr(ajaxobj.info);
+						return false;
+					}
+					if(ajaxobj.status==8){
+						//项目已经结束无法投资！
+						$.showErr(ajaxobj.info);
+						return false;
+					}
+					if(ajaxobj.status==9){
+						//投资者认证未通过！
+						$.showErr(ajaxobj.info,function(){
+							location.href='{url r="investor#index"}';
+						});
+						return false;
+					}
+				}
+			});
+			return false;
+		});
+	}
+	//跟投ajax方法
+	function ajax_continue_investor(){
+		$("#continue_investor").bind("click",function(){
+			var ajaxurl='{url r="investor#ajax_continue_investor" p="deal_id=$deal_info.id"}';
+			var leader_ajax=$("#continue_ajax").val();
+			var query =new Object();
+			query.leader_ajax=leader_ajax;
+				$.ajax({
+				url: ajaxurl,
+				dataType: "json",
+				type: "POST",
+				data:query,
+				success:function(ajaxobj){
+					if(ajaxobj.status==0){
+						//用户未交纳诚意金
+						$.showErr(ajaxobj.info,function(){
+							location.href=ajaxobj.url;
+						});
+						return false;
+					}
+					if(ajaxobj.status==1){
+						//交纳诚意金
+						$.showErr(ajaxobj.info,function(){
+							location.href=ajaxobj.url;
+						});
+						return false;
+					}
+					if(ajaxobj.status==3){
+						//进入询价页面
+						$.weeboxs.open(ajaxobj.html, {boxid:'enquiry_index_form',contentType:'text',showButton:false, showCancel:false, showOk:false,title:'询价认筹',width:480,type:'wee'});
+					}
+					if(ajaxobj.status==7){
+						//已经申请“领投”，但是未审核
+						$.showConfirm("您确定要取消,领投申请吗？",function(){
+							delete_leader_investor();
+						});
+					}
+					if(ajaxobj.status==8){
+						//已经申请“领投”，并通过
+						$.showErr(ajaxobj.info);
+					}
+					if(ajaxobj.status==9){
+						//已经申请“领投”，但是审核不通过
+						$.showSuccess(ajaxobj.info);
+					}
+					if(ajaxobj.status==10){
+						//项目已经结束无法投资！
+						$.showErr(ajaxobj.info);
+						return false;
+					}
+					if(ajaxobj.status==11){
+						//投资者认证未通过！
+						$.showErr(ajaxobj.info,function(){
+							location.href='{url r="investor#index"}';
+						});
+						return false;
+					}
+				}
+			});
+			return false;
+		});
+	}
+	//ajax删除“领投”，但是未审核的数据
+	function delete_leader_investor(){
+			var ajaxurl='{url r="investor#delete_leader_investor" p="deal_id=$deal_info.id"}';
+			var leader_ajax=$("#leader_ajax").val();
+			var query =new Object();
+			query.leader_ajax=leader_ajax;
+			$.ajax({
+				url: ajaxurl,
+				dataType: "json",
+				type: "POST",
+				data:query,
+				success:function(ajaxobj){
+					if(ajaxobj.status==1){
+						//"领投申请"取消成功
+						$.showSuccess(ajaxobj.info,function(){
+							location.reload();
+						});
+					}
+					if(ajaxobj.status==0){
+						//删除失败
+						$.showErr(ajaxobj.info,function(){
+							location.reload();
+						});
+					}
+				}
+			});
+	}
+	
+	function attention_bind_focuss()
+{
+	$(".attention_focus_deals").bind("click",function(){
+		attention_focus_deals($(this).attr("id"));
+	});
+}
+
+function attention_focus_deals(id)
+{
+	var ajaxurl = APP_ROOT+"/index.php?ctl=deal&act=focus&id="+id;
+	$.ajax({ 
+		url: ajaxurl,
+		dataType: "json",
+		type: "POST",
+		success: function(ajaxobj){
+			if(ajaxobj.status==1)
+			{
+				$(".attention_focus_deals").removeClass("d_gz");
+				$(".attention_focus_deals").addClass("d_qxgz");
+				
+			}
+			else if(ajaxobj.status==2)
+			{
+				$(".attention_focus_deals").removeClass("d_qxgz");
+				$(".attention_focus_deals").addClass("d_gz");
+			}
+			else if(ajaxobj.status==3)
+			{
+				$.showErr(ajaxobj.info);							
+			}
+			else
+			{
+				show_pop_login();
+			}
+		},
+		error:function(ajaxobj)
+		{
+//			if(ajaxobj.responseText!='')
+//			alert(ajaxobj.responseText);
+		}
+	});
+}
+//领投人详细资料
+function leader_detailed_information(){
+	$("#detailed_information").bind("click",function(){
+		var ajaxurl='{url r="ajax#leader_detailed_information" p="deal_id=$deal_info.id"}';
+		$.ajax({
+			url: ajaxurl,
+			dataType: "json",
+			type: "POST",
+			success: function(ajaxobj){
+				if(ajaxobj.status==1){
+					$.weeboxs.open(ajaxobj.html, {boxid:'leader_detailed_info',contentType:'text',showButton:false, showCancel:false, showOk:false,title:'详细信息',width:480,type:'wee'});
+				}
+			    if(ajaxobj.status==2){
+					$.showErr(ajaxobj.info);
+				}
+			}
+		});
+	});
+}
+</script>

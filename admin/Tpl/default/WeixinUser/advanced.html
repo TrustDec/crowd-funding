@@ -1,0 +1,97 @@
+<tagLib name="html" />
+<include file="Public:wx_header" />
+<include file="Public:weixin_script" />
+
+<div class="container-f">
+	<div class="box-title clearfix">
+		<div class="f_l">
+			<h3>
+				<i class="fa fa-table"></i>
+				{$box_title}
+			</h3>
+		</div>
+	</div>
+	
+	<div class="box-content clearfix">
+		<div class="app_auth_tip">
+						<p>提示：</p>
+						<p>1、该接口暂时仅提供给已微信认证的服务号</p>
+						<p>2、高级群发接口的每日调用限制为10次，请小心测试</p>
+						<p>3、用户每月只能接收4条群发消息，多于4条的群发将对该用户发送失败。</p>
+					</div>
+					<div class="blank"></div>
+					<div class="row clearfix">
+						<div class="control-group f_l">
+							<div class="f_l">
+								 <a class="btn cf" href="{:u("WeixinUser/advanced_add")}">
+								 	<i class="fa fa-plus"></i>
+									<span>新增</span>
+								</a>
+			                    <a class="btn cf" href="javascript:location.reload()">
+			                    	<i class="fa fa-refresh"></i>
+									<span>刷新</span>
+								</a>
+							</div>
+							 <div class="f_l datatabletool" style="display:none;">
+			                    <a class="btn"  title="批量删除" attr="BatchDel" url="{:u("WeixinUser/message_send_del")}">
+			                    	<i class="fa fa-trash-o"></i>
+									<span>删除</span>
+								</a>
+						    </div>
+						</div>
+						
+					</div>
+		
+		<div class="row clearfix">
+                 <table id="listTable" class="table-hover dataTable" >
+                    <thead>
+                         <tr>
+                           <th class="with-checkbox">
+                                <input type="checkbox" class="check_all">
+							</th>
+                            <th>标题</th>
+                            <th>消息类型</th>
+                            <th>创建时间</th>
+							<th>已推送</th>
+							<th>推送时间</th>
+                            <th class="norightborder">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                         <foreach name="list" item="item">
+ 						<tr>
+			                        	<td><input type="checkbox" name="check" value="{$item.id}"></td>
+										<td>{$item.title}</td>
+										<td align="center">
+											图文消息
+										</td>
+										<td>{$item.create_time_format}</td>
+										<td align="center" style="color:red"><if condition="$item.status eq 0">否<else />是</if></td>
+										<td>{$item.send_time_format}</td>
+										<td width="250">
+ 											<if condition="$item.status eq 0">
+											<a href="{:u("WeixinUser/to_send_message",array('id'=>$item['id']))}" class="btn" rel="tooltip" title="推送">
+												<i class="fa fa-share"></i>
+												推送
+											</a>
+											</if>
+											<a href="{:u("WeixinUser/advanced_add",array('id'=>$item['id']))}" class="btn" rel="tooltip" title="编辑">
+												<i class="fa fa-edit"></i>
+												编辑
+											</a>
+											
+											<a  href="javascript:do_confirm('您确定要删除吗?','{:u("WeixinUser/message_send_del",array('id'=>$item['id']))}');" class="btn" rel="tooltip"title="删除">
+												<i class="fa fa-times"></i>
+												删除
+											</a>
+										</td>
+			                        </tr>
+						</foreach>
+                    </tbody>
+                </table>
+ 			<div class="pages clearfix"><include file="Public:pager" /> </div>
+		</div>
+	</div>
+</div>
+ 
+<include file="Public:footer" />

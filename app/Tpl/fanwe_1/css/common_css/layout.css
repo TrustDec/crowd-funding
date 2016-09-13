@@ -1,0 +1,144 @@
+@charset "utf-8";
+/* 公共样式 */
+
+body{background:#fff;word-break:break-all;word-wrap:break-word;font:14px/1.5 'tahoma','arial','Hiragino Sans GB','microsoft yahei','\5b8b\4f53','sans-serif';margin:0px;padding:0px;color:#333;min-width:1200px;_width:expression((documentElement.clientWidth < 1200) ? "1200":"auto" );}
+@font-face {font-family: 'iconfont';
+    src: url('../images/iconfont/iconfont.eot');
+    src: url('../images/iconfont/iconfont.eot?#iefix') format('embedded-opentype'),
+    url('../images/iconfont/iconfont.woff') format('woff'),
+    url('../images/iconfont/iconfont.ttf') format('truetype'),
+    url('../images/iconfont/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+.iconfont{
+    font-family:"iconfont" !important;
+    font-size:16px;font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
+}
+div{margin:0 auto; padding:0;}
+i,em { font-style:normal; }
+h1,h2,h3,h4,h5,h6,ul,li,dl,dt,dd,form,img,p,input,button{margin:0; padding:0; border:none; list-style-type:none;}
+input ,button{ font-family:"Microsoft YaHei"; border:medium none;overflow:visible;}
+input:-webkit-autofill { -webkit-box-shadow:0 0 0px 1000px white inset; }
+input, select{ outline: medium none; }
+textarea { font-family:inherit; font-size:inherit; font-weight:inherit; resize:none; outline:none; }
+*html{background-image:url(about:blank);background-attachment:fixed;}
+.font-yen { font-family:'Microsoft YaHei',STXihei,MingLiu; }
+.yen{font-style:normal;font-family:arial;}
+.font_en { font-family: Arial; }
+table {
+  	border-collapse: collapse;
+  	border-spacing: 0;
+}
+button, input, select, textarea {
+	font-family: inherit;
+	font-size: 100%;
+	margin: 0;
+}
+
+.pr{position:relative;}
+.ps{position:absolute;}
+
+/* 通用盒子 开始 */
+.mod_box {
+	border:1px solid #dedede;
+	background:#fff;
+	width:958px;
+	padding:30px 20px;
+	overflow:hidden;
+}
+.white_box {
+	border:1px solid #e3e3e3;
+	background:#fff;
+	width:998px;
+}
+.white_box1{
+	border:1px solid #e3e3e3;
+	background:#fff;
+	width:1198px;
+}
+/* 通用盒子 结束 */
+
+/* 编辑按钮 开始 */
+.pro_edit{
+	width:40px;
+	height:28px;
+	line-height:28px;
+	background:url(../images/edit.png) no-repeat;
+	color:#fff !important;
+	display:block;
+	padding-left:30px;
+}
+/* 编辑按钮 结束 */
+
+/* 发送验证码按钮 开始 */
+.control-group .send_sms_verify{
+	border:0;
+	width:auto;
+	height:41px;
+	line-height:41px;
+	padding:0 10px;
+	color:#fff;
+	font-size:14px;
+	font-weight:bold;
+}
+.control-group .small_send_sms_verify{
+	height:37px;
+	line-height:37px;
+}
+.control-group .ui-button-sms-activer{
+	color: #999;
+ 	background: #eee;
+}
+/* 发送验证码按钮 结束 */
+
+/* 提示盒子 开始 */
+.prompt_box{
+	padding:20px;
+	background:#ffffc4;
+	border:1px solid #e3e3e3;
+}
+.prompt_box a{cursor:pointer;}
+.prompt_box a:hover{text-decoration:underline;}
+/* 提示盒子 结束 */
+
+/* 通用椭圆 开始 */
+.b_radius{
+	-moz-border-radius:3px;
+	-khtml-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
+}
+/* 通用椭圆 结束 */
+
+/* 单选按钮 开始 */
+.ui_check {
+	display: inline-block;
+	_display: inline;
+	_zoom: 1;
+	width:22px;
+	height:22px;
+	cursor:pointer !important;
+	vertical-align: middle;
+	background: url(../images/ui-check.png) no-repeat;
+	margin-right:5px;
+}
+.ui_checked { background-position:0px -33px; }
+.ui_check-disabled{
+	background:url(../images/ui-check-disabled.png) no-repeat;
+}
+.ui_check input {
+	width: 100%;
+	height: 100%;
+	cursor:pointer !important;
+	margin:0;
+	padding:0;
+	filter:alpha(opacity=0);
+	-moz-opacity:0;
+	-khtml-opacity:0;
+	opacity:0; 
+}
+/* 单选按钮 结束 */
+
+.overflow_hide{overflow:hidden;}

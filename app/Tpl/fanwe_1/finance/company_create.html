@@ -1,0 +1,210 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/finance/company_create.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/finance/company_create.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/fanwe_utils/jcDate.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/fanwe_utils/jcDate.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jQuery-jcDate.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jQuery-jcDate.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/finance/company_common.js";
+// $this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/finance/company_create.js";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss" c="$dcpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<script type="text/javascript">
+	// var APP_ROOT = '{$APP_ROOT}';
+    var ROOT = '{$APP_ROOT}/{$URL_NAME}';
+    var VAR_MODULE = "m";
+    var VAR_ACTION = "a";
+    var WEB_SESSION_ID = '<?php echo es_session::id(); ?>';
+    var EMOT_URL = '{$APP_ROOT}/public/emoticons/';
+    var MAX_FILE_SIZE =  '{$max_size_byte}b';
+    var UPLOAD_URL ='{$APP_ROOT}/{$URL_NAME}?m=File&a=do_upload&upload_type=1&dir=image' ;
+	var UPLOAD_SWF='{$TMPL}/js/plupload/Moxie.swf';
+	var UPLOAD_XAP='{$TMPL}/js/plupload//Moxie.xap/';
+	var ALLOW_IMAGE_EXT= "gif,jpg,jpeg,png,bmp";
+	var MAX_IMAGE_SIZE= '{$max_size_byte}b';
+	function get_sigle_file_fun(name){
+   		$("#"+name).ui_upload({multi:false,
+		FileUploaded:function(ajaxobj){
+ 				if(ajaxobj.error==1)
+				{
+					$.showErr(ajaxobj.info);
+				}else{
+					$("#"+name+"_url").val(ajaxobj.public_url);
+					if(name == "company_business_card"){
+						$("#"+name+"_image").attr({"src":ajaxobj.url,"width":140,"height":90}).css("marginBottom","15px").removeClass("hide");
+					}
+					else{
+						$("#"+name+"_image").attr('src',ajaxobj.url);
+					}
+					
+ 				}
+			},Error:function(error){
+				if(error.code==-600){
+					$.showErr("您上传的文件太大，最大允许上传{$max_size}");
+				}else{
+					$.showErr(error.message);
+				}
+ 		}});
+	}
+</script>
+<!--中间开始-->
+<div class="blank30"></div>
+<div class="wrap">
+	<div class="create_company_wrap">
+		<h2 class="form_title tc">创建公司</h2>
+		<div class="create_company_form">
+			<form class="ajax_form" action="{url r="finance#do_company_create"}" method="post">
+				<div class="control-group small-control-group pr" style="overflow:inherit">
+					<label class="control-label"><span class="f_red">*</span>公司简称</label>
+					<div class="control-text">
+						<div class="holder_tip_box">
+							<input type="text" name="company_name" value="" class="textbox small_textbox" />
+							<div class="holder_tip small_holder_tip">
+								<span>请填写大众熟知的项目名称</span>
+							</div>
+						</div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="control-group small-control-group">
+					<label class="control-label"><span class="f_red">*</span>产品状态</label>
+					<div class="control-text">
+						<select name="company_p_status" id="company_p_status" class="ui-select field_select medium">
+							<option selected="selected" value="0">3个月内上线</option>
+			              	<option value="1">6个月内上线</option>
+			              	<option value="2">运营中</option>
+			              	<option value="3">停止运营</option>
+						</select>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="control-group small-control-group">
+					<label class="control-label"><span class="f_red">*</span>公司网址</label>
+					<div class="control-text">
+						<div class="holder_tip_box">
+							<input type="text" name="company_website" value="" class="textbox small_textbox" onfocus="auto_write_focus(this);" onblur="auto_write_blur(this);" />
+							<div class="holder_tip small_holder_tip">
+								<span>如：http://www.fanwe.com</span>
+							</div>
+						</div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="control-group small-control-group">
+					<label class="control-label"><span class="f_red">*</span>一句话简介</label>
+					<div class="control-text" style="height:auto;line-height:1.5;">
+						<div class="holder_tip_box">
+							<textarea name="company_brief" id="company_brief" class="textareabox textbox w350" onkeyup="checkstrlength(this,'#left_words',30);"></textarea>
+							<div class="holder_tip">
+								<span>如：方维众筹是关注互联网创业的科技媒体及投融资平台</span>
+							</div>
+						</div>
+						<div class="blank5"></div>
+						<p>您还可以输入<span class="f_red" id="left_words" style="">30</span>个字</p>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="control-group small-control-group">
+					<label class="control-label"><span class="f_red">*</span>公司LOGO</label>
+					<div class="control-text company_logo_box" style="height:auto;line-height:1.5;">
+						<div class="img_upload pic_show pr" id="company_logo">
+		          			<img id="company_logo_image" src="{if $company.logo}{function name="get_spec_image" v=$company.logo w="70" h="70" g="1"}{else}{$TMPL}/images/finance/default_logo.png{/if}" width="70" height="70" />
+						</div>
+						<input type="hidden" name="company_logo" value="{$company.logo}" id="company_logo_url">
+					</div>
+					<div class="clear"></div>
+					<div style="margin-left:100px;"><span class="f_999">格式为JPG、GIF、PNG，大小不超过{$max_size}</span></div>
+				</div>
+				<div class="control-group small-control-group">
+					<label class="control-label"><span class="f_red">*</span>职位</label>
+					<div class="control-text">
+						<select name="company_level" id="company_level" class="ui-select field_select medium">
+							<option selected="selected" value="0">创始人</option>
+			              	<option value="1">联合创始人</option>
+						</select>
+						<div class="holder_tip_box">
+							<input type="text" name="company_job" value="" class="textbox small_textbox" style="width:290px" />
+							<div class="holder_tip small_holder_tip">
+								<span>如：CEO/市场/产品/技术</span>
+							</div>
+						</div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="control-group small-control-group">
+					<label class="control-label"><span class="f_red">*</span>任职时间段</label>
+					<div class="control-text">
+						<input readonly="" type="text" class="small_textbox w100 jcDate" rel="input-text" value="{$company.begin_time}" name="company_begin_time" id="inputLaunchTime" placeholder="开始日期">&nbsp;-&nbsp;至今
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="control-group small-control-group">
+					<label class="control-label">上传名片</label>
+					<div class="control-text" style="width:580px;height:auto;line-height:1.5;">
+						<img id="company_business_card_image" src="" class="hide" />
+						<div class="clear"></div>
+						<div class="img_upload_card pr" id="company_business_card">上传图片</div>
+						<span class="f_999">格式为JPG、GIF、PNG，大小不超过{$max_size}</span>
+						<div class="blank5"></div>
+						<div class="f12 f_999">名片、营业执照、网站域名或微信公众号后台相关证明图片，仅提供认证使用，平台不会暴露您的个人信息。</div>
+						<input type="hidden" name="company_business_card" value="{$company.business_card}" id="company_business_card_url">
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="blank20"></div>
+				<div class="submit_row control-group">
+					<label class="control-label"></label>
+					<div class="control-text" style="width:580px;height:auto;line-height:1.5;">
+						<input type="button" value="下一步" class="ui-button theme_bgcolor w250" />
+						<input type="hidden" name="user_id" value="{$user_info.id}" />
+						<!-- 已创建的项目 -->
+						<!-- <p>该公司已被  创建</p>
+						<p class="mb10">如你是公司创始团队成员，可添加该公司为你的创业经历。</p>
+						<input type="button" value="添加为我的创业经历" class="ui-button theme_bgcolor w250" /> -->
+					</div>
+				</div>
+				<div class="blank50"></div>
+			</form>
+		</div>
+		<div class="create-tips">
+            <h4>特别提醒：</h4>
+            <ol>
+                 <li>
+                    请你填写准确的 <span>公司简称</span>，简称填写完成后，你无法自行修改；
+                </li>
+                <li>
+                    请务必填写你的产品官网或者demo准确链接，以便投资人可以更好地了解你的产品；
+                </li>
+                <li>
+                    如果你的产品已有完善的idea，只是还未完成开发，请你选择 <span>3个月/6个月</span> 状态；
+                </li>
+                <li>
+                    如果你只是有一个 <span>未成熟的idea</span>，建议你暂不提交；
+                </li>
+                <li>
+                    当你的项目被驳回，请你认真阅读驳回理由并做出有效更改，以免反复提交耽误你宝贵的时间；
+                </li>
+                <li>
+                    初审时，公司介绍及图片介绍是我们了解你的项目最直接的方式，请你清晰明了的表述主营业务、产品模式等，并截取网站首页、产品页等能够帮助我们更好了解你产品的图片上传，图片最佳展示尺寸是 <span>700px*400px</span>；
+                </li>
+                <li>
+                    标签是可以检索到你的项目的有效方式，请你根据公司的实际业务添加 <span>tag</span>，以便投资人可以检索到你的项目；
+                </li>
+                <li>
+                    前期我们已经收录了一部分公司信息，如果在你输入公司名称时出现 <span>联想结果</span>，请你选择联想到的公司名进行认领，认领后，你可以编辑公司的信息；
+                </li>
+                <li>
+                    请你根据我们的建议填写 “<span>团队优势</span>” ，以便我们更直接的了解到你的团队。
+                </li>
+            </ol>
+        </div>
+	</div>
+</div>
+<div class="blank30"></div>
+<script type="text/javascript">
+	get_sigle_file_fun("company_logo");
+	get_sigle_file_fun("company_business_card");
+</script>
+{include file="inc/footer.html"} 

@@ -1,0 +1,28 @@
+<div class="page_title">
+		{if ACTION_NAME eq 'index'}最新动态{/if}
+		{if ACTION_NAME eq 'fav'}我关注的项目动态{/if}
+</div>
+<div class="blank"></div>		
+<!-- <div class="switch_nav">
+	<ul>
+		<li {if ACTION_NAME eq 'index'}class="select"{/if}>
+			<a href="{url r="news"}">最新动态</a>
+		</li>
+		<li {if ACTION_NAME eq 'fav'}class="select"{/if}>
+			<a href="{url r="news#fav"}">我关注的项目动态</a>
+		</li>
+	</ul>		
+</div>
+ -->
+<div class="hd3">
+	<div class="hd31 f_l">
+		<ul class="clearfix">
+			<li {if ACTION_NAME eq 'index'}class="select"{/if}>
+				<a href="{url r="news"}">最新动态</a>
+			</li>
+			<li {if ACTION_NAME eq 'fav'}class="select"{/if}>
+				<a href="{url r="news#fav"}">我关注的项目动态</a>
+			</li>
+		</ul>
+	</div>
+</div>

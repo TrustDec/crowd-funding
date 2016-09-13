@@ -1,0 +1,257 @@
+	</div>
+	<!-- content 结束 -->
+	<!-- footer-nav 开始 -->
+  	<nav class="bar bar-tab footer_bar">
+     	<a class="tab-item {if $class eq 'index' && $act eq "index"}active{/if}" href="#" onclick="RouterURL('{url_wap r="index"}','#index-index');">
+	      	<i class="icon iconfont">&#xe600;</i>
+     	 	<span class="tab-label">首页</span>
+	    </a>
+	    {if !app_conf("PROJECT_HIDE")}
+		{if app_conf("INVEST_STATUS") neq 2}
+	    <a class="tab-item {if $act eq "choose"}active{/if}" href="#" onclick="RouterURL('{url_wap r="project#choose"}','#project-choose');">
+	      	<i class="icon iconfont">&#xe601;</i>
+     	 	<span class="tab-label">发起</span>
+	    </a>
+	    <input type="hidden" name="check_login" value="{$user_info.id}">
+	    {/if}
+		{/if}
+	 	<a class="tab-item {if $act eq "invester_list"}active{/if}" href="#" onclick="RouterURL('{url_wap r="investor#invester_list"}','#investor-invester_list');">
+	      	<i class="icon iconfont">&#xe604;</i>
+     	 	<span class="tab-label">投资人</span>
+	    </a>
+	    {if $user_info}
+	    <a class="tab-item {if $class eq 'account' || {if $class eq 'settings'}}active{/if}" onclick="RouterURL('{url_wap r="settings#index"}','#settings-index');">
+	      	<i class="icon iconfont">&#xe602;</i>
+     	 	<span class="tab-label">我</span>
+	    </a>
+	    {else}
+ 	 	<a class="tab-item {if $act eq 'login'}active{/if}" {if $is_weixin} onclick="RouterURL('{url_wap r="user#login"}','#user-login',1);"{else} onclick="RouterURL('{url_wap r="user#login"}','#user-login',2);"{/if}>
+	      	<i class="icon iconfont">&#xe602;</i>
+     	 	<span class="tab-label">登录</span>
+	    </a>
+	    {/if}
+  	</nav>
+  	<!-- footer-nav 结束 -->
+</div>
+<!-- page 结束 -->
+{include file="inc/left.html"}
+{if $referral}
+<div class="popup popup-about-referral">
+	<header class="bar bar-nav">
+	    <a class="button button-link button-nav pull-right close-popup">关闭</a>
+	    <h1 class="title">邀请规则</h1>
+  	</header>
+	<div class="content">
+    <div class="content-block">
+	    <p>总返利:  40积分</p>
+		<p>返利规则：</p>
+		<p>1、通过发送会员专属邀请链接，推荐好友注册成为[本平台] 会员。</p>
+		<p>2、好友通过邀请链接访问网站并成功注册成为本站会员。</p>
+		<p>3、每成功邀请一个会员注册，您获得20积分奖励。积分可以抵用金额。</p>
+    </div>
+	</div>
+</div>
+<!-- Services Popup -->
+<div class="popup popup-services-referral">
+	<header class="bar bar-nav">
+	    <a class="button button-link button-nav pull-right close-popup">关闭</a>
+	    <h1 class="title">我的邀请</h1>
+  	</header>
+	<div class="content">
+		{if $referrals_list}
+		<div class="content-block-title">邀请记录</div>
+    	<div class="list-block media-list">
+	        <ul>
+				{foreach from=$referrals_list item=referrals_item}
+		        <li>
+		          <div class="item-content">
+		            <div class="item-inner">
+		              <div class="item-title-row">
+		                <div class="item-title">{$referrals_item.rel_user_name}</div>
+		              </div>
+		              <div class="item-subtitle">注册时间:{function name=to_date v=$referrals_item.register_time}</div>
+					  <div class="item-subtitle">返利订单:{if $referrals_item.type eq 1}{$referrals_item.order_id}{else}注册奖励{/if}  {$referrals_item.score}  {if $referrals_item.pay_time gt 0}已发放{else}未发放{/if}</div>
+					  <div class="item-subtitle">发放时间:{function name=to_date v=$referrals_item.pay_time}</div>
+		            </div>
+		          </div>
+		        </li>
+				{/foreach}
+		    </ul>
+	    </div>
+		{else}
+        	<div class="content-block-title">暂无邀请记录</div>
+		{/if}
+	</div>
+</div>
+{/if}
+ 
+{if $signPackage}
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+  wx.config({
+      debug: false,
+      appId: '{$signPackage.appId}',
+      timestamp: {$signPackage.timestamp},
+      nonceStr: '{$signPackage.nonceStr}',
+      signature: '{$signPackage.signature}',
+      jsApiList: [
+        'checkJsApi',
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo',
+        'hideMenuItems',
+        'showMenuItems',
+        'hideAllNonBaseMenuItem',
+        'showAllNonBaseMenuItem',
+        'translateVoice',
+        'startRecord',
+        'stopRecord',
+        'onRecordEnd',
+        'playVoice',
+        'pauseVoice',
+        'stopVoice',
+        'uploadVoice',
+        'downloadVoice',
+        'chooseImage',
+        'previewImage',
+        'uploadImage',
+        'downloadImage',
+        'getNetworkType',
+        'openLocation',
+        'getLocation',
+        'hideOptionMenu',
+        'showOptionMenu',
+        'closeWindow',
+        'scanQRCode',
+        'chooseWXPay',
+        'openProductSpecificView',
+        'addCard',
+        'chooseCard',
+        'openCard'
+      ]
+  });
+   wx.ready(function () {
+    // 在这里调用 API
+			{if $wx.title}
+			var wx_title="{$wx.title}";
+			{else}
+			var wx_title='{$seo_title}';
+ 			{/if}
+			 {if $wx.desc}
+			var wx_desc= '{$wx.desc}'; // 分享描述
+			{else}
+			var wx_desc=  '{$seo_description}'; // 分享描述
+			{/if}
+			var wx_link='{$wx_url}';
+			{if $wx.img_url}
+			var  wx_img= "{$wx.img_url}"; // 分享图标
+			{else}
+			var  wx_img=  '{$site_logo}'; // 分享图标
+			{/if}
+		wx.onMenuShareTimeline({
+		 	title: wx_title, // 分享标题
+		    link: wx_link, // 分享链接
+ 			imgUrl: wx_img, // 分享图标
+ 		    success: function () { 
+		        // 用户确认分享后执行的回调函数
+		    },
+		    cancel: function () { 
+		        // 用户取消分享后执行的回调函数
+		    }
+		});
+		wx.onMenuShareAppMessage({
+			title: wx_title, // 分享标题
+ 			desc: wx_desc, // 分享描述
+ 		    link: wx_link,  // 分享链接
+ 			imgUrl: wx_img, // 分享图标
+ 		    type: 'link', // 分享类型,music、video或link，不填默认为link
+		   // dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+		    success: function () { 
+		        // 用户确认分享后执行的回调函数
+		    },
+		    cancel: function () { 
+		        // 用户取消分享后执行的回调函数
+		    }
+		});
+  });
+</script>
+{/if}
+<script>
+  //初始化侧栏禁止滑动打开
+  $.config = {
+    swipePanelOnlyClose:true
+  }
+</script>
+<?php
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/sui_mobile/sm.min.js";
+   	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/sui_mobile/sm-extend.min.js";
+   	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/common_js/common_sui.js";
+
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/sui_pull_to_refresh.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/check_idcard.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/switch_city.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/deals_mall_cate.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/ajax_get_recommend_project.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/count_invest_money.js";
+	// $this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/discover.js";
+
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/deal.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/deal_investor_show.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/account_add_leader_info.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/account_focus.js";
+	// $this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/refund.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/order_list.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/cart_pay.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/go_pay.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/account_investor_list.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/user_login.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/user_register.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/account_money_carry.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/account_recommend.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/account_project.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/account_support.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/account_stock_transfer.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/add_consignee.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/category.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/deal_comment.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/deal_log.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/deals_index.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/home.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/invester_list.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/apply_investor.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/invite.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/message.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/pay_wx_jspay.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/deal_publish.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/edit_deal_item.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/project_follow.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/settings_bank.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/settings_index.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/settings.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/settings_modify.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/settings_security.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/user_applicate_leader.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/user_getpassword.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/add_update.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/user_bind_mobile.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/settings.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/finance.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/licai/licai_deal.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/licai/licai_uc_buyed_lc.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/licai/licai_uc_expire_lc.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/licai/licai_uc_expire_status.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/licai/licai_uc_published_lc.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/licai/licai_uc_record_lc.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/licai/licai_uc_redeem.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/licai/licai_uc_redeem_lc.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/licai/licai_uc_redeem_lc_status.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/score/score_check_order.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/score/score_good_show.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/score/score_goods_order.js";
+	$this->_var['foot_pagejs'][] = $this->_var['TMPL_REAL']."/js/score/score_mall_index.js";
+?>
+<script type="text/javascript" src="{function name="parse_script" v="$foot_pagejs"}"></script>
+{include file="inc/sui_mobile_js.html"}
+</body>
+</html>

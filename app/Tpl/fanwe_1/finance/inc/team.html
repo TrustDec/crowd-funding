@@ -1,0 +1,137 @@
+<script type="text/javascript">
+	var c_employee_team_ajaxurl = '{url r="finance#do_company_overview" p="method=company_team"}';
+	var c_employee_team_checkname_ajaxurl = '{url r="finance#chack_team_name"}';
+</script>
+<div class="edit-panel clearfix">
+	<div class="title line clearfix">
+        <h3>团队成员<span>(目前任职)</span></h3>
+        <a href="javascript:void(0);" class="icon-add c_employee_team_icon_edit" onclick="f_item.add_item(this);" rel="c_employee_team" ng-show="is_edit"><i class="icon iconfont">&#xe60e;</i></a>
+    </div>
+    <!-- 添加操作 -->
+    <div class="add-item c_employee_team_btn_add {if $company_now_team}hide{/if}" onclick="f_item.edit_item(this);" rel="c_employee_team" ng-show="is_edit">
+		<span class="icon-big-add"><i class="icon iconfont">&#xe60d;</i></span> 添加团队成员
+    </div>
+    <!-- 编辑 -->
+    <div class="item-panel-edit c_employee_team_edit edit_form hide" ng-show="is_edit">
+    	<form class="ml20 ajax_company_employee_form c_employee_team_form" action="{url r="finance#do_company_overview" p="method=company_team"}" method="post" rel="c_employee_team">
+    		<div class="control-group small-control-group pr" style="overflow:inherit;">
+				<label class="control-label">姓名</label>
+				<div class="control-text">
+					<div class="holder_tip_box">
+						<input type="text" value="" name="founder_name" class="textbox small_textbox init_data c_employee_team_name c_employee_team_input J_check_c_employee_team_name" rel="c_employee_team" />
+						<div class="holder_tip small_holder_tip" style="display: block;"><span>输入已注册的团队成员名称</span></div>
+					</div>
+				</div>
+				<div class="clear"></div>
+				<ul class="ui_select_choices c_employee_team_menu hide" role="menu">
+					<li class="ui_select_choices_group">
+					</li>
+				</ul>
+			</div>
+			<div class="control-group small-control-group">
+				<label class="control-label"><span class="f_red f12">*</span>职位</label>
+				<div class="control-text">
+					<select name="company_level" id="company_level" class="ui-select field_select small">
+						<option value="0" selected="selected" label="技术">技术</option>
+						<option value="1" label="设计">设计</option>
+						<option value="2" label="产品">产品</option>
+						<option value="3" label="运营">运营</option>
+						<option value="4" label="市场与销售">市场与销售</option>
+						<option value="5" label="行政、人事及财务">行政、人事及财务</option>
+						<option value="6" label="投资和并购">投资和并购</option>
+						<option value="7" label="其他">其他</option>
+					</select>
+					<div class="holder_tip_box">
+						<input type="text" name="company_job" class="textbox small_textbox w200 init_data">
+						<div class="holder_tip small_holder_tip" style="display: block;"><span>如：iOS开发/UI设计师</span></div>
+					</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="control-group small-control-group hide c_employee_team_hide">
+				<label class="control-label"><span class="f_red f12">*</span>邮箱地址</label>
+				<div class="control-text">
+					<div class="holder_tip_box">
+						<input type="text" name="employee_email" class="textbox small_textbox w200 init_data c_employee_team_email">
+						<div class="holder_tip small_holder_tip" style="display: block;">
+							<span>如：example@163.com/UI设计师</span>
+						</div>
+					</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="control-group small-control-group hide c_employee_team_hide" style="height:auto;">
+				<label class="control-label">成员介绍</label>
+				<div class="control-text" style="height:auto;line-height:1.5;">
+					<textarea name="founder_intro" onkeyup="checkstrlength(this,'#employee_intro_left_words',30);" class="textareabox init_data" style="width:300px;height:50px;"></textarea>
+					<div class="blank5"></div>
+					<p>您还可以输入<span class="f_red" id="employee_intro_left_words" style="">30</span>个字</p>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="control-group small-control-group" style="height:auto;">
+				<label class="control-label"><span class="f_red">*</span>任职时间段</label>
+				<div class="control-text" style="height:auto;line-height:1.5;">
+					<input readonly="" type="text" class="small_textbox w100 jcDate" rel="input-text" value="{$company.job_start_time}" name="job_start_time" placeholder="请选择时间">
+					<span class="f_l" style="height:35px;line-height:35px;">&nbsp;-&nbsp;</span>
+					<label class="ui_checkbox mr10 J_c_employee_team_job_time" rel="is_partner">
+						<input type="checkbox" name="job_end_time" checked="checked" value="0" />至今
+					</label>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="submit_row clearfix">
+				<a href="javascript:void(0);" class="ui-button bg_gray cancle-btn" rel="c_employee_team">跳过</a>
+				<a href="javascript:void(0);" class="ui-button theme_bgcolor mr10 save-btn" rel="c_employee_team">保存</a>
+				<input type="hidden" name="company_id" value="{$company.id}">
+				<input type="hidden" name="user_id" value="">
+				<input type="hidden" name="type" value="1">
+				<input type="hidden" name="ajax_act" value="save">
+			</div>
+    	</form>
+    </div>
+    <!-- 生成 -->
+    <div class="item-panel-normal c_employee_team_normal">
+    	<ul class="list-unstyled panel-model-b c_employee_team_normal_list clearfix">
+			{if $company_now_team}
+				{foreach from=$company_now_team item=company_team_item}
+					<li class="c_employee_team_{$company_team_item.id}_item">
+						<a class="media-avatar" target="_blank" href="{url r="home" p="id=$company_team_item.user_id"}">
+							<img class="img-rounded" alt="{$company_team_item.name}" width="40" height="40" src="{function name="get_user_avatar" uid=$company_team_item.user_id type="middle"}">
+						</a>
+						<div class="media-body">
+							<div class="media-heading">
+		                        <span class="member-name ng-binding" target="_blank" href="{url r="home" p="id=$company_team_item.user_id"}">{$company_team_item.name}</span>
+		                        <i class="gray-icon">{if $company_team_item.status eq 1}已确认{elseif $company_team_item.status eq 2}已拒绝{else}待确认{/if}</i>
+		                        <div class="position">{$company_team_item.level}  {$company_team_item.position}</div>{if $company_team_item.job_start_time neq ''} <div class="position">{$company_team_item.job_start_time}  {if $company_team_item.job_end_time neq 0}{$company_team_item.job_end_time}{else}至今{/if}</div>{/if}
+							</div>
+							<p class="ng-binding">{$company_team_item.intro}</p>
+						</div>
+						<div ng-show="is_edit">
+							<a href="javascript:void(0)" class="icon-del btn-delete c_employee_team_ajax_del" ajax_act="del" rel="c_employee_team_{$company_team_item.id}">
+								<i class="icon iconfont">&#xe604;</i>
+							</a>
+							<input type="hidden" name="ajax_item_id" value="{$company_team_item.id}" />
+				            <input type="hidden" name="method" value="company_team" />
+							<input type="hidden" name="ajax" value="1" />
+							<input type="hidden" name="ajax_url" value="{url r="finance#company_sub_project" p="method=company_team"}" />
+						</div>
+					</li>	
+				{/foreach}
+			{/if}
+    	</ul>
+    </div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		$(".c_employee_team_ajax_del").live('click',function(){
+			f_item.del_ajax_item(this,'{url r="finance#do_company_overview" p="method=company_team"}');
+		});
+		$(".J_check_c_employee_team_name").bind('keyup',function(){
+			check_u_name(this,c_employee_team_checkname_ajaxurl,'c_employee_team');
+		});
+		$(".J_c_employee_team_job_time").on('click',function(){
+			f_item.add_job_end_time(this);
+		});
+	});
+</script>

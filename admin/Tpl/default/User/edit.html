@@ -1,0 +1,277 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<load href='__TMPL__Common/js/conf.js' />
+<script type="text/javascript" src="__ROOT__/public/region.js"></script>	
+<load href='__TMPL__Common/js/user_edit.js' />
+<div class="main">
+<div class="main_title">{%EDIT} <a href="{:u("User/index")}" class="back_list">{%BACK_LIST}</a></div>
+<div class="blank5"></div>
+<form name="edit" action="__APP__" method="post" enctype="multipart/form-data">
+<table class="form conf_tab" cellpadding=0 cellspacing=0 >
+	<tr>
+		<td colspan=2 class="topTd"></td>
+	</tr>
+	<tr>
+		<td class="item_title">{%USER_NAME}:</td>
+		<td class="item_input">{$vo.user_name}<input type="hidden" name="user_name" value="{$vo.user_name}"  /></td>
+	</tr>
+	<tr>
+		<td class="item_title">{%USER_EMAIL}:</td>
+		<td class="item_input">{$vo.email}<input type="hidden" name="email" value="{$vo.email}"   /></td>
+	</tr>
+	<tr>
+		<td class="item_title">{%USER_MOBILE}:</td>
+		<td class="item_input"><input type="text" value="{$vo.mobile}" class="textbox" name="mobile" /></td>
+	</tr>
+	<tr>
+		<td class="item_title">{%USER_PASSWORD}:</td>
+		<td class="item_input"><input type="password" class="textbox" name="user_pwd" /></td>
+	</tr>
+	<tr>
+		<td class="item_title">{%USER_CONFIRM_PASSWORD}:</td>
+		<td class="item_input"><input type="password" class="textbox" name="user_confirm_pwd" /></td>
+	</tr>
+	
+	<tr>
+		<td class="item_title">所属地区:</td>
+		<td class="item_input">
+			<select name="province">				
+			<option value="" rel="0">请选择省份</option>
+			<foreach name="region_lv2" item="region">
+				<option value="{$region.name}" rel="{$region.id}" <if condition="$region['selected']">selected="selected"</if>>{$region.name}</option>
+			</foreach>
+			</select>
+			
+			<select name="city">				
+			<option value="" rel="0">请选择城市</option>
+			<foreach name="region_lv3" item="region">
+				<option value="{$region.name}" rel="{$region.id}" <if condition="$region['selected']">selected="selected"</if>>{$region.name}</option>
+			</foreach>
+			</select>
+
+		</td>
+	</tr>
+	
+	<tr>
+		<td class="item_title">性别:</td>
+		<td class="item_input">
+			
+			<label>女<input type="radio" name="sex" value="0" <if condition="$vo['sex'] eq 0">checked="checked"</if> /></label>
+			<label>男<input type="radio" name="sex" value="1" <if condition="$vo['sex'] eq 1">checked="checked"</if>/></label>
+			<label>未知<input type="radio" name="sex" value="-1" <if condition="$vo['sex'] eq -1">checked="checked"</if> /></label>
+		</td>
+	</tr>
+	<!--<tr>
+		<td class="item_title">会员类型:</td>
+		<td class="item_input">
+			<select name="user_type">
+				<option value="0" <if condition="$vo['user_type'] eq 0">selected="selected"</if>>请选择类型</option>
+				<option value="1" <if condition="$vo['user_type'] eq 1">selected="selected"</if>>创业者</option>
+				<option value="2" <if condition="$vo['user_type'] eq 2">selected="selected"</if>>投资者</option>
+			</select>
+			<span class='tip_span'>默认为0无类型</span>
+		</td>
+	</tr>-->
+	<tr>
+		<td class="item_title">会员等级:</td>
+		<td class="item_input">
+			<select name="user_level">
+				<option value="0">请选择等级</option>
+				<foreach name="user_level" item="level">
+					<option value="{$level.id}" <if condition="$vo['user_level'] eq $level['id']">selected="selected"</if>>{$level.name}</option>
+				</foreach>
+			</select>
+		</td>
+	</tr>
+	
+	<tr>
+		<td class="item_title">简介:</td>
+		<td class="item_input">
+			<textarea name="intro" class="textarea">{$vo.intro}</textarea>
+		</td>
+	</tr>
+	
+
+	
+	<tr>
+		<td class="item_title">{%IS_EFFECT}:</td>
+		<td class="item_input">
+			<label>{%IS_EFFECT_1}<input type="radio" name="is_effect" value="1" <if condition="$vo['is_effect'] eq 1">checked="checked"</if>  /></label>
+			<label>{%IS_EFFECT_0}<input type="radio" name="is_effect" value="0" <if condition="$vo['is_effect'] eq 0">checked="checked"</if> /></label>
+		</td>
+	</tr>
+	<tr>
+		<td colspan=2 class="bottomTd"></td>
+	</tr>
+</table>
+<div class="blank5"></div>
+	<table class="form" cellpadding=0 cellspacing=0 style="display:none;">
+		<tr>
+			<td colspan=2 class="topTd"></td>
+		</tr>
+		<tr>
+			<td class="item_title">真实姓名</td>
+			<td class="item_input">
+			<input type="text" value="{$vo.ex_real_name}" name="ex_real_name" class="textbox" />
+			</td>
+		</tr>
+		
+		<tr>
+			<td class="item_title">开户行：</td>
+			<td class="item_input">
+			<input type="text" name="ex_account_bank" value="{$vo.ex_account_bank}" class="textbox" style="width:500px;" />
+			</td>
+		</tr>
+		<tr>
+			<td class="item_title">银行帐号：</td>
+			<td class="item_input">
+			<input type="text"  name="ex_account_info" value="{$vo.ex_account_info}" class="textbox" style="width:500px;" />
+			</td>
+		</tr>
+		
+		<tr>
+			<td class="item_title">联系电话：</td>
+			<td class="item_input">
+			<input type="text" name="ex_contact" value="{$vo.ex_contact}" class="textbox" style="width:500px;" />
+			</td>
+		</tr>
+		<tr>
+			<td class="item_title">联系QQ：</td>
+			<td class="item_input">
+			<input type="text"  name="ex_qq"  value="{$vo.ex_qq}" class="textbox" style="width:500px;" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan=2 class="bottomTd"></td>
+		</tr>
+	</table> 
+<div class="blank5"></div>
+	<table class="form" cellspacing=0  cellpadding=0>
+		<tr><td colspan=2 class="topTd"></td></tr>
+		<tr>
+			<td class="item_title">投资类型审核：</td>
+			<td class="item_input">
+				<input type="radio" name="investor_status" <if condition="$vo.investor_stauts eq 0">checked="checked"</if> value="0">未审核
+				<input type="radio" name="investor_status" <if condition="$vo.investor_status eq 1">checked="checked"</if> value="1">审核通过
+				<input type="radio" name="investor_status" <if condition="$vo.investor_status eq 2">checked="checked"</if> value="2">审核未通过
+			</td>
+		</tr>
+		<tr>
+			<td class="item_title">投资类型</td>
+			<td class="item_input">
+				<input type="radio" name="is_investor"  <if condition="$vo.is_investor eq 0">checked="checked"</if>  value="0"> 普通用户
+				<input type="radio" name="is_investor" <if condition="$vo.is_investor eq 1">checked="checked"</if>   value="1"> 投资人
+				<input type="radio" name="is_investor" <if condition="$vo.is_investor eq 2">checked="checked"</if>  value="2"> 机构投资者
+			</td>
+		</tr>
+		 
+	</table>
+<div class="blank5"></div>
+<table class="form identify_info" id="identify_info_0"  <if condition="$vo.is_investor neq 0">style="display:0"</if>>
+	<tr></tr>
+</table>
+<table class="form identify_info" cellspacing=0 cellpadding=0 id="identify_info_1" <if condition="$vo.is_investor eq 0">style="display:0"</if>>
+	<tr>
+		<td class="item_title">身份证姓名：</td>
+		<td class="item_input"><input type="text" name="identify_name" value="{$vo.identify_name}" ></td>
+	</tr>
+	<tr>
+		<td class="item_title">身份证号码：</td>
+		<td class="item_input"><input type="text" name="identify_number" value="{$vo.identify_number}"></td>
+	</tr>
+	<tr>
+		<td class="item_title">身份证正面:</td>
+		<td class="item_input"><html:imgUpload name="identify_positive_image" id="identify_positive_image" value="$vo.identify_positive_image" /></td>
+	</tr>
+	<tr>
+		<td class="item_title">身份证反面:</td>
+		<td class="item_input"><html:imgUpload name="identify_nagative_image" id="identify_nagative_image" value="$vo.identify_nagative_image" /></td>
+	</tr>
+	<if condition="$vo.is_investor eq 1">
+	<tr class="identify_info_3">
+		<td class="item_title">名片:</td>
+		<td class="item_input"><html:imgUpload name="card" id="card_image" value="$vo.card" /></td>
+	</tr>
+	<tr class="identify_info_3">
+		<td class="item_title">符合以下条件之一的自然人投资者:</td>
+		<td class="item_input">
+			<input type="radio" name="identity_conditions"  <if condition="$vo.identity_conditions eq 0">checked="checked"</if>  value="0"> 我的金融资产超过100万元
+			<input type="radio" name="identity_conditions"  <if condition="$vo.identity_conditions eq 1">checked="checked"</if>   value="1"> 我的年收入超过30万元
+			<input type="radio" name="identity_conditions"  <if condition="$vo.identity_conditions eq 2">checked="checked"</if>  value="2"> 我是专业的风险投资人
+			<input type="radio" name="identity_conditions"  <if condition="$vo.identity_conditions eq 3">checked="checked"</if>  value="3"> 我不符合上述任一条件
+		</td>
+	</tr>
+	<tr class="identify_info_3">
+		<td class="item_title">信用报告:</td>
+		<td class="item_input"><html:imgUpload name="credit_report" id="credit_report_image" value="$vo.credit_report" /></td>
+	</tr>
+	<tr class="identify_info_3">
+		<td class="item_title">房产认证:</td>
+		<td class="item_input"><html:imgUpload name="housing_certificate" id="housing_certificate_image" value="$vo.housing_certificate" /></td>
+	</tr>
+	</if>
+</table>	
+<table class="form identify_info" cellspacing=0 cellpadding=0 id="identify_info_2"  <if condition="$vo.is_investor neq 2">style="display:none;"</if> >
+	<tr>
+		<td class="item_title">机构名称:</td>
+		<td class="item_input"><input type="text" name="identify_business_name" value="{$vo.identify_business_name}"></td>
+	</tr>
+	<tr>
+		<td class="item_title">营业执照：</td>
+		<td class="item_input"><html:imgUpload name="identify_business_licence" id="identify_business_licence" value="$vo.identify_business_licence" /></td>
+	</tr>
+	<tr>
+		<td class="item_title">组织机构代码证：</td>
+		<td class="item_input"><html:imgUpload name="identify_business_code" id="identify_business_code" value="$vo.identify_business_code" /> </td>
+	</tr>
+	<tr>
+		<td class="item_title">税务登记证:</td>
+		<td class="item_input"><html:imgUpload name="identify_business_tax" id="identify_business_tax"  value="$vo.identify_business_tax" /></td>
+	</tr>
+</table>
+<script>
+	$(function(){
+		$("input[name='is_investor']").bind("click",function(){
+ 			num=$(this).val();
+			if(num==2){
+				$("#identify_info_2").show("slow");
+				$(".identify_info_3").hide();
+			}else{
+				if(num==0){
+					$("#identify_info_1").hide();
+				}else{
+					$("#identify_info_1").show("slow");
+					$(".identify_info_3").show("slow");
+				}
+				$("#identify_info_2").hide("slow");
+			}
+			
+		});
+	});
+</script>
+<div class="blank5"></div>
+	<table class="form" cellpadding=0 cellspacing=0>
+		<tr>
+			<td colspan=2 class="topTd"></td>
+		</tr>
+		<tr>
+			<td class="item_title"></td>
+			<td class="item_input">
+			<!--隐藏元素-->
+			<input type="hidden" name="{:conf("VAR_MODULE")}" value="User" />
+			<input type="hidden" name="{:conf("VAR_ACTION")}" value="update" />
+			<input type="hidden" name="id" value="{$vo.id}" />
+ 			<input type="hidden" name="wx_openid" value="{$vo.wx_openid}" />
+			<!--隐藏元素-->
+			<input type="submit" class="button" value="{%EDIT}" />
+			<input type="reset" class="button" value="{%RESET}" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan=2 class="bottomTd"></td>
+		</tr>
+	</table> 		 
+</form>
+</div>
+<include file="Public:footer" />

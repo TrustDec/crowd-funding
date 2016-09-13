@@ -1,0 +1,110 @@
+{include file="./inc/header.html"}
+<?php
+    $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/licai/licai.css";
+    $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/licai/uc_redeem.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$pagecss"}" />
+</script>
+<style type="text/css">
+    .full_li ul li label{
+        float: none;
+        width: auto;
+        height: 40px;
+        line-height: 40px;
+    }
+</style>
+<div class="mainblok mainborder">
+    <div class="ui_list ui_small_list no_border">
+        <ul>
+            <li class="auto_height">
+                <div class="tit_img mr10">
+                   <img src="{if $licai.img eq ''}{$TMPL}/images/empty_thumb.gif{else}{$licai.img}{/if}">
+                </div>
+                <div class="tit_con webkit-box-flex">
+                    理财宝资金受特别保护，安全可靠，请放心操作 <br>
+                    <span class="f_red">赎回申请通过后,您的本金和收益会转入会员余额帐户,可以申请提现！</span>
+                </div>
+            </li>
+            <li class="auto_height">
+                <label class="ui_list_label">持有金额：</label>
+                <div class="ui_list_content flex">
+                    <span class="f_red">{$vo.money_format}</span>
+                    <small class="f_999">（赎回申请中<span class="f_666">{$vo.redempte_wait_pay_format}</span>，还可赎回<span id='have_money' title='{$vo.have_money}' class='f_666'>{$vo.have_money_format}</span>）</small>
+                </div>
+            </li>
+            <li>
+                <label class="ui_list_label">赎回金额申请：</label>
+                <input type="text" id="redeem_money" name="redeem_money" class="ui_text ui_small_text flex" placeholder="请输入赎回金额" onkeyup="amount(this);">元
+            </li>
+            <li class="auto_height">
+                <label class="ui_list_label">预计到账金额：</label>
+                <div class="ui_list_content flex">
+                    <span class="f_red"><em id="expect_amount">0</em>元</span> {if $licai.type>0}<small class="f_999">(预热期收益:<span id='expect_before_earn'>0</span>元，理财收益:<span id='expect_earn'>0</span>元)</small>{/if}
+                </div>
+            </li>
+            <li class="auto_height">
+                <label class="ui_list_label">预计到账时间：</label>
+                <div class="ui_list_content flex">
+                    预计<span class="f_red">{$vo.purchasing_time}</span> 前到账<br>
+                    <small class="f_999">转出资金自转出申请之日起不产生收益!</small>
+                </div>
+            </li>
+            <li>
+                <label class="ui_list_label">平台付款密码：</label>
+                <input type="hidden" name="id" id="id" value="{$vo.id}" />	
+                <input id="paypassword"  autocomplete="off" name="paypassword" class="ui_text ui_small_text flex" type="password" placeholder="请输入密码">
+                <a class="f_999 f13" href="{url_wap r="user#getpassword"}">忘记密码？</a>
+            </li>
+        </ul>
+        <div class="submit_row mod_main tc webkit-box">
+            <a class="ui-button theme_color ui-two-button"  id="redeem_btn" >确认赎回</a>
+            <a class="ui-button bg_red ui-two-button" href="">返回</a>
+        </div>
+    </div>
+</div><!--mainblok——end--> 
+<div class="blank10"></div>	
+<div class="mainblok mainborder">
+    <div class="full_li">
+    <ul>
+        <li>
+        <div class="paddingbr">
+           <div class="useqs">使用遇到问题？</div>
+        </div>
+           
+        </li>
+        <li>
+            <div class="paddingbr">
+                <p class="f_red qstit">问：理财宝转出至银行卡到账时间</p>
+                <p>
+                答： 按理财宝转出至银行卡的金额，会区分以下3种到账时间：
+                    1、普通到账：提交后的下一个基金交易日内24点前到账。
+                    2、实时到账：仅支持中信、光大、平安、招行卡通。
+                    3、2小时到账：仅支持无线，日累计5万以内（含），且在该卡服务时间内。具体到账时间点此查看
+                </p>
+                <p class="f_red qstit">问：理财宝转出至银行卡有次数和额度限制吗？</p>
+                <p>
+                    答： 一个账户一天最多可操作3次转出至银行卡，具体限额以页面显示为准，以下限额仅供参考： 
+                    1、普通提现银行卡：单日/单笔5万、单月无限额； 
+                    2、储蓄卡快捷银行卡：超过5万需要账户开通储蓄卡快捷支付后再操作，单笔/单日100万、单月无限额； 
+                    3、实时提现银行卡：支持中信、光大、平安、招行卡通，以卡通本身额度为准。
+                </p>
+                <p class="f_red qstit">问：理财宝转出至银行卡支持的银行</p>
+                <p>
+                    答： 目前支持工行、招行、建行、中行、农行、交行、浦发、广发、邮储、中信、光大、兴业、民生、平安、杭州银行、宁波银行等多家银行，具体以页面展示为准。
+                </p>
+            <div class="blank15"></div>
+            </div>
+        </li>
+    </ul>
+    </div>
+</div><!--mainblok——end--> 
+<div class="blank15"></div>
+<script>	
+    var licai_type =  '{$licai.type}';
+    var licai_interest_json = '{$licai_interest_json}';
+    var licai_status = '{$vo.licai_status}';
+    var before_days = '{$vo.before_days}';
+    var days = '{$vo.days}';
+</script>
+<!-- licai_uc_redeem.js -->
+{include file="./inc/footer.html"}

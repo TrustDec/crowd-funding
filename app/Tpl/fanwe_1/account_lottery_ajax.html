@@ -1,0 +1,131 @@
+<div class="blank10"></div>
+<form name="luckyer_form"  action="{url r="account#lottery"}" method="post">
+<div class="account_search" id="account_search">
+	<div class="form_row control-group f_l">
+		<label class="form_lable small_form_lable">会员名称：</label>
+		<div class="pr f_l">
+			<input type="text" name="user_name" value="{$param.user_name}" class="small_textbox w200 mr10" />
+			<span class="holder_tip">请输入会员名称</span>
+		</div>
+	</div>
+	<div class="form_row control-group f_l">
+		<label class="form_lable small_form_lable">抽奖号：</label>
+		<div class="pr f_l">
+			<input type="text" name="lottery_sn" value="{$param.lottery_sn}" class="small_textbox w200 mr10" />
+			<span class="holder_tip">请输入抽奖号</span>
+		</div>
+	</div>
+	<input type="botton" value="搜索" id="search_but" class="ui-button theme_bgcolor" style="margin-right:10px;" />
+	<input type="hidden" name="id" value="{$param.id}">		
+</div>
+</form>
+<div class="blank0"></div>
+<div class="list_content">
+	{if $list}
+	<div class="i_deal_list clearfix">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc_table" id="lottery_table">
+			<thead>
+				<tr>
+					<th width="8%" class="lf">编号</th>
+					<th width="18%" >抽奖号</th>
+					<th width="13%" >会员名</th>
+					<th width="10%" >支持金额</th>
+					<th width="18%" >创建时间</th>
+					<th width="12%" class="rt">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{foreach from=$list item=list_item}
+				<tr>
+					<td class="lf">{$list_item.id}</td>
+					<td>
+						
+						{if $list_item.is_winner eq 1}
+						<span class="f_red">幸运号：{$list_item.lottery_sn}</span><br />
+						揭晓时间：<br />{function name="to_date" value="$list_item.lottery_draw_time"}
+						{else}
+						{$list_item.lottery_sn}
+						{/if}
+					</td>
+					<td class="">{$list_item.user_name}</td>
+					<td>{function name="format_price" v="$list_item.price"}</td>
+					<td>{function name="to_date" v="$list_item.create_time"}</td>
+					<td>
+						{if $list_item.is_winner eq 1 && $deal_info.is_success eq 1}
+							{if $list_item.repay_time gt 0}
+								{if $list_item.repay_make_time gt 0}
+									会员已确认收到
+								{else}
+									已发放
+								{/if}
+							{else}
+								<a class="theme_fcolor" href="{url r="account#set_repay" p="id=$list_item.order_id"}">立即设置回报</a>
+							{/if}
+						{/if}
+					</td>
+				</tr>
+				{/foreach}
+			</tbody>	
+		</table>
+	</div>
+	<div class="blank20"></div>
+	<div class="pages">{$pages}</div>
+	<div class="blank20"></div>
+	{else}
+	<div class="empty_tip">
+		没有任何抽奖记录
+	</div>
+	{/if}
+</div>
+<div class="blank20"></div>
+<script type="text/javascript">
+	$("#search_but").bind("click",function(){
+			var deal_id=$("input[name='id']").val();
+			var query=new Object();
+			query.ajax=1;
+			query.id=deal_id;
+			query.user_name=$("input[name='user_name']").val();
+			query.lottery_sn=$("input[name='lottery_sn']").val();
+			$.ajax({
+				url:APP_ROOT+"/index.php?ctl=account&act=lottery",
+				type:"POST",
+				data:query,
+				dataType:'json',
+				success:function(o){
+					if(o.status ==1)
+					{
+
+						$("#lottery_box_ajax").html(o.html);
+					}
+					else if(o.status ==-1)
+						show_pop_login();
+					else
+						alert(o.info);
+				}
+			});
+		});
+		
+		$("#lottery_box_ajax .pages a").click(function(){
+			var url = $(this).attr("href");
+			var query=new Object();
+			query.ajax=1;
+			$.ajax({
+				url:url,
+				data:query,
+				dataType:'json',
+				cache:false,
+				success:function(o){
+					if(o.status ==1)
+					{
+
+						$("#lottery_box_ajax").html(o.html);
+					}
+					else if(o.status ==-1)
+						show_pop_login();
+					else
+						alert(o.info);
+				}
+			});
+			return false;
+		});
+</script>

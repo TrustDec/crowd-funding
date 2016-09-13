@@ -1,0 +1,61 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<load href='__TMPL__Common/js/jquery.bgiframe.js' />
+<load href='__TMPL__Common/js/jquery.weebox.js' />
+<load href='__TMPL__Common/js/carry.js' />
+<load href='__TMPL__Common/style/weebox.css' />
+<script type="text/javascript">
+	var r_status = '<php>echo $_REQUEST['status'];</php>';
+</script>
+<div class="main">
+<div class="main_title">{:L(MODULE_NAME."_".ACTION_NAME)}</div>
+<div class="blank5"></div>
+<div class="button_row">
+	<input type="button" class="button" value="{%DEL}" onclick="del();" />
+</div>
+<php>
+	function get_carry_status($status){
+		return l("CARRY_STATUS_".$status);
+	}
+	function modify_carry($id,$user){
+		if($user['status']!=4)
+			return '<a href="javascript:modify_carry('.$id.');">查看/处理</a>';
+	}
+</php>
+<div class="blank5"></div>
+<div class="search_row">
+	<form name="search" action="__APP__" method="get">	
+		{%USER_NAME}：<input type="text" class="textbox" name="user_name" value="{:trim($_REQUEST['user_name'])}" style="width:100px;" />
+		<if condition="ACTION_NAME eq 'index'">
+		状态：<select name="status">
+			<option value="">{%ALL}</option>
+			<option value="0" <if condition="$_REQUEST['status']!='' && intval($_REQUEST['status']) eq 0">selected="selected"</if>>{%CARRY_STATUS_0}</option>
+			<option value="3" <if condition="intval($_REQUEST['status']) eq 3">selected="selected"</if>>{%CARRY_STATUS_3}</option>
+			<option value="1" <if condition="intval($_REQUEST['status']) eq 1">selected="selected"</if>>{%CARRY_STATUS_1}</option>
+			<option value="2" <if condition="intval($_REQUEST['status']) eq 2">selected="selected"</if>>{%CARRY_STATUS_2}</option>
+			<option value="4" <if condition="intval($_REQUEST['status']) eq 4">selected="selected"</if>>{%CARRY_STATUS_4}</option>
+		</select>
+		</if>
+		<input type="hidden" value="UserCarry" name="m" />
+		<input type="hidden" value="<php>echo ACTION_NAME;</php>" name="a" />
+		<input type="hidden" value="<php>echo ACTION_NAME;</php>" name="status_type" />
+		<input type="submit" class="button" value="{%SEARCH}" />
+		<input type="button" class="button" value="{%EXPORT}" onclick="export_csv();" />
+	</form>
+</div>
+<div class="blank5"></div>
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="user" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{%ID}|50px,user_id|get_user_name_real:{%USER_NAME},money|format_price:提现金额,fee|format_price:手续费,create_time|to_date:申请时间,status|get_carry_status:提现状态,update_time|to_date:处理时间" 
+	actionlist="id|modify_carry=$user" /> 
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

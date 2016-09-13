@@ -1,0 +1,545 @@
+<div class="J_height_2">
+    <div class="box_main">
+        <div class="title line clearfix">
+            <h3>项目介绍</h3>
+        </div>
+        <table width="100%" border="0" cellspacing="1" cellpadding="0" class="tab1">
+            <tbody>
+                <tr>
+                    <td width="19%" align="right">项目类别：</td>
+                    <td width="30%">{$cate}</td>
+                    <td width="19%" align="right">项目所属阶段：</td>
+                    <td width="30%">{if $deal_item.project_step eq 0}尚未启动{/if}{if $deal_item.project_step eq 1}产品开发中{/if}{if $deal_item.project_step eq 2}产品已上市或上线{/if}{if $deal_item.project_step eq 3}已经有收入{/if}{if $deal_item.project_step eq 4}已经盈利{/if}</td>
+                </tr>
+				{if $deal_item.stock_type neq 2}
+                <tr>
+                    <td align="right">出让股份：</td>
+                    <td>{$deal_item.transfer_share}%</td>
+                    <td align="right">是否有其他项目：</td>
+                    <td>{if $deal_item.has_another_project eq 0}否{else}是{/if}</td>
+                </tr>
+				{else}
+				<tr>
+                    <td align="right">是否有其他项目：</td>
+                    <td colspan="3">{if $deal_item.has_another_project eq 0}否{else}是{/if}</td>
+                 </tr>
+				{/if}
+                <tr>
+                    <td align="right">企业所在城市：</td>
+                    <td>{$deal_item.city}</td>
+                    {if $deal_item.business_is_exist eq 1}
+                    <td align="right">企业成立时间：</td>
+                    <td>{$deal_item.business_create_time}</td>
+                    {else}
+                    <td align="right">公司是否已经成立：</td>
+                    <td>否</td>
+                    {/if}
+                </tr>
+                    <tr>
+                    <td align="right">企业员工人数：</td>
+                    <td>{$deal_item.business_employee_num}</td>
+                    <td align="right">项目标签：</td>
+                    <td>{$deal_item.tags}</td>
+                </tr>
+                <tr>
+                    <td align="right">公司名称：</td>
+                    <td>{$deal_item.business_name}</td>
+                    <td align="right">公司地址：</td>
+                    <td>{$deal_item.business_address}</td>
+                </tr>
+        		{if $deal_item.stock_type neq 1}
+        		<tr>
+                    <td align="right">预期年利率：</td>
+                    <td>{$deal_item.annual_interest_rate}%</td>
+                    <td align="right"> 固定回报周期：</td>
+                    <td>{$deal_item.return_cycle}个月</td>
+                </tr>
+        		{/if}
+        		{if $deal_item.type eq 4}
+        		<tr>
+                    <td align="right">轮次：</td>
+                    <td>
+                    	{if $deal_item.invest_phase eq 0}天使轮{/if}
+                    	{if $deal_item.invest_phase eq 1}Pre-A轮{/if}
+                    	{if $deal_item.invest_phase eq 2}A轮{/if}
+                    	{if $deal_item.invest_phase eq 3}A+轮{/if}
+                    	{if $deal_item.invest_phase eq 4}B轮{/if}
+                    	{if $deal_item.invest_phase eq 5}B+轮{/if}
+                    	{if $deal_item.invest_phase eq 6}C轮{/if}
+                    	{if $deal_item.invest_phase eq 7}D轮{/if}
+                    	{if $deal_item.invest_phase eq 8}E轮及以后{/if}
+                    	{if $deal_item.invest_phase eq 9}并购{/if}
+        			</td>
+        			<td align="right">入股方式：</td>
+                    <td>{if $deal_item.business_stock_type eq 0}直接入股项目总公司{else}只入股新开店所属公司{/if}</td>
+                 </tr>
+        		{/if}
+                <tr>
+                    <td align="right">投资款拨付方式：</td>
+               		<td>一次性全额到账</td>
+                    <td align="right">退出机制：</td>
+                    <td >{$deal_item.exit_mechanism}</td>
+               </tr>
+        		{if $deal_item.stock_type neq 2 && $deal_item.share_fee_descripe neq ''}
+	                <tr>
+	                    <td align="right">分红说明：</td>
+	                    <td colspan="3">{$deal_item.share_fee_descripe}</td>
+	               </tr>
+				{/if}
+            </tbody>
+        </table>
+        <div class="blank20"></div>
+        <div class="l_main_hd">
+            <h3 class="mb10 f16">企业项目简介</h3>
+            <div>{$deal_item.business_descripe}</div>
+        </div>
+    </div>
+    <div class="blank20"></div>
+</div>
+<div class="l_main_bd slideTxtBox" style="background:#fff;">
+    <div class="box_main" style="padding-top:0;">
+        <div class="pro_hd effect_hd">
+            <ul>
+                <li class="on"><a href="javascript:void(0);">商业模式</a></li>
+                <li><a href="javascript:void(0);">创业团队</a></li>
+                <li><a href="javascript:void(0);">历史情况</a></li>
+                <li><a href="javascript:void(0);">未来计划</a></li>
+                <li><a href="javascript:void(0);">项目附件</a></li>
+            </ul>
+        </div>
+        <div class="pro_bd effect_bd">
+            <!-- 市场定位与商业模式 开始 -->
+            {if $access eq 1 || $access eq 3 }
+            <div class="con3" id="pro_con_1" style="display:block;">
+                <div class="blank20"></div>
+                <div class="tit f18 theme_fcolor">
+                    <i></i>
+                    <div class="tit_bg"></div>
+                    <div class="tit_text theme_fcolor">
+                        <span class="num">1</span>目标用户或客户群体定位
+                    </div>
+                </div>
+                <div class="text">{$deal_item.description_2}</div>
+                <div class="blank15"></div>
+                <div class="tit f18 theme_fcolor">
+                    <i></i>
+                    <div class="tit_bg"></div>
+                    <div class="tit_text theme_fcolor">
+                        <span class="num">2</span>目标用户或客户群体目前困扰或需求定位
+                    </div>
+                </div>
+                <div class="text">{$deal_item.description_3}</div>
+                <div class="blank15"></div>
+                <div class="tit f18 theme_fcolor">
+                    <i></i>
+                    <div class="tit_bg"></div>
+                    <div class="tit_text theme_fcolor">
+                        <span class="num">3</span>满足目标用户或客户需求的产品或服务模式说明
+                    </div>
+                </div>
+                <div class="text"> {$deal_item.description_4} </div>
+                <div class="blank15"></div>
+                <div class="tit f18 theme_fcolor">
+                    <i></i>
+                    <div class="tit_bg"></div>
+                    <div class="tit_text theme_fcolor">
+                        <span class="num">4</span>项目赢利模式说明
+                    </div>
+                </div>
+                <div class="text">{$deal_item.description_5}</div>
+                <div class="blank15"></div>
+                <div class="tit f18 theme_fcolor">
+                    <i></i>
+                    <div class="tit_bg"></div>
+                    <div class="tit_text theme_fcolor">
+                        <span class="num">5</span>市场主要同行或竞争对手概述
+                    </div>
+                </div>
+                <div class="text">{$deal_item.description_6}</div>
+                <div class="blank15"></div>
+                <div class="tit f18 theme_fcolor">
+                    <i></i>
+                    <div class="tit_bg"></div>
+                    <div class="tit_text theme_fcolor">
+                        <span class="num">6</span>项目主要核心竞争力说明
+                    </div>
+                </div>
+                <div class="text">{$deal_item.description_7}</div>                       
+            </div>
+            <!-- 市场定位与商业模式 结束 -->
+            
+            <!-- 股东及管理团队 开始 -->
+            <div class="con3" id="pro_con_2" style="display:none;">
+                <div class="blank20"></div>
+                <div class="tit f18 theme_fcolor">
+                    <i></i>
+                    <div class="tit_bg"></div>
+                    <div class="tit_text theme_fcolor">
+                        <span class="num">1</span>股东团队说明
+                    </div>
+                </div>
+                <div class="text">
+                {if $stock_list}
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab2">
+                    <tbody>
+                        <tr class="col">
+                            <td>姓名</td>
+                            <td>职务</td>
+                            <td>所占股份(%)</td>
+                            <td>是否全职</td>
+                            <td>实际出资金额（万元）</td>
+                            <td>与其他股东历史关系描述</td>
+                        </tr>
+                        {foreach from=$stock_list item=stock_item key=k1}
+                        <tr>
+                            <td>{$stock_item.name}</td>
+                            <td>{$stock_item.job}</td>
+                            <td>{$stock_item.share}</td>
+                            <td>{$stock_item.is_full_time}</td>
+                            <td>{$stock_item.invest_money}</td>
+                            <td>{$stock_item.relation}</td>
+                        </tr>
+                        {/foreach}
+                    </tbody>
+                    </table>
+                    {foreach from=$stock_list item=stock_item key=k1}
+                    <div class="name">▍股东团队成员{$stock_item.name}简介：</div>
+                    <div class="sub"> {$stock_item.describe} </div>
+                    {/foreach}
+                {/if}
+                {if !$stock_list}
+                    暂无股东团队说明
+                {/if} 
+                </div>
+                <div class="blank15"></div>
+                <div class="tit f18 theme_fcolor">
+                    <i></i>
+                    <div class="tit_bg"></div>
+                    <div class="tit_text theme_fcolor">
+                        <span class="num">2</span>非股东管理团队
+                    </div>
+                </div>
+                <div class="text">
+                {if $unstock_list}
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab2">
+                    <tbody>
+                        <tr class="col">
+                            <td>姓名</td>
+                            <td>职务</td>
+                            <td>是否全职</td>
+                            <td>与创始团队成员历史关系</td>
+                        </tr>
+                        {foreach from=$unstock_list item=unstock_item}
+                            <tr>
+                                <td>{$unstock_item.name}</td>
+                                <td>{$unstock_item.job}</td>
+                                <td>{$unstock_item.is_full_time}</td>
+                                <td>{$unstock_item.relation}</td>
+                            </tr> 
+                        {/foreach}
+                    </tbody>
+                    </table>
+                    {foreach from=$unstock_list item=unstock_item }
+                            <div class="name">▍非股东团队成员{$unstock_item.name}简介：</div>
+                            <div class="sub"> {$unstock_item.describe} </div>
+                    {/foreach}
+                {/if}
+                {if !$unstock_list}
+                    暂无非股东管理团队
+                {/if}
+                </div>
+            </div>
+            <!-- 股东及管理团队 结束 -->
+
+            <!-- 历史执行情况/在营店 开始 -->
+            <div class="con3" id="pro_con_3" style="display:none;">
+                <div class="blank20"></div>
+    			{foreach from=$history_list item=history_item key=history_key_num}
+    			<?php $this->_var['history_key_num']++; ?>     
+                <div class="tit f18 theme_fcolor">
+                    <i></i>
+                    <div class="tit_bg"></div>
+                    <div class="tit_text theme_fcolor">
+                        <span class="num">{$history_key_num}</span>第<span class="daxie">{$history_key_num}</span>阶段
+                    </div>
+                </div>
+                <div class="text">
+                    <ul>
+                        <li>
+                            <span class="theme_fcolor">1、阶段名称：</span>{$history_item.info.name}
+                        </li>
+                        <li>
+                            <span class="theme_fcolor">2、起止时间：</span>{$history_item.info.begin_time}至{$history_item.info.end_time}
+                        </li>
+                        <li>
+                            <span class="theme_fcolor">3、阶段达成目标描述：</span>
+                            {if $history_item.info.describe}
+                            <div class="pl20">{$history_item.info.describe}</div>
+                            {else}无{/if}
+                        </li>
+                        <li>
+                            <span class="theme_fcolor">4、完成阶段目标的主要措施、方法、手段：</span>
+                            {if $history_item.info.do_describe}
+                            <div class="pl20">{$history_item.info.do_describe}</div>
+                            {else}无{/if}
+                        </li>
+                        <li>
+                            <span class="theme_fcolor">5、阶段收入：</span>
+                            {if $history_item.info.is_income eq 1}
+                                <table border="0" cellspacing="0" cellpadding="0" class="tab2" style="width:716px;margin:0 auto">
+                                <tbody>
+                                    <tr class="col">
+                                        <td width="30%">收入类别</td>
+                                        <td width="20%" class="t_r">收入金额（元）</td>
+                                        <td>备注</td>
+                                    </tr>                        
+                                    {foreach from=$history_item.income item=income}
+                                    <tr>
+                                        <td>{$income.type}</td>
+                                        <td>{$income.money}</td>
+                                        <td>{$income.memo}</td>
+                                    </tr>
+                                    {/foreach}
+                                    <tr>
+                                        <td>合计</td>
+                                        <td class="t_r">{$history_item.info.item_income}</td>
+                                        <td></td>                                   
+                                    </tr>
+                                </tbody>
+                                </table>
+                                <div class="blank0"></div>
+                            {else}无{/if}
+                        </li>
+                        <li>
+                            <span class="theme_fcolor">6、阶段开支：</span>
+                            {if $history_item.info.is_out eq 1}
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab2" style="width:716px;margin:0 auto">
+                                <tbody>
+                                    <tr class="col">
+                                        <td width="30%">费用类别</td>
+                                        <td width="20%" class="t_r">开支金额（元）</td>
+                                        <td>备注</td>
+                                    </tr>
+                                    {foreach from=$history_item.out item=out key=out_key_num}
+                                    <tr>
+                                        <td>{$out.type}</td>
+                                        <td>{$out.money}</td>
+                                        <td>{$out.memo}</td>
+                                    </tr>
+                                    {/foreach}
+                                    <tr>
+                                        <td>合计</td>
+                                        <td class="t_r">{$history_item.info.item_out}</td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                                </table>
+                            {else}无{/if}
+                        </li>
+                    </ul>
+                </div>
+    			{/foreach}
+    			<div class="blank10"></div>
+                <div class="con26">
+                    <span class="theme_fcolor f15 b">累计盈亏：</span>
+                    （累计盈亏未计算筹备开支/ 单位：元）
+                </div>
+                <table border="0" cellspacing="0" cellpadding="0" class="tab2" style="width:818px">
+                <tbody>
+                    <tr class="col f_b">
+                        <td width="30%">累计收入金额（元）</td>
+                        <td width="30%">累计开支金额（元）</td>
+                        <td>累计盈亏金额（元）</td>
+                    </tr>
+                    <tr class="theme_fcolor">
+                        <td>{$total_history_income}</td>
+                        <td>{$total_history_out}</td>
+                        <td class="f_red">{$total_history}</td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+            <!-- 历史执行情况/在营店 结束 -->
+
+            <!-- 未来三年内计划 开始 -->
+            <div class="con3" id="pro_con_4" style="display:none;">
+                <div class="blank20"></div>
+                {foreach from=$plan_list item=plan_item key=plan_key_num}
+    			<?php $this->_var['plan_key_num']++; ?>    
+                <div class="tit f18 theme_fcolor">
+                    <i></i>
+                    <div class="tit_bg"></div>
+                    <div class="tit_text theme_fcolor">
+                        <span class="num">{$plan_key_num}</span>第<span class="daxie">{$plan_key_num}</span>阶段
+                    </div>
+                </div>
+                <div class="text">
+                    <ul>
+                        <li>
+                            <span class="theme_fcolor">1、阶段名称：</span>{$plan_item.info.name}
+                        </li>
+                        <li>
+                            <span class="theme_fcolor">2、起止时间：</span>{$plan_item.info.begin_time}至{$plan_item.info.end_time}
+                        </li>
+                        <li>
+                            <span class="theme_fcolor">3、阶段达成目标描述：</span>
+                            {if $plan_item.info.describe}
+                            <div class="pl20">{$plan_item.info.describe}</div>
+                            {else}无{/if}
+                        </li>
+                        <li>
+                            <span class="theme_fcolor">4、完成阶段目标的主要措施、方法、手段：</span>
+                            {if $plan_item.info.do_describe}
+                            <div class="pl20">{$plan_item.info.do_describe}</div>
+                            {else}无{/if}
+                        </li>
+                        <li>
+                            <span class="theme_fcolor">5、阶段收入：</span>
+                            {if $plan_item.info.is_income eq 1}
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab2" style="width:716px;margin:0 auto">
+                                <tbody>
+                                    <tr class="col">
+                                        <td width="30%">收入类别</td>
+                                        <td width="20%" class="t_r">收入金额（元）</td>
+                                        <td>备注</td>
+                                    </tr>
+                                    {foreach from=$plan_item.income item=income}
+                                    <tr>
+                                        <td>{$income.type}</td>
+                                        <td class="t_r">{$income.money}</td>
+                                        <td>{$income.memo}</td>
+                                    </tr>
+                                    {/foreach}
+                                    <tr>
+                                        <td>合计</td>
+                                        <td class="t_r">{$plan_item.info.item_income}</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                </tbody>
+                                </table>
+                                <div class="blank0"></div>
+                            {else}无{/if}
+                        </li>
+                        <li>
+                            <span class="theme_fcolor">6、阶段开支：</span>
+                            {if $plan_item.info.is_out eq 1}
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab2" style="width:716px;margin:0 auto">
+                                <tbody>
+                                    <tr class="col">
+                                        <td width="30%">费用类别</td>
+                                        <td width="20%" class="t_r">开支金额（元）</td>
+                                        <td>备注</td>
+                                    </tr>
+                                    {foreach from=$plan_item.out item=out key=out_key_num}
+                                        <tr>
+                                            <td>{$out.type}</td>
+                                            <td class="t_r">{$out.money}</td>
+                                            <td>{$out.memo}</td>
+                                        </tr>
+                                    {/foreach}
+                                    <tr>
+                                        <td>合计</td>
+                                        <td class="t_r">{$plan_item.info.item_out}</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                </tbody>
+                                </table>
+                                <div class="blank0"></div>
+                            {else}无{/if}
+                        </li>
+                    </ul>
+                </div>
+    		    {/foreach}
+                <div class="blank10"></div>
+                <div class="con26">
+                    <span class="theme_fcolor f15 b">累计盈亏：</span>
+                    （累计盈亏未计算筹备开支/ 单位：元）
+                </div>
+                <table border="0" cellspacing="0" cellpadding="0" class="tab2" style="width:818px">
+                    <tbody>
+                        <tr class="col f_b">
+                            <td width="30%">累计收入金额（元）</td>
+                            <td width="30%">累计开支金额（元）</td>
+                            <td>累计盈亏金额（元）</td>
+                        </tr>
+                        <tr class="theme_fcolor">
+                            <td>{$total_plan_income}</td>
+                            <td>{$total_plan_out}</td>
+                            <td class="f_red">{$total_plan}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- 未来三年内计划 结束 -->
+
+            <!-- 项目附件 开始 -->
+             <div class="con3" id="pro_con_5" style="display:none;">
+                <div class="blank20"></div>
+               
+                <div class="blank20"></div>
+                {foreach from=$attach_list item=attach_item }
+                <div class="text_accessory">
+                    <a href="{$APP_ROOT}/index.php?ctl=project&act=downfile&file={$attach_item.file}" target="_blank" id="text_accessory">
+                        <div class="accessory_icon"></div>
+                        <span>{$attach_item.title}</span>
+                    </a>
+                </div>
+                {/foreach}
+            </div>
+            <!-- 项目附件 结束 -->
+            {else}
+                {if $access eq 0}
+                <div class="box border_dashed2 border_radius7 mt20">
+                    <div class="box_main f16 tc clearfix">
+                        <span>您需要登录后才可以查看该项目详情</span>
+                        <div class="blank10"></div>
+                        <a onclick="javascript:show_pop_login();" class="ui-button ui-center-button theme_bgcolor">马上登录</a>
+                    </div>
+                </div>
+                {/if}
+                {if $access eq 2}
+                <div class="box border_dashed2 border_radius7 mt20">
+                    <div class="box_main f16 tc clearfix">
+                        <span>您的会员等级不够，无法查看项目详细信息！</span>
+                    </div>
+                </div>
+                {/if}
+                {if $access eq 4}
+                <div class="box border_dashed2 border_radius7 mt20">
+                    <div class="box_main f16 tc clearfix">
+                        <span>实名认证后，即可查看该项目详情</span>
+                        <div class="blank10"></div>
+                        <a href="{url r="settings#security" p="method=setting-id-box"}" class="ui-button ui-center-button theme_bgcolor">马上去实名认证</a>
+                    </div>
+                </div>
+                {/if}
+                {if $access eq 5}
+                <div class="box border_dashed2 border_radius7 mt20">
+                    <div class="box_main f16 tc clearfix">
+                        <span>您的实名认证正在审核中，无法查看该项目详情</span>
+                    </div>
+                </div>
+                {/if}
+                {if $access eq 6}
+                <div class="box border_dashed2 border_radius7 mt20">
+                    <div class="box_main f16 tc clearfix">
+                        <span>您的实名认证未通过，无法查看该项目详情</span>
+                        <div class="blank10"></div>
+                        <a href="{url r="settings#security" p="method=setting-id-box"}" class="ui-button ui-center-button theme_bgcolor">重新去实名认证</a>
+                    </div>
+                </div>
+                {/if}
+            {/if}
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#text_accessory[href$='.txt']").find(".accessory_icon").addClass("accessory_t");
+    $("#text_accessory[href$='.doc']").find(".accessory_icon").addClass("accessory_w");
+    $("#text_accessory[href$='.docx']").find(".accessory_icon").addClass("accessory_w");
+    $("#text_accessory[href$='.rar']").find(".accessory_icon").addClass("accessory_r");
+    $("#text_accessory[href$='.zip']").find(".accessory_icon").addClass("accessory_r");
+    $("#text_accessory[href$='.xls']").find(".accessory_icon").addClass("accessory_x");
+    $("#text_accessory[href$='.xlsx']").find(".accessory_icon").addClass("accessory_x");
+    $("#text_accessory[href$='.ppt']").find(".accessory_icon").addClass("accessory_p");
+</script>

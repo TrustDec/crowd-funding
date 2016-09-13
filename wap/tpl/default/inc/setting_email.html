@@ -1,0 +1,45 @@
+<div class="setting_security_box" id="setting_email_box">
+	<form id="ajax_form_email" action="{url_wap r="settings#email_binding" }">
+		<div class="ul_block">
+			<ul>
+				{if $user_info.email}
+				<li class="webkit-box">
+					<label class="input_lable">原邮箱：</label>
+					<div class="smaller_form_cont">{function name="hideEmail" v=$user_info.email}</div>
+				</li>
+				<li class="webkit-box">
+					<input type="text" placeholder="请输入验证码" value="" name="verify_coder" class="textbox webkit-box-flex mr5" />
+					<input type="button" value="获取验证码" class="code_btn bg_red" id="email_verify_code">
+				</li>
+				<li class="webkit-box last">
+					<label class="input_lable">新邮箱：</label>
+					<input type="text" placeholder="请输入新邮箱" value="" name="email" class="textbox webkit-box-flex" />
+				</li>
+				<input type="hidden" value="2" name="step" />
+				{else}
+				<li class="webkit-box">
+					<label class="input_lable">新邮箱：</label>
+					<input type="text" placeholder="请输入新邮箱" value="" name="email" class="textbox webkit-box-flex" />
+				</li>
+				<li class="last webkit-box">
+					<input type="text" placeholder="请输入验证码" value="" name="verify_coder" class="textbox webkit-box-flex mr5" />
+					<input type="button" value="获取验证码" class="code_btn bg_red" id="email_verify_code">
+				</li>
+				<input type="hidden" value="1" name="step" />
+				{/if}
+			</ul>
+			<div class="blank10"></div>
+			<div class="submit_btn_row control-group">
+				<div class="two_btn webkit-box">
+					<div class="ui-button ui_button_l theme_color webkit-box-flex" rel="green">绑定邮箱</div>
+					<input type="button" value="取消" onclick="$.closeModal();" class="ui_button bg_red webkit-box-flex">
+				</div>
+				<input type="hidden" value="1" name="ajax" />
+			</div>
+			<div class="blank10"></div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+	var user_info_email = '{$user_info.email}';
+</script>

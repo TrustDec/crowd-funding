@@ -1,0 +1,13 @@
+@charset "utf-8";
+.list_title {margin-bottom: 10px;}
+.ui-small-center-button{font-size:12px;margin:0;}
+.uc_table th{height:36px;}
+.uc_table td{padding:12px 10px;}
+
+.lottery_start{margin:0px auto; padding:50px 0 50px 420px;}
+.lottery_luckyer_box{display:none}
+.change_css{background:#eee;color: #333 !important;}
+.table_change th{background:#eee;color: #333;}
+.lottery_status{
+	padding-left:2px;
+}

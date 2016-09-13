@@ -1,0 +1,112 @@
+<script type="text/javascript">
+    var ROOT = '{$APP_ROOT}/{$URL_NAME}';
+    var VAR_MODULE = "m";
+    var VAR_ACTION = "a";
+    var WEB_SESSION_ID = '<?php echo es_session::id(); ?>';
+    var EMOT_URL = '{$APP_ROOT}/public/emoticons/';
+    var MAX_FILE_SIZE =  '{$max_size_byte}b';
+    var UPLOAD_URL ='{$APP_ROOT}/{$URL_NAME}?m=File&a=do_upload&upload_type=0&dir=image' ;
+	var UPLOAD_SWF='{$TMPL}/js/plupload/Moxie.swf';
+	var UPLOAD_XAP='{$TMPL}/js/plupload/Moxie.xap';
+	var ALLOW_IMAGE_EXT= "gif,jpg,jpeg,png,bmp";
+	var MAX_IMAGE_SIZE= '{$max_size_byte}b';
+	function get_file_fun(name){
+    		$("#"+name).ui_upload({multi:false,
+		FileUploaded:function(ajaxobj){
+ 				if(ajaxobj.error==1)
+				{
+					$.showErr(ajaxobj.info);
+				}else{
+					$("#"+name+"_url").val(ajaxobj.public_url);
+					$("#"+name+"_image").attr('src',ajaxobj.url);
+					$("#"+name+"_div").show();
+ 				}
+			},Error:function(error){
+			if(error.code==-600){
+				$.showErr("您上传的文件太大，最大允许上传{$max_size}");
+			}else{
+				$.showErr(error.message);
+			}
+ 		}});
+	}
+ 
+</script>
+<script type="text/javascript" src="{$TMPL}/js/ajaxupload.js"></script>
+<style type="text/css">
+	.full{_height:300px;padding:10px;}
+	.fileupload .filebox{ cursor:pointer; filter:alpha(opacity=0); -moz-opacity:0; -khtml-opacity:0; opacity:0; padding:0; height:39px; width:97px; }
+	.control-group{margin-left:0;_margin-bottom:12px;}
+	.control-group .textbox , .control-group .textareabox{width:307px;}
+	.control-group1 label{height:39px;line-height:39px;}
+	.control-group .control-label{width:62px;}
+</style>
+<div class="full">
+	<form id="add_update_form" action="{url r="deal#save_update"}">		
+		<div class="control-group">
+			<label class="control-label">动态内容:</label>
+			<textarea name="log_info" class="textareabox f_l"></textarea>
+		</div>
+		<div class="blank0"></div>
+		{if $deal_info.type eq 2}
+		<div class="control-group small-control-group">
+			<label class="control-label">楼盘阶段:</label>
+			<select name="houses_status" class="ui-select field_select big">
+				<option value="">请选择楼盘阶段</option>
+				{foreach from="$houses_status_list" item=houses_status}
+				<option value="{$houses_status}">{$houses_status}</option>
+				{/foreach}
+			</select>
+		</div>
+		<div class="blank0"></div>
+		<div class="control-group small-control-group">
+			<label class="control-label">阶段图标:</label>
+			<div class="f_l tl">
+				<label class="fileupload f_l"   style="height:39px; margin-top:0;cursor:pointer">
+					<input type="file" class="filebox" name="update_log_icon_bj" id="update_log_icon_bj"/>
+				</label>
+				<label class="fileuploading hide"></label>						
+			</div>
+			<div class="log_image_upd" id="update_log_icon_bj_div">
+				<img width="50" height="50" src="" id="update_log_icon_bj_image" />
+				<input type="hidden" name="update_log_icon" id="update_log_icon_bj_url" value="" />
+			</div>
+			<div class="clear"></div>
+			<div class="tl f_999 f12" style="padding-left:72px;">推荐大小30*30px,不传则显示默认</div>
+		</div>
+		{/if}
+		<div class="control-group small-control-group">
+			<label class="control-label">相关图片:</label>
+			<label class="fileupload f_l"   style="height:39px; margin-top:0;cursor:pointer">
+				<input type="file" class="filebox" name="image_file" id="image_file"/>
+			</label>
+			<label class="fileuploading hide"></label>
+			<div class="log_image_upd" id="image_file_div">
+				<img width="50" height="50" src="" id="image_file_image" />
+				<input type="hidden" name="image" id="image_file_url" value="" />
+			</div>
+			<div class="clear"></div>
+			<div class="tl f_999 f12" style="padding-left:72px;">支持jpg、jpeg、png、gif格式，大小不超过{$max_size}。【推荐尺寸760px*530px】</div>
+		</div>
+		<div class="blank0"></div>
+		<div class="form_row control-group">
+			<label class="f_l mr15">视频地址:</label>
+			<input type="text" name="vedio" class="textbox" value="" style="margin-right:0" />
+		</div>
+		<div class="blank10"></div>
+		<div class="submit_btn_row" style="margin-left:74px;">
+			<div class="ui-button theme_bgcolor" rel="green">
+				<div>
+					<span>保存</span>
+				</div>
+			</div>
+			<input type="hidden" value="1" name="ajax" />
+			<input type="hidden" value="{$deal_info.id}" name="id" />
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+	$(function(){
+		get_file_fun("image_file");
+		get_file_fun("update_log_icon_bj");
+ 	});
+</script>

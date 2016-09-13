@@ -1,0 +1,112 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/score/score_good_show.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/score/score_good_show.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/score/score_mall_index.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/score/score_mall_index.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/score/jquery.magnifier.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/score/score_good_show.js";
+?>
+<script type="text/jscript">
+	//var goods_attr_stock_json={$goods.goods_attr_stock_json};
+	var deal_price = {$goods.score};  //商品的基础价格
+	var deal_stock = {$goods.max_bought};   //原始库存
+	var deal_buy_count = {$goods.buy_number};  //销量						
+	var deal_user_min_bought = 0;  //会员最小购买
+	var deal_user_max_bought = {$goods.user_max_bought};	 //会员最大购买						
+	var deal_attr_stock_json = {$goods.goods_attr_stock_json};						
+	var buy_type = 0;  //购物类型
+	var deal_id = {$goods.id};
+</script>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss" c="$dcpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs"}"></script>
+<div id="J_wrap">
+	<div class="wrap">
+		<div class="blank20"></div>
+		<div class="detail_hd">
+			<div class="detail_hd_img">
+				<div class="preview">
+					<div id="vertical" class="bigImg">
+						<img src="{if $goods.img eq ''}{$TMPL}/images/empty_thumb.gif{else}{function name="get_spec_image" v=$goods.img w="600" h="450" g="1"}{/if}" alt="{$goods.name}" lazy="true" width="380" height="285" id="midimg" />
+						<div style="display:none;" id="winSelector"></div>
+					</div>
+					<div id="bigView" style="display:none;"><img width="600" height="450" alt="" src="" /></div>
+				</div>
+			</div>
+			<div class="detail_hd_text" id="main_package_choose">
+				<h3>{$goods.name}</h3>
+				<div class="control-group smaller-control-group clearfix">
+					<label class="control-label">所属类别：</label>
+					<div class="control-text">{$goods.cate_name}</div>
+				</div>
+				<div class="control-group smaller-control-group clearfix">
+					<label class="control-label">所需积分：</label>
+					<div class="control-text">
+						<span class="f_money" id="deal_price">{$goods.score}</span>
+						<span class="f_money">积分</span>
+					</div>
+				</div>
+				<div class="control-group smaller-control-group clearfix">
+					<label class="control-label">兑换人数：</label>
+					<div class="control-text">{$goods.total_buy}人</div>
+				</div>
+				<div class="control-group smaller-control-group clearfix" style="display:none">
+					<label class="control-label">剩余数量：</label>
+					<div class="control-text">{$goods.stock}份</div>
+				</div>
+				{foreach from=$goods.good_attr item=g_attr}
+				<div class="control-group g_attr_group clearfix package_choose" rel="{$g_attr.id}" >
+					<label class="control-label">选择{$g_attr.name}：</label>
+					<div class="control-text">
+						<div class="g_attr active_parent" >
+							{foreach from=$g_attr.attr_list item=attr}
+							<a href="javascript:void(0);" class="attr_a" price="{$attr.score}" rel="{$attr.id}" >
+								<span>{$attr.name}</span>
+								<i></i>
+							</a>
+							{/foreach}
+						</div>
+					</div>
+				</div>
+				{/foreach}
+				<div class="control-group small-control-group clearfix">
+					<label class="control-label">兑换数量：</label>
+					<div class="control-text num_choose">
+						<input type="text" name="buy_num" id="deal_num" value="1" class="textbox smaller_textbox w100" />
+						<span class="mui-amount-btn">
+			                <span class="mui-amount mui-amount-increase increase"></span>
+			                <span class="mui-amount mui-amount-decrease less"></span>
+						</span>
+						<!--chh-->
+						 <span class="total f_l" id="stock_span">
+						  	<div>还剩<span class="inventory">0</span>份</div>
+						</span>
+						<span class="tips f_l none" id="stock_tips"></span><!--当数量超出库存时，此项显示-->
+						<!--chh-->
+					</div>
+				</div>
+				<div class="blank10"></div>
+				<div class="submit_row control-group clearfix">
+					<label class="control-label"></label>
+					<div class="ui-button theme_bgcolor" id="buy_btn" style="width:100px;">立即兑换</div>
+				</div>
+			</div>
+		</div>
+		<div class="detail_bd">
+			<div id="pin_box">
+				<div class="deals">
+					<div class="deals_sortbar">
+						<ul>
+							<li class="cur"><a href="javascript:void(0)">商品详情</a></li>
+						</ul>
+					</div>
+					<div class="deals_cont">
+						{$goods.description}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="blank20"></div>
+	</div>
+</div>
+{include file="inc/footer.html"}

@@ -1,0 +1,56 @@
+{include file="inc/header.html"}
+<div class="card">
+  	<div class="card-content">
+      	{if $company_list}
+        <div class="list-block media-list">
+      		<ul>
+	          	{foreach from=$company_list item=item}
+            	<li>
+	            	<a {if $item.is_edit neq 1}href="#" onclick="RouterURL('{url_wap r="finance#company_show" p="cid=$item.id"}','#finance-company_show',2);"{/if} class="item-content item-link">
+	              		<div class="item-media">
+	                		<img src="{$item.company_logo}"  width="44"/>
+	              		</div>
+	              		<div class="item-inner">
+	                		<div class="item-title-row">
+	                  			<div class="item-title">{$item.company_name}</div>
+	                		</div>
+			                <div class="item-subtitle">
+		                		{if $item.status eq 2 && $item.refuse_reason neq ''}
+						   			未通过理由：{$item.refuse_reason}
+							  	{else}
+									{$item.company_brief}							   
+							  	{/if}
+							</div>
+							<div class="item-subtitle">
+								{if $item.status eq 0 && $item.is_edit eq 0}
+							   		审核中
+							   	{elseif $item.status eq 1 && $item.is_edit eq 0}
+							   		{if $item.examine_status eq 1}
+					
+							   		{elseif $item.examine_status eq 2}
+									 	融资中
+									{/if}
+							   {elseif $item.status neq 2&& $item.is_edit eq 1}
+									编辑中
+							   {elseif $item.status eq 2}
+									  未通过
+								{/if}
+								<!--
+								{if $item.deal_success_company neq ''}
+							 		|&nbsp;<a href="{url_wap r="account#project_invest" p="type=4&company_id=$item.id"}">过往融资</a>
+								{/if}
+								-->
+							</div>
+		              	</div>
+         	 		</a>
+	            </li>
+				{/foreach}
+          	</ul>
+   	 	</div>
+		{/if}
+  	</div>
+</div>
+<div class="blank10"></div>
+<div class="pages">{$pages}</div>
+<div class="blank10"></div>
+{include file="inc/footer.html"}

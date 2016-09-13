@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="Generator" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{if $page_title}{$page_title} - {/if}{if $show_site_titile eq 1}{function name='app_conf' value='SHOP_SEO_TITLE'} - {/if}{$site_info.SHOP_TITLE}</title>
+<link rel="icon" href="favicon.ico" type="/image/x-icon" />
+<link rel="shortcut icon" href="favicon.ico" type="/image/x-icon" />
+<meta name="keywords" content="{if $page_keyword}{$page_keyword}{/if}{$site_info.SHOP_KEYWORD}" />
+<meta name="description" content="{if $page_description}{$page_description}{/if}{$site_info.SHOP_DESCRIPTION}" />
+<style>
+	body{text-align:left;color:#444;font-size:16px;font-family:"microsoft yahei";}
+	img{border:0}
+	*{margin:0;padding:0}
+	ul{list-style:none}
+	select,input,img,select{vertical-align:middle}
+	a{text-decoration:none;cursor:pointer;color:#00bef0;font-weight:normal;}
+	a:hover{color:#0f91ed}
+	.msg_box{ padding:10px;}
+	.btn,.btn:hover{ display:block; margin:0 auto; width:120px; color:#fff; text-align:center; height:30px; line-height:30px; background:#0697da}
+</style>
+
+{if $jump eq 0}
+<meta http-equiv="refresh" content="3;URL={$jump}" />
+{/if}
+</head>
+
+<body>
+	<center>
+		<div class="msg_box">
+			<div class="notice">
+				<p>
+				{$msg}	
+				</p>
+				<p>
+					{if $jump neq ''}
+						<div class="blank"></div>
+						<a href="{$jump}" class="btn">点击这里跳转 </a>
+					{/if}
+				</p>
+			</div>
+		</div>
+	</center>
+</body>
+</html>

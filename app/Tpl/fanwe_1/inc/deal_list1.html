@@ -1,0 +1,215 @@
+<style>
+       .paiduan ul li{ float:left;margin-left:18px;margin-top: 1px;}
+      .paiduan .num_1{
+            background: #afc968;
+            display: block;
+            text-align: center;
+            height: 18px;
+            width:60px;
+            padding-top: 2px;
+            margin-left: 145px;
+            
+        }
+        .paiduan .no{
+            background: #7aafd9;
+            display: block;
+            text-align: center;
+            height: 18px;
+            width:60px;
+            padding-top: 2px;
+            margin-left: 145px;
+            
+        }
+        .paiduan .num_2{
+            background: #7dcac8;
+            display: block;
+            text-align: center;
+            height: 18px;
+            width:60px;
+            padding-top: 2px;
+            margin-left: 145px;
+            
+        }
+		.deal_item_box {
+			width: 225px;
+			background: #fff;
+			border: #ccc solid 1px;
+			display: inline-block;
+			margin-bottom: 16px;
+			border-radius: 8px;
+		}
+		.paiduan .num_success{
+            background: #f6aa31;
+            display: block;
+            text-align: center;
+            height: 20px;
+            width:60px;
+            padding-top: 2px;
+			padding-bottom:2px;
+            margin-left: 153px;
+            color:#fff;
+        }
+		.paiduan .num_ing{
+            background: #690;
+            display: block;
+            text-align: center;
+            height: 20px;
+            width:60px;
+            padding-top: 2px;
+			padding-bottom:2px;
+            margin-left: 153px;
+            color:#fff;
+        }
+		.paiduan .num_fail{
+            background: #999;
+            display: block;
+            text-align: center;
+            height: 20px;
+            width:60px;
+            padding-top: 2px;
+			padding-bottom:2px;
+            margin-left: 153px;
+            color:#fff;
+        }
+		.paiduan .no{
+            background: #7aafd9;
+            display: block;
+            text-align: center;
+            height: 20px;
+            width:60px;
+            padding-top: 2px;
+			padding-bottom:2px;
+            margin-left: 153px;
+            color:#fff;
+        }
+</style>
+	
+		{foreach from=$deal_list item=deal_item key=key name="deal_items"}
+			
+				<div class="deal_item_box f_l {if $smarty.foreach.deal_items.iteration mod 4 eq 1}first{/if}">
+						<div class="deal_content_box">
+						<a href="{url r="deal#show" p="id=$deal_item.id"}" title="{$deal_item.name}">
+						<img src="{if $deal_item.image eq ''}{$TMPL}/images/empty_thumb.gif{else}{function name="get_spec_image" v=$deal_item.image w="205" h="160" g="1"}{/if}" alt="{$deal_item.name}" />
+						</a>
+						<div class="blank"></div>
+						<a href="{url r="deal#show" p="id=$deal_item.id"}" title="{$deal_item.name}" class="deal_title">{function name="msubstr" v=$deal_item.name b=0 e=25}</a>
+						<div class="blank"></div>
+						<div class="deal_loc">
+						{if $deal_item.user_name eq ''}{else}
+						<a href="{url r="home" p="id=$deal_item.user_id"}" class="{if $deal_item.rz.is_self_passed eq 1}desc{/if} {if $deal_item.rz.is_company_passed eq 1}desc1{/if}" title="{if $deal_item.rz.is_self_passed eq 1}个人实名认证通过{/if} {if $deal_item.rz.is_company_passed eq 1}企业实名认证通过{/if}">{$deal_item.user_name}</a>&nbsp;&nbsp;
+						{/if}
+						{if $deal_item.province neq '' or $deal_item.city neq ''}
+						(
+						{if $deal_item.province neq ''}
+						<span><a href="{url r="deals" p="loc=$deal_item.province"}" title="{$deal_item.province}">{$deal_item.province}</a></span>
+						{/if}
+						{if $deal_item.city neq ''}
+						<span><a href="{url r="deals" p="loc=$deal_item.city"}" title="{$deal_item.city}">{$deal_item.city}</a></span>
+						{/if}
+						)
+						{/if}
+						</div>
+						<div class="blank"></div>
+						<div class="deal_brief" title="{$deal_item.brief}">{function name="msubstr" v=$deal_item.brief b=0 e=45}</div>
+						</div>
+						<div class="deal_item_dash"></div>
+			                        <div  class="paiduan">
+			                                 
+			                            <ul>
+			                                     <li>
+			                                         <a href="{url r="deal#update" p="id=$deal_item.id"}" title="{$deal_item.name}">      
+			                                             {$deal_item.rz.is_self_passed} 动态(<span>{$deal_item.log_count}</a></span>)
+			                                         </a>
+			                                     </li>
+			                                     <li>
+			                                         <a href="{url r="deal#support" p="id=$deal_item.id"}" title="{$deal_item.name}">
+			                                            支持者(<span>{$deal_item.support_count}</a></span>)
+			                                         </a>
+			                                     </li>
+			                            </ul>
+			                                   <div class="">
+								{if $deal_item.begin_time > $now}
+			                                        <span class="no"><b>正在预热</b></span>
+								{elseif $deal_item.end_time < $now and $deal_item.end_time neq 0}
+			                                        <span class="">
+			                                            {if $deal_item.percent gte 100}<b class="num_success">筹资成功</b>
+			                                            {else $deal_item.percent gt 0}<b class="num_fail">筹资失败</b>
+			                                            {/if}
+			                                        </span>
+								{else}
+								<span class="num_ing">
+									{if $deal_item.end_time eq 0}
+									长期项目
+									{else}
+									<b>筹资中</b>
+									{/if}
+								</span>
+								{/if}			
+							</div>
+			                        </div>
+			                        <div class="deal_content_box">
+			                {if $deal_item.begin_time > $now}
+								<div class="ui-progress">
+									<span style="width:{$deal_item.percent}%;background: #7aafd9;"></span>
+								</div>
+							{elseif $deal_item.end_time < $now and $deal_item.end_time neq 0}
+			                {if $deal_item.percent gte 100}				
+								<div class="ui-progress">
+									<span style="width:{$deal_item.percent}%;background: #f6aa31;"></span>
+								</div>
+							{else $deal_item.percent gt 0}
+								<div class="ui-progress">
+									<span style="width:{$deal_item.percent}%;background: #999;"></span>
+								</div>
+							{/if}
+							{else}
+								{if $deal_item.end_time eq 0}
+									<div class="ui-progress">
+										<span style="width:{$deal_item.percent}%;background:#690;"></span>
+									</div>
+								{else}
+									<div class="ui-progress">
+										<span style="width:{$deal_item.percent}%;background:#690;"></span>
+									</div>
+								{/if}
+							
+							{/if}
+							
+									
+							<div class="blank"></div>
+							<div class="div3"><span class="num">{$deal_item.percent}%</span><span class="til">达到</span></div>
+							<div class="div3"><span class="num" ><font>{function name="round" v=$deal_item.support_amount e=2}</font>元</span><span class="til">已获支持</span></div>
+							<div class="div3">
+								{if $deal_item.begin_time > $now}
+								<span class="num"><font>{$deal_item.left_days}</font>天</span>
+								{elseif $deal_item.end_time < $now and $deal_item.end_time neq 0}
+								<span class="num">{if $deal_item.percent gt 100}{function name="to_date" v="$deal_item.success_time" f="y/m/d"}{else}{function name="to_date" v="$deal_item.end_time" f="y/m/d"}{/if}</span>
+								{else}
+								<span class="num">
+									{if $deal_item.end_time eq 0}
+									长期项目
+									{else}
+									<font>{$deal_item.remain_days}</font>天
+									{/if}
+								</span>
+								{/if}	
+								<span class="til">
+									{if $deal_item.begin_time > $now}
+									已经预热
+									{elseif ($deal_item.end_time < $now and $deal_item.end_time neq 0) || $deal_item.percent gt 100}
+									结束时间
+									{else}
+									{if $deal_item.end_time eq 0}
+									长期项目
+									{else}
+									剩余时间
+									{/if}
+									{/if}
+									</span>				
+							</div>
+							<div class="blank1"></div>
+						</div>
+				</div>
+			{/foreach}
+		
+		

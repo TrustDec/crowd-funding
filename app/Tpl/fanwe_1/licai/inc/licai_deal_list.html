@@ -1,0 +1,49 @@
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="deal_table">
+	<thead>
+		<tr>
+			<th>基金名称</th>
+			<th width="120">历史收益率</th>
+			<th width="120">起购金额</th>
+			<th width="120">理财期限</th>
+			<th width="120">成交总额</th>
+			<th width="120">先到先得</th>
+		</tr>
+	</thead>
+	<tbody>
+		{foreach from="$list" item="list_item" name="list_items"}
+		<tr>
+			<td><a href="{$list_item.url}" title="{$list_item.name}" target="_blank">{$list_item.name}</a></td>
+			<td>{function name="number_format" v=$list_item.average_income_rate f="2"}%</td>
+			<td>{$list_item.min_money}元</td>
+			<td>{if $list_item.date_limit neq "无限期"}{if $list_item.date_limit >= 0}{$list_item.date_limit}天{else $list_item.date_limit < 0}已结束{/if}{else}无限期{/if}</td>
+			<td>{$list_item.subscribing_amount}元</td>
+			<td class="pr">
+				{if ($list_item.end_buy_date_time && $list_item.end_buy_date_time neq '0000-00-00' && $list_item.end_buy_date_time < $now) || ($list_item.end_date_time && $list_item.end_date_time neq '0000-00-00' && $list_item.end_date_time < $now)}
+					<div class="sold_out_mini"></div>
+				{else}
+					{if $list_item.begin_buy_date_time neq '0000-00-00' && $list_item.begin_buy_date_time > $now}
+						<a href="javascript:void(0);" class="ui_button bg_gray">即将开始</a>
+					{/if}
+					{if ($list_item.begin_buy_date_time neq '0000-00-00' && $list_item.begin_interest_date_time neq '0000-00-00') && ($list_item.begin_buy_date_time <= $now && $list_item.begin_interest_date_time >= $now)}
+						<a href="{$list_item.url}" target="_blank" class="ui_button bg_red">火爆预约</a>
+					{/if}
+					{if $list_item.type eq 0}
+						{if ($list_item.begin_buy_date_time neq '0000-00-00' && $list_item.end_date_time neq '0000-00-00') && ($now >= $list_item.begin_buy_date_time && $now <= $list_item.end_date_time)}
+							<a href="{$list_item.url}" target="_blank" class="ui_button theme_bgcolor">立即购买</a>
+						{/if}
+					{else}
+						{if ($list_item.begin_interest_date_time neq '0000-00-00' && $list_item.end_buy_date_time neq '0000-00-00') && ($now >= $list_item.begin_interest_date_time && $now <= $list_item.end_buy_date_time)}
+							<a href="{$list_item.url}" target="_blank" class="ui_button theme_bgcolor">立即购买</a>
+						{/if}
+					{/if}
+					
+				{/if}
+			</td>
+		</tr>
+		{/foreach}
+	</tbody>
+</table>
+<div class="deals_tabel_pages">
+	<div class="pages">{$pages}</div>
+	<span class="f_999">相关数据由中证金牛提供</span>
+</div>

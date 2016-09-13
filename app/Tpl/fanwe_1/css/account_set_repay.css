@@ -1,0 +1,31 @@
+/* account_set_repay 开始 */
+.account_set_repay .holder_tip{
+	top:5px;
+	left:5px;
+}
+.account_set_repay .pr{
+	padding:5px;
+	overflow:hidden;
+	float:left;
+	display:inline;
+}
+.account_set_repay .pr .textbox{
+	margin:0;
+}
+.account_set_repay .uc_table td,
+.account_view_order .uc_table td{
+	text-align:left;
+	padding-left:20px;
+	padding-right:20px;
+}
+.account_set_repay .uc_table td.deal_name,
+.account_view_order .uc_table td.deal_name{
+	text-align:center;
+	padding-left:0;
+}
+.account_set_repay .ui-button{
+	float:none;
+	display:block;
+	margin:0 auto;
+}
+/* account_set_repay 结束 */

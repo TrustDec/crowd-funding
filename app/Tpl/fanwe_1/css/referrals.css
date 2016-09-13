@@ -1,0 +1,14 @@
+@charset "utf-8";
+body{
+	background:#f5f5f5;
+}
+.money_box {
+  border: #d8d8d8 solid 1px;
+  padding: 10px;
+  background: #fafafa;
+}
+.total{padding-left:10px; }
+.ref_titile{margin-bottom:5px;}
+.textbox{
+	  width:500px;
+}

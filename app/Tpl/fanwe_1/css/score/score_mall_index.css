@@ -1,0 +1,88 @@
+.deals {
+	width: 1198px;
+	border: 1px solid #e5e5e5;
+	overflow: hidden;
+}
+.deals .deals_sortbar {
+	width: 100%;
+	height: 46px;
+	border-bottom: 4px solid #dcdcdc;
+}
+.deals .deals_sortbar ul{
+	float: left;
+	background: #fff;
+}
+.deals .deals_sortbar li {
+	float: left;
+	height: 46px;
+	margin-right: 1px;
+	border-bottom: 4px solid #dcdcdc;
+}
+.deals .deals_sortbar li a {
+	padding: 0 35px;
+	height: 46px;
+	line-height: 46px;
+	display: block;
+	font-size: 16px;
+}
+.deals .deals_sortbar li.cur a {
+	font-weight: 700;
+}
+.deals .deals_list {
+	padding: 15px;
+	overflow: hidden;
+}
+.deals .deals_list .score_item {
+	width: 283px;
+	height: 348px;
+	float: left;
+	margin: 0 0 12px 12px;
+}
+.deals .deals_list .score_item .score_item_iwrap {
+	width: 265px;
+	height: 330px;
+	border: 1px solid #ddd;
+	display: block;
+	padding: 8px;
+	-webkit-transition: none;
+  	-moz-transition: none;
+  	-ms-transition: none;
+  	-o-transition: none;
+  	transition: none;
+}
+.deals .deals_list .score_item .score_item_iwrap:hover {
+	margin: -1px;
+	-webkit-transition: border-color .2s ease-in;
+  	-moz-transition: border-color .2s ease-in;
+  	-ms-transition: border-color .2s ease-in;
+  	-o-transition: border-color .2s ease-in;
+  	transition: border-color .2s ease-in;
+	
+}
+.deals .deals_list .score_item.first {
+	margin-left: 0;
+}
+.deals .deals_list .score_item .score_img ,
+.deals .deals_list .score_item .score_img img {
+	width: 265px;
+	height: 195px;
+	overflow: hidden;
+}
+.deals .deals_list .score_item .score_text{
+	padding: 10px 0;
+	overflow: hidden;
+}
+.deals .deals_list .score_item .score_title{
+	margin-bottom: 30px;
+}
+.deals .deals_list .score_item .score_price{
+	color: #666;
+	overflow: hidden;
+}
+.deals .deals_list .score_item .ui_button{
+	width: 100%;
+	height: 36px;
+	line-height: 36px;
+	padding: 0;
+	font-size: 14px;
+}

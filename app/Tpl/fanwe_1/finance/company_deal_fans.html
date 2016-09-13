@@ -1,0 +1,78 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/deal_show.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/deal_show.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/fancybox.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/fancybox.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/finance/company_overview.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/finance/company_overview.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/finance/company_deal_overviews.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/finance/company_deal_overviews.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/jquery.fancybox.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/deal.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/deal.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/finance/company_deal_overviews.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/finance/company_deal_overviews.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jquery.SuperSlide.2.1.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jquery.SuperSlide.2.1.js";
+?>
+{if app_conf("IS_ENQUIRY") eq 0}
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/enquiry_money_first.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/enquiry_money_first.js";
+?>
+{/if}
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<div class="clear"></div>
+<div class="xqmain" id="xqmain">
+	<!-- 公司简介 开始 -->
+	{include file="finance/inc/company_deal_header.html"}
+	<!-- 公司简介 结束 -->
+	<div class="tab-section">
+    	<a href="{url r="finance#company_show" p="cid=$company_info.id&id=$deal_info.id"}">总览</a>
+         {if $deal_info neq ''&& $deal_info.is_effect eq 1}
+		<a href="{url r="finance#company_finance" p="id=$deal_info.id"}">融资详情</a>
+        <a href="{url r="finance#company_update" p="id=$deal_info.id"}">动态</a>
+		{/if}
+        <a href="{url r="finance#company_fans" p="cid=$company_info.id&id=$deal_info.id"}"  class="active">粉丝</a>
+ 	</div>
+    <div class="blank20"></div>
+ 	<!-- 左侧详细 开始 -->
+ 	<div class="deal_left">
+	 	<div class="box">
+            <div class="box_main company-fans-wrap">
+                <div class="title line clearfix">
+                    <h3>粉丝</h3>
+                </div>
+                <ul class="fans-list clearfix">
+                   {if $company_focus}
+				   	{foreach from = $company_focus item=focus_item}
+						 <li class="fans-item">
+                        <div class="fcol1">
+                            <a target="_blank" href="{url r="home" p="id=$focus_item.user_id"}">
+                                <img class="fans-head" src="{function name="get_user_avatar" uid=$deal_focus_item.user_id type="middle"}">
+                            </a>
+                        </div>
+                        <div class="fcol2">
+                            <div class="fans-name">
+                                <a target="_blank" href="{url r="home" p="id=$focus_item.user_id"}">{$focus_item.user_name}</a>
+                            </div>
+                            <div class="fans-brief"></div>
+                        </div>
+                    </li>
+					{/foreach}
+				   {/if}
+                </ul>
+            </div>    
+        </div>
+    </div>
+    <!-- 左侧详细 结束 -->
+    <!-- 右侧详细 开始 -->
+    <div class="deal_right">
+   		{include file="finance/inc/company_deal_right.html"}
+    </div>
+    <!-- 右侧详细 结束 -->
+</div>
+<div class="clear"></div>
+{include file="inc/footer.html"}

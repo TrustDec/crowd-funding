@@ -1,0 +1,69 @@
+<tagLib name="html" />
+<include file="Public:wx_header" />
+<include file="Public:weixin_script" />
+
+<div class="container-f">
+	<div class="box-title clearfix">
+		<div class="f_l">
+			<h3>
+				<i class="fa fa-table"></i>
+				{$box_title}
+			</h3>
+		</div>
+	</div>
+	
+	<div class="box-content clearfix">
+		<div class="row clearfix">
+            <div class="control-group f_l ">
+                <div class="f_l">
+                    <a class="btn cf" href="{:u("WeixinReply/editlbs")}"><i class="fa fa-plus"></i><span>添加</span></a>
+                    <a class="btn cf" href="javascript:location.reload()"><i class="fa fa-refresh"></i>
+<span>刷新</span></a>
+                </div>
+                <div class="f_l datatabletool" style="display:none;">
+                    <a class="btn" attr="BatchDel" title="删除" url="{:u("WeixinReply/delreply")}"><i class="fa fa-trash-o"></i><span>删除</span></a>
+                </div>
+            </div>
+        </div>
+		<div class="row clearfix">
+			<form action="{url reply/text}" method="post" class="form-horizontal">
+                <table id="listTable" class="table-hover dataTable" >
+                    <thead>
+                        <tr>
+                            <th class="with-checkbox">
+                                <input type="checkbox" class="check_all">
+							</th>
+                            <th width=400>地址</th>
+                            <th>经度</th>
+                            <th>纬度</th>
+                            <th>匹配范围(米)</th>
+                            <th class="norightborder" width=120>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                         <foreach name="list" item="item">
+						<tr>
+                        	<td><input type="checkbox" name="check" value="{$item.id}"></td>
+							<td>{$item.address}</td>
+							<td>{$item.x_point}</td>
+							<td>{$item.y_point}</td>
+							<td>{$item.scale_meter}</td>
+							<td>
+								<a href="{:u("WeixinReply/editlbs",array('id'=>$item['id']))}" class="btn" rel="tooltip" title="编辑">
+									<i class="fa fa-edit"></i>
+								</a>								
+								<a  href="javascript:do_confirm('您确定要删除吗?','{:u("WeixinReply/delreply",array('id'=>$item['id']))}');" class="btn" rel="tooltip"title="删除">
+									<i class="fa fa-times"></i>
+								</a>
+							</td>
+                        </tr>
+						</foreach>
+                    </tbody>
+                </table>
+            </form>
+			<div class="pages clearfix"><include file="Public/pager" /></div>
+		</div>
+	</div>
+</div>
+
+<include file="Public:footer" />

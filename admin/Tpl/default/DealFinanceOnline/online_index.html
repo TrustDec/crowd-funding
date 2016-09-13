@@ -1,0 +1,214 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<PHP>
+	function get_refund($id,$deal)
+	{
+		if($deal['is_success']==0&&$deal['end_time']<get_gmtime()&&$deal['end_time']!=0)
+		{
+			if($deal['ips_bill_no'] != ""){
+				return '<a href="__ROOT__/index.php?ctl=collocation&act=Transfer&pTransferType=2&deal_id='.$deal['id'].'&ref_data=" target="_blank">批量退款</a>';
+				
+			}else{
+				return "<a href='javascript:void(0);' onclick=\"if(confirm('是否确认退款')){window.location.href='".u("DealFinanceOnline/batch_refund",array("id"=>$id))."';} \" >批量退款</a>";
+			}
+ 			
+		}
+	}
+	function get_edit($id,$deal){
+ 		if($deal['type']==1 || $deal['type']==4){
+			return "<a href=\"javascript:edit_investor_index('".$id."')\">编辑</a>";
+		}
+		else{
+			return "<a href=\"javascript:edit_index('".$id."')\">编辑</a>";
+		}
+	}
+	function get_pay_list($id,$deal){
+		if($deal['type']==1 || $deal['type']==4){
+			return "<a href=\"javascript:get_pay_list('".$id."')\">投资列表</a>";
+		}else{
+			return "<a href=\"javascript:get_pay_list('".$id."')\">支持列表</a>";
+		}
+	}
+	function get_item($id,$deal){
+ 		if($deal['type']==1 || $deal['type']==4){
+			return "";
+		}else{
+			return "<a href=\"javascript:deal_item('".$id."')\">子项目</a>";
+		}
+	}
+	function get_level($level){
+		$user_level = $GLOBALS['db']->getOne("select `name` from ".DB_PREFIX."user_level where id = '".intval($level)."'");
+		return $user_level;
+	}
+	function edit_new($name,$id){
+		$deal=$GLOBALS['db']->getOne("select type from ".DB_PREFIX."deal where id=$id ");
+ 		if($deal['type']==1 || $deal['type']==4){
+			return "<a href=\"javascript:edit_investor('".$id."')\">$name</a>";
+		}
+		else{
+			return "<a href=\"javascript:edit('".$id."')\">$name</a>";
+		}
+	}
+	function get_bonus($id,$deal){
+ 		if(($deal['type']==1 || $deal['type']==4)&&$deal['is_success']==1&&$deal['end_time']<get_gmtime()&&$deal['end_time']!=0&&$deal['stock_type']!=2){
+			return "<a href=\"javascript:deal_bonus('".$id."')\">分红列表</a>";
+		}else{
+			return "";
+		}
+	}
+	function get_fixed_interest($id,$deal){
+ 		if(($deal['type']==1 || $deal['type']==4)&&$deal['is_success']==1&&$deal['end_time']<get_gmtime()&&$deal['end_time']!=0&&$deal['stock_type']!=1){
+			return "<a href=\"javascript:deal_fixed_interest('".$id."')\">固定回报列表</a>";
+		}else{
+			return "";
+		}
+	}
+	function get_buy_house_earnings($id,$deal){
+ 		if($deal['type']==2&&$deal['is_success']==1&&$deal['end_time']<get_gmtime()&&$deal['end_time']!=0){
+			return "<a href=\"javascript:deal_buy_house_earnings('".$id."')\">买房收益列表</a>";
+		}else{
+			return "";
+		}
+	}
+	function get_lottery($id)
+	{
+		$count=M("dealItem")->where("deal_id =".intval($id)." and type =2")->count();
+		if($count)
+		{
+			return "<a href=\"javascript:get_lottery_list('".$id."')\">抽奖号</a>";
+		}
+	}
+	function get_pay_log($id,$deal)
+	{
+		if($deal['is_success']==1&&$deal['end_time']<get_gmtime()&&$deal['end_time']!=0)
+		{
+			return "<a href=\"javascript:pay_log('".$id."')\">发放筹款</a>";
+ 			
+		}
+	}
+	
+	function get_preview($id)
+	{
+		return "<a href='__ROOT__/index.php?ctl=deal&act=show&id=".$id."' target='_blank'>预览</a>";
+	}
+</PHP>
+<script>
+	//编辑跳转
+function edit_1(id)
+{
+	location.href = ROOT+"?"+VAR_MODULE+"="+MODULE_NAME+"&"+VAR_ACTION+"=edit_investor&id="+id;
+}
+function get_pay_list(id){
+	location.href = ROOT+"?"+VAR_MODULE+"="+MODULE_NAME+"&"+VAR_ACTION+"=get_pay_list&deal_id="+id;
+}
+function edit_index(id)
+{
+	location.href = ROOT+"?"+VAR_MODULE+"="+MODULE_NAME+"&"+VAR_ACTION+"=edit&id="+id;
+}
+function edit_investor_index(id)
+{
+	location.href = ROOT+"?"+VAR_MODULE+"="+MODULE_NAME+"&"+VAR_ACTION+"=edit_investor&id="+id;
+}
+function deal_bonus(id){
+	location.href = ROOT+"?"+VAR_MODULE+"="+MODULE_NAME+"&"+VAR_ACTION+"=user_bonus&deal_id="+id+"&type="+0;
+}
+function deal_fixed_interest(id){
+	location.href = ROOT+"?"+VAR_MODULE+"="+MODULE_NAME+"&"+VAR_ACTION+"=user_bonus&deal_id="+id+"&type="+1;
+}
+function deal_buy_house_earnings(id){
+	location.href = ROOT+"?"+VAR_MODULE+"="+MODULE_NAME+"&"+VAR_ACTION+"=user_bonus&deal_id="+id+"&type="+2;
+}
+function get_lottery_list(id){
+	location.href = ROOT+"?"+VAR_MODULE+"="+MODULE_NAME+"&"+VAR_ACTION+"=get_lottery&id="+id;
+}
+function add_selfless(){
+	location.href = ROOT+'?m='+MODULE_NAME+'&a=add&type=3';
+}
+function add_financing(){
+	location.href = ROOT+'?m='+MODULE_NAME+'&a=add_investor&type=4';
+}
+</script>
+<load href='__TMPL__Common/js/jquery.bgiframe.js' />
+<load href='__TMPL__Common/js/jquery.weebox.js' />
+<load href='__TMPL__Common/js/deal.js' />
+<load href='__TMPL__Common/style/weebox.css' />
+<script type="text/javascript" src="__TMPL__Common/js/calendar/calendar.php?lang=zh-cn" ></script>
+<load href='__TMPL__Common/js/calendar/calendar.css' />
+<load href='__TMPL__Common/js/calendar/calendar.js' />
+<div class="main">
+<div class="main_title">上线项目</div>
+<div class="blank5"></div>
+<div class="button_row">
+	<input type="button" class="button" value="新增股权众筹" onclick="add_investor();" <if condition=" INVEST_TYPE eq 1 "> style="display:none;"</if> >
+	<input type="button" class="button" value="移到回收站" onclick="del();" />
+</div>
+<div class="blank5"></div>
+<div class="search_row">
+	<form name="search" action="__APP__" method="get">	
+		项目名称：<input type="text" class="textbox" name="name" value="{:trim($_REQUEST['name'])}" style="width:100px;" />
+		时间:<select name="time_status">
+				<option value="0" <if condition="$_REQUEST['time_status'] eq 0">selected="selected"</if>>全部</option>
+				<option value="1" <if condition="$_REQUEST['time_status'] eq 1">selected="selected"</if>>未开始</option>
+				<option value="2" <if condition="$_REQUEST['time_status'] eq 2">selected="selected"</if>>进行中</option>
+				<option value="3" <if condition="$_REQUEST['time_status'] eq 3">selected="selected"</if>>已结束</option>
+			</select>
+		分类:<select name="cate_id">
+				<option value="0" <if condition="$_REQUEST['time_status'] eq 0">selected="selected"</if>>全部</option>
+				<foreach name="cate_list" item="cate_item">
+					<option value="{$cate_item.id}" <if condition="$_REQUEST['cate_id'] eq $cate_item['id']">selected="selected"</if>>{$cate_item.name}</option>
+				</foreach>
+			</select>
+		类型:<select name="type">
+			<option value="NULL" <if condition="$_REQUEST['type'] eq 'NULL'">selected="selected"</if> >请选择</option>
+			 <if condition=" INVEST_TYPE neq 2 "><option value="0" <if condition="$_REQUEST['type'] eq '0'">selected="selected"</if> >产品众筹</option></if>
+			<if condition=" INVEST_TYPE neq 1 "><option value="1" <if condition="$_REQUEST['type'] eq '1'">selected="selected"</if> >股权众筹</option></if>
+			<if condition=" SELFLESS_TYPE eq 1 "><option value="3" <if condition="$_REQUEST['type'] eq '3'">selected="selected"</if> >公益众筹</option></if>
+			<if condition=" INVEST_TYPE neq 1 "><option value="4" <if condition="$_REQUEST['type'] eq '4'">selected="selected"</if> >融资众筹</option></if>
+			</select>
+		发起人ID: <input type="text" class="textbox" name="user_id" value="{:trim($_REQUEST['user_id'])}" style="width:30px;" />
+		<div class="blank10"></div>
+		创建时间：<input type="text" class="textbox" name="create_time_1" id="create_time_1" value="{$_REQUEST['create_time_1']}" onfocus="this.blur(); return showCalendar('create_time_1', '%Y-%m-%d', false, false, 'btn_create_time_1');" />
+			   <input type="button" class="button" id="btn_create_time_1" value="{%SELECT_TIME}" onclick="return showCalendar('create_time_1', '%Y-%m-%d', false, false, 'btn_create_time_1');" />	
+		至 <input type="text" class="textbox" name="create_time_2" id="create_time_2" value="{$_REQUEST['create_time_2']}" onfocus="this.blur(); return showCalendar('create_time_2', '%Y-%m-%d', false, false, 'btn_create_time_2');" />
+		<input type="button" class="button" id="btn_create_time_2" value="{%SELECT_TIME}" onclick="return showCalendar('create_time_2', '%Y-%m-%d', false, false, 'btn_create_time_2');" />	
+		
+		<input type="hidden" value="DealFinanceOnline" name="m" />
+		<input type="hidden" value="online_index" name="a" />
+		<input type="submit" class="button" value="{%SEARCH}" />
+	</form>
+</div>
+<div class="blank5"></div>
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="deal" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{%ID}|40px
+		,name|edit_new=$deal['id']:项目名称|150px
+		,type|get_type_name:类型|50px
+		,ips_bill_no|is_ips_bill_no_admin:支付方式|50px
+		,user_level|get_level=$deal['user_level']:项目等级|50px
+		,user_id|get_deal_user:发起人|50px
+		,limit_price|format_price:目标金额
+		,support_amount|format_price:已筹金额
+		,is_success|get_status:成功|30px
+		,focus_count:关注|30px
+		,support_count:支持|30px
+		,create_time|to_date:创建时间|120px
+		,end_time|get_to_date:结束时间|120px
+		,sort|get_sort=$deal['id']:{%SORT}|25px
+		,is_special|get_toogle_status=$deal['id']#is_special:专题|25px
+		,is_recommend|get_toogle_status=$deal['id']#is_recommend:推荐|25px
+		,is_classic|get_toogle_status=$deal['id']#is_classic:经典|25px
+		,is_hot|get_toogle_status=$deal['id']#is_hot:热门|25px
+		,is_top|get_toogle_status=$deal['id']#is_top:置顶|25px" 
+	actionlist="id|get_edit=$deal, del:移到回收站,id|get_item=$deal,id|get_pay_log=$deal,deal_log:项目日志,id|get_refund=$deal,id|get_pay_list=$deal,id|get_lottery,id|get_bonus=$deal,id|get_fixed_interest=$deal,id|get_buy_house_earnings=$deal,id|get_preview" /> 
+
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

@@ -1,0 +1,37 @@
+{include file="inc/header.html"} 
+<style>
+body{ background:#f3f3f3; }
+</style>
+<section class="account_pay">
+	<div class="ul_block">
+		<ul>
+			<li class="webkit-box">
+				<label class="input_lable">充值</label>
+				<span class="price webkit-box-flex ml10">{function name="format_price" v=$money p=2} 元</span>
+			</li>
+		</ul>
+	</div>
+	<form class="pay_form" action="{url_wap r="account#go_pay"}"   method="post">
+	 	<div class="sbmbj">
+	        <div class="blocktitle">选择支付方式</div>
+	        {foreach from=$payment_list item=payment name=payment key=k} 
+	        <label class="webkit-box p15 pt5 pb5">
+	            <input type="radio" value="{$payment.id}" name="payment" class="mt mt10" />
+	            <div class="ml5 webkit-box-flex" style="height:40px;line-height:40px">{$payment.name}</div>
+	        </label>
+	        <div class="clear"></div>
+	        {/foreach}
+		</div>
+		<div class="blank15"></div>
+		<div class="submit_btn_row pl10 pr10">
+			<div class="ui-button bg_red" rel="green">确定，去付款</span></div>				
+			<input type="hidden" id="back_url" value="{url_wap r="account"}" />	
+			<input type="hidden" value="{$money}" name="money" />
+			<input type="hidden" value="1" name="ajax" />
+			<input type="hidden" value="wap" name="from" />				
+			<div class="blank15"></div>
+		</div>
+	</form>
+</section>
+<!-- go_pay.js -->
+{include file="inc/footer.html"} 

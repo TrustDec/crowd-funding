@@ -1,0 +1,750 @@
+{include file="inc/header.html"}
+<script type="text/javascript">
+	var ROOT = '{$APP_ROOT}/keupload.php';
+</script>
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/investor_one.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/investor_one.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/fanwe_utils/jcDate.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/fanwe_utils/jcDate.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jQuery-jcDate.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jQuery-jcDate.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/deal_equity.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/deal_equity.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/ajaxupload.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/switch_city.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/switch_city.js";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<script type="text/javascript">
+    var ROOT = '{$APP_ROOT}/{$URL_NAME}';
+    var VAR_MODULE = "m";
+    var VAR_ACTION = "a";
+    var WEB_SESSION_ID = '<?php echo es_session::id(); ?>';
+    var EMOT_URL = '{$APP_ROOT}/public/emoticons/';
+    var MAX_FILE_SIZE =  '{$max_size_byte}b';
+    var UPLOAD_URL ='{$APP_ROOT}/{$URL_NAME}?m=File&a=do_upload&upload_type=0&dir=image' ;
+	var UPLOAD_SWF='{$TMPL}/js/plupload/Moxie.swf';
+	var UPLOAD_XAP='{$TMPL}/js/plupload//Moxie.xap/';
+	var ALLOW_IMAGE_EXT= "gif,jpg,jpeg,png,bmp";
+	var MAX_IMAGE_SIZE= '{$max_size_byte}b';
+	function get_file_fun(name,num){
+   		$("#"+name+"_"+num).ui_upload({multi:false,
+		FileUploaded:function(ajaxobj){
+ 				if(ajaxobj.error==1)
+				{
+					$.showErr(ajaxobj.info);
+				}else{
+					$("#"+name+"_"+num+"_url").val(ajaxobj.public_url);
+					$("#"+name+"_"+num+"_image").attr('src',ajaxobj.url);
+ 				}
+			},Error:function(error){
+				if(error.code==-600){
+					$.showErr("您上传的文件太大，最大允许上传{$max_size}");
+				}else{
+					$.showErr(error.message);
+				}
+ 		}});
+	}
+	function get_sigle_file_fun(name){
+   		$("#"+name).ui_upload({multi:false,
+		FileUploaded:function(ajaxobj){
+ 				if(ajaxobj.error==1)
+				{
+					$.showErr(ajaxobj.info);
+				}else{
+					$("#"+name+"_url").val(ajaxobj.public_url);
+					$("#"+name+"_image").attr('src',ajaxobj.url);
+ 				}
+			},Error:function(error){
+			if(error.code==-600){
+				$.showErr("您上传的文件太大，最大允许上传{$max_size}");
+			}else{
+				$.showErr(error.message);
+			}
+ 		}});
+	}
+</script>
+<div class="demo_image" style="display:none">
+	<div class="demo_pic_box_1">
+		<div class="pic_box f_l mr20">
+			<i class="del_pic"></i>
+			<div class="pic_show" id="audit_data_legal_num">
+				<img id="audit_data_legal_num_image" src="" />
+				<input type="hidden" name="audit_data[legal_id][image][num]" id="audit_data_legal_num_url" value="" rel="num" />
+			</div>
+		</div>
+	</div>
+	<div class="demo_pic_box_2">
+      	<div class="pic_box f_l mr20">
+            <i class="del_pic"></i>
+            <div class="pic_show" id="audit_data_legal_credit_num">
+                <img id="audit_data_legal_credit_num_image" src="" />
+                <input type="hidden" name="audit_data[legal_credit][image][num]" id="audit_data_legal_credit_num_url" value="" rel="num" />
+            </div>
+        </div>
+	</div>
+	<div class="demo_pic_box_3">
+		<div class="pic_box f_l mr20">
+	        <i class="del_pic"></i>
+	        <div class="pic_show" id="audit_data_business_license_num">
+	            <img id="audit_data_business_license_num_image" src="" />
+	            <input type="hidden" name="audit_data[business_license][image][num]" id="audit_data_business_license_num_url" value="" rel="num" />
+	        </div>
+	    </div>
+	</div>
+	<div class="demo_pic_box_4">
+		 <div class="pic_box f_l mr20">
+            <i class="del_pic"></i>
+            <div class="pic_show" id="audit_data_tax_registration_certificate_num">
+                <img id="audit_data_tax_registration_certificate_num_image" src="" />
+                <input type="hidden" name="audit_data[tax_registration_certificate][image][num]" id="audit_data_tax_registration_certificate_num_url" value="" rel="num" />
+            </div>
+        </div>
+	</div>
+	<div class="demo_pic_box_5">
+	 	<div class="pic_box f_l mr20">
+            <i class="del_pic"></i>
+            <div class="pic_show" id="audit_data_organization_code_num">
+                <img id="audit_data_organization_code_num_image" src="" />
+                <input type="hidden" name="audit_data[organization_code][image][num]" id="audit_data_organization_code_num_url" value="" rel="num" />
+            </div>
+        </div>
+	</div>
+	<div class="demo_pic_box_6">
+ 	 	<div class="pic_box f_l mr20">
+            <i class="del_pic"></i>
+            <div class="pic_show" id="audit_data_company_photo_num">
+                <img id="audit_data_company_photo_num_image" src="" />
+                <input type="hidden" name="audit_data[company_photo][image][num]" id="audit_data_company_photo_num_url" value="" rel="num" />
+            </div>
+        </div>
+	</div>
+	<div class="demo_pic_box_7">
+ 	 	<div class="pic_box f_l mr20">
+            <i class="del_pic"></i>
+            <div class="pic_show" id="audit_data_site_contract_num">
+                <img id="audit_data_site_contract_num_image" src="" />
+                <input type="hidden" name="audit_data[site_contract][image][num]" id="audit_data_site_contract_num_url" value="" rel="num" />
+            </div>
+        </div>
+	</div>
+	<div class="demo_pic_box_8">
+ 	 	<div class="pic_box f_l mr20">
+            <i class="del_pic"></i>
+            <div class="pic_show" id="deal_images_file_num">
+                <img id="deal_images_file_num_image" src="" />
+                <input type="hidden" name="image_more[num]" id="deal_images_file_num_url" value="" rel="num" />
+            </div>
+        </div>
+	</div>
+</div>
+<div class="blank20"></div>
+<div class="location_box wrap1000">
+	<div class="location f_l">
+		<i class="fl ico loc_ico mr5"></i>
+		<label>您现在的位置：</label><a>发布股权项目</a><em>>></em><a>项目基本信息</a>
+	</div>
+</div>
+<div class="blank10"></div>
+<div class="step_box step_box1">
+	<ul>
+		<li class="l1 cur"><span>1</span> 项目基本信息</li>
+		<li class="l2"><span>2</span> 市场定位与商业模式</li>
+		<li class="l3"><span>3</span> 编辑及管理团队</li>
+		<li class="l4"><span>4</span> 项目历史执行资料</li>
+		<li class="l5"><span>5</span> 未来三年内计划</li>
+		<li class="l6"><span>6</span> 项目附件</li>
+		<li class="l7"><span>7</span> 提交审核</li>
+	</ul>
+</div>
+<div class="blank20"></div>
+<div class="mod_box project_edit project_agencyAdd">
+	<div class="con_tit theme_fcolor f_20 clearfix">
+		<span class="f_l">{if $type eq 4}{$company_info.company_name}-融资{/if}项目基本信息</span>
+		<a href="javascript:show_html_var();" class="f_r">点击阅读&nbsp;<span class="f_red">项目商业计划书撰写指南</span></a>
+	</div>
+	<form method="post" action="{url r="project#investor_one_save"}" id="agencyAdd_stepone_form" autocomplete="off" >
+	<table width="100%" border="0" cellspacing="1" cellpadding="0" class="tab1">
+	<tbody>
+    	<tr>
+      		<td align="right"><span class="f_red">*&nbsp;</span>项目名称：</td>
+          	<td colspan="3">
+          		<div class="group">
+          			<input name="name" type="text" class="small_textbox textbox w450" id="project_names" value="{$deal_item.name}">
+          			<span class="holder_tip">请输入项目名称</span>
+          		</div>
+          	</td>
+        </tr>
+		{if $type eq 4}
+		<tr>
+          	<td align="right"><span class="f_red">*&nbsp;</span>融资阶段：</td>
+          	<td colspan="3">
+          		<select name="invest_phase" id="invest_phase" class="ui-select field_select small">
+					<option selected="selected"  value="">请选择</option>
+					{if $invest_phase eq '' || $invest_phase<0}<option {if $deal_item.invest_phase eq 0}selected="selected"{/if} value="0" label="天使轮">天使轮</option>{/if}
+					{if $invest_phase eq '' || $invest_phase<1}<option {if $deal_item.invest_phase eq 1}selected="selected"{/if} value="1" label="Pre-A轮">Pre-A轮</option>{/if}
+					{if $invest_phase eq '' || $invest_phase<2}<option {if $deal_item.invest_phase eq 2}selected="selected"{/if} value="2" label="A轮">A轮</option>{/if}
+					{if $invest_phase eq '' || $invest_phase<3}<option {if $deal_item.invest_phase eq 3}selected="selected"{/if} value="3" label="A+轮">A+轮</option>{/if}
+					{if $invest_phase eq '' || $invest_phase<4}<option {if $deal_item.invest_phase eq 4}selected="selected"{/if} value="4" label="B轮">B轮</option>{/if}
+					{if $invest_phase eq '' || $invest_phase<5}<option {if $deal_item.invest_phase eq 5}selected="selected"{/if} value="5" label="B+轮">B+轮</option>{/if}
+					{if $invest_phase eq '' || $invest_phase<6}<option {if $deal_item.invest_phase eq 6}selected="selected"{/if} value="6" label="C轮">C轮</option>{/if}
+					{if $invest_phase eq '' || $invest_phase<7}<option {if $deal_item.invest_phase eq 7}selected="selected"{/if} value="7" label="D轮">D轮</option>{/if}
+					{if $invest_phase eq '' || $invest_phase<8}<option {if $deal_item.invest_phase eq 8}selected="selected"{/if} value="8" label="E轮及以后">E轮及以后</option>{/if}
+					{if $invest_phase eq '' || $invest_phase<9}<option {if $deal_item.invest_phase eq 9}selected="selected"{/if} value="9" label="并购">并购</option>{/if}
+					{if $invest_phase eq '' || $invest_phase<10}<option {if $deal_item.invest_phase eq 10}selected="selected"{/if} value="10" label="上市">上市</option>{/if}
+				</select>
+      		</td>
+        </tr>
+		{/if}
+        <tr style="display:none;">
+          	<td align="right">项目详细资料查看权限：</td>
+          	<td colspan="3">
+          		<div class="f_l f14">
+					<span {if $deal_item.investor_authority eq 0}class="ui_check info_view ml20 ui_checked "{else}class="ui_check info_view"{/if} type="radio" rel="info_view">
+						<input type="radio" name="investor_authority" {if $deal_item.investor_authority eq 0}checked="checked"{/if} value="0" />
+					</span>
+					所有登录用户可看
+					<span {if $deal_item.investor_authority eq 1}class="ui_check info_view ml20 ui_checked "{else}class="ui_check info_view"{/if} type="radio" rel="info_view" >
+						<input type="radio" name="investor_authority" {if $deal_item.investor_authority eq 1}checked="checked"{/if} value="1" />
+					</span>	
+					所有用户需先申请经我批准后才可看
+				</div>
+			</td>
+        </tr>
+        <tr>
+          	<td width="22%" align="right"><span class="f_red">*&nbsp;</span>项目分类：</td>
+          	<td width="26%">
+				<select name="cate_id" id='cate_id' class="ui-select field_select small">
+					{foreach from=$cate_list item="cate_item" key=key}
+		      		<option rel="{$cate_item.id}" {if $cate_item.id eq $deal_item.cate_id}selected="selected"{/if}>{if $cate_item.title_show}|--{/if}{$cate_item.name}</option>
+					{/foreach}
+				</select>
+				<input type="hidden" name="cate_id" id='cate_id_last' value="{if $deal_item.cate_id }{$deal_item.cate_id}{else}{$cate_list.0.id}{/if}" />
+    		</td>
+      		<td width="15%" align="right"><span class="f_red">*&nbsp;</span>项目标签：</td>
+      		<td width="37%">
+      			<div class="group">
+      				<input type="text" class="small_textbox textbox w250" id="project_label" name="tags" value="{$deal_item.tags}">
+      				<span class="holder_tip">请输入项目标签</span>
+      			</div>
+      		</td>
+    	</tr>
+        <tr>
+          	<td align="right">项目所属阶段：</td>
+          	<td>
+				<select name="project_step" id="phase_id" class="ui-select field_select medium">
+					<option {if $deal_item.project_step eq 0}selected="selected"{/if} value="0" >尚未启动</option>
+	              	<option {if $deal_item.project_step eq 1}selected="selected"{/if} value="1">产品开发中</option>
+	              	<option {if $deal_item.project_step eq 2}selected="selected"{/if} value="2">产品已上市或上线</option>
+	              	<option {if $deal_item.project_step eq 3}selected="selected"{/if} value="3">已经有收入</option>
+	              	<option {if $deal_item.project_step eq 4}selected="selected"{/if} value="4">已经盈利</option>
+				</select>
+        	</td>
+          	<td align="right">是否有其他项目：</td>
+		  	<td>
+				<select name="has_another_project" id="has_otherpro" class="ui-select field_select small">
+					<option value="1" {if $deal_item.has_another_project eq 1}selected="selected"{/if}>是</option>
+              		<option value="0" {if $deal_item.has_another_project eq 0}selected="selected"{/if}>否</option>
+				</select>
+          	</td>         
+        </tr>
+        <tr>
+          	<td align="right"><span class="f_red">*&nbsp;</span>企业员工人数：</td>
+          	<td>
+          		<div class="group">
+          			<input type="text" id="employees_number" name="business_employee_num" value="{$deal_item.business_employee_num}" class="small_textbox textbox w100 mr10">
+	          		<span class="f_l" style="line-height:37px">人</span>
+	          		<span class="holder_tip">请输入人数</span>
+          		</div>
+        	</td>
+          	<td align="right"><span class="f_red">*&nbsp;</span>企业所在城市：</td>
+          	<td>
+      			<select name="province" {if $type eq 4 && ($company_info.province || $deal_item.province)}disabled="disabled" class="field_select small" style="width:114px;height:37px;border:1px solid #d7d7d7;"{else}class="ui-select field_select small"{/if}  id="cityid-1">
+              		<option value="" rel="0">请选择省份</option>
+					{foreach from=$region_lv2 item=region}
+					<option value="{$region.name}" class="ld-option" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+					{/foreach}				 
+				</select>
+				<select name="city" {if $type eq 4 && ($company_info.city || $deal_item.province.city)}disabled="disabled" class="field_select small" style="width:114px;height:37px;border:1px solid #d7d7d7;"{else}class="ui-select field_select small"{/if} id="cityid-2">
+              		<option value="" rel="0">请选择城市</option>
+					{foreach from=$region_lv3 item=region}
+					<option class="ld-option" value="{$region.name}" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+					{/foreach}				    
+				</select>
+          	</td>
+        </tr>
+        <tr>          
+          	<td align="right"><span class="f_red">*&nbsp;</span>公司是否已经成立：</td>
+          	<td>
+          		<select name="business_is_exist" {if $type eq 4}disabled="disabled" class=" field_select small" style="width:114px;height:37px;border:1px solid #d7d7d7;"{else} class="ui-select field_select small"{/if} id="found_company" onchange='is_show_createtime(this);'>
+					<option value="1" {if $deal_item.business_is_exist eq 1 || $type eq 4}selected="selected"{/if}>是</option>
+          			<option value="0" {if $deal_item.business_is_exist eq 0 && $type neq 4}selected="selected"{/if}>否</option>
+				</select>
+          	</td> 
+			<td align="right"><span class="is_show">企业成立时间：</span></td>
+          	<td>
+          		<div class="is_show">
+	          		<div class="col-md-3 date input-append">
+	                    <input {if $type eq 4 && ($company_info.company_create_time || $deal_item.business_create_time)}readonly="readonly" class="small_textbox textbox w450" style="width:100px;"{else}class="small_textbox w100 jcDate"{/if}   type="text"  rel="input-text" value="{if $type eq 4}{if $deal_item.business_create_time}{$deal_item.business_create_time}{else}{$company_info.company_create_time}{/if}{else}{$deal_item.business_create_time}{/if}" name="business_create_time" id="inputLaunchTime" placeholder="请选择日期">
+	                    <span class="add-on"><i class="icon-calendar"></i></span>
+	                </div>
+      			</div>
+	        </td>
+    	</tr>
+        <tr id="address_and_name">
+        	<td align="right"><span class="f_red">*&nbsp;</span>公司全称：</td>
+        	<td colspan="3">
+        		<div class="group">
+	        		<input type="text" name="business_name" value="{if $type eq 4}{if $deal_item.business_name}{$deal_item.business_name}{else}{$company_info.company_all_name}{/if}{else}{$deal_item.business_name}{/if}" id="company_name" class="small_textbox textbox w450" {if $type eq 4 && ($company_info.company_all_name || $deal_item.business_name)}readonly="readonly"{/if}>
+	        		<span class="holder_tip">请输入公司全称</span>
+	        	</div>
+            </td>                  
+        </tr>
+        <tr>
+        	<td align="right"><span class="f_red">*&nbsp;</span>办公地址：</td>
+        	<td colspan="3">
+        		<div class="group">
+	    			<input type="text" name="business_address" value="{$deal_item.business_address}" id="company_address" class="small_textbox textbox w450">
+	    			<span class="holder_tip">请输入办公地址</span>
+	    		</div>
+            </td> 
+        </tr>
+		 <tr>
+          	<td align="right"><span class="f_red">*&nbsp;</span>众筹类型：</td>
+          	<td colspan="3">
+          		<select name="stock_type" id="type" class="ui-select field_select small" onchange='is_type(this);'>
+					<option value="1" {if $deal_item.stock_type eq 1}selected="selected"{/if}>股权众筹</option>
+              		<option value="2" {if $deal_item.stock_type eq 2}selected="selected"{/if}>债权众筹</option>
+					<option value="3" {if $deal_item.stock_type eq 3}selected="selected"{/if}>股权+债权</option>
+				</select>
+      		</td>
+        </tr>
+        <tr>
+          	<td align="right"><span class="f_red">*&nbsp;</span>融资金额：</td>
+          	<td colspan="3">
+          		<div class="group">
+	      			<input type="text" name="limit_price" value="{$deal_item.limit_price}" id="financing_amount" onkeyup="amount(this);" class="small_textbox textbox w100 mr10" />
+	      			<span class="f_l" style="line-height:37px">万元</span>
+	      			<span class="holder_tip">请输入金额</span>
+	      		</div>
+      		</td>
+        </tr>
+		<tr class="is_type_share">
+          	<td align="right"><span class="f_red">*&nbsp;</span>出让的股份：</td>
+          	<td colspan="3">
+          		<div class="group">
+	      			<input type="text" name="transfer_share" value="{$deal_item.transfer_share}" id="financing_amount" onKeyUp="amount(this);" class="small_textbox textbox w100 mr10" />      			
+	      			<span class="f_l" style="line-height:37px">%</span>
+	      			<span class="holder_tip">请输入出让比</span>
+	      		</div>
+			</td>  
+        </tr>
+		<tr>
+          	<td align="right"><span class="f_red">*&nbsp;</span>单投资人最低出资：</td>
+          	<td colspan="3">
+          		<div class="group">
+	      			<input type="text" name="invote_mini_money" value="{$deal_item.invote_mini_money}" id="financing_amount" onKeyUp="amount(this);" class="small_textbox textbox w100 mr10" />
+	      			<span class="f_l" style="line-height:37px">万元</span>
+	      			<span class="holder_tip">请输入最低金额</span>
+      			</div>
+      			<span class="f_red pl15" style="line-height:37px">*不低于0.01万元</span>
+			</td>  
+        </tr>
+		<tr class="is_type_share">
+          	<td rowspan="2" align="right" valign="top" style="line-height:40px;">分红说明：</td>
+          	<td colspan="3">
+          		<div class="group">
+	          		<textarea id="project_description" name="share_fee_descripe" rows="5" class="textareabox textbox w550 h100" onkeyup="checkstrlength(this,'#left_words',300);">{$deal_item.share_fee_descripe}</textarea>
+	          		<span class="holder_tip" style=" width:auto;">请填写分红条件说明。如果该项目无分红填写不分红。</span>
+	          	</div>
+          	</td>
+    	</tr>
+        <tr> </tr>
+		<tr>
+          	<td rowspan="2" align="right" valign="top" style="line-height:40px;">退出机制：
+          	</td>
+          	<td colspan="3">
+          		<div class="group">
+	          		<textarea id="project_description" name="exit_mechanism" rows="5" class="textareabox textbox w550 h100" onkeyup="checkstrlength(this,'#left_words',300);">{$deal_item.exit_mechanism}</textarea>
+	          		<span class="holder_tip" style=" width:auto;">请填写退出机制说明。</span>
+	          	</div>
+          	</td>
+    	</tr>
+        <tr> </tr>
+		<tr class="is_type">
+          	<td align="right"><span class="f_red">*&nbsp;</span>预期年利率：</td>
+          	<td colspan="3">
+          		<div class="group">
+	      			<input type="text" name="annual_interest_rate" value="{$deal_item.annual_interest_rate}" id="financing_amount" onKeyUp="amount(this);" class="small_textbox textbox w100 mr10" />      			
+	      			<span class="f_l" style="line-height:37px">%</span>
+	      			<span class="holder_tip">年固定回报利率</span>
+	      		</div>
+				<span class="f_red pl15" style="line-height:37px">*利率精确到小数点后两位</span>
+			</td>  
+        </tr>
+		<tr class="is_type">
+          	<td align="right"><span class="f_red">*&nbsp;</span>固定回报周期：</td>
+          	<td colspan="3">
+          		<select name="return_cycle" id="has_otherpro" class="ui-select field_select small">
+					<option value="1" {if $deal_item.return_cycle eq 1}selected="selected"{/if}>1个月</option>
+              		<option value="2" {if $deal_item.return_cycle eq 2}selected="selected"{/if}>2个月</option>
+					<option value="3" {if $deal_item.return_cycle eq 3}selected="selected"{/if}>3个月</option>
+					<option value="4" {if $deal_item.return_cycle eq 4}selected="selected"{/if}>4个月</option>
+					<option value="5" {if $deal_item.return_cycle eq 5}selected="selected"{/if}>5个月</option>
+					<option value="6" {if $deal_item.return_cycle eq 6}selected="selected"{/if}>6个月</option>
+					<option value="7" {if $deal_item.return_cycle eq 7}selected="selected"{/if}>7个月</option>
+					<option value="8" {if $deal_item.return_cycle eq 8}selected="selected"{/if}>8个月</option>
+					<option value="9" {if $deal_item.return_cycle eq 9}selected="selected"{/if}>9个月</option>
+					<option value="10" {if $deal_item.return_cycle eq 10}selected="selected"{/if}>10个月</option>
+					<option value="11" {if $deal_item.return_cycle eq 11}selected="selected"{/if}>11个月</option>
+					<option value="12" {if $deal_item.return_cycle eq 12}selected="selected"{/if}>12个月</option>
+				</select>
+      		</td>
+        </tr>
+		 <tr class="is_type">
+          	<td rowspan="2" align="right" valign="top" style="line-height:40px;">固定回报说明：
+          	</td>
+          	<td colspan="3">
+          		<div class="group">
+	          		<textarea id="project_description" name="return_descripe" rows="5" class="textareabox textbox w550 h100" onkeyup="checkstrlength(this,'#left_words',300);">{$deal_item.return_descripe}</textarea>
+	          		
+	          	</div>
+          	</td>
+    	</tr>
+        <tr> </tr>
+        <tr id="partake_type_tr">
+        	<td align="right">众筹股东成立的有限合伙企业入股方式：</td>
+          	<td colspan="4">
+				<label class="ui_radiobox mr10" rel="business_stock_type">
+					<input type="radio" name="business_stock_type" {if $deal_item.business_stock_type eq 0}checked="checked"{/if} value="0"  />直接入股项目总公司
+				</label>
+				<label class="ui_radiobox" rel="business_stock_type">
+					<input type="radio" name="business_stock_type" {if $deal_item.business_stock_type eq 1}checked="checked"{/if} value="1" />只入股新开店所属公司
+				</label>
+      		</td>
+        </tr>
+        <tr>
+	    	<td align="right">投资款拨付方式：</td>
+	    	<td colspan="3">
+        		<!--项目审核后不能修改-->
+	      		<div class="f_l f14">
+					一次性全额到账
+				</div>
+          	</td>
+	    </tr>            
+        <tr>
+          	<td rowspan="2" align="right" valign="top" style="line-height:40px;"><span class="f_red">*&nbsp;</span>企业项目简介：
+          	</td>
+          	<td colspan="3">
+          		<div class="group">
+	          		<textarea id="project_description" name="business_descripe" rows="5" class="textareabox textbox w550 h200" onkeyup="checkstrlength(this,'#left_words',300);" >{$deal_item.business_descripe}</textarea>
+	          		<span class="holder_tip">请输入企业项目简介，不超过300字</span>
+	          	</div>
+          	</td>
+    	</tr>
+        <tr>
+          	<td colspan="3" class="f_999 f14">您还可以输入<span class="f_red" id="left_words" style="">300</span>个字</td>
+        </tr>
+        <tr>
+          	<td align="right" valign="top" style="line-height:40px;"><span class="f_red">*&nbsp;</span>上传项目封面图片：
+          	</td>
+          	<td colspan="3">
+          		<label class="fileupload pic_show pr" id="img_project" >
+          			<img id="img_project_image" src="{if $deal_item.image}{function name="get_spec_image" v=$deal_item.image w="150" h="150" g="1"}{else}{$TMPL}/images/upload_bg.png{/if}" />
+				</label>
+				<input type="hidden" name="image" value="{$deal_item.image}" id="img_project_url">
+				<span class="prompt" style="margin-top:3px;"></span>
+				<div class="mb10">支持jpg、jpeg、png、gif格式，大小不超过{$max_size}。最佳尺寸：<span class="f_red b">760px*530px</span></div>
+				<div colspan="3" class="f_666 f14" style="line-height:25px;"><label class="f_red">温馨提示：</label>项目审核通过后创业者不能再更换项目图片，请选择最有吸引力的一张图片，其他产品图片请在商业模式资料编辑栏继续添加</div>
+          	</td>
+        </tr>
+		<tr class="other_pic other_pic_8">
+		    <td align="right">上传项目图片：</td>
+		    <td colspan="3">
+		    	<div>
+		    		{if $deal_images}
+					{foreach from=$deal_images item=image key=image_num }
+						<div class="pic_box f_l mr20">
+				            <i class="del_pic"></i>
+				            <div class="pic_show" id="deal_images_file_{$image_num}">
+					            <img id="deal_images_file_{$image_num}_image" src="{$image.image}" />
+					            <input type="hidden" name="image_more[{$image_num}]" id="deal_images_file_{$image_num}_url" value="{$image.image}" class="input_row" rel="{$image_num}" />
+				          	</div>
+				          	<script>
+				              	get_file_fun('deal_images_file',{$image_num});
+				          	</script>
+				        </div>
+					{/foreach}
+					{else}
+						<div class="pic_box f_l mr20">
+				            <i class="del_pic"></i>
+				            <div class="pic_show" id="deal_images_file_0">
+				                <img id="deal_images_file_0_image" src="{$TMPL}/images/upload_bg.png" />
+				                <input type="hidden" name="image_more[0]" id="deal_images_file_0_url" value="" class="input_row" rel="0" />
+				            </div>
+				            <script>
+				                get_file_fun('deal_images_file',0);
+				            </script>
+				        </div>
+					{/if}
+					 <a href="javascript:void(0);" class="add_pic add_pic_8 theme_fcolor  ">+</a>
+		    	</div>
+				<div class="blank"></div>
+				<div class="mb10">支持jpg、jpeg、png、gif格式，大小不超过{$max_size}。最佳尺寸：<span class="f_red b">760px*530px</span></div>
+		    </td>
+		</tr>
+        <tr>
+          	<td align="right">项目视频地址：</td>
+          	<td colspan="3">
+          		<div class="group">
+	          		<input name="vedio" type="text" value="{$deal_item.vedio}" size="50" class="small_textbox textbox w450" />
+	          		<span class="holder_tip">请输入优酷、腾讯、土豆等flash地址。</span>
+	          	</div>
+          	</td>
+        </tr>
+       	{include file="inc/legal_proof.html"}
+    </tbody>
+	</table>
+	<div class="blank20"></div>
+	<input type="hidden" name="deal_type" id="deal_type" value="{$type}" />
+	<input type="hidden" name="company_id" id="company_id" value="{$company_info.id}" />
+	<input type="hidden" name="big_invest_phase" id="big_invest_phase" value="{$invest_phase}" />
+	<input type="hidden" name="deal_invest_phase" id="deal_invest_phase" value="{$deal_item.invest_phase}" />
+	{if $deal_item.investor_edit}
+		<div class="button_row tc">
+	 		<input type="hidden" name="id" value="{$deal_item.id}" />
+			<input type="hidden" name="savenext" value="0" />
+			<div class="ui-button ui-center-button theme_bgcolor" rel="green" id="savenext">
+				保存
+			</div>
+			<div class="ui-button ui-center-button theme_bgcolor" rel="green" onclick="window.history.go(-1)">
+				返回
+			</div>
+			<input type="hidden" value="1" name="ajax" />
+	
+			<div class="blank15"></div>
+		</div>
+	{/if}
+	{if !$deal_item.investor_edit }
+		<div class="button_row tc">
+	 		<input type="hidden" name="id" value="{$deal_item.id}" />
+			<input type="hidden" name="savenext" value="0" />
+			<div class="ui-button ui-center-button bg_green mr10" rel="gray" id="savenow" style="*margin-left:355px;">
+				先保存一步
+			</div>
+			<div class="ui-button ui-center-button theme_bgcolor" rel="green" id="savenext">
+				下一步
+			</div>
+			<input type="hidden" value="1" name="ajax" />
+	
+			<div class="blank15"></div>
+		</div>
+	{/if}
+	</form>
+	
+</div>
+<div class="blank20"></div>
+<script type="text/javascript">
+$(function(){
+	show_tip();
+	get_sigle_file_fun("img_project");
+	// 删除图片
+	$(".del_pic").live('click',function(){
+		$(this).parent().parent().find(".add_pic").show();
+		$(this).parent(".pic_box").remove();
+	});
+	$(".pic_box").live('hover',function(){
+		$(this).find("i").toggle();
+	});
+
+	// 实例化添加图片
+	add_pics(".demo_pic_box_1",".add_pic_1",".other_pic_1",'audit_data_legal',1,4);
+	add_pics(".demo_pic_box_2",".add_pic_2",".other_pic_2",'audit_data_legal_credit',2,4);
+	add_pics(".demo_pic_box_3",".add_pic_3",".other_pic_3",'audit_data_business_license',3,4);
+	add_pics(".demo_pic_box_4",".add_pic_4",".other_pic_4",'audit_data_tax_registration_certificate',4,4);
+	add_pics(".demo_pic_box_5",".add_pic_5",".other_pic_5",'audit_data_organization_code',5,4);
+	add_pics(".demo_pic_box_6",".add_pic_6",".other_pic_6",'audit_data_company_photo',6,4);
+	add_pics(".demo_pic_box_7",".add_pic_7",".other_pic_7",'audit_data_site_contract',7,4);
+	add_pics(".demo_pic_box_8",".add_pic_8",".other_pic_8",'deal_images_file',8,5);
+});
+
+// 添加图片
+var pic_num_arr = [];
+function add_pics(hide_demo,add_btn,other_pic,file_id,arr,image_num){
+ 	var demo_pic_box=$(hide_demo).html();
+	image_num=parseInt(image_num);
+ 	pic_num_arr[arr] = parseInt($(other_pic).find(".input_row").last().attr("rel"));
+ 	if(pic_num_arr[arr]>=image_num-1){
+		$(add_btn).hide();
+	}
+ 	$(add_btn).live('click',function(){
+ 		var file_ids= file_id;
+		var pic_box_num = $(other_pic).find(".pic_box").length;
+		pic_box_num ++ ;
+		if(pic_box_num <= image_num){
+			pic_num_arr[arr]++;
+	       	new_pic_box=demo_pic_box.replace(/num/g,pic_num_arr[arr]);
+	        $(this).before(new_pic_box);
+	        get_file_fun(file_ids,pic_num_arr[arr]);
+	        if(pic_box_num==image_num){
+	        	$(this).hide();
+	        }
+		}
+	});
+}
+</script>
+
+<script type="text/javascript">
+$(function(){
+	button_hover(".ui-center-button");
+
+	//选择日期控件
+    $("input.jcDate").jcDate({
+        IcoClass : "jcDateIco",
+        Event : "click",
+        Speed : 100,
+        Left :-125,
+        Top : 28,
+        format : "-",
+        Timeout : 100,
+        Oldyearall : 17,  // 配置过去多少年
+		Newyearall : 0  // 配置未来多少年
+    });
+
+	//筛选身份类型
+	$(".ui_check").click(function(){
+		if($(this).attr("type")=="radio"){
+			var rel=$(this).attr("rel");
+			$(".ui_check[rel='"+rel+"']").removeClass("ui_checked");
+			$(".ui_check[rel='"+rel+"'] input").attr("checked",false);
+			$(this).addClass("ui_checked");
+			$(this).find("input").attr("checked","checked");
+		}
+		else{
+			if($(this).hasClass("ui_checked")){
+				$(this).removeClass("ui_checked");
+				$(this).find("input").attr("checked",false);
+			}
+			else{
+				$(this).addClass("ui_checked");
+				$(this).find("input").attr("checked","checked");
+			}
+		}
+	});
+});
+
+// 检测字数
+function checkstrlength(obj,left_words,words)
+{
+	var curStr=$(obj).val();
+	var length_array=GetCharLength(curStr);
+	var curLength=length_array['iLength'];
+	var putLenght=words;
+
+   	if(curLength>words){
+		var substrAdd=length_array['substrAdd'];
+		if(substrAdd >0)
+			putLenght=putLenght+ Math.ceil(substrAdd/2)
+        var num=$(obj).val().substr(0,putLenght);
+		
+		$(obj).val(num);
+		$(left_words).text(0);
+		$.showErr("最多输入"+words);
+   	}
+   	else{
+   		var curLength=parseInt(curLength);
+        $(left_words).text(words-curLength);
+   	}
+	
+	// 获取字数长度
+	function GetCharLength(str)
+	{  
+		var iLength = 0;
+		var len = new Array(); 
+		len["iLength"] =0;
+		len["substrAdd"] =0;
+	    for(var i = 0; i<str.length; i++){
+			 
+			if(str.charCodeAt(i) >255){  
+		        len["iLength"] += 1;  
+		    }  
+		    else{  
+				len["iLength"] += 0.5;
+				if(len["iLength"] <= 300)
+					 len["substrAdd"] +=1;
+		    } 
+		}  
+	    return len;  
+	} 
+}
+
+</script>
+<div style="display:none;" id="show_html">{$show_html.content}</div>
+<script type="text/javascript">
+	var html_var=$("#show_html").html();
+	$(function(){
+		if(html_var){
+			show_html_var();
+		}
+
+		// 实例化是否显示企业成立时间
+		show_createtime();
+		//实例化是否显示债权众筹，股权+债权的相关信息
+		show_type();
+	});
+
+	// 商业计划书撰写指南
+	function show_html_var(){
+		$.weeboxs.open(html_var, {contentType:'text',showButton:true,showOk:true,showCancel: false,title:"项目商业计划书撰写指南",width:800,height:300,type:'wee'});
+	}
+
+	// 是否显示企业成立时间
+	function is_show_createtime(sel){
+		if(sel.value=='1'){
+			$(".is_show").show();
+		}
+		else if(sel.value=='0'){
+			$(".is_show").hide();
+		}
+	}
+	function show_createtime(){
+		if($('#found_company option:selected').val() == 1){
+		$(".is_show").show();
+		}
+		else{
+			$(".is_show").hide();
+		}
+	}
+	//否显示债权众筹，股权+债权的相关信息
+	function is_type(sel){
+		if(sel.value=='1'){
+			$(".is_type").hide();
+			$(".is_type_share").show();
+		}
+		else if(sel.value=='2'){
+			$(".is_type").show();
+			$(".is_type_share").hide();
+		}
+		else{
+			$(".is_type").show();
+			$(".is_type_share").show();
+		}
+	}
+	function show_type(){
+		if($('#type option:selected').val() == 1){
+			$(".is_type").hide();
+			$(".is_type_share").show();
+		}
+		else if($('#type option:selected').val() == 2){
+			$(".is_type").show();
+			$(".is_type_share").hide();
+		}
+		else{
+			$(".is_type").show();
+			$(".is_type_share").show();
+		}
+	}
+</script>
+{include file="inc/footer.html"} 

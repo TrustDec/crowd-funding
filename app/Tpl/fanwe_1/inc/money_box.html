@@ -1,0 +1,26 @@
+<div class="money_box">
+	<div class="credit_box">
+		<div>
+			帐户余额： <span class="f_money">{function name="format_price" v=$user_info.money p=2}</span> 元
+		</div>
+		<div class="blank10"></div>
+		<div>
+			帐户积分： <span class="f_money">{$user_info.score}</span>
+		</div>
+		<div class="blank10"></div>
+		<div>
+			诚意金： <span class="f_money">{function name="format_price" v=$user_info.cy_money p=2}</span> 元
+		</div>
+	</div>
+	<div class="blank20"></div>
+	<div class="incharge_tip"><span class="f_l" style="margin:4px 10px 0 0;">充值到{function name="app_conf" v="SITE_NAME"}，方便支持项目！</span>
+	 <a href="{url r="account#money_inchange"}" class="ui-small-button theme_bgcolor mr10">立即充值</a>
+	 {if $user_info.money gt 0}
+	 <a href="{url r="account#money_carry_bank"}" class="ui-small-button bg_red mr10">我要提现</a>
+	 {/if}
+	 {if app_conf("MORTGAGE_MONEY") gt $user_info.cy_money}
+	 <a href="{url r="account#mortgate_pay"}" class="ui-small-button theme_bgcolor mr10">支付诚意金</a>
+	 {/if}
+	</div>
+	<div class="blank"></div>
+</div>

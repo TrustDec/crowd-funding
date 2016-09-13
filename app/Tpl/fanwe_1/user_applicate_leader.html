@@ -1,0 +1,129 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/user_applicate_leader.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/user_applicate_leader.js";
+?>
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<link href="{$APP_ROOT}/admin/public/kindeditor/themes/default/default.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{$APP_ROOT}/public/runtime/admin/lang.js"></script>
+<script type='text/javascript' src='{$APP_ROOT}/admin/public/kindeditor/kindeditor.js'></script>
+<script type="text/javascript">
+    var ROOT = '{$APP_ROOT}/{$URL_NAME}';
+    var VAR_MODULE = "m";
+    var VAR_ACTION = "a";
+    var WEB_SESSION_ID = '<?php echo es_session::id(); ?>';
+    var EMOT_URL = '{$APP_ROOT}/public/emoticons/';
+    var MAX_FILE_SIZE = "<?php echo (app_conf("MAX_IMAGE_SIZE")/1000000)."MB"; ?>";
+    var FILE_UPLOAD_URL ='{$APP_ROOT}/{$URL_NAME}?m=File&a=do_upload&' ;
+</script>
+<style type="text/css">
+    .con3 .num{color:#3d9eeb;}
+    label{margin:0 10px 10px 0;float:left;display:inline;}
+</style>
+<div class="blank20"></div>
+{if $item.status==1}
+<div class="mod_box project_edit project_agencyAdd_stepthree">
+	<div class="con_tit theme_fcolor f_20">恭喜您，您的领投申请已经通过</div>
+	<div class="con3">
+		<a href="{url r="account#add_leader_info" p="id=$item.id"}"  class="theme_fcolor" style="padding-left:80px; font-size:18px;">领投信息提交</a>
+	</div>
+</div>
+{else}
+<div class="mod_box project_edit project_agencyAdd_stepthree">
+	<div class="con_tit theme_fcolor f_20">申请领投资格{if $item.id >0}(在审核中){/if}</div>
+	<div class="con3">
+        <form id="applicat_lead_qualificat_form" name="applicat_lead_qualificat_form" method="post" action="{url r="investor#save_applicate_leader"}" autocomplete="off">
+            <div class="tit theme_fcolor f18">
+                <div class="tit_l">
+                    <span class="num b">1</span>请选择领投项目行业（最多不超过3项）
+                </div>
+            </div>
+			<!--领投项目行业（最多不超过3项）start-->
+            <div class="pro">
+                <div class="blank10"></div>
+                <div class="f_l f14">
+                	{foreach from=$cates item=cates_item name=key}
+                    <label>
+	                	<span class="ui_check info_view {if $cates_item.selected eq 1}ui_checked{/if}" type="radio" rel="info_view">
+	                        <input class="cate_name" type="checkbox" name="cates[{$smarty.foreach.key.iteration}]" id="pc" value="{$cates_item.name}" {if $cates_item.selected eq 1}checked="checked"{/if} />
+	                    </span>{$cates_item.name}
+                    </label>
+                    {/foreach}
+                </div>
+                <div class="blank10"></div>
+            </div>
+			<!--领投项目行业（最多不超过3项）end-->
+            <div class="blank20"></div>
+            <div class="tit theme_fcolor f18">
+                <div class="tit_l">
+                    <span class="num b">2</span>请填写个人简介：
+                </div>
+            </div>
+            <div class="pro">
+                <div class="blank10"></div>
+                <div class="prompt_box f_999 p0" style="border:0;background:none;width:100%">
+                    要求写明个人求学、工作、创业、投资简历。请具体到起止年月、学校专业学历、公司名称部门职务、投资过企业名称等，便于我们做真实性背景调查，否则将不予以受理。
+                </div>
+                <div class="blank20"></div>
+                <div class="ke_form f_l">
+                  <textarea id="describe" name="describe" class="textareabox" onkeyup="checkstrlength(this,'#left_words',100);" style="width:936px; height:200px;">{$item.introduce}</textarea> 
+                </div>
+                <div class="blank5"></div>
+                <p class="f_999">个人简介，不少于100字，<span id="need_words_box">您还需要输入<span class="f_red" id="need_words">100</span>字</span></p>
+            </div>
+            <div class="blank20"></div>
+            <div class="button_row tc">
+                <input type="button" value="确定" name="submit_form" class="ui-button theme_bgcolor mr20" id="ui-button" style="display:inline-block;float:none" />
+                <input type="hidden" name="deal_id" value="{$deal_id}">
+				<input type="hidden" name="investor_id" value="{$item.id}">
+				<input type="hidden" value="1" name="ajax" />
+				{if $type neq ''}
+					<input type="hidden" value="{$type}" name="type" />
+				{/if}
+                <div class="blank15"></div>
+            </div>
+        </form>
+	</div>
+</div>
+{/if}
+<div class="blank20"></div>
+<script type="text/javascript">
+// 检测字数
+function checkstrlength(obj,left_words,words)
+{
+    var curStr=$(obj).val();
+    var length_array=GetCharLength(curStr);
+    var curLength=length_array['iLength'];
+    var putLenght=words;
+
+    if(curLength<words){
+        var need_word_length = words-parseInt(curLength);
+        $("#need_words_box").html('您还需输入至少<span class="f_red f16" id="need_words">'+need_word_length+'</span>字');
+    }
+    else{
+        $("#need_words_box").html('<span class="f_red">您输入字数已足够100字</span>');
+    }
+    
+    // 获取字数长度
+    function GetCharLength(str)
+    {  
+        var iLength = 0;
+        var len = new Array(); 
+        len["iLength"] =0;
+        len["substrAdd"] =0;
+        for(var i = 0; i<str.length; i++){
+             
+            if(str.charCodeAt(i) >255){  
+                len["iLength"] += 1;  
+            }  
+            else{  
+                len["iLength"] += 0.5;
+                if(len["iLength"] <= 300)
+                     len["substrAdd"] +=1;
+            } 
+        }  
+        return len;  
+    } 
+}
+</script>
+{include file="inc/footer.html"}

@@ -1,0 +1,323 @@
+{include file="./inc/header.html"}
+<?php
+    $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/licai/licai.css";   
+    $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/licai/uc_deal_lc.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$pagecss"}" />
+<style type="text/css">
+.two_column .li{
+    display: inline-block;
+    width: 50%;
+    height: 40px;
+    line-height:40px;
+    float: left;
+    color: #878787;
+    font-size: 14px;
+}
+.two_column  em{
+    font-size: 10px;
+}
+.two_column span{
+    display: inline-block;
+    float: left;
+}
+.two_column  label{
+    float: left;
+    padding-right:6px;
+}
+/* 焦点图 */
+#slideBox{ position:relative; overflow:hidden; margin:0px auto; }
+#slideBox .hd{ position:absolute; height:28px; line-height:28px; bottom:0; right:0; z-index:1; }
+#slideBox .hd li{ display:inline-block; width:5px; height:5px; -webkit-border-radius:5px; -moz-border-radius:5px; border-radius:5px; text-indent:-9999px; overflow:hidden; margin:0 6px;   background:#878787;}
+#slideBox .hd li.on{ background:#54aeec;  }
+#slideBox .bd{ position:relative; z-index:0; }
+#slideBox .bd li{ position:relative; text-align:center;  }
+</style>
+<!--详细页-->
+<div class="mainblok mainborder">
+    <div class="ui_list ui_smaller_list no_border">
+        <ul>
+            <li>
+                <label class="ui_list_label">起购金额</label>
+                <div class="ui_list_content flex tr">
+                    <span>{$vo.min_money_format}</span>
+                </div>
+            </li>
+            <li>
+                <label class="ui_list_label">收益率</label>
+                <div class="ui_list_content flex tr">
+                    <span class="f_red">{$vo.average_income_rate_format}</span>
+                </div>
+            </li>
+            <li>
+                <label class="ui_list_label">理财期限</label>
+                <div class="ui_list_content flex tr">
+                    <span>{$vo.time_limit}个月</span>
+                </div>
+            </li>
+            <li>
+                <label class="ui_list_label">获取收益方式</label>
+                <div class="ui_list_content flex tr">
+                    <span>{$vo.profit_way}</span>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="blank"></div>
+</div>
+<div class="invest">
+    <!-- 焦点图 -->
+    <div id="slideBox" class="slideBox">
+        <div class="bd">
+            <ul>
+            {if $vo.type > 0}
+                {if $list}
+                    {foreach from=$list item=item}
+                    <li>
+                        <!--mainborder开始-->  
+                        <div class="blok_10 mainborder" id="sb">
+                            <p class="pt5 pb5">收益率列表：金额单位（元）</p>
+                            <div class="index_content">
+                                <div class="two_column">
+                                    <div class="li">
+                                        <label>最大金额</label>
+                                        <span>{$item.max_money_format}</span>
+                                    </div>
+                                    <div class="li">
+                                        <label>最小金额</label>
+                                        <span class="f_red">{$item.min_money_format}</span>
+                                    </div>
+                                    <div class="li">
+                                        <label>原手续费率</label>
+                                        <span>{$item.buy_fee_rate_format}</span>
+                                    </div>
+                                    <div class="li">
+                                        <label>网站手续费率</label>
+                                        <span>{$item.site_buy_fee_rate_format}</span>
+                                    </div>
+                                    <div class="li">
+                                        <label>赎回手续费率</label>
+                                        <span>{$item.redemption_fee_rate_format}</span>
+                                    </div>
+                                    <div class="li">
+                                        <label>预热期收益率</label>
+                                        <span>{$item.before_rate_format}</span>
+                                    </div>
+                                    <div class="li">
+                                        <label>预热期违约收益率</label>
+                                        <span>{$item.before_breach_rate_format}</span>
+                                    </div>
+                                    <div class="li">
+                                        <label>收益率</label>
+                                        <span>{$item.interest_rate_format}</span>
+                                    </div>
+                                    <div class="li">
+                                        <label>违约收益率</label>
+                                        <span>{$item.breach_rate_format}</span>
+                                    </div>
+                                    <div class="li">
+                                        <label>平台收益率</label>
+                                        <span>{$item.platform_rate_format}</span>
+                                    </div>
+                                    <div class="li">
+                                        <label>违约平台收益率</label>
+                                        <span>{$item.platform_breach_rate_format}</span>
+                                    </div>
+                                    <div class="li">
+                                        <label>保证金比率</label>
+                                        <span>{$item.freeze_bond_rate_format}</span>
+                                    </div>
+                                </div>
+                                <div class="blank"></div>    
+                            </div>  
+                        </div><!--mainborder结束--> 
+                    </li>
+                    {/foreach}
+                {else}
+                    <li>无任何记录</li>
+                {/if}
+            {else}
+                <li>
+                    <!--mainborder开始-->  
+                    <div class="blok_10 mainborder" id="sb">
+                        <p class="pt5 pb5">收益率列表：金额单位（元）</p>
+                        <table class="Journal_table">
+                            <tr>
+                                <th>日期</th>
+                                <th>每万份收益</th>
+                                <th>收益率</th>
+                            </tr>
+                            {if $list}
+                            {foreach from=$list item=item}
+                            <tr class='item {if $key mod 2 eq 1}item_1{/if}' {if $smarty.foreach.deal.last}style="border-bottom:0"{/if}>
+                                <td>{$item.history_date}</td>
+                                <td>{$item.net_value_format}</td>
+                                <td>{$item.rate_format}</td>
+                            </tr>
+                            {/foreach}
+                            {else}
+                            <tr>
+                                <td colspan="3">无任何记录</td>
+                            </tr>
+                            {/if}
+                        </table>
+                        <div class="blank"></div>    
+                    </div>
+                </li>
+            {/if}
+            </ul>
+        </div>
+        <div class="hd">
+            <ul></ul>
+        </div>
+    </div>
+</div> 
+<!--<script type="text/javascript">
+    TouchSlide({ 
+        slideCell:"#slideBox",
+        titCell:".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+        mainCell:".bd ul", 
+        effect:"leftLoop", 
+        delayTime:300,
+        autoPage:true,//自动分页
+        autoPlay:false //自动播放
+    });
+</script>-->
+<div class="blank10"></div>
+<div class="mainblok mainborder">
+    <div class="ui_list ui_smaller_list no_border">
+    <ul>
+        <li>
+            <label class="ui_list_label">产品名称</label>
+            <div class="ui_list_content flex tr"
+                {$vo.name}
+            </div>
+        </li>
+        <li>
+            <label class="ui_list_label">理财代码 </label>
+            <div class="ui_list_content flex tr">
+                <span>{$vo.licai_sn}</span>
+            </div>
+        </li>
+        <li>
+            <label class="ui_list_label">产品规模 </label>
+            <div class="ui_list_content flex tr">
+                <span>{$vo.product_size}</span>
+            </div>
+        </li>
+        <li>
+            <label class="ui_list_label">购买开始时间 </label>
+            <div class="ui_list_content flex tr">
+                <span>{$vo.begin_buy_date}</span>
+            </div>
+        </li>
+        <li>
+            <label class="ui_list_label"> 购买结束时间</label>
+            <div class="ui_list_content flex tr">
+                <span>{$vo.end_buy_date}</span>
+            </div>
+        </li>
+        <li>
+            <label class="ui_list_label"> 起购金额</label>
+            <div class="ui_list_content flex tr">
+                <span>{$vo.min_money_format}</span>
+            </div>
+        </li>
+        <li>
+            <label class="ui_list_label"> 理财期限</label>
+            <div class="ui_list_content flex tr">
+                <span>{$vo.time_limit}个月</span>
+            </div>
+        </li>
+        <li>
+            <label class="ui_list_label"> 项目起息时间</label>
+            <div class="ui_list_content flex tr">
+                <span>{$vo.begin_interest_date}</span>
+            </div>
+        </li>
+        <li>
+            <label class="ui_list_label"> 利息类型</label>
+            <div class="ui_list_content flex tr">
+                <span>{$vo.begin_interest_type_format}m</span>
+            </div>
+        </li>
+        <li>
+            <label class="ui_list_label">项目结束时间 </label>
+            <div class="ui_list_content flex tr">
+                <span>{$vo.end_date}</span>
+            </div>
+        </li>
+        <li>
+            <label class="ui_list_label">获取收益方式 </label>
+            <div class="ui_list_content flex tr">
+                <span>{$vo.profit_way}</span>
+            </div>
+        </li>
+        <li>
+            <label class="ui_list_label"> 赎回到账方式</label>
+            <div class="ui_list_content flex tr">
+                <span>{$vo.review_type_format}</span>
+            </div>
+        </li>
+        <li>
+            <label class="ui_list_label">赎回到账时间描述 </label>
+            <div class="ui_list_content flex tr">
+                <span>{$vo.purchasing_time}</span>
+            </div>
+        </li>
+        <li>
+            <label class="ui_list_label">成交服务费率 </label>
+            <div class="ui_list_content flex tr">
+                <span>{$vo.service_fee_rate_format}</span>
+            </div>
+        </li>
+		
+		{if $vo.type == 0}
+		<li>
+            <label class="ui_list_label">平台收益费率 </label>
+            <div class="ui_list_content flex tr">
+                <span>{$vo.platform_rate_format}</span>
+            </div>
+        </li>
+		<li>
+            <label class="ui_list_label">购买手续费率 </label>
+            <div class="ui_list_content flex tr">
+                <span>{$vo.site_buy_fee_rate_format}</span>
+            </div>
+        </li>
+		<li>
+            <label class="ui_list_label">赎回手续费率 </label>
+            <div class="ui_list_content flex tr">
+                <span>{$vo.redemption_fee_rate_format}</span>
+            </div>
+        </li>
+        {/if}
+					
+        <li>
+            <label class="ui_list_label">风险等级 </label>
+            <div class="ui_list_content flex tr">
+                <span>{$vo.risk_rank_format}</span>
+            </div>
+        </li>
+        <li>
+            <label class="ui_list_label"> 理财规则</label>
+            <div class="ui_list_content flex tr">
+                <span>{$vo.rule_info}</span>
+            </div>
+        </li>
+        <li class="auto_height">
+            <label class="ui_list_label"> 详情</label>
+            <div class="ui_list_content flex tr">
+                <span>{$vo.description}</span>
+            </div>
+        </li>
+        <li>
+            <label class="ui_list_label">状态 </label>
+            <div class="ui_list_content flex tr">
+                <span>{$vo.licai_status_format}</span>
+            </div>
+        </li>
+    </ul>
+    </div>
+</div><!--mainblok——end--> 
+{include file="./inc/footer.html"}

@@ -1,0 +1,74 @@
+{include file="inc/header.html"}
+<!--中间部分-->  
+{if $order_list}
+<section class="account_index my_project account_mod">
+    <ul>
+    	{foreach from=$order_list item=order_item}
+        <li>
+            <div class="webkit-box">
+                <div class="pic_show mr5">
+                    <a href="#" onclick="RouterURL('{url_wap r="deal#show" p="id=$order_item.deal_id"}','#deal-show',2);" title="{$order_item.deal_name}"><img src="{function name="get_spec_image" v=$order_item.deal_info.image w=60 h=45 g=1}" width="100%" height="100%"></a>
+                </div>
+                <div class="details webkit-box-flex">
+                    <h3 class="info_name">
+                        <a href="#" onclick="RouterURL('{url_wap r="deal#show" p="id=$order_item.deal_id"}','#deal-show',2);" title="{$order_item.deal_name}">{function name="msubstr" v=$order_item.deal_name b=0 e=25}</a>
+                    </h3>
+                    <div class="info_all">
+                        <div class="info_group">
+                            <label class="label_l">金额:</label>&nbsp;
+                            <span class="symbol">¥</span><span class="f_money">{$order_item.total_price}</span>
+                        	{if $order_item.type eq 3}<span>(抽奖{if $order_item.is_winner eq 1}:幸运单{/if})</span>{/if}
+						</div>
+                        <div class="info_group">
+                            <label class="label_l">状态:</label>&nbsp;
+                            <span class="label_r">
+                                {if $order_item.order_status eq 0}
+                                	支付未完成
+                                {else}      
+                                    {if $order_item.deal_info}
+                                    {if $order_item.deal_info.is_success eq 1}
+                                        {if $order_item.deal_info.begin_time > $now}预热中{/if}
+                                        {if $order_item.deal_info.end_time < $now and $order_item.deal_info.end_time neq 0}已成功&nbsp;{if $order_item.repay_time gt 0}回报已发放{if $order_item.repay_make_time gt 0} &nbsp;  确认收到{else} &nbsp; 未确认收到{/if} {else}等待发放回报{/if}{/if}
+                                        {if $order_item.deal_info.begin_time < $now and ($order_item.deal_info.end_time > $now or $order_item.deal_info.end_time eq 0)}已成功&nbsp;{if $order_item.repay_time gt 0}回报已发放{if $order_item.repay_make_time gt 0} 确认收到{else} 未确认收到{/if}{else}等待发放回报{/if}{/if}
+                                        {else}
+                                        {if $order_item.deal_info.begin_time > $now}预热中{/if}
+                                        {if $order_item.deal_info.end_time < $now and $order_item.deal_info.end_time neq 0}未成功&nbsp;{if $order_item.is_refund eq 1}已退款{else}等待退款{/if}{/if}
+                                        {if $order_item.deal_info.begin_time < $now and ($order_item.deal_info.end_time > $now or $order_item.deal_info.end_time eq 0)}未结束{/if}
+                                    {/if}
+                                    {else}
+                                        {if $order_item.is_success eq 0}
+                                        未成功&nbsp;{if $order_item.repay_time gt 0}回报已发放{if $order_item.repay_make_time gt 0}<br /> 确认收到{else} <br /> 未确认收到{/if}{else}等待发放回报{/if}
+                                        {else}
+                                        已成功&nbsp;{if $order_item.is_refund eq 1}已退款{else}等待退款{/if}
+                                        {/if}
+                                    {/if}
+                                {/if}
+                            </span>
+                        </div>
+                    </div>
+                </div>   
+            </div>
+            <div class="blank5"></div>
+            <div class="operating f_r webkit-box" style="line-height:30px;">
+                {if $order_item.order_status eq 0}
+	                {if  $order_item.deal_info.lottery_draw_time gt 0}
+						<span style="color: #666;font-size:12px;">幸运号已揭晓</span>
+					{else}
+	                	<a href='#' onclick="RouterURL('{url_wap r="account#view_order" p="id=$order_item.id"}','#account-view_order',2);" class="pay bg_red">继续支付</a>
+					{/if}
+					<a class="pay del_deal ml5 bg_gray" href="{url_wap r="account#del_order" p="id=$order_item.id"}">删除</a>
+                {else}
+                 	<a href='#' onclick="RouterURL('{url_wap r="account#view_order" p="id=$order_item.id"}','#account-view_order',2);" class="pay theme_color">查看详情</a>
+                {/if} 
+            </div>
+        </li>
+	   {/foreach}
+    </ul>
+</section>
+<div class="blank15"></div>
+<div class="pages">{$pages}</div>
+<div class="blank15"></div>
+{else}
+<div class="tc f_999">暂无记录</div>
+{/if}
+{include file="inc/footer.html"}

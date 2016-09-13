@@ -1,0 +1,102 @@
+<script type="text/javascript" src="{$TMPL}/js/fanwe_utils/angular.min.js"></script>
+<div class="company-basic">
+	<div class="block-editor-basic">
+		<!-- 保存生成 开始 -->
+		<div class="item-panel-normal clearfix">
+			<div class="container">
+				<div class="basic-section clearfix">
+					<div class="logo">
+	    				<img alt="" src="{$company_info.company_logo}">	
+								
+		                <div class="basic-row social-row clearfix">
+		                	{if $company_info.company_sina_weibo neq ''}
+		                    <div class="link">
+		                        <a href="{$company.company_sina_weibo}" target="_blank" class="ajax_company_sina_weibo"><i class="icon iconfont">&#xe60f;</i></a>
+		                    </div>
+							{/if}
+							{if $company_info.company_weixin neq ''}
+		                    <div class="link">
+		                        <a href="javascript:void(0);" onmouseover="show_tooltip(this);" onmouseout="hide_tooltip(this);" tooltip="{$company.company_weixin}" class="ajax_company_weixin"><i class="icon iconfont">&#xe610;</i></a>
+		                    </div>
+							{/if}
+		                </div>
+						
+		            </div>
+		            <div class="basic-info">
+	   		 			<div class="company-name">
+	   		 				<h3 class="ajax_company_name">{$company_info.company_name}</h3>
+	        				<span class="year">{function name="to_date" v=$company_info.company_create_time f="Y年m月d日"}</span>
+	        				{if $company_info.company_p_status neq ''}
+							<span class="stopped-icon">
+	        					{if $company_info.company_p_status eq 0}
+								3个月内上线
+								{elseif $company_info.company_p_status eq 1}
+								6个月内上线
+								{elseif $company_info.company_p_status eq 2}
+								运营中
+								{elseif $company_info.company_p_status eq 3}
+								停止运营
+								{/if}
+							</span>
+							{/if}
+	   	 				</div>
+	    				<div class="info ajax_company_brief">{$company_info.company_brief}</div>
+	    				<div class="basic-row link-row clearfix">
+	        				<div class="address"><i class="icon iconfont">&#xe614;</i>&nbsp;<span class="ajax_province">{$company_info.province}</span> <span class="ajax_city">{$company_info.city}</span></div>
+	    					<a class="website" href="{$company.company_website}" target="_blank">
+	            				<i class="icon iconfont">&#xe612;</i>&nbsp;<span class="ajax_company_website">{$company_info.company_website}</span>
+	        				</a>
+	    				</div>
+		                {if $company_info.company_tag neq ''}
+						 <div class="basic-row link-row">
+		                    <div class="tag">
+		                       <i class="icon iconfont" style="font-size:17px;">&#xe613;</i>&nbsp;
+								<span class="ajax_company_tag">{$company_info.company_tag}</span>
+		                    </div>
+		                </div>
+						{/if}
+		                <div class="basic-row link-row tags">
+		                   <span class="icons icon-2 hide"></span>
+		                </div>
+					</div>
+					<div class="share">
+						<label class="f_l">分享：</label>
+						<div class="bdsharebuttonbox">
+							<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+							<a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+							<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+							<a href="#" class="bds_mail" data-cmd="mail" title="分享到邮件分享"></a>
+						</div>
+						<script>
+							window._bd_share_config={
+								"common":{
+									"bdSnsKey":{},
+									"bdText":"{$company_info.company_name}",
+									"bdDesc":"{$company_info.company_brief}",
+									"bdPic":"{$company_info.company_logo}",
+									"bdMini":"1",
+									"bdMiniList":false,
+									"bdStyle":"1",
+									"bdSize":"32"
+								},
+								"share":{},
+								"selectShare":{
+									"bdContainerClass":null,
+									"bdSelectMiniList":["weixin","sqq","tsina","mail"]
+								}
+							};
+							with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+						</script>
+					</div>
+					<div class="opt-sns">
+						{if $is_focuss}
+							<a class="btn-white fans-btn active" onclick="attention_focus_company(this);" cid="{$company_info.id}">取消关注</a>
+						{else}
+							<a class="btn-white fans-btn" onclick="attention_focus_company(this);" cid="{$company_info.id}">关注</a>
+						{/if}
+		            </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

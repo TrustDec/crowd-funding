@@ -1,0 +1,30 @@
+{include file="inc/header.html"}
+<style>
+	.db_1{
+		z-index: 1;
+		position: relative;
+		margin: 0px auto 0px;
+		width: 1000px;
+		overflow: hidden;
+		padding: 20px;
+		padding-top:10px;
+		background-color: #fff;
+	}
+	.blank
+	{
+		height: 20px;
+		line-height: 20px;
+		clear: both;
+		visibility: hidden;
+	}
+</style>
+<div class="db_1" >
+	<div>
+		{include file="inc/inc_article_cate.html"}
+	    <div class="page">
+	    	{$pages}
+    	</div>
+	</div>
+</div>
+<div class="blank"></div>
+{include file="inc/footer.html"}

@@ -1,0 +1,23 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/refund.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/refund.js";
+?>
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+{include file="inc/home_user_info.html"}
+<div class="dlmain Myhomepage">
+ 	{include file="inc/account_left.html"} 
+	<div class="homeright pageright f_r">
+		<div class="full">
+			<div class="account_money">
+				{include file="inc/account_money_top.html"} 
+				<div class="list_conment">
+					{include file="inc/money_box.html"}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="blank0"></div>
+</div>	
+<div class="blank"></div>
+{include file="inc/footer.html"}

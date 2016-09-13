@@ -1,0 +1,176 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/deal_list.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/deal_list.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/finance/company_deals_list.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/finance/company_deals_list.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/index.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/index.js";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss" c="$dcpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<div id="J_wrap">
+	<div class="blank20"></div>
+	<div class="wrap">
+		<adv adv_id="company_top" />
+		<div class="blank20"></div>
+		<div class="ui-deals wrap" style="overflow:hidden;">
+			<ul class="nav nav-tabs tab-model clearfix">
+				<li {if $state eq 0}class="active"{/if}>
+					<a href="{url r="finance" p="state=0"}"><strong>全部公司</strong>（{$finance_count3}）</a>
+				</li>
+				<li {if $state eq 1}class="active"{/if}>
+					<a href="{url r="finance" p="state=1"}"><strong>融资中</strong>（{$finance_count1}）</a>
+				</li>
+				<li {if $state eq 2}class="active"{/if}>
+					<a href="{url r="finance" p="state=2"}"><strong>融资完成</strong>（{$finance_count2}）</a>
+				</li>
+			</ul>
+			<div class="ui_deals_filter">
+				<div class="ui_deals_filter_item">
+					<div class="filter_item">
+						<label class="f_l">所属行业：</label>
+						<div class="filter_text f_l">
+							<ul>
+								<li {if {if $pid eq 0}class="current"{/if}}>
+									<a href="{url r="finance" p="loc=$p_loc&pha=$p_pha&state=$state"}" title="全部">全部</a>
+								</li>
+								{foreach from=$cate_list item=cate_item}
+								<li {if $pid eq $cate_item.id}class="current"{/if}>
+									{if $cate_item.pid eq 0}
+									<a href="{$cate_item.url}" title="{$cate_item.name}">{$cate_item.name}</a>
+									{/if}
+								</li>
+								{/foreach}
+							</ul>
+						</div>
+						{if $child_cate_list}
+						<div class="blank0"></div>
+						<div class="ui_deals_filter_l child_cate">
+							<ul>
+								{foreach from=$child_cate_list item=child_cate_item}
+								<li {if $p_id eq $child_cate_item.id}class="current"{/if}>
+									<a href="{$child_cate_item.url}" title="{$child_cate_item.name}">{$child_cate_item.name}</a>
+								</li>
+								{/foreach}
+							</ul>
+							<div class="blank0"></div>
+						</div>
+						<div class="blank5"></div>
+						{/if}
+					</div>
+				</div>
+				<div class="ui_deals_filter_item">
+					<div class="filter_item">
+						<label class="f_l">所属地区：</label>
+						<div class="filter_text f_l">
+							<ul>
+								<li {if $p_loc eq ''}class="current"{/if}>
+									<a href="{url r="finance" p="id=$p_id&pha=$p_pha&state=$state"}" value="">全部</a>
+								</li>
+								{foreach from=$city_list item=city_item}
+								{if $city_item.province neq ''}
+								<li {if $p_loc eq $city_item.province}class="current"{/if}>
+									<a href="{$city_item.url}" target="_self" value="">{$city_item.province}</a>
+								</li>
+								{/if}
+								{/foreach}
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="ui_deals_filter_item last_item">
+					<div class="filter_item">
+						<label class="f_l">融资阶段：</label>
+						<div class="filter_text f_l">
+							<ul>
+								<!-- 已认证投资者 -->
+								<li {if $p_pha eq ''}class="current"{/if}>
+									<a href="{url r="finance"  p="loc=$p_loc&id=$p_id&state=$state"}" value="">全部</a>
+								</li>
+								
+								{foreach from=$phase_list item=phase_item}
+									{if $phase_item.phase neq ''}
+										<li {if $p_pha eq $phase_item.invest_phase }class="current"{/if}>
+											<a href="{$phase_item.url}" target="_self" value="">{$phase_item.phase}</a>
+										</li>
+									{/if}
+								{/foreach}
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="financing-list">
+			{if $finance_list}
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc_table">
+				<thead>
+					<tr>
+						<th width="44%">公司</th>
+						<th width="14%">创始人</th>
+						<th width="14%">行业</th>
+						<th width="14%">所在地</th>
+						<th width="14%">本轮融资</th>
+					</tr>
+				</thead>
+				<tbody>
+					{foreach from=$finance_list item=finance_item}
+					<tr>
+						<td class="lf">
+							<div class="avatar">
+								{if $finance_item.company_id eq $finance_item.id}
+									<a href="{url r="finance#company_show" p="cid=$finance_item.company_id"}" target="_blank" title="{$finance_item.name}">
+										<img alt="" src="{$finance_item.company_logo}" width="50" height="50" />
+									</a>
+								{else}
+									<a href="{url r="finance#company_show" p="cid=$finance_item.company_id&id=$finance_item.id"}" target="_blank" title="{$finance_item.name}">
+										<img alt="" src="{$finance_item.company_logo}" width="50" height="50" />
+									</a>
+								{/if}								
+							</div>
+							<div class="info">
+								{if $finance_item.company_id eq $finance_item.id}
+									<p class="name">
+			                            <a href="{url r="finance#company_show" p="cid=$finance_item.company_id"}" target="_blank">{$finance_item.company_name}</a>
+			                        </p>
+								{else}
+									<p class="name">
+			                            <a href="{url r="finance#company_show" p="cid=$finance_item.company_id&id=$finance_item.id"}" target="_blank">{$finance_item.company_name}</a>
+			                        </p>
+								{/if}
+		                        <p class="des">{$finance_item.company_brief}</p>
+							</div>
+						</td>
+						<td>
+							{$finance_item.user_name}
+						</td>
+						<td>
+							<span>{$finance_item.cate_name}</span>
+						</td>
+						<td>
+							<span>{$finance_item.province}</span>
+						</td>
+						<td>
+							<span>{$finance_item.phase}</span>
+						</td>
+					</tr>
+					{/foreach}
+					<!-- 分页 -->
+					<tr>
+						<td colspan="5">
+							<div class="pages">{$pages}</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			{else}
+			<p class="tc f_999">暂无数据</p>
+			{/if}
+			<div class="blank20"></div>
+			<adv adv_id="company_bottom" />
+		</div>
+	</div>
+</div>
+<div class="blank20"></div>
+{include file="inc/footer.html"}

@@ -1,0 +1,47 @@
+<form name="Jbank_From" class="ajax_form" action="{url r="licai#set_redeem_lc_status"}" method="post">
+	<div class="blank20"></div>
+	<div class="control-group smaller-control-group">
+	    <label class="control-label">申请金额:</label>
+	    <div class="control-text">
+	    	<span class="f_money">{$vo.money_format}</span>
+	    </div>
+	    <div class="blank0"></div>
+	</div>
+ 	<div class="control-group small-control-group">
+	    <label class="control-label">
+	    	<span class="f_red b">*</span> 收益:
+	    </label>
+	    <div class="control-text">
+	    	<input type="text" class="small_textbox w250 mr10" name="earn_money" id="earn_money" value="{$vo.earn_money}" />元
+	    </div>
+	    <div class="blank0"></div>
+	</div>
+ 	<div class="control-group small-control-group">
+	    <label class="control-label">
+	    	<span class="f_red b">*</span> 手续费:
+	    </label>
+	    <div class="control-text">
+        	<input type="text" class="small_textbox w250 mr10" name="fee" id="fee" value="{$vo.fee}" />元
+        </div>
+	    <div class="blank0"></div>
+	</div>
+    <div class="control-group smaller-control-group">
+	    <label class="control-label">平台收益:</label>
+	    <div class="control-text">
+	    	<span>{$vo.organiser_fee}元</span>
+	    </div>
+	    <div class="blank0"></div>
+	</div>
+   	<div class="blank10"></div>
+	<div class="button_row control-group">
+		<label class="control-label"></label>
+		<input type="hidden" name="ajax" value="1">
+        <input type="hidden" name="redempte_id" value="{$vo.id}">
+		<input type="button" value="确认发放" class="ui-button bg_red mr10">
+		<input type="button" value="取消" class="ui-button bg_gray cancel" onclick="close_pop();">
+    </div>
+	<div class="blank20"></div>
+</form>
+<script type="text/javascript">
+	bind_ajax_form();
+</script>

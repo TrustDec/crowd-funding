@@ -1,0 +1,73 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<PHP>
+	//状态的显示
+	function get_is_effect_cate($tag,$id)
+	{
+		if($tag)
+		{
+			return "<span class='is_effect' onclick='set_effect_cate(".$id.",this);'>".l("IS_EFFECT_1")."</span>";
+		}
+		else
+		{
+			return "<span class='is_effect' onclick='set_effect_cate(".$id.",this);'>".l("IS_EFFECT_0")."</span>";
+		}
+	}
+</PHP>
+<script type="text/javascript">
+	//改变状态
+function set_effect_cate(id,domobj)
+{
+		$.ajax({ 
+				url: ROOT+"?"+VAR_MODULE+"="+MODULE_NAME+"&"+VAR_ACTION+"=set_effect&id="+id, 
+				data: "ajax=1",
+				dataType: "json",
+				success: function(obj){
+
+					if(obj.data=='1')
+					{
+						$(domobj).html(LANG['IS_EFFECT_1']);
+						location.reload();
+					}
+					else if(obj.data=='0')
+					{
+						$(domobj).html(LANG['IS_EFFECT_0']);
+						location.reload();
+					}
+					else if(obj.data=='')
+					{
+						
+					}
+					$("#info").html(obj.info);
+				}
+		});
+}
+
+</script>
+<div class="main">
+<div class="main_title">{$main_title}</div>
+<div class="blank5"></div>
+<div class="button_row">
+	<input type="button" class="button" value="{%ADD}" onclick="add();" />
+	<input type="button" class="button" value="{%DEL}" onclick="del();" />
+</div>
+<div class="blank5"></div>
+<html:list 
+	id="dataTable"
+	style="dataTable"
+	name="data"
+	checkbox="true"
+	action="true"
+	datasource="list"
+	show="id:{%ID}|50px
+		,name:名称
+		,is_effect|get_is_effect_cate=$data['id']:{%IS_EFFECT}
+		,sort:排序"
+	actionlist="edit:{%EDIT}, del:{%DEL}"
+	actionwidth="100px"/>
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

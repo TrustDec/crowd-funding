@@ -1,0 +1,53 @@
+{include file="./inc/header.html"}
+<?php
+    $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/licai/licai.css";
+    $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/licai/uc_buyed_lc.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$pagecss"}" />
+<div class="float_block Object_0"  ><!--这是密码域块-->
+    <div class="float_background"></div>
+    <div class="float_content">
+        <div class="set_pw_block">
+            <h5>发放理财<div class="close_but"><a href="{wap_url x="index" r="licai_uc_u_buyed_deal_lc" p="id=$vo.order_id" }"><i class="fa fa-close"></i></a></div></h5>
+            <div class="blank10"></div>
+            <div class="ui_list ui_small_list no_border">
+                <ul>
+                    <li>
+                        <label class="ui_list_label">申请金额：</label>
+                        <div class="ui_list_content flex tr">
+                            <span>{function name="format_price" v=$vo.money}</span>
+                        </div>
+                    </li>
+                    <li class="f_red">
+                        <label class="ui_list_label">收益：</label>
+                        <div class="ui_list_content flex tr">
+                            <input name="redempte_id" id="redempte_id"   value="{$vo.id}"  type="hidden" >
+                            <span name="earn_money" id="earn_money" value="{$vo.earn_money}">{function name="format_price" v=$vo.earn_money}</span>
+                        </div>
+                    </li>
+                    <li class="f_red">
+                        <label class="ui_list_label">手续费：</label>
+                        <div class="ui_list_content flex tr">
+                            <span name="fee" id="fee" value="{$vo.fee}">{function name="format_price" v=$vo.fee}</span>
+                        </div>
+                    </li>
+                    <li>
+                        <label class="ui_list_label">平台收益：</label>
+                        <div class="ui_list_content flex tr">
+                            <span>{function name="format_price" v=$vo.organiser_fee}</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="mod_main">
+                <div class="two_btn webkit-box">
+                    <input type="hidden" name="id" id="id" value="{$vo.id}">
+                    <a class="ui-button ui-two-button theme_color webkit-box-flex" id="submitt">确认</a>
+                    <a href="{url_wap  r="licai#uc_u_buyed_deal_lc" p="id=$vo.order_id" }" class="ui-button ui-two-button bg_red webkit-box-flex">取消</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- licai_uc_redeem_lc_status.js -->
+{include file="./inc/footer.html"}

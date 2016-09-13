@@ -1,0 +1,55 @@
+<div id="xzdq" class="xzdq">
+	<div id="Tab1" class="Tab1">
+		<div class="Menubox">
+			<ul>
+			   <li class="hover con_top" name="hot">热门地区</li>
+			   {foreach from=$area_array_str item=area_item}
+			   <li  class="con_top" name="{$area_item}">{$area_item}</li>
+			   {/foreach}
+			</ul>
+		</div>
+		<script>
+			$(function(){
+				$(".con_top").bind('click',function(){
+					 var name=$(this).attr("name");
+					 $(".con_top").each(function(i){
+					 	var each_name=$(this).attr("name");
+					 	if(each_name==name){
+							$(this).addClass("hover");
+							$("#con_one_"+each_name).show();
+						}else{
+							$(this).removeClass("hover");
+							$("#con_one_"+each_name).hide();
+						}
+					 });
+				});
+				 
+			});
+		</script>
+		<div class="Contentbox">  
+			<div id="con_one_hot" class="con_box" >
+				{foreach from=$hot_area item=city_item}
+					<a href="{$city_item.url}" title="{$city_item.name}">{$city_item.name}</a>
+				{/foreach}
+			</div>
+			 {foreach from=$area_array item=area_item key=k}
+			 <div id="con_one_{$area_array_str[$k]}" class="tab-content con_box" style="display:none">
+				 <div class="city-content tab-pane active" id="city_item_ABCD">
+					{foreach from=$area_item item=item key=k_str}
+					<div class="item clearfix">
+					    <span class="theme_fcolor">{$k_str}</span>
+						<ul>
+							{foreach from=$item item=item_1 key=k_str}
+							<li><a href="{$item_1.url}">{$item_1.name}</a></li>
+							{/foreach}
+							<div class="clear"></div>
+						</ul>
+						<div class="blank"></div>
+					</div>
+					{/foreach}
+				</div>
+				 </div>
+			 {/foreach}
+		</div>
+	</div>
+</div>

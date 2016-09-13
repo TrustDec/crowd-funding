@@ -1,0 +1,880 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jquery.SuperSlide.2.1.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jquery.SuperSlide.2.1.js";
+?>
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<style type="text/css">
+    .tab2{width:874px;margin:0 auto;}
+    .other_pic .v_status{margin-left:0;}
+    .other_pic img{margin-right:10px;float:left;width:183px;}
+    .other_pic label{width:85px;color:#999;}
+    .other_pic .reason_text{width:688px;color:#666;font-size:12px;}
+</style>
+<div class="blank20"></div>
+<div class="location_box wrap1000">
+    <div class="location f_l">
+        <i class="fl ico loc_ico mr5"></i>
+        <label>您现在的位置：</label><a>发布股权项目</a><em>>></em><a>提交审核</a>
+    </div>
+</div>
+<div class="blank10"></div>
+<div class="step_box step_box7">
+    <ul>
+        <li class="l1"><span>1</span> 项目基本信息</li>
+        <li class="l2"><span>2</span> 市场定位与商业模式</li>
+        <li class="l3"><span>3</span> 编辑及管理团队</li>
+        <li class="l4"><span>4</span> 项目历史执行资料</li>
+        <li class="l5"><span>5</span> 未来三年内计划</li>
+        <li class="l6"><span>6</span> 项目附件</li>
+        <li class="l7 cur"><span>7</span> 提交审核</li>
+    </ul>
+</div>
+<div class="blank20"></div>
+<div class="mod_box project_edit project_agencyAdd_stepseven">
+	<div class="con_tit theme_fcolor f_20">
+       {if $deal_item.type eq 4}{$deal_item.company_name}-融资{/if}项目资料编辑
+        <a href="{url r="help#write_guide"}" target="_blank" class="ui-button theme_bgcolor f14 f_r f_red" style="height:24px;line-height:24px;padding:0 5px;">项目商业计划书撰写指南（创业者融资必看）>></a>
+    </div>
+	<div class="con3">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab4" style="margin-bottom:20px;">
+		<input type="hidden" value="{$id}" name="id" />
+        <tbody>
+            <tr>
+                <td colspan="4" class="t_r">
+                    <div class="t_r f_r">
+                        <a href="{if $deal_item.type eq 4}{url r="project#investor_one" p="id=$id&type=4&company_id=$deal_item.company_id"}{else}{url r="project#investor_one" p="id=$id"}{/if}" title="编辑" class="pro_edit">编辑</a> 
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td width="19%" align="right" class="theme_fcolor">项目名称：</td>
+                <td colspan="3">
+                    <div class="f_l f_red">{$deal_item.name}</div>
+                {if $deal_item.is_edit eq 1}
+                    <div class="f_l v_status v_on">未提交</div>
+                {else}
+                    {if $deal_item.is_effect eq 0}
+                    <div class="f_l v_status v_on">审核中</div>
+                    {/if}
+                    {if $deal_item.is_effect eq 1}
+                    <div class="f_l v_status v_none">审核通过</div>
+                    {/if}
+                    {if $deal_item.is_effect eq 2}
+                    <div class="f_l v_status v_none">审核失败</div>
+                    {/if}
+                {/if}
+                </td>
+            </tr>
+            <tr>
+                <td align="right" class="theme_fcolor">创业者：</td>
+                <td colspan="3">
+                    <span class="user_man">{$user_name}</span>
+                    
+                </td>
+            </tr>
+            <tr>
+                <td align="right" class="theme_fcolor">项目资料查看权限：</td>
+				{if $deal_item.type eq 4}
+					<td>等待管理员审核</td>
+					<td width="19%" align="right" class="theme_fcolor">融资阶段：</td>
+                	<td>{function name="get_invest_phase" v=$deal_item.invest_phase}</td>  
+				{else}
+                	<td colspan="3">等待管理员审核</td>
+				{/if}
+            </tr>
+            <tr>
+                <td align="right" class="theme_fcolor">项目类别：</td>
+                <td>{$cate}</td>
+                <td width="19%" align="right" class="theme_fcolor">是否有其他项目：</td>
+                <td>{if $deal_item.has_another_project eq 0}否{else}是{/if}</td>        
+            </tr>
+            <tr>
+                <td align="right" class="theme_fcolor">项目标签：</td>
+                <td>{$deal_item.tags}</td>
+                <td align="right" class="theme_fcolor">项目所属阶段：</td>
+                <td>{if $deal_item.project_step eq 0}尚未启动{/if}{if $deal_item.project_step eq 1}产品开发中{/if}{if $deal_item.project_step eq 2}产品已上市或上线{/if}{if $deal_item.project_step eq 3}已经有收入{/if}{if $deal_item.project_step eq 4}已经盈利{/if}</td>
+            </tr>
+            <tr>
+                <td align="right" class="theme_fcolor">公司是否已经成立：</td>
+                <td>
+                    <span>{if $deal_item.business_is_exist eq 1}是{else}否{/if}</span>
+                </td> 
+                <td align="right" class="theme_fcolor">企业成立时间：</td>
+                <td>{if $deal_item.business_is_exist eq 1}{$deal_item.business_create_time}{else}暂无{/if}</td>
+            </tr>
+            <tr>
+                <td align="right" class="theme_fcolor">企业员工人数：</td>
+                <td>{$deal_item.business_employee_num}</td>
+                <td align="right" class="theme_fcolor">企业所在城市：</td>
+                <td>{$deal_item.city}</td>
+            </tr>
+            <tr>
+                <td align="right" class="theme_fcolor">办公地址：</td>
+                <td colspan="3">{$deal_item.business_address}</td>
+            </tr>
+			<tr>
+                <td align="right" class="theme_fcolor">众筹类型：</td>
+                <td colspan="3">{if $deal_item.stock_type eq 1}股权众筹{elseif $deal_item.stock_type eq 2}债权众筹{elseif $deal_item.stock_type eq 3}股权+债权{else}{/if}</td>
+				
+            </tr>
+			{if $deal_item.stock_type neq 2}
+            <tr>
+                <td align="right"><span class="theme_fcolor">融资金额：</span><br></td>
+                <td >{$deal_item.limit_price}元</td> 
+                <td align="right" class="theme_fcolor">出让股份：</td>
+				<td >{$deal_item.transfer_share}%</td> 	              
+            </tr>
+			{else}
+			 <tr>
+                <td align="right" class="theme_fcolor">融资金额：</td>
+                <td colspan="3">{$deal_item.limit_price}元</td>       
+            </tr>
+			{/if}
+			{if $deal_item.stock_type neq 2}
+			<tr>
+                <td align="right" class="theme_fcolor">分红说明：</td>
+                <td colspan="3" style="line-height:25px;">
+                    {$deal_item.share_fee_descripe}
+                </td>
+            </tr>
+			{/if}
+			<tr>
+                <td align="right" class="theme_fcolor">退出机制：</td>
+                <td colspan="3" style="line-height:25px;">
+                    {$deal_item.exit_mechanism}
+                </td>
+            </tr>
+			{if $deal_item.stock_type neq 1}
+			<tr>
+				<td align="right" class="theme_fcolor">预期年利率：</td>
+                <td>{$deal_item.annual_interest_rate}%</td>
+                <td align="right" class="theme_fcolor">固定回报周期：</td>
+                <td colspan="3">{$deal_item.return_cycle}个月</td>
+				
+            </tr>
+			<tr>
+                <td align="right" class="theme_fcolor">固定回报说明：</td>
+                <td colspan="3" style="line-height:25px;">
+                    {$deal_item.return_descripe}
+                </td>
+            </tr>
+			{/if}
+            <tr>
+                <td align="right" class="theme_fcolor">企业项目简介：</td>
+                <td colspan="3" style="line-height:25px;">
+                    {$deal_item.business_descripe}
+                </td>
+            </tr>
+            <tr>
+                <td align="right" class="theme_fcolor">项目封面：</td>
+                <td colspan="3" style="padding:10px;" class="tc">
+                    <img src="{$deal_item.image}"  width=265 height=200 />
+                </td>
+            </tr>
+			 <tr>
+                <td align="right" class="theme_fcolor">项目图片：</td>
+                <td colspan="3" style="padding:10px;" class="tc">
+					{if $deal_images}
+					{foreach from=$deal_images item=image}
+						<img src="{$image.image}"  width=130 height=130 />
+					{/foreach}
+					{else}
+					暂未上传项目图片
+					{/if}
+                    
+                </td>
+            </tr>
+            <tr>
+                <td align="right" class="theme_fcolor">项目视频：</td>
+                <td colspan="3" align="center" class="theme_fcolor">
+                    <span class="f_ora">
+                    	{if $deal_item.source_vedio }
+							<iframe height=200 width=265 src="{$deal_item.source_vedio}" frameborder=0 allowfullscreen></iframe>
+						{else}暂未上传项目视频！
+						{/if}
+					</span>
+                </td>
+            </tr>
+            {if $deal_item.business_is_exist eq 1}
+            <tr>
+                <td colspan="4" style="padding:10px;" class="theme_fcolor tc">其他资料图片</td>
+            </tr>
+            <tr class="other_pic">
+                <td align="right" class="theme_fcolor">法人代表身份证：</td>
+                <td colspan="3" align="left">
+                {if $audit_data_list.legal_id}
+                    {foreach from=$audit_data_list.legal_id.image item=legal_id key=legal_id_num }
+                        <img id="audit_data_legal_{$legal_id_num}_image" src="{$legal_id}" width=183 />
+                    {/foreach}
+                    {if $audit_data_list.legal_id.status eq 0 and !$audit_data_list.legal_id.image[0]}
+                        <span>未上传图片</span>
+                    {elseif $audit_data_list.legal_id.status eq 0}
+                        <div class="blank10"></div>
+                        <div class="v_status v_on f_l">未审核</div>
+                    {elseif $audit_data_list.legal_id.status eq 1}
+                        <div class="blank10"></div>
+                        <div class="v_status v_ok f_l">审核通过</div>
+                    {else}
+                        <div class="blank10"></div>
+                        <div class="f_l v_status v_none">审核失败</div>
+                        <div class="blank10"></div>
+                        <div class="reason">
+                            <label class="f_l">未通过原因：</label>
+                            <div class="reason_text f_l">{$audit_data_list.legal_id.reason}</div>
+                        </div>
+                    {/if}
+                {/if}
+                </td>
+            </tr>
+            <tr class="other_pic">
+                <td align="right" class="theme_fcolor">法人代表个人信用报告：</td>
+                <td colspan="3" align="left">
+                {if $audit_data_list.legal_credit}
+                    {foreach from=$audit_data_list.legal_credit.image item=legal_credit key=legal_credit_num }
+                        <img id="audit_data_legal_credit_{$legal_credit_num}_image" src="{$legal_credit}" width=183 />
+                    {/foreach}
+                    {if $audit_data_list.legal_credit.status eq 0 and !$audit_data_list.legal_credit.image[0]}
+                        <span>未上传图片</span>
+                    {elseif $audit_data_list.legal_credit.status eq 0}
+                        <div class="blank10"></div>
+                        <div class="v_status v_on f_l">未审核</div>
+                    {elseif $audit_data_list.legal_credit.status eq 1}
+                        <div class="blank10"></div>
+                        <div class="v_status v_ok f_l">审核通过</div>
+                    {else}
+                        <div class="blank10"></div>
+                        <div class="f_l v_status v_none">审核失败</div>
+                        <div class="blank10"></div>
+                        <div class="reason">
+                            <label class="f_l">未通过原因：</label>
+                            <div class="reason_text f_l">{$audit_data_list.legal_credit.reason}</div>
+                        </div>
+                    {/if}
+                {/if}
+                </td>
+            </tr>
+            <tr class="other_pic">
+                <td align="right" class="theme_fcolor">营业执照：</td>
+                <td colspan="3" align="left">
+                {if $audit_data_list.business_license}
+                    {foreach from=$audit_data_list.business_license.image item=business_license key=business_license_num }
+                        <img id="audit_data_business_license_{$business_license_num}_image" src="{$business_license}" width=183 />
+                    {/foreach}
+                    {if $audit_data_list.business_license.status eq 0 and !$audit_data_list.business_license.image[0]}
+                        <span>未上传图片</span>
+                    {elseif $audit_data_list.business_license.status eq 0}
+                        <div class="blank10"></div>
+                        <div class="v_status v_on f_l">未审核</div>
+                    {elseif $audit_data_list.business_license.status eq 1}
+                        <div class="blank10"></div>
+                        <div class="v_status v_ok f_l">审核通过</div>
+                    {else}
+                        <div class="blank10"></div>
+                        <div class="f_l v_status v_none">审核失败</div>
+                        <div class="blank10"></div>
+                        <div class="reason">
+                            <label class="f_l">未通过原因：</label>
+                            <div class="reason_text f_l">{$audit_data_list.business_license.reason}</div>
+                        </div>
+                    {/if}
+                {/if}
+                </td>
+            </tr>
+            <tr class="other_pic">
+                <td align="right" class="theme_fcolor">税务登记证：</td>
+                <td colspan="3" align="left">
+                {if $audit_data_list.tax_registration_certificate}
+                    {foreach from=$audit_data_list.tax_registration_certificate.image item=tax_registration_certificate key=tax_registration_certificate_num }
+                        <img id="audit_data_tax_registration_certificate_{$tax_registration_certificate_num}_image" src="{$tax_registration_certificate}" width=183 />
+                    {/foreach}
+                    {if $audit_data_list.tax_registration_certificate.status eq 0 and !$audit_data_list.tax_registration_certificate.image[0]}
+                        <span>未上传图片</span>
+                    {elseif $audit_data_list.tax_registration_certificate.status eq 0}
+                        <div class="blank10"></div>
+                        <div class="v_status v_on f_l">未审核</div>
+                    {elseif $audit_data_list.tax_registration_certificate.status eq 1}
+                        <div class="blank10"></div>
+                        <div class="v_status v_ok f_l">审核通过</div>
+                    {else}
+                        <div class="blank10"></div>
+                        <div class="f_l v_status v_none">审核失败</div>
+                        <div class="blank10"></div>
+                        <div class="reason">
+                            <label class="f_l">未通过原因：</label>
+                            <div class="reason_text f_l">{$audit_data_list.tax_registration_certificate.reason}</div>
+                        </div>
+                    {/if}
+                {/if}
+                </td>
+            </tr>
+            <tr class="other_pic">
+                <td align="right" class="theme_fcolor">组织机构代码：</td>
+                <td colspan="3" align="left">
+                {if $audit_data_list.organization_code}
+                    {foreach from=$audit_data_list.organization_code.image item=organization_code key=organization_code_num }
+                        <img id="audit_data_organization_code_{$organization_code_num}_image" src="{$organization_code}" width=183 />
+                    {/foreach}
+                    {if $audit_data_list.organization_code.status eq 0 and !$audit_data_list.organization_code.image[0]}
+                        <span>未上传图片</span>
+                    {elseif $audit_data_list.organization_code.status eq 0}
+                        <div class="blank10"></div>
+                        <div class="v_status v_on f_l">未审核</div>
+                    {elseif $audit_data_list.organization_code.status eq 1}
+                        <div class="blank10"></div>
+                        <div class="v_status v_ok f_l">审核通过</div>
+                    {else}
+                        <div class="blank10"></div>
+                        <div class="f_l v_status v_none">审核失败</div>
+                        <div class="blank10"></div>
+                        <div class="reason">
+                            <label class="f_l">未通过原因：</label>
+                            <div class="reason_text f_l">{$audit_data_list.organization_code.reason}</div>
+                        </div>
+                    {/if}
+                {/if}
+                </td>
+            </tr>
+            <tr class="other_pic">
+                <td align="right" class="theme_fcolor">公司照片：</td>
+                <td colspan="3" align="left">
+                {if $audit_data_list.company_photo}
+                    {foreach from=$audit_data_list.company_photo.image item=company_photo key=company_photo_num }
+                        <img id="audit_data_company_photo_{$company_photo_num}_image" src="{$company_photo}" width=183 />
+                    {/foreach}
+                    {if $audit_data_list.company_photo.status eq 0 and !$audit_data_list.company_photo.image[0]}
+                        <span>未上传图片</span>
+                    {elseif $audit_data_list.company_photo.status eq 0}
+                        <div class="blank10"></div>
+                        <div class="v_status v_on f_l">未审核</div>
+                    {elseif $audit_data_list.company_photo.status eq 1}
+                        <div class="blank10"></div>
+                        <div class="v_status v_ok f_l">审核通过</div>
+                    {else}
+                        <div class="blank10"></div>
+                        <div class="f_l v_status v_none">审核失败</div>
+                        <div class="blank10"></div>
+                        <div class="reason">
+                            <label class="f_l">未通过原因：</label>
+                            <div class="reason_text f_l">{$audit_data_list.company_photo.reason}</div>
+                        </div>
+                    {/if}
+                {/if}
+                </td>
+            </tr>
+            <tr class="other_pic">
+                <td align="right" class="theme_fcolor">场地租赁合同：</td>
+                <td colspan="3" align="left">
+                {if $audit_data_list.site_contract}
+                    {foreach from=$audit_data_list.site_contract.image item=site_contract key=site_contract_num }
+                        <img id="audit_data_site_contract_{$site_contract_num}_image" src="{$site_contract}" width=183 />
+                    {/foreach}
+                    {if $audit_data_list.site_contract.status eq 0 and !$audit_data_list.site_contract.image[0]}
+                        <span>未上传图片</span>
+                    {elseif $audit_data_list.site_contract.status eq 0}
+                        <div class="blank10"></div>
+                        <div class="v_status v_on f_l">未审核</div>
+                    {elseif $audit_data_list.site_contract.status eq 1}
+                        <div class="blank10"></div>
+                        <div class="v_status v_ok f_l">审核通过</div>
+                    {else}
+                        <div class="blank10"></div>
+                        <div class="f_l v_status v_none">审核失败</div>
+                        <div class="blank10"></div>
+                        <div class="reason">
+                            <label class="f_l">未通过原因：</label>
+                            <div class="reason_text f_l">{$audit_data_list.site_contract.reason}</div>
+                        </div>
+                    {/if}
+               
+                {/if}
+                </td>
+            </tr>
+            {/if}
+        </tbody>
+        </table>
+	</div>
+    <div class="slideTxtBox">
+        <div class="tab_title effect_hd">
+            <ul>
+                <li class="on">商业模式</li>
+                <li>创业团队</li>
+                <li>历史情况</li>
+                <li>未来计划</li>
+                <li>项目附件</li>
+            </ul>
+        </div>
+        <div class="effect_bd">
+             <!-- 市场定位与商业模式 开始 -->
+            <div class="con3" id="pro_con_1" style="display:block;">
+                <div class="blank20"></div>
+                <div class="t_r f_r">
+                    <a href="{url r="project#investor_two" p="id=$id"}" title="编辑" class="pro_edit">编辑</a> 
+                </div>
+                <div class="blank0"></div>
+                <div class="tit f18 theme_fcolor">
+                    <i></i>
+                    <div class="tit_bg"></div>
+                    <div class="tit_text theme_fcolor">
+                        <span class="num">1</span>目标用户或客户群体定位
+                    </div>
+                </div>
+                <div class="text">{$deal_item.description_2}</div>
+                <div class="tit f18 theme_fcolor">
+                    <i></i>
+                    <div class="tit_bg"></div>
+                    <div class="tit_text theme_fcolor">
+                        <span class="num">2</span>目标用户或客户群体目前困扰或需求定位
+                    </div>
+                </div>
+                <div class="text">{$deal_item.description_3}</div>
+                <div class="tit f18 theme_fcolor">
+                    <i></i>
+                    <div class="tit_bg"></div>
+                    <div class="tit_text theme_fcolor">
+                        <span class="num">3</span>满足目标用户或客户需求的产品或服务模式说明
+                    </div>
+                </div>
+                <div class="text"> {$deal_item.description_4} </div>
+                <div class="tit f18 theme_fcolor">
+                    <i></i>
+                    <div class="tit_bg"></div>
+                    <div class="tit_text theme_fcolor">
+                        <span class="num">4</span>项目赢利模式说明
+                    </div>
+                </div>
+                <div class="text">{$deal_item.description_5}</div>
+                <div class="tit f18 theme_fcolor">
+                    <i></i>
+                    <div class="tit_bg"></div>
+                    <div class="tit_text theme_fcolor">
+                        <span class="num">5</span>市场主要同行或竞争对手概述
+                    </div>
+                </div>
+                <div class="text">{$deal_item.description_6}</div>
+                <div class="tit f18 theme_fcolor">
+                    <i></i>
+                    <div class="tit_bg"></div>
+                    <div class="tit_text theme_fcolor">
+                        <span class="num">6</span>项目主要核心竞争力说明
+                    </div>
+                </div>
+                <div class="text">{$deal_item.description_7}</div>                       
+            </div>
+            <!-- 市场定位与商业模式 结束 -->
+            
+            <!-- 股东及管理团队 开始 -->
+            <div class="con3" id="pro_con_2" style="display:none;">
+                <div class="blank20"></div>
+                <div class="t_r f_r">
+                    <a href="{url r="project#investor_three" p="id=$id"}" title="编辑" class="pro_edit">编辑</a> 
+                </div>
+                <div class="blank0"></div>
+                <div class="tit f18 theme_fcolor">
+                    <i></i>
+                    <div class="tit_bg"></div>
+                    <div class="tit_text theme_fcolor">
+                        <span class="num">1</span>股东团队说明
+                    </div>
+                </div>
+                <div class="text">
+                {if $stock_list}
+                    <table border="0" cellspacing="0" cellpadding="0" class="tab2" style="width:100%">
+                    <tbody>
+                        <tr class="col">
+                            <td>姓名</td>
+                            <td>职务</td>
+                            <td>所占股份(%)</td>
+                            <td>是否全职</td>
+                            <td>实际出资金额（元）</td>
+                            <td>与其他股东历史关系描述</td>
+                        </tr>
+                        {foreach from=$stock_list item=stock_item key=k1}
+                        <tr>
+                            <td>{$stock_item.name}</td>
+                            <td>{$stock_item.job}</td>
+                            <td>{$stock_item.share}</td>
+                            <td>{$stock_item.is_full_time}</td>
+                            <td>{$stock_item.invest_money}</td>
+                            <td>{$stock_item.relation}</td>
+                        </tr>
+                        {/foreach}      
+                    </tbody>
+                    </table>
+                    {foreach from=$stock_list item=stock_item key=k1}
+                    <div class="name">▍股东团队成员{$stock_item.name}简介：</div>
+                    <div class="sub"> {$stock_item.describe} </div>
+                    {/foreach}
+                {/if}
+                {if !$stock_list}
+                    暂无股东团队说明
+                {/if}    
+                </div>
+                <div class="blank15"></div>
+                <div class="tit f18 theme_fcolor">
+                    <i></i>
+                    <div class="tit_bg"></div>
+                    <div class="tit_text theme_fcolor">
+                        <span class="num">2</span>非股东管理团队
+                    </div>
+                </div>
+                <div class="text">
+                {if $unstock_list}
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab2">
+                    <tbody>
+                        <tr class="col">
+                            <td>姓名</td>
+                            <td>职务</td>
+                            <td>是否全职</td>                      
+                            <td>与创始团队成员历史关系</td>
+                        </tr>
+                        {foreach from=$unstock_list item=unstock_item}
+                        <tr>
+                            <td>{$unstock_item.name}</td>
+                            <td>{$unstock_item.job}</td>
+                            <td>{$unstock_item.is_full_time}</td>
+                            <td>{$unstock_item.relation}</td>                           
+                        </tr> 
+                        {/foreach}  
+                    </tbody>
+                    </table>   
+                    {foreach from=$unstock_list item=unstock_item }
+                    <div class="name">▍非股东团队成员{$unstock_item.name}简介：</div>
+                    <div class="sub"> {$unstock_item.describe} </div>
+                    {/foreach}
+                {/if}
+                {if !$unstock_list} 
+                    暂无非股东管理团队
+                {/if}                     
+                </div>                                    
+            </div>
+            <!-- 股东及管理团队 结束 -->
+
+            <!-- 历史执行情况/在营店 开始 -->
+            <div class="con3" id="pro_con_3" style="display:none;">
+                <div class="blank20"></div>
+                <div class="t_r f_r">
+                    <a href="{url r="project#investor_four" p="id=$id"}" title="编辑" class="pro_edit">编辑</a>
+                </div>
+                <div class="blank0"></div>
+				    {foreach from=$history_list item=history_item key=history_key_num}
+					<?php $this->_var['history_key_num']++; ?>     
+                    <div class="tit f18 theme_fcolor">
+                        <i></i>
+                        <div class="tit_bg"></div>
+                        <div class="tit_text theme_fcolor">
+                            <span class="num">{$history_key_num}</span>第<span class="daxie">{$history_key_num}</span>阶段
+                        </div>
+                    </div>
+	                <div class="text">
+                        <ul>
+                            <li>
+                                <span class="theme_fcolor">1、阶段名称：</span>{$history_item.info.name}
+                            </li>
+                            <li>
+                                <span class="theme_fcolor">2、起止时间：</span>{$history_item.info.begin_time}&nbsp;&nbsp;至&nbsp;&nbsp;{$history_item.info.end_time}
+                            </li>
+                            <li>
+                                <span class="theme_fcolor">3、阶段达成目标描述：</span>
+                                {if $history_item.info.describe}
+                                <div class="pl20">{$history_item.info.describe}</div>
+                                {else}无{/if}
+                            </li>
+                            <li>
+                                <span class="theme_fcolor">4、完成阶段目标的主要措施、方法、手段：</span>
+                                {if $history_item.info.do_describe}
+                                <div class="pl20">{$history_item.info.do_describe}</div>
+                                {else}无{/if}
+                            </li>
+                            <li>
+                                <span class="theme_fcolor">5、阶段收入：</span>
+                                {if $history_item.info.is_income eq 1}
+                                    <table border="0" cellspacing="0" cellpadding="0" class="tab2">
+                                    <tbody>
+                                        <tr class="col">
+                                            <td width="30%">收入类别</td>
+                                            <td width="20%" class="t_r">收入金额（元）</td>
+                                            <td>备注</td>
+                                        </tr>                        
+                                        {foreach from=$history_item.income item=income}
+                                        <tr>
+                                            <td>{$income.type}</td>
+                                            <td>{$income.money}</td>
+                                            <td>{$income.memo}</td>
+                                        </tr>
+                                        {/foreach}
+                                        <tr>
+                                            <td>合计</td>
+                                            <td class="t_r">{$history_item.info.item_income}</td>
+                                            <td></td>                                   
+                                        </tr>
+                                    </tbody>
+                                    </table>
+                                    <div class="blank0"></div>
+                                {else}无{/if}
+                            </li>
+                            <li>
+                                <span class="theme_fcolor">6、阶段开支：</span>
+                                {if $history_item.info.is_out eq 1}
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab2" >
+                                    <tbody>
+                                        <tr class="col">
+                                            <td width="30%">费用类别</td>
+                                            <td width="20%" class="t_r">开支金额（元）</td>
+                                            <td>备注</td>
+                                        </tr>
+                                        {foreach from=$history_item.out item=out key=out_key_num}
+                                        <tr>
+                                            <td>{$out.type}</td>
+                                            <td>{$out.money}</td>
+                                            <td>{$out.memo}</td>
+                                        </tr>
+                                        {/foreach}
+                                        <tr>
+                                            <td>合计</td>
+                                            <td class="t_r">{$history_item.info.item_out}</td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                    </table>
+                                {else}无{/if}
+                            </li>
+                        </ul>
+	                </div> 
+				    {/foreach}
+                    <div class="blank10"></div>
+	                <div class="con26">
+	                    <span class="theme_fcolor f_15 f_b">累计盈亏：</span>
+	                    （累计盈亏未计算筹备开支/ 单位：元）
+	                </div>
+	                <table border="0" cellspacing="0" cellpadding="0" class="tab2" style="width:100%">
+	                <tbody>
+	                    <tr class="col f_b">
+	                        <td width="30%">累计收入金额（元）</td>
+	                        <td width="30%">累计开支金额（元）</td>
+	                        <td>累计盈亏金额（元）</td>
+	                    </tr>
+	                    <tr class="theme_fcolor">
+	                        <td>{$total_history_income}</td>
+	                        <td>{$total_history_out}</td>
+	                        <td class="f_red">{$total_history}</td>
+	                    </tr>
+	                </tbody>
+	                </table>
+            </div>
+            <!-- 历史执行情况/在营店 结束 -->
+
+            <!-- 未来三年内计划 开始 -->
+            <div class="con3" id="pro_con_4" style="display:none;">
+                <div class="blank20"></div>
+                <div class="t_r f_r">
+                    <a href="{url r="project#investor_five" p="id=$id"}" title="编辑" class="pro_edit">编辑</a> 
+                </div>
+                <div class="blank0"></div>
+				{foreach from=$plan_list item=plan_item key=plan_key_num}
+				<?php $this->_var['plan_key_num']++; ?>    
+                <div class="tit f18 theme_fcolor">
+                    <i></i>
+                    <div class="tit_bg"></div>
+                    <div class="tit_text theme_fcolor">
+                        <span class="num">{$plan_key_num}</span>第<span class="daxie">{$plan_key_num}</span>阶段
+                    </div>
+                </div>
+                <div class="text">
+                    <ul>
+                        <li>
+                            <span class="theme_fcolor">1、阶段名称：</span>{$plan_item.info.name}
+                        </li>
+                        <li>
+                            <span class="theme_fcolor">2、起止时间：</span>{$plan_item.info.begin_time}&nbsp;&nbsp;至&nbsp;&nbsp;{$plan_item.info.end_time}
+                        </li>
+                        <li>
+                            <span class="theme_fcolor">3、阶段达成目标描述：</span>
+                            {if $plan_item.info.describe}
+                            <div class="pl20">{$plan_item.info.describe}</div>
+                            {else}无{/if}
+                        </li>
+                        <li>
+                            <span class="theme_fcolor">4、完成阶段目标的主要措施、方法、手段：</span>
+                            {if $plan_item.info.do_describe}
+                            <div class="pl20">{$plan_item.info.do_describe}</div>
+                            {else}无{/if}
+                        </li>
+                        <li>
+                            <span class="theme_fcolor">5、阶段收入：</span>
+                            {if $plan_item.info.is_income eq 1}
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab2">
+                                <tbody>
+                                    <tr class="col">
+                                        <td width="30%">收入类别</td>
+                                        <td width="20%" class="t_r">收入金额（元）</td>
+                                        <td>备注</td>
+                                    </tr>
+                                    {foreach from=$plan_item.income item=income}
+                                    <tr>
+                                        <td>{$income.type}</td>
+                                        <td class="t_r">{$income.money}</td>
+                                        <td>{$income.memo}</td>
+                                    </tr>
+                                    {/foreach}
+                                    <tr>
+                                        <td>合计</td>
+                                        <td class="t_r">{$plan_item.info.item_income}</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                </tbody>
+                                </table>
+                                <div class="blank0"></div>
+                            {else}无{/if}
+                        </li>
+                        <li>
+                            <span class="theme_fcolor">6、阶段开支：</span>
+                            {if $plan_item.info.is_out eq 1}
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab2">
+                                <tbody>
+                                    <tr class="col">
+                                        <td width="30%">费用类别</td>
+                                        <td width="20%" class="t_r">开支金额（元）</td>
+                                        <td>备注</td>
+                                    </tr>
+                                    {foreach from=$plan_item.out item=out key=out_key_num}
+                                        <tr>
+                                            <td>{$out.type}</td>
+                                            <td class="t_r">{$out.money}</td>
+                                            <td>{$out.memo}</td>
+                                        </tr>
+                                    {/foreach}
+                                    <tr>
+                                        <td>合计</td>
+                                        <td class="t_r">{$plan_item.info.item_out}</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                </tbody>
+                                </table>
+                                <div class="blank0"></div>
+                            {else}无{/if}
+                        </li>
+                    </ul>
+                </div>
+				{/foreach}
+                <div class="con26">
+                    <span class="theme_fcolor f_15 f_b">累计盈亏：</span>
+                    （累计盈亏未计算筹备开支/ 单位：元）
+                </div>
+                <table border="0" cellspacing="0" cellpadding="0" class="tab2" style="width:100%">
+                <tbody>
+                    <tr class="col f_b">
+                        <td width="30%">累计收入金额（元）</td>
+                        <td width="30%">累计开支金额（元）</td>
+                        <td>累计盈亏金额（元）</td>
+                    </tr>
+                    <tr class="theme_fcolor">
+                        <td>{$total_plan_income}</td>
+                        <td>{$total_plan_out}</td>
+                        <td class="f_red">{$total_plan}</td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+            <!-- 未来三年内计划 结束 -->
+
+            <!-- 项目附件 开始 -->
+            <div class="con3" id="pro_con_5" style="display:none;">
+                <div class="blank20"></div>
+                <div class="t_r f_r">
+                    <a href="{url r="project#investor_six" p="id=$id"}" title="编辑" class="pro_edit">编辑</a> 
+                </div>
+                <div class="blank20"></div>
+				{foreach from=$attach_list item=attach_item }
+                <div class="text_accessory">
+                	<a href="{$APP_ROOT}/index.php?ctl=project&act=downfile&file={$attach_item.file}" target="_blank" id="text_accessory">	
+                    <!--<a href="{$attach_item.file}" target="_blank" id="text_accessory">-->
+                        <div class="accessory_icon"></div>
+                        <span>{$attach_item.title}</span>
+						
+                    </a>
+                </div>
+                {/foreach}
+            </div>
+			
+            <script type="text/javascript">
+                $("#text_accessory[href$='.txt']").find(".accessory_icon").addClass("accessory_t");
+                $("#text_accessory[href$='.doc']").find(".accessory_icon").addClass("accessory_w");
+                $("#text_accessory[href$='.docx']").find(".accessory_icon").addClass("accessory_w");
+                $("#text_accessory[href$='.rar']").find(".accessory_icon").addClass("accessory_r");
+                $("#text_accessory[href$='.zip']").find(".accessory_icon").addClass("accessory_r");
+                $("#text_accessory[href$='.xls']").find(".accessory_icon").addClass("accessory_x");
+                $("#text_accessory[href$='.xlsx']").find(".accessory_icon").addClass("accessory_x");
+                $("#text_accessory[href$='.ppt']").find(".accessory_icon").addClass("accessory_p");
+            </script>
+            <!-- 项目附件 结束 -->
+        </div>  
+    </div>
+    <div class="blank20"></div>
+    <div class="button_row tc">
+        <input type="button" value="完善资料并提交审核" name="submit_form" class="ui-center-button theme_bgcolor" id="ui-button" style="*margin-left:380px" url="{url r="project#submit_investor" p="id=$deal_item.id"}" jump="{if $deal_item.type eq 1}{url r="account#project_invest"}{/if}{if $deal_item.type eq 4}{url r="account#project_finance"}{/if}"/>
+        <input type="hidden" value="1" name="ajax" />
+    </div>
+</div>
+<div class="blank20"></div>
+<script type="text/javascript">
+    jQuery(".slideTxtBox").slide({trigger:"click",delayTime:500});
+	
+	$(function(){
+		bind_submit_investor();
+
+        // //重置大图片
+        // $(".effect_bd").find("img").each(function(){
+        //     if($(this).width() > 918){
+        //         $(this).css("width","100%");
+        //     }
+        // });
+        // $(".effect_hd").find("li").each(function(i){
+        //     $(this).bind('click',function(){
+        //         $(".effect_bd .con3").eq(i).find("img").each(function(){
+        //             if($(this).width() > 918){
+        //                 $(this).css("width","100%");
+        //             }
+        //         });
+        //     });
+        // });
+	});
+	function get_invest_phase(invest_phase){
+		var invest_phase_str='';
+		if(invest_phase==0){invest_phase_str="天使轮";}
+		
+		return invest_phase_str;
+	}
+	function bind_submit_investor()
+	{
+		$("#ui-button").bind("click",function(){
+			var ajaxurl = $(this).attr("url");
+			var jump = $(this).attr("jump");
+			$.ajax({ 
+					url: ajaxurl,
+					dataType: "json",
+					type: "POST",
+					success: function(ajaxobj){
+						if(ajaxobj.status)
+						{
+							$.showSuccess(ajaxobj.info,function(){
+								 location.href = jump;
+							});
+						}
+						else
+						{
+							if(ajaxobj.jump!="")
+								location.href = ajaxobj.jump;
+							else
+							$.showErr(ajaxobj.info);
+						}
+					},
+					error:function(ajaxobj)
+					{
+	
+					}
+				});
+		});
+	}
+</script>
+{include file="inc/footer.html"}

@@ -1,0 +1,102 @@
+{foreach from=$deal_list item=deal_item key=key name="deal_items"}
+	<div class="deal_item_box f_l {if $smarty.foreach.deal_items.iteration mod 4 eq 1}first{/if}">
+    <!--1-->
+			<div class="deal_content_box">
+			<a href="{url r="deal#show" p="id=$deal_item.id"}" title="{$deal_item.name}">
+				<img src="{if $deal_item.image eq ''}{$TMPL}/images/empty_thumb.gif{else}{function name="get_spec_image" v=$deal_item.image w="205" h="160" g="1"}{/if}" alt="{$deal_item.name}" alt="{$deal_item.name}">
+			</a>
+			<div class="blank"></div>
+            <div class="blank"></div>
+            <div class="blank"></div>
+			<a href="{url r="deal#show" p="id=$deal_item.id"}" title="{$deal_item.name}" class="deal_title">{function name="msubstr" v=$deal_item.name b=0 e=25}</a>
+			<div class="blank"></div>
+			</div>
+            <!--2-->
+            <div class="paiduan" style="height:30px;padding:10px 15px 0 15px ;line-height: 20px;color: #A4A4A4;">
+            	<span class="caption-title">目标：<em>{$deal_item.num_days}天</em> <em><i class="font-yen">¥</i>{function name="round" v=$deal_item.limit_price e=2}</em></span>
+					<span class="f_r ">
+						{if $deal_item.begin_time > $now}
+							<span class="common-begin">即将开始</span>
+						
+						{elseif $deal_item.end_time < $now and $deal_item.end_time neq 0}
+							 <span  {if $deal_item.percent gte 100}class="common-success"{else}class="common-fail"{/if}>
+                                {if $deal_item.percent gte 100}已成功
+								{else $deal_item.percent gt 0}筹资失败
+								{/if}
+                            </span> 	 
+						{else}
+								<span class="common-sprite">
+									{if $deal_item.end_time eq 0}
+										长期项目
+									{else}
+										筹资中
+									{/if}
+								</span>
+						{/if}
+					</span>
+            </div>
+
+             <!--3-->
+             <div class="deal_content_box" style="padding:0 15px 0 15px; ">             
+				 {if $deal_item.begin_time > $now}
+					<div class="ui-progress">
+						<span style="width:{$deal_item.percent}%;background: #ffae00;"></span>
+					</div>
+				{elseif $deal_item.end_time < $now and $deal_item.end_time neq 0}
+	                {if $deal_item.percent gte 100}				
+						<div class="ui-success">
+							<span style="width:{$deal_item.percent}%;"></span>
+						</div>
+					{else $deal_item.percent gt 0}
+						<div class="ui-progress">
+							<span style="width:{$deal_item.percent}%;background: #4d4d4f;"></span>
+						</div>
+					{/if}
+				{else}
+					{if $deal_item.end_time eq 0}
+						<div class="ui-progress">
+							<span style="width:{$deal_item.percent}%;"></span>
+						</div>
+					{else}
+						<div class="ui-progress">
+							<span style="width:{$deal_item.percent}%;"></span>
+						</div>
+					{/if}
+				
+				{/if}
+				<div class="blank"></div>
+				<div class="div3" style="text-align:left;"><span class="num">{$deal_item.percent}%</span><span class="til">已达</span></div>
+				<div class="div3"><span class="num"><font>{function name="round" v=$deal_item.support_amount e=2}</font>元</span><span class="til">已筹资</span></div>
+				<div class="div3" style="text-align:right;">
+					{if $deal_item.begin_time > $now}
+						<span class="num"><font>{$deal_item.left_days}</font>天</span>
+					{elseif $deal_item.end_time < $now and $deal_item.end_time neq 0}
+						<span class="num">{if $deal_item.percent gt 100}{function name="to_date" v="$deal_item.success_time" f="y/m/d"}{else}{function name="to_date" v="$deal_item.end_time" f="y/m/d"}{/if}</span>
+					{else}
+						<span class="num">
+							{if $deal_item.end_time eq 0}
+							长期项目
+							{else}
+							<font>{$deal_item.remain_days}</font>天
+							{/if}
+						</span>
+					{/if}	
+					<span class="til">
+						{if $deal_item.begin_time > $now}
+							已经预热
+						{elseif ($deal_item.end_time < $now and $deal_item.end_time neq 0) }
+							结束时间
+						{else}
+							{if $deal_item.end_time eq 0}
+								长期项目
+							{else}
+								剩余时间
+							{/if}
+						{/if}
+					</span>				
+                		
+				</div>
+				<div class="blank1"></div>
+			</div>
+	</div>
+{/foreach}

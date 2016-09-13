@@ -1,0 +1,427 @@
+{include file="inc/header.html"}
+<script type="text/javascript" src="{$TMPL}/js/jquery.SuperSlide.2.1.js"></script>
+<script type='text/javascript' src='{$APP_ROOT}/admin/public/kindeditor/kindeditor.js'></script>
+<script type='text/javascript' src='{$TMPL}/js/jQuery-jcDate.js'></script>
+<link rel="stylesheet" type="text/css" href="{$TMPL}/css/jcDate.css">
+<div class="blank20"></div>
+<div class="mod_box project_edit project_agencyAdd_stepseven">
+	<div class="con_tit theme_fcolor f_20">
+        项目资料编辑
+        <a href="" class="ui-button theme_bgcolor f14 f_r f_red" style="height:24px;line-height:24px;padding:0 5px;">项目商业计划书撰写指南（创业者融资必看）>></a>
+    </div>
+	<div class="con3">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab4" style="margin-bottom:20px;">
+        <tbody>
+            <tr>
+                <td colspan="4" class="t_r">
+                    <div class="t_r f_r">
+                        <a href="" title="编辑" class="pro_edit">编辑</a> 
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td align="right" class="theme_fcolor">项目名称：</td>
+                <td colspan="3">
+                    <div class="f_l f_red">asdasd</div>
+                    <div class="f_l v_status v_on">审核中</div>
+                    <!-- 
+                    <div class="f_l v_status v_on">审核中</div>
+                    <div class="f_l v_status v_none">审核失败</div>
+                    <div class="f_l v_status v_ok">审核通过</div>
+                    -->
+                </td>
+            </tr>
+            <tr>
+                <td align="right" class="theme_fcolor">创业者：</td>
+                <td colspan="3">
+                    <span class="user_man">wjb111</span>
+                    &nbsp;&nbsp;个人公司
+                </td>
+            </tr>
+            <tr>
+                <td align="right" class="theme_fcolor">项目资料查看权限：</td>
+                <td colspan="3">所有登陆用户可看</td>
+            </tr>
+            <tr>
+                <td align="right" class="theme_fcolor">项目类别：</td>
+                <td>科技创新项目</td>
+                <td align="right" class="theme_fcolor">是否有其他项目：</td>
+                <td>没有</td>        
+            </tr>
+            <tr>
+                <td width="19%" align="right" class="theme_fcolor">项目所属行业：</td>
+                <td width="31%">PC互联网</td>
+                <td width="15%" align="right" class="theme_fcolor">项目标签：</td>
+                <td width="35%">互联网</td>
+            </tr>
+            <tr>
+                <td align="right" class="theme_fcolor">项目所属阶段：</td>
+                <td>产品开发中</td>
+                <td align="right" class="theme_fcolor">企业成立时间：</td>
+                <td>1990年1月</td>
+            </tr>
+            <tr>
+                <td align="right" class="theme_fcolor">企业员工人数：</td>
+                <td>10人</td>
+                <td align="right" class="theme_fcolor">企业所在城市：</td>
+                <td>泉州市</td>
+            </tr>
+            <tr>
+                <td align="right" class="theme_fcolor">办公地址：</td>
+                <td colspan="3">阳光路111号</td>
+            </tr>
+            <tr>
+                <td align="right"><span class="theme_fcolor">融资金额￥：</span><br></td>
+                <td colspan="3">10万</td> 
+                <!--  
+                <td align="right" class="theme_fcolor">出让股份：</td>
+                <td>%</td>
+                -->
+            </tr>
+            <tr>
+                <td align="right" class="theme_fcolor">已认投金额￥：</td>
+                <td>0万</td>
+                <td align="right" class="theme_fcolor">领投金额￥：</td>
+                <td>0万</td>
+            </tr>
+            <tr>
+                <td align="right" class="theme_fcolor">跟投金额￥：</td>
+                <td>0万</td>
+                <td align="right" class="theme_fcolor">认投完成率：</td>
+                <td>0%</td>
+            </tr>
+            <tr>
+                <td align="right" class="theme_fcolor">投资款拨付方式：</td>
+                <td colspan="3">每季度一次，每次25%</td>
+            </tr>
+            <tr>
+                <td align="right" class="theme_fcolor">最低投资金额：</td>
+                <td colspan="3">
+                    最低领投金额&nbsp;<span class="f_ora">1</span>万元，最低跟投金额&nbsp;<span class="f_ora">1</span>万元
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" style="line-height:25px; padding:10px 20px;">
+                    <span class="theme_fcolor">企业项目简介：</span>随便的。
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" align="center" class="theme_fcolor">
+                    <span class="f_ora">暂未上传项目视频！</span>&nbsp;&nbsp;&nbsp;
+                    <span class="f_ora">项目审核完成前不能添加视频！</span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" style="padding:10px;">
+                    <img src="{$TMPL}/images/images/t1.png" />
+                </td>
+            </tr>
+        </tbody>
+        </table>
+	</div>
+    <div class="slideTxtBox">
+        <div class="tab_title effect_hd">
+            <ul>
+                <li class="on">商业模式</li>
+                <li>创业团队</li>
+                <li>历史情况</li>
+                <li>未来计划</li>
+                <li>项目附件</li>
+                <li>项目动态</li>
+            </ul>
+        </div>
+        <div class="effect_bd">
+             <!-- 市场定位与商业模式 开始 -->
+            <div class="con3" id="pro_con_1" style="display:block;">
+                <div class="blank20"></div>
+                <div class="t_r f_r">
+                    <a href="" title="编辑" class="pro_edit">编辑</a> 
+                </div>
+                <div class="blank0"></div>
+                <div class="tit f18 theme_fcolor">
+                    <span class="num">1</span>目标用户或客户群体定位
+                </div>
+                <div class="text">测试随便写</div>
+                <div class="tit f18 theme_fcolor">
+                    <span class="num">2</span>目标用户或客户群体目前困扰或需求定位
+                </div>
+                <div class="text">测试随便写</div>
+                <div class="tit f18 theme_fcolor">
+                    <span class="num">3</span>满足目标用户或客户需求的产品或服务模式说明
+                </div>
+                <div class="text"> 测试随便写 </div>
+                <div class="tit f18 theme_fcolor">
+                    <span class="num">4</span>项目赢利模式说明
+                </div>
+                <div class="text">测试随便写</div>
+                <div class="tit f18 theme_fcolor">
+                    <span class="num">5</span>市场主要同行或竞争对手概述
+                </div>
+                <div class="text">测试随便写</div>
+                <div class="tit f18 theme_fcolor">
+                    <span class="num">6</span>项目主要核心竞争力说明
+                </div>
+                <div class="text">测试随便写</div>                       
+            </div>
+            <!-- 市场定位与商业模式 结束 -->
+            
+            <!-- 股东及管理团队 开始 -->
+            <div class="con3" id="pro_con_2" style="display:none;">
+                <div class="blank20"></div>
+                <div class="t_r f_r">
+                    <a href="" title="编辑" class="pro_edit">编辑</a> 
+                </div>
+                <div class="blank0"></div>
+                <div class="tit f18 theme_fcolor">
+                    <span class="num">1</span>股东团队说明
+                </div>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab2">
+                <tbody>
+                    <tr class="col">
+                        <td>姓名</td>
+                        <td>职务</td>
+                        <td>所占股份(%)</td>
+                        <td>是否全职</td>
+                        <td>实际出资金额(万)</td>
+                        <td>与其他股东历史关系描述</td>
+                    </tr>
+                    <tr>
+                        <td>李某某</td>
+                        <td>销售</td>
+                        <td>100</td>
+                        <td>是</td>
+                        <td>10</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+                </table>
+                <div class="name">▍股东团队成员李某某简介：</div>
+                <div class="sub"> 都是哥们啦 </div>
+                <div class="tit f18 theme_fcolor">
+                    <span class="num">2</span>非股东管理团队
+                </div>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab2">
+                <tbody>
+                    <tr class="col">
+                        <td>姓名</td>
+                        <td>职务</td>
+                        <td>是否全职</td>
+                        <td>入职时间</td>
+                        <td>与创始团队成员历史关系</td>
+                    </tr>
+                    <tr>
+                        <td>王某某</td>
+                        <td>销售</td>
+                        <td>是</td>
+                        <td>2014.5.1</td>
+                        <td></td>
+                    </tr>   
+                </tbody>
+                </table>                                                           
+            </div>
+            <!-- 股东及管理团队 结束 -->
+
+            <!-- 历史执行情况/在营店 开始 -->
+            <div class="con3" id="pro_con_3" style="display:none;">
+                <div class="blank20"></div>
+                <div class="t_r f_r">
+                    <a href="" title="编辑" class="pro_edit">编辑</a> 
+                </div>
+                <div class="blank0"></div>      
+                <div class="tit f18 theme_fcolor">
+                    <span class="num">1</span>第一阶段
+                </div>
+                <div class="text">
+                    <span class="theme_fcolor">1、阶段名称：</span>项目成立啦<br>
+                    <span class="theme_fcolor">2、起止时间：</span>2014年02月--2014年04月<br>
+                    <span class="theme_fcolor">3、阶段达成目标描述：</span><br>
+                    项目成立啦 <br>
+                    <span class="theme_fcolor">4、完成阶段目标的主要措施、方法、手段：</span><br>
+                    一起努力咯 <br>
+                    <span class="theme_fcolor">5、阶段收入： &nbsp;&nbsp;无</span><br>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab2" style="display:none">
+                    <tbody>
+                        <tr class="col">
+                            <td width="30%">收入类别</td>
+                            <td width="20%" class="t_r">收入金额￥</td>
+                            <td>备注</td>
+                        </tr>                        
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>合计</td>
+                            <td class="t_r">0</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </tbody>
+                    </table>
+                    <span class="theme_fcolor">6、阶段开支： &nbsp;&nbsp;无</span><br>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab2" style="display:none">
+                    <tbody>
+                        <tr class="col">
+                            <td width="30%">费用类别</td>
+                            <td width="20%" class="t_r">开支金额￥</td>
+                            <td>备注</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>合计</td>
+                            <td class="t_r">0</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </tbody>
+                    </table>
+                </div> 
+                <div class="con26">
+                    <span class="theme_fcolor f_15 f_b">累计盈亏：</span>
+                    （累计盈亏未计算筹备开支/ 单位：元）
+                </div>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab2">
+                <tbody>
+                    <tr class="col f_b">
+                        <td width="30%">累计收入金额￥</td>
+                        <td width="30%">累计开支金额￥</td>
+                        <td>累计盈亏金额￥</td>
+                    </tr>
+                    <tr class="theme_fcolor">
+                        <td>40,000</td>
+                        <td>10,000</td>
+                        <td class="f_ora">
+                            <span class="c_green"> 30,000 </span>
+                        </td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+            <!-- 历史执行情况/在营店 结束 -->
+
+            <!-- 未来三年内计划 开始 -->
+            <div class="con3" id="pro_con_4" style="display:none;">
+                <div class="blank20"></div>
+                <div class="t_r f_r">
+                    <a href="" title="编辑" class="pro_edit">编辑</a> 
+                </div>
+                <div class="blank0"></div>
+                <div class="tit f18 theme_fcolor">
+                    <span class="num">1</span>第一阶段
+                </div>
+                <div class="text">
+                    <span class="theme_fcolor">1、阶段名称：</span>项目初效<br>
+                    <span class="theme_fcolor">2、起止时间：</span>2015年01月--2015年04月<br>
+                    <span class="theme_fcolor">3、阶段达成目标描述：</span><br>
+                    项目初效<br>
+                    <span class="theme_fcolor">4、完成阶段目标的主要措施、方法、手段：</span><br>
+                    一起努力<br>
+                    <span class="theme_fcolor">5、阶段收入：</span><br>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab2">
+                        <tbody>
+                            <tr class="col">
+                                <td width="30%">收入类别</td>
+                                <td width="20%" class="t_r">收入金额￥</td>
+                                <td>备注</td>
+                            </tr>
+                            <tr>
+                                <td>项目收益</td>
+                                <td class="t_r">2,000,000</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>合计</td>
+                                <td class="t_r">2,000,000</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <span class="theme_fcolor">6、阶段开支：</span><br>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab2">
+                    <tbody>
+                        <tr class="col">
+                            <td width="30%">费用类别</td>
+                            <td width="20%" class="t_r">开支金额￥</td>
+                            <td>备注</td>
+                        </tr>
+                        <tr>
+                            <td>员工工资</td>
+                            <td class="t_r">100,000</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>合计</td>
+                            <td class="t_r">100,000</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </tbody>
+                    </table>
+                </div>
+                <div class="con26">
+                    <span class="theme_fcolor f_15 f_b">累计盈亏：</span>
+                    （累计盈亏未计算筹备开支/ 单位：元）
+                </div>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab2">
+                <tbody>
+                    <tr class="col f_b">
+                        <td width="30%">累计收入金额￥</td>
+                        <td width="30%">累计开支金额￥</td>
+                        <td>累计盈亏金额￥</td>
+                    </tr>
+                    <tr class="theme_fcolor">
+                        <td>7,000,000</td>
+                        <td>400,000</td>
+                        <td class="f_ora">
+                            <span class="f_green">6,600,000</span>
+                        </td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+            <!-- 未来三年内计划 结束 -->
+
+            <!-- 项目附件 开始 -->
+            <div class="con3" id="pro_con_5" style="display:none;">
+                <div class="blank20"></div>
+                <div class="t_r f_r">
+                    <a href="" title="编辑" class="pro_edit">编辑</a> 
+                </div>
+                <div class="blank0"></div>
+                <div class="tit tit2 f18 theme_fcolor">all</div>
+                <div class="text">
+                    <a href="" target="_blank">20141216144955.png</a>
+                </div>
+                <div class="tit tit2 f18 theme_fcolor">box_bottom_bg</div>
+                <div class="text">
+                    <a href="" target="_blank">20141216145952.jpg</a>
+                </div>
+            </div>
+            <!-- 项目附件 结束 -->
+
+            <!-- 项目动态 开始 -->
+            <div class="con3" id="pro_con_6" style="display:none;">
+                <div class="blank20"></div>
+                <div class="prompt_box tc" style="width:916px">
+                    <span class="f_ora">暂无内容！</span>&nbsp;&nbsp;
+                    <span class="theme_fcolor">
+                        <a href="">&gt;&gt;添加项目动态</a>          
+                    </span>
+                </div>
+            </div>
+            <!-- 项目动态 结束 -->
+        </div>  
+    </div>
+    <div class="blank20"></div>
+    <div class="button_row">
+        <input type="button" value="完善资料并提交审核" name="submit_form" class="ui-button theme_bgcolor" id="ui-button" style="margin-left:380px" />
+        <input type="hidden" value="1" name="ajax" />
+    </div>
+</div>
+<div class="blank20"></div>
+<script type="text/javascript">
+    jQuery(".slideTxtBox").slide({trigger:"click",delayTime:500});
+</script>
+{include file="inc/footer.html"}

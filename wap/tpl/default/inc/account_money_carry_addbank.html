@@ -1,0 +1,86 @@
+{include file="inc/header.html"} 
+<div class="blank15"></div>
+<section class="account_money_carry_addbank" id="addbank_box">
+	<form name="Jbank_From" id="account_money_carry_addbank_from" action="{url_wap r="account#savebank"}" method="post">
+	<div class="ul_block">
+		<ul>
+			<li class="webkit-box">
+				<label class="input_lable">开户名：</label>
+				 <input type="text" placeholder="请输入开户名" value="{$user_info.identify_name}" name="real_name" id="Jbank_real_name" class="textbox webkit-box-flex" readonly="readonly" />
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">帐户类型：</label>
+			 	<div class="text webkit-box-flex">借记卡</div>
+		 		<span class="f_red">(不支持信用卡)</span>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">选择银行：</label>
+				<div class="select_mod">
+				 	<select name="bank_id" id="Jbank_bank_id" class="f_select webkit-box-flex">
+						<option value="">请选择银行</option>
+						{foreach from=$bank_list.recommend item=item}
+						<option value="{$item.id}" day="{$item.day}">{$item.name}</option>
+						{/foreach}
+						<option value="other">其他</option>
+					</select>
+				</div>
+			</li>
+			<li class="webkit-box otherbank_box">
+				<label class="input_lable">其他银行：</label>
+				<div class="select_mod">
+					<select name="otherbank" id="Jbank_otherbank" class="f_select webkit-box-flex">
+						<option value="">请选择</option>
+						{foreach from="$bank_list.other" item="item"}
+						<option value="{$item.id}" day="{$item.day}">{$item.name}</option>
+						{/foreach}
+					</select>
+				</div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">开户地址：</label>
+				<div class="select_mod">
+					<select name="province" id="cityid-1" class="f_select">
+						<option value="" rel="0">请选择省份</option>			
+						{foreach from=$region_lv2 item=region}
+						<option value="{$region.name}" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+						{/foreach}
+					</select>
+				</div>
+				<div class="select_mod">
+					<select name="city" id="cityid-2" class="f_select">
+						<option value="" rel="0">请选择城市</option>
+						{foreach from=$region_lv3 item=region}
+						<option value="{$region.name}" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+						{/foreach}
+					</select>
+				</div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">开户网点：</label>
+				<input type="text" placeholder="请输入开户行网点" name="bankzone" id="Jbank_bankzone" class="textbox webkit-box-flex" value="">
+				<a href="http://www.cardbaobao.com/wangdian/" target="_blank">网点查询</a>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">银行卡号：</label>
+			 	<input type="text" placeholder="请输入银行卡号" name="bankcard" class="textbox webkit-box-flex" id="Jbank_bankcard" value="">
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">确认卡号：</label>
+			 	<input type="text" placeholder="请再次输入银行卡号" name="reBankcard" class="textbox webkit-box-flex" id="Jbank_rebankcard" value="">
+			</li>
+		</ul>
+		<div class="mod_main">
+			<div class="form_row two_btn webkit-box">
+				<input type="button" value="确认添加" class="ui-button ui_button_l theme_color">
+				<a href="#" onclick="RouterURL('{url_wap r="account#money_carry_bank"}','#account-money_carry_bank',2);" class="ui_button bg_red">取消</a>
+				<input type="hidden" name="ajax" value="1">
+		    </div>
+		</div>      
+	</div>
+	</form>
+</section>
+<div class="blank15"></div>
+<!-- jquery.bank.js -->
+<!-- switch_city.js -->
+<!-- account_money_carry.js -->
+{include file="inc/footer.html"} 

@@ -1,0 +1,409 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<script type="text/javascript" src="__ROOT__/public/region.js"></script>	
+<load href='__TMPL__Common/js/deal_edit.js' />
+<script type="text/javascript" src="__TMPL__Common/js/calendar/calendar.php?lang=zh-cn" ></script>
+<load href='__TMPL__Common/js/calendar/calendar.css' />
+<load href='__TMPL__Common/js/calendar/calendar.js' />
+<if condition="$type eq 2"><!--众筹买卖-->
+	<style type="text/css">
+	    td span label{float:left; padding:3px; margin:2px; background:#E6E6E6; cursor:pointer; display:inline-block; }
+	    td span label.active{background:#F60; color:#fff;}
+	    #container{height:200px; width: 200px; float:left;}  
+	    #container_front{width: 600px; height:500px; border: 1px solid #000; position: absolute; top: 10px; background-color: #fff; overflow: hidden;}
+	    #container_m{ width: 550px; height: 450px; margin: 0 auto;}
+	    #cancel_btn{display: block; width: 600px; height: 18px; line-height: 18px; text-align: right;}
+	</style>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=<?php echo app_conf("BAIDU_MAP_APPKEY"); ?>"></script> 
+	<load href='__TMPL__Common/js/map.js' />
+	<script type="text/javascript">
+	var blue_point = "__ROOT__/system/blue_point.png";
+	var red_point = "__ROOT__/system/red_point.png";
+		$(document).ready(function(){
+			 $("input[name='search_api']").bind("click",function(){  
+			 	var api_address = $("input[name='api_address']").val();
+				var city=$("select[name='city_id']").val();
+				if ($.trim(api_address) == '') {
+					alert("{%INPUT_KEY_PLEASE}");
+				}
+				else 
+				{
+					search_api(api_address, city);
+				}
+	        });
+			draw_map('0','0');
+			$("#container_front").hide();
+	        $("#cancel_btn").bind("click",function(){ $("#container_front").hide(); });
+	        $("input[name='chang_api']").bind("click",function(){ 
+	            editMap($("input[name='xpoint']").attr('value'),$("input[name='ypoint']").attr('value'));
+	        });
+			
+			
+		});
+	
+	</script>
+</if><!--众筹买卖-->
+<div class="main">
+<div class="main_title">{%ADD} <a href="{:u("DealHouseOnline/house_index")}" class="back_list">{%BACK_LIST}</a></div>
+<div class="blank5"></div>
+<form name="edit" action="__APP__" method="post" enctype="multipart/form-data">
+<table class="form conf_tab" cellpadding=0 cellspacing=0 >
+	<tr>
+		<td colspan=2 class="topTd"></td>
+	</tr>
+	<tr>
+		<td class="item_title"><span style="color:red">*</span>项目名称:</td>
+		<td class="item_input"><input type="text" class="textbox require" name="name" /></td>
+	</tr>
+	<tr>
+		<td class="item_title">项目等级:</td>
+		<td class="item_input">
+			<select name="user_level">
+				<option value="0">请选择等级</option>
+				<foreach name="user_level" item="level" key="kk">
+					<option value="{$level.id}" <if condition="($kk eq 0)">selected="selected"</if>>{$level.name}</option>
+				</foreach>
+			</select>
+			<span class='tip_span'>后台发起项目默认最低等级</span>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title"><span style="color:red">*</span>发起人ID:</td>
+		<td class="item_input"><input type="text" class="textbox require" name="user_id" style="width:30px;" /> <span class='tip_span'>要填写发起人ID<if condition="$type eq 2">,房产众筹发启人规定为企业型的</if></span></td>
+	</tr>
+	<tr>
+		<td class="item_title">项目图片:</td>
+		<td class="item_input">
+			
+			<div style="clear:both;margin-bottom:40px;">
+				<html:imgUpload name = 'image' id='image' />
+				<html:imgUpload name = 'image1' id='image1' />
+				<html:imgUpload name = 'image2' id='image2' />
+			</div>
+			<div style="clear:both">
+				<html:imgUpload name = 'image3' id='image3' />
+				<html:imgUpload name = 'image4' id='image4' />
+				<html:imgUpload name = 'image5' id='image5' />
+			</div>
+			<span class='tip_span'>推荐760*530图片，第一张是项目封面</span>
+		</td>
+	</tr>
+	<tr style="display:none">
+		<td class="item_title">广告图片:</td>
+		<td class="item_input">
+			<html:imgUpload name = 'adv_image' id='adv_image' />
+			<span class='tip_span'>推荐765*317图片</span>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">详情页海报图:</td>
+		<td class="item_input">
+			<html:imgUpload name = 'deal_background_image' id='deal_background_image' />
+			<span class='tip_span'>推荐宽1920像素图片</span>
+		</td>
+	</tr>
+	<tr>
+	<td class="item_title">详情页背景图:</td>
+		<td class="item_input">
+			<html:imgUpload name = 'deal_backgroundColor_image' id='deal_backgroundColor_image' />
+			<span class='tip_span'>推荐单原色图片</span>
+		</td>
+	</tr>
+	<if condition="$type eq 2">
+	<tr>
+		<td class="item_title">房产众筹动态展示小图标:</td>
+		<td class="item_input">			
+			<html:imgUpload name = 'update_log_icon' id='update_log_icon' value='' />
+			<span class='tip_span'>推荐30*30图片</span>
+		</td>
+	</tr>
+	</if>
+	<tr>
+		<td class="item_title">视频地址:</td>
+		<td class="item_input">
+			<input type="text" class="textbox" name="vedio" />
+			<span class='tip_span'>填入优酷、腾讯、土豆等flash地址。</span>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">参考上线天数:</td>
+		<td class="item_input"><input type="text" class="textbox" name="deal_days" /></td>
+	</tr>
+	<tr>
+		<td class="item_title"><span style="color:red">*</span>项目开始时间:</td>
+		<td class="item_input">
+			<input type="text" class="textbox require" name="begin_time" id="begin_time" value="" onfocus="this.blur(); return showCalendar('begin_time', '%Y-%m-%d %H:%M:%S', false, false, 'btn_begin_time');" />
+			<input type="button" class="button" id="btn_begin_time" value="{%SELECT_TIME}" onclick="return showCalendar('begin_time', '%Y-%m-%d %H:%M:%S', false, false, 'btn_begin_time');" />	
+			<input type="button" class="button" value="{%CLEAR_TIME}" onclick="$('#begin_time').val('');" />	
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title"><span style="color:red">*</span>项目结束时间:</td>
+		<td class="item_input">
+			<input type="text" class="textbox require" name="end_time" id="end_time" value="" onfocus="this.blur(); return showCalendar('end_time', '%Y-%m-%d %H:%M:%S', false, false, 'btn_end_time');" />
+			<input type="button" class="button" id="btn_end_time" value="{%SELECT_TIME}" onclick="return showCalendar('end_time', '%Y-%m-%d %H:%M:%S', false, false, 'btn_end_time');" />	
+			<input type="button" class="button" value="{%CLEAR_TIME}" onclick="$('#end_time').val('');" />
+
+		</td>
+	</tr>
+	
+	<tr>
+		<td class="item_title">上架:</td>
+		<td class="item_input">
+			<label>{%IS_EFFECT_1}<input type="radio" name="is_effect" value="1" checked="checked" /></label>
+			<label>{%IS_EFFECT_0}<input type="radio" name="is_effect" value="0" /></label>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">是否显示支持者:</td>
+		<td class="item_input">
+			<label>{%IS_SUPPORT_PRINT_1}<input type="radio" name="is_support_print" value="1" /></label>
+			<label>{%IS_SUPPORT_PRINT_0}<input type="radio" name="is_support_print" value="0" checked="checked" /></label>
+			<span class='tip_span'>前台页面是否显示支持者的人数</span>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">支付类型:</td>
+		<td class="item_input">
+			<select name="ips_bill_no">
+ 				<option value="0" <if condition="$vo.ips_bill_no eq ''">selected="selected"</if> >网站支付</option>
+				<option value="1" <if condition="$vo.ips_bill_no neq ''">selected="selected"</if> >第三方托管</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title"><span style="color:red">*</span>目标金额:</td>
+		<td class="item_input"><input type="text" class="textbox require" name="limit_price" /></td>
+	</tr>
+	<tr>
+		<td class="item_title">佣金比例:</td>
+		<td class="item_input">
+			<input type="text" class="textbox" name="pay_radio"  value="{$vo.pay_radio}"/>
+			<span class='tip_span'>佣金比例为0的话，按系统的佣金比例0.1来算，不是0的话按这里的佣金比例来算</span>
+		
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">项目简介:</td>
+		<td class="item_input">
+			<textarea name="brief" class="textarea"></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">项目标签:</td>
+		<td class="item_input"><input type="text" class="textbox" name="tags" style="width:500px;" /> <span class='tip_span'>用空格分隔</span></td>
+	</tr>
+	
+	<tr>
+		<td class="item_title"><span style="color:red">*</span>项目所属类别:</td>
+		<td class="item_input">
+			<select name="cate_id" class="require">
+				<option value="0">请选择</option>
+				<foreach name="cate_list" item="cate_item">
+					<option value="{$cate_item.id}">{$cate_item.title_show}</option>
+				</foreach>
+			</select>
+		</td>
+	</tr>
+	
+	<tr>
+		<td class="item_title"><span style="color:red">*</span>项目所属地区:</td>
+		<td class="item_input" class="require">
+			<select name="province">				
+			<option value="" rel="0">请选择省份</option>
+			<foreach name="region_lv2" item="region">
+				<option value="{$region.name}" rel="{$region.id}">{$region.name}</option>
+			</foreach>
+			</select>
+			
+			<select name="city" class="require">				
+			<option value="" rel="0">请选择城市</option>
+			</select>
+			<script type="text/javascript">
+				load_city();
+			</script>
+		</td>
+	</tr>
+	<!--众筹买卖-->
+	<if condition="$type eq 2">
+	<tr>
+		<td class="item_title"><span style="color:red">*</span>楼盘名称:</td>
+		<td class="item_input"><input type="text" class="textbox require" name="houses_name" /></td>
+	</tr>
+	<tr>
+		<td class="item_title"><span style="color:red">*</span>楼盘阶段:</td>
+		<td class="item_input">
+			<select name="houses_status" class="require">
+				<option value="">请选择楼盘阶段</option>
+				<foreach name="houses_status_list" item="houses_status">
+				<option value="{$houses_status}">{$houses_status}</option>
+				</foreach>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">楼盘地址:</td>
+		<td class="item_input"><input type="text" class="textbox require" name="houses_address" style="width:500px;" /></td>
+	</tr>
+	<tr>
+            <td class="item_title">地图定位</td>
+            <td class="item_input">            	
+            	关键词：<input type="text" class="textbox" name="api_address" value="" /> 
+				<input type="button" value="查找" class="button" name="search_api" id="search_api" >
+				<div style="height:10px; clear:both;"></div>
+                <div id="container"></div>
+				<div style="height:10px; clear:both;"></div>
+                <script type="text/javascript"></script> 
+                <input type="button" value="手动修改" name="chang_api" id="chang_api">
+                <div style="position:relative; top:-400px;">
+                    <div  id="container_front">
+                        <a href="#" id="cancel_btn">取消</a>
+                        <div id="container_m"></div>
+                    </div>
+                </div>
+				<input type="hidden" name="xpoint" />
+				<input type="hidden" name="ypoint" />
+            </td>
+    </tr>
+	<tr>
+		<td class="item_title">是否有收益:</td>
+		<td class="item_input" >
+			<select name="is_earnings" id="earnings_button">				
+			<option value="1" selected=selected >是</option>
+			<option value="0">否</option>
+			</select>
+		</td>
+	</tr>
+	<tr class="earnings_class">
+		<td class="item_title"><span style="color:red">*</span>收益百分比:</td>
+		<td class="item_input">
+			<input type="text" class="textbox earnings_child require" name="earnings" />%
+			<span class="tip_span">利率精确到小数点后两位</span>
+		</td>
+	</tr>
+	<tr  class="earnings_class">
+		<td class="item_title"><span style="color:red">*</span>收益周期:</td>
+		<td class="item_input">
+			<select name="earnings_cycle">
+				<option value="1">1个月</option>
+				<option value="2">2个月</option>
+				<option value="3">3个月</option>
+				<option value="4">4个月</option>
+				<option value="5">5个月</option>
+				<option value="6">6个月</option>
+				<option value="7">7个月</option>
+				<option value="8">8个月</option>
+				<option value="9">9个月</option>
+				<option value="10">10个月</option>
+				<option value="11">11个月</option>
+				<option value="12">12个月</option>
+			</select>
+		</td>
+	</tr>
+	<tr class="earnings_class">
+		<td class="item_title"><span style="color:red">*</span>收益期数:</td>
+		<td class="item_input">
+			<input type="text" class="textbox earnings_child require" name="earnings_send_count" />
+			<span class="tip_span"></span>
+		</td>
+	</tr>
+	<tr  class="earnings_class">
+		<td class="item_title"><span style="color:red">*</span>收益发放含本金</td>
+		<td class="item_input">
+			<select name="earnings_send_capital">
+				<option value="0">否</option>
+				<option value="1" selected=selected>是</option>
+			</select>
+		</td>
+	</tr>
+	</if>
+	<!--end众筹买卖-->
+	<tr>
+		<td class="item_title">项目排序:</td>
+		<td class="item_input"><input type="text" class="textbox" name="sort" value="{$new_sort}" /></td>
+	</tr>
+	<tr>
+		<td class="item_title">项目详情:</td>
+		<td class="item_input">
+			 <html:editor id="description" name="description" type="KINDEDITOR" content="" />
+		</td>
+	</tr>
+	<if condition="$type eq 2"><!--众筹买卖-->
+		<tr>
+		<td class="item_title">楼盘信息:</td>
+		<td class="item_input">
+			 <html:editor id="houses_info" name="houses_info" type="KINDEDITOR" content="" />
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">收益说明:</td>
+		<td class="item_input">
+			 <html:editor id="houses_earnings_info" name="houses_earnings_info" type="KINDEDITOR" content="" />
+		</td>
+	</tr>
+	</if>
+    <tr>
+		<td class="item_title">付款与退款说明:</td>
+		<td class="item_input">
+			 <html:editor id="description_1" name="description_1" type="KINDEDITOR" content="" />
+		</td>
+	</tr>
+  	
+	<tr>
+		<td class="item_title">常见问题: [<a href="javascript:void(0);" onclick="add_faq();">增加</a>]</td>
+		<td class="item_input" id="faq">
+			
+		</td>
+	</tr>
+
+	<tr>
+		<td class="item_title">SEO标题:</td>
+		<td class="item_input">
+			<textarea name="seo_title" class="textarea"></textarea>
+		</td>
+	</tr>
+	
+	<tr>
+		<td class="item_title">SEO关键词:</td>
+		<td class="item_input">
+			<textarea name="seo_keyword" class="textarea"></textarea>
+		</td>
+	</tr>
+	
+	<tr>
+		<td class="item_title">SEO描述:</td>
+		<td class="item_input">
+			<textarea name="seo_description" class="textarea"></textarea>
+		</td>
+	</tr>
+	
+	<tr>
+		<td colspan=2 class="bottomTd"></td>
+	</tr>
+</table>
+
+<div class="blank5"></div>
+	<table class="form" cellpadding=0 cellspacing=0>
+		<tr>
+			<td colspan=2 class="topTd"></td>
+		</tr>
+		<tr>
+			<td class="item_title"></td>
+			<td class="item_input">
+			<!--隐藏元素-->
+			<input type="hidden" name="{:conf("VAR_MODULE")}" value="DealHouseOnline" />
+			<input type="hidden" name="{:conf("VAR_ACTION")}" value="insert" />
+			<input type="hidden" name="type" value="{$type}" />
+			<!--隐藏元素-->
+			<input type="submit" class="button" value="{%ADD}" />
+			<input type="reset" class="button" value="{%RESET}" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan=2 class="bottomTd"></td>
+		</tr>
+	</table> 		 
+</form>
+</div>
+<include file="Public:footer" />

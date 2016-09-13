@@ -1,0 +1,21 @@
+<div class="setting_security_box" id="setting-username-box">
+	{if !$user_info.user_name}
+	<form class="ajax_form_user_name" action="{url_wap r="settings#save_username"}" id="save_name" >
+		<div class="ul_block">
+			<ul>
+				<li class="webkit-box last">
+					<label class="input_lable">昵称：</label>
+					<input type="text" placeholder="请输入昵称" value="" name="user_name" class="textbox webkit-box-flex" />
+				</li>
+			</ul>
+			<div class="blank10"></div>
+			<div class="submit_btn_row control-group">
+				<label class="form_lable"></label>
+				<input type="button" value="保存昵称" name="pass" class="ui-button theme_color" id="user_name"  />
+				<input type="hidden" value="1" name="ajax" />
+			</div>
+			<div class="blank10"></div>
+		</div> 
+	</form>
+	{/if}
+</div>

@@ -1,0 +1,110 @@
+{include file="inc/header.html"} 
+<style>
+	.button.btn_upload{display:-webkit-inline-box;}
+</style>
+<script type="text/javascript">
+    var ROOT = '{$APP_ROOT}/{$URL_NAME}';
+    var VAR_MODULE = "m";
+    var VAR_ACTION = "a";
+    var WEB_SESSION_ID = '<?php echo es_session::id(); ?>';
+    var EMOT_URL = '{$APP_ROOT}/public/emoticons/';
+    var MAX_FILE_SIZE = '{$max_size_byte}b';
+    var UPLOAD_URL ='{$APP_ROOT}/{$URL_NAME}?m=File&a=do_upload&upload_type=1&dir=image';
+	var UPLOAD_SWF='{$TMPL}/js/plupload/Moxie.swf';
+	var UPLOAD_XAP='{$TMPL}/js/plupload//Moxie.xap';
+	var ALLOW_IMAGE_EXT= "gif,jpg,jpeg,png,bmp";
+	var MAX_IMAGE_SIZE= '{$max_size_byte}b';
+	
+	function get_file_fun(name){
+		$("#"+name).ui_upload({
+			multi:false,
+			FilesAdded:function(){
+				$.showPreloader('图片上传中');
+			},
+			FileUploaded:function(ajaxobj){
+ 				if(ajaxobj.error==1)
+				{
+					$.alert(ajaxobj.info);
+				}else{
+					$("#"+name+"_url").val(ajaxobj.public_url);
+					$("#"+name+"_src").attr('src',ajaxobj.url);
+ 				}
+ 				$.hidePreloader();
+			},Error:function(error){
+				if(error.code==-600){
+					$.alert("您上传的文件太大，最大允许上传{$max_size}");
+				}else{
+					$.alert(error.message);
+				}
+ 			}
+ 		});
+	}
+</script>
+<div class="full">
+	<form id="add_update_form" action="{url_wap r="deal#save_update"}">
+		<div class="ul_block">
+	        <ul>
+	            <li class="textarea webkit-box">
+	                <label class="input_lable mr10">动态内容</label>
+	                <textarea placeholder="请输入动态内容" name="log_info" class="textareabox webkit-box-flex"></textarea>
+	            </li>
+	            {if $deal_info.type eq 2}
+				 <li class="webkit-box">
+	                <label class="input_lable mr10">楼盘阶段</label>
+	                <div class="select_mod webkit-box-flex">
+						<select name="houses_status"  class="f_select">
+							<option value="">请选择楼盘阶段</option>
+							{foreach from=$houses_status_list item=houses_status}
+							<option value="{$houses_status}">{$houses_status}</option>
+							{/foreach}
+						</select>
+					</div>
+				{/if}
+	            </li>
+	            <li class="webkit-box">
+	                <label class="input_lable mr10">相关图片</label>
+	                <div class="mr10">
+		                <label class="button button-fill theme_bgcolor btn_upload" id="image_file">
+							<span>选择图片</span>
+						</label>
+					</div>
+					<div class="log_image_upd">
+						<img id="image_file_src" width="40" height="40" src="" />
+						<input type="hidden" name="image" id="image_file_url" value="" />
+					</div>
+	            </li>
+	            {if $deal_info.type eq 2}
+				<li class="webkit-box">
+	                <label class="input_lable mr10">阶段图标</label>
+	                <div class="mr10">
+		                <label class="button button-fill theme_bgcolor btn_upload" id="update_log_icon_bj">
+							<span>选择图片</span>
+						</label>
+					</div>
+					<div class="log_image_upd">
+						<img id="update_log_icon_bj_src" width="40" height="40" src="" />
+						<input type="hidden" name="update_log_icon" id="update_log_icon_bj_url" value="" />
+					</div>
+					<span style="line-height:20px;font-size:12px;color:#999;display:block;padding-left:3px;">推荐大小<br />30*30px</span>
+	            </li>
+				{/if}
+             	<li class="webkit-box">
+	                <label class="input_lable">视频链接</label>
+	                <input type="text" placeholder="请输入视频链接" name="vedio" class="textbox" value="" />
+	            </li>
+	        </ul>
+	    </div>
+		<div class="submit_btn_row two_btn webkit-box content-padded">
+			<div class="ui-button ui_button_l theme_color webkit-box-flex">
+				<span>保存</span>
+			</div>
+			<a class="ui_button bg_red webkit-box-flex {if $is_back}back{/if}" href="{$HTTP_REFERER}">
+				<span>取消</span>
+			</a>
+			<input type="hidden" value="1" name="ajax" />
+			<input type="hidden" value="{$deal_info.id}" name="id" />
+		</div>			
+	</form>
+</div>
+<!-- add_update.js -->
+{include file="inc/footer.html"}

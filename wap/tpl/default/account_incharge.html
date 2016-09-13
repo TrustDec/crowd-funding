@@ -1,0 +1,53 @@
+{include file="inc/header.html"} 
+<section class="account_money_carry_bank">
+	<nav class="tab_hd webkit-box">
+		{if $is_tg && $user_info.ips_acct_no}
+	  	<a href="#" class="nav_l sizing J_SelectPayType1 cur" rel="carry_type1" onclick="SelectPayType(this,0);">在线支付</a>
+	  	<a href="#" class="nav_r sizing J_SelectPayType2" rel="carry_type2" onclick="SelectPayType(this,1);">第三方托管支付</a>
+	  	{else}
+	  	<a href="#" class="nav_all sizing cur" rel="carry_type1">在线支付</a>
+	  	{/if}
+	</nav>
+	<div class="mod_main">
+		<form class="pay_form" action="{url_wap r="account#go_pay"}" target="_blank" method="post">
+			<div class="ul_block">
+				<ul>
+					<li class="webkit-box">
+						<label class="input_lable">充值金额：</label>
+						<input type="text" placeholder="请输入充值金额" value="{$money}" name="money" class="textbox webkit-box-flex mr10" onKeyUp="amount(this)" />元
+					</li>
+				</ul>
+			</div>
+			<div class="ul_block" id="J_online_pay">
+				<div class="blank15"></div>
+			 	<div class="pl15 mb5 f16">选择支付方式</div>
+		 		<ul>
+					{foreach from=$payment_list item=payment name=payment key=k} 
+			   		<li class="">
+			   			<label class="webkit-box">
+				   			{$payment.name}
+				   			<div class="text webkit-box-flex tr">
+								<input type="radio" value="{$payment.id}" name="payment" class="mt" />
+							</div>
+						</label>
+			    	</li>
+			    	{/foreach}
+				</ul>
+			</div>
+			<div class="blank15"></div>
+			<div class="submit_btn_row">		 
+				<input class="ui-button bg_red" type="button" value="确定，去付款" />				
+				<input type="hidden" id="back_url" value="{url_wap r="account"}" />	
+				<input type="hidden" value="1" name="ajax" />
+				<input type="hidden" value="0" name="is_tg" />
+			</div>
+			<div class="blank15"></div>
+		</form>
+	</div>
+</section>
+<div class="blank15"></div>
+<script>
+	var user_id= '{$user_info.id}';
+	
+</script>
+{include file="inc/footer.html"} 

@@ -1,0 +1,84 @@
+<style>
+	.ui_list ul li.auto_height textarea{
+		min-height:30px;
+	}
+</style>
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/count_invest_money.css";
+?>
+<script type="text/javascript">
+	var invote_mini_money = parseFloat({$deal_info.invote_mini_moneys});
+	var total_num = '{$total_num}';
+</script>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<div class="full pr">
+<form id="enquiry_two" action="{url_wap r="investor#enquiry_save"}">
+	<div class="ui_list ui_small_list">
+		<ul>
+			<li>
+				<label class="ui_list_label">项目估值</label>
+				<div class="ui_list_content flex">
+					<input type="text" placeholder="请输入估值金额" name="stock_value" id="stock_value" class="ui_text ui_small_text stock_value" value="" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-.]+/,'');}).call(this)" onblur="this.v();"/>
+				</div>
+				万元
+			</li>
+			<li>
+				<label class="ui_list_label">投资金额:</label>
+				<div class="ui_list_content flex">
+					<div class="tr">
+						<span id="money"></span>万元
+						<input type="hidden" name="money" value="" />
+					</div>
+				</div>
+			</li>
+			<li class="list_num">
+				<label class="ui_list_label">投资份数:</label>
+				<input type="text" name="num" value="1" class="ui_text ui_small_text mr5 webkit-box-flex" id="buy_num" />
+				<a href="#" class="btn_count plus" id="minus" >-</a>
+				<a href="#" class="btn_count minus" id="plus" >+</a>
+			</li>
+			<li class="auto_height">
+				<label class="ui_list_label">投资理由：</label>
+				<div class="ui_list_content">
+					<textarea class="textareabox webkit-box-flex f14" placeholder="请输入内容" name="investment_reason" id="investment_reason" value=""></textarea>
+				</div>
+			</li>
+			<li class="auto_height" style="display:block;">
+				<label class="ui_list_label tl" style="text-align:left">我能为创业者提供非资金帮助：</label>
+				<div class="clear"></div>
+				<div class="ui_list_content">
+					<textarea class="textareabox f14" placeholder="请输入内容" name="funding_to_help" id="funding_to_help" value="" style="width:100%;height:40px"></textarea>
+				</div>
+			</li>
+		</ul>
+	</div>
+	<div class="blank10"></div>
+	<div>
+		{if app_conf("IS_LIMITED_PARTNER") eq 1}
+		<label class="f_l f_666">是否愿意担任合伙人：</label>
+		<div class="f14 f_l">
+			<!--0表示无状态 1表示愿意承担企业合伙人 2表示不愿意承担企业合伙人-->
+			<span class="info_view" type="radio" rel="genera_partners">
+		    	<input type="radio" class="mt f_l mr5" name="is_partner" value="1" checked="checked"/>
+			    <span class="f_l mr10">是</span>
+			</span>
+			<span class="info_view" type="radio" rel="genera_partners">
+			    <input type="radio" class="mt f_l mr5" name="is_partner" value="2" />
+			    <span class="f_l">否</span>
+			</span> 
+		</div>
+		{else}
+			<input type="hidden" name="is_partner" checked="checked" value="0" />
+		{/if}
+	</div>
+	<div class="blank20"></div>
+	<div class="submit_btn_row webkit-box">
+		<div class="ui-button ui-two-button theme_color button_y webkit-box-flex">提交</div>
+		<div class="ui-button ui-two-button bg_gray button_n webkit-box-flex" onclick="$.closeModal();">取消</div>
+		<input type="hidden" value="1" name="ajax" />
+		<input type="hidden" value="{$deal_id}" name="deal_id" id="deal_id"/>
+		<input type="hidden" value="{$user_id}" name="user_id" id="user_id"/>
+	</div>
+	<div class="blank5"></div>
+</form>
+</div>

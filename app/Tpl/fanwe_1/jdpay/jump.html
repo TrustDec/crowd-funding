@@ -1,0 +1,46 @@
+{include file="inc/header.html"}
+<div class="blank20"></div>
+<div class="wrap">
+	<div class="white_box">
+		<div class="blank20"></div>
+		<div style="margin:0 auto;text-align:center;">
+			<img src="{$TMPL}/jdpay/static/loading.png" width="169" alt="京东支付logo" >
+		</div>
+		<div class="blank20"></div>
+		<div class="" style="margin:0 auto;">
+			<form method="post" action="{url r="gopayment#jdpay" }" id="payForm" target="iframeLayer" style="padding-left:405px;">
+				<input type='hidden' name='payment_notice_id' value='{$notice_info.id}'>
+				<a href='javascript:void();' id='J-next-btn' class='ui-center-button bg_red'>前往京东在线支付</a>
+			</form>
+			<iframe id="iframeLayer" frameborder="0" name="iframeLayer" class="iframeLayer" allowTransparency="true" style="display:none;position:absolute; z-index:999; width:100%; height:100%; top: 0px; left: 0px; right:0; bottom: 0; background:url('{$TMPL}/jdpay/static/loading.gif') center center no-repeat;" src=""></iframe>
+		</div>
+		<div class="blank10"></div>
+		<div style="text-align:center;font-size: 18px;">支付总额:{function name="format_price" v="$notice_info.money"}</div>
+		<div class="blank20"></div>
+		<div class="blank20"></div>
+		<div style="text-align:center;">
+			<a href="{url r="account#view_order" p="id=$notice_info.order_id"}">» 选择其他支付方式</a>&nbsp;&nbsp;
+			<a href="{url r="account#index"}">» 我参与的项目</a>
+		</div>
+		<div class="blank20"></div>
+	</div>
+</div>
+<div class="blank20"></div>
+<script src="{$TMPL}/jdpay/static/wyplus-ctrl.js"></script>	
+<script>
+	(function(){
+		//var submitBtn = document.getElementById('showlayerButton');
+		$('#J-next-btn').on('click', function(){
+			// 提交表单时调用 WYPLUS.open() 方法;
+			// 需要传入的参数：
+			// 1、formId (提交的表单ID)
+			// 2、iframeId (嵌入的iframeID)
+			WYPLUS.open({
+				formId: 'payForm',
+				iframeId: 'iframeLayer'
+			});
+			document.getElementById('payForm').submit();   
+		}) 
+	})();
+</script>
+{include file="inc/footer.html"} 

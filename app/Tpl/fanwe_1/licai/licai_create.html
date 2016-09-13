@@ -1,0 +1,368 @@
+{include file="licai/inc/header_licai.html"}
+<?php
+$this->_var['repayjs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/countUp.min.js";
+$this->_var['repayjs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/zcUI.js";
+$this->_var['repayjs'][] = $this->_var['TMPL_REAL']."/js/utils/jscharts_cr.js";
+
+$this->_var['repaycss'][] = $this->_var['TMPL_REAL']."/css/datepicker.css";
+$this->_var['repaycss'][] = $this->_var['TMPL_REAL']."/css/style.css";
+$this->_var['repayjs'][] = $this->_var['TMPL_REAL']."/js/utils/jquery.ui.core.js";
+$this->_var['repayjs'][] = $this->_var['TMPL_REAL']."/js/utils/jquery.ui.widget.js";
+$this->_var['repayjs'][] = $this->_var['TMPL_REAL']."/js/utils/jquery.ui.datepicker.js";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$repaycss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$repayjs" c="$repayjs"}"></script>
+<script type="text/javascript">
+jQuery(function(){
+	$("input#begin_buy_date").datepicker({showAnim:'fadeIn'});
+	$("input#begin_interest_date").datepicker({showAnim:'fadeIn'});
+	$("input#end_buy_date").datepicker({showAnim:'fadeIn'});
+	$("input#end_date").datepicker({showAnim:'fadeIn'});
+	
+	$("form#J_save_licai_form").submit(function(){
+		var val = $("input#begin_buy_date").val();
+		$("input[name='begin_buy_date']").val(val.replace(/-/g,""));
+		
+		var val_bid = $("input#begin_interest_date").val();
+		$("input[name='begin_interest_date']").val(val_bid.replace(/-/g,""));
+		
+		var val_ebd = $("input#end_buy_date").val();
+		$("input[name='end_buy_date']").val(val_ebd.replace(/-/g,""));
+		
+		var val_ed = $("input#end_date").val();
+		$("input[name='end_date']").val(val_ed.replace(/-/g,""));
+	});	
+});
+</script>
+<script type="text/javascript">
+var APP_ROOT = '{$APP_ROOT}';
+var LOADER_IMG = '{$TMPL}/images/lazy_loading.gif';
+var ERROR_IMG = '{$TMPL}/images/image_err.gif';
+var MAX_FILE_SIZE = "<?php echo (app_conf("MAX_IMAGE_SIZE")/1000000)."MB"; ?>";
+var VAR_MODULE = "m";
+var VAR_ACTION = "a";
+var ROOT = '{$APP_ROOT}/file.php';
+var ROOT_PATH = '{$APP_ROOT}';
+</script>
+<link rel="stylesheet" href="{$APP_ROOT}/admin/public/kindeditor/themes/default/default.css" />
+<script type='text/javascript'  src='{$APP_ROOT}/admin/public/kindeditor/kindeditor.js'></script>
+<script type="text/javascript" src="{$APP_ROOT}/admin/public/kindeditor/lang/zh_CN.js"></script>
+<div class="wrap">
+<div class="blank"></div>
+<div class="regstep w820">
+    <ol class="ui-step ui-step-3">
+        <li class="ui-step-start ui-step-active">
+            <div class="ui-step-line">-</div>
+            <div class="ui-step-icon">
+                <i class="iconfont"></i>
+                <i class="ui-step-number">1</i>
+                <span class="ui-step-text">发起理财</span>
+            </div>
+        </li>
+        <li >
+            <div class="ui-step-line">-</div>
+            <div class="ui-step-icon">
+                <i class="iconfont"><span></span></i>
+                <i class="ui-step-number">2</i>
+                <span class="ui-step-text">等待审核</span>
+            </div>
+        </li>
+        <li class="ui-step-end">
+            <div class="ui-step-line">-</div>
+            <div class="ui-step-icon">
+                <i class="iconfont"></i>
+                <i class="ui-step-number">3</i>
+                <span class="ui-step-text">审核成功</span>
+            </div>
+        </li>
+    </ol>
+   </div>
+<div class="blank20"></div>
+<div class="bdd  bddf  clearfix borrow-info">
+	<div class="clearfix p20">
+		
+      <form id="J_save_licai_form" action='{url x="index" r="licai#save_create"}' method='post' class='mr10 ml10'>
+          <div class='field'>
+              <label><span class='f_red b'>*</span>名称：</label>
+              <span><input type="text" class="f-input ui-textbox w280 normal" name="name" /></span>
+          </div>
+          <div class='blank1'></div>
+           <div class='field'>
+              <label> 项目图片：</label>
+              <span>{function name="show_ke_image" v="img"}</span>
+          </div>
+          <div class='blank1'></div>
+         <div class='blank1'></div>
+           <div class='field'>
+              <label> 理财类型：</label>
+              <span><select name="type" class='ui-select' id='select_type'>
+                        <option value="0" >余额宝</option>
+                        <option value="1" >固定定存</option>
+                    </select>
+             </span>
+          </div>
+          <div class='blank1'></div>
+          <div class='field'>
+              <label><span class='f_red b'>*</span>开始购买时间：</label>
+              <span>
+              		<input readonly="" type="text" class="f-input w100 jcDate img_date" rel="input-text" name="begin_buy_date" id="begin_buy_date">
+             </span>
+          </div>	
+          <div class='blank1'></div>	
+          <div class='field' id='show_begin_interest_date'>
+              <label><span class='f_red b'>*</span>起息时间：</label>
+              <span>
+              		<input readonly="" type="text" class="f-input w100 jcDate img_date" rel="input-text" name="begin_interest_date" id="begin_interest_date">
+             </span>
+          </div>	
+          <div class='blank1'></div>
+          <div class='field' id='show_end_buy_time'>
+              <label>购买结束时间：</label>
+              <span>
+              		<input readonly="" type="text" class="f-input w100 jcDate img_date" rel="input-text" name="end_buy_date" id="end_buy_date">
+             </span>
+          </div>
+          <div class='blank1'></div>
+          <div class='field' >
+              <label><span class='f_red b'>*</span>结束时间：</label>
+              <span>
+              		<input readonly="" type="text" class="f-input w100 jcDate img_date" rel="input-text" name="end_date" id="end_date">
+             </span>
+          </div>
+          <div class='blank1'></div>
+          <div class='field' id='time_limit_row'>
+              <label>理财期限：</label>
+              <span><input type="text" class="f-input ui-textbox w100 normal" name="time_limit" />个月&nbsp;&nbsp;(结束时间和理财期限至少填写一个)</span>
+          </div>
+          <div class='blank1'></div>
+          <div class='field'>
+              <label><span class='f_red b'>*</span>起始金额：</label>
+              <span><input type="text" class="f-input ui-textbox w280 normal" name="min_money" /></span>
+          </div>
+          <div class='blank1'></div>
+          
+          <div class='field'>
+              <label><span class='f_red b'>*</span>单笔最大购买限额：</label>
+              <span><input type="text" class="f-input ui-textbox w280 normal" name="max_money" /></span>
+          </div>
+          <div class='blank1'></div>
+          
+          <div class='field'>
+              <label>利息类型：</label>
+              <span><select name="begin_interest_type" class='ui-select  select-w180 w180'>
+            	<option value="0">当天生效</option>
+ 				<option value="1">次日生效</option>
+				<option value="2">下个工作日起息</option>
+                <option value="3">下二工作日起息</option>
+			</select></span>
+          </div>
+         <div class='blank1'></div>
+          
+         <div class='field'>
+              <label>利率范围：</label>
+              <span><input type="text" class="f-input ui-textbox w280 normal" name="scope" /></span>
+          </div>
+         <div class='blank1'></div>
+         
+         <div class='field'>
+              <label>产品规模：</label>
+              <span><input type="text" class="f-input ui-textbox w280 normal" name="product_size" /></span>
+          </div>
+         <div class='blank1'></div>
+         
+         <div class='field'>
+              <label>获取收益方式：</label>
+              <span><input type="text" class="f-input ui-textbox w280 normal" name="profit_way" /></span>
+          </div>
+         <div class='blank1'></div>
+         <div class='field'>
+              <label>赎回到账时间描述：</label>
+              <span> <input name="purchasing_time" class="f-input ui-textbox w280 normal" ></textarea></span>
+          </div>
+         
+          <div class='blank1'></div>
+          <div class='field'>
+              <label>基金种类：</label>
+              <span><select name="fund_type_id" class='ui-select'>
+                        {foreach from='$fund_type' item="fund_type_item"}
+                        <option value="{$fund_type_item.id}" >{$fund_type_item.name}</option>
+                        {/foreach}
+                    </select>
+              </span>
+          </div>
+          <div class='blank1'></div>
+          <div class='field'>
+              <label>基金品牌：</label>
+              <span><select name="fund_brand_id" class='ui-select'>
+                        {foreach from='$fund_brand' item="fund_brand_item"}
+                        <option value="{$fund_brand_item.id}" >{$fund_brand_item.name}</option>
+                        {/foreach}
+                    </select>
+              </span>
+          </div>
+          
+          <div class='blank1'></div>
+         <div class='field'>
+              <label>关联的基金编号：</label>
+              <span><input type="text" class="f-input ui-textbox w280 normal" name="fund_key" /></span>
+          </div>
+          
+          <div class='blank1'></div>
+          
+          <div class='field'>
+              <label>最新净值：</label>
+              <span><input type="text" class="f-input ui-textbox w280 normal" name="net_value" /></span>
+          </div>
+          
+         <div class='blank1'></div>
+         <div class='field'>
+              <label>简介：</label>
+              <span>{function name="show_ke_textarea" id="brief" w="650" height="350" }</span>
+          </div>
+         
+         <div class='blank1'></div>
+
+         <div class='field'>
+              <label>规则：</label>
+              <span>{function name="show_ke_textarea" id="rule_info" w="650" height="350" }</span>
+          </div>
+          <div class='blank1'></div>
+         <div class='field'>
+              <label>理财详情：</label>
+              <span>{function name="show_ke_textarea" id="description" w="650" height="350" }</span>
+          </div>
+          <div class='blank1'></div>
+         
+         <div class='blank20'></div>
+         <div class="borrow-info p10 clearfix">
+			<div class="field" style="clear: both;">
+              <label>&nbsp;</label>
+              <input type='button' value='提交审核' class='sub_btn' id='sub_btn'>
+
+          	</div>
+          </div>
+          <div class='blank20'></div>
+      </form>
+    </div>
+</div>
+<div class="blank"></div>
+
+
+<style type='text/css'>
+	.borrow-info .field{width:100%; margin:10px 0; padding-right:0;  float:none;}
+	.borrow-info .field label{width:140px; padding-right:5px;}
+	#Jbank_From .field {line-height: 30px;font-size: 12px;margin: 5px auto 5px;}
+	#Jbank_From .field label{ width:130px}
+	#Jbank_From .field input.f-input ui-textbox{ height:20px; line-height:20px; padding:5px}
+	#Jbank_From .field select{ height:30px; line-height:30px; }
+</style>
+<div class="blank0"></div>
+<script>
+	change_type();
+	$("#select_type").bind("change",function(){
+			change_type();
+	});
+	function change_type()
+	{
+		//余额宝
+		if($("#select_type").val() == 0)
+		{
+			$("#show_begin_interest_date").hide();
+			$("#show_end_buy_time").hide();
+			$("#time_limit_row").hide();
+			
+			//$("#end_date").addClass("require");
+		}
+		else
+		{
+			$("#show_begin_interest_date").show();
+			$("#show_end_buy_time").show();
+			$("#time_limit_row").show();
+			
+			//$("#end_date").removeClass("require");
+		}
+	}
+	$("#sub_btn").click(function(){
+		if($("#select_type").val()=="0")
+		{
+			if($("input[name='name']").val().trim()=="")
+			{
+				$.showErr("请填写名称");
+				$("input[name='name']").focus();
+				return;
+			}
+			if($("input[name='begin_buy_date']").val().trim()=="")
+			{
+				$.showErr("请选择购买开始时间");
+				$("input[name='begin_buy_date']").focus();
+				return;
+			}
+			if($("input[name='end_date']").val().trim()=="")
+			{
+				$.showErr("请选择结束时间");
+				$("input[name='end_date']").focus();
+				return;
+			}
+			if($("input[name='min_money']").val().trim()=="")
+			{
+				$.showErr("请填写起始金额");
+				$("input[name='min_money']").focus();
+				return;
+			}
+			if($("input[name='max_money']").val().trim()=="")
+			{
+				$.showErr("单笔最大购买限额");
+				$("input[name='max_money']").focus();
+				return;
+			}
+			
+		}
+		else
+		{
+			if($("input[name='name']").val().trim()=="")
+			{
+				$.showErr("请填写名称");
+				$("input[name='name']").focus();
+				return;
+			}
+			if($("input[name='begin_buy_date']").val().trim()=="")
+			{
+				$.showErr("请选择购买开始时间");
+				$("input[name='begin_buy_date']").focus();
+				return;
+			}
+			if($("input[name='begin_interest_date']").val().trim()=="")
+			{
+				$.showErr("请选起息时间");
+				$("input[name='begin_interest_date']").focus();
+				return;
+			}
+			if($("input[name='end_buy_date']").val().trim()=="")
+			{
+				$.showErr("请选择购买结束时间");
+				$("input[name='end_buy_date']").focus();
+				return;
+			}
+			if($("input[name='end_date']").val().trim()=="" && $("input[name='time_limit']").val().trim()=="")
+			{
+				$.showErr("结束时间和请选理财期限至少填写一样")
+				$("input[name='end_date']").focus();
+				return;
+			}
+			if($("input[name='min_money']").val().trim()=="")
+			{
+				$.showErr("请填写起始金额");
+				$("input[name='min_money']").focus();
+				return;
+			}
+			if($("input[name='max_money']").val().trim()=="")
+			{
+				$.showErr("单笔最大购买限额");
+				$("input[name='max_money']").focus();
+				return;
+			}
+		}
+		$("#J_save_licai_form").submit();
+	})
+</script>
+{include file="inc/footer.html"}

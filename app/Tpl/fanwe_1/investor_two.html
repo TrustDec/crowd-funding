@@ -1,0 +1,184 @@
+{include file="inc/header.html"}
+<link href="{$APP_ROOT}/admin/public/kindeditor/themes/default/default.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{$APP_ROOT}/public/runtime/admin/lang.js"></script>
+<script type='text/javascript' src='{$APP_ROOT}/admin/public/kindeditor/kindeditor.js'></script>
+<script type="text/javascript">
+    var ROOT = '{$APP_ROOT}/{$URL_NAME}';
+    var VAR_MODULE = "m";
+    var VAR_ACTION = "a";
+    var WEB_SESSION_ID = '<?php echo es_session::id(); ?>';
+    var EMOT_URL = '{$APP_ROOT}/public/emoticons/';
+    var MAX_FILE_SIZE = "<?php echo (app_conf("MAX_IMAGE_SIZE")/1000000)."MB"; ?>";
+    var FILE_UPLOAD_URL ='{$APP_ROOT}/{$URL_NAME}?m=File&a=do_upload&' ;
+</script>
+<div class="blank20"></div>
+<div class="location_box wrap1000">
+    <div class="location f_l">
+        <i class="fl ico loc_ico mr5"></i>
+        <label>您现在的位置：</label><a>发布股权项目</a><em>>></em><a>市场定位与商业模式</a>
+    </div>
+</div>
+<div class="blank10"></div>
+<div class="step_box step_box2">
+    <ul>
+        <li class="l1"><span>1</span> 项目基本信息</li>
+        <li class="l2 cur"><span>2</span> 市场定位与商业模式</li>
+        <li class="l3"><span>3</span> 编辑及管理团队</li>
+        <li class="l4"><span>4</span> 项目历史执行资料</li>
+        <li class="l5"><span>5</span> 未来三年内计划</li>
+        <li class="l6"><span>6</span> 项目附件</li>
+        <li class="l7"><span>7</span> 提交审核</li>
+    </ul>
+</div>
+<div class="blank20"></div>
+<div class="mod_box project_edit project_agencyAdd_steptwo">
+	<div class="con_tit theme_fcolor f_20">编辑市场定位与商业模式</div>
+	<div class="con3">
+    	<form method="post" action="{url r="project#investor_two_save" }" id="agency_save_steptwo">
+    		<input type="hidden" name="siteid" value="1">
+			<input type="hidden" value="{$id}" name="id" />
+            <div class="tit f18 theme_fcolor">
+                <i></i>
+                <div class="tit_bg"></div>
+                <div class="tit_text theme_fcolor">
+                    <span class="num b">1</span>目标用户或客户群体定位
+                </div>
+            </div>
+            <div class="blank10"></div>
+    		<div class="pro">
+                 <div class="item_input pb10">
+                    <textarea id='plan[{$plan_key_num}]do_describe' name='description_2' class='ketext' style='width:958px; height:350px;' >{$deal_item.description_2}</textarea> 
+                </div>
+    		</div>
+            <div class="blank20"></div>
+            <div class="tit f18 theme_fcolor">
+                <i></i>
+                <div class="tit_bg"></div>
+                <div class="tit_text theme_fcolor">
+                    <span class="num b">2</span>目标用户或客户群体目前困扰或需求定位
+                </div>
+            </div>
+            <div class="blank10"></div>
+            <div class="pro">
+                <textarea id='plan[{$plan_key_num}]do_describe' name='description_3' class='ketext' style='width:956px; height:350px;' >{$deal_item.description_3}</textarea>
+            </div>
+            <div class="blank20"></div>
+            <div class="tit f18 theme_fcolor">
+                <i></i>
+                <div class="tit_bg"></div>
+                <div class="tit_text theme_fcolor">
+                    <span class="num b">3</span>满足目标用户或客户需求的产品或服务模式说明
+                </div>
+            </div>
+            <div class="blank10"></div>
+            <div class="pro">
+                <textarea id='plan[{$plan_key_num}]do_describe' name='description_4' class='ketext' style='width:956px; height:350px;' >{$deal_item.description_4}</textarea>
+            </div>
+            <div class="blank20"></div>
+            <div class="tit f18 theme_fcolor">
+                <i></i>
+                <div class="tit_bg"></div>
+                <div class="tit_text theme_fcolor">
+                    <span class="num b">4</span>项目赢利模式说明
+                </div>
+            </div>
+            <div class="blank10"></div>
+            <div class="pro">
+                <textarea id='plan[{$plan_key_num}]do_describe' name='description_5' class='ketext' style='width:956px; height:350px;' >{$deal_item.description_5}</textarea>
+            </div>
+            <div class="blank20"></div>
+            <div class="tit f18 theme_fcolor">
+                <i></i>
+                <div class="tit_bg"></div>
+                <div class="tit_text theme_fcolor">
+                    <span class="num b">5</span>市场主要同行或竞争对手概述
+                </div>
+            </div>
+            <div class="blank10"></div>
+            <div class="pro">
+                <textarea id='plan[{$plan_key_num}]do_describe' name='description_6' class='ketext' style='width:956px; height:350px;' >{$deal_item.description_6}</textarea>
+            </div>
+            <div class="blank20"></div>
+            <div class="tit f18 theme_fcolor">
+                <i></i>
+                <div class="tit_bg"></div>
+                <div class="tit_text theme_fcolor">
+                    <span class="num b">6</span>项目主要核心竞争力说明
+                </div>
+            </div>
+            <div class="blank10"></div>
+            <div class="pro">
+                <textarea id='plan[{$plan_key_num}]do_describe' name='description_7' class='ketext' style='width:956px; height:350px;' >{$deal_item.description_7}</textarea>
+            </div>
+            <div class="blank20"></div>
+			{if $deal_item.investor_edit}
+				<div class="button_row tc">
+                    <div class="blank15"></div>
+			 		<input type="button" value="保存" name="submit_form" class="ui-center-button theme_bgcolor" id="ui-button" style="margin:0 5px;*margin-left:400px"/>
+					<div class="ui-center-button bg_red" rel="green" onclick="window.history.go(-1)" style="margin:0 5px" />
+						返回
+					</div>
+					<input type="hidden" value="1" name="ajax" />
+					<div class="blank15"></div>
+				</div>
+			{/if}
+			{if !$deal_item.investor_edit}
+	            <div class="button_row">
+                    <div class="blank15"></div>
+	                <div class="ui-button bg_red" id="previous" style="margin-left:350px;" ><a {if $deal_item.type eq 4}href="{url r="project#investor_one" p="id=$id&type=4&company_id=$deal_item.company_id""}"{else}href="{url r="project#investor_one" p="id=$id"}"{/if} style="color:#fff;">上一步</a></div>
+					<input type="button" value="下一步" name="submit_form" class="ui-button theme_bgcolor ml20" id="ui-button" />
+					<input type="hidden" value="1" name="ajax" />	
+	                <div class="blank15"></div>
+	            </div>
+			{/if}
+    	</form>
+	</div>
+</div>
+<script>
+
+$(document).ready(function(){
+	bind_project_form();
+});
+
+function bind_project_form()
+{	
+	$("#agency_save_steptwo").bind("submit",function(){
+		var ajaxurl = $(this).attr("action");
+		var query = $(this).serialize();
+		query+="&description_2="+ encodeURIComponent($("textarea[name='description_2']").val())+"&description_3="+encodeURIComponent($("textarea[name='description_3']").val())+"&description_4="+encodeURIComponent($("textarea[name='description_4']").val())+"&description_5="+encodeURIComponent($("textarea[name='description_5']").val())+"&description_6="+encodeURIComponent($("textarea[name='description_6']").val())+"&description_7="+encodeURIComponent($("textarea[name='description_7']").val());
+		$.ajax({ 
+				url: ajaxurl,
+				dataType: "json",
+				data:query,
+				type: "POST",
+				success: function(ajaxobj){
+					if(ajaxobj.status)
+					{
+						$.showSuccess(ajaxobj.info,function(){
+							 location.href = ajaxobj.jump;
+						});
+					}
+					else
+					{
+						if(ajaxobj.jump!="")
+							location.href = ajaxobj.jump;
+						else
+						$.showErr(ajaxobj.info);
+					}						
+				},
+				error:function(ajaxobj)
+				{
+					if(ajaxobj.responseText!='')
+					alert(ajaxobj.responseText);
+				}
+			});
+			return false;
+		});
+
+	$("#ui-button").bind("click",function(){
+		$("#agency_save_steptwo").submit();
+	});
+}
+</script>
+<div class="blank20"></div>
+{include file="inc/footer.html"} 

@@ -1,0 +1,89 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/account_after_vote.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+{include file="inc/home_user_info.html"}
+<!--中间开始-->
+<div class="dlmain Myhomepage">
+	{include file="inc/account_left.html"}
+	<div class="homeright pageright f_r">
+		<div class="list_title clearfix">
+			<div class="cur">
+				<span>回报明细</span>
+			</div>
+			<a href="javascript:history.go(-1)" class="ui_button ui-small-button bg_red f_r mt10">返回</a>
+		</div>
+		<div class="list_conment">
+			<h3 class="mb10">{$user_bonus.deal_name}</h3>
+			<div class="i_deal_list clearfix">
+				
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc_table">
+					<thead>
+						<tr>
+							<th width="10%">编号</th>
+							<th width="10%">回报期数</th>
+							<th width="10%">回报年度</th>
+							<th width="12%">本期回报金额</th>
+							<th width="12%">回报周期</th>
+							<th width="12%">平均年回报率</th>
+							<th width="12%">回报开始时间</th>
+							<th width="12%">回报结束时间</th>
+							<th width="10%">状态</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>{$user_bonus.id}</td>
+							<td>第{$user_bonus.number}期</td>
+							<td>{$user_bonus.year}</td>
+							<td><span class="f_money b">￥{$user_bonus.money}</span></td>
+							<td>{$user_bonus.return_cycle}个月</td>
+							<td>{$user_bonus.average_annualized_return}%</td>
+							<td>{$user_bonus.begin_time}</td>
+							<td>{$user_bonus.end_time}</td>
+							<td>
+								{if $user_bonus.status eq 1}
+									已发放
+								{/if}
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="blank20"></div>
+				<div class="bonus_tt b mb10">回报明细：</div>
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc_table">
+					<thead>
+						<tr>
+							<th width="20%">编号</th>
+							<th width="20%">投资人</th>
+							<th width="20%">投资金额</th>
+							<th width="20%">支持比例</th>
+							<th width="20%">回报金额</th>
+						</tr>
+					</thead>
+					<tbody>
+						{foreach from=$user_bonus_list item=user_bonus_item}
+						<tr>
+							<td>{$user_bonus_item.notice_sn}</td>
+							<td>{$user_bonus_item.investor}</td>
+							<td>￥{$user_bonus_item.investor_money}</td>
+							<td>{$user_bonus_item.percentage_shares}%</td>
+							<td><span class="f_money b">￥{$user_bonus_item.amount}</span></td>
+						</tr>
+						{/foreach}
+					</tbody>
+				</table>
+				<div class="blank20"></div>
+				<div class="bonus_tt b mb10">回报描述：</div>
+				<div>{$user_bonus.descripe}</div>
+				
+			</div>
+			<div class="blank20"></div>
+			<div class="pages">{$pages}</div>
+			<div class="blank20"></div>
+		</div>
+	</div>
+	<div class="blank0"></div>
+</div>
+{include file="inc/footer.html"}

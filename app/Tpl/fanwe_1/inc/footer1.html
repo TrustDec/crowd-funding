@@ -1,0 +1,34 @@
+<div id="gotop"></div>
+<div class="blank"></div>
+<div class="footer">
+	<div class="wrap">
+           <h2>友情链接</h2>
+		<div class="help_row">
+                    
+                       <div class="link_">
+                            {if $g_links neq ''}
+                             <div class="zhanshi">
+                                 
+                                 <ul class="g_link">
+                                        {foreach from=$g_links item=g_links key=k}
+                                            <li class="g_link_li">
+                                                <a href="{$g_links.url}"  target="_blank"><img src="{$g_links.img}" /></a>
+                                            </li>
+                                        {/foreach}    
+                                  </ul>
+                                   <div class="blank" style="height:0px;"></div>
+                           </div>
+                             {else}
+                            
+                             {/if}
+                        </div>
+			<a href="{url r="faq"}" title="常见问题">常见问题</a>
+			{foreach from=$helps item=help}
+			 &nbsp;&nbsp;|&nbsp;&nbsp;<a href="{$help.url}" title="{$help.title}">{$help.title}</a>
+			{/foreach}
+		</div>
+		<div class="license">
+			{function name="app_conf" v="SITE_LICENSE"}{function name="app_conf" v="STATE_CDOE"}
+		</div>
+	</div>
+</div>

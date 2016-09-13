@@ -1,0 +1,293 @@
+{include file="inc/header.html"} 
+<script type="text/javascript">
+    var ROOT = '{$APP_ROOT}/{$URL_NAME}';
+    var VAR_MODULE = "m";
+    var VAR_ACTION = "a";
+    var WEB_SESSION_ID = '<?php echo es_session::id(); ?>';
+    var EMOT_URL = '{$APP_ROOT}/public/emoticons/';
+    var MAX_FILE_SIZE = '{$max_size_byte}b';
+    var UPLOAD_URL ='{$APP_ROOT}/{$URL_NAME}?m=File&a=do_upload&upload_type=1&dir=image' ;
+	var UPLOAD_SWF='{$TMPL}/js/plupload/Moxie.swf';
+	var UPLOAD_XAP='{$TMPL}/js/plupload//Moxie.xap';
+	var ALLOW_IMAGE_EXT= "gif,jpg,jpeg,png,bmp";
+	var MAX_IMAGE_SIZE= '{$max_size_byte}b';
+	function get_file_fun(name){
+		$("#"+name).ui_upload({
+			multi:false,
+			FilesAdded:function(){
+				$.showPreloader('图片上传中');
+			},
+			FileUploaded:function(ajaxobj){
+ 				if(ajaxobj.error==1)
+				{
+					$.alert(ajaxobj.info);
+				}else{
+					$("#"+name+"_url").val(ajaxobj.public_url);
+					$("#"+name+"_image").attr('src',ajaxobj.url).attr({width:"80",height:"80"});
+					$("#"+name).parent().find(".text").remove();
+ 				}
+ 				$.hidePreloader();
+			},Error:function(error){
+				if(error.code==-600){
+					$.alert("您上传的文件太大，最大允许上传{$max_size}");
+				}else{
+					$.alert(error.message);
+				}
+ 			}
+ 		});
+	}
+	function get_file_more_fun(name,submit_name,num){
+    		$("#"+name).ui_upload({multi:false,
+			FileUploaded:function(ajaxobj){
+				if($("#image_box .image_item").length>=num) {
+					$.showErr("最多只能上传"+num+"张图片");
+				}
+ 				else if(ajaxobj.error==1) {
+					$.showErr(ajaxobj.info);
+				}
+				else {
+		   			$("#image_box").append(
+		   				'<div class="image_item f_l">'+
+							'<div class="remove_image bg_red"><i class="icon iconfont">&#xe61f;</i></div>'+
+							'<img src="'+ajaxobj.url+'" width=60 height=60 class="b_radius6" />'+
+							'<input type="hidden" name="'+submit_name+'[]" value="'+ajaxobj.public_url+'"  />'+
+						'</div>'
+					);
+		   			bind_del_image(); // 删除已上传的图片
+		   			hide_imgupload(num); // 上传4张图片后，隐藏上传图片按钮
+ 				}
+			},Error:function(error) {
+				if(error.code==-600){
+					$.showErr("您上传的文件太大，最大允许上传{$max_size}");
+				}else{
+					$.showErr(error.message);
+				}
+	 		}
+	 	});
+	}
+</script>
+<div class="blank15"></div>
+<section class="project_add">
+	<form id="project_form" action="{url_wap r="project#save"}" method="post">
+		<div class="ul_block">
+			<ul>
+				<li class="webkit-box">
+					<label class="input_lable">筹款金额</label>
+					<input type="text" placeholder="请输入筹款金额" name="limit_price" value="{$deal_item.limit_price}" onkeyup="amount(this);" class="textbox webkit-box-flex" />
+					<span>元</span>
+				</li>
+				<li class="webkit-box">
+					<label class="input_lable">筹集天数</label>
+					<input type="text" placeholder="天数范围10~90" name="deal_days" value="{$deal_item.deal_days}" class="textbox webkit-box-flex" />
+					<span>天</span>
+				</li>
+			</ul>
+			<div class="blank10"></div>
+			<ul>
+				<li class="webkit-box">
+					<label class="input_lable">项目标题</label>
+					<input type="text" placeholder="请输入项目标题" name="name" value="{$deal_item.name}" class="textbox webkit-box-flex" />
+				</li>
+				<li class="textarea webkit-box">
+					<label class="input_lable mr10">项目简介</label>
+					<textarea placeholder="请输入项目简介" name="brief" id="intro" class="textareabox webkit-box-flex" style="height:70px;min-height:70px">{$deal_item.brief}</textarea>
+				</li>
+				<li class="textarea webkit-box">
+					<label class="input_lable mr10">项目详情</label>
+					<textarea placeholder="项目正文内容" name="descript" id="descript" class="textareabox webkit-box-flex">{$deal_item.description}</textarea>
+				</li>
+			</ul>
+			<div class="blank10"></div>
+			<ul>
+				<li class="webkit-box">
+					<label class="input_lable mr5">项目分类</label>
+				 	<div class="select_mod">
+						<select id="cate_id" class="f_select">
+							{foreach from=$cate_list item="cate_item" key=key}
+							<option rel="{$cate_item.id}" {if $cate_item.id eq $deal_item.cate_id}selected{/if}>{$cate_item.name}</br></option>
+							{/foreach}
+						</select>
+					</div>
+					<input type="hidden" name="cate_id" id='cate_id_last' value="{$cate_list.0.id}" />
+				</li>
+				<li class="webkit-box">
+					<label class="input_lable mr5">所在地区</label>
+					<div class="select_mod">
+						<select name="province" id="cityid-1" class="f_select">
+							<option value="" rel="0">请选择省份</option>			
+							{foreach from=$region_lv2 item=region}
+							<option value="{$region.name}" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+							{/foreach}
+						</select>
+					</div>
+					<div class="select_mod">
+						<select name="city" id="cityid-2" class="f_select">
+							<option value="" rel="0">请选择城市</option>
+							{foreach from=$region_lv3 item=region}
+							<option value="{$region.name}" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+							{/foreach}
+						</select>
+					</div>
+				</li><br />
+				<li class="uploadbox">
+					<label class="input_lable mr5">项目封面</label>
+					<div class="blank0"></div>
+					<label class="fileupload f_l mr10">
+						<div class="pic_show" dd="0">
+							{if $deal_item.image eq ''}
+							<div class="text">
+								<i class="icon icon_plus"></i>
+								<span class="f12">上传图片</span>
+							</div>
+							{/if}
+							<img id="image_file_image" src="{$deal_item.image}" {if $deal_item.image}width="80" height="80"{/if} />
+							<input type="button" class="filebox" name="image_file" id="image_file" />
+							<input type="hidden" name="image" value="{$deal_item.image}" id="image_file_url" />
+							<div class="fileuploading"></div>
+						</div>
+					</label>
+					<div class="f12 f_999" style="margin-top:70px;">支持jpg、jpeg、png、gif格式，大小不超过{$max_size}。最佳尺寸：<span class="f_red b">760px*530px</span></div>
+				</li>
+				<li class="uploadbox">
+				<label class="input_lable mr10">项目图片<span class="f12 f_999">（最多上传5张）</span></label>
+				<div class="blank0"></div>
+				<div>
+					<div id="image_box">
+						{foreach from=$deal_images item=image}
+						<div class="image_item mr15">
+							<div class="remove_image bg_red">
+								<i class="icon iconfont">&#xe620;</i>
+							</div>
+							<img src="{$image.image}" width=80 height=80 class="b_radius6" />
+							<input type="hidden" name="image_more[]" value="{$image.image}"  />
+						</div>
+						{/foreach}
+					</div>
+					<div class="fileupload_box">
+						<label class="fileupload">
+							<div class="pic_show">
+								<div class="text">
+									<i class="icon icon_plus"></i>
+									<span class="f12">上传图片</span>
+								</div>
+								<img id="deal_images_file_image" src=""/>
+								<input type="button" class="filebox" name="deal_images_file" id="deal_images_file" />	
+								<div class="fileuploading"></div>
+							</div>
+						</label>
+						<div class="f12 f_999" style="margin-top:10px;">支持jpg、jpeg、png、gif格式，大小不超过{$max_size}。最佳尺寸：<span class="f_red b">760px*530px</span></div>
+					</div>
+				</div>
+			</li>
+			</ul>
+			{if $deal_item.type eq 2}
+			<div class="blank10"></div>
+			<ul>
+				<li class="webkit-box">
+					<label class="input_lable">楼盘名称</label>
+					<input type="text" placeholder="楼盘名称" name="houses_name" value="{$deal_item.houses_name}" class="textbox webkit-box-flex" />
+				</li>
+				<li class="webkit-box">
+					<label class="input_lable">楼盘阶段</label>
+				 	<div class="select_mod">
+						<select name="houses_status" id="houses_status" class="f_select">
+							<option value="">请选择楼盘阶段</option>
+							{foreach from="$houses_status_list" item="houses_status"}
+							<option value="{$houses_status}" {if $houses_status eq $deal_item.houses_status}selected=selected{/if}>{$houses_status}</option>
+							{/foreach}
+						</select>
+					</div>
+				</li> 
+				<li class="webkit-box">
+					<label class="input_lable">楼盘地址</label>
+					<input type="text" placeholder="楼盘地址" name="houses_address" value="{$deal_item.houses_address}" class="textbox webkit-box-flex" />
+				</li>
+				<li class="webkit-box">
+					<label class="input_lable">是否有收益</label>
+				 	<div class="select_mod">
+						<select name="is_earnings" id="is_earnings" class="f_select">
+							<option value="0" {if $deal_item.is_earsings eq 0}selected="selected"{/if}>否</option>
+							<option value="1" {if $deal_item.is_earsings eq 1}selected="selected"{/if}>是</option>
+						</select>
+						</select>
+					</div>
+				</li>
+				<li class="webkit-box js_earnings_con">
+					<label class="input_lable">收益百分比</label>
+					<input type="text" placeholder="收益百分比" name="earnings" value="{$deal_item.earnings}" class="textbox webkit-box-flex" />%
+				</li>
+				<li class="webkit-box js_earnings_con">
+					<label class="input_lable">收益周期</label>
+				 	<div class="select_mod">
+						<select name="earnings_cycle" id="earnings_cycle" class="f_select">
+							<option value="1" {if $deal_item.earnings_cycle eq 1}selected=selected{/if}>1个月</option>
+							<option value="2" {if $deal_item.earnings_cycle eq 2}selected=selected{/if}>2个月</option>
+							<option value="3" {if $deal_item.earnings_cycle eq 3}selected=selected{/if}>3个月</option>
+							<option value="4" {if $deal_item.earnings_cycle eq 4}selected=selected{/if}>4个月</option>
+							<option value="5" {if $deal_item.earnings_cycle eq 5}selected=selected{/if}>5个月</option>
+							<option value="6" {if $deal_item.earnings_cycle eq 6}selected=selected{/if}>6个月</option>
+							<option value="7" {if $deal_item.earnings_cycle eq 7}selected=selected{/if}>7个月</option>
+							<option value="8" {if $deal_item.earnings_cycle eq 8}selected=selected{/if}>8个月</option>
+							<option value="9" {if $deal_item.earnings_cycle eq 9}selected=selected{/if}>9个月</option>
+							<option value="10" {if $deal_item.earnings_cycle eq 10}selected=selected{/if}>10个月</option>
+							<option value="11" {if $deal_item.earnings_cycle eq 11}selected=selected{/if}>11个月</option>
+							<option value="12" {if $deal_item.earnings_cycle eq 12}selected=selected{/if}>12个月</option>
+						</select>
+					</div>
+				</li>
+				<li class="webkit-box js_earnings_con">
+					<label class="input_lable">收益期数</label>
+					<input type="text" placeholder="收益期数" name="earnings_send_count" value="{$deal_item.earnings_send_count}" class="textbox webkit-box-flex" />
+				</li>
+				<li class="webkit-box js_earnings_con">
+					<label class="input_lable">收益发放含本金</label>
+				 	<div class="select_mod">
+						<select name="earnings_send_capital" id="earnings_send_capital" class="f_select">
+							<option value="0" {if $deal_item.earnings_send_capital eq 0}selected=selected{/if} >否</option>
+							<option value="1" {if $deal_item.earnings_send_capital eq 1}selected=selected{/if} >是</option>
+						</select>
+						</select>
+					</div>
+				</li>
+				<li class="uploadbox">
+					<label class="input_lable mr5">动态展示小图标</label>
+					<div class="blank0"></div>
+					<label class="fileupload f_l mr10">
+						<div class="pic_show">
+							{if $deal_item.update_log_icon eq ''}
+							<div class="text">
+								<i class="icon icon_plus"></i>
+								<span class="f12">上传图片</span>
+							</div>
+							{/if}
+							<img id="update_log_icon_bj_image" src="{$deal_item.update_log_icon}" {if $deal_item.update_log_icon neq ''}width=80 height=80{/if} />
+							<input type="button" class="filebox" name="update_log_icon_bj" id="update_log_icon_bj" />
+							<input type="hidden" name="update_log_icon" value="{$deal_item.update_log_icon}" id="update_log_icon_bj_url" />
+							<div class="fileuploading"></div>
+						</div>
+					</label>
+					<div class="f12 f_999" style="margin-top:70px;">最佳尺寸：<span class="f_red b">30px*30px</span></div>
+				</li>
+				<li class="textarea webkit-box">
+					<textarea placeholder="楼盘信息" name="houses_info" id="houses_info" class="textareabox webkit-box-flex" style="padding:10px;">{$deal_item.houses_info}</textarea>
+				</li>
+				<li class="textarea webkit-box">
+					<textarea placeholder="收益说明" name="houses_earnings_info" id="houses_earnings_info" class="textareabox webkit-box-flex" style="padding:10px;">{$deal_item.houses_earnings_info}</textarea>
+				</li>
+			</ul>
+		<div class="blank10"></div>
+		{/if}
+		</div>
+		<div class="submit_btn_row mod_main">
+			<div class="ui-button theme_color"  id="savenext">下一步</div>
+			<input type="hidden" value="1" name="ajax" />
+			<input type="hidden" name="id" value="{$deal_item.id}" />
+			<input type="hidden" name="savenext" value="0" />
+		</div>
+	</form>
+</section>
+<div class="blank15"></div>
+<!-- deal_publish.js -->
+{include file="inc/footer.html"} 
+
+

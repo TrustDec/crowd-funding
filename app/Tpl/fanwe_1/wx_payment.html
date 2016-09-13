@@ -1,0 +1,131 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/wx_payment.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<div class="pg-buy-process order-pay-weixin">
+	<header id="site-mast" class="site-mast">
+		<div class="site-mast__branding cf">
+		    <h1>
+		    	<a class="site-logo" href="{$APP_ROOT}/" target="_blank">
+					<?php
+						$this->_var['logo_image'] = app_conf("SITE_LOGO");
+					?>
+					<img src="{$logo_image}" />
+				</a>
+		    </h1>
+		    <div class="buy-process-bar-container">
+			    <ol class="buy-process-desc steps-desc">
+			        <li class="step">
+			            1. 提交订单
+			        </li>
+			        <li class="step  step--current">
+			            2. 选择支付方式
+			        </li>
+			        <li class="step  ">
+			            3. 支付成功
+			        </li>
+			    </ol>
+			    <div class="progress">
+			        <div class="progress-bar" style="width:66.66%"></div>
+			    </div>
+			</div>
+		</div>
+	</header>
+	<div id="bdw" class="bdw">
+		<div id="bd" class="cf">
+			<div id="content" class="pg-check pg-order-check">
+				<div class="orders-summary">
+					<div class="order-list">
+                        <ul>
+                            <li class="order-item">
+                                <div class="order-name">项目：<a href="{url r="deal#show" p="id=$data.id"}" target="_blank">{$data.name}</a></div>
+                                <div class="order-number">{$data.num}份</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="total-money">应付金额：<span class="money">{$data.money}</span></div>
+				</div>
+				{if $data.status ==1}
+				<div class="weixin-container">
+					<div class="qrcode-container">
+						<div class="title">微信支付</div>
+						<div class="qrcode">
+							<div class="qrcode-img">
+								<div class="" id="weixin_qrcode" rel="{$data.code_url}"></div>
+								<input type="hidden" id="order_id" value="{$data.order_id}">
+								<input type="hidden" id="order_status" value="{$data.order_status}">
+								<input type="hidden" id="notify_url" value="{$data.notify_url}">
+							</div>
+							<div class="warning"></div>
+						</div>
+						<div class="tip">
+		                    <i class="icon"></i>
+		                    请使用微信扫一扫<br>
+		                    扫描二维码支付
+		                </div>
+					</div>
+					<div class="mobile">
+		                <div class="img"></div>
+		            </div>
+				</div>
+				{else}
+					<div class="" style="color: red; text-align: center; padding-top: 120px;">{$data.info}<a href="{url r="account" }">[点击查看]</a> </div>
+				{/if}
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="{$TMPL}/js/fanwe_utils/jquery.qrcode.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var qrcode_val=$("#weixin_qrcode").attr("rel");
+		if ($.browser.msie && $.browser.version <= 8){
+			$("#weixin_qrcode").qrcode({
+				render	: "table",
+				width   : 211,
+				height  : 211,
+				text    : qrcode_val
+			});
+		}
+		else{
+			$("#weixin_qrcode").qrcode({
+				width   : 211,
+				height  : 211,
+				text    : qrcode_val
+			});
+		}
+
+	}
+
+	);
+	var i = setInterval(function() {
+		order_status = $("#order_status").val();
+		if(order_status==0){
+			ajaxurl = '{$data.ajaxurl}';
+			$.ajax({
+						url:ajaxurl,
+ 						type:"post",
+						dataType:"json",
+						success:function(result){
+							$("#order_status").val(result.order_status);
+						}
+			})
+		}
+		//已支付(过期)
+		if(order_status==1||order_status==2){
+			clearInterval(i);
+			$.weeboxs.open('<span class="f_red">您已支付过，不用重新支付</span>', {boxid:"lc_status",contentType:'text',showButton:true,title:"支付结果",width:450,showOk:true,type:'wee',onok:function(){ window.location.href = '{url r="deal#show" p="id=$data.id"}'; }});
+
+		}
+		//成功
+		if(order_status==3){
+			clearInterval(i);
+			$.weeboxs.open('<span class="theme_fcolor">您已支付成功，点击确认查看订单</span>', {boxid:"lc_status",contentType:'text',showButton:true,title:"支付结果",width:450,showOk:true,type:'wee',onok:function(){ window.location.href = '{url r="account" }'; }});
+		}
+
+
+	}, 1000);
+
+</script>
+{include file="inc/footer.html"}

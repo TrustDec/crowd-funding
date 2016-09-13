@@ -1,0 +1,79 @@
+<tagLib name="html" />
+<include file="Public:wx_header" />
+<include file="Public:weixin_script" />
+<link rel="stylesheet" href="__ROOT__/public/weixin/kindeditor/themes/default/default.css" />
+<script type="text/javascript" src="__ROOT__/public/weixin/kindeditor/kindeditor-min.js"></script>
+<script type="text/javascript" src="__ROOT__/public/weixin/kindeditor/plugins/wxemoticons/wxemoticons.js"></script>
+<script type="text/javascript" src="__ROOT__/public/weixin/kindeditor/plugins/wxlink/wxlink.js"></script>
+<script charset="utf-8" src="__ROOT__/public/weixin/kindeditor/lang/zh_CN.js"></script>
+ 
+<div class="container-f">
+	<div class="box-title clearfix">
+		<h3>
+			<i class="fa fa-cog"></i>
+			默认回复(文本)
+		</h3>
+	</div>
+</div>
+<div class="box-content clearfix">
+	<div class="row clearfix">
+		<form action="{:u("WeixinReply/save_dtext")}" method="post" class="form-horizontal ajax_form">
+			<div class="changeStepBox clearfix  cf">
+				<div class="control-group-left clearfix cf f_l">
+					<div class="control-group cf clearfix">
+						<label class="control-label" for="name">
+							回复内容：
+						</label>
+						<div class="controls">
+							<textarea  id="reply_content" name="reply_content">{$reply.reply_content}</textarea>
+						</div>
+					</div>
+					<div class="control-group cf clearfix">
+						<label class="control-label" for="default_close">
+							是否关闭默认回复：
+						</label>
+						<div class="controls">
+							<label>
+								<input type="checkbox" name="default_close" id="default_close" <if condition="$reply.default_close eq 1">checked="checked"</if> value="1"  />
+							</label>
+						</div>
+					</div>
+				</div>
+				<div class="cf clearfix"></div>
+				<div class="form-actions">	                    
+					<input type="hidden" name="id" value="{$reply.id}" />
+					<input type="submit" class="btn btn-primary" value="保存" />
+					<input type="button" class="btn" value="切换到图文模式" onclick="location.href='{:u("WeixinReply/dnews",array("t"=>1))}'" / >
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+var seting = {
+        themeType: "simple",
+        resizeType: 1,
+        syncType:"",
+        allowPreviewEmoticons: true,
+        items: ['wxemoticons','wxlink','unlink'],
+        allowFileManager: false,
+        useContextmenu:false,
+        minWidth: 500,
+        width: 500,
+		minHeight:150,
+		newlineTag:"br",
+		height:150,
+        afterCreate: function () {
+            this.sync();
+        },
+        afterBlur: function () {
+            this.sync();
+        }
+    }
+	KindEditor.ready(function(K) {
+		K.create('#reply_content', seting);
+	});
+
+</script>
+
+<include file="Public:footer" />

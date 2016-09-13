@@ -1,0 +1,33 @@
+系统环境需求
+（1）WEB环境：系统需要php.5.3服务器环境,附件上传的功能
+
+（2）数据库要求：mysql 4.0以上，推荐要求mysql 5.0
+
+（3）如果要开启URL重写模式，需要服务器端支持伪静态的重写模板
+
+
+
+
+
+二：如要使用短信功能或发送邮件，要求开通 fsockopen 函数功能
+要开启在php.ini 中开启以下项
+allow_url_fopen = on
+extension=php_openssl.dll
+extension=php_curl.dll
+
+开启后要重启，IIS 或者阿帕奇
+
+三：如需要使用快捷登录功能
+  空间要支持这些：
+extension=php_sockets.dll
+extension=php_curl.dll
+extension=php_soap.dll
+extension=php_openssl.dll
+
+php.ini配置：至少要开这几个扩展
+extension=php_curl.dll 
+extension=php_gd2.dll 
+extension=php_mbstring.dll
+extension=php_mysql.dll 
+extension=php_openssl.dll
+fsockopen开启

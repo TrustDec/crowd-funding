@@ -1,0 +1,134 @@
+{include file="./inc/header.html"}
+<?php
+    $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/licai/licai.css";
+    $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/licai/uc_redeem_lc.css";
+
+    $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/js/jcDate/css/common.css";
+ ?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$pagecss"}" />
+
+<div class="lc_head">
+    <div class="ui_list ui_smaller_list">
+        <ul>
+            <li>
+                <label class="ui_list_label">待处理赎回总额</label>
+                <div class="ui_list_content flex tr">
+                    <span class="f_money">{$vo.licai_wait_money_format}</span>
+                </div>
+            </li>
+            <li>
+                <label class="ui_list_label">待处理赎回申请</label>
+                <div class="ui_list_content flex tr">
+                    <em>{$vo.licai_wait_count}</em>个
+                </div>
+            </li>
+            <li>
+                <label class="ui_list_label">已赎回本金</label>
+                <div class="ui_list_content flex tr">
+                    <em>{$vo.licai_pass_money_format}</em>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="blank10"></div>
+<div class="mainblok mainborder">
+    <div class="ui_list ui_small_list">
+        <ul>
+            <li>
+                <label class="ui_list_label">理财名称：</label>
+                <div class="ui_list_content flex">
+                    <input id="deal_name" name="deal_name" value="{$data.search.deal_name}" class="ui_text ui_small_text" type="text" placeholder="请输入项目名称">
+                </div>
+            </li>
+            <li>
+                <label class="ui_list_label">购买人：</label>
+                <div class="ui_list_content flex">
+                    <input id="user_name" name="user_name" value="{$data.search.user_name}" class="ui_text ui_small_text" type="text" placeholder="请输入购买人">
+                </div>
+            </li>
+            <li>
+                <div class="flex">
+                    <input class="ui_text ui_border_text ui_small_text jcDate" rel="input-text" value="{$data.search.begin_time}" name="begin_time" id="begin_time" placeholder="选择开始时间">
+                </div>&nbsp;&nbsp;-&nbsp;&nbsp;
+                <div class="flex">
+                    <input class="ui_text ui_border_text ui_small_text jcDate" rel="input-text" value="{$data.search.end_time}" name="end_time" id="end_time" placeholder="选择结束时间">
+                </div>
+            </li>
+            <li class="webkit-box" style="padding:10px 0;">
+                <button class="ui-button theme_color" rel="search_btn" id="submitt" type="submit">搜索</button>
+            </li>
+        </ul>
+    </div>
+</div><!--mainblok——end--> 
+<div class="invest">
+{if $list}
+{foreach from=$list item="item" key=key name="deal"}
+    <!--mainborder开始-->  
+    <div class="blok_10 mainborder">
+        <div class="invest_tit Headerbackground">
+            <span class="sub_name">{function name="msubstr" v="$item.licai_name"}</span>
+            
+        </div>
+        <div class="index_content">
+            <ul class="two_column">
+                <li>
+                    <label>购买人</label>
+                    <span>{$item.user_name}</span>
+                </li>
+                <li>
+                    <label>持有本金</label>
+                    <span class="f_red">{$item.have_money_format}</span>
+                </li>
+                <li>
+                    <label>提前收益率</label>
+                    <span>
+                       {$item.rata_format}
+                    </span>
+                </li>
+                <li>
+                    <label>赎回金额</label>
+                    <span>{$item.money_format}</span>
+                </li>
+                <li>
+                    <label>申请时间</label>
+                    <span>{$item.create_date}</span>
+                </li>
+                <li>
+                    <label>状态</label>
+                    <span>{$item.status_format}</span>
+                </li>
+				<li>
+                    <label>类型</label>
+                    <span>{$item.type_format}</span>
+                </li>
+				<li>
+                    <label>理财类型</label>
+                    <span>{$item.licai_type_format}</span>
+                </li>
+            </ul>
+            <div class="blank"></div>
+            <div class="bor_d"></div>
+            <div class="b_box">
+                <a class="buyrecord" href="{url_wap  r="licai#uc_deal_lc" p="id=$item.licai_id"}">查看详情</a>
+                {if $item.status==0}
+                    <a class="redeemmng" href="{url_wap r="licai#uc_redeem_lc_status" p="id=$item.id"}">发放理财</a>
+                {/if}
+                <div class="blank10"></div>
+            </div>
+            
+        </div>
+        <div class="blank"></div>    
+    </div><!--mainborder结束-->
+{/foreach}
+{else}
+    <div style="text-align: center;width:100%;line-height:60px;">无任何记录</div>
+{/if}
+<div class="blank10"></div>
+<div class="pages">{$pages}</div>
+<div class="blank10"></div>
+</div>
+<div class="blank15"></div>
+<div id="datePlugin"></div>
+<!-- licai_uc_redeem_lc.js -->
+{include file="./inc/footer.html"}

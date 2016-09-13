@@ -1,0 +1,41 @@
+{include file="inc/header.html"} 
+<section class="account_paid mt15">
+	{if $paid_list}
+	<div class="ul_block ul_block_list">
+		{foreach from=$paid_list item=paid_item}
+		<ul>
+			<li class="webkit-box">
+				<label class="input_lable">备注说明：</label>
+				<div class="text webkit-box-flex">
+					{$paid_item.log_info}
+				</div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">发放金额：</label>
+				<div class="text webkit-box-flex">
+					{function name="format_price" v=$paid_item.money}
+				</div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">发放方式：</label>
+				<div class="text webkit-box-flex">
+					管理员发放
+				</div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">发放时间：</label>
+				<div class="text webkit-box-flex">
+					{function name="to_date" v=$paid_item.create_time}
+				</div>
+			</li>
+		</ul>
+		{/foreach}
+		<div class="blank10"></div>
+		<div class="pages">{$pages}</div>
+	</div>
+	{else}
+	<div class="tc">还没有任何放款记录</div>
+	<div class="blank15"></div>
+	{/if}
+</section>
+{include file="inc/footer.html"} 

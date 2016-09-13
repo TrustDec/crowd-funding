@@ -1,0 +1,171 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/switch_city.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/switch_city.js";
+?>
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<div class="xqmain">
+	<div class="invester_all">
+		<div class="xqmain_left">
+			<div class="col_a">天使投资人</div>
+
+			<!-- 检索条件 开始 -->
+			<div class="choose_box overflow_hide">
+				<div class="con2 mt20">
+					<div class="con2_l">投资人类型</div>
+				    <div class="con2_r" id="invest_type">
+				    	<a href="javascript:void(0);" class="con3">全部</a>
+						<a href="javascript:void(0);" value="1">机构</a>
+				        <a href="javascript:void(0);" value="2">领投人</a>
+				        <a href="javascript:void(0);" value="3">跟投人</a>
+				    </div>
+				</div>
+				<div class="blank0"></div>
+				<div class="con2">
+					<div class="con2_l">按所属城市</div>
+					<div class="con2_r" id="selectcity">
+						<a href="javascript:void(0);" target="_self" class="con3" value="">全部</a>
+	        			<a href="javascript:void();" target="_self" value="328" class="">深圳市</a>
+	        			<a href="javascript:void();" target="_self" value="326" class="">广州市</a>
+	        			<a href="javascript:void();" target="_self" value="3360" class="">北京市</a>
+	        			<a href="javascript:void();" target="_self" value="3361">上海市</a>
+	        			<a href="javascript:void();" target="_self" value="213" class="">杭州市</a>
+	        			<a href="javascript:void();" target="_self" value="204" class="">苏州市</a>
+	        			<a href="javascript:void();" target="_self" value="242" class="">厦门市</a>
+						<a href="javascript:void();" target="_self" value="242" class="">其他</a>
+						<div class="btn_select f_l mr10" id="cityid-1_select">
+							<span class="cur_select" id="cityid-1_cur"></span>
+							<div class="select_arrow"></div>
+							<select name="province" class="select-h" id="cityid-1">
+			              		<option value="" rel="0">请选择省份</option>
+								{foreach from=$region_lv2 item=region}
+									<option value="{$region.name}" class="ld-option" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+								{/foreach}				 
+							</select>
+						</div>
+						<div class="btn_select f_l mr10" id="cityid-2_select">
+							<span class="cur_select" id="cityid-2_cur"></span>
+							<div class="select_arrow"></div>
+							<select name="city" class="select-h" id="cityid-2">
+			              		<option value="" rel="0">请选择城市</option>
+								{foreach from=$region_lv3 item=region}
+									<option class="ld-option" value="{$region.name}" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+								{/foreach}				    
+							</select>
+						</div>
+	        		</div>
+				</div>
+			</div>
+			<!-- 检索条件 结束 -->
+			<div class="blank20"></div>
+			
+			<!-- 投资人列表 开始 -->
+			<div class="invester_all_list overflow_hide">
+				<div class="con5">
+					<div class="con5_l f_gray">
+						<img src="{$TMPL}/images/nophoto.gif" alt="" title="">
+						<div class="blank0"></div>
+						<a href="javascript:void(0)" onclick="send_message(11557)" class="theme_fcolor">+发私信</a>
+					</div>
+					<div class="con5_r">
+						<div class="name">
+        					<span class="v_aut f24">
+                            	<a href="javascript:void(0)" onclick="invester_view(11557,'wutu1980详细资料')">wutu1980</a>
+           		 			</span>
+            				<span class="v_lea mt10" title="领投人"></span>
+            				<span class="v_ask mt10" title="询价认投资格"></span>
+                            <div class="clear"></div>
+						</div>
+						<div class="sub">
+            				五洲国际集团-财务经理-无土
+            				<div class="blank0"></div>
+           					 河南省洛阳市&nbsp;&nbsp;|&nbsp;&nbsp;<a href="javascript:void(0)" onclick="" class="theme_fcolor">&gt;&gt;详细</a></span>
+						</div>
+						<div class="blank0"></div>
+			            <div class="tl">
+			            	<a href="javascript:void(0)" onclick="send_message()">
+			            		<span class="btn_1">自荐我的项目</span>
+			            	</a>
+			            </div>
+					</div>
+			    </div>
+			</div>
+			<!-- 投资人列表 结束 -->
+		</div>
+		<div class="xqmain_right">
+			<div class="blank20"></div>
+			<!-- 投资人推荐 开始 -->
+			<div class="col_c">
+				<span>投资人推荐</span>
+			</div>
+			<div class="con9">
+				<div class="l f_666">
+					<a href="#">
+	            		<img src="{$TMPL}/images/90x90.jpg" alt="" title="" />
+			        </a>
+			    </div>
+			    <div class="r">
+			    	<div class="name">
+			            <span class="v_aut f20">创新谷innovalley</span>
+						<span class="v_lea" title="领投人"></span>
+						<span class="v_org" title="投资机构"></span>
+						<div class="clear"></div>
+					</div>
+			        <div class="f14 f_666">
+			        	创新谷孵化器<br>
+			        	<span class="f_line">
+			        		<a href="javascript:void(0)" onclick="send_message(274)">+发私信</a>&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="send_message(274,'recommend','推荐我的项目')">&gt;&gt;自荐项目</a>
+			        	</span>
+			        </div>
+			    </div>
+			    <div class="clear"></div>
+			</div>
+			<!-- 投资人推荐 结束 -->
+			<div class="blank20"></div>
+
+			<!-- 最新投资人 开始 -->
+			<div class="col_c">
+				<span>最新投资人</span>
+			</div>
+			<div class="con9">
+				<div class="l f_666">
+					<img src="{$TMPL}/images/nophoto.gif" title="" alt="" />
+				</div>
+			    <div class="r">
+			    	<div class="name">
+			            <span class="v_aut f20">贾娟</span>
+					</div>
+			        <div class="f14 f_666">
+			        	<div>无</div>
+			        	<div class="blank0"></div>
+			        	<div>
+			        		<a href="javascript:void(0)" onclick="send_message()">+发私信</a>&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="send_message()">&gt;&gt;自荐项目</a>
+			        	</div>
+			        </div>
+			    </div>
+			</div>
+			<div class="con9">
+				<div class="l f_666">
+					<img src="{$TMPL}/images/nophoto.gif" title="" alt="" />
+				</div>
+			    <div class="r">
+			    	<div class="name">
+			            <span class="v_aut f20">贾娟</span>
+					</div>
+			        <div class="f14 f_666">
+			        	<div>经天能源+运营经理+胡长江</div>
+			        	<div class="blank0"></div>
+			        	<div>
+			        		<a href="javascript:void(0)" onclick="send_message()">+发私信</a>&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="send_message()">&gt;&gt;自荐项目</a>
+			        	</div>
+			        </div>
+			    </div>
+			</div>
+			<!-- 最新投资人 结束 -->
+		</div>	
+	</div>
+</div>
+<script type="text/javascript">
+	$(".invester_all_list").find(".con5:odd").addClass("mr0")
+</script>
+{include file="inc/footer.html"}

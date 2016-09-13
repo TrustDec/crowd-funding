@@ -1,0 +1,47 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<include file="Public:new" />
+<load href='__TMPL__Common/js/jquery.bgiframe.js' />
+<load href='__TMPL__Common/js/jquery.weebox.js' />
+<load href='__TMPL__Common/js/user.js' />
+<load href='__TMPL__Common/style/weebox.css' />
+<script type="text/javascript" src="__TMPL__Common/js/calendar/calendar.php?lang=zh-cn" ></script>
+<load href='__TMPL__Common/js/calendar/calendar.css' />
+<load href='__TMPL__Common/js/calendar/calendar.js' />
+<div class="main">
+<div class="main_title">{$main_title}</div>
+<div class="blank5"></div>
+<div class="button_row">
+	<input type="button" class="button" value="{%DEL}" onclick="del();" />
+</div>
+
+<div class="blank5"></div>
+<div class="search_row">
+	<form name="search" action="__APP__" method="get">	
+		融资公司ID：<input type="text" class="textbox" name="id" value="{:trim($_REQUEST['id'])}" style="width:100px;" />
+		融资公司名称：<input type="text" class="textbox" name="company_name" value="{:trim($_REQUEST['company_name'])}" style="width:100px;" />
+		<input type="hidden" value="Finance" name="m" />
+		<input type="hidden" value="online_index" name="a" />
+		<input type="submit" class="button" value="{%SEARCH}" />
+	</form>
+</div>
+<div class="blank5"></div>
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="finance_company" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{%ID}|40px
+			,company_name:融资公司:edit
+			,company_create_time|to_date:公司创建时间|120px
+			,sort|get_sort=$finance_company['id']:{%SORT}|25px
+			,is_recommend|get_toogle_status=$finance_company['id']#is_recommend:推荐|25px"
+	actionlist="edit:{%EDIT}, del:{%DEL}" />
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

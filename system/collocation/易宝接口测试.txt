@@ -1,0 +1,175 @@
+﻿外网商户测试网址为http://58.246.68.126:7082/IpsSmsTimer/index.jsp
+
+http://merchant.ips.net.cn:8086/
+
+select id,user_name,user_pwd, email,idno,real_name,mobile,paypassword,ips_acct_no from fanwe_user where id in (44,436,89)
+
+
+--创建易宝资金托管帐户/////
+http://localhost/zhongchou/index.php?ctl=collocation&act=CreateNewAcct&user_type=0&user_id=17
+http://localhost/zhongchou/index.php?ctl=collocation&act=CreateNewAcct&user_type=0&user_id=18
+http://localhost/zhongchou/index.php?ctl=collocation&act=CreateNewAcct&user_type=0&user_id=19
+
+--绑卡
+http://localhost/zhongchou/index.php?ctl=collocation&act=BindBankCard&user_type=0&user_id=17
+http://localhost/zhongchou/index.php?ctl=collocation&act=BindBankCard&user_type=0&user_id=18
+
+--用户充值
+http://localhost/zhongchou/index.php?ctl=collocation&act=DoDpTrade&user_type=0&user_id=17&pTrdAmt=10000
+
+
+--用户提现
+http://p2p.fanwe.net/index.php?ctl=collocation&act=DoDwTrade&user_type=0&user_id=44&pTrdAmt=10
+http://p2p.fanwe.net/index.php?ctl=collocation&act=DoDwTrade&user_type=0&user_id=1307&pTrdAmt=10
+
+--帐户查询
+http://p2p.fanwe.net/index.php?ctl=collocation&act=QueryForAccBalance&user_type=0&user_id=44
+http://p2p.fanwe.net/index.php?ctl=collocation&act=QueryForAccBalance&user_type=0&user_id=1313
+
+
+--标的登记（新增）
+http://p2p.fanwe.net/index.php?ctl=collocation&act=RegisterSubject&pOperationType=1&deal_id=238
+http://p2p.fanwe.net/index.php?ctl=collocation&act=RegisterSubject&pOperationType=1&deal_id=10470
+
+http://localhost/daikuang/index.php?ctl=collocation&act=RegisterSubject&pOperationType=1&deal_id=10474
+
+--标的登记（流标） 
+http://p2p.fanwe.net/index.php?ctl=collocation&act=RegisterSubject&pOperationType=2&status=2&status_msg=流标测试&deal_id=10472
+
+
+--投标/登记债权人(转账授权)
+http://p2p.fanwe.net/index.php?ctl=collocation&act=RegisterCreditor&deal_id=10473&user_id=1313&bid_money=3000&bid_paypassword=q321500
+http://p2p.fanwe.net/index.php?ctl=collocation&act=RegisterCreditor&deal_id=10470&user_id=1288&bid_money=3000&bid_paypassword=q321500
+
+http://localhost/daikuang/index.php?ctl=collocation&act=RegisterCreditor&deal_id=10474&user_id=1313&bid_money=100&bid_paypassword=q321500
+
+--转账(WS) ---满标放款
+http://p2p.fanwe.net/index.php?ctl=collocation&act=Transfer&pTransferType=1&deal_id=35400&ref_data=1423713006
+
+
+<冻结资金>
+http://localhost/daikuang/index.php?ctl=collocation&act=FreezeFunds&requestNo=71053
+
+//登记担保方接口(POST)
+//http://p2p.fanwe.net/index.php?ctl=collocation&act=RegisterGuarantor&deal_id=238
+
+--债权转让(转帐确认 mode = CONFIRM)
+<转账授权>
+http://p2p.fanwe.net/index.php?ctl=collocation&act=RegisterCretansfer&id=2637&t_user_id=1187&paypassword=123456
+
+http://localhost/daikuang/index.php?ctl=collocation&act=RegisterCretansfer&id=116&t_user_id=44&paypassword=q321500
+
+<转帐确认>
+http://p2p.fanwe.net/index.php?ctl=collocation&act=RegisterCretansfer&id=67&t_user_id=89&paypassword=123456
+
+
+--还款
+http://p2p.fanwe.net/index.php?ctl=collocation&act=RepaymentNewTrade&deal_id=10471&l_key=0
+
+http://localhost/daikuang/index.php?ctl=collocation&act=RepaymentNewTrade&deal_id=10475&l_key=0
+
+解冻保证金(WS) ====》解冻借款人
+http://p2p.fanwe.net/index.php?ctl=collocation&act=GuaranteeUnfreeze&money=1&pTransferType=1&deal_id=237
+
+解冻保证金(WS) ====》解冻担保人
+http://p2p.fanwe.net/index.php?ctl=collocation&act=GuaranteeUnfreeze&deal_id=237&money=1&pTransferType=2
+
+
+转账(WS) ---投资
+http://p2p.fanwe.net/index.php?ctl=collocation&act=Transfer&pTransferType=1&deal_id=10800&ref_data=1408925127
+
+
+
+转账(WS) ---债权转让
+http://p2p.fanwe.net/index.php?ctl=collocation&act=Transfer&pTransferType=4&deal_id=87&ref_data=67
+
+
+转账(WS) ---结算担保收益 (需要在：转账(WS) ---投资 后操作)
+http://p2p.fanwe.net/index.php?ctl=collocation&act=Transfer&pTransferType=5&ref_data=1&deal_id=237
+
+
+开户(POST) 	==>ok 
+标的登记(POST)  ==>ok
+登记债权人接口(POST)  ==>ok	
+登记担保方接口(POST) ==>ok
+充值(POST) ==>ok
+提现(POST) ==>ok
+账户余额查询(WS)  ==>ok
+商户端获取银行列表查询(WS)  ==>ok
+
+登记债权转让接口(POST)  ==>ok (需要在：转账(WS) ---投资 后操作)
+
+还款(POST) ==>ok
+
+转账(WS)  
+转账类型，
+1：投资（满标放款)  ==>ok
+2：代偿；
+3：代偿还款；
+4：债权转让  ==>ok
+5：结算担保收益  ==>ok (需要在：转账(WS) ---投资 后操作)
+
+解冻保证金(WS) ==》ok
+
+
+====》以下4个接口，暂不实现
+自动投标签约(POST) 
+自动还款签约(POST) 
+自动代扣充值(WS) 
+账户信息查询(WS) 
+
+
+
+--还款单（主要通过：deal_id,pRepaymentDate,pErrCode 字段查询)x
+select ips.*,d.`name`,u.user_name, dr.* from fanwe_ips_repayment_new_trade as ips
+left join fanwe_deal d on d.id = ips.deal_id
+left join fanwe_deal_repay dr on dr.id = ips.deal_repay_id 
+left join fanwe_user u on u.id = d.user_id
+where ips.deal_id = 0 and ips.pRepaymentDate = '2014-01-01' and ips.pErrCode = 'MG00000F'
+
+--还款单明细
+select d.*,r.*,u.user_name,tu.user_name as t_user_name from fanwe_ips_repayment_new_trade_detail as d
+left JOIN fanwe_deal_load_repay r on r.id = d.deal_load_repay_id
+left join fanwe_user u on u.id = r.user_id
+left join fanwe_user tu on tu.id = r.t_user_id
+where d.pid = 100
+
+
+============================================
+
+--满标放款
+select t.*,d.`name`,u.user_name from fanwe_ips_transfer as t
+LEFT JOIN fanwe_deal as d on d.id = t.deal_id
+LEFT JOIN fanwe_user as u on u.id = d.user_id
+where t.pTransferType = 1
+
+--满标放款明细
+select t.*,l.* from fanwe_ips_transfer_detail as t
+LEFT JOIN fanwe_deal_load l on l.deal_id = 10 and l.pMerBillNo = t.pOriMerBillNo
+where t.pid = 10
+
+==============================================
+
+--债权转让
+select t.*,d.`name`,u.user_name,tu.user_name as t_user_name from fanwe_ips_transfer as t
+LEFT JOIN fanwe_deal as d on d.id = t.deal_id
+LEFT JOIN fanwe_deal_load_transfer as dlt on dlt.id = t.ref_data
+LEFT JOIN fanwe_user as u on u.id = d.user_id
+left join fanwe_user tu on tu.id = dlt.t_user_id
+where t.pTransferType = 4
+
+--债权转让明细（转让成功后有明细)
+select dlr.*,u.user_name,tu.user_name as t_user_name from fanwe_deal_load_repay as dlr 
+LEFT JOIN fanwe_user as u on u.id = dlr.user_id
+left join fanwe_user as tu on tu.id = dlr.t_user_id
+where dlr.load_id =".intval($transfer['load_id']) + " and dlr.user_id =".intval($transfer['user_id']) + " and dlr.deal_id = ".$deal_id;
+
+===============================================
+
+--担保收益
+select t.*,d.`name`,u.user_name from fanwe_ips_transfer_detail as td
+LEFT JOIN fanwe_ips_transfer t on t.id = td.pid
+LEFT JOIN fanwe_deal as d on d.id = t.deal_id
+LEFT JOIN fanwe_user as u on u.ips_acct_no = td.pFIpsAcctNo
+left join fanwe_deal_agency as da on da.ips_acct_no = td.pTIpsAcctNo
+where t.pTransferType = 5

@@ -1,0 +1,67 @@
+{include file="inc/header.html"}
+<!--中间部分-->
+<div class="blank15"></div>
+<section class="add_consignee">
+    <form id="add_consignee_form" action="{url_wap r="settings#save_consignee"}">
+    <div class="ul_block">
+        <ul>
+            <li class="webkit-box">
+                <label class="input_lable">收货人</label>
+                <input type="text" placeholder="请输入收货人姓名" name="consignee" value="{$consignee_info.consignee}" class="textbox webkit-box-flex" />
+            </li>
+            <li class="webkit-box">
+                <label class="input_lable mr10">地区</label>
+                    <div class="list_con webkit-box-flex">
+                    <div class="select_mod"> 
+                        <select name="province" id="province" class="f_select">               
+                            <option value="" rel="0">请选择省份</option>          
+                            {foreach from=$region_lv2 item=region}
+                            <option value="{$region.name}" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+                            {/foreach}
+                        </select>
+                    </div>
+                    <div class="select_mod"> 
+                        <select name="city" id="city" class="f_select">             
+                            <option value="" rel="0">请选择城市</option>
+                            {foreach from=$region_lv3 item=region}
+                            <option value="{$region.name}" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+                            {/foreach}
+                        </select>
+                    </div>
+                </div>
+            </li>
+            <li class="textarea webkit-box">
+                <label class="input_lable">详细地址</label>
+                <textarea placeholder="请输入详细地址" rows=1 cols=40 style='min-height:50px;height:50px;overflow:scroll;overflow-y:auto;;overflow-x:hidden' onfocus="window.activeobj=this;this.clock=setInterval(function(){activeobj.style.height=activeobj.scrollHeight+'px';},200);" onblur="clearInterval(this.clock);" name="address" class="ml10 webkit-box-flex">{$consignee_info.address}</textarea>
+            </li>
+            <li class="webkit-box">
+                <label class="input_lable">邮编</label>
+                <input type="text" placeholder="请输入邮编" name="zip" value="{$consignee_info.zip}" class="textbox">
+            </li>
+            <li class="webkit-box">
+                <label class="input_lable">手机号</label>
+                <input type="text" placeholder="请输入手机号" name="mobile" value="{$consignee_info.mobile}" class="textbox">
+            </li>
+        </ul>
+    </div>
+    <div class="submit_row {if $consignee_info.id}two_btn{/if} webkit-box mod_main">
+    	<input type="hidden" value="1" name="ajax">
+		<input type="hidden" value="{$deal_item_id}" name="deal_item_id">
+		<input type="hidden" value="{$consignee_info.id}" name="id">
+        <input type="button" rel="finish" class="ui-button theme_color {if $consignee_info.id}ui_button_l{/if}" value="{if $consignee_info.id}修改{else}完成{/if}">
+        {if $consignee_info.id}
+        <input type="button" rel="remove" id="remove_but" class="ui_button bg_red finish" value="删除" />
+        {/if}
+    </div>
+    </form>
+</section>
+<div class="blank15"></div>
+<script type="text/javascript">
+    var consignee_id = '{$consignee_info.id}';
+    if(consignee_id){
+        var del_url="{url_wap r="settings#del_consignee"}";
+    }
+</script>
+<!-- switch_city.js -->
+<!-- add_consignee.js -->
+{include file="inc/footer.html"}

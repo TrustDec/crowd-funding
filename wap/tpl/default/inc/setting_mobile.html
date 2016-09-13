@@ -1,0 +1,47 @@
+<div class="setting_security_box" id="setting_mobile_box">
+	<form id="ajax_form_mobile" action="{url_wap r="settings#mobile_binding"}">
+		<div class="ul_block">
+			<ul>
+				{if $user_info.mobile}
+				<li class="webkit-box">
+					<label class="input_lable">原手机号：</label>
+					<div class="smaller_form_cont">{function name="hideMobile" v=$user_info.mobile}</div>
+				</li>
+				<li class="webkit-box">
+					<input type="text" placeholder="请输入验证码" value="" name="verify_coder" class="textbox webkit-box-flex mr5" />
+					<input type="button" value="获取验证码" class="code_btn bg_red" id="J_send_sms_verify" />
+					<input type="hidden" id="settings-mobile-type" name="step" value="2">
+				</li>
+				<li class="webkit-box last">
+					<label class="input_lable">新手机号：</label>
+					<input type="text" placeholder="请输入新手机号" id="settings-new-mobile" value="" name="mobile" class="textbox webkit-box-flex" />
+				</li>
+				<input type="hidden" name="bind_mobile" value="0" />
+				{else}
+				<li class="webkit-box">
+					<label class="input_lable">手机号：</label>
+					<input type="text" placeholder="请输入手机号" id="settings-mobile" value="" name="mobile" class="textbox webkit-box-flex" />
+				</li>
+				<li class="last webkit-box">
+					<input type="text" placeholder="请输入验证码" value="" name="verify_coder" class="textbox webkit-box-flex mr5" />
+					<input type="button" value="获取验证码" class="code_btn bg_red" id="J_send_sms_verify" />
+					<input type="hidden" id="settings-mobile-type" name="step" value="1">
+				</li>
+				<input type="hidden" name="bind_mobile" value="1" />
+				{/if}
+			</ul>
+			<div class="blank15"></div>
+			<div class="submit_btn_row">
+				<div class="two_btn webkit-box">
+					<input type="button" value="提交" name="setting_mobile" class="ui-button ui_button_l theme_color sizing webkit-box-flex" id="setting_mobile"  />
+					<input type="button" value="取消" onclick="$.closeModal();" class="ui_button bg_red webkit-box-flex">
+				</div>
+				<input type="hidden" value="1" name="ajax" />
+			</div>
+			<div class="blank15"></div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+	var user_info_mobile = '{$user_info.mobile}';
+</script>

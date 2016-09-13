@@ -1,0 +1,56 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/deal_list.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/deal_list.js";
+?>
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+{include file="inc/home_user_info.html"}
+<div class="dlmain Myhomepage">
+ 	{include file="inc/account_left.html"} 
+	<div class="homeright pageright f_r">	
+		<div class="list_title clearfix">
+			<div {if $all eq 0}class="cur"{/if}>
+				<span>放款列表</span>
+			</div>
+		</div>
+		<div class="list_content">
+			<div class="account_paid">
+				<div class="deal_name_title f18">{$deal_info.name} 放款记录</div>
+				<div class="blank0"></div>
+				<div class="deal_name_title deal_name_title1"> 该项目你实际可获得<span class="f_red"> {function name="format_price" v=$deal_info.pay_amount}</span> 资金（包含运费）</div>
+				<div class="blank20"></div>
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc_table">
+					<thead>
+						<tr>
+							<th>备注说明</th>
+							<th>发放金额</th>
+							<th>发放方式</th>
+							<th>发放时间</th>						
+						</tr>
+					</thead>
+					<tbody>
+						{if $paid_list}
+						{foreach from=$paid_list item=paid_item}
+						<tr>
+							<td>{$paid_item.log_info}</td>
+							<td>{function name="format_price" v=$paid_item.money}</td>
+							<td>管理员发放</td>
+							<td>{function name="to_date" v=$paid_item.create_time}</td>
+						</tr>
+						{/foreach}
+						{else}
+						<tr><td colspan="4">还没有任何放款记录</td></tr>
+						{/if}
+					</tbody>
+				</table>
+				{if $paid_list}
+				<div class="blank20"></div>
+				<div class="pages">{$pages}</div>
+				<div class="blank20"></div>
+				{/if}
+			</div>
+		</div>
+	</div>
+	<div class="blank0"></div>
+</div>
+{include file="inc/footer.html"} 

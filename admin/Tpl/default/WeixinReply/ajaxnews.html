@@ -1,0 +1,42 @@
+<div class="container-f">
+	<div class="box-title clearfix">
+		<div class="f_l">
+			
+		</div>
+		<div class="search-box f_r">
+			<form action="{:u("WeixinReply/ajaxnews")}" method="POST" id="ajax_news_form">
+                <input type="text" id="keyword-input" value="{$keywords}" name="keywords" class="input-small-z" placeholder="请输入关键词">
+                <input type="submit" class="btn" value="查询" />
+            </form>
+		</div>
+	</div>
+	
+	<div class="box-content clearfix">
+		<div class="row clearfix">
+			<form action="{:u("WeixinReply/ajaxnews")}" method="post" class="form-horizontal">
+                 <table id="listTable" class="table-hover dataTable ajaxdataTable" >
+                    <thead>
+                        <tr>
+                            <th class="with-checkbox">
+                                <input type="checkbox" class="check_all">
+							</th>
+                            <th>关键字/地址</th>
+                            <th>回答</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    	<foreach name="list" item="item" >
+                    		<tr>
+	                        	<td><input type="checkbox" name="check" rel="relate_reply_id" value="{$item.id}"></td>
+								<td><if condition="$item.i_msg_type eq 'location'">{$item.address}<else />{$item.keywords}</if></td>
+								<td class="reply_content">{$item.reply_news_description}</td>
+	
+	                        </tr>
+                    	</foreach>
+                     </tbody>
+                </table>
+            </form>
+			<div class="pages clearfix"><include file="Public:pager_ajax" /></div>
+		</div>
+	</div>
+</div>

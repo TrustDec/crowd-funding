@@ -1,0 +1,77 @@
+{include file="inc/header.html"} 
+<?php
+//$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/invite.js";
+//$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/invite.js";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/consignee.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<!--中间开始-->
+<section class="account_view_order">
+	<div class="ul_block ul_block_list">
+		<div class="ui_button theme_color" url="{url_wap r="settings#add_invite"}" id="add_invite" style=" display:none;">
+			<span>邀请机构成员</span>
+		</div> 
+		<div class="blank15"></div>
+		{if $invite_list}
+		{foreach from=$invite_list item=invite_item}
+		<ul>
+			<li class="webkit-box">
+				<label class="input_lable mr10">机构成员姓名</label>
+				<div class="list_con webkit-box-flex">
+					{$invite_item.user_name}	
+				</div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable mr10">机构成员职业</label>
+				<div class="list_con webkit-box-flex">{$invite_item.job}</div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable mr10">机构成员邮箱</label>
+				<div class="list_con webkit-box-flex">{$invite_item.email}</div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable mr10">邀请机构成员时间</label>
+				<div class="list_con webkit-box-flex">
+					{if $invite_item.update_time eq 0}		
+						{function name="to_date" v=$invite_item.create_time}
+					{else}
+						{function name="to_date" v=$invite_item.update_time}
+					{/if}
+				</div>
+			</li>
+	
+			<li class="webkit-box">
+				<label class="input_lable mr10">邀请状态</label>
+				<div class="list_con webkit-box-flex">
+					{if $invite_item.status eq 0}	
+						 待确认
+					{elseif  $invite_item.status eq 1}
+						接受邀请
+					{else}
+						拒绝邀请
+					{/if}
+				</div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable mr10">操作</label>
+				<div class="list_con webkit-box-flex">
+					{if $invite_item.status eq 0}	
+						无
+					{else}
+						<a href="#" class="f_red J_del_invite" rel="{$invite_item.id}">删除</a>
+					{/if}
+				</div>
+			</li>
+		</ul>
+		<div class="blank15"></div>
+		{/foreach}
+		<div class="pages">{$pages}</div>
+		<div class="blank15"></div>
+		{else}	
+			<p class="tc">还没有机构成员</p>
+		{/if}
+	</div>	
+</section>
+<div class="blank15"></div>
+<!-- settings.js -->
+{include file="inc/footer.html"} 

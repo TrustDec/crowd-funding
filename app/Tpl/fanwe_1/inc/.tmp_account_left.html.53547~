@@ -1,0 +1,18 @@
+<div class="homeleft pageleft f_l ">
+			<div class="menutitle">项目管理</div>
+			<ul class="homemenulist">
+				<li {if $module eq 'account'&& $action eq 'index'}class="select"{/if}><a href="{url r="account#index"}" class="a1">支持的项目</a></li>
+				<li {if $module eq 'account'&& $action eq 'project'}class="select"{/if}><a href="{url r="account#project"}" class="a2">我的项目</a></li>
+				<li {if $module eq 'account'&& $action eq 'focus'}class="select"{/if}><a href="{url r="account#focus"}" class="a3">关注的项目</a></li>
+				<li {if $module eq 'account'&& $action eq 'credit'}class="select"{/if}><a href="{url r="account#credit"}" class="a4">收支明细</a></li>
+				<li {if $module eq 'account'&& $action eq 'record'}class="select"{/if}><a href="{url r="account#record"}">充值记录</a></li>	
+			</ul>
+			<div class="menutitle">个人设置</div>
+			<ul class="homemenulist">
+				<li {if $module eq 'settings'&& $action eq 'index'}class="select"{/if}><a href="{url r="settings#index"}" class="a5">资料修改</a></li>
+				<li {if $module eq 'settings'&& $action eq 'password'}class="select"{/if}><a href="{url r="settings#password"}" class="a6">修改密码</a></li>
+				<li {if $module eq 'settings'&& $action eq 'consignee'}class="select"{/if}><a href="{url r="settings#consignee"}" class="a8">收件地址管理</a></li>
+				<li {if $module eq 'settings'&& $action eq 'bind'}class="select"{/if}><a href="{url r="settings#bind"}" class="a7">绑定设置</a></li>
+				<li {if $module eq 'settings'&& $action eq 'bank'}class="select"{/if}><a href="{url r="settings#bank"}" class="a9">银行帐户</a></li>	
+			</ul>			
+		</div>

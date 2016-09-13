@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="Generator" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=0,minimum-scale=0.5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{if $page_title neq ''}{$page_title} - {/if}{$site_name} - {$seo_title}</title>
+    <meta name="keywords" content="{$seo_keyword}" />
+    <meta name="description" content="{$seo_description}" />
+    <?php
+    $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/layout.css";
+	$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/style.css";
+	$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/jquery-1.8.2.min.js";
+ 	$this->_var['cpagejs'][] = $this->_var['TMPL_REAL']."/js/jquery-1.8.2.min.js";
+	?>
+    <link rel="stylesheet" type="text/css" href="{$REAL_APP_ROOT}/public/script/Font-Awesome-4.2.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$pagecss"}" />
+	<script type="text/javascript" src="{function name="parse_script" v="$pagejs" c="$cpagejs"}"></script>
+    <!--百度轻应用-->
+    <meta name="baidu-tc-cerfication" content="688cdfaa49f7c8f87fd5883492587d8e">
+</head>
+<body>
+<div class="wraper">
+	<a class="detailmain_a" href="javascript:void(0);" id="detailmain_a">
+		<span id="view_details">展开详情</span><i class="fa fa-angle-right"></i>
+	</a>
+	<div class="blank10"></div>
+	<div class="deal_info_box pb15" id="deal_info_box" style="display:none">
+		{include file="deal_info.html"} 
+		<div class="blank15"></div>
+		<a class="detailmain_aa tc" href="javascript:void(0);" id="detailmain_aa" style="width:130px;display:block;margin:0 auto">
+			<span class="theme_fcolor" id="view_detailss">收起详情</span><i class="fa fa-angle-up theme_fcolor"></i>
+	    </a>
+	</div>
+</div>
+<script type="text/javascript">
+	// 显隐详情
+	$(function view_details_click(){
+		$("#detailmain_a").bind('click',function(){
+			if($("#deal_info_box").is(":hidden")){
+				$("#deal_info_box").show();
+				$(this).find("#view_details").text("收起详情");
+				$(this).find(".fa").removeClass("fa-angle-right").addClass("fa-angle-down");
+			}
+			else{
+				$("#deal_info_box").hide();
+				$(this).find("#view_details").text("展开详情");
+				$(this).find(".fa").removeClass("fa-angle-down").addClass("fa-angle-right");
+			}
+		});
+		$("#detailmain_aa").bind('click',function(){
+			$("#deal_info_box").hide();
+			$("#view_details").text("展开详情");
+		});
+	});
+</script>
+</body>
+</html>

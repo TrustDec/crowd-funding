@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="Generator" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=0,minimum-scale=0.5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{if $page_title neq ''}{$page_title} - {/if}{$site_name} - {$seo_title}</title>
+    <meta name="keywords" content="{$seo_keyword}" />
+    <meta name="description" content="{$seo_description}" />
+    <?php
+    $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/layout.css";
+	$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/style.css";
+		?>
+    <link rel="stylesheet" type="text/css" href="{$REAL_APP_ROOT}/public/script/Font-Awesome-4.2.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$pagecss"}" />
+    <!--百度轻应用-->
+    <meta name="baidu-tc-cerfication" content="688cdfaa49f7c8f87fd5883492587d8e">
+</head>
+<body>
+<div class="wraper">
+	<!-- 中间 开始 -->
+	<div class="l_main_bd slideTxtBox">
+	    <div class="effect_bd">
+	        
+	        
+	        <!-- 股东及管理团队 开始 -->
+	        <div class="investor_info_box" id="pro_con_2" ">
+	            <div class="title f_red">
+	                <i class="fa fa-tags mr5"></i>股东团队说明
+	            </div>
+	            <div class="text">
+	            {if $stock_list}
+	                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab2">
+	                <tbody>
+	                    <tr class="col">
+	                        <td>姓名</td>
+	                        <td>职务</td>
+	                        <td>所占股份(%)</td>
+	                        <td>是否全职</td>
+	                        <td>实际出资金额（万元）</td>
+	                        <td>与其他股东历史关系描述</td>
+	                    </tr>
+	                    {foreach from=$stock_list item=stock_item key=k1}
+	                    <tr>
+	                        <td>{$stock_item.name}</td>
+	                        <td>{$stock_item.job}</td>
+	                        <td>{$stock_item.share}</td>
+	                        <td>{$stock_item.is_full_time}</td>
+	                        <td>{$stock_item.invest_money}</td>
+	                        <td>{$stock_item.relation}</td>
+	                    </tr>
+	                    {/foreach}
+	                </tbody>
+	                </table>
+	                {foreach from=$stock_list item=stock_item key=k1}
+	                <div class="name">▍股东团队成员{$stock_item.name}简介：</div>
+	                <div class="sub"> {$stock_item.describe} </div>
+	                {/foreach}
+	            {/if}
+	            {if !$stock_list}
+	                暂无股东团队说明
+	            {/if} 
+	            </div>
+	            <div class="blank15"></div>
+	            <div class="title f_red">
+	                <i class="fa fa-tags mr5"></i>非股东管理团队
+	            </div>
+	            <div class="text">
+	            {if $unstock_list}
+	                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab2">
+	                <tbody>
+	                    <tr class="col">
+	                        <td>姓名</td>
+	                        <td>职务</td>
+	                        <td>是否全职</td>
+	                        <td>与创始团队成员历史关系</td>
+	                    </tr>
+	                    {foreach from=$unstock_list item=unstock_item}
+	                        <tr>
+	                            <td>{$unstock_item.name}</td>
+	                            <td>{$unstock_item.job}</td>
+	                            <td>{$unstock_item.is_full_time}</td>
+	                            <td>{$unstock_item.relation}</td>
+	                        </tr> 
+	                    {/foreach}
+	                </tbody>
+	                </table>
+	                {foreach from=$unstock_list item=unstock_item }
+	                        <div class="name">▍非股东团队成员{$unstock_item.name}简介：</div>
+	                        <div class="sub"> {$unstock_item.describe} </div>
+	                {/foreach}
+	            {/if}
+	            {if !$unstock_list}
+	            <div class="tc f_999">暂无非股东管理团队</div>
+	            {/if}
+	            </div>
+	        </div>
+	        <!-- 股东及管理团队 结束 --> 
+	    </div>   
+	</div>
+	<!-- 中间 结束 -->
+</div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+.attention_focus_deal.qxgz{color:#999;}
+.card{
+	margin:0.5rem 0;
+	border-bottom:1px solid #e1e1e1;
+	box-shadow:none;
+}
+.pimg{
+  width: 48px;
+  height: 48px;
+  margin:0 10px 0 0;
+  display:block;
+  float:left;
+}
+.return_item .card:nth-child(n+4){
+	display:none;
+}
+.return_item.return_more_item .card:nth-child(n+4){
+ 	display:block;
+}
+.view_more_return_item{margin:0.5rem 0;}
+.critical_ul ul{padding:0}
+.content-block-title{
+	margin:0.75rem 0.5rem 0.5rem;
+	font-size:0.8rem;
+}
+.introduce_list .introduce{font-size:0.6rem;}

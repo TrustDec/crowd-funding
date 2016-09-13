@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="renderer" content="webkit" />
+<meta name="keywords" content="{if $page_seo_keyword neq ''}{$page_seo_keyword}{else}{$seo_keyword}{/if}" />
+<meta name="description" content="{if $page_seo_description neq ''}{$page_seo_description}{else}{$seo_description}{/if}" />
+<title>{if $page_title neq ''}{$page_title} - {/if}{$site_name} - {$seo_title}</title>
+<?php
+$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/fanwe_utils/base.theme.css";
+$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/fanwe_utils/base.frame.css";
+$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/fanwe_utils/weebox.css";
+$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/common_css/layout.css";
+$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/common_css/style.css";
+$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/head.css";
+$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/foot.css";
+
+$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/common_js/jquery-1.8.2.min.js";
+$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jquery.bgiframe.js";
+$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jquery.weebox.js";
+$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jquery.pngfix.js";
+$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/lazyload.js";
+$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/fanweUI.js";
+$this->_var['cpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/fanweUI.js";
+$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/zcUI.js";
+$this->_var['cpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/zcUI.js";
+$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/script.js";
+$this->_var['cpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/script.js";
+$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/common_js/script.js";
+$this->_var['cpagejs'][] = $this->_var['TMPL_REAL']."/js/common_js/script.js";
+
+if(app_conf("APP_MSG_SENDER_OPEN")==1)
+{
+$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/msg_sender.js";
+$this->_var['cpagejs'][] = $this->_var['TMPL_REAL']."/js/msg_sender.js";
+}
+if(HAS_DEAL_NOTIFY>0)
+{
+$this->_var['notifypagejs'][] = $this->_var['TMPL_REAL']."/js/notify_sender.js";
+$this->_var['cnotifypagejs'][] = $this->_var['TMPL_REAL']."/js/notify_sender.js";	
+}
+$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/plupload/plupload.full.min.js";
+$this->_var['cpagejs'][] = $this->_var['TMPL_REAL']."/js/plupload/plupload.full.min.js";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$pagecss"}" />
+<script type="text/javascript">
+var APP_ROOT = '{$APP_ROOT}';
+var LOADER_IMG = '{$TMPL}/images/lazy_loading.gif';
+var ERROR_IMG = '{$TMPL}/images/image_err.gif';
+{if app_conf("APP_MSG_SENDER_OPEN") eq 1}
+var send_span = {function name="app_conf" v="SEND_SPAN"}000;
+{/if}
+var __HASH_KEY__ = "{insert name="get_hash_key"}";
+
+var DO_REGISTER_URL = "{url r="user#do_register"}";
+var REGISTER_CHECK_URL = "{url r="user#register_check"}";
+var CHECK_VERIFY_CODE_URL = "{url r="ajax#check_verify_code"}";
+</script>
+<script type="text/javascript" src="{function name="parse_script" v="$pagejs" c="$cpagejs"}"></script>
+{if HAS_DEAL_NOTIFY>0}
+<script type="text/javascript" src="{function name="parse_script" v="$notifypagejs" c="$cnotifypagejs"}"></script>
+{/if}
+
+<!--[if IE 6]>
+	<script src="{$TMPL}/js/fanwe_utils/DD_belatedPNG_0.0.8a-min.js"></script>
+	<script>
+	DD_belatedPNG.fix('.banner .btn_tit ul li.on , .banner .btn_tit ul li , .mx_1 , .mx_2 , .mx_3 , .mx_4 , .xzdq1 , .zcz , .timeline-left-gray , .deal_log_title .title , .timeline-comment-top , .timeline-start span , .pageleft a , .dz , .kj , .boxaddress , .xzdq , .con6 .sub , .fx i , .attention_focus_deal i , .head_down_icon , .banner .prev , .banner .next , .mxr_1 , .mxr_2 , .mxr_3 , .shenhe .shenhe_info li , .mod_title i , .box4 .mod_cont3 .leader_t , .box4 .mod_cont3 .leader_w , .box4 .mod_cont3 .leader_r , .box4 .mod_cont3 .leader_x , .box4 .mod_cont3 .leader_p , .step_box , .pageleft a i , .invester_all .col_a , .article_l li.on , .article_box .article_r_list h3'); 
+	</script>
+<![endif]-->
+<style type="text/css">
+	body{ background:#f3f3f3; }
+	.dlmain { background:url({$TMPL}/images/images/reglog_bg.gif) repeat-y; }
+	.dlr1{margin-bottom:50px}
+	.J_wrap{position:relative;z-index:3;}
+	.my_shadow_bg{position:relative;z-index:2;}
+</style>
+</head>
+<body>
+<div class="head_1 z100" id="J_head">
+	<div class="head_cont" style="background:#fff">
+		<div class="wrap1000 constr clearfix">
+			<div class="logo_1 f_l">
+				<a class="link" href="{$APP_ROOT}/">
+					<?php
+						 $this->_var['logo_image'] = app_conf("SITE_LOGO");
+					?>
+					<img src="{$logo_image}" />
+				</a>
+			</div>
+			<!--{if $MODULE_NAME == 'user'}-->
+			<div class="f_yahei no-nav-text">{if $ACTION_NAME == 'login'}登录{elseif $ACTION_NAME eq 'register'}注册{elseif $ACTION_NAME eq 'getpassword'}取回密码{/if}</div>
+			<!--{/if}-->
+			<div class="blank0"></div>
+		</div>
+	</div>
+	<p class="head_bg"></p>
+</div>

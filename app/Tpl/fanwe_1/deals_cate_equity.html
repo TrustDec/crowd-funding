@@ -1,0 +1,320 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/index.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/deals_cate_index.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/index.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/index.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jquery.SuperSlide.2.1.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jquery.SuperSlide.2.1.js";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<!--  海报区域 开始-->
+<div class="banner slideBox" id="banner">
+	<div class="btn_tit effect_hd">
+		<ul>
+			{foreach from=$image_list item=image_item}
+			<li></li>
+			{/foreach}
+		</ul>
+	</div>
+	<div class="banner_cont effect_bd">
+		<ul>
+			{foreach from=$image_list item=image_item}
+			<li><a href="{$image_item.url}" target=_blank style="display:block;background: url({function name="get_spec_image" v=$image_item.image w=1440 h=350 g=1}) 50% 50% no-repeat;"></a></li>
+			{/foreach}
+		</ul>
+	</div>
+	<div class="fy_box">
+		<!--左右翻页按钮，可以不用-->
+		<a class="prev" href="javascript:void(0)"></a>
+		<a class="next" href="javascript:void(0)"></a>
+	</div>
+	
+</div>
+<script type="text/javascript"> 
+	if(!$(".banner_cont ul").has('li').length){ 
+		$("#banner").css("display","none");
+	} 
+	
+	if($(".banner_cont ul").find('li').length==1){ 
+		$(".btn_tit").css("display","none");
+	}
+	else if($(".banner_cont ul").find('li').length>1){
+		$(".btn_tit").css("display","block");
+	}
+	if($(".banner_cont ul").find('li').length>1){
+		jQuery("#banner").slide({mainCell:".banner_cont ul",effect:"leftLoop",easing:"easeInOutQuint",delayTime:500,autoPlay:true});
+		$("#banner").mousemove(function(){
+			$(this).find(".prev").show();
+			$(this).find(".next").show();
+		}).mouseout(function(){
+			$(this).find(".prev").hide();
+			$(this).find(".next").hide();
+		});
+	}
+</script>
+<!--  海报区域 结束-->
+<div class="deals_cate_equity">
+	<div class="ui_deals_filter">
+		<div class="ui_deals_filter_item">
+			<div class="ui_deals_filter_l f_l">
+				<ul>
+					<li>
+						<a href="{url r="deals" p="type=$p_type"}" target="_blank" title="所有项目">所有项目</a>
+					</li>
+					<li>
+						<a href="{url r="deals" p="r=new&type=$p_type"}" target="_blank"  title="新上项目">新上项目</a>
+					</li>
+					<li>
+						<a href="{url r="deals" p="r=rec&type=$p_type"}" target="_blank"  title="融资中">融资中</a>
+					</li>
+					<li>
+						<a href="{url r="deals" p="r=nend&type=$p_type"}" target="_blank"  title="即将结束">即将结束</a>
+					</li>
+					<li>
+						<a href="{url r="deals" p="r=yure&type=$p_type"}" target="_blank"  title="预热项目">预热项目</a>
+					</li>
+					 
+					<li>
+						<a href="{url r="deals" p="state=1&type=$p_type"}" target="_blank"  title="成功案例">成功案例</a>
+					</li>
+				</ul>
+			</div>
+			<div class="ui_deals_filter_r f_r" style="display:none;">
+				<div class="filter_r_l f_l mr10">
+					<label class="f_l">分类：</label>
+					<a class="btn-select" id="btn-select1"> 
+						<span class="cur-select" id="cur-select1">请选择</span> 
+						<select name="deal_sort" class="deal_sort">
+							<option {if !$p_r}selected="selected"{/if}  value="{url r="deals" p="type=$p_type"}">请选择</option>
+							<option {if $p_r eq 'rec'}selected="selected"{/if} value="{url r="deals" p="r=rec&type=$p_type"}">推荐项目</option>
+							<option {if $p_r eq 'yure'}selected="selected"{/if} value="{url r="deals" p="r=yure&type=$p_type"}">正在预热</option>
+							<option {if $p_r eq 'new'}selected="selected"{/if} value="{url r="deals" p="r=new&type=$p_type"}">最新上线</option>
+							<option {if $p_r eq 'nend'}selected="selected"{/if} value="{url r="deals" p="r=nend&type=$p_type"}">即将结束</option>
+							<option {if $p_r eq 'classic'}selected="selected"{/if} value="{url r="deals" p="r=classic&type=$p_type"}">经典项目</option>
+						</select>
+					</a>
+				</div>
+				<div class="filter_r_r f_r">
+					<label class="f_l">地区：</label>
+					<a class="btn-select" id="btn-select2"> 
+						<span class="cur-select" id="cur-select2">请选择省份</span> 
+						<select name="deal_sort" class="deal_sort">
+							<option {if !$p_r}selected="selected"{/if}  value="{url r="deals" p="type=$p_type"}">请选择</option>
+							<option {if $p_r eq 'rec'}selected="selected"{/if} value="{url r="deals" p="r=rec&type=$p_type"}">推荐项目</option>
+							<option {if $p_r eq 'yure'}selected="selected"{/if} value="{url r="deals" p="r=yure&type=$p_type"}">正在预热</option>
+							<option {if $p_r eq 'new'}selected="selected"{/if} value="{url r="deals" p="r=new&type=$p_type"}">最新上线</option>
+							<option {if $p_r eq 'nend'}selected="selected"{/if} value="{url r="deals" p="r=nend&type=$p_type"}">即将结束</option>
+							<option {if $p_r eq 'classic'}selected="selected"{/if} value="{url r="deals" p="r=classic&type=$p_type"}">经典项目</option>
+						</select>
+					</a>
+					<a class="btn-select" id="btn-select3"> 
+						<span class="cur-select" id="cur-select3">请选择城市</span> 
+						<select name="deal_sort" class="deal_sort">
+							<option {if !$p_r}selected="selected"{/if}  value="{url r="deals" p="type=$p_type"}">请选择</option>
+							<option {if $p_r eq 'rec'}selected="selected"{/if} value="{url r="deals" p="r=rec&type=$p_type"}">推荐项目</option>
+							<option {if $p_r eq 'yure'}selected="selected"{/if} value="{url r="deals" p="r=yure&type=$p_type"}">正在预热</option>
+							<option {if $p_r eq 'new'}selected="selected"{/if} value="{url r="deals" p="r=new&type=$p_type"}">最新上线</option>
+							<option {if $p_r eq 'nend'}selected="selected"{/if} value="{url r="deals" p="r=nend&type=$p_type"}">即将结束</option>
+							<option {if $p_r eq 'classic'}selected="selected"{/if} value="{url r="deals" p="r=classic&type=$p_type"}">经典项目</option>
+						</select>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="blank20"></div>
+	<div class="wrap">
+		{if $hot_list}
+		<!-- 热门项目 开始 -->
+		<h3 class="wrap index_title">
+		 	<span>热门项目</span>
+		 	<a href="{url r="deals" p="type=1"}" target="_blank" class="f_r">查看更多</a>
+		</h3>
+		{foreach from=$hot_list item=hot_item}
+			{include file="inc/deal_cate_list.html"} 
+		{/foreach}
+		<!-- 热门项目 结束 -->
+		<div class="blank20"></div>
+		{/if}
+		{if $recommend_list}
+		<!-- 推荐项目 开始 -->
+ 		<h3 class="wrap index_title">
+		 	<span>推荐项目</span>
+		 	<a href="{url r="deals" p="type=1&r=rec"}" target="_blank" class="f_r">查看更多</a>
+		</h3>
+		{foreach from=$recommend_list item=hot_item}
+			{include file="inc/deal_cate_list.html"} 
+		{/foreach}
+		<!-- 推荐项目 结束 -->
+		<div class="blank20"></div>
+		{/if}
+		{if $classic_list}
+		<!-- 经典项目 开始 -->
+		<h3 class="wrap index_title">
+		 	<span>经典项目</span>
+		 	<a href="{url r="deals" p="type=1&r=classic"}" target="_blank" class="f_r">查看更多</a>
+		</h3>
+		{foreach from=$classic_list item=hot_item}
+			{include file="inc/deal_cate_list.html"} 
+		{/foreach}
+		<!-- 经典项目 结束 -->
+		<div class="blank20"></div>
+		{/if}
+		<!-- 最新预热 开始 -->
+		{if $preheat_list}
+		<h3 class="wrap index_title">
+		 	<span>最新预热</span>
+		 	<a href="{url r="deals" p="type=1&r=yure"}" target="_blank" class="f_r">查看更多</a>
+		</h3>
+		{foreach from=$preheat_list item=hot_item}
+			{include file="inc/deal_cate_preheat.html"} 
+		{/foreach}
+		
+		<!-- 最新预热 结束 -->
+		
+		<div class="blank20"></div>
+		{/if}
+		{if $log_list.left_list&&$log_list.right_list}
+		<!-- 项目动态 开始 -->
+		<h3 class="index_title">
+		 	<span>项目动态</span>
+		 	<a href="{url r="news"}" target="_blank" class="f_r">查看更多</a>
+		</h3>
+		<div>
+			<div class="equity_l f_l">
+				{foreach from=$log_list.left_list item=log_item key=k}
+				<div class="equity_box">
+					<div class="equity_box_l f_l">
+						<div class="pic f_l mr10">
+							<a href="{url r="deal#show" p="id=$log_item.deal_info.id"}" target="_blank"><img src="{if $log_item.deal_info.image eq ''}{$TMPL}/images/empty_thumb.gif{else}{function name="get_spec_image" v=$log_item.deal_info.image w="282" h="220" g="1"}{/if}" alt="{$log_item.deal_info.name}">
+							</a>
+						</div>
+						<div class="inf f_r">
+							<h3>
+								<a href=""><span class="theme_fcolor">{$log_item.deal_info.name}</span></a>
+							</h3>
+							<div class="blank10"></div>
+							<div class="inf_2">
+								<i></i>
+								<span class="mr20">
+									<label>发起人：</label>
+									<span>{$log_item.deal_info.user_name}</span>
+								</span>
+								<span class="mr20">
+									<label>地区：</label>
+									<span>{$log_item.deal_info.province}{$log_item.deal_info.city}</span>
+								</span>
+								<span class="mr20">
+									<label>项目类型：</label>
+									<span>{$log_item.deal_info.cate_name}</span>
+								</span>
+							</div>
+							<div class="blank10"></div>
+							<div class="inf_3">
+								<span>项目介绍：</span>
+								<span>
+									{function name="msubstr" v=$log_item.deal_info.business_descripe b=0 e=110}
+								</span>
+							</div>
+							<div class="blank10"></div>
+							<div class="inf_4">
+								<div class="deal_content_box">             
+									<div class="ui-progress">
+										<span class="theme_bgcolor" style="width:{$log_item.deal_info.percent}%;"></span>
+									</div>
+									<div class="blank"></div>
+									<div class="div3 div3_l">
+										<label>项目进度：</label><span>{$log_item.deal_info.percent}%</span>
+									</div>
+									<div class="div3 div3_r">
+										{if $log_item.deal_info.begin_time > $now}
+										<label>距离开始：</label><span>{$log_item.deal_info.left_days}天</span>
+										{elseif $log_item.deal_info.end_time < $now and $log_item.deal_info.end_time neq 0}
+										<label>结束时间：</label><span>{function name="to_date" v="$log_item.deal_info.end_time" f="y/m/d"}</span>
+										{else}
+										<label>剩余天数：</label><span>{$log_item.deal_info.remain_days}天</span>
+										{/if}
+									</div>
+								</div>
+							</div>
+							<div class="blank10"></div>
+							<div class="inf_5">
+								<i></i>
+								<span class="f_red f_l">{$log_item.log_info}</span>
+								<span class="f_red f_r">{$log_item.left_time}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				{if $k eq 0}
+					<div class="blank20"></div>
+				{/if}
+				{/foreach}
+			</div>
+			<div class="equity_r f_r">
+				<h3>更多项目动态</h3>
+				<ul>
+					{foreach from=$log_list.right_list item=right_item key=k}
+					<li>
+						<a href="{url r="deal#show" p="id=$right_item.deal_id"}" class="f_l">{function name="msubstr" v=$right_item.deal_name b=0 e=20}</a>
+						<span class="f_r f_999">{$log_item.left_time}</span>
+					</li>
+					{/foreach}
+				</ul>
+			</div>
+		</div>
+		<!-- 项目动态 结束 -->
+		<div class="blank20"></div>
+		{/if}
+		<!-- 媒体报道 开始 -->
+		<div class="news" style="display:none;">
+			<div class="news_l">
+				<h3>文摘/媒体报道</h3>
+				<div class="blank10"></div>
+				<ul>
+					<li><a href="" class="f_l">合服务平台，服务于国内8</a><span class="f_r f_999">21小时前</span><div class="blank0"></div></li>
+					<li><a href="" class="f_l">合服务平台，服务于国内8</a><span class="f_r f_999">21小时前</span><div class="blank0"></div></li>
+					<li><a href="" class="f_l">合服务平台，服务于国内8</a><span class="f_r f_999">21小时前</span><div class="blank0"></div></li>
+					<li><a href="" class="f_l">合服务平台，服务于国内8</a><span class="f_r f_999">21小时前</span><div class="blank0"></div></li>
+					<li><a href="" class="f_l">合服务平台，服务于国内8</a><span class="f_r f_999">21小时前</span><div class="blank0"></div></li>
+					<li><a href="" class="f_l">合服务平台，服务于国内8</a><span class="f_r f_999">21小时前</span><div class="blank0"></div></li>
+					<li><a href="" class="f_l">合服务平台，服务于国内8</a><span class="f_r f_999">21小时前</span><div class="blank0"></div></li>
+					<li><a href="" class="f_l">合服务平台，服务于国内8</a><span class="f_r f_999">21小时前</span><div class="blank0"></div></li>
+				</ul>
+			</div>
+			<div class="news_r">
+				<ul>
+					<li><a href="" class="f_l">合服务平台，服务于国内8</a><span class="f_r f_999">21小时前</span><div class="blank0"></div></li>
+					<li><a href="" class="f_l">合服务平台，服务于国内8</a><span class="f_r f_999">21小时前</span><div class="blank0"></div></li>
+					<li><a href="" class="f_l">合服务平台，服务于国内8</a><span class="f_r f_999">21小时前</span><div class="blank0"></div></li>
+					<li><a href="" class="f_l">合服务平台，服务于国内8</a><span class="f_r f_999">21小时前</span><div class="blank0"></div></li>
+					<li><a href="" class="f_l">合服务平台，服务于国内8</a><span class="f_r f_999">21小时前</span><div class="blank0"></div></li>
+					<li><a href="" class="f_l">合服务平台，服务于国内8</a><span class="f_r f_999">21小时前</span><div class="blank0"></div></li>
+					<li><a href="" class="f_l">合服务平台，服务于国内8</a><span class="f_r f_999">21小时前</span><div class="blank0"></div></li>
+					<li><a href="" class="f_l">合服务平台，服务于国内8</a><span class="f_r f_999">21小时前</span><div class="blank0"></div></li>
+				</ul>
+			</div>
+		</div>
+		<!-- 媒体报道 结束 -->
+		<div class="blank20"></div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(".equity_box1:odd").css("marginRight","0");
+
+	btn_select("#cur-select1","#btn-select1","#btn-select1 option:selected");
+	btn_select("#cur-select2","#btn-select2","#btn-select2 option:selected");
+	btn_select("#cur-select3","#btn-select3","#btn-select3 option:selected");
+
+	// 自定义select下拉处理时间
+	function btn_select(curSelect,btnSelect,btnSelect_option){
+		$(curSelect).html($(btnSelect_option).html());
+		$(btnSelect).bind("change", function(){
+			$(curSelect).html($(btnSelect_option).html());
+			location.href = $(btnSelect_option).val();
+		});
+	}
+</script>
+{include file="inc/footer.html"} 

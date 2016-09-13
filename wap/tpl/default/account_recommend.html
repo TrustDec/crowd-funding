@@ -1,0 +1,55 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/account.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<div class="blank"></div>
+<!-- 中间开始 -->
+<section class="account_index my_project account_mod">
+    <ul>
+    	{foreach from=$recommend_info item=recommend_info_item}
+        <li>
+            <div class="webkit-box">
+                <div class="pic_show mr5">
+                    <a href="#" onclick="RouterURL('{url_wap r="deal#show" p="id=$recommend_info_item.deal_id"}','#deal-show',2);">
+						<img src="{function name="get_spec_image" v=$recommend_info_item.deal_image w=60 h=45 g=1}"  alt="{$recommend_info_item.deal_name}" class="f_l p_img"/>
+					</a>
+                </div>
+                <div class="details webkit-box-flex">
+                    <h3 class="info_name">
+                        <a href="#" onclick="RouterURL('{url_wap r="deal#show" p="id=$recommend_info_item.deal_id"}','#deal-show',2);" title="{$order_item.deal_name}">{function name="msubstr" v=$recommend_info_item.deal_name b=0 e=25}</a>
+                    </h3>
+                    <div class="info_all">
+                        <div class="info_group">
+                            <label class="label_l">项目类型:</label>&nbsp;
+                            <span class="label_r"><span class="f_red">{if $recommend_info_item.deal_type eq 1}{$gq_name}{/if}{if $recommend_info_item.deal_type eq 0}普通众筹{/if}</span></span>
+                        </div>
+                        <div class="info_group">
+                        	<label class="label_l">推荐理由:</label>&nbsp;
+                           	<span class="label_r">{$recommend_info_item.memo}</span>
+                        </div>
+                    </div>
+                </div>   
+            </div>
+            <div class="blank5"></div>
+            <div class="webkit-box">
+            	<span class="f_999 f12 webkit-box-flex">推送时间：{function name="to_date" v=$recommend_info_item.create_time}</span>
+            	<a href="#" class="f_999 f12 sc" rel="{$recommend_info_item.id}">删除</a>
+            </div>
+        </li>
+	   {/foreach}
+    </ul>
+    <div class="blank10"></div>
+	{if $recommend_info neq null}
+	<div class="pages">{$pages}</div>
+	{/if}
+	<div class="blank10"></div>
+	{if $recommend_info eq null}
+	<div class="f14 tc">
+		暂时没有推送的项目，点击立即<a href="#" onclick="RouterURL('{url_wap r="deals"}','#deals-index');" class="theme_fcolor ml10" target="_blank">浏览更多项目</a>
+	</div>
+	{/if}
+</section>
+<!-- 中间结束 -->
+<!-- account_recommend.js -->
+{include file="inc/footer.html"} 

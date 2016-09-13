@@ -1,0 +1,275 @@
+{include file="inc/header_login_register.html"}
+<?php
+$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/user_register.css";
+$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/setting_security.css";
+$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/user_register.js";
+$this->_var['cpagejs'][] = array();
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$pagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$pagejs" c="$cpagejs"}"></script>
+<style>
+	.nav li{float:left;}
+	.hidden{display:none;}
+	.c{color:#690}
+	.c{color:#12ADFF;}
+	.control-group{ float:left; overflow:visible; }
+	.holder_tip{ top:0; left:0;}
+	.dlmain { width:1000px;background:url({$TMPL}/images/images/reglog_bg.gif) #fcfcfc repeat-y; }
+	.control-group  .form_lable{width:120px}
+	.enterprise_class{ display: none;}
+</style>
+<script type="text/javascript">
+    var ROOT = '{$APP_ROOT}/{$URL_NAME}';
+    var VAR_MODULE = "m";
+    var VAR_ACTION = "a";
+    var WEB_SESSION_ID = '<?php echo es_session::id(); ?>';
+    var EMOT_URL = '{$APP_ROOT}/public/emoticons/';
+    var MAX_FILE_SIZE =  '{$max_size_byte}b';
+    var UPLOAD_URL ='{$APP_ROOT}/{$URL_NAME}?m=File&a=do_upload&upload_type=0&dir=image' ;
+	var UPLOAD_SWF='{$TMPL}/js/plupload/Moxie.swf';
+	var UPLOAD_XAP='{$TMPL}/js/plupload//Moxie.xap';
+	var ALLOW_IMAGE_EXT= "gif,jpg,jpeg,png,bmp";
+	var MAX_IMAGE_SIZE= '{$max_size_byte}b';
+	function get_file_fun(str){
+  		$(str).ui_upload({multi:false,
+		FileUploaded:function(ajaxobj){
+ 				if(ajaxobj.error==1)
+				{
+					$.showErr(ajaxobj.info);
+				}else{
+					$(str).attr('src',ajaxobj.url);
+					
+					$(str+"_image").val(ajaxobj.public_url);
+					
+					
+ 				}
+			},Error:function(error){
+			if(error.code==-600){
+				$.showErr("您上传的文件太大，最大允许上传{$max_size}");
+			}else{
+				$.showErr(error.message);
+			}
+ 		}});
+	}
+</script>
+<div>
+	<div class="blank20"></div>
+	<div class="my_shadow_bg">
+		<div class="blank"></div>
+		<div class="dlmain" style="overflow:hidden">
+			<div class="left f_l dlr" style="width:594px;_width:580px">
+				<div class="link_dash f25 dlr1">
+					<ul class="nav myLine">
+						<li class="theme_fcolor">实名认证</li>
+					</ul>
+	 			</div>
+				<div class="item c_1 hidden setting_security user_register_two">
+					<form class="ajax_form_identify" action="{url r="user#do_register_two"}">
+ 							<div class="control-group small-control-group">
+								<label class="control-label">类型:</label>
+								<div class="f_l f14" style="margin-top:13px">
+									<label class="ui_radiobox mr10" rel="is_investor">
+										<input type="radio" name="is_investor" value="1" {if $user_info.is_investor==0||$user_info.is_investor==1}checked="checked"{/if} />个人会员
+									</label>
+									<label class="ui_radiobox" rel="is_investor">
+										<input type="radio" name="is_investor" value="2" {if $user_info.is_investor==2}checked="checked"{/if} />企业会员
+									</label>
+								</div>
+	 						</div>
+	 						<div class="blank0"></div>
+							<div class="control-group">
+								<label class="control-label" id="identify_name_str">{if $user_info.is_investor==0||$user_info.is_investor==1}个人{else}法人{/if}身份证姓名:</label>
+								<div class="pr f_l">
+									<input type="text" id="" value="{$user_info.identify_name}" class="textbox" name="identify_name" />
+									<span class="holder_tip">请输入正确身份证姓名</span>
+								</div>
+								<div class="blank0"></div>
+	 						</div>
+							<div class="control-group">
+								<label class="control-label">身份证号码:</label>
+								<div class="pr f_l">
+									<input type="text" id="" value="{$user_info.identify_number}" class="textbox" name="identify_number" />
+									<span class="holder_tip">请输入正确身份证号码</span>
+								</div>
+								<div class="blank0"></div>
+	 						</div>
+							<div class="clear"></div>
+	 						{if app_conf('CARD')}
+ 							<div class="control-group small-form_row-group gr_div">
+								<label class="control-label">名片:</label>
+						      	<div class="pic_box f_l mr20">
+						            <i class="del_pic"></i>
+						            <div class="pic_show">
+						                <img id="card" src="{$user_info.card}" />
+						                <input type="hidden" name="card" id="card_image" value="{$user_info.card}" rel="num" />
+						            </div>
+						        </div>
+								<span class="f_l mt50 w250 tip_show">支持jpg、jpeg、png、gif格式，大小不超过{$max_size}。【推荐尺寸760px*530px】</span>
+						        <div class="clear"></div>
+	 						</div>
+							<div class="clear"></div>
+							{/if}
+							{if app_conf('CREDIT_REPORT')}
+							<div class="control-group small-control-group gr_div">
+								<label class="control-label">信用报告:</label>
+						      	<div class="pic_box f_l mr20">
+						            <i class="del_pic"></i>
+						            <div class="pic_show">
+						                <img id="credit_report" src="{$user_info.credit_report}" />
+						                <input type="hidden" name="credit_report" id="credit_report_image" value="{$user_info.credit_report}" rel="num" />
+						            </div>
+						        </div>
+								<span class="f_l mt50 w250 tip_show">支持jpg、jpeg、png、gif格式，大小不超过{$max_size}。【推荐尺寸760px*530px】</span>
+						        <div class="blank0"></div>
+	 						</div>
+							<div class="clear"></div>
+							{/if}
+							{if app_conf('HOUSING_CERTIFICATE')}
+							<div class="control-group small-control-group gr_div">
+								<label class="control-label">房产认证:</label>
+						      	<div class="pic_box f_l mr20">
+						            <i class="del_pic"></i>
+						            <div class="pic_show">
+						                <img id="housing_certificate" src="{$user_info.housing_certificate}" />
+						                <input type="hidden" name="housing_certificate" id="housing_certificate_image" value="{$user_info.housing_certificate}" rel="num" />
+						            </div>
+						        </div>
+								<span class="f_l mt50 w250 tip_show">支持jpg、jpeg、png、gif格式，大小不超过{$max_size}。【推荐尺寸760px*530px】</span>
+						        <div class="blank0"></div>
+	 						</div>
+							<div class="clear"></div>
+							{/if}
+							<div class="control-group small-control-group gr_div identity_conditions_box mt10">
+								<label class="control-label">符合以下条件之一<br />的自然人投资者:</label>
+						      	<div class="f_l mr20">
+						            <label class='ui_radiobox' rel="identity_conditions">
+										<input type="radio" name="identity_conditions" {if $user_info.identity_conditions eq 0}checked="checked"{/if} value="0"  />我的金融资产超过100万元
+									</label>
+									<div class="blank10"></div>
+									<label class='ui_radiobox' rel="identity_conditions">
+										<input type="radio" name="identity_conditions" {if $user_info.identity_conditions eq 1}checked="checked"{/if} value="1" />我的年收入超过30万元
+									</label>
+									<div class="blank10"></div>
+									<label class='ui_radiobox' rel="identity_conditions">
+										<input type="radio" name="identity_conditions" {if $user_info.identity_conditions eq 2}checked="checked"{/if} value="2" />我是专业的风险投资人
+									</label>
+									<div class="blank10"></div>
+									<label class='ui_radiobox' rel="identity_conditions">
+										<input type="radio" name="identity_conditions" {if $user_info.identity_conditions eq 3}checked="checked"{/if} value="3" />我不符合上述任一条件
+									</label>
+						        </div>
+						        <div class="blank0"></div>
+	 						</div>
+							
+	 						<div class="control-group enterprise_class">
+								<label class="control-label">企业名称:</label>
+								<div class="pr f_l">
+									<input type="text" id="" value="{$user_info.identify_business_name}" class="textbox" name="identify_business_name" />
+									<span class="holder_tip">请填写企业名称</span>
+								</div>
+								<div class="blank0"></div>
+	 						</div>
+	 						
+	 						<div class="control-group enterprise_class">
+								<label class="control-label">开户银行许可证:</label>
+								<div class="pr f_l">
+									<input type="text" id="" value="{$user_info.bankLicense}" class="textbox" name="bankLicense" />
+									<span class="holder_tip">请填写开户许可证中的核准号</span>
+								</div>
+								<div class="blank0"></div>
+	 						</div>
+	 						
+	 						<div class="control-group enterprise_class">
+								<label class="control-label">组织机构代码:</label>
+								<div class="pr f_l">
+									<input type="text" id="" value="{$user_info.orgNo}" class="textbox" name="orgNo" />
+									<span class="holder_tip">请填写组织机构代码</span>
+								</div>
+								<div class="blank0"></div>
+	 						</div>
+	 						
+	 						<div class="control-group enterprise_class">
+								<label class="control-label">营业执照编号:</label>
+								<div class="pr f_l">
+									<input type="text" id="" value="{$user_info.businessLicense}" class="textbox" name="businessLicense" />
+									<span class="holder_tip">请填写营业执照编号</span>
+								</div>
+								<div class="blank0"></div>
+	 						</div>
+	 						<div class="control-group enterprise_class">
+								<label class="control-label">税务登记号:</label>
+								<div class="pr f_l">
+									<input type="text" id="" value="{$user_info.taxNo}" class="textbox" name="taxNo" />
+									<span class="holder_tip">请填写税务登记号</span>
+								</div>
+								<div class="blank0"></div>
+	 						</div>
+	 						<div class="control-group enterprise_class">
+								<label class="control-label">企业联系人:</label>
+								<div class="pr f_l">
+									<input type="text" id="" value="{$user_info.contact}" class="textbox" name="contact" />
+									<span class="holder_tip">请填写企业联系人</span>
+								</div>
+								<div class="blank0"></div>
+	 						</div>
+	 						
+	 						<div class="control-group small-control-group enterprise_class">
+								<label class="control-label">公司类型:</label>
+								<div class="pr f_l">
+									<select name="memberClassType" class="ui-select field_select small">
+										<option value="ENTERPRISE">企业用户</option>
+										<option value="GUARANTEE_CORP">担保公司</option>
+									</select>
+								</div>
+								<div class="blank0"></div>
+	 						</div>
+	 						<div class="blank20"></div>
+							<div class="submit_btn_row control-group">
+								<label class="control-label"></label>
+								<div class="ui-button theme_bgcolor" rel="green">
+									<div>
+										<span>提交</span>
+									</div>
+								</div>
+								<input type="hidden" value="1" name="ajax" />
+								<input type="hidden" value="0" name="step" />
+							</div>
+							<div class="blank15"></div>
+ 					</form>
+				</div>
+			</div>	
+			<div class="blank"></div>
+		</div>
+	</div>
+	<div class="blank20"></div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		show_tip();
+		resetWindowBox();
+		get_file_fun("#card");		
+		get_file_fun("#credit_report");	
+		get_file_fun("#housing_certificate");
+		{if $user_info.is_investor==2 }
+				$("#identify_name_str").text("法人身份证姓名:");
+				$(".enterprise_class").show();
+				$(".gr_div").hide();
+				
+		{/if}
+		$(".c_1").show();
+		$(".n_1").addClass("c");
+		bind_ajax_form_custom(".ajax_form_identify");
+		$(".ajax_form_identify").find("label[rel='is_investor']").bind('click',function(){
+			if($(this).find("input[type='radio']").val()==2){
+				$("#identify_name_str").text("法人身份证姓名:");
+				$(".enterprise_class").show();
+				$(".gr_div").hide();
+			}else{
+				$("#identify_name_str").text("个人身份证姓名:");
+				$(".enterprise_class").hide();
+				$(".gr_div").show();
+			}
+		});	
+	});	
+</script>
+{include file="inc/footer_login_register.html"}

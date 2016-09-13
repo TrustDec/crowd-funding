@@ -1,0 +1,32 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<div class="main">
+<div class="main_title">{$licai.name}&nbsp;的{$main_title}&nbsp;<a href="{:u("Licai/index")}" class="back_list">{%BACK_LIST}</a></div>
+<div class="blank5"></div>
+<script>
+	//添加跳转
+function q_add(id)
+{
+	location.href = ROOT+"?"+VAR_MODULE+"="+MODULE_NAME+"&"+VAR_ACTION+"=add&id="+id;
+}
+</script>
+<div class="button_row">
+	<input type="button" class="button" value="{%ADD}" onclick="q_add({$licai.id});" />
+	<input type="button" class="button" value="{%DEL}" onclick="del();" />
+</div>
+<div class="blank5"></div>
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="bank" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{%ID}|50px,history_date:日期,net_value_format:当日净利,rate_format:利率" 
+	actionlist="edit:{%EDIT}, del:{%DEL}" /> 
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

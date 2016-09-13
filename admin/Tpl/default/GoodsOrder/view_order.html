@@ -1,0 +1,220 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<load href='__TMPL__Common/js/jquery.bgiframe.js' />
+<load href='__TMPL__Common/js/jquery.weebox.js' />
+<load href='__TMPL__Common/style/weebox.css' />
+<script type="text/javascript" src="__ROOT__/public/region.js"></script>
+<style>
+.item_input{width:355px;}
+.textbox.require.wabc {width: 80%;}
+.item_titles{background: none repeat scroll 0 0 #f5f5f5; color: #000; text-align: right; width: 130px;}
+
+.button.a {
+    background: none repeat scroll 0 0 #f5f5f5;
+    border: 1px solid #f5f5f5;
+    color: #404040;
+}
+</style>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#quxiao").click(function(){
+		var id=$(this).attr("rel");
+		cancel_order(id)
+	});
+	
+	$("select[name='province']").bind("change",function(){
+		load_city();
+	});
+});
+function cancel_order(id)
+{
+	
+	$.ajax({ 
+		url: ROOT+'?m=GoodsOrder&a=cancel_order&id='+id, 
+		data: "ajax=1",
+		dataType: "json",
+		success: function(msg){
+			if(msg.status==0){
+				alert(msg.info);
+			}
+		},
+		error: function(){
+			$.weeboxs.open(ROOT+'?m=GoodsOrder&a=cancel_order&id='+id, {contentType:'ajax',showButton:false,title:"取消积分兑换订单",width:600,height:190});
+		}
+	});
+	
+}
+function load_city()
+{
+		var id = $("select[name='province']").find("option:selected").attr("rel");
+		
+		var evalStr="regionConf.r"+id+".c";
+
+		if(id==0)
+		{
+			var html = "<option value=''>请选择城市</option>";
+		}
+		else
+		{
+			var regionConfs=eval(evalStr);
+			evalStr+=".";
+			var html = "<option value=''>请选择城市</option>";
+			for(var key in regionConfs)
+			{
+				html+="<option value='"+eval(evalStr+key+".n")+"' rel='"+eval(evalStr+key+".i")+"'>"+eval(evalStr+key+".n")+"</option>";
+			}
+		}
+		$("select[name='city']").html(html);		
+}
+</script>
+<div class="main">
+<div class="main_title">兑换商品</div>
+<div class="blank5"></div>
+
+<table class="form" cellpadding=0 cellspacing=0>
+	<tr>
+		<td colspan=4 class="topTd"></td>
+	</tr>
+
+	<tr>
+		<th colspan=4>订单信息</th>
+	</tr>
+	<tr>
+		<td class="item_titles">下单会员:</td>
+		<td class="item_input">{$list.user_name}</td>
+		<td class="item_titles">商品名称:</td>
+		<td class="item_input">{$list.goods_name}</td>
+	</tr>
+	<tr>
+		<td class="item_titles">订单编号:</td>
+		<td class="item_input">{$list.order_sn}</td>
+		<td class="item_title">数量:</td>
+		<td class="item_input">{$list.number}</td>	
+	</tr>
+	<tr>
+		<td class="item_titles">下单时间:</td>
+		<td class="item_input">{$list.format_create_time}&nbsp;</td>
+		<td class="item_title">所需积分:</td>
+		<td class="item_input">{$list.total_score}({$list.score}*{$list.number})</td>
+	<tr>
+		<td class="item_titles">兑换时间:</td>
+		<td class="item_input">{$list.format_ex_time}&nbsp;</td>
+		<td class="item_titles">发货时间:</td>
+		<td class="item_input"><if condition="$list.delivery_status eq 0">{$list.delivery_status_format}<else />{$list.format_delivery_time}</if>&nbsp;</td>
+	</tr>
+	<tr>
+		
+		<td class="item_titles">订单状态:</td>
+		<td class="item_input">
+			{$list.order_status_format}&nbsp;&nbsp;
+			<if condition="($list.order_status eq 0 || $list.order_status eq 1) && $list.delivery_status neq 1">
+				<input id="quxiao" rel="{$list.id}" type="button" class="button" value='<if condition="$list.order_status eq 1">退积分,取消兑换<else />取消订单</if>' />
+			</if>
+		</td>
+		<td class="item_titles">发货状态:</td>
+		<td class="item_input">{$list.delivery_status_format}&nbsp;</td>
+	</tr>
+	<if condition="$list.admin_memo !=''">
+	<tr>
+		<td class="item_title">订单取消备注:</td>
+		<td class="item_input" colspan="3">{$list.admin_memo}</td>
+	</tr>
+	</if>
+	<tr>
+		<td class="item_title">订单备注:</td>
+		<td class="item_input" colspan="3">{$list.memo}</td>
+	</tr>
+	<!--
+	<tr>
+		<td class="item_title">商品属性:</td>
+		<td class="item_input" colspan=3>{$list.attr_view}</td>
+	</tr>
+	-->
+	<form name="edit" action="__APP__" method="post" enctype="multipart/form-data">
+	
+	
+	<tr>
+		<th colspan=4>收货信息</th>
+	</tr>
+	<if condition="$list.is_delivery eq 1">
+		<tr>
+			<td class="item_titles">收货人姓名:</td>
+			<td class="item_input"><if condition="$list.delivery_status eq 1 || $list.order_status neq 1">{$list.delivery_name}<else /><input class="textbox require" type="text" value="{$list.delivery_name}" name="delivery_name"></if></td>
+			<td class="item_title">收货人电话:</td>
+			<td class="item_input"><if condition="$list.delivery_status eq 1 || $list.order_status neq 1">{$list.delivery_tel}<else /><input class="textbox require" type="text" value="{$list.delivery_tel}" name="delivery_tel"></if> </td>
+			
+		</tr>
+		<tr>
+			<td class="item_title">所属地区:</td>
+			<td class="item_input">
+				<if condition="$list.delivery_status eq 1 || $list.order_status neq 1">
+					{$list.delivery_province} {$list.delivery_city}
+				<else />
+				<select name="province" class="require">				
+				<option value="" rel="0">请选择省份</option>
+				<foreach name="region_lv2" item="region" class="require">
+					<option value="{$region.name}" rel="{$region.id}" <if condition="$region['name'] eq $list['delivery_province']">selected="selected"</if>>{$region.name}</option>
+				</foreach>
+				</select>
+				
+				<select name="city">				
+				<option value="" rel="0">请选择城市</option>
+				<foreach name="region_lv3" item="region">
+					<option value="{$region.name}" rel="{$region.id}" <if condition="$region['name'] eq $list['delivery_city']">selected="selected"</if>>{$region.name}</option>
+				</foreach>
+				</select>
+				</if>
+			</td>
+			<td class="item_title">收货地址:</td>
+			<td class="item_input">
+				<if condition="$list.delivery_status eq 1 || $list.order_status neq 1">{$list.delivery_addr}
+				<else />
+				<input class="textbox require" type="text" value="{$list.delivery_addr}" name="delivery_addr">
+				</if> 
+			</td>
+		</tr>
+		<tr>
+			<td class="item_title">快递单号:</td>
+			<td class="item_input"><if condition="$list.delivery_status eq 1 || $list.order_status neq 1">{$list.delivery_sn}<else /><input class="textbox require" type="text" value="{$list.delivery_sn}" name="delivery_sn"></if></td>
+			<td class="item_title">邮编:</td>
+			<td class="item_input"><if condition="$list.delivery_status eq 1 || $list.order_status neq 1">{$list.delivery_zip}<else /><input class="textbox require" type="text" value="{$list.delivery_zip}" name="delivery_zip"></if></td>
+
+		</tr>
+		<tr>
+			
+			<td class="item_title">快递公司:</td>
+			<td class="item_input"><if condition="$list.delivery_status eq 1 || $list.order_status neq 1">{$list.delivery_express}<else /><input class="textbox require" type="text" value="{$list.delivery_express}" name="delivery_express"></if></td>
+		</tr>
+		<if condition="$list.order_status eq 1">
+		<tr>
+			<td class="item_title">发货</td>
+			<td colspan=3>
+				<input type="hidden" name="id" id="id" value="{$list.id}" />
+				<input type="hidden" name="{:conf("VAR_MODULE")}" value="GoodsOrder" />
+				<input type="hidden" name="{:conf("VAR_ACTION")}" value="do_delivery" />
+				<!--隐藏元素-->
+				<if condition="$list.delivery_status eq 0">
+				<input type="submit" class="button" value="发货" />
+				<else />
+				<input type="button" class="button a" value="已处理" />
+				</if>
+			</td>
+		</tr>
+		</if>
+	</if>
+	</form>
+	<tr>
+		<td colspan=4 class="bottomTd"></td>
+	</tr>
+</table>
+<div class="blank5"></div>
+	
+</div>
+
+<script type="text/javascript">
+
+</script>
+
+<include file="Public:footer" />

@@ -1,0 +1,31 @@
+<div class="leader_info sizing">
+	<div class="text webkit-box">
+		<div class="l mr10 leader_img">
+			{function name="show_wap_blank_avatar" p="$leader_info.user_id" t="middle"}
+		</div>
+		<div class="r webkit-box-flex">
+			<div class="leader_title">
+		    	<span class="user_name f_l mr5">{$leader_info.user_name}</span>
+				{if $leader_info.user_icon}
+				<div class="user_icon f_l mr5">
+	            	<img src="{$leader_info.user_icon}" title="会员等级" class="inline_level_icon level_icon" />
+	            </div>
+				{/if}
+				<div class="user_icon f_l">
+					{if $leader_info.is_investor==0 || $leader_info.is_investor==1}
+					<i class="icon iconfont" rel="个人投资者认证">&#xe609;</i>
+					{else}
+					<i class="icon iconfont" rel="机构投资者认证">&#xe608;</i>
+					{/if}
+				</div>
+			</div>
+			<div class="blank5"></div>
+	        <div class="conment tl">{$leader_info.identify_name}</div>
+		</div>
+	</div>
+	<div class="leader_info_bd">
+		<div class="leader_title theme_fcolor tl">详细资料</div>
+		<div class="blank10"></div>
+		<div class="conment f12 f_666">{$leader_info.introduce}</div>
+	</div>
+</div>

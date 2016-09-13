@@ -1,0 +1,189 @@
+<div class="selectbox1" id="selectbox1">
+    <div class="selectbox" id="selectbox"></div>
+    <div class="selectbj" id="selectbj">
+        <div class="tav_nav webkit-box" id="top_search_hd">
+            {if app_conf("INVEST_STATUS") eq 0} 
+            <a href="#" livalue="0" class="search_cate search_cate_l webkit-box-flex cur" checked="checked">回报众筹</a>
+            <a href="#" livalue="1" class="search_cate search_cate_r webkit-box-flex">{$gq_name}</a>
+            {/if}
+            {if app_conf("INVEST_STATUS") eq 1}
+            <a href="#" livalue="0" class="search_cate search_cate_all webkit-box-flex cur" checked="checked">回报众筹</a>
+            {/if}
+            {if app_conf("INVEST_STATUS") eq 2}
+            <a href="#" livalue="1" class="search_cate search_cate_all webkit-box-flex cur" checked="checked">{$gq_name}</a>
+            {/if}
+        </div>
+        <div class="searchbox">
+            <form action="{url_wap r="deals"}" method="post">
+                <div class="search">
+                    <div class="seach_text">
+                        <input type="text" name="k" placeholder="请输入关键字搜索">
+                    </div>
+                    <div class="blank"></div>
+                    <div class="seach_submit pr">
+                        <i class="fa fa-search"></i>
+                        <input type="submit" value="搜索" class="ps" style="opacity:0;width:100%;height:100%;left:0;">
+                        {if app_conf("INVEST_STATUS") eq 0} 
+                            <input type="hidden" name="type" value="0"/>                
+                            <input type="hidden" name="redirect" value="1"/>        
+                        {/if}
+                        {if app_conf("INVEST_STATUS") eq 1}
+                            <input type="hidden" name="type" value="0"/>        
+                        {/if}
+                        {if app_conf("INVEST_STATUS") eq 2}
+                            <input type="hidden" name="type" value="1"/>    
+                        {/if}      
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="top_search_bd">
+            <ul>
+                {if app_conf('INVEST_STATUS') eq 0}
+                <li rel="0">
+<!--                     <dl>
+                        <dt>众筹类别</dt>
+                        <dd>
+                            <a href="{url_wap r="deals#index"}">全部回报众筹</a>
+                        </dd>
+                    </dl>
+                    <p class="cl"></p> -->
+                    <dl>
+                        <dt>属性</dt>
+                        <dd>
+                            <a href="{url_wap r="deals" p="r=rec"}">推荐项目</a>
+                        </dd>
+                        <dd class="c24">
+                            <a href="{url_wap r="deals" p="r=yure"}">正在预热</a>
+                        </dd>
+                        <dd class="c23">
+                            <a href="{url_wap r="deals" p="r=new"}">最新上线</a>
+                        </dd>
+                    </dl>
+                    <p class="cl"></p>
+                    <dl>
+                        <dt>分类</dt>
+                        {foreach from=$cate_list item=cate name=cate key=k}
+                        {if $cate.pid eq 0}
+                        <dd>
+                            <a href="{url_wap r="deals#index" p="id=$cate.id"}"  class="{if $k%3 eq 1}c24{/if} {if $k%3 eq 2}c23{/if}" >{$cate.name}</a>
+                        </dd>
+                        {/if}
+                         {/foreach}
+                    </dl>
+                </li>
+                <li rel="1" style="display:none">
+<!--                     <dl>
+                        <dt>众筹类别</dt>
+                        <dd class="c24">
+                            <a href="{url_wap r="deals#index" p="type=1"}">全部股权众筹</a>
+                        </dd>
+                    </dl>
+                    <p class="cl"></p> -->
+                    <dl>
+                        <dt>属性</dt>
+                        <dd>
+                            <a href="{url_wap r="deals" p="r=rec&type=1"}">推荐项目</a>
+                        </dd>
+                        <dd class="c24">
+                            <a href="{url_wap r="deals" p="r=yure&type=1"}">正在预热</a>
+                        </dd>
+                        <dd class="c23">
+                            <a href="{url_wap r="deals" p="r=new&type=1"}">最新上线</a>
+                        </dd>
+                    </dl>
+                    <p class="cl"></p>
+                    <dl>
+                        <dt>分类</dt>
+                        {foreach from=$cate_list item=cate name=cate key=k}
+                        {if $cate.pid eq 0}
+                        <dd>
+                            <a href="{url_wap r="deals#index" p="id=$cate.id&type=1"}"  class="{if $k%3 eq 1}c24{/if} {if $k%3 eq 2}c23{/if}" >{$cate.name}</a>
+                        </dd>
+                        {/if}
+                        {/foreach}
+                    </dl>
+                </li>
+                {/if}
+                {if app_conf('INVEST_STATUS') eq 1}
+                 <li rel="0">
+<!--                     <dl>
+                        <dt>众筹类别</dt>
+                        <dd>
+                            <a href="{url_wap r="deals#index"}">全部回报众筹</a>
+                        </dd>
+                    </dl>
+                    <p class="cl"></p> -->
+                    <dl>
+                        <dt>属性</dt>
+                        <dd>
+                            <a href="{url_wap r="deals" p="r=rec"}">推荐项目</a>
+                        </dd>
+                        <dd class="c24">
+                            <a href="{url_wap r="deals" p="r=yure"}">正在预热</a>
+                        </dd>
+                        <dd class="c23">
+                            <a href="{url_wap r="deals" p="r=new"}">最新上线</a>
+                        </dd>
+                    </dl>
+                    <p class="cl"></p>
+                    <dl>
+                        <dt>分类</dt>
+                        {foreach from=$cate_list item=cate name=cate key=k}
+                        {if $cate.pid eq 0}
+                        <dd>
+                            <a href="{url_wap r="deals#index" p="id=$cate.id"}"  class="{if $k%3 eq 1}c24{/if} {if $k%3 eq 2}c23{/if}" >{$cate.name}</a>
+                        </dd>
+                        {/if}
+                         {/foreach}
+                    </dl>
+                </li>
+                {/if}
+                {if app_conf('INVEST_STATUS') eq 2}
+                <li rel="1">
+<!--                     <dl>
+                        <dt>众筹类别</dt>
+                        <dd class="c24">
+                            <a href="{url_wap r="deals#index" p="type=1"}">全部股权众筹</a>
+                        </dd>
+                    </dl>
+                    <p class="cl"></p> -->
+                    <dl>
+                        <dt>属性</dt>
+                        <dd>
+                            <a href="{url_wap r="deals" p="r=rec&type=1"}">推荐项目</a>
+                        </dd>
+                        <dd class="c24">
+                            <a href="{url_wap r="deals" p="r=yure&type=1"}">正在预热</a>
+                        </dd>
+                        <dd class="c23">
+                            <a href="{url_wap r="deals" p="r=new&type=1"}">最新上线</a>
+                        </dd>
+                    </dl>
+                    <p class="cl"></p>
+                    <dl>
+                        <dt>分类</dt>
+                        {foreach from=$cate_list item=cate name=cate key=k}
+                        {if $cate.pid eq 0}
+                        <dd>
+                            <a href="{url_wap r="deals#index" p="id=$cate.id&type=1"}"  class="{if $k%3 eq 1}c24{/if} {if $k%3 eq 2}c23{/if}" >{$cate.name}</a>
+                        </dd>
+                        {/if}
+                        {/foreach}
+                    </dl>
+                </li>
+                {/if}
+            </ul>
+        </div>
+    </div>
+    <div class="blank"></div>
+</div>
+<script type="text/javascript">
+    $("#top_search_hd .search_cate").bind('click',function(){
+        var $obj=$(this);
+        var i=$obj.index();
+        $obj.attr("checked",true).addClass("cur").siblings().attr("checked",false).removeClass("cur");
+        $obj.parent().parent().find("input[name='type']").val($(this).attr("livalue"));
+        $("#top_search_bd li").eq(i).show().siblings().hide();
+    });
+</script>

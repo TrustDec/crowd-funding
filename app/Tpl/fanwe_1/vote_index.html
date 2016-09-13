@@ -1,0 +1,112 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/vote_list.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/vote_list.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss" c="$dcpagecss"}" />
+<div id="J_wrap">
+ 	<div class="blank20"></div>
+	<div class="wrap">
+		<div class="blank10"></div>
+		<form action="{url r="vote#dovote"}" method="post" id="vote_result_save">
+		<div class="ques-naire">
+			<div class="ques-lists">
+				<h3 class="vote-title">{$vote.name}</h3>
+				{if $vote.description}
+				<p class="text1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$vote.description}</p>
+				{/if}
+				<div>
+					{foreach from=$vote_ask item=ask key=key name=name}
+					<dl class="ques-item mt50">
+						<dt class="ques-name">
+							{$smarty.foreach.name.iteration}、{$ask.name}
+							{if $ask.is_fill}
+							<span class="tipsIcon">*</span>
+							{/if}
+							<span class="tipsText">({if $ask.is_fill}必填{else}非必填{/if}，{if $ask.type eq 1 || $ask.type eq 4}单选{elseif $ask.type eq 2 || $ask.type eq 5}多选{/if})</span>
+						</dt>
+						<dd class="ques-choice">
+							{foreach from=$ask.val_scope item=val}
+							{if $val neq ''}
+							<p class="text2">
+								<input type="{if $ask.type neq 2 and $ask.type neq 5}radio{/if}{if $ask.type neq 1 and $ask.type neq 4}checkbox{/if}" name="name[{$ask.id}][]" value="{$val}" class="inp"/>
+								<label>{$val}</label>
+							</p>
+							{/if}
+							{/foreach}
+							{if $ask.type eq 3 or $ask.type eq 4 or $ask.type eq 5}
+							<p class="text2">
+								<input type="{if $ask.type neq 2 and $ask.type neq 5}radio{/if}{if $ask.type neq 1 and $ask.type neq 4}checkbox{/if}" name="name[{$ask.id}][]" value="{$other_vote}" id="other_check_{$ask.id}" class="inp"/>
+								<label>{$other_vote}</label>
+								<input type="text" name="other_{$ask.id}" id="other_{$ask.id}" value="" class="inp1" onBlur="name_checked(this);" ref="{$ask.id}"/>
+							</p>
+							{/if}
+						</dd>
+					</dl>
+					<input type="hidden" value="{$ask.is_fill}" name="ask_fill_{$ask.id}"/>
+					{/foreach}
+					<span class="tipsText1">衷心感谢您的参与，请留下您的联系方式，我们会第一时间解答您的问题！</span>
+					<p class="ques-links">
+						<b class="ques-phone">手机：</b>
+						<input type="text" name="mobile" id="mobile" maxlength="11" class="inp2" value="{$mobile}"/>
+					</p>
+					<p class="ques-links">
+						<b class="ques-phone">邮箱：</b>
+						<input type="text" name="email" id="email" maxlength="30" class="inp2" value="{$email}"/>
+					</p>
+					<input type="hidden" name="vote_id" value="{$vote.id}"/>
+					<input type="hidden" name="vote_other" value="{$other_vote}"/>
+					<input type="hidden" name="ajax" value="1"/>
+					<input type="hidden" name="vote_fill_num" value="{$vote_fill_num}"/>
+				</div>
+			</div>
+			<button type="button" class="vote-button" id="vote_submit">提交问卷</button>
+		</div>
+		</form>
+	</div>
+<div>
+<script type="text/javascript">
+function name_checked(other){
+	var ask_id=other.getAttribute("ref");
+	if(other.value){
+		$('#other_check_'+ask_id).attr("checked",true);
+	}else{
+		$('#other_check_'+ask_id).attr("checked",false);
+	}
+}
+$(document).ready(function(){
+	$('#vote_submit').bind('click',function(){
+		$('#vote_result_save').submit();
+	});
+	$('#vote_result_save').bind('submit',function(){
+		var ajaxurl = $(this).attr("action");
+		var query = $(this).serialize();
+		$.ajax({ 
+			url: ajaxurl,
+			dataType: "json",
+			data:query,
+			type: "POST",
+			success: function(ajaxobj){
+				if(ajaxobj.status)
+				{
+					$.showSuccess(ajaxobj.info,function(){
+						 //window.location.reload;
+						 location.href = ajaxobj.jump;
+					});
+				}
+				else
+				{
+					$.showErr(ajaxobj.info);
+				}						
+			},
+			error:function(ajaxobj)
+			{
+				if(ajaxobj.responseText!='')
+				alert(ajaxobj.responseText);
+			}
+		});
+		return false;
+	});
+});
+</script>
+{include file="inc/footer.html"} 

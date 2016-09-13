@@ -1,0 +1,33 @@
+{include file="./inc/header.html"}
+<?php
+    $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/licai/licai.css";   
+    $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/licai/uc_yeb_lc.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$pagecss"}" />
+<div class="new_p-m">
+    <table class="Journal_table">
+        <tr>
+            <th>收益所属日期</th>
+            <th>每万份收益（元）</th>
+            <th>收益金额（元）</th>
+        </tr>
+        {if $data.list}
+        {foreach from=$data.list item=item key=key name=deal}
+        <tr class='item {if $key mod 2 eq 1}item_1{/if}' {if $smarty.foreach.deal.last}style="border-bottom:0"{/if}>
+            <td>{$item.history_date}</td>
+            <td>{$item.net_value_format}</td>
+            <td>{$item.money_format}</td>
+        </tr>
+        {/foreach}
+        {else}
+        <tr>
+            <td colspan="3">无任何记录</td>
+        </tr>
+        {/if}
+    </table>
+	<div class="blank10"></div>
+	<div class="pages">{$pages}</div>
+	<div class="blank10"></div>
+</div>
+<div class="blank15"></div>
+{include file="./inc/footer.html"}

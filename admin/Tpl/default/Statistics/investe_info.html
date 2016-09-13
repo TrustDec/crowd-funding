@@ -1,0 +1,79 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Common/js/calendar/calendar.php?lang=zh-cn" ></script>
+
+<load href='__TMPL__Common/js/calendar/calendar.css' />
+<load href='__TMPL__Common/js/calendar/calendar.js' />
+<div class="main">
+<div class="main_title">股权众筹-项目统计明细</div>
+<div class="blank5"></div>
+<script type="text/javascript">	
+	function export_csv_investe_info()
+	{
+		var inputs = $(".search_row").find("input");
+		var selects = $(".search_row").find("select");
+		var param = '';
+		for(i=0;i<inputs.length;i++)
+		{
+			if(inputs[i].name!='m'&&inputs[i].name!='a')
+			param += "&"+inputs[i].name+"="+$(inputs[i]).val();
+		}
+		for(i=0;i<selects.length;i++)
+		{
+			param += "&"+selects[i].name+"="+$(selects[i]).val();
+		}
+		var url= ROOT+"?"+VAR_MODULE+"="+MODULE_NAME+"&"+VAR_ACTION+"=export_csv_investe_info";
+		location.href = url+param;
+	}
+	
+</script>
+<div class="search_row">
+	
+	<form name="search" action="__APP__" method="get">	
+		项目编号：<input type="text" class="textbox" name="id" value="{:intval($_REQUEST['id'])}" style="width:40px;" />
+		项目名称：<input type="text" class="textbox" name="name" value="{:trim($_REQUEST['name'])}" style="width:100px;" />
+		按时间查询：
+		<input type="text" class="textbox" name="begin_time" id="begin_time" value="{:trim($_REQUEST['begin_time'])}" onfocus="return showCalendar('begin_time', '%Y-%m-%d %H:%M:%S', false, false, 'btn_begin_time');" style="width:130px" />
+		<input type="button" class="button" id="btn_begin_time" value="{%SELECT_TIME}" onclick="return showCalendar('begin_time', '%Y-%m-%d %H:%M:%S', false, false, 'btn_begin_time');" />	
+		-
+		<input type="text" class="textbox" name="end_time" id="end_time" value="{:trim($_REQUEST['end_time'])}" onfocus="return showCalendar('end_time', '%Y-%m-%d %H:%M:%S', false, false, 'btn_end_time');" style="width:130px" />
+		<input type="button" class="button" id="btn_end_time" value="{%SELECT_TIME}" onclick="return showCalendar('end_time', '%Y-%m-%d %H:%M:%S', false, false, 'btn_end_time');" />	
+		<select name="time_status">
+				<option value="0" <if condition="intval($_REQUEST['time_status']) eq 0" >selected="selected"</if>>{%ALL}</option>
+				<option value="1" <if condition="intval($_REQUEST['time_status']) eq 1" >selected="selected"</if>>按项目预热中</option>
+				<option value="2" <if condition="intval($_REQUEST['time_status']) eq 2">selected="selected"</if>>按项目进行中</option>
+				<option value="3" <if condition="intval($_REQUEST['time_status']) eq 3">selected="selected"</if>>按项目失败</option>
+				<option value="4" <if condition="intval($_REQUEST['time_status']) eq 4">selected="selected"</if>>按项目成功</option>
+		</select>
+		<input type="hidden" value="Statistics" name="m" />
+		<input type="hidden" value="investe_info" name="a" />
+		<input type="submit" class="button" value="{%SEARCH}" />
+		<input type="button" class="button" value="{%EXPORT}" onclick="export_csv_investe_info();" />
+    	
+	</form>
+</div>		
+						
+<div class="blank5"></div>
+		
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="deal" 	
+	datasource="list" 
+	show="项目编号:项目编号
+		,项目名称:项目名称
+		,投资人数:投资人数
+		,认投金额|format_price:认投金额
+		,成功融资金额|format_price:成功融资金额
+		,项目状态:项目状态
+		,已发放筹款|format_price:已发放筹款
+		,待发放筹款|format_price:待发放筹款
+		,可获得佣金|format_price:可获得佣金
+		"/>			
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+
+</div>
+
+<include file="Public:footer" />

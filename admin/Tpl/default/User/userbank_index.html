@@ -1,0 +1,27 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<load href='__TMPL__Common/js/user_bank.js' />
+<div class="main">
+<div class="main_title">{$username}银行卡列表&nbsp;<a href="{:u("User/index")}" class="back_list">返回会员列表</a></div>
+<div class="blank5"></div>
+<div class="button_row">
+	<input type="button" class="button" value="{%ADD}" onclick="add_user_bank({$user_id});" />
+	<input type="button" class="button" value="{%DEL}" onclick="del_user_bank(0,{$user_id});" />
+	<input type="hidden" name="user_id" value="{$user_id}" />
+</div>
+<div class="blank5"></div>
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="userbank" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{%ID}|50px,real_name:开户名,bank_name:银行,bankcard:银行卡号" 
+	actionlist="edit_user_bank:{%EDIT}, del_user_bank:{%DEL}" /> 
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

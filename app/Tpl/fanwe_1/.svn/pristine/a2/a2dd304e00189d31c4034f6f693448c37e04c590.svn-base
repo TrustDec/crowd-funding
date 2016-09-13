@@ -1,0 +1,9 @@
+<div class="faq_item">
+<span class="setmid se addqs"></span>
+<input type="text" value="{if $faq_item.question neq ''}{$faq_item.question}{else}请输入问题{/if}" class="pro_lf" name="question[]" />
+<span ><a href="javascript:void(0);" onclick='del_faq(this);' class="setmid se">删除</a></span>
+<div class="blank5"></div>
+<span class="setmid se addqs"></span>
+<textarea name="answer[]" class="textarea">{if $faq_item.answer neq ''}{$faq_item.answer}{else}请输入答案{/if}</textarea>
+<div class="blank"></div>
+</div>	

@@ -1,0 +1,39 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<load href='__TMPL__Common/js/referrals.js' />
+
+<div class="main">
+<div class="main_title">
+	邀请统计列表
+</div>
+<div class="blank5"></div>
+<div class="main_title" style="font-size:12px; font-weight:normal;">
+	<div class="">
+		<form name="search" action="__APP__" method="get">	
+			推荐人：<input type="text" class="textbox" name="user_name" value="{$user_name}" style="width:100px;" />
+			推荐数：<input type="text" class="textbox" name="ref_count" value="{$ref_count}" style="width:100px;" />
+	
+			<input type="hidden" value="Referrals" name="m" />
+			<input type="hidden" value="referrals_count" name="a" />
+			<input type="submit" class="button" value="{%SEARCH}" />
+		</form>
+	</div>
+</div>
+<div class="blank5"></div>
+<html:list
+	id="dataTable" 
+	style="dataTable" 
+	name="dealorder" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{%ID}|50px
+		,user_name:推荐人
+		,ref_count:推荐数"
+	actionlist="referrals_list:查看返利" />
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

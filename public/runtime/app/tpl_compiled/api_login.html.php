@@ -1,0 +1,1 @@
+<?php echo $this->_var['api_login']; ?>

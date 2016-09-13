@@ -1,0 +1,80 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<script type="text/javascript">
+	$(document).ready(function(){
+		load_attr_stock();
+	});
+	function addRow(obj)
+	{
+		var html = $(obj.parentNode).html();
+		var par= $(obj).parent().parent();
+		html = html.replace("addRow", "delRow");
+		html = html.replace("+", "-");
+		html = html.replace('checked="checked"','');
+		//$("<div>"+html+"</div>").insertAfter($(par));
+		html="<div>"+html+"</div>";
+		$(par).append(html);
+		return;
+	}
+	function delRow(obj)
+	{
+		$(obj.parentNode).remove();
+	}
+	
+	
+</script>
+<PHP>
+	$data_ids=array(0);
+	$i=0;
+	$item_id=$goods_type_attr['0']['id'];
+	$attr_count=count($goods_type_attr);
+</PHP>
+<foreach name="goods_type_attr" item="attr_item" key="key" >
+	<PHP>
+		if($key ==0)
+		{
+			echo "<div>";
+		}
+		elseif($item_id != $attr_item['id'])
+		{	
+			echo "</div><div>";
+			$item_id = $attr_item['id'];
+		}
+	</PHP>
+	<div>
+		<span id="title_{$attr_item.id}">{$attr_item.name}</span>：
+		
+		<if condition="$attr_item['input_type'] eq 0">
+			<input type="text" class="textbox" style="width:50px;" name="goods_attr[{$attr_item.id}][]" value="{$attr_item.attr_name}" onchange="load_attr_stock();"  />			
+		</if>
+		<if condition="$attr_item['input_type'] eq 1">
+			<select name="goods_attr[{$attr_item.id}][]" onchange="load_attr_stock();">
+			<foreach name="attr_item.attr_list" item="attr_row">
+				<option value="{$attr_row}" <if condition="$attr_item['attr_name'] eq $attr_row">selected="selected"</if>>{$attr_row}</option>
+			</foreach>
+			</select>			
+		</if>
+		
+		递加积分：<input type="text" class="textbox" style="width:50px;" name="goods_attr_score[{$attr_item.id}][]" value="{$attr_item.score}" />
+		
+		<if condition="$attr_item['is_first'] eq 1">
+		[ <a href="javascript:void(0);" onclick="addRow(this);" style="text-decoration:none;">+</a> ]
+		<else />
+		[ <a href="javascript:void(0);" onclick="delRow(this);" style="text-decoration:none;">-</a> ]
+		</if>
+		
+		<input type="checkbox" name="goods_attr_stock[{$attr_item.id}][]" rel="{$attr_item.id}" <if condition="$attr_item['is_checked'] eq 1">checked="checked"</if> class="goods_attr_stock" value="1" onchange="load_attr_stock(this);" />
+		
+		<input type="hidden" class="goods_attr_stock_hd" name="goods_attr_stock_hd[{$attr_item.id}][]" />
+		{%SET_ATTR_STOCK}
+		<div class="blank5"></div>
+	</div>
+	<PHP>
+		if($key == $attr_count-1)
+		{
+			echo "</div>";
+		}
+	</PHP>
+</foreach>
+
+<div id="stock_table"></div>

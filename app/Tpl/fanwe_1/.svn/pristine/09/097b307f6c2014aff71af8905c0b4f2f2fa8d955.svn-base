@@ -1,0 +1,24 @@
+<div class="userhomehd">
+	<div class="wrap userhomehd1">
+		<div class="userbox1img f_l">{function name="show_avatar" p="$home_user_info.id" t="big"}</div>
+		<div class="homebox1main f_l">
+		  <span class="username">{$home_user_info.user_name}</span>
+		  <a class="sentmail" href="javascript:void(0);" style="font-size:12px; margin-left:5px;"  onclick="send_message({$home_user_info.id});"></a>	
+		  <div class="home_user_join" style="color: #404040">
+				{function name="to_date" v=$home_user_info.create_time f="Y年m月d日"} 加入 {function name="app_conf" v="SITE_NAME"}
+			</div>
+			{if $home_user_info.intro neq ''}
+			<div class="home_user_desc" style="color: #404040">
+				{$home_user_info.intro}
+			</div>
+			{/if}
+			<div class="home_user_weibo">
+				<div class="title" style="float:left;">博客或微博</div>
+				<div class="blank"></div>
+				<ul>
+					{foreach from=$home_user_info.weibo_list item=weibo_item}
+					<li><a href="{$weibo_item.weibo_url}" target="_blank" class="linkgreen">{$weibo_item.weibo_url}</a></li>
+					{/foreach}
+				</ul>
+			</div>
+		</div>

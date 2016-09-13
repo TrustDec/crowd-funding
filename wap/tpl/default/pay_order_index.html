@@ -1,0 +1,29 @@
+{include file="inc/header.html"}
+<?php
+	$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/cart_index.css";	
+	$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/youhui_comment_list.css";
+	$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/user_addr_list.css";
+	$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/pay_order_index.css";	
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$pagecss"}" />
+<div class="pay_order_index p15">
+	{if $data.order_sn}
+ 	<div class="pay_info">
+		<div class="h font-fc8">订单编号：{$data.order_sn}</div>
+ 	</div>
+	{/if}
+	<div class="pay_info">
+	 	<p class="h tc red"><i {if $data.pay_status eq 0}class="fa fa-times-circle"{/if}{if $data.pay_status eq 1}class="fa fa-check-circle"{/if}></i>&nbsp;{$data.pay_info}</p>
+	 	<a href="#" onclick="RouterURL('{url_wap r="settings"}','#settings-index');" class="ui-button theme_color mt10">查看会员中心</a>
+	</div>
+ 	{if $data.show_pay_btn eq 1}
+ 	<form id="form" method="post" action="{$data.pay_wap}">
+  		<div class="buy">
+			<button type="submit"  class="plank">
+			   {$data.payment_name}（￥{$data.pay_money}）
+			</button>
+		</div>
+    </form>
+	{/if}
+</div>
+{include file="inc/footer.html"}

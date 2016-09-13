@@ -1,0 +1,332 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/account_after_vote.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/fanwe_utils/jcDate.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/fanwe_utils/jcDate.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jQuery-jcDate.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jQuery-jcDate.js";
+
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/account_fixed_interest_apply.js";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+
+<link href="{$APP_ROOT}/admin/public/kindeditor/themes/default/default.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{$APP_ROOT}/public/runtime/admin/lang.js"></script>
+<script type='text/javascript' src='{$APP_ROOT}/admin/public/kindeditor/kindeditor.js'></script>
+<script type="text/javascript">
+    var ROOT = '{$APP_ROOT}/{$URL_NAME}';
+    var VAR_MODULE = "m";
+    var VAR_ACTION = "a";
+    var WEB_SESSION_ID = '<?php echo es_session::id(); ?>';
+    var EMOT_URL = '{$APP_ROOT}/public/emoticons/';
+    var MAX_FILE_SIZE = "<?php echo (app_conf("MAX_IMAGE_SIZE")/1000000)."MB"; ?>";
+    var FILE_UPLOAD_URL ='{$APP_ROOT}/{$URL_NAME}?m=File&a=do_upload&' ;
+</script>
+{include file="inc/home_user_info.html"}
+<!--中间开始-->
+<div class="dlmain Myhomepage">
+	{include file="inc/account_left.html"}
+	<div class="homeright pageright f_r">
+		<div class="list_title clearfix">
+			<div class="cur">
+				<span>发放回报</span>
+			</div>
+			<a href="javascript:history.go(-1)" class="ui_button ui-small-button bg_red f_r mt10">返回</a>
+		</div>
+		<div class="list_conment">
+			<div class="share_bonus_apply">
+				<h3 class="mb10">{$deal_info.name}</h3>
+				<div class="i_deal_list clearfix">
+					<div id="setting_share_bonus">
+						<div class="bonus_tt b mb10">回报设置：</div>
+						<div class="control-group small-control-group">
+							<label class="control-label">回报年度：</label>
+							<div class="control-text">
+								<select name="year" class="ui-select field_select small">
+									{if $user_bonus.year}
+										<option value="{$user_bonus.year}" selected="selected">{$user_bonus.year}</option>
+									{else}
+										<option value="2015" {if $user_bonus.year eq 2015}selected="selected"{/if}>2015</option>
+										<option value="2016" {if $user_bonus.year eq 2016}selected="selected"{/if}>2016</option>
+										<option value="2017" {if $user_bonus.year eq 2017}selected="selected"{/if}>2017</option>
+										<option value="2018" {if $user_bonus.year eq 2018}selected="selected"{/if}>2018</option>
+										<option value="2019" {if $user_bonus.year eq 2019}selected="selected"{/if}>2019</option>
+										<option value="2020" {if $user_bonus.year eq 2020}selected="selected"{/if}>2020</option>
+										<option value="2021" {if $user_bonus.year eq 2021}selected="selected"{/if}>2021</option>
+										<option value="2022" {if $user_bonus.year eq 2022}selected="selected"{/if}>2022</option>
+										<option value="2023" {if $user_bonus.year eq 2023}selected="selected"{/if}>2023</option>
+									{/if}
+									
+								</select>
+							</div>
+							<div class="blank0"></div>
+						</div>
+						<div class="control-group small-control-group control-group-r">
+							<label class="control-label">回报期数：</label>
+							<div class="control-text">
+								<select name="number" class="ui-select field_select small">
+									{if $user_bonus.number}
+										<option value="{$user_bonus.number}" selected="selected">第{$user_bonus.number}期</option>
+									{else}
+										<option value="1" {if $user_bonus.number eq 1}selected="selected"{/if}>第1期</option>
+										<option value="2" {if $user_bonus.number eq 2}selected="selected"{/if}>第2期</option>
+										<option value="3" {if $user_bonus.number eq 3}selected="selected"{/if}>第3期</option>
+										<option value="4" {if $user_bonus.number eq 4}selected="selected"{/if}>第4期</option>
+										<option value="5" {if $user_bonus.number eq 5}selected="selected"{/if}>第5期</option>
+										<option value="6" {if $user_bonus.number eq 6}selected="selected"{/if}>第6期</option>
+										<option value="7" {if $user_bonus.number eq 7}selected="selected"{/if}>第7期</option>
+										<option value="8" {if $user_bonus.number eq 8}selected="selected"{/if}>第8期</option>
+										<option value="9" {if $user_bonus.number eq 9}selected="selected"{/if}>第9期</option>
+										<option value="10" {if $user_bonus.number eq 10}selected="selected"{/if}>第10期</option>
+										<option value="11" {if $user_bonus.number eq 11}selected="selected"{/if}>第11期</option>
+										<option value="12" {if $user_bonus.number eq 12}selected="selected"{/if}>第12期</option>
+									{/if}
+									
+								</select>
+							</div>
+							<div class="blank0"></div>
+						</div>
+						<div class="blank0"></div>
+						<div class="control-group small-control-group">
+							<label class="control-label">本期回报金额：</label>
+							<div class="control-text">
+								<input type="text" name="money" value="{$user_bonus.money}" class="textbox small_textbox w100" />元
+							</div>
+							<div class="blank0"></div>
+						</div>
+						<div class="control-group small-control-group control-group-r">
+							<label class="control-label">发放时间：</label>
+							<div class="control-text">
+								<input readonly="" type="text" class="small_textbox w100 jcDate" rel="input-text" value="{$user_bonus.begin_time}" name="begin_time" id="inputLaunchTime" placeholder="请选择日期">
+								<span class="f_l pl10 pr10">─</span>
+								<input readonly="" type="text" class="small_textbox w100 jcDate mr20" rel="input-text" value="{$user_bonus.end_time}" name="end_time" id="inputLaunchTime" placeholder="请选择日期">
+							</div>
+							<div class="blank0"></div>
+						</div>
+						<div class="blank10"></div>
+						<div class="ui_button ui-small37-button theme_bgcolor" id="add_share_bonus" style="margin-left:210px">生成回报明细</div>
+						<div class="blank10"></div>
+						<div class="">
+							注：依据本次回报金额、投资人投资金额所占股份比例进行计算，自动计算投资人回报金额。
+							<span class="f_red " style=" display:none;">您可以根据实际回报情况，双击表格内数据进行修改调整</span>
+							<div class="blank5"></div>
+							算法：个人回报金额=本期回报金额*占股比例
+							<div class="blank5"></div>
+							占股比例=个人投资金额/项目融资金额
+							<div class="blank5"></div>
+							平均年回报率=本期回报金额/项目融资金额/回报周期（月数）*12
+						</div>
+					</div>
+					<div class="blank20"></div>
+					<form class="ajax_share_bonus_form" action="{url r="account#save_fixed_interest"}" method="post">
+						<div id="share_bonus_list">
+							{if $user_bonus}
+							<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc_table" >
+								<thead>
+									<tr>
+										
+										<th width="10%">回报期数</th>
+										<th width="10%">回报年度</th>
+										<th width="12%">本期回报金额</th>
+										<th width="12%">回报周期</th>
+										<th width="12%">平均年回报率</th>
+										<th width="12%">回报开始时间</th>
+										<th width="12%">回报结束时间</th>								
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										
+										<td>
+											<span id="number">{$user_bonus.number}</span>
+											<input type="hidden" name="number" value="{$user_bonus.number}" />
+										</td>
+										<td>
+											<span id="year">{$user_bonus.year}</span>
+											<input type="hidden" name="year" value="{$user_bonus.year}" />
+										</td>
+										<td>
+											<span id="money">{$user_bonus.money}</span>
+											<input type="hidden" name="money" value="{$user_bonus.money}" />
+										</td>
+										<td>
+											<span id="return_cycle">{$user_bonus.return_cycle}</span>
+											<input type="hidden" name="return_cycle" value="{$user_bonus.return_cycle}" />
+										</td>
+										<td>
+											<span id="average_annualized_return">{$user_bonus.average_annualized_return}</span>
+											<input type="hidden" name="average_annualized_return" value="{$user_bonus.average_annualized_return}" />
+										</td>
+										<td>
+											<span id="begin_time">{$user_bonus.begin_time}</span>
+											<input type="hidden" name="begin_time" value="{$user_bonus.begin_time}" />
+										</td>
+										<td>
+											<span id="end_time">{$user_bonus.end_time}</span>
+											<input type="hidden" name="end_time" value="{$user_bonus.end_time}" />
+										</td>	
+														
+									</tr>
+								</tbody>
+							</table>
+							<div class="blank20"></div>
+							<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc_table" id="user_share_bonus_table">
+								<thead>
+									<tr>
+										<th width="20%">编号</th>
+										<th width="20%">投资人</th>
+										<th width="20%">投资金额</th>
+										<th width="20%">占股比例</th>
+										<th width="20%">回报金额</th>
+										<th width="0"></th>
+									</tr>
+								</thead>
+								<tbody>
+									{if $user_bonus_list}
+										{foreach from=$user_bonus_list item=user_bonus_list_item}
+										<tr>
+											<td>
+												<span>{$user_bonus_list_item.notice_sn}</span>
+												<input type="hidden" name="notice_sn" value="{$user_bonus_list_item.notice_sn}" />
+											</td>
+											<td>
+												<span>{$user_bonus_list_item.investor}</span>
+												<input type="hidden" name="investor" value="{$user_bonus_list_item.investor}" />
+											</td>
+											<td>
+												<span>{$user_bonus_list_item.investor_money}元</span>
+												<input type="hidden" name="investor_money" value="{$user_bonus_list_item.investor_money}" />
+											</td>
+											<td>
+												<span>{$user_bonus_list_item.percentage_shares}%</span>
+												<input type="hidden" name="percentage_shares" value="{$user_bonus_list_item.percentage_shares}" />
+											</td>							
+											<td>
+												<span class="amount">{$user_bonus_list_item.amount}</span>
+												<input type="hidden" name="amount" value="{$user_bonus_list_item.amount}" />
+											</td>
+											<td>
+												<span class="user_bonus_id" style="font-size:0">{$user_bonus_list_item.id}</span>
+												<input type="hidden" name="user_bonus_id" value="{$user_bonus_list_item.id}" />
+											</td>
+										</tr>
+										{/foreach}
+									{/if}
+								</tbody>
+							</table>
+							{/if}
+						</div>
+						<div class="blank20"></div>
+						<div class="bonus_tt b mb10">回报描述：</div>
+						<textarea name='descripe'  class='ketext' style='width:100%; height:350px;' >{$user_bonus.descripe}</textarea>
+						<div class="blank20"></div>
+						<div class="submit_row tc">
+							<span class="ui-button ui-center-button theme_bgcolor">提交审核</span><a href="" class="f_999">重置</a>
+							<input type="hidden" value="1" name="ajax" />
+							<input type="hidden" value="{$deal_info.id}" name="deal_id" />
+							<input type="hidden" value="{$user_bonus.id}" name="id" />
+						</div>
+						<div class="blank20"></div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="blank0"></div>
+</div>
+<div class="share_bonus_demo hide">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc_table">
+		<thead>
+			<tr>
+				
+				<th width="10%">回报期数</th>
+				<th width="10%">回报年度</th>
+				<th width="12%">本期回报金额</th>
+				<th width="12%">回报周期</th>
+				<th width="12%">平均年回报率</th>
+				<th width="12%">回报开始时间</th>
+				<th width="12%">回报结束时间</th>								
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				
+				<td>
+					<span id="number_hide"></span>
+					<input type="hidden" name="number_hide" value="" />
+				</td>
+				<td>
+					<span id="year_hide"></span>
+					<input type="hidden" name="year_hide" value="" />
+				</td>
+				<td>
+					<span id="money_hide"></span>
+					<input type="hidden" name="money_hide" value="" />
+				</td>
+				<td>
+					<span id="return_cycle_hide"></span>
+					<input type="hidden" name="return_cycle_hide" value="{$deal_info.return_cycle}" />
+				</td>
+				<td>
+					<span id="average_annualized_return_hide"></span>
+					<input type="hidden" name="average_annualized_return_hide" value="" />
+				</td>
+				<td>
+					<span id="begin_time_hide"></span>
+					<input type="hidden" name="begin_time_hide" value="" />
+				</td>
+				<td>
+					<span id="end_time_hide"></span>
+					<input type="hidden" name="end_time_hide" value="" />
+				</td>						
+			</tr>
+		</tbody>
+	</table>
+	<div class="blank20"></div>
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc_table">
+		<thead>
+			<tr>
+				<th width="20%">编号</th>
+				<th width="20%">投资人</th>
+				<th width="20%">投资金额</th>
+				<th width="20%">占股比例</th>
+				<th width="20%">回报金额</th>
+			</tr>
+		</thead>
+		<tbody>
+			{foreach from=$support_list item=support_item}
+			<tr>
+				<td>
+					<span>{$support_item.notice_sn}</span>
+					<input type="hidden" name="notice_sn_hide" value="{$support_item.notice_sn}" />
+				</td>
+				<td>
+					<span>{$support_item.user_name}</span>
+					<input type="hidden" name="investor_hide" value="{$support_item.user_name}" />
+				</td>
+				<td>
+					<span>{$support_item.money}元</span>
+					<input type="hidden" name="investor_money_hide" value="{$support_item.money}" />
+				</td>
+				<td>
+					<span>{$support_item.user_stock}%</span>
+					<input type="hidden" name="percentage_shares_hide" value="{$support_item.user_stock}" />
+				</td>							
+				<td>
+					<span class="amount_hide"></span>
+					<input type="hidden" name="amount_hide" value="" />
+				</td>
+			</tr>
+			{/foreach}
+		</tbody>
+	</table>
+</div>
+<script type="text/javascript">
+    var money = $("#setting_share_bonus").find("input[name='money']").val();  // 本期回报金额
+    var limit_price = {$deal_info.limit_price};  // 项目融资金额
+    
+    var return_cycle = '{$user_bonus.return_cycle}';
+	
+</script>
+{include file="inc/footer.html"}

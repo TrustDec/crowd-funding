@@ -1,0 +1,22 @@
+<if condition="$pager.page_count gt 1">
+	<div class="blank20"></div>
+	<div class="pagination">
+ 	<if condition="$pager.page gt 1">
+	<a href="javascript:;" data-url="{$pager.page_prev}" class="radius3 page_prev" page="{$pager.prev_page}">上一页</a>
+	</if>
+ 	<foreach name="pager.page_nums" item="page_num">
+		<if condition="$page_num.name eq  $pager_num_now">
+			<span class="radius3">{$page_num.name}</span>
+		<else />
+ 			<if condition="$page_num.name eq '...'">
+				<i>...</i>
+			<else />
+	<a class="radius3"  href="javascript:;" data-url="{$page_num.url}" page="{$page_num.name}">{$page_num.name}</a>
+			</if>
+		</if>
+	</foreach>
+	<if condition="$pager.page lt $pager.page_count">
+	<a  href="javascript:;" data-url="{$pager.page_next}" class="radius3 page_next" page="{$pager.next_page}">下一页</a>
+	</if>
+ </div>
+</if>

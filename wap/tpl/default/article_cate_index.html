@@ -1,0 +1,37 @@
+{include file="inc/header.html"} 
+<!-- 中间 开始 -->
+<div class="article_cate_index">
+	<!-- 新闻分类 开始 -->
+	<nav class="site" id="article_cate">
+		{foreach from=$cates_list item=cates_list_item name=article_cate key=key}
+			{if $smarty.foreach.article_cate.index lt 5}
+				<a href="{$cates_list_item.url}" {if $cates_list_item.status neq null}class="cur"{/if}>{$cates_list_item.title}</a>
+			{/if}
+		{/foreach}
+	</nav>
+	<!-- 新闻分类 结束 -->
+	<div class="clear"></div>
+	<div class="mod_main" style="padding-top:0">
+		<!-- 文章列表 开始 -->
+		<section class="ls">
+			{foreach from=$artilce_list item=article_item}
+				<div class="it">    
+		        	<a href="{$article_item.url}" class="h4 h4Spot">
+		        		<div class="des">
+		        			<h4 class="ttl">{$article_item.title}</h4>
+		        			<time class="muted">{function name="to_date" v=$article_item.update_time}</time>
+		        		</div>
+		        	</a>
+		        </div>
+			{/foreach}
+		</section>
+		<!-- 文章列表 结束 -->	
+		<div class="blank15"></div>
+		<div class="pages">
+			{$pages}
+		</div>
+		<div class="blank15"></div>
+	</div>
+</div>	
+<!-- 中间 结束 $(this).addClass("cur");-->
+{include file="inc/footer.html"}

@@ -1,0 +1,48 @@
+<tagLib name="html" />
+<include file="Public:wx_header" />
+<include file="Public:weixin_script" />
+<link rel="stylesheet" href="__ROOT__/public/weixin/kindeditor/themes/default/default.css" />
+<script type="text/javascript" src="__ROOT__/public/weixin/kindeditor/kindeditor-min.js"></script>
+<script type="text/javascript" src="__ROOT__/public/weixin/kindeditor/plugins/wxemoticons/wxemoticons.js"></script>
+<script type="text/javascript" src="__ROOT__/public/weixin/kindeditor/plugins/wxlink/wxlink.js"></script>
+<script charset="utf-8" src="__ROOT__/public/weixin/kindeditor/lang/zh_CN.js"></script>
+ 
+<div class="container-f">
+	<div class="box-title clearfix">
+		<h3>
+			<i class="fa fa-cog"></i>
+			{$box_title}
+		</h3>
+	</div>
+</div>
+<div class="box-content clearfix">
+	<div class="row clearfix">
+		<form action="{:u("WeixinUser/groups_save")}" method="post" class="form-horizontal ajax_form">
+			<div class="control-group cf clearfix">
+					<label class="control-label" for="name">
+						分组名称：
+					</label>
+					<div class="controls">
+						<input type="text" name="name" id="title" data-rule-maxlength="60" value=""  class="input-xlarge ipt_require">
+						<span class="maroon">*</span>
+					</div>
+				</div>
+				<div class="control-group cf clearfix ">
+					<label class="control-label" for="content">
+						简介:
+					</label>
+					<div class="controls">
+						<textarea id="content" name="intro" class="input-xlarge">{$config_info.content}</textarea>
+                         <span class="maroon"></span>
+					</div>
+				</div>
+
+				<div class="form-actions">
+					<input class="btn btn-primary" type="submit" value="保存">
+				</div>
+		</form>
+	</div>
+</div>
+ 
+
+<include file="Public:footer" />

@@ -1,0 +1,57 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/user_applicate_leader.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+{if $item.status==1}
+    <div class="blank10"></div>
+	<div class="theme_fcolor f_20 tc">恭喜您，您的领投申请已经通过！</div>
+    <div class="blank10"></div>
+    <div class="tc">
+        <a href="#" onclick="RouterURL('{url_wap r="account#add_leader_info" p="id=$item.id"}','#account-add_leader_info');" class="theme_fcolor">领投信息提交</a>
+    </div>
+{else}
+<div class="blank10"></div>
+<seation class="account_index my_project investor_index user_applicate_leader">
+    <form id="applicat_lead_qualificat_form" name="applicat_lead_qualificat_form" method="post" action="{url_wap r="investor#save_applicate_leader"}" autocomplete="off">
+        <div class="ul_block sizing">
+            <ul>
+                <li>
+                    <label class="input_lable">请选择领投项目行业（最多不超过3项）</label>
+                    <div class="clear"></div>
+                    {foreach from=$cates item=cates_item name=key}    
+                    <span class="info_view btn_info_view" type="radio" rel="genera_partners">
+                        <input type="checkbox" class="mt f_l cate_name mr5" name="cates[{$smarty.foreach.key.iteration}]" value="{$cates_item.name}" {if $cates_item.selected eq 1}checked="checked"{/if} />
+                        <span class="f_l mr10">{$cates_item.name}</span>
+                    </span>
+                    {/foreach}
+                </li>
+                <li>
+                    <label class="input_lable">请填写个人简介：</label>
+                    <div class="clear"></div>
+                    <div class="f_999 f12" style="border:0;background:none;width:100%">
+                        要求写明个人求学、工作、创业、投资简历。请具体到起止年月、学校专业学历、公司名称部门职务、投资过企业名称等，便于我们做真实性背景调查，否则将不予以受理。
+                    </div>
+                    <div class="blank10"></div>
+
+
+                     <textarea placeholder="请输入内容" rows=1 cols=40 id="describe" name="describe" style='min-height:80px;height:80px;overflow:scroll;overflow-y:auto;;overflow-x:hidden' onfocus="window.activeobj=this;this.clock=setInterval(function(){activeobj.style.height=activeobj.scrollHeight+'px';},200);" onblur="clearInterval(this.clock);" class="textareabox webkit-box-flex sizing f14">{$item.introduce}</textarea>
+                    <div class="blank10"></div>
+                    <p class="f_999 f12">个人简介，不少于100字</p>
+                    <div class="blank10"></div>
+                </li>
+            </ul>
+        </div>
+        <div class="blank5"></div>
+        <div class="button_row mod_main">
+            <input type="button" value="确定" name="submit_form" class="ui-button theme_color mr20" id="ui-button" rel="ui-button" />
+            <input type="hidden" name="deal_id" value="{$deal_id}">
+            <input type="hidden" name="investor_id" value="{$item.id}">
+            <input type="hidden" value="1" name="ajax" />
+            <div class="blank15"></div>
+        </div>
+    </form>
+</seation>
+{/if}
+<!-- user_applicate_leader.js -->
+{include file="inc/footer.html"}

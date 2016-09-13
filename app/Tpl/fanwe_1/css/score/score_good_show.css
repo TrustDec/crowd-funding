@@ -1,0 +1,163 @@
+.detail_hd .textbox {
+	width: 50px;
+	border: 1px solid #a7a6ab;
+	margin-right: 5px;
+	border-radius: 0;
+}
+.control-group { margin: 0; }
+.control-group .control-label { width: auto; }
+.smaller-control-group .control-label ,
+.smaller-control-group .control-text {
+	height: 20px;
+	line-height: 20px;
+}
+.small-control-group .control-label ,
+.small-control-group .control-text {
+	
+}
+.detail_hd {
+	padding: 20px;
+	border: 1px solid #e3e3e3;
+	overflow: hidden;
+}
+.detail_hd_img {
+	padding: 8px;
+	border: 1px solid #ddd;
+	overflow: hidden;
+	float: left;
+	margin-right: 20px;
+}
+.detail_hd_img ,
+.detail_hd_img .preview {
+	width: 380px;
+	height: 285px;
+}
+.detail_hd_img .bigImg img {
+	width: 100%;
+	height: 100%;
+}
+.detail_hd_text {
+	width: 740px;
+	float: left;
+	padding-top: 10px;
+	overflow: hidden;
+}
+.detail_hd_text h3 {
+	font-size: 18px;
+	font-weight: 700;
+	margin-bottom: 20px;
+}
+.detail_hd_text .control-label { width: 70px; }
+.mui-amount-btn{
+	width: 18px;
+	height: 37px;
+	display: block;
+	float: left;
+	margin-right: 10px;
+}
+.mui-amount-btn .mui-amount {
+	width: 18px;
+	height: 14px;
+	background: url(../images/score/mui-amount-btn.gif) 0 0 no-repeat;
+	display: block;
+	cursor: pointer;
+}
+.mui-amount-btn .mui-amount-decrease {
+	background-position: 0 -15px;
+	margin-top: 3px;
+}
+
+
+.deals .deals_cont {
+	padding: 30px;
+	overflow: hidden;
+}
+
+.g_attr_group .control-label ,
+.g_attr_group .control-text {
+	height: 31px;
+	line-height: 31px;
+}
+.g_attr a{
+	position: relative;
+	display: inline-block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	_width: expression(this.clientWidth > 170 ? "170px" : "auto");
+	max-width: 199.5px;
+	line-height: 27px;
+	margin: 0 5px 5px 0;
+	padding-left: 8px;
+	padding-right: 8px;
+	color: #666;
+	border: 1px solid #d2d2d2;
+	text-decoration: none;
+}
+.g_attr a:hover ,
+.g_attr a.select_a {
+	box-shadow: 0 0 0 1px #3d9eeb;
+	border: 1px solid #3d9eeb;
+	text-decoration: none;
+}
+.g_attr a.select_a i {
+  position: absolute;
+  padding: 0;
+  margin: 0;
+  font-size: 0;
+  width: 10px;
+  height: 10px;
+  bottom: 0;
+  right: 0;
+  background: url(../images/score/g_attr.gif) no-repeat;
+}
+
+
+
+
+/* 放大镜 开始  */
+/* bigImg */
+.bigImg {
+	position:relative;
+	float:left;
+	width:100%;
+	height:100%;
+	overflow:hidden;
+}
+.bigImg #winSelector {
+	width:160px;
+	height:160px;
+}
+#winSelector {
+	position:absolute;
+	background:url(../images/score/winSelector_bg.png) 0 0 repeat;
+  	background-color: transparent;
+  	background-attachment: scroll;
+	cursor: move;
+}
+
+/* bigView */
+#bigView {
+	position:absolute;
+	border:1px solid #ccc;
+	overflow:hidden;
+	z-index:999;
+	width: 301px;
+	height: 301px;
+	background: #fff;
+}
+#bigView img {
+	position:absolute;
+}
+/* 放大镜 结束  */
+
+/* */
+.disabled{
+	background:#939393;
+}
+.total{
+	padding: 0px 10px;
+}
+.tips {
+  color: #f80;
+}

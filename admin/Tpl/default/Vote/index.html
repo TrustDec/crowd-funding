@@ -1,0 +1,49 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<script type="text/javascript">
+	function vote_ask(id)
+	{
+		location.href = ROOT+"?"+VAR_MODULE+"=Vote&"+VAR_ACTION+"=vote_ask&id="+id;
+
+	}
+	function vote_result(id)
+	{
+		location.href = ROOT+"?"+VAR_MODULE+"=Vote&"+VAR_ACTION+"=vote_result&id="+id;
+
+	}
+	function export_csv(id)
+	{
+		location.href = ROOT+"?"+VAR_MODULE+"=Vote&a=export_csv&id="+id;
+	}
+	function vote_info(id){
+		location.href = ROOT+"?"+VAR_MODULE+"=Vote&"+VAR_ACTION+"=vote_info&id="+id;
+	}
+	
+</script>
+<div class="main">
+<div class="main_title">{$main_title}</div>
+<div class="blank5"></div>
+<div class="button_row">
+	<input type="button" class="button" value="{%ADD}" onclick="add();" />
+	<input type="button" class="button" value="{%FOREVERDEL}" onclick="foreverdel();" />
+</div>
+<div class="blank5"></div>
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="vote" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{%ID}|50px,name:{%VOTE_NAME}:edit
+	,is_effect|get_is_effect=$vote['id']:{%IS_EFFECT}
+	,sort|get_sort=$vote['id']:{%SORT}
+	,begin_time|to_date:{%VOTE_BEGIN_TIME}
+	,end_time|get_to_date:{%VOTE_END_TIME}" 
+	actionlist="edit:{%EDIT}, foreverdel:{%FOREVERDEL},vote_ask:{%VOTE_ASK},vote_result:{%VOTE_RESULT},vote_info:{%VOTE_INFO}" /> 
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

@@ -1,0 +1,33 @@
+		{include file="inc/sui_mobile_header.html"}
+		<link rel="stylesheet" type="text/css" href="{$TMPL}/css/common_css/sm.min.css" />
+        <link rel="stylesheet" type="text/css" href="{$TMPL}/css/common_css/sm-extend.css" />
+         <?php
+         
+		 $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/layout.css";
+         $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/style.css";
+ 		 $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/weebox.css";
+ 		 
+ 		 $this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/sui_mobile/zepto.min.js";
+ 		 $this->_var['cpagejs'][]='';
+  		?>
+        <link rel="stylesheet" type="text/css" href="{$font_url}" />
+        <link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$pagecss"}" />
+        <script type="text/javascript">
+            var APP_ROOT = '{$APP_ROOT}';
+			var __HASH_KEY__ = "{$hash_key}";
+			$.config = {
+			    autoInit: false,
+			    showPageLoadingIndicator: false,
+			    swipePanel: 'left'
+			  }
+        </script>
+        
+        <script type="text/javascript" src="{function name="parse_script" v="$pagejs" c="$cpagejs"}">
+        </script>
+    </head>
+ <body style="background: #f4f4f4;">
+ <div class="page" id="{$mobile_id}">
+      {include file="inc/sui_mobile_consignee_title.html"}
+	 <div  class="content" id="content_box">
+	{include file="inc/header_search.html"}
+<div class="wraper">

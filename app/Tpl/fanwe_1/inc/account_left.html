@@ -1,0 +1,573 @@
+<div class="homeleft pageleft f_l ">
+	<div class="homeleft_title">
+		<span class="f12">账户安全级别：</span><span class="f_r b" id="security_val">50%</span>
+		<div class="blank5"></div>
+		<div class="progress_bg">
+			<span class="theme_bgcolor" id="progress"></span>
+		</div>
+		<input type="hidden" name="s_email" value="{$user_info.email}" />
+		<input type="hidden" name="s_mobile" value="{$user_info.mobile}" />
+		<input type="hidden" name="s_paypassword" value="{$user_info.paypassword}" />
+		<input type="hidden" name="s_investor_status" value="{$user_info.investor_status}" />
+	</div>
+	<div class="menutitle menutitle_account">
+		<span class="f_l"><i class="icons"></i>账户管理</span>
+		<i class="icon iconfont iconfont_right">&#xe61a;</i>
+		<i class="icon iconfont iconfont_down">&#xe61b;</i>
+		<div class="blank0"></div>
+	</div>
+	<ul class="homemenulist">
+		<li {if $module eq 'home'}class="select"{/if}>
+			<a href="{url r="home#index"}" class="a1">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'home'}&#xe61a;{/if}</i><span><!--账户中心-->投资记录</span>
+				</div>
+			</a>
+		</li>
+		<li {if $module eq 'account' && $action eq 'money_inchange' || $action eq 'record' || $action eq 'money_inchange_log' || $action eq 'pay'}class="select"{/if}>
+			<a href="{url r="account#money_inchange"}" class="a1">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'account' && $action eq 'money_inchange' || $action eq 'record' || $action eq 'money_inchange_log' || $action eq 'pay'}&#xe61a;{/if}</i><span>我的充值</span>
+				</div>
+			</a>
+		</li>
+        <!--我的转账功能-->
+        <li {if $module eq 'account' && $action eq 'money_withdrawal' || $action eq 'commit_log'}class="select"{/if}>
+			<a href="{url r="account#money_withdrawal"}" class="a1">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'account' && $action eq 'money_withdrawal'}&#xe61a;{/if}</i><span>我的转权</span>
+				</div>
+			</a>
+		</li>
+  
+         <!--//我的转账功能结束-->       	
+	
+        <li {if $module eq 'account' && $action eq 'credit'}class="select"{/if}>
+			<a href="{url r="account#credit"}" class="a1">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'account' && $action eq 'credit'}&#xe61a;{/if}</i><span>资金明细</span>
+				</div>
+			</a>
+		</li>
+		<li {if $module eq 'account' && $action eq 'score'}class="select"{/if}>
+			<a href="{url r="account#score"}" class="a1">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'account' && $action eq 'score'}&#xe61a;{/if}</i><span>积分明细</span>
+				</div>
+			</a>
+		</li>
+		<li {if $module eq 'account' && $action eq 'point'}class="select"{/if}>
+			<a href="{url r="account#point"}" class="a1">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'account' && $action eq 'point'}&#xe61a;{/if}</i><span>信用明细</span>
+				</div>
+			</a>
+		</li>
+		{if app_conf("INVEST_STATUS") neq 1 || app_conf("IS_FINANCE") eq 1}
+		<li {if $module eq 'account' && $action eq 'money_freeze'}class="select"{/if}>
+			<a href="{url r="account#money_freeze"}" class="a1">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'account' && $action eq 'money_freeze'}&#xe61a;{/if}</i><span>诚意金明细</span>
+				</div>
+			</a>
+		</li>
+		{/if}
+	</ul>
+	{if app_conf("INVEST_STATUS") neq 2}
+	<div class="menutitle menutitle_item">
+		<span class="f_l"><i class="icons"></i>产品项目</span>
+		<i class="icon iconfont iconfont_right">&#xe61a;</i>
+		<i class="icon iconfont iconfont_down">&#xe61b;</i>
+		<div class="blank0"></div>
+	</div>
+	<ul class="homemenulist">
+		<li {if $module eq 'account'&&( $action eq 'index' ||( $action eq 'view_order' && $order_deal_type eq 0))}class="select"{/if}>
+			<a href="{if app_conf("INVEST_STATUS") eq 0 || app_conf("INVEST_STATUS") eq 1}{url r="account#index"}{/if}{if app_conf("INVEST_STATUS") eq 2}{url r="account#mine_investor_status"}{/if}" class="a1">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'account' && ($action eq 'index' || ( $action eq 'view_order' && $order_deal_type eq 0))}&#xe61a;{/if}</i><span>我参与的产品项目</span>
+				</div> 
+			</a>
+		</li>
+		<li {if $module eq 'account' && ($action eq 'project' || ( $project_deal_type eq 0 && ($action eq 'support' || $action eq 'paid' || $action eq 'set_repay' || $action eq 'lottery')))}class="select"{/if}>
+			<a href="{if app_conf("INVEST_STATUS") eq 0 || app_conf("INVEST_STATUS") eq 1}{url r="account#project"}{/if}{if app_conf("INVEST_STATUS") eq 2}{url r="account#project_invest"}{/if}" class="a2">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'account' && ($action eq 'project' || ( $project_deal_type eq 0 && ($action eq 'support' || $action eq 'paid' || $action eq 'set_repay' || $action eq 'lottery')))}&#xe61a;{/if}</i><span>我创建的项目</span>
+				</div>
+			</a>
+		</li>
+		<li {if $module eq 'account'&& $action eq 'focus'}class="select"{/if}>
+			<a href="{url r="account#focus"}" class="a3">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'account'&& $action eq 'focus'}&#xe61a;{/if}</i><span>我关注的项目</span>
+				</div>
+			</a>
+		</li>
+		<li {if $module eq 'account' && $action eq 'recommend'}class="select"{/if}>
+			<a href="{url r="account#recommend"}" class="a3">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'account'&& $action eq 'recommend'}&#xe61a;{/if}</i><span>推荐产品项目</span>
+				</div>
+			</a>
+		</li>
+ 	</ul>
+	{/if}
+	{if app_conf("IS_HOUSE") eq 1}
+	<div class="menutitle house">
+		<span class="f_l"><i class="icons"></i>房产项目</span>
+		<i class="icon iconfont iconfont_right">&#xe61a;</i>
+		<i class="icon iconfont iconfont_down">&#xe61b;</i>
+		<div class="blank0"></div>
+	</div>
+	<ul class="homemenulist">
+		<li {if $module eq 'account'&& ($action eq 'house_index' ||( $action eq 'view_order' && $order_deal_type eq 2)) }class="select"{/if}>
+			<a href="{url r="account#house_index"}" class="a1">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'account'&& ($action eq 'house_index' ||( $action eq 'view_order' && $order_deal_type eq 2)) }&#xe61a;{/if}</i><span>我参与的房产项目</span>
+				</div>
+			</a>
+		</li>
+		<li {if $module eq 'account'&& ($action eq 'project_house'  || ( $project_deal_type eq 2 && ($action eq 'support' || $action eq 'paid' || $action eq 'set_repay' || $action eq 'lottery')))}class="select"{/if}>
+			<a href="{url r="account#project_house"}" class="a2">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'account' && ($action eq 'project_house' || ( $project_deal_type eq 2 && ($action eq 'support' || $action eq 'paid' || $action eq 'set_repay' || $action eq 'lottery')))}&#xe61a;{/if}</i><span>我创建的房产项目</span>
+				</div>
+			</a>
+		</li>
+		<li {if $module eq 'account'&& $action eq 'focus_house'}class="select"{/if}>
+			<a href="{url r="account#focus_house"}" class="a3">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'account'&& $action eq 'focus_house'}&#xe61a;{/if}</i><span>我关注房产的项目</span>
+				</div>
+			</a>
+		</li>
+		<li {if $module eq 'account'&& $action eq 'recommend_house'}class="select"{/if}>
+			<a href="{url r="account#recommend_house"}" class="a3">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'account'&& $action eq 'recommend_house'}&#xe61a;{/if}</i><span>推荐房产项目</span>
+				</div>
+			</a>
+		</li>
+ 	</ul>
+	{/if}
+	{if app_conf("IS_SELFLESS") eq 1}
+	<div class="menutitle welfare">
+		<span class="f_l"><i class="icons"></i>公益项目</span>
+		<i class="icon iconfont iconfont_right">&#xe61a;</i>
+		<i class="icon iconfont iconfont_down">&#xe61b;</i>
+		<div class="blank0"></div>
+	</div>
+	<ul class="homemenulist">
+		<li {if $module eq 'account' && ( $action eq 'selfless_index' || ( $action eq 'view_order' && $order_deal_type eq 3))}class="select"{/if}>
+			<a href="{url r="account#selfless_index"}" class="a1">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'account' && ( $action eq 'selfless_index' || ( $action eq 'view_order' && $order_deal_type eq 3))}&#xe61a;{/if}</i><span>我参与的公益项目</span>
+				</div>
+			</a>
+		</li>
+		<li {if $module eq 'account'&& ($action eq 'project_selfless' || ( $project_deal_type eq 3 && ($action eq 'support' || $action eq 'paid' || $action eq 'set_repay' || $action eq 'lottery')))}class="select"{/if}>
+			<a href="{url r="account#project_selfless"}" class="a2">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'account' && ($action eq 'project_selfless' || ( $project_deal_type eq 3 && ($action eq 'support' || $action eq 'paid' || $action eq 'set_repay' || $action eq 'lottery')))}&#xe61a;{/if}</i><span>我创建的房产项目</span>
+				</div>
+			</a>
+		</li>
+		<li {if $module eq 'account'&& $action eq 'focus_selfless'}class="select"{/if}>
+			<a href="{url r="account#focus_selfless"}" class="a3">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'account'&& $action eq 'focus_selfless'}&#xe61a;{/if}</i><span>我关注公益的项目</span>
+				</div>
+			</a>
+		</li>
+		<li {if $module eq 'account'&& $action eq 'recommend_selfless'}class="select"{/if}>
+			<a href="{url r="account#recommend_selfless"}" class="a3">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'account'&& $action eq 'recommend_selfless'}&#xe61a;{/if}</i><span>推荐公益项目</span>
+				</div>
+			</a>
+		</li>
+ 	</ul>
+	{/if}
+	{if app_conf("INVEST_STATUS") neq 1}
+	<div class="menutitle stock">
+		<span class="f_l"><i class="icons"></i>股权项目</span>
+		<i class="icon iconfont iconfont_right">&#xe61a;</i>
+		<i class="icon iconfont iconfont_down">&#xe61b;</i>
+		<div class="blank0"></div>
+	</div>
+	<ul class="homemenulist">
+		<li {if $module eq 'account' && ( $action eq 'mine_investor_status' || ( $action eq 'view_order' && $order_deal_type eq 1))}class="select"{/if}>
+			<a href="{url r="account#mine_investor_status"}" class="a1">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'account' && ( $action eq 'mine_investor_status' || ( $action eq 'view_order' && $order_deal_type eq 1))}&#xe61a;{/if}</i><span>我参与的股权项目</span>
+				</div>
+			</a>
+		</li>
+		<li {if $module eq 'account' && ( $action eq 'project_invest' || ( $project_deal_type eq 1 && ($action eq 'get_investor_status' || $action eq 'get_leader_list' || $action eq 'support' || $action eq 'paid' || $action eq 'set_repay')))}class="select"{/if}>
+			<a href="{url r="account#project_invest"}" class="a2">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'account' && ($action eq 'project_invest' || ( $project_deal_type eq 1 && ($action eq 'get_investor_status' || $action eq 'get_leader_list' || $action eq 'support' || $action eq 'paid' || $action eq 'set_repay')))}&#xe61a;{/if}</i><span>我创建的股权项目</span>
+				</div>
+			</a>
+		</li>
+		<li {if $module eq 'account'&& $action eq 'focus_investor'}class="select"{/if}>
+			<a href="{url r="account#focus_investor"}" class="a3">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'account'&& $action eq 'focus_investor'}&#xe61a;{/if}</i><span>我关注股权的项目</span>
+				</div>
+			</a>
+		</li>
+		<li {if $module eq 'account'&& $action eq 'recommend_investor'}class="select"{/if}>
+			<a href="{url r="account#recommend_investor"}" class="a3">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'account'&& $action eq 'recommend_investor'}&#xe61a;{/if}</i><span>推荐股权项目</span>
+				</div>
+			</a>
+		</li>
+ 	</ul>
+	{/if}
+	{if app_conf("INVEST_STATUS") neq 1}
+	<div class="menutitle financ">
+		<span class="f_l"><i class="icons"></i>融资项目</span>
+		<i class="icon iconfont iconfont_right">&#xe61a;</i>
+		<i class="icon iconfont iconfont_down">&#xe61b;</i>
+		<div class="blank0"></div>
+	</div>
+	<ul class="homemenulist">
+		<li {if $module eq 'account' && ( $action eq 'mine_investor_finance' || ( $action eq 'view_order' && $order_deal_type eq 4) )}class="select"{/if}>
+			<a href="{url r="account#mine_investor_finance"}" class="a1">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'account' && ( $action eq 'mine_investor_finance' || ( $action eq 'view_order' && $order_deal_type eq 4) )}&#xe61a;{/if}</i><span>我参与的融资项目</span>
+				</div>
+			</a>
+		</li>
+		<li {if $module eq 'account' && ($action eq 'project_finance' || ( $project_deal_type eq 4 && ($action eq 'get_investor_status' || $action eq 'get_leader_list' || $action eq 'support' || $action eq 'paid' || $action eq 'set_repay')))}class="select"{/if}>
+			<a href="{url r="account#project_finance"}" class="a2">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'account' && ($action eq 'project_finance' || ( $project_deal_type eq 4 && ($action eq 'get_investor_status' || $action eq 'get_leader_list' || $action eq 'support' || $action eq 'paid' || $action eq 'set_repay')))}&#xe61a;{/if}</i><span>我创建的融资项目</span>
+				</div>
+			</a>
+		</li>
+		<li {if $module eq 'account'&& $action eq 'focus_finance'}class="select"{/if}>
+			<a href="{url r="account#focus_finance"}" class="a3">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'account'&& $action eq 'focus_finance'}&#xe61a;{/if}</i><span>我关注融资的项目</span>
+				</div>
+			</a>
+		</li>
+		<li {if $module eq 'account'&& $action eq 'recommend_finance'}class="select"{/if}>
+			<a href="{url r="account#recommend_finance"}" class="a3">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'account'&& $action eq 'recommend_finance'}&#xe61a;{/if}</i><span>推荐融资项目</span>
+				</div>
+			</a>
+		</li>
+ 	</ul>
+	{/if}
+	{if app_conf("INVEST_STATUS") neq 1}
+	<div class="menutitle management">
+		<span class="f_l"><i class="icons"></i>投后管理</span>
+		<i class="icon iconfont iconfont_right">&#xe61a;</i>
+		<i class="icon iconfont iconfont_down">&#xe61b;</i>
+		<div class="blank0"></div>
+	</div>
+	<ul class="homemenulist">	
+		<li {if $module eq 'account'&& ($action eq 'share_bonus' || $action eq 'share_bonus_apply' || $action eq 'share_bonus_detail')}class="select"{/if}>
+			<a href="{url r="account#share_bonus"}" class="a3">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'account'&& $action eq 'share_bonus'}&#xe61a;{/if}</i><span>分红管理</span>
+				</div>
+			</a>
+		</li>
+		<li {if $module eq 'account'&& ($action eq 'fixed_interest' || $action eq 'fixed_interest_apply' || $action eq 'fixed_interest_detail')}class="select"{/if}>
+			<a href="{url r="account#fixed_interest"}" class="a3">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'account'&& $action eq 'fixed_interest'}&#xe61a;{/if}</i><span>利息发放</span>
+				</div>
+			</a>
+		</li>
+		{if app_conf("IS_STOCK_TRANSFER") eq 1}
+		<li {if $module eq 'account'&& ($action eq 'stock_transfer_out'||$action eq 'stock_transfer_in' || $action eq 'stock_transfer_add'|| $action eq 'stock_transfer_edit' || $action eq 'stock_transfer_view_order')}class="select"{/if}>
+			<a href="{url r="account#stock_transfer_out"}" class="a3">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'account'&& $action eq 'stock_transfer_out'}&#xe61a;{/if}</i><span>股权转让</span>
+				</div>
+			</a>
+		</li>
+		{/if}
+		<li {if $module eq 'account'&& ($action eq 'buy_house_earnings' || $action eq 'buy_house_earnings_apply' || $action eq 'buy_house_earnings_detail')}class="select"{/if}>
+			<a href="{url r="account#buy_house_earnings"}" class="a3">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'account'&& $action eq 'buy_house_earnings'}&#xe61a;{/if}</i><span>买房收益</span>
+				</div>
+			</a>
+		</li>
+ 	</ul>
+	{/if}
+	{if app_conf("IS_FINANCE") eq 1}
+	<div class="menutitle company">
+		<span class="f_l"><i class="icons"></i>公司管理</span>
+		<i class="icon iconfont iconfont_right">&#xe61a;</i>
+		<i class="icon iconfont iconfont_down">&#xe61b;</i>
+		<div class="blank0"></div>
+	</div>
+	<ul class="homemenulist">	
+		<li {if $module eq 'finance' && $action eq 'company_manage'}class="select"{/if}>
+			<a href="{url r="finance#company_manage"}" class="a3">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'finance' && $action eq 'company_manage'}&#xe61a;{/if}</i><span>我管理的公司</span>
+				</div>
+			</a>
+		</li>
+		<li {if $module eq 'finance' && $action eq 'company_focus'}class="select"{/if}>
+			<a href="{url r="finance#company_focus"}" class="a3">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'finance' && $action eq 'company_focus'}&#xe61a;{/if}</i><span>我关注的公司</span>
+				</div>
+			</a>
+		</li>
+ 	</ul>
+	{/if}
+	<div class="menutitle menutitle_set">
+		<span class="f_l"><i class="icons"></i>个人设置</span>
+		<i class="icon iconfont iconfont_right">&#xe61a;</i>
+		<i class="icon iconfont iconfont_down">&#xe61b;</i>
+		<div class="blank0"></div>
+	</div>
+	<ul class="homemenulist">
+ 		<li {if $module eq 'settings'&& $action eq 'index'}class="select"{/if}>
+			<a href="{url r="settings#index"}" class="a5">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'settings'&& $action eq 'index'}&#xe61a;{/if}</i><span>个人资料</span>
+				</div>
+			</a>
+		</li>
+		<li {if $module eq 'settings'&& $action eq 'security'}class="select"{/if}>
+			<a href="{url r="settings#security"}" class="a12">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'settings'&& $action eq 'security'}&#xe61a;{/if}</i><span>安全信息</span>
+				</div>
+			</a>
+		</li>
+
+		<li {if $module eq 'settings'&& $action eq 'invite'}class="select"{/if} {if $user_info.investor_status neq 1 || $user_info.is_investor neq 2 } style="display:none;"{/if}>
+			<a href="{url r="settings#invite"}" class="a12">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'settings'&& $action eq 'invite'}&#xe61a;{/if}</i><span>机构成员</span>
+				</div>
+			</a>
+		</li>
+
+ 		<li {if $module eq 'settings'&& $action eq 'consignee'}class="select"{/if}>
+			<a href="{url r="settings#consignee"}" class="a8">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'settings'&& $action eq 'consignee'}&#xe61a;{/if}</i><span>收件地址</span>
+				</div>
+			</a>
+		</li>
+		{if get_api_login_count('Weixin') gt 0}
+		<li {if $module eq 'settings'&& $action eq 'bind'}class="select"{/if}>
+			<a href="{url r="settings#bind"}" class="a7">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'settings'&& $action eq 'bind'}&#xe61a;{/if}</i><span>帐号绑定</span>
+				</div>
+			</a>
+		</li>
+		{/if}
+	</ul>
+	<div class="menutitle menutitle_news">
+		<span class="f_l"><i class="icons"></i>消息中心</span><i class="icon iconfont">&#xe61a;</i>
+	</div>
+	<ul class="homemenulist">
+		<li {if $module eq 'comment'}class="select"{/if}>
+			<a href="{url r="comment#index"}" class="a1">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'comment'}&#xe61a;{/if}</i><span>项目评论</span>
+				</div>
+			</a>
+		</li>
+		<li>
+			<a href="{url r="news#fav"}" target="_blank" class="a1">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'xxx'}&#xe61a;{/if}</i><span>项目动态</span>
+				</div>
+			</a>
+		</li>
+		<li {if $module eq 'message'}class="select"{/if}>
+			<a href="{url r="message#index"}" class="a1">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'message'}&#xe61a;{/if}</i><span>我的私信</span>
+				</div>
+			</a>
+		</li>
+		<li {if $module eq 'notify'}class="select"{/if}>
+			<a href="{url r="notify#index"}" class="a1">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'notify'}&#xe61a;{/if}</i><span>站内通知</span>
+				</div>
+			</a>
+		</li>
+		<li {if $module eq 'invite'}class="select"{/if}>
+			<a href="{url r="invite#index"}" class="a1">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'invite'}&#xe61a;{/if}</i><span>查看邀请</span>
+				</div>
+			</a>
+		</li>
+	</ul>
+	<div class="menutitle menutitle_invite">
+		<span class="f_l"><i class="icons"></i>我的邀请</span><i class="icon iconfont">&#xe61a;</i>
+	</div>
+	<ul class="homemenulist">
+		<li {if $module eq 'referral'&& $action eq 'index'}class="select"{/if}>
+			<a href="{url r="referral#index"}" class="a3">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'referral'&& $action eq 'index'}&#xe61a;{/if}</i><span>我的邀请记录</span>
+				</div>
+			</a>
+		</li>
+	</ul>
+	{if $is_tg}
+	<div class="menutitle menutitle_account">
+		<span class="f_l"><i class="icons"></i>第三方托管</span>
+		<i class="icon iconfont iconfont_right">&#xe61a;</i>
+		<i class="icon iconfont iconfont_down">&#xe61b;</i>
+		<div class="blank0"></div>
+	</div>
+	<ul class="homemenulist">
+		<li {if $module eq 'account'&& $action eq 'yeepay_recharge'}class="select"{/if}>
+			<a href="{url r="account#yeepay_recharge"}" class="a1">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'account' && $action eq 'yeepay_recharge'}&#xe61a;{/if}</i><span>我的充值</span>
+				</div>
+			</a>
+		</li>
+		<li {if $module eq 'account'&& $action eq 'yeepay_withdraw'}class="select"{/if}>
+			<a href="{url r="account#yeepay_withdraw"}" class="a1">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'account' && $action eq 'yeepay_withdraw'}&#xe61a;{/if}</i><span>我的提现</span>
+				</div>
+			</a>
+		</li>
+		{if INVEST_TYPE neq 1}
+		<li {if $module eq 'account' && $action eq 'yeepay_money_freeze'}class="select"{/if}>
+			<a href="{url r="account#yeepay_money_freeze"}" class="a1">
+				<div class="text">
+					<i class="icon iconfont">{if $module eq 'account' && $action eq 'yeepay_money_freeze'}&#xe61a;{/if}</i><span>我的诚意金</span>
+				</div>
+			</a>
+		</li>
+		{/if}
+	</ul>
+	{/if}
+	{if LICAI_TYPE}
+	<div class="menutitle licai">
+		<span class="f_l"><i class="icons"></i>我的理财</span>
+		<i class="icon iconfont iconfont_right">&#xe61a;</i>
+		<i class="icon iconfont iconfont_down">&#xe61b;</i>
+		<div class="blank0"></div>
+	</div>
+ 	<ul class="homemenulist">
+		<li {if $module eq 'licai' && ($action eq 'uc_published_lc' || $action eq 'uc_record_lc' || $action eq 'uc_u_buyed_deal_lc')}class="select"{/if}>
+			<a href="{url r="licai#uc_published_lc"}" class="a1">
+				<div class="text">
+					<i class="icon iconfont"></i><span>发起的理财</span>
+				</div>
+			</a>
+		</li>
+		<li {if $module eq 'licai' && ($action eq 'uc_expire_lc')}class="select"{/if}>
+			<a href="{url r="licai#uc_expire_lc"}" class="a1">
+				<div class="text">
+					<i class="icon iconfont"></i><span>快到期理财发放</span>
+				</div>
+			</a>
+		</li>
+		<li {if $module eq 'licai' && $action eq 'uc_redeem_lc'}class="select"{/if}>
+			<a href="{url r="licai#uc_redeem_lc" p="type=0"}" class="a1">
+				<div class="text">
+					<i class="icon iconfont"></i><span>赎回管理</span>
+				</div>
+			</a>
+		</li>
+		<li {if $module eq 'licai' && ($action eq 'uc_buyed_lc' || $action eq 'uc_redeem' || $action eq 'uc_buyed_deal_lc')}class="select"{/if}>
+			<a href="{url r="licai#uc_buyed_lc"}" class="a1">
+				<div class="text">
+					<i class="icon iconfont"></i><span>购买的理财</span>
+				</div>
+			</a>
+		</li>
+		<li {if $module eq 'licai' && ($action eq 'mortgage_money')}class="select"{/if}>
+			<a href="{url r="licai#mortgage_money"}" class="a1">
+				<div class="text">
+					<i class="icon iconfont"></i><span>冻结金明细</span>
+				</div>
+			</a>
+		</li>
+ 	</ul>
+	<div class="menutitle points_exchange">
+		<span class="f_l"><i class="icons"></i>积分兑换</span>
+		<i class="icon iconfont iconfont_right">&#xe61a;</i>
+		<i class="icon iconfont iconfont_down">&#xe61b;</i>
+		<div class="blank0"></div>
+	</div>
+ 	<ul class="homemenulist">
+		<li {if $module eq 'score_goods_order' && $action eq 'index'}class="select"{/if}>
+			<a href="{url r="score_goods_order#index"}" class="a1">
+				<div class="text">
+					<i class="icon iconfont"></i><span>兑换列表</span>
+				</div>
+			</a>
+		</li>
+ 	</ul>
+	{/if}
+</div>
+<script type="text/javascript">
+(function(){
+	var email=$("input[name='s_email']").val() ,
+	 	mobile=$("input[name='s_mobile']").val() ,
+	 	paypassword=$("input[name='s_paypassword']").val() ,
+	 	investor_status=$("input[name='s_investor_status']").val() ,
+		s_array=new Array(email,mobile,paypassword,investor_status);
+ 	for(var i=0; i<s_array.length; i++){
+     	if(s_array[i] == "" || s_array[i] == 0 || typeof(s_array[i]) == "undefined"){
+          	s_array.splice(i,1);
+          	i= i-1;
+ 		}        
+ 	}
+ 	var total_length=4 ,
+ 		s_array_length=s_array.length ,
+ 		security_val=((s_array_length/total_length)*100);
+	$("#security_val").text(security_val+"%");
+	$("#progress").animate({width:security_val+"%"},1000);
+})();
+
+(function(){
+	$(".menutitle").removeClass(".cur");
+	$(".homemenulist").hide();
+	$(".homemenulist").each(function(){
+		var obj = $(this);
+		if(obj.find(".select").length){
+			var menutitle = obj.prev(".menutitle");
+			obj.show();
+			menutitle.addClass("cur");
+			menutitle.find(".iconfont_right").hide();
+			menutitle.find(".iconfont_down").show();
+		}
+	});
+
+	$(".homeleft").find(".menutitle").on('click',function(e){
+		e.stopPropagation();
+		var obj = $(this);
+		var hascur = obj.hasClass("cur");
+		if(hascur){
+			obj.find(".iconfont_down").hide();
+			obj.find(".iconfont_right").show();
+			obj.removeClass("cur").next(".homemenulist").slideUp(300);
+		}
+		else{
+			obj.find(".iconfont_right").hide();
+			obj.find(".iconfont_down").show();
+			obj.addClass("cur").next(".homemenulist").slideDown(300);
+		}
+	});
+})();
+</script>

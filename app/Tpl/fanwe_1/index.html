@@ -1,0 +1,661 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/index.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/countUp.min.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/countUp.min.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jquery.SuperSlide.2.1.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jquery.SuperSlide.2.1.js";
+
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<style type="text/css">
+	.nav_item1 .ui-progress,.nav_item1 .ui-success{height:12px;}
+	.nav_item1 .ui-progress span,.ui-success span{height:12px;line-height:12px;font-size:12px;color:#fff;text-align:right;}
+	#pin_box{margin-top:0}
+	.nav_item .nav_item1 .nav_item2{ cursor:pointer;}
+</style>
+<!--海报区域开始  -->
+<div class="banner slideBox" id="banner">
+	<div class="banner_cont effect_bd">
+		<ul>
+			{foreach from=$image_list item=image_item}
+			<li><a href="{$image_item.url}" target=_blank style="display:block;background: url({$image_item.image}) 50% 50% no-repeat;"></a></li>
+			{/foreach}
+		</ul>
+	</div>
+	<div class="btn_tit effect_hd">
+		{foreach from=$image_list item=image_item}
+		<span></span>
+		{/foreach}
+	</div>
+	<div class="fy_box" style="">
+		<!--左右翻页按钮，可以不用-->
+		<a class="prev" href="javascript:void(0)"></a>
+		<a class="next" href="javascript:void(0)"></a>
+	</div>
+</div>
+<script type="text/javascript"> 
+	if(!$(".banner_cont ul").has('li').length){ 
+		$("#banner").css("display","none");
+	} 
+	
+	if($(".banner_cont ul").find('li').length==1){ 
+		$(".btn_tit").css("display","none");
+	}
+	else if($(".banner_cont ul").find('li').length>1){
+		$(".btn_tit").css("display","block");
+	}
+	if($(".banner_cont ul").find('li').length>1){
+		jQuery("#banner").slide({mainCell:".banner_cont ul",titCell:".effect_hd span",effect:"leftLoop",easing:"easeInOutQuint",delayTime:500,autoPlay:true});
+		$("#banner").mousemove(function(){
+			$(this).find(".prev").show();
+			$(this).find(".next").show();
+		}).mouseout(function(){
+			$(this).find(".prev").hide();
+			$(this).find(".next").hide();
+		});
+	}
+</script>
+<!--  海报区域结束  -->
+<div class="adv_index">
+	<adv adv_id="index_top" />
+</div>
+<!-- 统计模块 开始 -->
+<div class="index_sum">
+	<ul class="sum_wrap">
+		<li class="cont_pr sum_money">
+			<i></i>
+			<span id="sum_money">{$virtual_money}</span>认筹金额
+			<input type="hidden" name="sum_money" value="{$virtual_money}" />
+		</li>
+		<li class="cont_pr sum_success">
+			<i></i>
+			<span id="sum_success">{$success_sum}</span>成功项目
+			<input type="hidden" name="success_sum" value="{$success_sum}" />
+		</li>
+		<li class="cont_pr sum_online">
+			<i></i>
+			<span id="sum_online">{$virtual_effect}</span>在线项目
+			<input type="hidden" name="sum_online" value="{$virtual_effect}" />
+		</li>
+		<li class="cont_pr sum_user">
+			<i></i>
+			<span id="sum_user">{$register_sum}</span>注册会员
+			<input type="hidden" name="sum_user" value="{$register_sum}" />
+		</li>
+	</ul>
+</div>
+<!-- 统计模块 结束 -->
+<!-- 专题推荐 开始 -->
+<div class="index_m index_recommend">
+	<div class="wrap">
+		<div class="recommend1 hide">
+			<a href="" target="_blank"><img src="{$TMPL}/images/index_re1.jpg" /></a>
+			<a href="" target="_blank"><img src="{$TMPL}/images/index_re1.jpg" /></a>
+			<a href="" target="_blank"><img src="{$TMPL}/images/index_re1.jpg" /></a>
+			<a href="" target="_blank" class="last"><img src="{$TMPL}/images/index_re1.jpg" /></a>
+		</div>
+		<div class="recommend2">
+			<div class="recommend_left recommend_m f_l" id="special_effect">
+				<h3 class="index_title">专题项目</h3>
+				<div class="special_hd effect_hd">
+					<a class="next"><</a>
+					<a class="prev">></a>
+				</div>
+				<div class="special_list effect_bd">
+					<ul>
+						{foreach from=$deal_special_list item=deal_special_item name=deal_special}
+						{if $smarty.foreach.deal_special.iteration lte 5}
+						<li class="item_img">
+							{if $deal_special_item.company_id neq '' && $deal_special_item.company_id neq 0}
+								<a href="{url r="finance#company_finance" p="id=$deal_special_item.id"}" target="_blank">
+							{else}
+								<a href="{url r="deal#show" p="id=$deal_special_item.id"}" target="_blank">
+							{/if}
+								<img src="{if $deal_special_item.image eq ''}{$TMPL}/images/empty_thumb.gif{else}{function name="get_spec_image" v=$deal_special_item.image w="590" h="413" g="1"}{/if}" alt="{$deal_special_item.name}" lazy="true" />
+								<div class="item_info">
+									<div class="mask_text">
+						                <div class="item_title">{function name="msubstr" v=$deal_special_item.name b=0 e=25}</div>
+						                <div class="other_info">
+						                    <span class="every_info info_deal">
+						                        <em class="info_num">{$deal_special_item.percent}%</em>
+						                        <em class="info_name">达成率</em>
+						                    </span>
+						                    <span class="every_info info_dollar">
+						                        <em class="info_num">{function name="round" v=$deal_special_item.support_amount e=2}</em>
+						                        <em class="info_name">已筹金额</em>
+						                    </span>
+						                    <span class="every_info info_support">
+						                        <em class="info_num">{$deal_special_item.support_count}</em>
+						                        <em class="info_name">支持人数</em>
+						                    </span>
+						                </div>
+					                </div>
+					                <div class="mask_bg"></div>
+					            </div>
+							</a>
+						</li>
+						{/if}
+			            {/foreach}
+		            </ul>
+		        </div>
+			</div>
+			<script type="text/javascript">
+				jQuery("#special_effect").slide({titCell:".special_hd ul",mainCell:".special_list ul",autoPage:true,effect:"left",autoPlay:false,vis:1,trigger:"click",easing:"easeOutBack",delayTime:500});
+			</script>
+			<div class="recommend_right recommend_m f_l">
+				<h3 class="index_title">推荐项目</h3>
+				<ul>
+					{foreach from=$deal_recommend_list item=deal_recommend_item name=deal_recommend}
+					{if $smarty.foreach.deal_recommend.iteration lte 4}
+					<li class="{if $smarty.foreach.deal_recommend.iteration mod 2 eq 0}last {/if}{if $smarty.foreach.deal_recommend.iteration mod 3 eq 0 || $smarty.foreach.deal_recommend.iteration mod 4 eq 0}mb0{/if}">
+						{if $deal_recommend_item.company_id neq '' && $deal_recommend_item.company_id neq 0}
+							<a href="{url r="finance#company_finance" p="id=$deal_recommend_item.id"}" target="_blank">
+						{else}
+							<a href="{url r="deal#show" p="id=$deal_recommend_item.id"}" target="_blank">
+						{/if}
+							<img src="{if $deal_recommend_item.image eq ''}{$TMPL}/images/empty_thumb.gif{else}{function name="get_spec_image" v=$deal_recommend_item.image w="285" h="200" g="1"}{/if}" alt="{$deal_recommend_item.name}" lazy="true" />
+							<div class="item_info">
+								<div class="mask_text">
+					                <div class="item_title">{function name="msubstr" v=$deal_recommend_item.name b=0 e=25}</div>
+					                <div class="other_info">
+					                    <span class="every_info info_deal">
+					                        <em class="info_num">{$deal_recommend_item.percent}%</em>
+					                        <em class="info_name">达成率</em>
+					                    </span>
+					                    <span class="every_info info_dollar">
+					                        <em class="info_num">{function name="round" v=$deal_recommend_item.support_amount e=2}</em>
+					                        <em class="info_name">已筹金额</em>
+					                    </span>
+					                    <span class="every_info info_support">
+					                        <em class="info_num">{$deal_recommend_item.support_count}</em>
+					                        <em class="info_name">支持人数</em>
+					                    </span>
+					                </div>
+				                </div>
+				                <div class="mask_bg"></div>
+				            </div>
+						</a>
+					</li>
+					{/if}
+					{/foreach}
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 专题推荐 结束 -->
+<div class="index_pro_box">
+	{if $deal_new_list}
+	<!-- 最新创意 开始 -->
+	<div class="index_m index_new">
+		<div class="wrap">
+			<h3 class="index_title">
+			 	<span>|&nbsp;有你，有我，有梦想</span>
+			 	{if app_conf('INVEST_STATUS') eq 0 || app_conf('INVEST_STATUS') eq 1 }
+		 			<a href="{url r="deals" p="time=1"}" target="_blank" class="more_browse f_r">查看更多</a>
+			 	{else}
+					<a href="{url r="deals" p="type=1&time=1"}" target="_blank" class="more_browse f_r">查看更多</a>
+			 	{/if}
+			 	<div class="blank0"></div>
+			</h3>
+			<div id="pin_box">
+			 	{if app_conf('INVEST_STATUS') eq 0 || app_conf('INVEST_STATUS') eq 1 }
+			 		{include file="inc/deal_list_index_new_pro.html"} 
+			 	{else}
+				 	{include file="inc/deal_list_index_new_invest.html"} 
+			 	{/if}
+			</div>
+		</div>
+	 </div>
+	 {/if}
+	<!-- 最新创意 结束 -->
+	
+	<!-- 最新房产 开始 -->
+	{if $deal_new_list_2}
+	<div class="blank10"></div>
+	<div class="index_m index_new">
+		<div class="wrap">
+			<h3 class="index_title type_2_title">
+			 	<span>|&nbsp;有你，有我，有梦想</span>
+		 			<a href="{url r="deals#house" p="type=2"}" target="_blank" class="more_browse f_r">查看更多</a>
+			 	<div class="blank0"></div>
+			</h3>
+			<div id="pin_box">
+			 	{include file="inc/deal_list_index_new_house.html"}
+			</div>
+		</div>
+	 </div>
+	{/if}
+	 
+	<!-- 最新公益 开始 -->
+	{if $deal_new_list_3}
+	<div class="blank10"></div>
+	<div class="index_m index_new">
+		<div class="wrap">
+			<h3 class="index_title type_3_title">
+			 	<span>|&nbsp;有你，有我，有梦想</span>
+		 		<a href="{url r="deals#selfless" p="type=3"}" target="_blank" class="more_browse f_r">查看更多</a>
+			 	<div class="blank0"></div>
+			</h3>
+			<div id="pin_box">
+			 	{include file="inc/deal_list_index_new_selfless.html"}
+			</div>
+		</div>
+	 </div>
+	{/if}
+	
+	<!-- 最新融资 开始 -->
+	{if $deal_new_list_4}
+	<div class="blank10"></div>
+	<div class="index_m index_new">
+		<div class="wrap">
+			<h3 class="index_title type_4_title">
+			 	<span>|&nbsp;有你，有我，有梦想</span>
+		 		<a href="{url r="finance"}" target="_blank" class="more_browse f_r">查看更多</a>
+			 	<div class="blank0"></div>
+			</h3>
+			<div id="pin_box">
+			 	{include file="inc/deal_list_index_new_finance.html"}
+			</div>
+		</div>
+	 </div>
+	{/if}
+	{if $deal_hot_list}
+	<div class="blank10"></div>
+	<!-- 热门投资 开始 -->
+	<div class="index_m index_hot">
+		<div class="wrap">
+			<h3 class="index_title">
+			 	<span>|&nbsp;实时更新最热门的项目</span>
+			 	{if  app_conf('INVEST_STATUS') eq 1 }
+	 			 	<a href="{url r="deals" p="focus=1"}" target="_blank" class="more_browse f_r">查看更多</a>
+				 {else}
+					<a href="{url r="deals"  p="type=1&focus=1"}" target="_blank" class="more_browse f_r">查看更多</a>
+				 {/if}
+				<div class="blank0"></div>
+			</h3>
+			<div id="pin_box">
+			 	{if app_conf('INVEST_STATUS') eq 0 || app_conf('INVEST_STATUS') eq 2}
+				 	{include file="inc/deal_list_invest_hot_invest.html"}
+		 		{else}
+		 			{include file="inc/deal_list_index_hot_pro.html"}
+			 	{/if}
+			</div>
+		</div>
+ 	</div>
+	<!-- 热门投资 结束 -->
+	{/if}
+</div>
+<!-- 成功项目 开始 -->
+<div class="index_m index_success index_pro_box">
+	<div class="wrap">
+		<h3 class="index_title">已筹资成功</h3>
+		<div class="nav_list">
+			{foreach from=$deal_success_list item=deal_success_item key=key name=deal_success_items}
+			{if $smarty.foreach.deal_success_items.iteration lte 4}
+			<div class="nav_item{if $smarty.foreach.deal_success_items.iteration mod 4 eq 1} first{/if}">
+				<a href="{url r="deal#show" p="id=$deal_success_item.id"}" target="_blank">
+					<div class="project_image">
+						<img src="{if $deal_success_item.image eq ''}{$TMPL}/images/empty_thumb.gif{else}{function name="get_spec_image" v=$deal_success_item.image w="300" h="210" g="1"}{/if}" alt="{$deal_success_item.name}" lazy="true" />
+						{if $deal_success_item.type eq 1}
+							{if $deal_success_item.business_descripe}
+							<div class="item_info">
+								<div class="mask_text">
+					                <div class="item_brief">{function name="msubstr" v=$deal_success_item.business_descripe b=0 e=40}</div>
+					                <div class="blank10"></div>
+					                <div class="f_red tc">查看项目</div>
+				                </div>
+				                <div class="mask_bg"></div>
+				            </div>
+				            {/if}
+			            {else}
+ 							<div class="item_info">
+								<div class="mask_text">
+					                <div class="item_brief">{if $deal_success_item.brief}{function name="msubstr" v=$deal_success_item.brief b=0 e=40}{else}{function name="msubstr" v=$deal_success_item.name b=0 e=40}{/if}</div>
+					                <div class="blank10"></div>
+					                <div class="f_red tc">查看项目</div>
+				                </div>
+				                <div class="mask_bg"></div>
+				            </div>
+ 			            {/if}
+			           
+						<div class="blank0"></div>
+					</div>
+					<div class="project_text">
+						<span class="project_title">{function name="msubstr" v=$deal_success_item.name b=0 e=18}</span>
+						<div class="project_num">
+							<div class="project_num_l tl">
+								<label class="mr5">共筹资</label><span class="f_red"><i class="yen">¥</i>{function name="round" v=$deal_success_item.support_amount e=2}</span>
+							</div>
+							<div class="project_num_r tr">
+								<label class="mr5">发起人</label><span>{$deal_success_item.user_name}</span>
+							</div>
+							<div class="blank0"></div>
+						</div>
+					</div>
+				</a>
+			</div>
+			{/if}
+			{/foreach}
+		</div>
+		<div class="blank0"></div>
+	</div>
+</div> 
+<!-- 成功项目 结束 -->
+<!--  推荐融资公司 开始 -->
+{if app_conf('IS_FINANCE') eq 1}
+{if $finance_list}
+<div class="company_list">
+	<div class="container">
+		<div class="list_head">
+            <span class="name"> 推荐的融资公司 </span>
+        </div>
+        <div class="list_content clearfix" id="company_scroll">
+        	<div class="company_slide_arrow company_hd">
+                <a class="glyphicon glyphicon-menu-left company_slide_arrow_left next"></a>
+                <a class="glyphicon glyphicon-menu-right company_slide_arrow_right prev"></a>
+            </div>
+            <div class="company_slide_container company_bd">
+            	<ul class="feed_container">
+            		{foreach from=$finance_list item=finance_item}
+                    <li class="feed">
+                        <div class="feed_head clearfix">
+                            <div class="feed_head_logo">
+                                <a href="{url r="finance#company_show" p="cid=$finance_item.id"}" target="_blank">
+                                <img width="70" height="70" src="{if $finance_item.company_logo eq ''}{$TMPL}/images/empty_thumb.gif{else}{$finance_item.company_logo}{/if}" >
+                                </a>
+                            </div>
+                            <div class="feed_head_name">
+                                <a href="{url r="finance#company_show" p="cid=$finance_item.id"}" target="_blank">{function name="msubstr" v=$finance_item.company_name b=0 e=10}</a>
+                            </div>
+                            <div class="feed_head_desc">
+                                {function name="msubstr" v=$finance_item.company_brief b=0 e=28}
+                            </div>
+                        </div>
+                        <div class="feed_list clearfix">
+                            <div class="feed_item item-finance-start">
+                                <div class="item_date">{function name="to_date" v=$finance_item.u_create_time f="Y-m"}</div>
+                                <div class="item_dot"></div>
+                                <div class="item_detail">
+                                    <div class="user_icon">
+                                    	<img id="avatar" src="{function name="get_user_avatar" uid=$finance_item.u_id type="middle"}" />
+                                       
+                                    </div>
+                                    <div class="user_event">
+                                        <a href="{url r="home#index" p="id=$finance_item.u_id"}">{$finance_item.user_name}</a> 创建了公司
+                                    </div>
+                                </div>
+                            </div>
+							{if $finance_item.deal_list.total_price}
+                            <div class="feed_item">
+                                <div class="item_date">{function name="to_date" v=$finance_item.deal_list.end_time f="Y-m"}</div>
+                                <div class="item_dot"></div>
+                                <div class="item_detail">
+                                    ¥{$finance_item.deal_list.total_price}万 {function name="get_invest_phase" v=$finance_item.deal_list.invest_phase}
+                                </div>
+                            </div>
+							{/if}
+                        </div>
+                    </li>
+                    {/foreach}
+                </ul>
+            </div>
+        </div>
+	</div>
+</div>
+{/if}
+
+<script type="text/javascript">
+	jQuery("#company_scroll").slide({titCell:".company_hd ul",mainCell:".company_bd ul",autoPage:true,effect:"left",autoPlay:false,vis:3,trigger:"click",delayTime:700});
+</script>
+	{/if}
+<!-- 推荐融资公司  结束 -->
+<!-- 看看谁加入了 开始 -->
+<!-- <div class="index_m reg_user">
+	<div class="wrap">
+		<h3 class="index_title">看看谁加入了<a href="{if $user_info.id gt 0}{url r="referral#index"}{else}{url r="user#register"}{/if}" target="_blank" class="more_browse f_r">加入小伙伴</a></h3>
+		<ul class="reg_user_list">
+			{foreach from=$invester_list item=invester_item name=invester_items}
+			{if $smarty.foreach.invester_items.iteration lte 22}
+			<li class="left_o{if $smarty.foreach.invester_items.iteration mod 11 eq 0} last{/if}">
+				<div class="reg_user_item">
+					<div class="user_img f_l">
+						<a href="{url r="home" p="id=$invester_item.id"}" target="_blank">
+		            		<img src="{$invester_item.image}" lazy="true" />
+		            	</a>
+					</div>
+					<div class="user_text f_l">
+						<div class="user_text_1">
+							<a href="{url r="home" p="id=$invester_item.id"}" target="_blank" class="inline_user_name user_name">
+								<span class="theme_fcolor b">{function name="msubstr" v=$invester_item.user_name b=0 e=5}</span>
+							</a>
+							{if $invester_item.user_level}
+			                	<img src="{function name="get_user_lever_icon" v1="$invester_item.user_level"}" alt="会员等级" class="inline_level_icon level_icon" />
+							{/if}
+							<i class="investor_type {if $invester_item.is_investor==0 || $invester_item.is_investor==1}personal_icon{else}agency_icon{/if}" title="{if $invester_item.is_investor==0 || $invester_item.is_investor==1}个人投资者{else}机构投资者{/if}"></i>
+							<a href="javascript:void(0)" onclick="send_message({$invester_item.id})" class="inline_btn_send_message btn_send_message theme_fcolor" style="margin-right:0">+发私信</a>
+							<div class="blank0"></div>
+						</div>
+						<div class="user_text_2 brief">
+							{if $invester_item.cate_name}
+							{foreach from=$invester_item.cate_name item=cate_item}
+								<span>{$cate_item}</span>
+							{/foreach}
+							{else}
+							<span>暂无投资领域</span>
+							{/if}
+						</div>
+						<div class="user_text_3 seat f_l" style="width:110px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+							{if $invester_item.province}<i class="icon iconfont">&#xe619;</i>{$invester_item.province}&nbsp;{$invester_item.city}{else}暂无所在地区{/if}
+						</div>
+						<a href="javascript:void(0)" rel="{$invester_item.id}" name="recommend_project" class="btn_recommend_project b_radius">自荐项目</a>
+					</div>
+				</div>
+			</li>
+			{/if}
+			{/foreach}
+		</ul>
+	</div>
+</div> -->
+<!-- 看看谁加入了 结束 -->
+
+<!-- 看看谁加入了2 开始 -->
+<!-- <div class="blank20"></div>
+<div class="index_m reg_users">
+	<div class="wrap">
+		<h3 class="index_title tc">人人都是梦想家，开启圆梦之旅！</h3>
+		<div class="index_register_btn tc">
+			<a href="{if $user_info.id gt 0}{url r="referral#index"}{else}{url r="user#register"}{/if}" target="_blank" class="ui_button ui-center-button theme_bgcolor b f20">加入天使团</a>
+		</div>
+		<div class="blank20"></div>
+		<ul class="reg_users_list">
+			{foreach from=$invester_list item=invester_item name=invester_items}
+			{if $smarty.foreach.invester_items.iteration lte 7}
+			<li class="{if $smarty.foreach.invester_items.iteration mod 7 eq 0}last{/if}">
+				<a href="{url r="home" p="id=$invester_item.id"}" target="_blank" class="reg_user_items">
+				<div class="reg_user_item">
+					<div class="user_img">
+	            		<img src="{$invester_item.image}" lazy="true" />
+					</div>
+					<div class="blank15"></div>
+					<div class="user_text">
+						<div class="user_text_1">
+							<span class="inline_user_name user_name theme_fcolor b">{function name="msubstr" v=$invester_item.user_name b=0 e=5}</span>
+							{if $invester_item.user_level}
+		                	<img src="{function name="get_user_lever_icon" v1="$invester_item.user_level"}" title="会员等级" class="inline_level_icon level_icon" />
+							{/if}
+							<span class="{if $invester_item.is_investor gt 0}inline_investor_type investor_type {/if}{if $invester_item.is_investor==1}personal_icon{/if}{if $invester_item.is_investor==2}agency_icon{/if}" title="{if $invester_item.is_investor==1}个人投资者{/if}{if $invester_item.is_investor==2}机构投资者{/if}" style="margin-right:0"></span>
+						</div>
+						<div class="blank5"></div>
+						<div class="user_text_2 brief">
+							{if $invester_item.cate_name}
+							{foreach from=$invester_item.cate_name item=cate_item}
+								<span>{$cate_item}</span>
+							{/foreach}
+							{else}
+							<span>暂无投资领域</span>
+							{/if}
+						</div>
+						<div class="user_text_3 seat" style="width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+							{if $invester_item.province}<i class="icon iconfont">&#xe619;</i>{$invester_item.province}&nbsp;{$invester_item.city}{else}暂无所在地区{/if}
+						</div>
+						<a href="javascript:void(0)" onclick="send_message({$invester_item.id})" class="inline_btn_send_message btn_send_message theme_fcolor" style="margin-left:10px">+发私信</a>
+					</div>
+				</div>
+				</a>
+				<a href="javascript:void(0)" rel="{$invester_item.id}" name="recommend_project" class="btn_recommend_project theme_bgcolor">自荐项目</a>
+			</li>
+			{/if}
+			{/foreach}
+		</ul>
+	</div>
+</div> -->
+<!-- 看看谁加入了2 结束 -->
+<script type="text/javascript">
+(function(){
+	// 统计数值滚动
+	var options = {
+	    useEasing : true, 
+	    useGrouping : true, 
+	    separator : ',', 
+	    decimal : '.', 
+	    prefix : '', 
+	    suffix : '' 
+	};
+	var sum_money = new countUp("sum_money", 0, {$virtual_money}, 2, 2.5, options);
+	var sum_success = new countUp("sum_success", 0, {$success_sum}, 0, 2.5, options);
+	var sum_online = new countUp("sum_online", 0, {$virtual_effect}, 0, 2.5, options);
+	var sum_user = new countUp("sum_user", 0, {$register_sum}, 0, 2.5, options);
+	sum_money.start();
+	sum_success.start();
+	sum_online.start();
+	sum_user.start();
+})();
+
+// 会员头像列表
+(function(){
+	$(".reg_users_list li").hover(function(){
+ 		$(this).stop().animate({height:'209px'},300);
+ 		$(this).find(".btn_recommend_project").show();
+	},function(){
+		$(this).stop().animate({height:'185px'},300);
+ 		$(this).find(".btn_recommend_project").hide();
+	});
+
+/*  $(".user_text").hide();
+    var $reg_user_list=$(".reg_user_list");
+    var $reg_user_list_li=$(".reg_user_list").find("li");
+    if($reg_user_list_li.length>=10){
+    	$reg_user_list_li.eq(9).removeClass("left_o").addClass("right_o");
+    	$reg_user_list_li.eq(10).removeClass("left_o").addClass("right_o");
+    	if($reg_user_list_li.length>=21){
+    		$reg_user_list_li.eq(20).removeClass("left_o").addClass("right_o");
+    		$reg_user_list_li.eq(21).removeClass("left_o").addClass("right_o");
+    	}
+    }
+    $reg_user_list_li.css("zIndex","1");
+ 	$reg_user_list_li.hover(function(){
+		$obj=$(this);
+		$obj.css({zIndex:"2"});
+		
+		$obj.find(".user_img").css("zIndex","101");
+ 		if($obj.hasClass("left_o")){
+ 			$obj.prevAll().css("zIndex","3");
+		 	$obj.find(".user_text").stop().animate({left:'106'}, {duration:500}).show().css("zIndex","100");
+ 		}
+ 		else{
+ 			$obj.nextAll().css("zIndex","3");
+ 			$obj.find(".user_text").stop().animate({right:'106'}, {duration:500}).show().css("zIndex","100");
+ 		}
+    },function(){
+    	$reg_user_list_li.css("zIndex","1");
+    	$obj.css("zIndex","1");
+    	if($obj.hasClass("left_o")){
+	 		$obj.find(".user_text").stop().animate({left:'106'}, {duration: "fast"}).hide();
+   	 		$obj.find(".user_text").animate({left:'-96'}, {duration: 0}).hide();
+    	}
+    	else{
+    		$obj.find(".user_text").stop().animate({right:'106'}, {duration: "fast"}).hide();
+   	 		$obj.find(".user_text").animate({right:'-93'}, {duration: 0}).hide();
+    	}
+    }); */
+})();
+
+ajax_get_recommend_project();
+//获取会员所有项目列表
+function ajax_get_recommend_project(){
+	$("a[name='recommend_project']").bind("click",function(){
+		if($(this).attr("rel")=='{$user_info.id}'){
+			$.showErr("不能给自己推荐！");
+			return false;
+		}
+		var ajaxurl ='{url r="ajax#ajax_get_recommend_project"}';
+		var query=new Object();
+		//推荐人id
+		query.id='{$user_info.id}';
+		//被推荐人id
+		query.user_id=$(this).attr("rel");
+		$.ajax({
+			url: ajaxurl,
+			dataType: "json",
+			data:query,
+			type: "POST",
+			success:function(ajaxobj){
+				if(ajaxobj.status==0){
+					show_pop_login();
+					return false;
+				}
+				if(ajaxobj.status==1){
+					$.showErr(ajaxobj.info);
+					return false;
+				}
+				if(ajaxobj.status==2){
+					$.weeboxs.open(ajaxobj.html, {boxid:'project_recommend_page',contentType:'text',showButton:false, showCancel:false, showOk:false,title:'我的项目',width:480,type:'wee'});
+					return false;
+				}
+			}
+		});
+	});
+}
+</script>
+<script type="text/javascript">
+	if($(".left_time").length){
+		leftTimeAct(".left_time");
+	}
+	if($(".left_times").length){
+		leftTimeAct(".left_times");
+	}
+	// 未开始项目倒计时
+    function leftTimeAct(left_time){
+    	var leftTimeActInv = null;
+		clearTimeout(leftTimeActInv);
+		$(left_time).each(function(){
+			var leftTime = parseInt($(this).attr("data"));
+			if(leftTime > 0)
+			{
+				var day  =  parseInt(leftTime / 24 /3600);
+				var hour = parseInt((leftTime % (24 *3600)) / 3600);
+				var min = parseInt((leftTime % 3600) / 60);
+				var sec = parseInt((leftTime % 3600) % 60);
+				$(this).find(".day").html((day<10?"0"+day:day));
+				$(this).find(".hour").html((hour<10?"0"+hour:hour));
+				$(this).find(".min").html((min<10?"0"+min:min));
+				$(this).find(".sec").html((sec<10?"0"+sec:sec));
+				leftTime = leftTime-1;
+				$(this).attr("data",leftTime);
+			}
+			else{
+				$(this).parent(".div3").hide();
+				$(this).parent(".div3").next().show();
+				$(this).parent().parent().parent().find(".left_time_follow").hide();
+				return false;
+			}
+		});
+		leftTimeActInv = setTimeout(function(){
+			leftTimeAct(left_time);
+		},1000);
+	}
+</script>
+{include file="inc/footer.html"} 

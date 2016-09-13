@@ -1,0 +1,64 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<PHP>
+	function get_max_bought($max_bought){
+		$max_bought=intval($max_bought);
+		if($max_bought>0)
+			return $max_bought;
+		else
+			return "不限";
+	}
+</PHP>
+<div class="main">
+<div class="main_title">{$main_title}</div>
+<div class="blank5"></div>
+<div class="button_row">
+	<input type="button" class="button" value="{%ADD}" onclick="add();" />
+	<input type="button" class="button" value="{%DEL}" onclick="del();" />
+</div>
+<div class="blank5"></div>
+<div class="search_row">
+	<form name="search" action="__APP__" method="get">
+		商品名称：
+		<input type="text" class="textbox" name="name"  value="{$param.name}" style="width:160px" />&nbsp;
+		分类：
+		<select name="cate_id">
+			<option value="0" <if condition="$param['cate_id'] eq 0">selected="selected"</if> >选择分类</option>
+			<foreach name="cate_tree" item="cate">
+			<option value="{$cate.id}" <if condition="$param['cate_id'] eq $cate['id']">selected="selected"</if> >{$cate.title_show}</option>			
+			</foreach>
+		</select>&nbsp;
+		
+		<input type="hidden" value="Goods" name="m" />
+		<input type="hidden" value="index" name="a" />
+		<input type="submit" class="button" value="{%SEARCH}" />
+		</form>
+</div>
+<div class="blank5"></div>
+<html:list 
+	id="dataTable"
+	style="dataTable"
+	name="data"
+	checkbox="true"
+	action="true"
+	datasource="list"
+	show="id:{%ID}|50px
+		,name:名称
+		,cate_name:分类
+		,sort:排序
+		,max_bought|get_max_bought:库存数
+		,buy_number:购买数
+		,score:购买所需积分
+		,is_delivery_format:是否配送
+		,is_hot_format:热卖
+		,is_new_format:新品
+		,is_recommend_format:是否推荐
+		,is_effect|get_is_effect=$data['id']:{%IS_EFFECT}"
+	actionlist="edit:{%EDIT}, del:{%DEL}"
+	actionwidth="100px"/>
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

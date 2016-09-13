@@ -1,0 +1,46 @@
+{include file="inc/header.html"}
+<?php
+	$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/dz_index.css";
+	$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/finance/company_deal_overviews.css";
+	$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/finance/company_deal_overviews.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<div class="home home_organize">
+	<div class="deal_content">
+		<div class="box invest_exp">
+			<div class="box_content">
+				<div class="invest_exp_list view_all_deal_item">
+					{foreach from=$finance_list item=finance_item}
+					<div class="exp_item webkit-box">
+						<div class="image">
+							<a href="#" onclick="RouterURL('{url_wap r="finance#company_show" p="cid=$finance_item.id"}','#finance-company_show',2);">
+								<img src="{$finance_item.company_logo}" />
+							</a>
+						</div>
+						<div class="text webkit-box-flex">
+							<div class="company_name">{$finance_item.company_name}</div>
+							<div class="info">{$finance_item.company_brief}</div>
+							<ul class="time_line view_all_deal_item">
+								{foreach from=$finance_item.deal_list item=deal_item}
+								<li class="item_view_more">
+									<div class="time">{function name="to_date" v=$deal_item.end_time f="Y-m-d"}</div>
+									<div class="text"><span class="theme_fcolor">{function name="get_invest_phase" v=$deal_item.invest_phase}</span> 总投资金额 <span class="f_red">¥{$deal_item.total_price}万</span></div>
+								</li>
+								{/foreach}
+							</ul>
+							{if $deal_count gt 3}
+							<a class="link view_more J_view_all" rel="view_all_deal_item">查看全部({$deal_count})</a>
+							{/if}
+						</div>
+					</div>
+					{/foreach}
+				</div>
+			</div>
+		</div>
+		<div class="blank10"></div>
+		<div class="pages">{$pages}</div>
+		<div class="blank10"></div>
+	</div>
+</div>
+<!-- home.js -->
+{include file="inc/footer.html"}

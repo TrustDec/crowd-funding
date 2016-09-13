@@ -1,0 +1,94 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<load href='__TMPL__Common/js/jquery.bgiframe.js' />
+<load href='__TMPL__Common/js/jquery.weebox.js' />
+<load href='__TMPL__Common/js/deal.js' />
+<load href='__TMPL__Common/style/weebox.css' />
+<div class="main">
+<div class="main_title">{$deal_info.name} 分红列表</div>
+<div class="blank5"></div>
+<div class="button_row">
+	<input type="button" class="button" value="删除" onclick="del_user_bonus();" />
+</div>
+<PHP>
+	function get_bonus_status($status)
+	{
+		if($status==0)return "等待审核";
+		if($status==1)return "通过";
+		if($status==2)return "未通过	";
+	}
+	function get_edit_1($id,$deal){
+ 		if($deal['type']==0){
+			return "<a href=\"javascript:edit_user_bonus('".$id."')\">审核</a>";
+		}
+		elseif($deal['type']==1){
+			return "<a href=\"javascript:edit_user_bonus('".$id."')\">编辑</a>";
+		}
+		elseif($deal['type']==2){
+			return "<a href=\"javascript:edit_user_bonus('".$id."')\">编辑</a>";
+		}
+		else{
+			
+		}
+	}
+</PHP>
+<script>
+	
+function del_user_bonus(id)
+{
+	if(!id)
+	{
+		idBox = $(".key:checked");
+		if(idBox.length == 0)
+		{
+			alert("请选择需要删除的项目");
+			return;
+		}
+		idArray = new Array();
+		$.each( idBox, function(i, n){
+			idArray.push($(n).val());
+		});
+		id = idArray.join(",");
+	}
+	if(confirm("确定要删除选中的项目吗？"))
+	$.ajax({ 
+			url: ROOT+"?"+VAR_MODULE+"=Deal&"+VAR_ACTION+"=del_user_bonus&id="+id, 
+			data: "ajax=1",
+			dataType: "json",
+			success: function(obj){
+				$("#info").html(obj.info);
+				if(obj.status==1)
+				location.href=location.href;
+			}
+	});
+}
+	//编辑跳转
+function edit_user_bonus(id)
+{
+	location.href = ROOT+"?"+VAR_MODULE+"="+MODULE_NAME+"&"+VAR_ACTION+"=edit_user_bonus&id="+id;
+}
+</script>
+<div class="blank5"></div>
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="deal" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:编号|50px
+		,number:分红期数(第几期)
+		,year:分红年度
+		,money|format_price:分红金额
+		,average_monthly_returns:平均月回报率(%)
+		,average_annualized_return:平均年回报率(%)
+		,begin_time|to_date:开始时间
+		,end_time|to_date:结束时间
+		,status|get_bonus_status:状态" 
+	actionlist="id|get_edit_1=$deal, del_user_bonus:删除" /> 
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

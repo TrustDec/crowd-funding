@@ -1,0 +1,32 @@
+{include file="inc/header.html"}
+<section class="settings_consignee mod_main">
+    <div class="editAddress">
+        <form>
+            <ul>
+            	{foreach from="$consignee_list" item=item}
+                <li onclick="RouterURL('{url_wap r="settings#add_consignee" p="id=$item.id"}','#settings-add_consignee',2);selectadd(this);">
+                    <div class="mainlist webkit-box">
+                        <label class="input_lable">收货人：</label>
+                        <div class="r_list">{$item.consignee}</div>
+                    </div>
+                    <div class="mainlist webkit-box">
+                        <label class="input_lable">手机号：</label>
+                        <div class="r_list">{$item.mobile}</div>
+                    </div>
+                    <div class="mainlist webkit-box">
+                        <label class="input_lable">收货地址：</label>
+                        <div class="r_list">{$item.address}</div>
+                    </div>
+                    <input class="edit_select" type="radio" value="tenpaywap" name="paypath">
+                </li>
+        	   {/foreach}
+    	    </ul>
+            <div class="blank15"></div>
+            <div class="submit_row webkit-box">
+                <a href="{url_wap r="settings#add_consignee"}" class="ui-button theme_color"><i class="fa fa-plus"></i>&nbsp;添加新地址</a>
+            </div>
+            <div class="blank15"></div>
+        </form>
+    </div>
+</section>
+{include file="inc/footer.html"}

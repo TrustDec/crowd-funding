@@ -1,0 +1,31 @@
+{include file="inc/header.html"} 
+{if $stay eq 0}
+<meta http-equiv="refresh" content="3;URL={$jump}" />
+{/if}
+<div id="J_wrap">
+	<div class="blank20"></div>
+	<div class="shadow_bg">
+		<div class="wrap white_box" style="height:400px">
+			<div class="page_title">信息</div>
+			<div class="switch_nav" style="height:1px;"></div>				
+			<div class="full msgbox tc">
+				<div class="blank20"></div>
+				<p class="f24 f_red">
+				{if $integrate_result}
+				{$integrate_result}
+				{/if}&nbsp;&nbsp;
+				{$msg}	
+				</p>
+				<div class="blank20"></div>
+				{if $stay eq 0}
+				<div class="return_jump f16">
+					请点击此处直接<span class="theme_fcolor"> [<a href="{$jump}" class="theme_fcolor">返回</a>] </span>或者等待三秒钟后自动跳转。		
+				</div>
+				{/if}
+				<div class="blank20"></div>
+			</div>
+		</div>
+	</div>			
+	<div class="blank20"></div>
+</div>
+{include file="inc/footer.html"} 

@@ -1,0 +1,176 @@
+{include file="inc/header.html"} 
+<div class="blank"></div>
+<section class="account_index my_project account_mod">
+	<div class="buttons-tab">
+		{if app_conf("IS_ENQUIRY") eq 1}
+	    <span class="tab-link button {if $type eq 0}active{/if}">
+	        <a href="{url_wap r="account#mine_investor_status" p="type=0"}">询价</a>
+	    </span>
+	    {/if}
+	    <span class="tab-link button {if $type eq 1}active{/if}">
+	        <a href="{url_wap r="account#mine_investor_status" p="type=1"}">领投</a>
+	    </span>
+	    <span class="tab-link button {if $type eq 2}active{/if}">
+	        <a href="{url_wap r="account#mine_investor_status" p="type=2"}">跟投</a>
+	    </span>
+	    {if app_conf("IS_STOCK_TRANSFER") eq 1}
+	    <span class="tab-link button {if $type eq 4}active{/if}">
+	        <a href="{url_wap r="account#mine_investor_status" p="type=4"}">转让中的股份</a>
+	    </span>
+	    {/if}
+	</div>
+	{if $investor_list}
+	<div class="blank10"></div>
+    <ul>
+    	{foreach from=$investor_list item=item}
+        <li>
+            <div class="webkit-box">
+                <div class="pic_show mr5">
+                    <a href="#" title="{$item.deal_name}" onclick="RouterURL('{url_wap r="deal#show" p="id=$item.deal_id"}','#deal-show',2);">
+						<img src="{function name="get_spec_image" v=$item.deal_image w=60 h=45 g=1}"  alt="{$item.deal_name}"/ class="f_l p_img" />
+                    </a>
+                </div>
+                <div class="details webkit-box-flex">
+                    <h3 class="info_name">
+                        <a href="#" title="{$item.deal_name}" onclick="RouterURL('{url_wap r="deal#show" p="id=$item.deal_id"}','#deal-show',2);">{function name="msubstr" v=$item.deal_name b=0 e=15}</a>
+                    </h3>
+                    <div class="info_all">
+                    	{if $type==0}
+                        <div class="info_group">
+                        	<label class="label_l">项目估值:</label>&nbsp;
+                            <span class="symbol">¥</span><span class="f_money">{function name="round" v=$item.stock_value e=2}</span>
+                        </div>
+                        {/if}
+                        <div class="info_group">
+                            <label class="label_l">投资金额:</label>&nbsp;
+                            <span class="label_r">
+                            	<span class="f_money">¥{function name="round" v=$item.money e=2}</span>
+                            </span>
+                       	</div>
+                        <div class="info_group">
+                            <label class="label_l">申请时间:</label>&nbsp;
+                            <span class="label_r">{function name="to_date" v=$item.create_time}</span>
+                        </div>
+                    </div>
+                </div>   
+            </div>
+            <div class="blank5"></div>
+            <div class="operating f_r webkit-box">
+			{if $item.type==0}
+				{if $item.investor_money_status==0}
+					{if $now>$item.begin_time and $now<$item.end_time}
+						审核中
+					{else}
+					 <span class="f_red">未通过</span>
+					{/if}
+				{elseif $item.investor_money_status==1}
+					{if $now>$item.begin_time and $now<$item.pay_end_time}
+						审核通过&nbsp;&nbsp;<a href="#" onclick="RouterURL('{url_wap r="account#view_order" p="id=$item.order_id"}','#account-view_order',2);" class="f_red">继续支付</a>
+						{/if}
+				{elseif $item.investor_money_status==2}
+					<span class="f_red">审核不通过</span>
+				{elseif $item.investor_money_status==3}
+					<span>支付完成</span>
+					&nbsp;<a href="#" onclick="RouterURL('{url_wap r="account#view_order" p="id=$item.order_id"}','#account-view_order',2);"> class="theme_fcolor">查看</a>
+					{if app_conf("IS_STOCK_TRANSFER") eq 1}
+						{if $item.is_success eq 1 and $item.end_time < $now and $item.end_time neq 0 and $item.stock_type neq 2 and $item.num >0 and $item.pay_end_time < $now and $item.pay_end_time neq 0}
+							&nbsp;<a href="#" onclick="RouterURL('{url_wap r="account#stock_transfer_add" p="id=$item.order_id"}','#account-stock_transfer_add',2);" class="theme_fcolor">股权转让</a>
+						{elseif $item.is_success eq 1 and $item.begin_time < $now and ($item.end_time > $now or $item.end_time eq 0)  and $item.stock_type neq 2 and $item.num >0 and $item.pay_end_time < $now and $item.pay_end_time neq 0}
+							&nbsp;<a href="#" onclick="RouterURL('{url_wap r="account#stock_transfer_add" p="id=$item.order_id"}','#account-stock_transfer_add',2);" class="theme_fcolor">股权转让</a>
+						{/if}					
+					{/if}
+				{elseif $item.investor_money_status==4}
+					<span class="f_red">您逾期未付款，已违约</span>
+				{/if}
+			{elseif $item.type==1}
+				{if $item.status==0}
+					资格审核中<br /><a href="#" onclick="RouterURL('{url_wap r="investor#applicate_leader" p="deal_id=$item.deal_id"}','#investor-applicate_leader',2);" style="color:#0c82c1">编辑申请资料</a>
+				{elseif $item.status==1}
+					<!-- 您已经是领头人<br /><a href="{url_wap r="account#add_leader_info" p="id=$item.id"}" class="theme_fcolor">上传信息</a><br /> -->
+					{if $item.investor_money_status==0}
+						{if $now>$item.begin_time and $now<$item.end_time}
+						投资审核中
+						{else}
+						 <span class="f_red">投资未通过</span>
+						{/if}
+					{elseif $item.investor_money_status==1}
+						{if $now>$item.begin_time and $now<$item.pay_end_time}
+						审核通过&nbsp;&nbsp;<a href="#" onclick="RouterURL('{url_wap r="account#view_order" p="id=$item.order_id"}','#account-view_order',2);" class="f_red">继续支付</a>
+							{/if}
+					{elseif $item.investor_money_status==2}
+						<span class="f_red">审核不通过</span>
+					{elseif $item.investor_money_status==3}
+					<span>支付完成</span>
+					&nbsp;<a href="#" onclick="RouterURL('{url_wap r="account#view_order" p="id=$item.order_id"}','#account-view_order',2);" class="theme_fcolor">查看</a>
+					{if app_conf("IS_STOCK_TRANSFER") eq 1}
+						{if $item.is_success eq 1 and $item.end_time < $now and $item.end_time neq 0 and $item.stock_type neq 2 and $item.num >0 and $item.pay_end_time < $now and $item.pay_end_time neq 0}
+							&nbsp;<a href="#" onclick="RouterURL('{url_wap r="account#stock_transfer_add" p="id=$item.order_id"}','#account-stock_transfer_add',2);" class="theme_fcolor">股权转让</a>
+						{elseif $item.is_success eq 1 and $item.begin_time < $now and ($item.end_time > $now or $item.end_time eq 0)  and $item.stock_type neq 2 and $item.num >0 and $item.pay_end_time < $now and $item.pay_end_time neq 0}
+							&nbsp;<a href="#" onclick="RouterURL('{url_wap r="account#stock_transfer_add" p="id=$item.order_id"}','#account-stock_transfer_add',2);" class="theme_fcolor">股权转让</a>
+						{/if}					
+					{/if}
+					{elseif $item.investor_money_status==4}
+						<span class="f_red">您逾期未付款，已违约</span>
+					{/if}
+				{elseif $item.status==2}
+					<span class="f_red">投资人审核不通过</span>
+				{/if}
+			{elseif $item.type==2}
+				{if $item.investor_money_status==0}
+					{if $now>$item.begin_time and $now<$item.end_time}
+					审核中
+					{else}
+					 <span class="f_red">未通过</span>
+					{/if}
+				{elseif $item.investor_money_status==1}
+						{if $now>$item.begin_time and $now<$item.pay_end_time}
+					审核通过&nbsp;&nbsp;<a href="#" onclick="RouterURL('{url_wap r="account#view_order" p="id=$item.order_id"}','#account-view_order',2);" class="f_red">继续支付</a>
+						{/if}
+				{elseif $item.investor_money_status==2}
+					<span class="f_red">审核不通过</span>
+				{elseif $item.investor_money_status==3}
+					<span>支付完成</span>
+					&nbsp;<a href="#" onclick="RouterURL('{url_wap r="account#view_order" p="id=$item.order_id"}','#account-view_order',2);" class="theme_fcolor">查看</a>
+					{if app_conf("IS_STOCK_TRANSFER") eq 1}
+						{if $item.is_success eq 1 and $item.end_time < $now and $item.end_time neq 0 and $item.stock_type neq 2 and $item.num >0 and $item.pay_end_time < $now and $item.pay_end_time neq 0}
+							&nbsp;<a href="#" onclick="RouterURL('{url_wap r="account#stock_transfer_add" p="id=$item.order_id"}','#account-stock_transfer_add',2);" class="theme_fcolor">股权转让</a>
+						{elseif $item.is_success eq 1 and $item.begin_time < $now and ($item.end_time > $now or $item.end_time eq 0)  and $item.stock_type neq 2 and $item.num >0 and $item.pay_end_time < $now and $item.pay_end_time neq 0}
+							&nbsp;<a href="#" onclick="RouterURL('{url_wap r="account#stock_transfer_add" p="id=$item.order_id"}','#account-stock_transfer_add',2);" class="theme_fcolor">股权转让</a>
+						{/if}					
+					{/if}
+				{elseif $item.investor_money_status==4}
+					<span class="f_red">您逾期未付款，已违约</span>
+				{/if}
+			{elseif $item.type==4}
+				{if $item.order_id==0}
+					<span></span>
+					&nbsp;&nbsp;
+					<a href="#" onclick="RouterURL('{url_wap r="account#stock_transfer_cancel" p="id=$item.stock_transfer_id"}','#account-stock_transfer_cancel',2);" class="button button-fill bg_red">取消交易</a>		
+				{else}
+					<span>交易中</span>
+				{/if}	
+			{elseif $item.type==5}
+				{if $item.investor_money_status==3}
+					<span>支付完成</span>
+					&nbsp;<a href="#" onclick="RouterURL('{url_wap r="account#view_order" p="id=$item.order_id"}','#account-view_order',2);" class="theme_fcolor">查看</a>
+					{if app_conf("IS_STOCK_TRANSFER") eq 1 and $item.num >0}									
+						&nbsp;<a href="#" onclick="RouterURL('{url_wap r="account#stock_transfer_add" p="id=$item.order_id"}','#account-stock_transfer_add',2);" class="theme_fcolor">股权转让</a>
+					{/if}
+				{/if}
+			{/if}
+            </div>
+        </li>
+	   {/foreach}
+    </ul>
+    <div class="blank15"></div>
+	<div class="pages">{$pages}</div>
+	<div class="blank15"></div>
+	{else}
+	<div class="blank15"></div>
+	<div class="empty_tip tc">
+		还没有{$title}记录
+	</div>
+	<div class="blank15"></div>
+    {/if}
+</section>
+{include file="inc/footer.html"} 

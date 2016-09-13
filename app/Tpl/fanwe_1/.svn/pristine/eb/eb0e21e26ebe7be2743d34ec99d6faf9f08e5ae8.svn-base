@@ -1,0 +1,76 @@
+<div class="blank"></div>
+<span></span><!--footer static-->
+<div class="footer" pbid="footer">
+  <!--footer section start-->
+  <div class="footer-section">
+    <div class="footer-wrap">
+    <!--footer map start-->
+    <div class="foot-map">
+      <dl>
+        <dt>我要发布</dt>
+        <dd><a href="{url r="user#register"}">会员注册</a></dd>
+        <dd><a href="{url r="project#add"}">发起项目</a></dd>
+        <dd><a href="{url r="account"}">查看项目</a></dd>
+      </dl>
+      <dl>
+        <dt>关于</dt>
+        <dd><a href="#">关于众筹</a></dd>
+        <dd><a href="#">团队介绍</a></dd>
+        <dd><a href="#">联系我们</a></dd>
+        <dd><a href="#">帮助中心</a></dd>
+      </dl>
+       <dl>
+        <dt>关注我们</dt>
+        <dd><a href="#">百度贴吧</a></dd>
+        <dd><a href="#">豆瓣小站</a></dd>
+        <dd><a href="#">QQ空间</a></dd>
+        <dd><a href="#">新浪微博</a></dd>
+      </dl>
+      <dl class="last">
+        <dt>服务</dt>
+        <dd><a href="#">投融资服务</a></dd> 
+        <dd><a href="#">项目发起规范</a></dd> 
+      </dl>
+    </div>
+    <!--foot map end-->
+    <div class="foot-logo">
+	    <h1></h1>
+	    <h2></h2>
+     
+    </div>
+  </div>
+  </div>
+  <div class="blank"></div>
+  <!--footer section start-->
+  <div class="footer-copy ">
+    <div class="footer-wrap">
+    <div class="ft-links">
+		{if $g_links neq ''}
+			<p>
+				{foreach from=$g_links item=g_links key=k}
+	    	    		<a href="{$g_links.url}" target="_blank">{$g_links.name}</a>|
+						
+				{/foreach}       		
+			</p>
+		{/if}
+	</div>
+	<div class="db">
+		关注我们：
+		<a href="#" class="db1"></a>
+		<a href="#" class="db2"></a>
+		<a href="#" class="db3"></a>
+		<a href="#" class="db4"></a>
+		<a href="#" class="db"></a>
+	</div>
+	<div style="float:right;height:60px;text-align:right;">
+		 ©2007-2014  福州方维网络科技有限公司-网站地图</br>
+		 闽网文[2011]0012-005号   闽ICP备08103200号-2    经营许可编号  闽B2-20110188
+	</div>	
+     
+    </div>
+  </div>
+</div>	
+
+          
+</body>
+</html>

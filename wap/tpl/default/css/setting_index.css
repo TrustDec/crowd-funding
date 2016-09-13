@@ -1,0 +1,32 @@
+.tip_box{height:41px;line-height:41px;}
+.tip_box .form_tip{color:red;}
+.tip_box .form_success{color:green;}
+.control-group .select_lable{height:37px;line-height:37px}
+.left{width:650px}
+.control-group .control-label{width:100px;}
+.control-group .control-label .cate_note{font-size:12px;line-height:14px;color:#999;}
+.control-group .radio_lable{height:auto;}
+
+.btn_group{width:100%;}
+.btn_group .l_btn,.btn_group .r_btn{
+	padding:3px 10px;
+	background:red;
+}
+.btn_group .cur{
+	color:#fff;
+}
+
+.user_center .f_money{font-size:0.85rem;}
+.user_center .list-block{margin:10px 0;}
+.user_center .iconfont{font-size: 0.85rem;}
+.user_center .recharges .item-after,
+.user_center .cash .item-after{
+	color:#fff;
+	font-size:0.7rem;;
+	padding:0 5px;
+	border-radius:3px;
+}
+.user_center .recharges .item-after a,
+.user_center .cash .item-after a{color:#fff;}
+.user_center .recharges .item-after{background:#55acef;}
+.user_center .cash .item-after{background:#ff4800;}

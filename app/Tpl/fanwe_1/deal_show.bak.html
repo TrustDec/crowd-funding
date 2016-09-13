@@ -1,0 +1,109 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/deal_show.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/fancybox.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/jquery.fancybox.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/deal.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/deal.js";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<!-- 项目背景 开始-->
+<div class="deal_body deal_show" {if $deal_info.deal_backgroundColor_image neq null} style="background:url({$deal_info.deal_backgroundColor_image}) repeat;" {/if}>
+    <!-- 项目大海报-->
+    <div class="deal_banner" {if $deal_info.deal_background_image neq null}style="background:url({$deal_info.deal_background_image}) top center no-repeat;padding-top:405px;"{/if}>
+         <div class="blank"></div>
+        <!--中间开始-->
+        <div class="xqmain">
+            <!--中间页面头部start-->
+            {include file="inc/deal_header.html"}
+            <!--中间页面头部end-->    
+            <div class="xqmain_main">
+                <!--中间页面左边start-->
+                <div class="xqmain_left">
+                    <div class="xqmain_left_m">
+                        <div class="l_hd">
+                            {if $deal_info.source_vedio eq ''}
+                            <img src="{$deal_info.image}" alt="{$deal_info.name}" id="deal_image" />
+                            {else}
+  							<embed wmode="opaque"wmode="opaque"src="{$deal_info.source_vedio}" allowFullScreen="true" quality="high" width="760" height="500" align="middle" allowScriptAccess="always" ></embed>				
+                            {/if}
+                            <span>项目介绍：</span>
+                        </div>
+                        {if $access==1}
+                        <div class="l_main">
+                            <p>{$deal_info.description}</p>
+                        </div>
+                        <div class="blank"></div>
+                        <div class="deal_qa">
+                            {foreach from=$deal_info.deal_faq_list item=faq}
+                            <div class="faq_question" rel="{$faq.id}"> - {$faq.question}</div>
+                            <div class="faq_answer" rel="{$faq.id}" style="display: none;">{$faq.answer}</div>
+                            <div class="blank10"></div>
+                            {/foreach}
+                        </div>
+                        <div class="blank"></div>
+                        <div class="l_foot">
+                            {if $deal_info.tags neq ''}
+                            <div class="l_foot1">
+                                <span class="f_l">标签：
+                                {foreach from=$deal_info.tags_arr item=tag}
+                                {if trim($tag) neq ''}
+                                    <a href="{url r="deals" p="tag=$tag&type=0"}" title="{$tag}" target="_blank">{$tag}</a>
+                                {/if}
+                                {/foreach}
+                                </span>
+                            </div>
+                            {/if}
+                            <div class="l_foot2 f_l">
+                                <span class="lft1 f_l">
+                                      如果您对项目有疑问，可以在此向项目发起人咨询
+                                </span>
+                                <span onclick="send_message({$deal_info.user_id});" class="f_r">
+                                    <a class="ui-small-button theme_bgcolor">对发起人提问</a>
+                                </span>
+                            </div>
+                            
+                        </div>
+                        {else}
+                            {if $access eq 0}
+                            <div class="prompt_box tc mt20 f16">
+                                温馨提示：您需要<a onclick="javascript:show_pop_login();" class="f_red">登录</a>才可以查看项目详细信息！
+                            </div>
+                            {/if}
+                            {if $access eq 2}
+                            <div class="prompt_box tc mt20 f16 f_red">
+                                温馨提示：您的会员等级不够，无法查看项目详细信息！
+                            </div>
+                            {/if}
+                            {if $access eq 3}
+                            <div class="prompt_box tc mt20 f16">
+                                温馨提示：您的手机未认证，马上去<a href='{url r="settings#security"  p="method=setting-mobile-box"}' class="f_red">认证手机</a>！
+                            </div>
+                            {/if}
+                        {/if}
+                    </div>
+                </div>
+                <!--中间页面左边end-->
+                {include file="inc/deal_right.html"}
+                <div class="blank"></div>
+            </div>
+        </div>
+        <!--中间结束-->
+        <div class="blank"></div>
+    </div>
+</div>
+<!-- 项目背景 结束-->
+<script type="text/javascript">
+    var img = document.getElementById("deal_image");
+    var temp = new Image();
+    temp.onload = function(){
+        var style = img.style,
+            ratio = Math.min(1,Math.max(0,760)/this.width);
+        //设置预览尺寸
+        style.width = Math.round( this.width * ratio ) + "px";
+        style.height = Math.round( this.height * ratio ) + "px";
+    }
+    temp.src = img.src;
+</script>
+{include file="inc/footer.html"}

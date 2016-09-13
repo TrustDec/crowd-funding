@@ -1,0 +1,96 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/account_after_vote.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/stock_transfer_out.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+{include file="inc/home_user_info.html"}
+<!--中间开始-->
+<div class="dlmain Myhomepage">
+	{include file="inc/account_left.html"}
+	<div class="homeright pageright f_r">
+		<div class="list_title clearfix">
+			<div {if $module eq 'account'&& $action eq 'stock_transfer_out'}class="cur"{/if}>
+				<a href="{url r="account#stock_transfer_out"}">股权转让管理</a>
+			</div>
+			<div {if $module eq 'account'&& ($action eq 'stock_transfer_in')}class="cur"{/if}>
+				<a href="{url r="account#stock_transfer_in"}">股权转入管理</a>
+			</div>
+		</div>
+		<div class="list_conment">		
+			<div class="i_deal_list clearfix">
+				{if $stock_transfer_list}
+				{foreach from=$stock_transfer_list item=stock_transfer_item }
+				<div class="uc_table_info clearfix">
+					<h3>{$stock_transfer_item.deal_name}</h3>
+					<div class="left">
+						<ul>
+							<li class="w">
+								<label>转让金额：</label>
+								<span>￥{$stock_transfer_item.price}元</span>
+							</li>
+							<li class="l">
+								<label>转让股数：</label>
+								<span>{$stock_transfer_item.num}股</span>
+							</li>
+							
+							<li>
+								<label>开始时间：</label>
+								<span>{function name=""to_date v=$stock_transfer_item.begin_time}</span>
+							</li>
+							<li class="w">
+								<label>付款截止时间：</label>
+								<span>{if $stock_transfer_item.end_time>0 && $stock_transfer_item.end_time < $now}已过期{else}{function name=""to_date v=$stock_transfer_item.end_time}{/if}</span>
+							</li>														
+							<li class="l">
+								<label>出让人：</label>
+								<span>{$stock_transfer_item.user_name}</span>
+							</li>
+						</ul>
+					</div>
+					<div class="right">
+						{if $stock_transfer_item.is_success==0 && $stock_transfer_item.status==1}
+							{if $stock_transfer_item.deal_status==0 and $stock_transfer_item.end_time > $now}
+								<a href="{url r="account#stock_transfer_view_order" p="id=$stock_transfer_item.id"}" class="ui-small-center-button f12 b bg_red" style="float:right">继续支付</a>
+							{elseif $stock_transfer_item.deal_status==1}
+								<span>已支付(已退款)</span>
+								<div class="blank5"></div>
+							{elseif $stock_transfer_item.deal_status==2}
+								<span>已支付，交易失败(已退款)</span>
+								<div class="blank5"></div>
+							{elseif $stock_transfer_item.deal_status==3}						
+								{if $stock_transfer_item.deal_share_status==0}
+								<span>已支付，等待线下股权转移</span>
+								<div class="blank5"></div>
+								{else}
+								<span>甲方已确认线下股权转移,请确认：</span>
+								<div class="blank5"></div>
+								<a href="{url r="account#stock_transfer_in_end" p="id=$stock_transfer_item.id"}" class="ui-small-center-button f12 b theme_bgcolor" style="float:right">确认转移</a>						
+								{/if}
+							{elseif $stock_transfer_item.deal_status==0 and $stock_transfer_item.end_time < $now}
+								<span>未支付(已过期)</span>
+							{/if}
+							<a href="{url r="account#dt_print" p="id=$stock_transfer_item.deal_id&stock_transfer_id=$stock_transfer_item.id"}" class="ui-small-center-button f12 b theme_bgcolor" target='_blank' style="float:right">查看合同</a>
+						{elseif $stock_transfer_item.is_success==1}
+						<span>已完成交易</span>
+						<div class="blank5"></div>
+						<a href="{url r="account#dt_print" p="id=$stock_transfer_item.deal_id&stock_transfer_id=$stock_transfer_item.id"}" class="ui-small-center-button f12 b theme_bgcolor" target='_blank' style="float:right">查看合同</a>	
+						{else}	
+						<span>交易已取消</span>
+						{/if}
+					</div>
+				</div>
+				{/foreach}
+				<div class="blank20"></div>
+				<div class="pages">{$pages}</div>
+				<div class="blank20"></div>
+				{else}
+				<div class="empty_tip">没有相关的记录</div>
+				{/if}	
+			</div>
+		</div>
+		<div class="blank0"></div>
+	</div>
+	<div class="blank0"></div>
+</div>
+{include file="inc/footer.html"}

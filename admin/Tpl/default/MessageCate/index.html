@@ -1,0 +1,39 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<script>
+	function set_project(id,domobj)
+{
+		$.ajax({ 
+				url: ROOT+"?"+VAR_MODULE+"="+MODULE_NAME+"&"+VAR_ACTION+"=set_effect&id="+id, 
+				data: "ajax=1",
+				dataType: "json",
+				success: function(obj){
+					window.location.reload();
+			
+				}
+		});
+}
+</script>
+<div class="main">
+<div class="main_title">留言分类</div>
+<div class="blank5"></div>
+<div class="button_row">
+	<input type="button" class="button" value="{%ADD}" onclick="add();" />
+	<input type="button" class="button" value="{%DEL}" onclick="del();" />
+</div>
+<div class="blank5"></div>
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="message" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{%ID}|50px,cate_name:分类名称:edit,is_project|get_is_project=$message['id']:设置成为发起项目留言" 
+	actionlist="edit:{%EDIT}, del:{%DEL}" /> 
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

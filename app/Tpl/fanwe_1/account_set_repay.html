@@ -1,0 +1,197 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/deal_list.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/deal_list.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/account_support.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/account_support.js";
+?>
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<style type="text/css">
+	.ui-small-center-button{font-size:12px;margin:0;}
+</style>
+{include file="inc/home_user_info.html"}
+<div class="dlmain Myhomepage">
+ 	{include file="inc/account_left.html"} 
+	<div class="homeright pageright f_r">
+		<div class="list_title clearfix">
+			<div {if $all eq 0}class="cur"{/if}>
+				<span>设置回报</span>
+			</div>
+		</div>
+		<div class="list_content account_view_order account_set_repay">
+			<form id="repay_form_{$order_info.id}" class="repay_form" action="{url r="account#save_repay" p="id=$order_info.id"}">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc_table">
+					<tr>
+						<td class="deal_name" width="30%">会员名称</td>
+						<td>
+							<a href="{url r="home" p="id=$support_item.user_id"}" class="linkgreen" target="_blank">{$order_info.user_name}</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="deal_name" width="30%">项目名称</td>
+						<td>
+							{if $order_info.deal_id}
+							<a href="{url r="deal#show" p="id=$order_info.deal_id"}" target="_blank" class="theme_fcolor">{$order_info.deal_name}</a>
+							{else}
+							{$order_info.deal_name}
+							{/if}
+						</td>
+					</tr>
+					<tr>
+						<td class="deal_name">应付金额</td>
+						<td>
+						{if $order_info.type eq 0 || $order_info.type eq 3 || $order_info.type eq 7}
+							{if $order_info.delivery_fee gt 0}
+							项目金额：<span class="f_money">{function name="format_price" v=$order_info.deal_price}</span>&nbsp;&nbsp;
+							运费：<span class="f_money">{function name="format_price" v=$order_info.delivery_fee}</span>&nbsp;&nbsp;
+							总额：<span class="f_money">{function name="format_price" v=$order_info.total_price}</span>
+							{else}
+							{function name="format_price" v=$order_info.total_price}
+							{/if}
+						{else}
+							{$order_info.total_price}万元
+						{/if}
+						</td>
+					</tr>
+					<tr>
+						<td class="deal_name">收款情况</td>
+						<td>
+							{if $order_info.order_status eq 1}
+							因项目过期，资金已退到个人帐户
+							{/if}
+							{if $order_info.order_status eq 2}
+							因项目限额已满，资金已退到个人帐户
+							{/if}	
+							{if $order_info.order_status eq 3}
+							支付成功
+							{/if}	
+							{if $order_info.order_status eq 0}
+							支付未完成&nbsp;&nbsp;
+								{if $order_info.credit_pay gt 0 || $order_info.score gt 0}
+								<span class="f_money">
+								预支付：
+								{if $order_info.credit_pay gt 0}
+									余额支付 {function name="format_price" v=$order_info.credit_pay}
+								{/if}
+								{if $order_info.score gt 0}
+									&nbsp;&nbsp;积分支付 {function name="format_price" v=$order_info.score_money}
+								{/if}
+								</span>
+								{/if}
+							{/if}	
+						</td>
+					</tr>
+					<tr>
+						<td class="deal_name">支付时间</td>
+						<td>{function name="to_date" v=$order_info.pay_time}</td>
+					</tr>
+					{if $order_info.type eq 3}
+					<tr>
+						<td class="deal_name">数量</td>
+						<td>{$order_info.num}</td>
+					</tr>
+					<tr>
+						<td class="deal_name">抽奖号</td>
+						<td>
+							{if $order_info.lottery_draw_time gt 0}
+								<a href='{url r="account#lottery" p="id=$order_info.deal_id"}' class="theme_fcolor">
+									揭晓时间：{function name=to_date v=$order_info.lottery_draw_time}<br />
+									{if $order_info.lottery_luckyer_list}
+									<div>
+										幸运号：
+										{foreach from=$order_info.lottery_luckyer_list item=luckyer}
+											<span class="f_red">
+												{$luckyer.lottery_sn}&nbsp;&nbsp;
+											</span>
+										{/foreach}
+									</div>
+									{/if}
+								</a>
+							{/if}
+							<div style="max-height:300px;overflow-y:scroll;">
+							{foreach from=$order_info.lottery_list item=lottery}
+								{$lottery.lottery_sn}&nbsp;&nbsp;
+							{/foreach}
+							</div>
+						</td>
+					</tr>
+					{/if}
+					{if $order_info.type eq 0 || $order_info.type eq 3}
+						{if $order_info.is_delivery eq 1}
+						<tr>
+							<td class="deal_name">收货信息</td>
+							<td>
+								地址：{$order_info.province}{$order_info.city}{$order_info.address}&nbsp;&nbsp;
+								邮编：{$order_info.zip}&nbsp;&nbsp;
+								收件人：{$order_info.consignee}&nbsp;&nbsp;
+								电话：{$order_info.mobile}
+							</td>
+						</tr>
+						{/if}
+					{/if}
+					{if $order_info.type eq 1 || $order_info.type eq 5}
+					<tr>
+						<td class="deal_name">股权认购合同</td>
+						<td width=193 class="tl">
+							<a href="{url r="account#dy_print" p="id=$order_info.deal_id"}"  class="theme_fcolor" target='_blank'>股权认购合同打印</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="deal_name">出让股份</td>
+						<td width=193 class="tl">{$order_info.transfer_share}%</td>
+					</tr>
+					<tr>
+						<td class="deal_name">项目金额</td>
+						<td width=193 class="tl">{$order_info.stock_value}万元</td>
+					</tr>
+					<tr>
+						<td class="deal_name">用户所占股份</td>
+						<td width=193 class="tl">{$order_info.user_stock}%</td>
+					</tr>
+					{/if}
+					<tr>
+						<td class="deal_name">备注信息</td>
+						<td>
+							<textarea class="repay_memo" name="repay_memo"></textarea>
+						</td>
+					</tr>
+					{if $order_info.type eq 0 || $order_info.type eq 3}
+						{if $order_info.is_delivery neq 0}
+						<tr>
+							<td class="deal_name">物流公司</td>
+							<td>
+								<div class="pr">
+									<input type="text" name="logistics_company" value="" class="textbox" />
+									<span class="holder_tip">请输入物流公司名称</span>
+								</div>
+								<div class="pr">
+									<input type="text" name="logistics_links" value="" class="textbox" />
+									<span class="holder_tip">请输入查询物流链接地址</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="deal_name">物流编号</td>
+							<td>
+								<div class="pr">
+									<input type="text" name="logistics_number" value="" class="textbox" />
+									<span class="holder_tip">请输入物流编号</span>
+								</div>
+							</td>
+						</tr>
+						{/if}
+					{/if}
+				</table>
+				<div class="blank20"></div>
+				<input type="button" class="ui-button theme_bgcolor set_repay" value="立即设置回报" id="{$order_info.id}" />
+				<input type="hidden" name="ajax" value="1" />
+			</form>
+		</div>
+	</div>
+	<div class="blank0"></div>
+</div>
+<div class="blank"></div>
+<script type="text/javascript">
+	bind_repay_form();
+</script>
+{include file="inc/footer.html"} 

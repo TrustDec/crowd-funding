@@ -1,0 +1,355 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/fanwe_utils/jcDate.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/fanwe_utils/jcDate.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jQuery-jcDate.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jQuery-jcDate.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/investor_four.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/investor_four.js";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+
+<link href="{$APP_ROOT}/admin/public/kindeditor/themes/default/default.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{$APP_ROOT}/public/runtime/admin/lang.js"></script>
+<script type='text/javascript' src='{$APP_ROOT}/admin/public/kindeditor/kindeditor.js'></script>
+<script type="text/javascript">
+    var ROOT = '{$APP_ROOT}/{$URL_NAME}';
+    var VAR_MODULE = "m";
+    var VAR_ACTION = "a";
+    var WEB_SESSION_ID = '<?php echo es_session::id(); ?>';
+    var EMOT_URL = '{$APP_ROOT}/public/emoticons/';
+    var MAX_FILE_SIZE = "<?php echo (app_conf("MAX_IMAGE_SIZE")/1000000)."MB"; ?>";
+    var FILE_UPLOAD_URL ='{$APP_ROOT}/{$URL_NAME}?m=File&a=do_upload&' ;
+</script>
+<style type="text/css">
+    .group{position:relative;}
+    .holder_tip{left:0;top:0;}
+    .group1{overflow:hidden;}
+    .form_cont .ui_radiobox{*margin-top:15px;}
+</style>
+<div class="blank20"></div>
+<div class="location_box wrap1000">
+    <div class="location f_l">
+        <i class="fl ico loc_ico mr5"></i>
+        <label>您现在的位置：</label><a>发布股权项目</a><em>>></em><a>项目历史执行资料</a>
+    </div>
+</div>
+<div class="blank10"></div>
+<div class="step_box step_box4">
+    <ul>
+        <li class="l1"><span>1</span> 项目基本信息</li>
+        <li class="l2"><span>2</span> 市场定位与商业模式</li>
+        <li class="l3"><span>3</span> 编辑及管理团队</li>
+        <li class="l4 cur"><span>4</span> 项目历史执行资料</li>
+        <li class="l5"><span>5</span> 未来三年内计划</li>
+        <li class="l6"><span>6</span> 项目附件</li>
+        <li class="l7"><span>7</span> 提交审核</li>
+    </ul>
+</div>
+<div class="blank20"></div>
+<table style="display:none;">
+<tr id="history_income_demo" class="tr_income_row">
+    <td>
+        <div class="group">
+            <input type="text" name="history[1][income][1][type]" value="" class="textbox" style="width:180px;">
+            <span class="holder_tip">请输入收入类别</span>
+        </div>
+    </td>
+    <td>
+        <div class="group">
+            <input type="text" name="history[1][income][1][money]" value="" class="textbox amount" onKeyup="amount(this)" style="width:120px;" />
+            <span class="holder_tip">请输入收入金额</span>
+        </div>
+    </td>
+    <td>
+        <div class="group">
+            <input type="text" name="history[1][income][1][memo]" value="" class="textbox" style="width:490px;">
+            <span class="holder_tip">请输入备注</span>
+        </div>
+    </td>
+</tr>
+<tr id="history_out_demo" class="tr_out_row">
+    <td>
+        <div class="group">
+            <input type="text" name="history[1][out][1][type]" value="" class="textbox" style="width:180px;" />
+            <span class="holder_tip">请输入开支类别</span>
+        </div>
+    </td>
+    <td>
+        <div class="group">
+            <input type="text" name="history[1][out][1][money]" value="" class="textbox amount" onKeyup="amount(this)" style="width:120px;" />
+            <span class="holder_tip">请输入开支金额</span>
+        </div>
+    </td>
+    <td>
+        <div class="group">
+            <input type="text" name="history[1][out][1][memo]" value="" class="textbox" style="width:490px;" />
+            <span class="holder_tip">请输入备注</span>
+        </div>
+    </td>
+</tr>
+</table>
+<div class="mod_box project_edit project_agencyAdd_stepfour">
+	<div class="con_tit theme_fcolor f_20">项目历史执行资料</div>
+    <div class="prompt_box f14 f_666 tc" style="width:916px">
+        温馨提示：本页内容一旦审核通过，将不再允许修改，请依照事实诚信填写，珍惜自己诚信信用！
+    </div>
+    <div class="blank20"></div>
+	<div class="con3">
+    	<form method="post" action="{url r="project#investor_four_save"}" id="agencyAdd_stepfour_form">
+    		<input type="hidden" name="siteid" value="1">
+			<input type="hidden" value="{$id}" name="id" />
+            <ul>
+            	{foreach from=$history_list item=history key=history_key_num}
+				<?php $this->_var['history_key_num']++; ?>
+                <li class="xm-content history_table">
+                    <div class="tit f18 theme_fcolor">
+                        <i></i>
+                        <div class="tit_bg"></div>
+                        <div class="tit_l tit_text theme_fcolor">
+                            <span class="num b">{$history_key_num}</span>第<span class="daxie">{$history_key_num}</span>阶段
+                        </div>
+                        <div class="tit_r f_r">
+                            <a class="ui-button bg_red history_del f_l f14 mr10 mt5" style="height:30px;line-height:30px;padding:0 10px">删除第{$history_key_num}阶段</a>
+                        </div>
+                    </div>
+                    <div class="blank10"></div>
+                    <div class="pro">
+                        <div class="form_row control-group">
+                            <label class="form_lable theme_fcolor">1、阶段名称:</label>
+                            <div id="weibo_list" class="group group1 overflow_hide">
+                                <input type="text" value="{$history.info.name}" name="history[{$history_key_num}][info][name]" class="textbox" style="margin-right:10px">
+                                <span class="holder_tip">请输入阶段名称</span>
+                                 <div class="f_l f_red" style="height:41px;line-height:41px">* 若没有历史情况可不填写</div>
+                            </div>
+                            <div class="blank0"></div>
+                        </div>
+                        <div class="form_row control-group time_box">
+                            <label class="form_lable theme_fcolor">2、起止时间:</label>
+                            <div class="col-md-3 date input-append">
+                                <input type="text" value="{$history.info.begin_time}" placeholder="请选择日期" name="history[{$history_key_num}][info][begin_time]" class="textbox jcDateIco jcDate_{$history_key_num} w100" rel="begin_time">
+                                <span class="add-on"><i class="icon-calendar"></i></span>
+                            </div>
+                            <span class="f_l mr10 ml10" style="line-height:45px">至</span>
+                            <div class="col-md-3 date input-append">
+                                <input type="text" value="{$history.info.end_time}" placeholder="请选择日期" name="history[{$history_key_num}][info][end_time]" class="textbox jcDateIco jcDate_{$history_key_num} w100" rel="end_time">
+                                <span class="add-on"><i class="icon-calendar"></i></span>
+                            </div>
+                            <div class="blank0"></div>
+                            <script type="text/javascript">
+                            	$("input.jcDate_{$history_key_num}").jcDate({
+                				    IcoClass : "jcDateIco_{$history_key_num}",
+                				    Event : "click",
+                				    Speed : 100,
+                				    Left :-125,
+                				    Top : 28,
+                				    format : "-",
+                				    Timeout : 100
+                				});
+                            </script>
+                        </div>
+                        <div class="form_row control-group">
+                            <label class="form_lable theme_fcolor">3、阶段达成目标描述:</label>
+                            <div>
+                                <div class="blank0"></div>
+                                <textarea id='history[{$history_key_num}]describe' name='history[{$history_key_num}][info][describe]' class='ketext' style='width:936px; height:350px;' >{$history.info.describe}</textarea>
+                            </div>
+                            <div class="blank0"></div>
+                        </div>
+                        <div class="form_row control-group">
+                            <label class="form_lable theme_fcolor">4、完成阶段目标的主要措施、方法、手段:</label>
+                            <div>
+                                <div class="blank0"></div>
+                                <textarea id='history[{$history_key_num}]do_describe' name='history[{$history_key_num}][info][do_describe]' class='ketext' style='width:936px; height:350px;' >{$history.info.do_describe}</textarea>
+                            </div>
+                            <div class="blank0"></div>
+                        </div>
+                        <div class="form_row control-group">
+                            <label class="form_lable">
+                                <span class="theme_fcolor f_l mr10">5、阶d段收入：</span>
+                                <div class="form_cont f14">
+                                    <label class="ui_radiobox mr10" onclick='setSR(1,this,".history_table")' rel="history[{$history_key_num}][info][is_income]" style="margin-top:14px;">
+                                        <input type="radio" name="history[{$history_key_num}][info][is_income]" {if $history.info.is_income eq 1}checked="checked"{/if} id="history[{$history_key_num}]is_income" value="1" />有
+                                    </label>
+                                    <label class="ui_radiobox" onclick='setSR(0,this,".history_table")' rel="history[{$history_key_num}][info][is_income]" style="margin-top:14px;">
+                                        <input type="radio" name="history[{$history_key_num}][info][is_income]" {if $history.info.is_income eq 0}checked="checked"{/if} id="history[{$history_key_num}]no_income" value="0"  />无
+                                    </label>
+                                </div>
+                            </label>
+                            <table width="100%" border="0" cellpadding=0 cellspacing=0 class="tab2 income_table" rel="history{$history_key_num}_income" {if $history.info.is_income eq 0}style="display:none"{/if}>
+                                <thead>
+                					<tr class="col">
+                						<td width="20%">收入类别</td>
+                                    	<td width="15%">收入金额（元）</td>
+                                    	<td>备注</td>
+                					</tr>
+                				</thead>
+                				<tbody>
+                				{foreach from=$history.income item=income key=income_key_num}
+                				<tr class="history[{$history_key_num}]_income_row tr_income_row">
+                                    <td>
+                                        <div class="group">
+                                            <input type="text" name="history[{$history_key_num}][income][{$income_key_num}][type]" value="{$income.type}" class="textbox" style="width:180px;">
+                                            <span class="holder_tip">请输入收入类别</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="group">
+                                            <input type="text" name="history[{$history_key_num}][income][{$income_key_num}][money]" value="{$income.money}" class="textbox amount" onKeyup="amount(this)" style="width:120px;" />
+                                            <span class="holder_tip">请输入收入金额</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="group">
+                                            <input type="text" name="history[{$history_key_num}][income][{$income_key_num}][memo]" value="{$income.memo}" class="textbox" style="width:490px;">
+                                            <span class="holder_tip">请输入备注</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                				{/foreach}
+                            	
+                                <tr id="intotalrow{$history_key_num}">
+                                    <td>合计</td>
+                                    <td id="intotal1" class="item_income">{$history.info.item_income}</td>
+                                    <td>
+                                         <input type="hidden" name="history[{$history_key_num}][info][item_income]" class="item_income_input" value="{$history.info.item_income}"> 
+                                        <input type="hidden" name="history[{$history_key_num}][income_num]" value="{if $history.info.income_num}{$history.info.income_num}{else}0{/if}" />
+                                        <input type="button" value="添加收入类别" class="ui-button theme_bgcolor" id="history{$history_key_num}_income_button" />
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="blank0"></div>
+                        </div>
+                        <div class="form_row control-group">
+                            <label class="form_lable">
+                                <span class="theme_fcolor f_l mr10">6、阶段开支：</span>
+                                <div class="form_cont f14">
+
+                                    <label class="ui_radiobox mr10" onclick='setKZ(1,this,".history_table")' rel="history[{$history_key_num}][info][is_out]" style="margin-top:14px;">
+                                        <input type="radio" name="history[{$history_key_num}][info][is_out]" {if $history.info.is_out eq 1}checked="checked"{/if} id="history[{$history_key_num}]is_out" value="1" />有
+                                    </label>
+                                    <label class="ui_radiobox" onclick='setKZ(0,this,".history_table")' rel="history[{$history_key_num}][info][is_out]" style="margin-top:14px;">
+                                        <input type="radio" name="history[{$history_key_num}][info][is_out]" {if $history.info.is_out eq 0}checked="checked"{/if} id="history[{$history_key_num}]no_out" value="0"  />无
+                                    </label>
+                                </div>
+                            </label>
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab2 out_table" id="history{$history_key_num}_out_list" {if $history.info.is_out==0}style="display:none"{/if}>
+                                <tbody>
+                                <tr class="col">
+                                    <td width="20%">开支类别</td>
+                                    <td width="15%">开支金额（元）</td>
+                                    <td>备注</td>
+                                </tr>
+                				{foreach from=$history.out item=out key=out_key_num}
+                				 <tr  class="history[{$history_key_num}]out_row tr_out_row">
+                                    <td>
+                                        <div class="group">
+                                            <input type="text" name="history[{$history_key_num}][out][{$out_key_num}][type]" value="{$out.type}" class="textbox" style="width:180px;" />
+                                            <span class="holder_tip">请输入开支类别</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="group">
+                                            <input type="text" name="history[{$history_key_num}][out][{$out_key_num}][money]" value="{$out.money}" class="textbox amount" onKeyup="amount(this)" style="width:120px;" />
+                                            <span class="holder_tip">请输入开支金额</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="group">
+                                            <input type="text" name="history[{$history_key_num}][out][{$out_key_num}][memo]" value="{$out.memo}" class="textbox" style="width:490px;" />
+                                            <span class="holder_tip">请输入备注</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                				{/foreach}
+                                
+                                <tr id="outtotalrow{$history_key_num}">
+                                    <td>合计</td>
+                                    <td id="outtotal1" class="item_out">{$history.info.item_out}</td>
+                                    <td>
+                                         <input type="hidden" name="history[{$history_key_num}][info][item_out]" class="item_out_input" value="{$history.info.item_out}"> 
+                                        <input type="hidden" name="history[{$history_key_num}][out_num]" value="{if $history.info.out_num}{$history.info.out_num}{else}0{/if}" />
+                                        <input type="button" class="ui-button theme_bgcolor" value="添加开支类别" id="history{$history_key_num}_pay_button" />
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="blank0"></div>
+                        </div>
+                    </div>   
+                </li>
+                <script type="text/javascript">
+                    $("#history{$history_key_num}_income_button").live('click',function(){
+                        var demo_income="<tr>"+$('#history_income_demo').html()+"</tr>";
+                        var num=parseInt($("input[name='history[{$history_key_num}][income_num]']").val())+1;
+
+                        $("input[name='history[{$history_key_num}][income_num]']").val(num);
+                        var new_income=demo_income.replace(/\[income\]\[1\]/g,"[income]["+num+"]");
+                        new_income=new_income.replace(/history\[1\]/g,"history[{$history_key_num}]");
+                        $("#intotalrow{$history_key_num}").before(new_income);
+                    });
+                    $("#history{$history_key_num}_pay_button").live('click',function(){
+                        var demo_pay="<tr>"+$("#history_out_demo").html()+"</tr>";
+                        var num=parseInt($("input[name='history[{$history_key_num}][out_num]']").val())+1;
+                        $("input[name='history[{$history_key_num}][out_num]']").val(num);
+                        var new_pay=demo_pay.replace(/\[out\]\[1\]/g,"[out]["+num+"]");
+                        new_pay=new_pay.replace(/history\[1\]/g,"history[{$history_key_num}]");
+                        $("#outtotalrow{$history_key_num}").before(new_pay);
+                    });
+                </script>
+				{/foreach}
+				{$history_html}
+                <li class="tc" id="add_new_history_tr">
+                    <input type="hidden" name="history_step" value="{$history_num}">
+                    <input type="button" class="ui-button theme_bgcolor" value="添加下一阶段" id="add_new_history" style="float:none;display:inline-block" />
+                </li>
+            </ul>
+            <div class="blank20"></div>
+            <div id="endphasepos" class="xm-content">
+                <div class="con26">
+                    <span class="theme_fcolor f_15 f_b">累计盈亏：</span>
+                    （累计盈亏未计算筹备开支/ 单位：元）
+                </div>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab2">
+                <tbody>
+                    <tr class="col">
+                        <td width="30%">累计收入金额（元）</td>
+                        <td width="30%">累计开支金额（元）</td>
+                        <td>累计盈亏金额（元）</td>
+                    </tr>
+                    <tr>
+                        <td id="totalsr">0</td>
+                        <td id="totalkz">0</td>
+                        <td id="totalyk" class="f_green">0</td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+            <div class="blank0"></div>
+			{if $item.investor_edit}
+				<div class="button_row tc">
+                    <div class="blank15"></div>
+			 		<input type="button" value="保存" name="submit_form" class="ui-center-button theme_bgcolor" id="ui-button" style="margin:0 5px;*margin-left:400px" />
+					<div class="ui-center-button bg_red" rel="green" onclick="window.history.go(-1)" style="margin:0 5px;">
+						返回
+					</div>
+					<input type="hidden" value="1" name="ajax" />
+					<div class="blank15"></div>
+				</div>
+			{/if}
+			{if !$item.investor_edit}
+	            <div class="button_row">
+                    <div class="blank15"></div>
+	                <div class="ui-button bg_red" id="previous" style="margin-left:370px;" ><a href="{url r="project#investor_three" p="id=$id"}" style="color:#fff;">上一步</a></div>  
+					<input type="button" value="下一步" name="submit_form" class="ui-button theme_bgcolor ml20" id="ui-button" />
+				    <input type="hidden" value="1" name="ajax" />
+	                <div class="blank15"></div>
+	            </div>
+			{/if}
+    	</form>
+	</div>
+</div>
+<div class="blank20"></div>
+{include file="inc/footer.html"} 

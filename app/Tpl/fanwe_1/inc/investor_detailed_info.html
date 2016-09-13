@@ -1,0 +1,60 @@
+<style type="text/css">
+	.leader_info_hd{
+		border-bottom:1px dashed #d4d4d4;
+		padding-bottom:20px;
+	}
+	.invester_all .con5_r .sub{height:auto;}
+	.leader_info_bd .title{
+		background: url({$TMPL}/images/bg_col_01.gif) left center no-repeat;
+		width:120px;
+		height:30px;
+		line-height:30px;
+		color:#fff;
+		float:left;
+		font-size:18px;
+		margin-top:20px;
+		text-align:center;
+	}
+	.leader_info_bd .conment{
+		line-height:28px;
+		padding:20px 0;
+		overflow:hidden;
+		text-align:left;
+	}
+</style>
+<div class="full pr">
+	<div class="leader_info_hd invester_all overflow_hide">
+		<div class="con5_l f_gray">
+			{function name="show_avatar" p="$investor_info.id" t="middle"}
+			<div class="blank0"></div>
+		</div>
+		<div class="con5_r">
+			<div class="blank5"></div>
+			<div class="name" style="height:30px;line-height:30px">
+				<span class="v_aut theme_fcolor f24">{$investor_info.user_name}</span>
+			</div>
+			<div class="blank10"></div>
+			<div class="text">
+				<div class="site">
+					<span class="v_aut f15">{$investor_info.province}{$investor_info.city}</span>
+				</div>
+				<div class="blank5"></div>
+				<div class="letter f15 tl">
+					<a href="javascript:void(0);" onclick="send_message({$investor_info.id})">+发私信</a>
+				</div>
+			</div>
+		</div>
+		<div class="blank0"></div>
+	</div>
+	<div class="blank0"></div>
+	<div class="leader_info_bd overflow_hide">
+		<div class="title">详细资料</div>
+		<div class="blank0"></div>
+		<div class="conment">
+			<div>{$investor_info.intro}</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(".weebox").css("width","700px");
+</script>

@@ -1,0 +1,39 @@
+/* 文章内容 */
+body{ background:#f0f0f0; }
+.h4{
+	display: block;
+	padding:20px 0;
+	font-size: 18px;
+}
+.fin { width:100%; margin:0 auto; }
+.finTit {
+	font-size:2rem;
+	line-height: 30px;
+}
+.finInf {
+	padding: 0 142px 0 0;
+	position: relative;
+	height: 32px;
+	line-height: 32px;
+	overflow: hidden;
+}
+.finInf .inf {
+	color: #464646;
+	overflow: hidden;
+}
+.finInf .inf .ori {margin-left: 5px;}
+.finCnt {
+	font-size: 16px;
+	padding: 10px 0;
+	word-break: break-all;
+	border-top: 1px solid #d7d7d7;
+}
+.finCnt .para {
+	text-indent:32px;
+	margin-bottom:20px;
+	text-align: justify;
+	line-height: 1.5em;
+	color: #333;
+	font-size:1.4rem;
+	font-family: "Microsoft YaHei","Microsoft JhengHei",STHeiti,MingLiu;
+}

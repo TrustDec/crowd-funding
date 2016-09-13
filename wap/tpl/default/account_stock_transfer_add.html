@@ -1,0 +1,78 @@
+{include file="inc/header.html"}
+<div class="list-block">
+    <ul>
+      	<li class="item-content">
+	        <div class="item-inner">
+	          <div class="item-title">项目名称</div>
+	          <div class="item-after">{$order_info.deal_name}</div>
+	        </div>
+      	</li>
+      	<li class="item-content">
+        	<div class="item-inner">
+          		<div class="item-title">项目原出让股份</div>
+          		<div class="item-after">{$order_info.transfer_share}%</div>
+        	</div>
+      	</li>
+  		<li class="item-content">
+        	<div class="item-inner">
+          		<div class="item-title">项目原出让金额</div>
+          		<div class="item-after">{$order_info.stock_value}元</div>
+        	</div>
+      	</li>
+      	<li class="item-content">
+        	<div class="item-inner">
+          		<div class="item-title">用户所占股份</div>
+          		<div class="item-after">{$order_info.user_stock}%</div>
+        	</div>
+      	</li>
+      	<li class="item-content">
+        	<div class="item-inner">
+          		<div class="item-title">股份所占金额</div>
+          		<div class="item-after">{$order_info.total_price}元</div>
+        	</div>
+      	</li>
+      	<li class="item-content">
+        	<div class="item-inner">
+          		<div class="item-title">用户所拥有股数</div>
+          		<div class="item-after">{$order_info.user_num}股</div>
+        	</div>
+      	</li>
+      	<li class="item-content">
+        	<div class="item-inner">
+          		<div class="item-title">转让股数</div>
+          		<div class="item-after">
+          			<input type="text" placeholder="请输入转让股数" name="num" id="num" />股
+          		</div>
+        	</div>
+      	</li>
+      	<li class="item-content">
+        	<div class="item-inner">
+          		<div class="item-title">转让金额</div>
+          		<div class="item-after">
+          			<input type="text" placeholder="请输入转让金额" name="price" id="price" />元
+          		</div>
+        	</div>
+      	</li>
+      	<li class="item-content">
+        	<div class="item-inner">
+          		<div class="item-title">天数</div>
+          		<div class="item-after">
+          			<input type="text" placeholder="请输入有效天数" name="day" id="day" />天
+          		</div>
+        	</div>
+      	</li>
+    </ul>
+</div>
+<div class="submit_row content-padded">
+	<a href="#" class="button button-fill btn_submit">提交</a>
+	<input type="hidden" value="1" name="ajax" />
+</div>
+<script>
+	 var invest_id = '{$order_info.invest_id}';
+	 var deal_name = '{$order_info.deal_name}';
+	 var invote_mini_money = '{$order_info.invote_mini_money}';
+	 var user_num = '{$order_info.user_num}';
+    var ajaxurl = APP_ROOT + "/index.php?ctl=account&act=stock_transfer_insert";
+</script>
+<!-- account_stock_transfer.js -->
+{include file="inc/footer.html"} 

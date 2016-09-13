@@ -1,0 +1,209 @@
+{include file="inc/header.html"}
+<style type="text/css">
+	body{background:#f1f1f1}
+	.uc_table .p_inf{text-align:left;padding-left:0}
+	.my_project ul{border:0;}
+	.my_project .tab-nav li{
+		background:#f1f1f1;
+		border:1px solid #ddd;
+		margin:0 -1px;
+	}
+	.my_project .tab-nav li.current{
+		background:#fff;
+	}
+	.my_project .tab-nav li.current a
+	.my_project .tab-nav li.current a{color:#4dbdf5;}
+	.my_project .ul_block{
+		padding:20px 10px;
+	}
+	.my_project .ul_block_box{
+		border:1px solid #ddd;
+		background:#fff;
+	}
+	.my_project .ul_block ul{border:0;}
+	.my_project .ul_block ul li{padding:5px 0;}
+	.my_project .ul_block ul li.uploadbox{
+		height:auto;
+		line-height:100%;
+		padding:20px 0;
+	}
+	.input_lable{width:70px;}
+	.my_project .ul_block ul li.uploadbox .input_lable{
+		width:85px;
+		line-height:100px;
+	}
+	.investor_index .code_btn{
+		width:180px;
+		font-size:12px;
+	}
+	.ul_block h3{
+		margin:0 15px;
+		height:50px;
+		line-height:50px;
+		border-bottom:2px solid #ddd;
+	}
+	.ul_block h3 span{
+		height:50px;
+		line-height:50px;
+		display:inline-block;
+		font-size:18px;
+		border-bottom:2px solid #ee6966;
+	}
+	.account_index ul li .pic_show {
+	position: relative;
+	width:100px;
+	height:100px;
+	line-height: 18px;
+	background: url({$TMPL}/images/upload_bg.png) no-repeat;
+	}
+	.my_project .ul_block ul li.uploadbox .text{
+		width:100%;
+		line-height:14px;
+		color:#666;
+		font-size:12px;
+		overflow:hidden;
+	}
+	.fileupload {
+		position:relative;
+		width:100px;
+		height:100px;
+		line-height:100px;
+		cursor: pointer;
+		overflow: hidden;
+		display: inline-block;
+		text-align: center;
+		color: #fff;
+		border-radius:3px;
+		font-size:14px;
+	}
+	.fileupload .filebox{
+		position:absolute;
+		top:0;
+		left:0;
+		width:100px;
+		height:100px;
+		cursor:pointer;
+		padding:0;
+		filter: alpha(opacity=0);-moz-opacity: 0;-khtml-opacity: 0;opacity: 0;
+	}
+</style>
+<script type="text/javascript">
+    var ROOT = '{$APP_ROOT}/{$URL_NAME}';
+    var VAR_MODULE = "m";
+    var VAR_ACTION = "a";
+    var WEB_SESSION_ID = '<?php echo es_session::id(); ?>';
+    var EMOT_URL = '{$APP_ROOT}/public/emoticons/';
+    var MAX_FILE_SIZE = '{$max_size_byte}b';
+    var UPLOAD_URL ='{$APP_ROOT}/{$URL_NAME}?m=File&a=do_upload&upload_type=0&dir=image' ;
+	var UPLOAD_SWF='{$TMPL}/js/plupload/Moxie.swf';
+	var UPLOAD_XAP='{$TMPL}/js/plupload//Moxie.xap';
+	var ALLOW_IMAGE_EXT= "gif,jpg,jpeg,png,bmp";
+	var MAX_IMAGE_SIZE= '{$max_size_byte}b';
+	
+	function get_file_fun(name){
+		$("#"+name).ui_upload({
+			multi:false,
+			FilesAdded:function(){
+				$.showPreloader('图片上传中');
+			},
+			FileUploaded:function(ajaxobj){
+ 				if(ajaxobj.error==1)
+				{
+					$.alert(ajaxobj.info);
+				}else{
+					$("#"+name+"_u").val(ajaxobj.public_url);
+					$("#"+name+"_image").attr('src',ajaxobj.url);
+ 				}
+ 				$.hidePreloader();
+			},Error:function(error){
+				if(error.code==-600){
+					$.alert("您上传的文件太大，最大允许上传{$max_size}");
+				}else{
+					$.alert(error.message);
+				}
+ 			}
+ 		});
+	}
+	
+</script>
+<seation class="account_index my_project investor_index">
+	<form id="investor_index_form" name="investor_index_form" action="" autocomplete="off">
+		<ul class="tab-nav webkit-box" id="investor_id">
+			<li class="webkit-box-flex tc current">
+				个人投资者
+				<input type="hidden" name="is_investor" value="2" />
+			</li>
+		</ul>
+		<div class="ul_block sizing">
+			<div class="ul_block_box">
+				<h3>
+					<span>进行身份验证</span>
+				</h3>
+				<ul>
+					<li class="webkit-box">
+						<label class="input_lable">真实姓名：</label>
+						<input type="text" value="" id="real_name" name="real_name" class="textbox" />
+					</li>
+					<li class="webkit-box">
+						<label class="input_lable">身份证号：</label>
+						<input type="text" value="" id="idcard_number" name="idcard_number" class="textbox"/>
+					</li>
+					{if app_conf('IDENTIFY_POSITIVE')}
+					<li class="uploadbox">
+						<div class="webkit-box">
+							<label class="input_lable">身份正面照：</label>
+							<label class="fileupload theme_color mr10">
+								<div class="pic_show f_l">
+									<img id="idcard_zheng_image" src="{$deal_image1.url}"/>
+									<input type="hidden" id="idcard_zheng_u" name="idcard_zheng_u" />
+									<input type="button" class="filebox" name="idcard_zheng" id="idcard_zheng" />
+								</div>
+							</label>
+							<div class="fileuploading"></div>	
+						</div>
+						<div class="blank5"></div>
+						<div class="f_999 f12">*身份证正面照片，文件格式为PNG、jpg、gif、jpeg（文件不能超过2M）</div>
+					</li>
+					{/if}
+					{if app_conf('IDENTIFY_NAGATIVE')}
+					<li class="uploadbox">
+						<div class="webkit-box">
+							<label class="input_lable">身份反面照：</label>
+							<label class="fileupload theme_color" >
+								<div class="pic_show f_l mr10">
+									<img id="idcard_fang_image" src="{$deal_image2.url}" />
+									<input type="hidden" id="idcard_fang_u" name="idcard_fang_u" />
+									<input type="button" class="filebox" name="idcard_fang" id="idcard_fang" />
+								</div>
+							</label>
+							<div class="fileuploading"></div>
+						</div>
+						<div class="blank5"></div>
+						<div class="f_999 f12">*身份反面照照片，文件格式为PNG、jpg、gif、jpeg（文件不能超过2M）</div>
+					</li>
+					{/if}
+				</ul>
+			</div>
+			<div class="blank15"></div>
+			<div class="button_row">
+				<input type="button" value="提交审核" name="submit_form" class="ui-button theme_color submit_investor_personal" onclick="javascript:check_data();"/>
+				<div class="blank5"></div>
+				<a type="button" class="ui-button theme_color" rel="ui-button" href="#" onclick="RouterURL('{url_wap r="investor"}','#investor-index');">上一步</a>
+				<input type="hidden" value="1" name="ajax" id="ajax"/>
+				<input type="hidden" value="{url_wap r"user#investor_result"}" name="result_url" id="result_url"/>
+				<input type="hidden" value="{url_wap r="user#investor_save_data" p="id=$user_info.id"}" name="ajaxurl" id="ajaxurl"/>
+				<div class="blank15"></div>
+			</div>
+		</div>
+	</form>
+</seation>
+<script type="text/javascript">
+	/* 
+		user_info_is_investor = 1 则 investor_personal.html
+		user_info_is_investor = 2 则 investor_agency.html
+	*/
+	var user_info_is_investor = '{$user_info.is_investor}';
+</script>
+<!-- check_idcard.js -->
+<!-- apply_investor.js -->
+{include file="inc/footer.html"} 

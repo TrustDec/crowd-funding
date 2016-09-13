@@ -1,0 +1,48 @@
+{foreach from=$deal_hot_list item=deal key=k}
+<div class="item clearfix">
+    <a href="#" title="{$deal.name}" onclick="RouterURL('{$deal.url}','#deal-show',2);">
+        <div class="item-image">
+            <img src="{if $deal.image eq ''}{$TMPL}/images/empty_thumb.gif{else}{function name="get_spec_image" v=$deal.image w="115" h="80" g="1"}{/if}" alt="{$deal.name}" class="lazyImg_index" />
+        </div>
+        <div class="item-content">
+            <div class="item_name webkit-box">
+                <h3 class="webkit-box-flex">{$deal.name}</h3>
+                <div class="invest_status">
+                    {if $deal.begin_time > $now_time}
+                    <i class="invest_status_icon common-success">预热中</i>
+                    {elseif $deal.end_time < $now_time and $deal.end_time neq 0}
+                        {if $deal.is_success eq 1}
+                            <i class="invest_status_icon common-success">已成功</i>
+                        {else}
+                            {if $deal.type eq 1}
+                            <i class="invest_status_icon common-fail">融资失败</i>
+                            {else}
+                            <i class="invest_status_icon common-fail">筹资失败</i>
+                            {/if}
+                        {/if}
+                    {else}
+                        {if $deal.percent gte 100}
+                        <i class="invest_status_icon common-success">已成功</i>
+                        {else}
+                            {if $deal.end_time eq 0}
+                                <i class="invest_status_icon long_term">长期项目</i>
+                            {else}
+                                {if $deal.type eq 1}
+                                <i class="invest_status_icon common-sprite">融资中</i>
+                                {else}
+                                <i class="invest_status_icon common-sprite">筹资中</i>
+                                {/if}
+                            {/if}
+                        {/if}
+                    {/if}
+                </div>
+            </div>
+            <p class="p-color">{$deal.brief}</p>
+            <div class="clearfix bottom">
+                <div class="price">目标 <em class="f_money number">¥{function name="round" v=$deal.limit_price e=2}</em></div>
+                <span class="support">完成<em>{$deal.percent}%</em></span>
+            </div>
+        </div>
+    </a>
+</div>
+{/foreach}

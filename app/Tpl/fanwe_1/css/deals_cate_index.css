@@ -1,0 +1,256 @@
+/* 股权子首页 开始 */
+.deals_cate_equity .ui_deals_filter{
+	height:60px;
+	line-height:60px;
+	border-bottom:1px solid #e3e3e3;
+}
+.deals_cate_equity .ui_deals_filter_item{
+	padding:0;
+}
+.deals_cate_equity .ui_deals_filter_l ,
+.deals_cate_equity .ui_deals_filter_r{
+	height:36px;
+	line-height:36px;
+	margin-top:12px;
+}
+.deals_cate_equity .ui_deals_filter_l{
+	width:700px;
+}
+.deals_cate_equity .ui_deals_filter_r .btn-select{
+	margin-top:4px;
+}
+.deals_cate_equity .index_title{margin-bottom:10px;}
+.deals_cate_equity .equity_box{
+	width:1198px;
+	height:240px;
+	border:1px solid #d4d4d4;
+	background:#fff;
+	overflow:hidden;
+	font-size:14px;
+}
+.deals_cate_equity .equity_box .equity_box_l{
+	width:857px;
+	padding:10px;
+	overflow:hidden;
+	margin-right:20px;
+}
+.deals_cate_equity .equity_box .equity_box_l .pic ,
+.deals_cate_equity .equity_box .equity_box_l .pic img{
+	width:280px;
+	height:220px;
+	border-radius:5px;
+}
+.deals_cate_equity .equity_box .equity_box_l .inf{
+	width:567px;
+	height:220px;
+	overflow:hidden;
+}
+.deals_cate_equity .equity_box .equity_box_l .inf h3{
+	font-size:22px;
+	font-weight:normal;
+	overflow:hidden;
+	height:28px;
+}
+.deals_cate_equity .equity_box .equity_box_l .inf_1 label{
+	font-size:16px;
+	margin-top:5px;
+	margin-right:10px;
+}
+.deals_cate_equity .equity_box .equity_box_l .inf_1 .value_bg{
+	height:33px;
+	line-height:33px;
+	padding:0 10px;
+	float:left;
+	color:#fff;
+	font-size:18px;
+	margin-right:10px;
+}
+.deals_cate_equity .equity_box .equity_box_l .inf_1 .value_bg_1{
+	background:url(../images/value_bg.png) #0099ff no-repeat;
+}
+.deals_cate_equity .equity_box .equity_box_l .inf_1 .value_bg_2{
+	background:url(../images/value_bg.png) 0 -38px no-repeat #339900;
+}
+.deals_cate_equity .equity_box .equity_box_l .inf_2{
+	position:relative;
+	padding-left:10px;
+}
+.deals_cate_equity .equity_box .equity_box_l .inf_2 i{
+	position:absolute;
+	left:0;
+	top:6px;
+	width:4px;
+	height:8px;
+	background:url(../images/all.png) 0 -54px no-repeat;
+	display:block;
+}
+.deals_cate_equity .equity_box .ui-progress{
+	width:100%;
+	padding;
+}
+.deals_cate_equity .equity_box .div3{
+	width:280;
+	padding-top:5px;
+	height:18px;
+	line-height:18px;
+}
+.deals_cate_equity .equity_box .div3_l{
+	text-align:left;
+	float:left;
+}
+.deals_cate_equity .equity_box .div3_r{
+	text-align:right;
+	float:right;
+}
+.deals_cate_equity .equity_box .div3 span{
+	display:inline;
+}
+.deals_cate_equity .equity_box .equity_box_r{
+	width:290px;
+	height:240px;
+	border-left:1px solid #d4d4d4;
+	overflow:hidden;
+	padding:0 5px;
+}
+.deals_cate_equity .equity_box .equity_box_r .equity_box_value{
+	width:86px;
+	float:left;
+	padding:0 5px;
+	text-align:center;
+}
+.deals_cate_equity .equity_box .equity_box_r .equity_box_value i{
+	background:url(../images/equity_box_bg1.png) no-repeat;
+	width:58px;
+	height:58px;
+	display:block;
+	margin:0 auto;
+}
+.deals_cate_equity .equity_box .equity_box_r .equity_box_r_1_2 i{
+	background-position:0 -63px;
+}
+.deals_cate_equity .equity_box .equity_box_r .equity_box_r_1_3 i{
+	background-position:0 -126px;
+}
+.deals_cate_equity .equity_box .equity_box_r .ui-button{
+	width:218px;
+	margin:0 auto;
+	float:none;
+	display:block;
+}
+.deals_cate_equity .equity_box1{
+	width:590px;
+	float:left;
+	margin-right:16px;
+}
+.deals_cate_equity .equity_box1 .equity_box_l{
+	width:570px;
+}
+.deals_cate_equity .equity_box1 .equity_box_l .inf{
+	width:280px;
+}
+.deals_cate_equity .equity_box label{
+	color:#666;
+}
+.deals_cate_equity .equity_box .inf_3{
+	height:64px;
+	overflow:hidden;
+}
+.deals_cate_equity .equity_box1 .inf_3{
+	height:46px;
+	overflow:hidden;
+}
+.deals_cate_equity .equity_box1 .equity_box_l .inf_4 div{
+	width:33.3%;
+	float:left;
+}
+.deals_cate_equity .equity_l{
+	width:842px;
+}
+.deals_cate_equity .equity_l .equity_box{
+	width:840px;
+}
+.deals_cate_equity .equity_l .equity_box_l{
+	width:824px;
+}
+.deals_cate_equity .equity_l .equity_box_l .inf{
+	width:534px;
+}
+.deals_cate_equity .equity_l .equity_box_l .inf .inf_5{
+	position:relative;
+	height:30px;
+	line-height:30px;
+	border:1px solid #d4d4d4;
+	padding:0 10px 0 40px;
+	margin-top:4px;
+}
+.deals_cate_equity .equity_l .equity_box_l .inf .inf_5 i{
+	position:absolute;
+	left:0;
+	top:0;
+	width:37px;
+	height:30px;
+	background:url(../images/all.png) 0 -75px no-repeat;
+	display:block;
+}
+.deals_cate_equity .equity_r{
+	background:#fff;
+	border:1px solid #d4d4d4;
+	width:310px;
+	overflow:hidden;
+	padding:14px;
+	font-family:'SimSun';
+}
+.deals_cate_equity .equity_r h3{
+	height:26px;
+	line-height:26px;
+	font-size:14px;
+}
+.deals_cate_equity .equity_r li{
+	border-bottom:1px solid #e3e3e3;
+	height:27px;
+	line-height:27px;
+}
+.deals_cate_equity .equity_r li a{
+	width:240px;
+	height:27px;
+	line-height:27px;
+	overflow:hidden;
+}
+.deals_cate_equity .news{
+	padding:20px 30px;
+	overflow:hidden;
+	border:1px solid #d4d4d4;
+	width:1138px;
+	background:#fff;
+}
+.deals_cate_equity .news .news_l{
+	width:563px;
+	border-right:1px dashed #e3e3e3;
+	overflow:hidden;
+	float:left;
+}
+.deals_cate_equity .news .news_l h3{
+	font-size:24px;
+	font-weight:normal;
+	height:30px;
+	line-height:30px;
+}
+.deals_cate_equity .news .news_l ul{
+	font-family:'SimSun';
+	padding-right:66px;
+	overflow:hidden;
+}
+.deals_cate_equity .news ul li{
+	height:27px;
+	line-height:27px;
+}
+.deals_cate_equity .news .news_r{
+	width:564px;
+	overflow:hidden;
+}
+.deals_cate_equity .news .news_r ul{
+	padding-left:66px;
+	margin-top:40px;
+}
+.deals_cate_equity .theme_fcolor{ overflow:hidden; line-height:29px; height:29px;}
+/* 股权子首页 结束 */

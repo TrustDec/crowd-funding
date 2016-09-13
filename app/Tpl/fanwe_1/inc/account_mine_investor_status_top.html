@@ -1,0 +1,18 @@
+<div class="list_title clearfix">
+	{if app_conf("IS_ENQUIRY") eq 1}
+	<div {if $type eq 0}class="cur"{/if}>
+		<a href="{$status_0_url}">询价列表</a>
+	</div>
+	{/if}
+	<div {if $type eq 1}class="cur"{/if}>
+		<a href="{$status_1_url}">领投列表</a>
+	</div>
+	<div {if $type eq 2}class="cur"{/if}>
+		<a href="{$status_2_url}">跟投列表</a>
+	</div>
+	{if app_conf("IS_STOCK_TRANSFER") eq 1}
+	<div {if $type eq 4}class="cur"{/if}>
+		<a href="{$status_4_url}">转让中的股份列表</a>
+	</div>
+	{/if}
+</div>

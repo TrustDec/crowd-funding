@@ -1,0 +1,26 @@
+{include file="inc/header.html"} 
+<style type="text/css">
+	body{background:#fff;}
+</style>
+{if $stay eq 0}
+<meta http-equiv="refresh" content="3;URL={$jump}" />
+{/if}
+<section class="oper_tip mod_main">
+	<div class="f16 f_red tc">操作错误！</div>
+	<div class="blank15"></div>
+	<div class="full msgbox">
+		<p>
+		{if $integrate_result}
+		{$integrate_result}
+		{/if}
+		{$msg}	
+		</p>
+		<div class="blank"></div>
+		{if $stay eq 0}
+		<div class="return_jump">								
+			请点击此处直接 [<a href="{$jump}">返回</a>] 或者等待三秒钟后自动跳转。		
+		</div>
+		{/if}
+	</div>
+</section>
+{include file="inc/footer.html"} 

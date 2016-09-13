@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="Generator" />
+        <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=0,minimum-scale=0.5">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="format-detection" content="telephone=no">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{if $page_title neq ''}{$page_title} - {/if}{$site_name} - {$seo_title}</title>
+        <meta name="keywords" content="{$seo_keyword}" />
+        <meta name="description" content="{$seo_description}" />
+        <?php
+        $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/layout.css";
+		$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/style.css";
+		$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/weebox.css";
+	    $this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/jquery.js";
+		$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/jquery.bgiframe.js";
+		$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/jquery.weebox.js";
+		$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/jquery.bgiframe.js";
+		$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/jquery.weebox.js";
+        $this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/script.js";
+		$this->_var['cpagejs'][]='';
+		if(app_conf("APP_MSG_SENDER_OPEN")==1)
+		{
+	 		$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/msg_sender.js";
+			$this->_var['cpagejs'][] = $this->_var['TMPL_REAL']."/js/msg_sender.js";
+		}
+ 
+  		?>
+        <link rel="stylesheet" type="text/css" href="{$font_url}" />
+        <link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$pagecss"}" />
+        <script type="text/javascript">
+            var APP_ROOT = '{$APP_URL}';
+			var APP_ROOT_ORA = '{$PC_URL}';
+			{if app_conf("APP_MSG_SENDER_OPEN") eq 1}
+			var send_span = {function name="app_conf" v="SEND_SPAN"}000;
+			{/if}
+        </script>
+        <script type="text/javascript" src="{function name="parse_script" v="$pagejs" c="$cpagejs"}">
+        </script>
+        <!--百度轻应用-->
+        <meta name="baidu-tc-cerfication" content="688cdfaa49f7c8f87fd5883492587d8e">
+    </head>
+    <body {if  ACT eq 'index'}  style="background: #f9f9f9;"{/if}>
+    <div class="wraper">
+
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/fancybox.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/jquery.fancybox.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/deal.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/deal.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/script.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/script.js";
+
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/deal_support.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/css/font-awesome.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/deal.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<!-- 中间 开始 -->
+<div class="l_main_bd slideTxtBox">
+    <div class="effect_bd">
+        
+        
+        <!-- 历史执行情况/在营店 开始 -->
+        <div class="investor_info_box" id="pro_con_3" >
+			{foreach from=$history_list item=history_item key=history_key_num}
+			<?php $this->_var['history_key_num']++; ?>
+            <div class="title f_red">
+                <i class="fa fa-tags mr5"></i>第<span class="daxie">{$history_key_num}</span>阶段
+            </div>
+            <div class="text">
+                <ul>
+                    <li>
+                        <span class="theme_fcolor">1、阶段名称：</span>{$history_item.info.name}
+                    </li>
+                    <li>
+                        <span class="theme_fcolor">2、起止时间：</span>{$history_item.info.begin_time}至{$history_item.info.end_time}
+                    </li>
+                    <li>
+                        <span class="theme_fcolor">3、阶段达成目标描述：</span>
+                        {if $history_item.info.describe}
+                        <div class="pl20">{$history_item.info.describe}</div>
+                        {else}无{/if}
+                    </li>
+                    <li>
+                        <span class="theme_fcolor">4、完成阶段目标的主要措施、方法、手段：</span>
+                        {if $history_item.info.do_describe}
+                        <div class="pl20">{$history_item.info.do_describe}</div>
+                        {else}无{/if}
+                    </li>
+                    <li>
+                        <span class="theme_fcolor">5、阶段收入：</span>
+                        {if $history_item.info.is_income eq 1}
+                            <table border="0" cellspacing="0" cellpadding="0" class="tab2">
+                            <tbody>
+                                <tr class="col">
+                                    <td width="30%">收入类别</td>
+                                    <td width="30%" class="t_r">收入金额(元)</td>
+                                    <td>备注</td>
+                                </tr>                        
+                                {foreach from=$history_item.income item=income}
+                                <tr>
+                                    <td>{$income.type}</td>
+                                    <td>{$income.money}</td>
+                                    <td>{$income.memo}</td>
+                                </tr>
+                                {/foreach}
+                                <tr>
+                                    <td>合计</td>
+                                    <td class="t_r">{$history_item.info.item_income}</td>
+                                    <td></td>                                   
+                                </tr>
+                            </tbody>
+                            </table>
+                            <div class="blank0"></div>
+                        {else}无{/if}
+                    </li>
+                    <li>
+                        <span class="theme_fcolor">6、阶段开支：</span>
+                        {if $history_item.info.is_out eq 1}
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab2">
+                            <tbody>
+                                <tr class="col">
+                                    <td width="30%">费用类别</td>
+                                    <td width="30%" class="t_r">开支金额(元)</td>
+                                    <td>备注</td>
+                                </tr>
+                                {foreach from=$history_item.out item=out key=out_key_num}
+                                <tr>
+                                    <td>{$out.type}</td>
+                                    <td>{$out.money}</td>
+                                    <td>{$out.memo}</td>
+                                </tr>
+                                {/foreach}
+                                <tr>
+                                    <td>合计</td>
+                                    <td class="t_r">{$history_item.info.item_out}</td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                            </table>
+                        {else}无{/if}
+                    </li>
+                </ul>
+            </div>
+			{/foreach}
+			<div class="blank10"></div>
+            <div class="con26">
+                <span class="theme_fcolor f15 b"><i class="fa fa-bar-chart"></i>累计盈亏：</span>
+                （累计盈亏未计算筹备开支/ 单位：元）
+            </div>
+            <div class="blank10"></div>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab2" style="width:100%">
+            <tbody>
+                <tr class="col f_b">
+                    <td width="30%">累计收入金额（元）</td>
+                    <td width="30%">累计开支金额（元）</td>
+                    <td>累计盈亏金额（元）</td>
+                </tr>
+                <tr class="theme_fcolor">
+                    <td>{$total_history_income}</td>
+                    <td>{$total_history_out}</td>
+                    <td class="f_red">{$total_history}</td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+        <!-- 历史执行情况/在营店 结束 -->
+    </div>   
+</div>
+<!-- 中间 结束 -->
+<script type="text/javascript">
+	
+	
+//领投人详细资料
+function leader_detailed_information(){
+		var ajaxurl='{url_wap r="ajax#leader_detailed_information" p="id=$deal_info.id"}';
+		$.ajax({
+			url: ajaxurl,
+			dataType: "json",
+			type: "POST",
+			success: function(ajaxobj){
+				if(ajaxobj.status==1){
+					$.weeboxs.open(ajaxobj.html, {boxid:'leader_detailed_info',contentType:'text',showButton:false, showCancel:false, showOk:false,title:'详细信息',width:300,type:'wee'});
+				}
+			    if(ajaxobj.status==2){
+					$.showErr(ajaxobj.info);
+				}
+			}
+		});
+}
+
+</script>
+</div>
+<div id="jumphelper" style="display:block;">
+    <a href="#" id="gotop" class="gotop">∧</a>
+    <a href="#" id="gobot">∨</a>
+</div>
+</body>
+<script type="text/javascript">
+$(function(){
+	resetWinsize();
+	init_gotop();
+});
+// 底部模块固定
+var resetTimeact=null;
+function resetWinsize(){
+	clearTimeout(resetTimeact);
+	var bodyheight=$(document.body).outerHeight(true);
+    var windowheight=$(window).height();
+    if (bodyheight<windowheight) {
+        var mgheight=windowheight-bodyheight;
+        $("#foot").css("margin-top",mgheight+'px');
+    }
+	resetTimeact = setTimeout(resetWinsize,100);
+}
+
+function init_gotop() {
+	if($("body").height() <= document.documentElement.clientHeight*1.8){
+		$("#jumphelper").remove();
+	}
+
+	$(window).scroll(function(){
+		var s_top = $(document).scrollTop()+$(window).height()-70;
+		if($.browser.msie && $.browser.version =="6.0")
+		{
+			$("#jumphelper").css("top",s_top);
+		}
+	});
+	$("#gotop").click(function(){
+		$("html,body").animate({scrollTop:0},"fast","swing",function(){});		
+	});
+	$("#gobot").click(function(){
+		$("html,body").animate({scrollTop:$(document).height()},"fast","swing",function(){});		
+	});
+	var top = $(document).scrollTop()+$(window).height()-70;
+	if($.browser.msie && $.browser.version =="6.0")
+	{
+		$("#jumphelper").css("top",top);
+	}
+}
+</script>
+</html>

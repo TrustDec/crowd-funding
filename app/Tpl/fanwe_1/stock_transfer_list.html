@@ -1,0 +1,135 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/invester_list.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<style type="text/css">
+	.ui-small-button{
+		height:30px;
+		line-height:30px;
+		padding:0 20px;
+	}
+</style>
+<div class="xqmain">
+	<adv adv_id="stock_transfer_list_top" />
+	<div class="blank20"></div>
+	<div class="invester_all">
+		<!-- 检索条件 开始 -->
+		<div class="ui_deals_filter">
+			<div class="ui_deals_filter_item">
+				<div class="filter_item">
+					<label class="f_l">所属行业：</label>
+					<div class="filter_text f_l">
+						<ul>
+							<li {if {if $p_id eq 0}class="current"{/if}}>
+								<a href="{url r="stock_transfer" p="loc=$p_loc&type=$p_type"}" title="全部">全部</a>
+							</li>
+							{foreach from=$cate_list item=cate_item}
+							<li {if $pid eq $cate_item.id}class="current"{/if}>
+								{if $cate_item.pid eq 0}
+								<a href="{$cate_item.url}" title="{$cate_item.name}">{$cate_item.name}</a>
+								{/if}
+							</li>
+							{/foreach}
+						</ul>
+					</div>
+					{if $child_cate_list}
+					<div class="blank0"></div>
+					<div class="ui_deals_filter_l child_cate">
+						<ul>
+							{foreach from=$child_cate_list item=child_cate_item}
+							<li {if $p_id eq $child_cate_item.id}class="current"{/if}>
+								<a href="{$child_cate_item.url}" title="{$child_cate_item.name}">{$child_cate_item.name}</a>
+							</li>
+							{/foreach}
+						</ul>
+						<div class="blank0"></div>
+					</div>
+					<div class="blank5"></div>
+					{/if}
+				</div>
+			</div>
+			
+			<div class="blank0"></div>
+		</div>
+		<!-- 检索条件 结束 -->
+		<div class="blank20"></div>
+		<div class="xqmain_left">
+			<!-- 投资人列表 开始 -->
+			<div class="invester_all_list overflow_hide">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="invester_table">
+					<thead>
+						<tr>
+							<th style="padding-left:20px;text-align:left">项目名称</th>
+							<th>发起用户</th>
+							<th>相关信息</th>
+							<th>转让状态</th>
+						</tr>
+					</thead>
+					<tbody>
+						{foreach from=$transfer_list item=invester_item}
+						<tr>
+							<td>
+								<a href="{url r="deal#show" p="id=$invester_item.deal_id"}" target="_blank" title="{$invester_item.deal_name}">{$invester_item.deal_name}</a>
+							</td>
+							<td>
+								{$invester_item.user_name}
+							</td>
+							<td>
+								转让{$invester_item.num}股，总价{$invester_item.price}元，原估值{$invester_item.stock_value}元
+							</td>
+							<td>		
+								{if $invester_item.is_success == 1}
+									已成功
+								{elseif $invester_item.is_success == 0}
+									{if $invester_item.purchaser_id > 0}
+										交易中
+									{else}
+										{if $invester_item.end_time > $now}								
+											<a href="{url r="stock_transfer#go_transfer" p="id=$invester_item.id"}" class="btn_recommend_project  b_radius">前往交易</a>
+										{else}
+											已过期，交易失效
+										{/if}		
+									{/if}
+								{else}
+									已取消交易
+								{/if}		
+							</td>
+						</tr>
+						{/foreach}
+					</tbody>
+				</table>
+				<div class="blank0"></div>
+			</div>
+			<div class="blank20"></div>
+			<div class="pages">{$pages}</div>
+			<div class="blank20"></div>
+			<!-- 投资人列表 结束 -->
+		</div>
+		<div class="xqmain_right">
+			<!-- 转让成功 开始 -->
+			<div class="success_item_box mb20">
+				<h3>转让成功的项目</h3>
+				<div class="text">
+					{if $transfer_success_list}
+					{foreach from=$transfer_success_list item=deal_success_item name=deal_success_items}
+					
+					<a href="{url r="deal#show" p="id=$deal_success_item.deal_id"}" title="{$deal_success_item.deal_name}" target="_blank" class="success_item b_radius">
+						<img src="{$deal_success_item.image}" width="64" height="64" />
+					</a>
+					
+					{/foreach}
+					{else}
+					<p class="tc f_999">暂无转让成功的项目</p>
+					{/if}
+				</div>
+			</div>
+			<!-- 转让成功 结束 -->
+		</div>
+		<div class="blank0"></div>
+	</div>
+	<div class="blank20"></div>
+	<adv adv_id="stock_transfer_list_bottom" />
+</div>
+
+{include file="inc/footer.html"}

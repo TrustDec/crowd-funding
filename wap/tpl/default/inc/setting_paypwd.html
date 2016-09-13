@@ -1,0 +1,35 @@
+<div class="setting_security_box" id="setting-pass-box">
+	<form id="ajax_form_paypassword" action="{url_wap r="settings#paypassword_binding"}">
+		<div class="ul_block">
+			<ul>
+				<li class="webkit-box">
+					<label class="input_lable">付款密码：</label>
+					<input type="password"  autocomplete="off" placeholder="请输入付款密码" id="" value="" name="paypassword" class="textbox webkit-box-flex" />
+				</li>
+				<li class="webkit-box">
+					<label class="input_lable">确认密码：</label>
+					<input type="password"  autocomplete="off" placeholder="请输入确认密码" id="" value="" name="confirm_pypassword" class="textbox webkit-box-flex" />
+				</li>
+				<li class="webkit-box">
+					<label class="input_lable">手机号：</label>
+					<div class="smaller_form_cont">{function name="hideMobile" v=$user_info.mobile}</div>
+				</li>
+				<li class="last webkit-box">
+					<input type="text" placeholder="请输入手机验证码" value="" name="verify" class="textbox webkit-box-flex mr5" />
+					<input type="button" value="获取验证码" class="code_btn bg_red" id="J_send_sms_verify_pay" />
+				</li>
+			</ul>
+			<div class="blank10"></div>
+			<div class="submit_btn_row">
+				<div class="two_btn webkit-box">
+					<div class="ui-button ui_button_l theme_color webkit-box-flex" rel="green">提交</div>
+					<input type="button" value="取消" onclick="$.closeModal();" class="ui_button bg_red webkit-box-flex">
+				</div>
+				<input type="hidden" value="1" name="ajax" />
+				<input type="hidden" value="0" name="step" />
+			</div>
+			<div class="blank10"></div>
+		</div> 
+	</form>
+</div>
+<!-- settings.js -->

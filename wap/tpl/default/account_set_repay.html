@@ -1,0 +1,174 @@
+{include file="inc/header.html"} 
+<style type="text/css">
+	.ul_block ul li.textarea .text{margin-top:0;}
+</style>
+<div class="blank15"></div>
+<section class="account_set_repay">
+	<form id="repay_form_{$order_info.id}" class="repay_form" action="{url_wap r="account#save_repay" p="id=$order_info.id"}">
+	<div class="ul_block ul_block_list">
+		<ul>
+			<li class="webkit-box">
+				<label class="input_lable">会员名称：</label>
+				<div class="text webkit-box-flex">
+					{$order_info.user_name}
+				</div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">应付金额：</label>
+				<div class="text webkit-box-flex">
+					{if $order_info.type eq 0 || $order_info.type eq 3 || $order_info.type eq 7}
+						{if $order_info.delivery_fee gt 0}
+						项目金额：<span class="f_money">{function name="format_price" v=$order_info.deal_price}</span>&nbsp;&nbsp;
+						运费：<span class="f_money">{function name="format_price" v=$order_info.delivery_fee}</span>&nbsp;&nbsp;
+						总额：<span class="f_money">{function name="format_price" v=$order_info.total_price}</span>
+						{else}
+						<span class="f_money">{function name="format_price" v=$order_info.total_price}</span>
+						{/if}
+					{else}
+						<span class="f_money">{$order_info.total_price}</span>万元
+					{/if}
+				</div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">收款情况：</label>
+				<div class="text webkit-box-flex">
+					{if $order_info.order_status eq 1}
+					因项目过期，资金已退到个人帐户
+					{/if}
+					{if $order_info.order_status eq 2}
+					因项目限额已满，资金已退到个人帐户
+					{/if}	
+					{if $order_info.order_status eq 3}
+					支付成功
+					{/if}	
+					{if $order_info.order_status eq 0}
+					支付未完成&nbsp;&nbsp;
+						{if $order_info.credit_pay gt 0 || $order_info.score gt 0}
+						<span class="f_money">
+						预支付：
+						{if $order_info.credit_pay gt 0}
+							余额支付 {function name="format_price" v=$order_info.credit_pay}
+						{/if}
+						{if $order_info.score gt 0}
+							&nbsp;&nbsp;积分支付 {function name="format_price" v=$order_info.score_money}
+						{/if}
+						</span>
+						{/if}
+					{/if}
+				</div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">支付时间：</label>
+				<div class="text webkit-box-flex">
+					{function name="to_date" v=$order_info.pay_time}
+				</div>
+				
+			</li>
+			{if $order_info.type eq 3}
+			<li class="webkit-box">
+				<label class="input_lable">支持数量：</label>
+				<div class="text webkit-box-flex">
+					{$order_info.num}
+				</div>
+				
+			</li>
+			<li class="webkit-box"  style="height:auto;">
+				<label class="input_lable mr10">抽奖号</label>
+				<div class="list_con webkit-box-flex">
+					 {if $order_info.lottery_draw_time gt 0}
+							<a href='#' onclick="RouterURL('{url_wap r="deal#update" p="id=$deal_info.id"}','#deal-update',2);" class="theme_fcolor">
+								揭晓时间：{function name=to_date v=$deal_info.lottery_draw_time}<br />
+								{if $order_info.lottery_luckyer_list}
+								<div>
+									幸运号：
+									{foreach from=$order_info.lottery_luckyer_list item=luckyer}
+										<span class="f_red">
+											{$luckyer.lottery_sn}&nbsp;&nbsp;
+										</span>
+									{/foreach}
+								</div>
+								{/if}
+							</a>
+						{/if}
+						
+						<div style="max-height:200px;overflow-y:scroll;">
+							{foreach from=$order_info.lottery_list item=lottery}
+								{$lottery.lottery_sn}&nbsp;&nbsp;
+							{/foreach}
+						</div>
+				</div>
+			</li>
+			{/if}	
+			{if $order_info.type eq 0}
+			{if $order_info.is_delivery neq 0}
+			<li class="webkit-box">
+				<label class="input_lable">收货信息：</label>
+				<div class="text webkit-box-flex">
+					地址：{$order_info.province}{$order_info.city}{$order_info.address}&nbsp;&nbsp;
+					邮编：{$order_info.zip}&nbsp;&nbsp;
+					收件人：{$order_info.consignee}&nbsp;&nbsp;
+					电话：{$order_info.mobile}
+				</div>
+			</li>
+			{/if}
+			{/if}
+			{if $order_info.type eq 1}
+			<li class="webkit-box">
+				<label class="input_lable">出让股份：</label>
+				<div class="text webkit-box-flex">
+					{$order_info.transfer_share}%
+				</div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">项目金额：</label>
+				<div class="text webkit-box-flex">
+					<span class="f_money">{$order_info.stock_value}</span>万元
+				</div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">用户所占股份：</label>
+				<div class="text webkit-box-flex">
+					{$order_info.user_stock}%
+				</div>
+			</li>
+			{/if}
+			<li class="textarea webkit-box">
+				<label class="input_lable">备注信息：</label>
+				<div class="text webkit-box-flex">
+				  	<textarea placeholder="在这里可以填写备注信息" rows=1 cols=40 style='height:50px;overflow:scroll;overflow-y:auto;overflow-x:hidden;padding:5px 0;' 
+onfocus="window.activeobj=this;this.clock=setInterval(function(){activeobj.style.height=activeobj.scrollHeight+'px';},200);" onblur="clearInterval(this.clock);" name="repay_memo" class="textareabox"></textarea>
+				</div>
+			</li>
+			{if $order_info.type eq 0 || $order_info.type eq 3}
+			{if $order_info.is_delivery neq 0}
+			<li class="textarea webkit-box">
+				<label class="input_lable">物流公司：</label>
+				<div class="text webkit-box-flex">
+					<input type="text" placeholder="请输入物流公司名称" name="logistics_company" value="" class="small_textbox" />
+				</div>
+			</li>
+			<li class="textarea webkit-box">
+				<label class="input_lable">物流网址：</label>
+				<div class="text webkit-box-flex">
+					<input type="text" placeholder="请输入查询物流链接地址" name="logistics_links" value="" class="small_textbox" />
+				</div>
+			</li>
+			<li class="textarea webkit-box">
+				<label class="input_lable">物流编号：</label>
+				<div class="text webkit-box-flex">
+					<input type="text" placeholder="请输入物流编号" name="logistics_number" value="" class="small_textbox" />
+				</div>
+			</li>
+			{/if}
+			{/if}
+		</ul>
+	</div>
+	<div class="mod_main">
+		<input type="button" class="ui-button theme_color set_repay" value="发放回报" id="{$order_info.id}" />
+		<input type="hidden" name="ajax" value="1" />
+	</div>
+	</form>
+</section>
+<div class="blank15"></div>
+<!-- account_support.js -->
+{include file="inc/footer.html"} 

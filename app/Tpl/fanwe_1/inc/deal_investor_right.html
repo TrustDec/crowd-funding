@@ -1,0 +1,528 @@
+<!--右start-->
+<div class="xqmain_right">
+	<div class="schedule_box">
+		<div class="box_main">
+			<div class="title line clearfix">
+	            <h3>发起人信息</h3>
+	        </div>
+			<div class="box_promoter">
+				<div class="promoter_img">
+					{function name="show_avatar" p="$deal_info.user_id"}
+				</div>
+				<div class="promoter_text">
+					<span class="boxname">
+						<div class="f_l">{$deal_info.user_name}</div>
+						{if $deal_info.user_icon}
+						<div class="f_l"><img src="{$deal_info.user_icon}" title="会员等级" class="level_icon" /></div>
+						{/if}
+						<div class="f_l">
+							<i class="{if $deal_info.is_investor gt 0}investor_type{/if} {if $deal_info.is_investor eq 1}personal_icon{/if}{if $deal_info.is_investor eq 2}agency_icon{/if}" title="{if $deal_info.is_investor eq 1}个人投资者{/if}{if $deal_info.is_investor eq 2}机构投资者{/if}"></i>
+						</div>
+						<div class="f_l">
+							<a href="javascript:void(0)" onclick="send_message({$deal_info.user_id})" class="btn_send_message">+发私信</a>
+						</div>
+						<div class="blank0"></div>
+					</span>
+					<span class="boxtime">最后登录时间：{function name="to_date" v=$deal_info.login_time}</span>
+					{if $deal_info.province neq '' or $deal_info.city neq ''}
+					<span class="boxaddress"><i class="icon iconfont">&#xe619;</i>{$deal_info.province}&nbsp;{$deal_info.city}</span>
+					{/if}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="blank20"></div>
+	{if $access==1}
+	<!-- 项目信息总览 结束 -->
+	<div class="other_box">
+		<!-- 资质审核状态 开始 -->
+		{if $deal_item.business_is_exist eq 1}
+		<div class="shenhe">
+			<div class="box_main">
+				<div class="title line clearfix">
+		            <h3>公司资质材料</h3>
+		        </div>
+				<div class="shenhe_tt">
+		            <span class="xiangmu">审核项目</span>
+		            <span class="zhuangtai">审核状态</span>
+		        </div>
+		        <div class="shenhe_info">
+		        	<div class="blank10"></div>
+			        <ul>
+			        	{if $audit_data_list.legal_id.display_type eq 0}
+							<li class="{if $audit_data_list.legal_id.status neq 1}no{else}yes{/if}">法人代表身份证</li>
+						{/if}
+						{if $audit_data_list.legal_credit.display_type eq 0}
+							<li class="{if $audit_data_list.legal_credit.status neq 1}no{else}yes{/if}">法人代表个人信用报告</li>
+						{/if}
+						{if $audit_data_list.business_license.display_type eq 0}
+			            	<li class="{if $audit_data_list.business_license.status neq 1}no{else}yes{/if}">营业执照</li>
+			           	{/if}
+					    {if $audit_data_list.tax_registration_certificate.display_type eq 0}
+							<li class="{if $audit_data_list.tax_registration_certificate.status neq 1}no{else}yes{/if}">税务登记证</li>
+			            {/if}
+						{if $audit_data_list.organization_code.display_type eq 0}
+							<li class="{if $audit_data_list.organization_code.status neq 1}no{else}yes{/if}">组织机构代码证</li>
+			            {/if}
+						{if $audit_data_list.company_photo.display_type eq 0}
+							<li class="{if $audit_data_list.company_photo.status neq 1}no{else}yes{/if}">公司照片</li>
+			            {/if}
+						{if $audit_data_list.site_contract.display_type eq 0}
+							<li class="{if $audit_data_list.site_contract.status neq 1}no{else}yes{/if}">场地租赁合同</li>
+			        	{/if}
+					</ul>
+			    </div>
+			</div>
+		</div>
+		<div class="blank20"></div>
+		{/if}
+		<!-- 资质审核状态 结束 -->
+		<!-- 付款与退款说明 开始 -->
+		{if $deal_info.description_1 neq null}
+		<div class="explain_box">
+			<div class="explain">
+				<div class="explain_hd">付款与退款说明：</div>
+				<div class="explain_bd">
+					<span>{$deal_info.description_1}</span>
+				</div>
+			</div>
+		</div>
+		<div class="blank0"></div>
+		{/if}
+		<!-- 付款与退款说明 结束 -->
+		<!-- 项目领投人 开始 -->
+		{if $leader_info.user_id neq null && $type eq 0}
+		<div class="box4 box6">
+			<div class="box_main">
+				<div class="title line clearfix">
+		            <h3>项目领投人</h3>
+		        </div>
+				<div class="mod_conment leader_conment">
+					<div class="mod_cont1 overflow_hide">
+						<div class="l">
+							{function name="show_avatar" p="$leader_info.user_id" t="middle"}
+							<div class="blank10"></div>
+							<a href="javascript:void(0);" onclick="send_message({$leader_info.user_id})" class="btn_send_message" style="margin:0 auto">+发私信</a>
+						</div>
+					    <div class="r">
+					    	<div class="title">
+					    		<span class="inline_user_name f20">{$leader_info.user_name}</span>
+					    		<i class="inline_leader_icon leader_icon" title="项目领投人"></i>
+					        	{if $leader_info.user_icon}
+				                	<img src="{$leader_info.user_icon}" title="会员等级" class="inline_level_icon level_icon" />
+								{/if}
+								<i class="inline_investor_type investor_type {if $leader_info.is_investor==0 || $leader_info.is_investor==1}personal_icon{else}agency_icon{/if}" title="{if $leader_info.is_investor==0 || $leader_info.is_investor==1}个人投资者{else}机构投资者{/if}"></i>
+							</div>
+					        <div class="text">
+					        	<div>{$leader_info.identify_name}<a href="javascript:void(0)" class="theme_fcolor" id="detailed_information"> | 详细资料&gt;&gt;</a></div>
+					    	  	<div>
+					    	  		领投金额：<span class="data f18 bg_red">{$leader_info.money} 万</span>
+					    	  	</div>
+					    	  	<div>
+					    	  	领投时间：<span>{function name="to_date" v=$leader_info.create_time}</span>	
+					    	  	</div>		
+							</div>
+					    </div>
+					    <div class="blank20"></div>
+					</div>
+				    <div class="blank0"></div>
+				    <div class="mod_cont2 overflow_hide">
+				    	是否愿意担任有限合伙企业普通合伙人：<span class="f_red">{if $leader_info.is_partner eq 1}愿意{/if}{if $leader_info.is_partner eq 2}不愿意{/if}</span>
+				    </div>
+					{if $leader_info.leader_moban}
+				    <div class="mod_cont3 overflow_hide">
+				    	<div class="blank10"></div>
+						<h3 class="tit theme_fcolor">尽职调查和条款清单模板：</h3>
+						<div class="blank0"></div>
+					    <div class="word {$leader_info.leader_info_exe}">
+			        		<a href="{$APP_ROOT}/index.php?ctl=ajax&act=download&leader_moban={$leader_info.leader_moban_y}">
+					        	<span class="btn_1">我要下载</span>
+								<input type="hidden" value="{$deal_info.image}" name="image">
+					        </a>
+				        </div>
+					</div>
+					{/if}
+					{if $leader_info.leader_help}
+					<div class="mod_cont3 overflow_hide">
+				    	<div class="blank10"></div>
+						<h3 class="tit theme_fcolor">他为创业者还能提供的其它帮助：</h3>
+						<div class="blank0"></div>
+					    <div class="text">{$leader_info.leader_help}</div>
+					</div>
+					{/if}
+					{if $leader_info.leader_for_team}
+					<div class="mod_cont3 overflow_hide">
+				    	<div class="blank10"></div>
+						<h3 class="tit theme_fcolor">对创业团队评价：</h3>
+						<div class="blank0"></div>
+					    <div class="text">{$leader_info.leader_for_team}</div>
+					</div>
+					{/if}
+					{if $leader_info.leader_for_project}
+					<div class="mod_cont3 overflow_hide">
+				    	<div class="blank10"></div>
+						<h3 class="tit theme_fcolor">对创业项目评价：</h3>
+						<div class="blank0"></div>
+					    <div class="text">{$leader_info.leader_for_project}</div>
+					</div>
+					{/if}
+				</div>
+			</div>
+		</div>
+		<div class="blank20"></div>
+		{/if}
+		<!-- 项目领投人 结束 -->
+		<!-- 跟投记录 开始 -->
+		{if $enquiry_info neq null &&$type eq 0}
+		<div class="box4 box6">
+			<div class="box_main">
+				<div class="title line clearfix">
+		            <h3>跟投记录</h3>
+		        </div>
+				<div class="mod_conment">
+					<ul class="project_cont overflow_hide">
+						{foreach from=$enquiry_info item=enquiry_info_item}
+							<li>
+								<div class="l f14">
+									{function name="show_avatar" p="$enquiry_info_item.user_id" t="middle"}
+									<div class="blank10"></div>
+								</div>
+								<div class="r">
+									<div class="blank10"></div>
+									<div class="title">
+							    		<span class="inline_user_name f20">{$enquiry_info_item.user_name}</span>
+							        	{if $enquiry_info_item.user_icon}
+						                	<img src="{$enquiry_info_item.user_icon}" title="会员等级" class="inline_level_icon level_icon" />
+										{/if}
+										<i class="inline_investor_type investor_type {if $enquiry_info_item.is_investor==0 || $enquiry_info_item.is_investor==1}personal_icon{else}agency_icon{/if}" title="{if $enquiry_info_item.is_investor==0 || $enquiry_info_item.is_investor==1}个人投资者{else}机构投资者{/if}"></i>
+									</div>
+									<div class="text">
+										<div>
+											跟投金额：<span class="f_red">{$enquiry_info_item.money}万</span>
+										</div>
+								        <div>
+								        	跟投时间：<span>{function name="to_date" v=$enquiry_info_item.create_time}</span>
+								        </div>	
+									</div>
+							    </div>
+							    <div class="blank0"></div>
+							</li>
+						{/foreach}
+					</ul>
+					<div class="f_r t_r">
+						<a href="{url r="deal#project_follow" p="deal_id=$deal_info.id"}" target="_blank" class="theme_fcolor f14">全部跟投人&gt;&gt;</a>
+					</div>
+				</div>
+			</div>
+			<div class="blank0"></div>
+		</div>
+		<div class="blank20"></div>
+		{/if}
+		<!-- 跟投记录 结束 -->
+	</div>
+	{else}
+		{if $access eq 0}
+     	<div class="box">
+         	<div class="box_main f16 tc clearfix">
+            	<span>您需要登录后才可以查看该项目详情</span>
+            	<div class="blank10"></div>
+            	<a onclick="javascript:show_pop_login();" class="ui-button ui-button-block theme_bgcolor" style="padding:0">马上登录</a>
+         	</div>
+        </div>
+        {/if}
+        {if $access eq 2}
+     	<div class="box">
+         	<div class="box_main f16 tc clearfix">
+	            <span>您的会员等级不够，无法查看该项目详情</span>
+	        </div>
+        </div>
+        {/if}
+        {if $access eq 4}
+        <div class="box">
+         	<div class="box_main f16 tc clearfix">
+         		<span>实名认证后，即可查看该项目详情</span>
+         		<div class="blank10"></div>
+            	<a href="{url r="settings#security" p="method=setting-id-box"}" class="ui-button ui-button-block theme_bgcolor" style="padding:0">马上去实名认证</a>
+	        </div>
+        </div>
+        {/if}
+        {if $access eq 5}
+        <div class="box">
+         	<div class="box_main f16 tc clearfix">
+	            <span>您的实名认证正在审核中，无法查看该项目详情</span>
+	        </div>
+        </div>
+        {/if}
+        {if $access eq 6}
+        <div class="box">
+         	<div class="box_main f16 tc clearfix">
+            	<span>您的实名认证未通过，无法查看该项目详情</span>
+				<div class="blank10"></div>
+        		<a href="{url r="settings#security" p="method=setting-id-box"}" class="ui-button ui-button-block theme_bgcolor" style="padding:0">重新去实名认证</a>
+        	</div>
+        </div>
+        {/if}
+	{/if}
+	<div class="blank20"></div>
+	<input type="hidden" name="hidden_user_id" value="{$user_info.id}" />
+	<input type="hidden" name="hidden_deal_id" value="{$deal_info.id}" />
+</div>
+<!--右end-->
+<script type="text/javascript">
+	var $hidden_deal_id = $("input[name='hidden_deal_id']");
+	if($hidden_deal_id.val()){
+		var deal_info_id=$hidden_deal_id.val();
+	}
+	else{
+		var deal_info_id='';
+	}
+	var $hidden_user_id = $("input[name='hidden_user_id']");
+	$(function(){
+		btn_fail();
+		leader_detailed_information();
+		{if app_conf("IS_ENQUIRY") eq 0}
+			var deal_info_id = '{$deal_info.id}';
+			var login_id = '{$user_info.id}';
+			enquiry_money_first(".invest_btn_box",login_id,deal_info_id);
+		{/if}
+	});
+	
+	// 项目筹资失败或者过期时，按钮事件失效
+	function btn_fail(){
+		if(!($(".invests_1").hasClass("btn_uninvest"))){
+			//领投ajax请求方法
+			ajax_applicate_leader();
+		}
+		if($(".invests_2").hasClass("btn_uninvest")){
+			//领投ajax请求方法
+			$(".invests_2").removeAttr("onclick");
+		}
+		//if(!($(".invests_3").hasClass("btn_uninvest"))){
+			//跟投ajax方法
+			{if app_conf("IS_ENQUIRY") eq 1}
+			ajax_continue_investor();
+			{/if}
+		//}
+		if(!($(".invests_4").hasClass("btn_uninvest"))){
+			// 收藏关注项目
+			attention_bind_focuss();
+		}
+	}
+
+	//领投ajax请求方法
+	function ajax_applicate_leader(){
+		$("#applicate_leader").bind("click",function(){
+			if($hidden_user_id.val()){
+				var ajaxurl='{url r="investor#leader_ajax" p="deal_id=$deal_info.id"}';
+				var leader_ajax=$("#leader_ajax").val();
+				var query =new Object();
+				query.leader_ajax=leader_ajax;
+				$.ajax({
+					url: ajaxurl,
+					dataType: "json",
+					type: "POST",
+					data:query,
+					success:function(ajaxobj){
+						if(ajaxobj.status==0){
+							$.showErr(ajaxobj.info,function(){
+								if(ajaxobj.url!=''){
+									location.href=ajaxobj.url;
+								}
+								
+							});
+							return false;
+						} 
+						if(ajaxobj.status==1){
+							$.weeboxs.open(ajaxobj.html, {boxid:ajaxobj.boxid,contentType:'text',showButton:false, showCancel:false, showOk:false,title:ajaxobj.title,width:480,type:'wee'});
+						}
+						
+						if(ajaxobj.status==2){
+							//领投申请不通过
+							$.showConfirm(ajaxobj.info,function(){
+								if(ajaxobj.url!=''){
+									location.href=ajaxobj.url;
+								}
+							});
+						}
+						return false;
+						
+						if(ajaxobj.status==0){
+							window.location.href="{url r="investor#applicate_leader" p="deal_id=$deal_info.id"}"; 
+						}
+						if(ajaxobj.status==1){
+							$.weeboxs.open(ajaxobj.html, {boxid:'append_money',contentType:'text',showButton:false, showCancel:false, showOk:false,title:'领投投资',width:480,type:'wee'});
+						}
+						if(ajaxobj.status==4){
+							$.weeboxs.open(ajaxobj.html, {boxid:'append_one_money',contentType:'text',showButton:false, showCancel:false, showOk:false,title:'追加投资',width:480,type:'wee'});
+						}
+						if(ajaxobj.status==6){
+							//领投申请不通过
+							$.showConfirm(ajaxobj.info,function(){
+								location.href=ajaxobj.url;
+							});
+						}
+						if(ajaxobj.status==3){
+							//支付诚意金
+							location.href="{url r="account#mortgate_pay" p="deal_id=$deal_info.id"}";
+						}
+						if(ajaxobj.status==7){
+							//已经“领投”,无法再跟投
+							$.showErr(ajaxobj.info);
+							return false;
+						}
+						if(ajaxobj.status==5){
+							//投资不通过,资金无法再次追加了！
+							$.showErr(ajaxobj.info);
+							return false;
+						}
+						if(ajaxobj.status==8){
+							//项目已经结束无法投资！
+							$.showErr(ajaxobj.info);
+							return false;
+						}
+						if(ajaxobj.status==9){
+							//投资者认证未通过！
+							$.showErr(ajaxobj.info,function(){
+								location.href='{url r="investor#index"}';
+							});
+							return false;
+						}
+					}
+				});
+				return false;
+			}
+			else{
+				show_pop_login();
+				return false;
+			}
+		});
+	}
+	//跟投ajax方法
+	function ajax_continue_investor(){
+		$("#continue_investor").bind("click",function(){
+			if($hidden_user_id.val()){
+				var ajaxurl='{url r="investor#ajax_continue_investor" p="deal_id=$deal_info.id"}';
+				var leader_ajax=$("#continue_ajax").val();
+				var query =new Object();
+				query.leader_ajax=leader_ajax;
+					$.ajax({
+					url: ajaxurl,
+					dataType: "json",
+					type: "POST",
+					data:query,
+					success:function(ajaxobj){
+						if(ajaxobj.status==0){
+							//用户未交纳诚意金
+							$.showErr(ajaxobj.info,function(){
+								if(ajaxobj.url){
+									location.href=ajaxobj.url;
+								}
+								
+							});
+							return false;
+						}
+						if(ajaxobj.status==1){
+							//进入询价页面
+							$.weeboxs.open(ajaxobj.html, {boxid:ajaxobj.boxid,contentType:'text',showButton:false, showCancel:false, showOk:false,title:ajaxobj.title,width:480,type:'wee'});
+						}
+						return false;
+	 				}
+				});
+				return false;
+			}
+			else{
+				show_pop_login();
+				return false;
+			}
+		});
+	}
+	//ajax删除“领投”，但是未审核的数据
+	function delete_leader_investor(){
+			var ajaxurl='{url r="investor#delete_leader_investor" p="deal_id=$deal_info.id"}';
+			var leader_ajax=$("#leader_ajax").val();
+			var query =new Object();
+			query.leader_ajax=leader_ajax;
+			$.ajax({
+				url: ajaxurl,
+				dataType: "json",
+				type: "POST",
+				data:query,
+				success:function(ajaxobj){
+					if(ajaxobj.status==1){
+						//"领投申请"取消成功
+						$.showSuccess(ajaxobj.info,function(){
+							location.reload();
+						});
+					}
+					if(ajaxobj.status==0){
+						//删除失败
+						$.showErr(ajaxobj.info,function(){
+							location.reload();
+						});
+					}
+				}
+			});
+	}
+	
+	function attention_bind_focuss()
+{
+	$(".attention_focus_deals").bind("click",function(){
+		attention_focus_deals($(this).attr("id"));
+	});
+}
+
+function attention_focus_deals(id)
+{
+	var ajaxurl = APP_ROOT+"/index.php?ctl=deal&act=focus&id="+id;
+	$.ajax({ 
+		url: ajaxurl,
+		dataType: "json",
+		type: "POST",
+		success: function(ajaxobj){
+			if(ajaxobj.status==1)
+			{
+				$(".attention_focus_deals").removeClass("d_gz");
+				$(".attention_focus_deals").addClass("d_qxgz");
+				
+			}
+			else if(ajaxobj.status==2)
+			{
+				$(".attention_focus_deals").removeClass("d_qxgz");
+				$(".attention_focus_deals").addClass("d_gz");
+			}
+			else if(ajaxobj.status==3)
+			{
+				$.showErr(ajaxobj.info);							
+			}
+			else
+			{
+				show_pop_login();
+			}
+		},
+		error:function(ajaxobj)
+		{
+//			if(ajaxobj.responseText!='')
+//			alert(ajaxobj.responseText);
+		}
+	});
+}
+//领投人详细资料
+function leader_detailed_information(){
+	$("#detailed_information").bind("click",function(){
+		var ajaxurl='{url r="ajax#leader_detailed_information" p="id=$leader_info.id"}';
+		$.ajax({
+			url: ajaxurl,
+			dataType: "json",
+			type: "POST",
+			success: function(ajaxobj){
+				if(ajaxobj.status==1){
+					$.weeboxs.open(ajaxobj.html, {boxid:'leader_detailed_info',contentType:'text',showButton:false, showCancel:false, showOk:false,title:'详细信息',width:480,type:'wee'});
+				}
+			    if(ajaxobj.status==2){
+					$.showErr(ajaxobj.info);
+				}
+			}
+		});
+	});
+}
+</script>

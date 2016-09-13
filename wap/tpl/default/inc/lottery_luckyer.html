@@ -1,0 +1,30 @@
+<div class="ul_block">
+	{foreach from="$winner_list" item="list"}
+	<ul>
+		<li class="webkit-box">
+			<label class="input_lable">幸运号：</label>
+			<input type="text" name="lottery_num"  value="{$list.lottery_sn}" rel="{$list.number}" data_id={$list.deal_id} ori="{$list.lottery_sn}" class="textbox webkit-box-flex" style="background:#eee;border-radius:5px;" />
+		</li>
+		<li class="webkit-box">
+			<label class="input_lable">会员名：</label>
+			<div class="smaller_form_cont">{$list.user_name}</div>
+		</li>
+		<li class="webkit-box">
+			<label class="input_lable">支持金额：</label>
+			<div class="smaller_form_cont"><span class="f_money">{function name="format_price" v=$list.deal_price}</span></div>
+		</li>
+		<li class="webkit-box">
+			<label class="input_lable">号段：</label>
+			<div class="smaller_form_cont">{$list.section_view}</div>
+		</li>
+	</ul>
+	<div class="blank10"></div>
+	{/foreach}
+	<div class="blank55"></div>
+	<div class="submit_btn_row webkit-box">
+		<span class="ui-button ui-two-button theme_color" id="btn_yes">确定</span>
+		<span class="ui-button ui-two-button bg_red" id="btn_no">取消</span>
+		<input type="hidden" name="deal_id" value="{$deal_id}">
+	</div>
+	<div class="blank15"></div>
+</div>

@@ -1,0 +1,31 @@
+.timeline-time-mark-t p, .timeline-time-mark-t span{
+	background: url(../images/time_line_house.png) no-repeat;
+}
+.timeline-time-mark-t p{
+	height:30px;
+}
+.timeline-left-gray{
+	background: url(../images/time_line_house.png) 0 -121px no-repeat;
+	height:30px;
+	width:30px;
+	left:-57px;
+	overflow:hidden;
+	-moz-border-radius:50%; -khtml-border-radius:50%; -webkit-border-radius:50%; border-radius:50%;
+}
+.timeline-left-gray img{
+	width:100%;
+	height:100%;
+}
+.timeline-box{
+	margin-left:49px;
+}
+.timeline-left-icon{
+	background: url(../images/time_line.png) no-repeat;
+  	background-position: -19px -116px;
+  	height: 30px;
+  	left: -18px;
+  	top: 0px;
+  	position: absolute;
+  	width: 8px;
+}
+.timeline{ background-position:0 0;}

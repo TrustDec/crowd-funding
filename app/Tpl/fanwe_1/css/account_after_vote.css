@@ -1,0 +1,29 @@
+.uc_table_info {
+	background: #f3faff;
+	padding: 15px;
+}
+.uc_table_info .left{
+	width: 750px;
+	line-height: 28px;
+	padding-bottom: 0;
+}
+.uc_table_info .left label { color: #777; }
+.uc_table_info .left li {
+	width: 33.33%;
+	float: left;
+}
+.uc_table_info .right{
+	width: 127px;
+	padding-bottom: 0;
+}
+
+.share_bonus_apply .control-group {
+	float: left;
+	width: 300px;
+	padding-left: 100px;
+}
+.share_bonus_apply .control-group-r {
+	width: 398px;
+	padding-left: 50px;
+}
+.share_bonus_apply .control-label { width:100px; }

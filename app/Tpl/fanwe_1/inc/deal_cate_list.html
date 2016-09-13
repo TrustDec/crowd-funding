@@ -1,0 +1,113 @@
+<div class="equity_box">
+			<div class="equity_box_l f_l">
+				<div class="pic f_l mr10">
+					<a href="{url r="deal#show" p="id=$hot_item.id"}" target="_blank"><img src="{if $hot_item.image eq ''}{$TMPL}/images/empty_thumb.gif{else}{function name="get_spec_image" v=$hot_item.image w="282" h="220" g="1"}{/if}" alt="{$hot_item.name}">
+					</a>
+				</div>
+				<div class="inf f_r">
+					<h3>
+						<a href="{url r="deal#show" p="id=$hot_item.id"}" target="_blank"><span class="theme_fcolor">{$hot_item.name}</span></a>
+					</h3>
+					<div class="blank15"></div>
+					<div class="inf_1">
+						<label class="f_l">目标：</label>
+						<div class="value_bg value_bg_1">{$hot_item.num_days}天</div>
+						<div class="value_bg value_bg_2">
+							{if $p_type eq 1}
+							{function name="round" v=$hot_item.limit_price_w e=2}万
+							{else}
+							{function name="round" v=$hot_item.limit_price e=2}元
+							{/if}
+						</div>
+					</div>
+					<div class="blank10"></div>
+					<div class="inf_2">
+						<i></i>
+						<span class="mr20">
+							<label>发起人：</label>
+							<span>{$hot_item.user_name}</span>
+						</span>
+						<span class="mr20">
+							<label>地区：</label>
+							<span>{$hot_item.province}{$hot_item.city}</span>
+						</span>
+						<span class="mr20">
+							<label>项目类型：</label>
+							<span>{$hot_item.cate_name}</span>
+						</span>
+					</div>
+					<div class="blank10"></div>
+					<div class="inf_3">
+						<span>项目介绍：</span>
+						<span>
+							{if $p_type eq 1}
+							{function name="msubstr" v=$hot_item.business_descripe b=0 e=110}
+							{else}
+								{function name="msubstr" v=$hot_item.brief b=0 e=110}
+							{/if}
+						</span>
+					</div>
+					<div class="blank10"></div>
+					<div class="inf_4">
+						<div class="deal_content_box">             
+							<div class="ui-progress">
+								<span class="theme_bgcolor" style="width:{$hot_item.percent}%;"></span>
+							</div>
+							<div class="blank"></div>
+							<div class="div3 div3_l">
+								<label>项目进度：</label><span>
+									{$hot_item.percent}%
+								</span>
+								
+							</div>
+							<div class="div3 div3_r">
+								{if $hot_item.begin_time > $now}
+								<label>距离开始：</label><span>{$hot_item.left_days}天</span>
+								{elseif $hot_item.end_time < $now and $hot_item.end_time neq 0}
+								<label>结束时间：</label><span>{function name="to_date" v="$hot_item.end_time" f="y/m/d"}</span>
+								{else}
+								<label>剩余天数：</label><span>{$hot_item.remain_days}天</span>
+								{/if}
+ 							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="equity_box_r f_r">
+				<div class="blank30"></div>
+				<div class="equity_box_r_1">
+					<div class="equity_box_r_1_1 equity_box_value">
+						<i></i>
+						<div>支持者</div>
+						<div>{$hot_item.support_count}人</div>
+					</div>
+					<div class="equity_box_r_1_2 equity_box_value">
+						<i></i>
+						<div>已筹资</div>
+						<div>{$hot_item.support_amount}元</div>
+					</div>
+					<div class="equity_box_r_1_3 equity_box_value">
+						<i></i>
+						<div>评论</div>
+						<div>{$hot_item.deal_comment_num}条</div>
+					</div>
+				</div>
+				<div class="blank30"></div>
+				<div class="equity_box_r_2">
+					{if $hot_item.begin_time > $now}
+					 预热中 
+					{elseif $hot_item.end_time < $now and $hot_item.end_time neq 0}
+					<span {if $hot_item.is_success eq 1}class="common-success"{else}class="common-fail"{/if}>{if $hot_item.is_success eq 1}已成功{else}筹资失败{/if}</span> 	 
+					{else}
+					{if $hot_item.percent gte 100}
+						<a href="{url r="deal#show" p="id=$hot_item.id"}" class="ui-button theme_bgcolor" target="_blank">已成功</a>
+					{else}
+						<a href="{url r="deal#show" p="id=$hot_item.id"}" class="ui-button theme_bgcolor" target="_blank">融资中</a>
+					{/if}
+					{/if}
+					
+				</div>
+			</div>
+			
+		</div>
+	<div class="blank10"></div>

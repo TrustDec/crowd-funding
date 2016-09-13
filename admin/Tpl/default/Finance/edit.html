@@ -1,0 +1,568 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<load href='__TMPL__Common/js/conf.js' />
+<script type="text/javascript" src="__ROOT__/public/region.js"></script>	
+<load href='__TMPL__Common/js/deal_edit.js' />
+<load href='__TMPL__Common/js/deal_investor_edit.js' />
+<script type="text/javascript" src="__TMPL__Common/js/calendar/calendar.php?lang=zh-cn" ></script>
+<load href='__TMPL__Common/js/calendar/calendar.css' />
+<load href='__TMPL__Common/js/calendar/calendar.js' />
+
+<load href='__TMPL__Common/js/jcDate/jquery-1.8.2.min.js' />
+<load href='__TMPL__Common/js/jcDate/jcDate.css' />
+<load href='__TMPL__Common/js/jcDate/jQuery-jcDate.js' />
+<load href='__TMPL__Common/style/fancybox.css' />
+<load href='__TMPL__Common/js/jquery.fancybox.js' />
+<style type="text/css">
+	.image_item img{cursor:url(__TMPL__Common/images/zoom.cur),auto;}
+</style>
+<script type="text/javascript">
+	$(function(){
+		bind_zoom();
+	});
+	// 图片放大镜
+	function bind_zoom(){
+		$(".image_item").bind("click",function(){
+			var img = $(this).find("img").attr("rel");
+			$.fancybox.open(img);
+		});
+	}
+</script>
+<script>
+	function reason_show($select_inut,$show_arear){
+				$($select_inut).bind("click",function(){
+				var val=$($select_inut+":checked").val();
+ 				if(val==2){
+					$($show_arear).show();
+				}else{
+					$($show_arear).hide();
+				}
+			});
+			}
+			
+	
+</script>
+ <div class="main">
+<div class="main_title">{%EDIT} <a href="<if condition="$vo['status'] eq 1">{:u("Finance/online_index")}<else />{:u("FinanceSubmit/submit_index")}</if>" class="back_list">{%BACK_LIST}</a></div>
+<div class="blank5"></div>
+<div class="button_row">
+	<input type="button" class="button conf_btn" value="基本信息" rel="1" />&nbsp;
+	<input type="button" class="button conf_btn" value="公司介绍" rel="8" />&nbsp;
+	<input type="button" class="button conf_btn" value="创始团队" rel="6" />&nbsp;
+	<input type="button" class="button conf_btn" value="投资案例" rel="2" />&nbsp;
+	<input type="button" class="button conf_btn" value="融资经历" rel="7" />&nbsp;
+	<input type="button" class="button conf_btn" value="过往投资方" rel="3" />&nbsp;
+	<input type="button" class="button conf_btn" value="团队成员" rel="4" />&nbsp;
+	<input type="button" class="button conf_btn" value="过往成员" rel="5" />&nbsp;
+</div>
+<form name="edit" action="__APP__" method="post" enctype="multipart/form-data" onsubmit="return investor_check()">
+<table class="form conf_tab" cellpadding=0 cellspacing=0 >
+	<tr>
+		<td colspan=2 class="topTd"></td>
+	</tr>
+	<tr>
+		<td class="item_title">公司简称:</td>
+		<td class="item_input"><input type="text" class="textbox" value="{$vo.company_name}" name="company_name" /></td>
+	</tr>
+	<tr>
+		<td class="item_title">公司LOGO:</td>
+		<td class="item_input">
+			<html:imgUpload name = 'company_logo' id='image' value='$vo.company_logo' />
+			<span class='tip_span'>推荐760*530图片</span>
+		</td>
+	</tr>
+	<!--
+	<tr>
+		<td class="item_title">公司等级:</td>
+		<td class="item_input">
+			<select name="user_level">
+				<option value="0">请选择等级</option>
+				<foreach name="user_level" item="level">
+					<option value="{$level.id}" <if condition="$vo['user_level'] eq $level['id']">selected="selected"</if>>{$level.name}</option>
+				</foreach>
+			</select>
+		</td>
+	</tr>
+	-->
+	<tr>
+		<td class="item_title">公司全称:</td>
+		<td class="item_input"><input type="text" class="textbox" name="company_all_name" value="{$vo.company_all_name}" /></td>
+	</tr>
+	<tr>
+		<td class="item_title">一句话简介:</td>
+		<td class="item_input">
+			<textarea name="company_brief" class="textarea">{$vo.company_brief}</textarea>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">公司网址:</td>
+		<td class="item_input"><input type="text" class="textbox" value="{$vo.company_website}" name="company_website" /></td>
+	</tr>
+	<tr>
+		<td class="item_title">所在地:</td>
+		<td class="item_input">
+			<select name="province">				
+			<option value="" rel="0">请选择省份</option>
+			<foreach name="region_lv2" item="region">
+				<option value="{$region.name}" rel="{$region.id}" <if condition="$region['selected']">selected="selected"</if>>{$region.name}</option>
+			</foreach>
+			</select>
+ 			<select name="city">				
+			<option value="" rel="0">请选择城市</option>
+			<foreach name="region_lv3" item="region">
+				<option value="{$region.name}" rel="{$region.id}" <if condition="$region['selected']">selected="selected"</if>>{$region.name}</option>
+			</foreach>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">创办时间:</td>
+		<td class="item_input">
+			<input type="text" class="textbox" name="company_create_time" id="begin_time" value="{$vo.company_create_time}" onfocus="this.blur(); return showCalendar('begin_time', '%Y-%m-%d %H:%M:%S', false, false, 'btn_begin_time');" />
+			<input type="button" class="button" id="btn_begin_time" value="{%SELECT_TIME}" onclick="return showCalendar('begin_time', '%Y-%m-%d %H:%M:%S', false, false, 'btn_begin_time');" />	
+			<input type="button" class="button" value="{%CLEAR_TIME}" onclick="$('#begin_time').val('');" />	
+
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">公司领域:</td>
+		<td class="item_input">
+			<select name="cate_id" class="">	
+				<foreach name="cate_list" item="cate_item">
+					<option value="{$cate_item.id}" <if condition="$vo['cate_id'] eq $cate_item['id']">selected="selected"</if> >{$cate_item.title_show}</option>
+				</foreach>
+				<input type="text" class="textbox " value="{$vo.company_tag}" name="company_tag" />
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">新浪微博:</td>
+		<td class="item_input"><input type="text" class="textbox " value="{$vo.company_sina_weibo}" name="company_sina_weibo" /></td>
+	</tr>
+	<tr>
+		<td class="item_title">微信账号:</td>
+		<td class="item_input"><input type="text" class="textbox " value="{$vo.company_weixin}" name="company_weixin" /></td>
+	</tr>
+	<tr>
+		<td class="item_title">审核:</td>
+		<td class="item_input">
+			<lable>{%IS_EFFECT_1}<input type="radio" name="status" value="1" <if condition="$vo['status'] eq 1">checked="checked"</if> /></lable>
+			<lable>{%IS_EFFECT_0}<input type="radio" name="status" value="0" <if condition="$vo['status'] eq 0">checked="checked"</if> /></lable>
+			<lable>{%IS_EFFECT_2}<input type="radio" name="status" value="2" <if condition="$vo['status'] eq 2">checked="checked"</if> /></lable>
+		</td>
+	</tr>
+	<tr id="is_effect_reason" <if condition="$vo['status'] neq 2">style="display:none;"</if> >
+		<td class="item_title">未通过理由:</td>
+		<td class="item_input">
+			 <textarea name="refuse_reason" class="textarea">{$vo.refuse_reason}</textarea>
+ 		</td>
+	</tr>
+	<script>
+		$(function(){
+		
+			$("input[name='status']").bind("click",function(){
+				var val=$("input[name='status']:checked").val();
+				if(val==2){
+					$("#is_effect_reason").show();
+				}else{
+					$("#is_effect_reason").hide();
+				}
+			});
+			
+		});
+	</script>
+	<tr>
+		<td colspan=2 class="bottomTd"></td>
+	</tr>
+</table>
+<!--公司介绍start-->
+<table class="form conf_tab" cellpadding=0 cellspacing=0 rel="8" >
+	<tr>
+		<td colspan=2 class="topTd"></td>
+	</tr>
+	<!--图片介绍还没写-->
+	<tr>
+		<td class="item_title">图片介绍 :</td>
+		<td class="item_input">
+			<foreach name="company_introduce_image" item="company_introduce_image">
+				<div class="image_item">
+					<img src="{$company_introduce_image}" width="35" height="35" style="float:left; border:#ccc solid 1px; margin-left:5px;" >
+				</div>
+			</foreach>
+ 		</td>
+	</tr>
+	<tr>
+		<td class="item_title">文字介绍:</td>
+		<td class="item_input">
+			<textarea name="company_introduce_word" class="textarea">{$vo.company_introduce_word}</textarea>
+ 		</td>
+	</tr>
+	<tr>
+		<td class="item_title">Web端链接:</td>
+		<td class="item_input">
+			<input type="text" name="company_website" value="{$vo.company_website}" >
+ 		</td>
+	</tr>
+	<tr>
+		<td class="item_title">iPhone下载链:</td>
+		<td class="item_input">
+			<input type="text" name="iphone_url" value="{$vo.iphone_url}" >
+ 		</td>
+	</tr>
+	<tr>
+		<td class="item_title">PC端下载链接:</td>
+		<td class="item_input">
+			<input type="text" name="pc_url" value="{$vo.pc_url}" >
+ 		</td>
+	</tr>
+	<tr>
+		<td class="item_title">Android下载链:</td>
+		<td class="item_input">
+			<input type="text" name="android_url" value="{$vo.android_url}" >
+ 		</td>
+	</tr>
+	<tr>
+		<td class="item_title">iPad下载链接:</td>
+		<td class="item_input">
+			<input type="text" name="ipd_url" value="{$vo.ipd_url}" >
+ 		</td>
+	</tr>
+	<!--子产品介绍-->
+	<tr>
+		<td class="item_title">子产品介绍 :</td>
+		<td class="item_input">
+			<foreach name="finance_company_sub_product" item="finance_company_sub_product">
+				<div class="image_item">
+					<label>子产品名称：</label>{$finance_company_sub_product.product_name}&nbsp;&nbsp;
+					<label>子产品链接：</label>{$finance_company_sub_product.product_website}
+				</div>
+			</foreach>
+ 		</td>
+	</tr>
+	
+</table>
+<!--公司介绍end-->
+<!--创始团队start-->
+<table class="form conf_tab" cellpadding=0 cellspacing=0 rel="6" >
+	<tr>
+		<td colspan=2 class="topTd"></td>
+	</tr>
+	<tr>
+		<td class="item_title">创始团队 :</td>
+		<td class="item_input">
+			<foreach name="finance_company_team" item="finance_company_team">
+				<div class="image_item">
+					<label>姓名：</label>{$finance_company_team.name}&nbsp;&nbsp;
+					<label>职位：</label>
+					<if condition="$finance_company_team.employee_level eq 0">
+						创始人
+					<else />
+						联合创始人
+					</if>&nbsp;
+					{$finance_company_team.position}&nbsp;&nbsp;
+					<label>邮箱地址：</label>{$finance_company_team.email}&nbsp;&nbsp;
+					<label>成员介绍：</label>{$finance_company_team.intro}&nbsp;&nbsp;
+					<label>任职时间段:</label>
+					{$finance_company_team.job_start_time} 到
+					<if condition="$finance_company_team.job_end_time gt 0">
+						{$finance_company_team.job_end_time}
+					<else />
+						至今
+					</if>&nbsp;&nbsp;
+					<br/>
+					邀请状态：
+					<lable>待确定<input type="radio" name="team_status[{$finance_company_team.invite_id}][status]" value="0" <if condition="$finance_company_team.team_status eq 0">checked="checked"</if>></lable>
+					<lable>接受邀请<input type="radio" name="team_status[{$finance_company_team.invite_id}][status]" value="1" <if condition="$finance_company_team.team_status eq 1">checked="checked"</if>></lable>
+					<lable>拒绝邀请<input type="radio" name="team_status[{$finance_company_team.invite_id}][status]" value="2" <if condition="$finance_company_team.team_status eq 2">checked="checked"</if>></lable>
+					<input type="hidden" value="{$finance_company_team.invite_id}" name="team_status[{$finance_company_team.invite_id}][id]">
+				</div>
+			</foreach>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">团队优势 :</td>
+		<td class="item_input">
+			<textarea name="team_advantage" class="textarea">{$vo.team_advantage}</textarea>
+		</td>
+	</tr>
+	
+</table>
+<!--创始团队end-->
+
+<!--投资案例start-->
+<table class="form conf_tab" cellpadding=0 cellspacing=0 rel=2>
+	<tr><td colspan=2></td></tr>
+	<tr>
+		<td class="item_title"> 投资案例:</td>
+		<td class="item_input">
+			<foreach name="finance_company_investment_case" item="finance_company_investment_case">
+				<div class="image_item">
+					<label>公司简称：</label>{$finance_company_investment_case.company_name}&nbsp;&nbsp;
+					<label>投资阶段：</label>
+					<if condition="$finance_company_investment_case.invest_phase eq 0">
+						天使轮
+					<elseif condition="$finance_company_investment_case.invest_phase eq 1"/>
+						Pre-A轮
+					<elseif condition="$finance_company_investment_case.invest_phase eq 2"/>
+						A轮
+					<elseif condition="$finance_company_investment_case.invest_phase eq 3"/>
+						A+轮
+					<elseif condition="$finance_company_investment_case.invest_phase eq 4"/>
+						B轮
+					<elseif condition="$finance_company_investment_case.invest_phase eq 5"/>
+						B+轮
+					<elseif condition="$finance_company_investment_case.invest_phase eq 6"/>
+						C轮
+					<elseif condition="$finance_company_investment_case.invest_phase eq 7"/>
+						D轮
+					<elseif condition="$finance_company_investment_case.invest_phase eq 8"/>
+						E轮及以后
+					<elseif condition="$finance_company_investment_case.invest_phase eq 9"/>
+						并购
+					<else />
+						上市
+					</if>&nbsp;&nbsp;
+					<label>我方投资金额：</label><if condition="$finance_company_investment_case.invest_amount_unit eq 0">￥{$finance_company_investment_case.invest_amount}<else />${$finance_company_investment_case.invest_amount}</if>&nbsp;&nbsp;
+					<label>总投资额：</label><if condition="$finance_company_investment_case.finance_amount_unit eq 0">￥{$finance_company_investment_case.finance_amount}<else />${$finance_company_investment_case.finance_amount}</if>&nbsp;&nbsp;
+					<label>此轮估值：</label><if condition="$finance_company_investment_case.valuation_unit eq 0">￥{$finance_company_investment_case.valuation}<else />${$finance_company_investment_case.valuation}</if>&nbsp;&nbsp;
+					<label>投资时间：</label>{$finance_company_investment_case.invest_time}&nbsp;&nbsp;
+					<br/>
+					审核状态：
+					<lable>待审核<input type="radio" name="investment_case[{$finance_company_investment_case.id}][status]" value="0" <if condition="$finance_company_investment_case.status eq 0">checked="checked"</if>></lable>
+					<lable>审核通过<input type="radio" name="investment_case[{$finance_company_investment_case.id}][status]" value="1" <if condition="$finance_company_investment_case.status eq 1">checked="checked"</if>></lable>
+					<lable>审核不通过<input type="radio" name="investment_case[{$finance_company_investment_case.id}][status]" value="2" <if condition="$finance_company_investment_case.status eq 2">checked="checked"</if>></lable>
+					<input type="hidden" value="{$finance_company_investment_case.id}" name="investment_case[{$finance_company_investment_case.id}][id]">
+				</div>
+			</foreach>
+		</td>
+	</tr>
+</table> 
+<!--投资案例end-->
+
+<!--融资经历start-->
+<table class="form conf_tab" cellpadding=0 cellspacing=0 rel=7>
+	<tr><td colspan=2></td></tr>
+	<tr>
+		<td class="item_title"> 融资经历:</td>
+		<td class="item_input">
+			<foreach name="finance_company_investment_invite" item="finance_company_investment_invite">
+				<div class="image_item">
+					<label>融资阶段：</label>
+					<if condition="$finance_company_investment_invite.invest_phase eq 0">
+						天使轮
+					<elseif condition="$finance_company_investment_invite.invest_phase eq 1"/>
+						Pre-A轮
+					<elseif condition="$finance_company_investment_invite.invest_phase eq 2"/>
+						A轮
+					<elseif condition="$finance_company_investment_invite.invest_phase eq 3"/>
+						A+轮
+					<elseif condition="$finance_company_investment_invite.invest_phase eq 4"/>
+						B轮
+					<elseif condition="$finance_company_investment_invite.invest_phase eq 5"/>
+						B+轮
+					<elseif condition="$finance_company_investment_invite.invest_phase eq 6"/>
+						C轮
+					<elseif condition="$finance_company_investment_invite.invest_phase eq 7"/>
+						D轮
+					<elseif condition="$finance_company_investment_invite.invest_phase eq 8"/>
+						E轮及以后
+					<elseif condition="$finance_company_investment_invite.invest_phase eq 9"/>
+						并购
+					<else />
+						上市
+					</if>&nbsp;&nbsp;
+					
+					<label>融资金额：</label><if condition="$finance_company_investment_invite.finance_amount_unit eq 0">￥{$finance_company_investment_invite.finance_amount}<else />${$finance_company_investment_invite.finance_amount}</if>&nbsp;&nbsp;
+					<label>融资估值：</label><if condition="$finance_company_investment_invite.valuation_unit eq 0">￥{$finance_company_investment_invite.valuation}<else />${$finance_company_investment_invite.valuation}</if>&nbsp;&nbsp;
+					<label>投资时间：</label>{$finance_company_investment_invite.invest_time}&nbsp;&nbsp;
+					<label>投资主体：</label>
+						<foreach name="finance_company_investment_invite.invest_subject" item="invest_subject">
+							{$invest_subject.invest_subject}&nbsp;&nbsp;			
+						</foreach>		
+					<label>相关报道：</label>{$finance_company_investment_invite.finance_pressurl}&nbsp;&nbsp;
+					<br/>
+					审核状态：
+					<lable>待审核<input type="radio" name="investment_case[{$finance_company_investment_invite.id}][status]" value="0" <if condition="$finance_company_investment_invite.status eq 0">checked="checked"</if>></lable>
+					<lable>审核通过<input type="radio" name="investment_case[{$finance_company_investment_invite.id}][status]" value="1" <if condition="$finance_company_investment_invite.status eq 1">checked="checked"</if>></lable>
+					<lable>审核不通过<input type="radio" name="investment_case[{$finance_company_investment_invite.id}][status]" value="2" <if condition="$finance_company_investment_invite.status eq 2">checked="checked"</if>></lable>
+					<input type="hidden" value="{$finance_company_investment_invite.id}" name="investment_case[{$finance_company_investment_invite.id}][id]">
+				</div>
+			</foreach>
+		</td>
+	</tr>
+</table> 
+<!--融资经历end-->
+
+<!--过往投资方start-->
+<table class="form conf_tab" cellpadding=0 cellspacing=0 rel=3>
+	<tr ><td colspan=2></td></tr>
+	<tr>
+		<td class="item_title"> 过往投资方:</td>
+		<td class="item_input">
+			<foreach name="finance_company_investment_past" item="finance_company_investment_past">
+				<div class="image_item">
+					<label>投资方：</label>{$finance_company_investment_past.user_name}&nbsp;&nbsp;
+					邀请状态：
+					<lable>待确定<input type="radio" name="team_status[{$finance_company_investment_past.invites_id}][status]" value="0" <if condition="$finance_company_investment_past.team_status eq 0">checked="checked"</if>></lable>
+					<lable>接受邀请<input type="radio" name="team_status[{$finance_company_investment_past.invites_id}][status]" value="1" <if condition="$finance_company_investment_past.team_status eq 1">checked="checked"</if>></lable>
+					<lable>拒绝邀请<input type="radio" name="team_status[{$finance_company_investment_past.invites_id}][status]" value="2" <if condition="$finance_company_investment_past.team_status eq 2">checked="checked"</if>></lable>
+					<input type="hidden" value="{$finance_company_investment_past.id}" name="team_status[{$finance_company_investment_past.invites_id}][id]">
+				</div>
+			</foreach>
+		</td>
+	</tr>
+</table>
+<!--过往投资方end-->
+
+<!--团队成员start-->
+<table class="form conf_tab" cellpadding=0 cellspacing=0 rel=4>
+	<tr><td colspan=2></td></tr>
+	<tr>
+		<td class="item_title">团队成员 :</td>
+		<td class="item_input">
+			<foreach name="finance_company_group" item="finance_company_group">
+				<div class="image_item">
+					<label>姓名：</label>{$finance_company_group.name}&nbsp;&nbsp;
+					<label>职位：</label>
+					<if condition="$finance_company_group.employee_level eq 0">
+						技术
+					<elseif condition="$finance_company_group.employee_level eq 1"/>
+						设计
+					<elseif condition="$finance_company_group.employee_level eq 2"/>
+						产品
+					<elseif condition="$finance_company_group.employee_level eq 3"/>
+						运营
+					<elseif condition="$finance_company_group.employee_level eq 4"/>
+						市场与销售
+					<elseif condition="$finance_company_group.employee_level eq 5 "/>
+						行政、人事及财务
+					<elseif condition="$finance_company_group.employee_level eq 6"/>
+						投资和并购	
+					<else />
+						其他
+					</if>&nbsp;
+					{$finance_company_group.position}&nbsp;&nbsp;
+					<label>邮箱地址：</label>{$finance_company_group.email}&nbsp;&nbsp;
+					<label>成员介绍：</label>{$finance_company_group.intro}&nbsp;&nbsp;
+					<label>任职时间段:</label>
+					{$finance_company_group.job_start_time} 到
+					<if condition="$finance_company_group.job_end_time gt 0">
+						{$finance_company_group.job_end_time}
+					<else />
+						至今
+					</if>&nbsp;&nbsp;
+					<br/>
+					邀请状态：
+					<lable>待确定<input type="radio" name="team_status[{$finance_company_group.invite_id}][status]" value="0" <if condition="$finance_company_group.team_status eq 0">checked="checked"</if>></lable>
+					<lable>接受邀请<input type="radio" name="team_status[{$finance_company_group.invite_id}][status]" value="1" <if condition="$finance_company_group.team_status eq 1">checked="checked"</if>></lable>
+					<lable>拒绝邀请<input type="radio" name="team_status[{$finance_company_group.invite_id}][status]" value="2" <if condition="$finance_company_group.team_status eq 2">checked="checked"</if>></lable>
+					<input type="hidden" value="{$finance_company_group.invite_id}" name="team_status[{$finance_company_group.invite_id}][id]">
+				</div>
+			</foreach>
+		</td>
+	</tr>
+</table>
+<!--团队成员end-->
+
+<!--过往成员start-->
+<table class="form conf_tab" cellpadding=0 cellspacing=0 rel=5>
+	<tr><td colspan=2></td></tr>
+	<tr>
+		<td class="item_title">过往成员 :</td>
+		<td class="item_input">
+			<foreach name="finance_company_past" item="finance_company_past">
+				<div class="image_item">
+					<label>姓名：</label>{$finance_company_past.name}&nbsp;&nbsp;
+					<label>职位：</label>
+					<if condition="$finance_company_past.employee_level eq 0">
+						技术
+					<elseif condition="$finance_company_past.employee_level eq 1"/>
+						设计
+					<elseif condition="$finance_company_past.employee_level eq 2"/>
+						产品
+					<elseif condition="$finance_company_past.employee_level eq 3"/>
+						运营
+					<elseif condition="$finance_company_past.employee_level eq 4"/>
+						市场与销售
+					<elseif condition="$finance_company_past.employee_level eq 5 "/>
+						行政、人事及财务
+					<elseif condition="$finance_company_past.employee_level eq 6"/>
+						投资和并购	
+					<else />
+						其他
+					</if>&nbsp;
+					{$finance_company_past.position}&nbsp;&nbsp;
+					<label>邮箱地址：</label>{$finance_company_past.email}&nbsp;&nbsp;
+					<label>成员介绍：</label>{$finance_company_past.intro}&nbsp;&nbsp;
+					<label>任职时间段:</label>
+					{$finance_company_past.job_start_time} 到
+					<if condition="$finance_company_past.job_end_time gt 0">
+						{$finance_company_past.job_end_time}
+					<else />
+						至今
+					</if>&nbsp;&nbsp;
+					<br/>
+					邀请状态：
+					<lable>待确定<input type="radio" name="team_status[{$finance_company_past.invite_id}][status]" value="0" <if condition="$finance_company_past.team_status eq 0">checked="checked"</if>></lable>
+					<lable>接受邀请<input type="radio" name="team_status[{$finance_company_past.invite_id}][status]" value="1" <if condition="$finance_company_past.team_status eq 1">checked="checked"</if>></lable>
+					<lable>拒绝邀请<input type="radio" name="team_status[{$finance_company_past.invite_id}][status]" value="2" <if condition="$finance_company_past.team_status eq 2">checked="checked"</if>></lable>
+					<input type="hidden" value="{$finance_company_past.invite_id}" name="team_status[{$finance_company_past.invite_id}][id]">
+				</div>
+			</foreach>
+		</td>
+	</tr>
+</table>
+<!--过往成员end-->
+
+	<script>
+		var demo_attach="<tr>"+$("#demo_attach").html()+"</tr>";
+		var demo_descript="<tr>"+$("#demo_descript").html()+"</tr>";
+ 		var demo_input="<tr>"+$("#demo_input").html()+"</tr>";
+		var demo_unstock_descript="<tr>"+$("#demo_unstock_descript").html()+"</tr>";
+ 		var demo_unstock_input="<tr>"+$("#demo_unstock_input").html()+"</tr>";
+	 	var total_income=0.00;
+   	 	var total_out=0.00;
+		total_price(".history_table");
+		total_price(".plan_table");
+  		$(function(){
+			//选择日期控件
+		    $("input.jcDate").jcDate({
+		        IcoClass : "jcDateIco",
+		        Event : "click",
+		        Speed : 100,
+		        Left :-125,
+		        Top : 28,
+		        format : "-",
+		        Timeout : 100
+		    });
+			
+		});
+		
+	</script>
+
+<div class="blank5"></div>
+	<table class="form" cellpadding=0 cellspacing=0>
+		<tr>
+			<td colspan=2 class="topTd"></td>
+		</tr>
+		<tr>
+			<td class="item_title"></td>
+			<td class="item_input">
+			<!--隐藏元素-->
+			<input type="hidden" value="{$vo.user_id}" name="user_id">
+			<input type="hidden" name="{:conf("VAR_MODULE")}" value="Finance" />
+			<input type="hidden" name="{:conf("VAR_ACTION")}" value="{$action}" />
+			<input type="hidden" name="id" value="{$vo.id}" />
+			<!--隐藏元素-->
+			<input type="submit" class="button" value="{%EDIT}" />
+			<input type="reset" class="button" value="{%RESET}" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan=2 class="bottomTd"></td>
+		</tr>
+	</table> 		 
+</form>
+</div>
+<include file="Public:footer" />

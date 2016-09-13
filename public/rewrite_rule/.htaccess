@@ -1,0 +1,16 @@
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+
+RewriteRule ^article_cate$  index.php\?ctl=article_cate [QSA,L]
+RewriteRule ^(title)$  index.php\?ctl=article_cate&bs=$1 [QSA,L]
+RewriteRule ^(title)/([^\.&]*)\.html$  index.php\?ctl=article&id=$2 [QSA,L]
+
+RewriteRule ^(forPayLayer)\.html$  forPayLayer.html [L]
+
+RewriteRule ^([^\.&]*)\.html$  index.php\?rewrite_param=$1 [QSA,L]
+
+
+
+</IfModule>

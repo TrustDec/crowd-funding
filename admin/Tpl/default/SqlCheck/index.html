@@ -1,0 +1,73 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Common/js/calendar/calendar.php?lang=zh-cn" ></script>
+<load href='__TMPL__Common/js/calendar/calendar.css' />
+<load href='__TMPL__Common/js/calendar/calendar.js' />
+<style>
+	.sql_info{ display:none;}
+</style>
+<PHP>
+	function get_url($url)
+	{
+		if($url){
+			return '<a href='.$url.' target="_blank">'.$url.'</a>';
+		}
+	}
+ 	function get_file_type($file){
+		if($file=='index.php'||$file==''){
+			return '前台';
+		}else if($file=='wap.php'){
+			return '手机前台';
+		}
+	}
+	function get_sql_info($sql){
+		if($sql){
+		$i=unserialize($sql);
+ 		$str= implode(";<br /> ",$i);
+		return "<p class='sql_p'><a href='javascript:void(0);' class='sql_chek'>查看详情</a><p class='sql_info'>".$str."</p></p>";
+		}
+	}
+</PHP>
+<script>
+	$(function(){
+		$(".sql_chek").bind('click',function(){
+ 			 $(this).parent().parent().children(".sql_info").toggle() ;
+		});
+	});
+</script>
+<div class="main">
+<div class="main_title">{$main_title}</div>
+<div class="blank5"></div>
+<div class="search_row">
+	<form name="search" action="__APP__" method="get">	
+		module：<input type="text" class="textbox" name="module" value="{:trim($_REQUEST['module'])}" />		
+  		action：<input type="text" class="textbox" name="action" value="{:trim($_REQUEST['action'])}" />		
+		类型:
+		<select name="file_name">
+			<option value="" <if condition="$file_name eq ''">  selected="selected" </if> >请选择</option>	
+			<option value="index.php" <if condition="$file_name eq 'index.php'"> selected="selected" </if> >前台</option>
+			<option value="wap.php" <if condition="$file_name eq 'wap.php'"> selected="selected" </if> >手机前台</option>
+		</select>
+		<input type="hidden" value="SqlCheck" name="m" />
+		<input type="hidden" value="index" name="a" />
+		<input type="submit" class="button" value="{%SEARCH}" />
+		<input type="button" class="button" value="{%DEL}" onclick="foreverdel();" />
+	</form>
+</div>
+<div class="blank5"></div>
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="log" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{%ID}|50px,create_time|to_date:登记时间,module:{%MODULE},action:{%ACTION},para:参数,sql_num:sql数量,query_time:sql运行时间,run_time:模块运行时间,memory_usage:内存,gzip_on:gzip,url|get_url:访问链接,file_name|get_file_type:类型,sql_str|get_sql_info:查看sql
+	" 
+	actionlist="foreverdel:{%FOREVERDEL}" /> 
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

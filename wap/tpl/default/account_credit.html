@@ -1,0 +1,23 @@
+{include file="inc/header.html"}
+<section class="account_cridit">
+	<ul>
+		{foreach from=$log_list item=item}
+		<li class="webkit-box sizing">
+			<div class="accountlist_fl webkit-box-flex mr5 tl">
+				<h1>{$item.log_info}{$itme.money}</h1>
+				<span class="f_999">
+					{function name="to_date" v=$item.log_time}
+ 				</span>
+			</div>
+			<div class="accountlist_fr tr">
+				<h2 class="f_money"><?php echo format_price(abs($this->_var['item']['money'])); ?></h2>
+				<span><em class="f_999">类型:</em>{$item.money_type}</span>
+			</div>
+		</li>
+		{/foreach}
+	</ul>
+	<div class="blank15"></div>
+	<div class="pages">{$pages}</div>
+	<div class="blank15"></div>
+</section>
+{include file="inc/footer.html"}

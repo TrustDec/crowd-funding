@@ -1,0 +1,88 @@
+{include file="inc/header.html"}
+<div class="blank20"></div>
+<div class="wrap">
+  <div class="news_box">
+    <div class="location_box">
+      <div class="location f_l"> <i class="fl ico loc_ico mr5"></i>
+        <label>您现在的位置：</label>
+        {if $nav_top.top}<a href="{$nav_top.top.url}">{$nav_top.top.name}</a>{/if}{if $nav_top.list}<em>>></em><a href="{$nav_top.list.url}">{$nav_top.list.name}</a>{/if}{if $nav_top.cate_child}<em>>></em><a href="{$nav_top.cate_child.url}">{$nav_top.cate_child.name}</a>{/if} </div>
+      <div class="blank10"></div>
+    </div>
+    <div class="news_con">
+    <div class="news_fenlei" style="float:left;">
+        <div class="lan">
+          <div class="cn_txt"> <span>文章分类</span> </div>
+        </div>
+        <div class="blank10"></div>
+        <ul>
+          <li> <a {if $module eq 'article_cate' && $action eq 'index' && $id eq 0}class="on"{/if} href="{url r="article_cate" p="id=$artilce_cate_item.cate_id"}">全部</a> </li>
+          {foreach from=$artilce_cate item=artilce_cate_item}
+          {if $artilce_cate_item.is_effect eq 1 && $artilce_cate_item.is_delete eq 0 && $artilce_cate_item.type_id eq 0}
+          <li> <a {if $artilce_cate_item.current eq 1}class="on"{/if} href="{url r="article_cate" p="id=$artilce_cate_item.cate_id"}">{$artilce_cate_item.title}</a> </li>
+          {/if}
+          {/foreach}
+          <li {if $module eq 'faq' && $action eq 'index' && $id eq 0}class="on"{/if}>
+          <a href="{url r="faq"}">常见问题</a>
+          </li>
+          <li {if $module eq 'help' && $action eq 'index' && $id eq 0}class="on"{/if}>
+          <a href="{url r="help#show"}">帮助列表</a>
+          </li>
+          {foreach from=$article_list item=article_list}
+          <li><a href="{$article_list.url}" title="{$article_list.cate_title}" >{$article_list.cate_title}</a></li>
+          {/foreach}
+        </ul>
+      </div>
+      <div class="news_left">
+        <div class="lan">
+          <div class="cn_txt"> <span>{if $cate_name}{$cate_name}{else}文章列表{/if}</span> </div>
+        </div>
+        {foreach from=$artilce_list item=article_item}
+        <div class="list_news">
+          <div class="pic"> <a href="{$article_item.url}" title="{$article_item.title}"> {if $article_item.icon eq ''}<img src='{$TMPL}/images/empty_thumb.gif'  width="285" height="200"/>{else}<img src="{$article_item.icon}" width="285" height="200">{/if} </a> </div>
+          <div class="miaosu">
+            <h2> <a href="{$article_item.url}" title="{$article_item.title}">{$article_item.title}</a> </h2>
+            <div class="mscon">{function name=msubstr val=$article_item.brief a=0 b=136}</div>
+            <div class="bianqian">
+              <div class="bianqian_left">
+                <div class="icon_bq">标签</div>
+                <div class="bq_list"> {foreach from=$article_item.tags_arr item=tag}
+                  {if trim($tag) neq ''} <a href="{url r="article_cate" p="tag=$tag"}" title="{$tag}" target="_blank">{$tag}</a> {/if}
+                  {/foreach} </div>
+              </div>
+              <div class="bianqian_right">
+                <div class="zuozhe"> <span>发布的人：{if $article_item.writer}{$article_item.writer}{else}{$site_name}{/if}</span> </div>
+                <div class="gxshijian"> <span>{function name="to_date" v=$article_item.create_time p="Y-m-d"}</span> </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/foreach}
+        <div class="blank20"></div>
+        <div class="pages" style="width:100%;">{$pages}</div>
+        <div class="blank20"></div>
+      </div>
+      <!--<div class="news_fenlei">
+                <div class="lan">
+                    <div class="cn_txt">
+                        <span>文章分类</span>
+                    </div>
+                </div>
+                <div class="blank10"></div> 
+                <ul>
+                    <li>
+                        <a {if $module eq 'article_cate' && $action eq 'index' && $id eq 0}class="on"{/if} href="{url r="article_cate" p="id=$artilce_cate_item.cate_id"}">全部</a>
+                    </li>
+                    {foreach from=$artilce_cate item=artilce_cate_item}
+                    {if $artilce_cate_item.is_effect eq 1 && $artilce_cate_item.is_delete eq 0 && $artilce_cate_item.type_id eq 0}
+                    <li>
+                        <a {if $artilce_cate_item.current eq 1}class="on"{/if} href="{url r="article_cate" p="id=$artilce_cate_item.cate_id"}">{$artilce_cate_item.title}</a>
+                    </li>
+                    {/if}
+                    {/foreach}
+                </ul>     
+            </div>-->
+    </div>
+  </div>
+</div>
+<div class="blank20"></div>
+{include file="inc/footer.html"}

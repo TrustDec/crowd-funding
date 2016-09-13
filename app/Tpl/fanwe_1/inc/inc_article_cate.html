@@ -1,0 +1,94 @@
+<style type="text/css">
+	a {text-decoration: none;outline: none;}
+	a:hover{text-decoration: none;outline: none; color:12adff;}
+	small{ font-size:85%; }
+	.muted { color:#999; }
+	.article_r_list .text_show .pic_show{
+		width:90px;
+		height:50px;
+		overflow:hidden;
+	}
+	.article_r_list .text_show img{
+		width:90px;
+		height:50px;
+		overflow:hidden;
+		-webkit-transition: all 0.3s ease-out;
+		-ms-transition: all 0.3s ease-out;
+		-moz-transition: all 0.3s ease-out;
+		-o-transition: all 0.3s ease-out;
+		transition: all 0.3s ease-out;
+	}
+	.article_r_list .text_show img:hover{
+		width:90px;
+		height:50px;
+		overflow:hidden;
+		-webkit-transform: scale(1.04);
+		-moz-transform: scale(1.04);
+		-o-transform: scale(1.04);
+		transform: scale(1.04);
+	}
+</style>
+<div class="article_r_main">
+	<div class="blank20"></div>
+	<div class="mod_title"><i></i>{if $cate_name}{$cate_name}{else}文章列表{/if}</div>
+	<div class="blank20"></div>
+	<div class="article_r_cont">
+		{foreach from=$artilce_list item=article_item}
+		<div class="article_r_list">
+			<h3>
+				<i></i>
+				<a href="{$article_item.url}" target="_blank" class="f_l">{$article_item.title}</a>
+				<small class="muted f_r">{function name="to_date" v=$article_item.update_time}</small>
+			</h3>
+			<div class="blank0"></div>
+			<div class="text">
+				<i></i>
+				<a href="{$article_item.url}" target="_blank" class="text_show f_l">{$article_item.brief}</a>
+			</div>
+		</div>
+		{/foreach} 
+	</div>
+</div>
+<!--
+<script type="text/javascript">
+	$(function(){
+		fun_article();
+	});
+	// 处理文章内容有图片或者视频
+	function fun_article(){
+		$(".article_r_list .text_show").each(function(){
+			var old_text = $(this).text().length;
+			var new_text = $(this).text().substr(0, 80);
+			var iframe_length = $(this).find("iframe").length;
+			var img_length = $(this).find("img").length;
+			if(old_text > 80){
+				if(iframe_length){
+					var article_iframesrc = $(this).find("iframe").first().attr("src");
+					$(this).html("<iframe height=50 width=90 frameborder=no border=0 src="+article_iframesrc+" class='f_l mr10'></iframe><span>"+new_text+"...[详细]</span>");
+				}
+				else if(img_length){
+					var article_imgsrc = $(this).find("img").first().attr("src");
+					$(this).html("<div class='pic_show f_l mr10'><img src="+article_imgsrc+" height=50 width=90 /></div><span>"+new_text+"...[详细]</span>");
+				}
+				else{
+					$(this).html("<span>"+new_text+"...[详细]</span>");
+				}
+			}
+			else{
+				if(iframe_length){
+					var article_iframesrc = $(this).find("iframe").first().attr("src");
+					$(this).html("<iframe height=50 width=90 frameborder=no border=0 src="+article_iframesrc+" class='f_l mr10'></iframe><span'>"+new_text+"[详细]</span>");
+				}
+				else if(img_length){
+					var article_imgsrc = $(this).find("img").attr("src");
+					$(this).html("<div class='pic_show f_l mr10'><img src="+article_imgsrc+" height=50 width=90 /></div><span>"+new_text+"[详细]</span>");
+				}
+				else{
+					$(this).html("<span>"+new_text+"[详细]</span>");
+				}
+
+			}
+		});
+	}
+</script>
+-->

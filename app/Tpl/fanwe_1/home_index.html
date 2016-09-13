@@ -1,0 +1,30 @@
+{include file="inc/header.html"} 
+<script type='text/javascript' src='{$APP_ROOT}/public/script/ofc/js/swfobject.js'></script>
+<style>
+	#con_one_1{width:100%;display:block;}
+</style>
+<script type="text/javascript">
+	$(function(){
+		var ofc_swf="{$APP_ROOT}/public/script/ofc/open-flash-chart.swf";
+		var invest_stroke_url = '{$invest_stroke_url}';
+		load_ofc("invest_chart",invest_stroke_url,'100%',500,ofc_swf);
+	});
+    function jump(hrf){
+    	location.href = hrf;
+    }
+</script>
+{include file="inc/home_user_info.html"}
+<div class="dlmain Myhomepage">
+    {include file="inc/account_left.html"} 
+	<div class="homeright pageright f_r">	
+		<!-- 半年内的投资记录 开始 -->
+		<div>
+			<div class="u_m_title_t f_red">您半年内的投资记录</div>
+            <div class="blank20"></div>
+            <div id="invest_chart"></div>
+		</div>
+		<!-- 半年内的投资记录 结束 -->
+	</div>
+    <div class="blank0"></div>
+</div>
+{include file="inc/footer.html"} 

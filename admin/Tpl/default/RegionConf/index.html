@@ -1,0 +1,81 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<script type="text/javascript" src="__ROOT__/public/region.js"></script>
+<script type="text/javascript" src="__TMPL__Common/js/switch_city.js"></script>
+
+<div class="main">
+<div class="main_title">{$main_title}</div>
+<div class="blank5"></div>
+<div class="button_row">
+	<input type="button" class="button" value="{%ADD}" onclick="regionconf_add({$pid});" />
+	<input type="button" class="button" value="{%FOREVERDEL}" onclick="foreverdel();" />
+	<if condition="$pid gt 0">
+		<input type="button" class="button" value="返回" onclick="history.back();" />
+	</if>
+	<style>
+	body{ background:#f3f3f3; }
+	.setlist_new {
+		padding: 5px 0;
+		width: 100%;
+	}
+	.select-outer {
+		background: #fff;
+		display: inline-block;
+		zoom: 1;
+		border: 1px solid #d7d7d7;
+		border-radius: 5px;
+	}
+</style>
+	
+</div>
+<script>
+	function regionconf_add(pid){
+		location.href = ROOT+"?"+VAR_MODULE+"="+MODULE_NAME+"&"+VAR_ACTION+"=add&pid="+pid;
+	}
+</script>
+<php>
+	function get_refund($id,$region_conf){
+		if($region_conf['region_level']==2)
+			return "<a href='".u("RegionConf/index",array("pid"=>$region_conf['id']))."'>管理子区域</a>";
+			
+	}
+	
+</php>
+<div class="search_row" >
+			<form name="search" action="__APP__" method="get">	
+				<div class="setlist">
+					<label class="setmid">所在地区</label>		
+					<select name="province" class="select-h">				
+						<option value="" rel="0">请选择省份</option>			
+							<foreach name="region_lv2" item="region">
+							<option value="{$region.name}" rel="{$region.id}"  <if condition="$region['selected'] eq 1">selected="selected"</if> >{$region.name}</option>
+						</foreach>
+						</select>
+							<select name="city"  >				
+						<option value="" rel="0">请选择城市</option>
+							<foreach name="region_lv3" item="region">
+							<option value="{$region.name}" rel="{$region.id}"  <if condition="$region['selected'] eq 1">selected="selected"</if> >{$region.name}</option>
+						</foreach>
+					</select>
+					<input type="submit" value="搜索" class="button" />
+					<input type="hidden" value="RegionConf" name="m" />
+					<input type="hidden" value="index" name="a" />
+  				</div>
+			</form>
+	</div>
+<div class="blank5"></div>
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="region_conf" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{%ID}|50px,name:名称:edit,is_hot|get_status:热门地区"
+	actionlist="id|get_refund=$region_conf,edit:{%EDIT}, foreverdel:{%FOREVERDEL}" /> 
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

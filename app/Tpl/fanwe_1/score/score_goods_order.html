@@ -1,0 +1,148 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/fanwe_utils/jcDate.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/fanwe_utils/jcDate.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jQuery-jcDate.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jQuery-jcDate.js";
+
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/score/score_goods_order.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/score/score_goods_order.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/score/score_goods_order.js";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+{include file="inc/home_user_info.html"}
+<div class="dlmain Myhomepage">
+	{include file="inc/account_left.html"} 
+	<div class="homeright pageright f_r">
+		<div class="account_search" id="account_search">
+			<form name="goods_order" action="{url r="score_goods_order#index"}" method="post">
+			
+			<div class="blank10"></div>
+			<div class="form_row control-group f_l">
+				<label class="form_lable small_form_lable">订单编号：</label>
+				<div class="pr f_l">
+					<input type="text" name="order_sn" value="{$parameter.order_sn}" class="small_textbox w200 mr10" />
+					<span class="holder_tip">请输入订单编号</span>
+				</div>
+				<label class="form_lable small_form_lable">下单日期：</label>
+				<div class="small_form_text">
+					<input readonly="" type="text" class="small_textbox w100 jcDate mr20" rel="input-text" value="{$parameter.create_date}" name="create_date" id="inputLaunchTime" placeholder="请选择日期">
+				</div>
+			</div>
+			<input type="submit" value="搜索" class="ui-button theme_bgcolor" />
+			</form>
+		</div>
+		<div class="blank20"></div>
+		<div class="list_conment">
+			<ul class="order_list">
+				{foreach from=$order_list item=order}
+				<li class="li_mini">
+					<div class="top_block top_block_1">
+						<span class="f_l">订单号：{$order.order_sn}</span>
+						<span class="f_r">{if $order.order_status eq 0}下单时间：{function name="to_date" v=$order.create_time}{else}兑换时间：{function name="to_date" v=$order.ex_time}{/if}</span>
+					</div>
+					<div class="order_detail_t">
+					    <div class="order_h_t">
+					    	<span class="f_l">商品信息</span>
+							{if $order.order_status eq 0}
+					    	<a class="del_order" href="javascript:void(0);" rel="{$order.id}">取消订单</a>
+							{/if}
+					    	<div class="blank0"></div>
+					    </div>
+					    <div class="goods_info_t">
+					        <div class="goods_info_t_Point" style=" text-align:left; padding-top:18px;">
+					            <img src="{if $order.img eq ''}{$TMPL}/images/empty_thumb.gif{else}{function name="get_spec_image" v=$order.img w="80" h="80" g="1"}{/if}"
+					            style=" width:80px; height:80px; border:1px solid #e9e9e9; margin-left:20px;">
+					        </div>
+					        <div class="goods_info_t_Point">
+					            <!--<span>商品名称</span>-->
+					            <span>{$order.goods_name}</span>
+					        </div>
+					        <div class="goods_info_t_Point">
+					            <span>数量</span>
+					            <br>
+					            <span>{$order.number}</span>
+					        </div>
+							<!--
+					        <div class="goods_info_t_Point">
+					            <span>商品属性
+					            </span>
+					            <br>
+					            <span>{$order.attr_view}</span>
+					        </div>
+							-->
+					        <div class="goods_info_t_Point">
+					            <span>所需积分</span>
+					            <br>
+					            <span>{$order.total_score}</span>
+					        </div>
+							<div class="goods_info_t_Point">
+					            <span>发货状态</span>
+					            <br>
+					            <span>{$order.delivery_status_info}</span>
+					        </div>
+					        <div class="goods_info_t_Point">
+					            <span>订单状态</span>
+					            <br>
+					            <span>{$order.order_status_info}</span>
+					        </div>
+					    </div>
+						{if $order.is_delivery eq 1}
+						{if $order.delivery_status eq 1}
+					    <div class="order_h_t">物流信息</div>
+					    <div class="blank10"></div>
+					    <span>快递单号：{$order.delivery_sn}</span>
+					    <br>
+						<span>快递公司：{$order.delivery_express}</span>
+					    <br>
+					    <span>发货时间：{function name="to_date" v=$order.delivery_time}</span>
+					    <div class="blank10"></div>
+						 {/if}
+					    <div class="order_h_t">收货信息</div>
+					    <div class="blank10">
+					    </div>
+					    <span>收货地址：{$order.delivery_province}{$order.delivery_city}{$order.delivery_addr}</span>
+					    <br>
+					    <span>收货电话：{$order.delivery_tel}</span>
+					    <br>
+					    <span>收货人：{$order.delivery_name}</span>
+					    <br>
+						{/if}
+					</div>
+					{if $order.order_status eq 3}
+					<div class="order_detail_t">
+						<div class="order_h_t">退积分备注</div>
+				   		<div class="blank10"></div>
+				    	<span>备注：{$order.admin_memo}</span>
+					</div>
+					{/if}
+					<div class="order_detail_t">
+						<div class="order_h_t">订单备注</div>
+				   		<div class="blank10"></div>
+				    	<span>备注：{$order.memo}</span><br>
+						<div class="f_r Unfold">[&nbsp;展开&nbsp;]</div>
+					</div>
+				</li>
+				{/foreach}
+			</ul>
+		</div>
+		<div class="pages">{$pages}</div>
+	</div>
+	<div class="blank0"></div>
+</div>
+<script type="text/javascript">
+	//选择日期控件
+    $("input.jcDate").jcDate({
+        IcoClass : "jcDateIco",
+        Event : "click",
+        Speed : 100,
+        Left :-125,
+        Top : 28,
+        format : "-",
+        Timeout : 100,
+        Oldyearall : 17,  // 配置过去多少年
+		Newyearall : 0  // 配置未来多少年
+    });
+</script>
+{include file="inc/footer.html"} 

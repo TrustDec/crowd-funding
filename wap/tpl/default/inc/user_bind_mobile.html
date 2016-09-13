@@ -1,0 +1,38 @@
+{include file="inc/header.html"}
+<style type="text/css">
+	.input_lable{width:70px;}
+</style>
+<section class="settings_mobile_pwd">
+	<p class="f_red f16">您需要绑定手机号码才能进行对项目的支持！</P>
+	<div class="ul_block">
+		<ul>
+			<li class="webkit-box">
+				<label class="input_lable">会员帐号：</label>
+				<input type="text" value="{$user_info.user_name}" class="textbox webkit-box-flex" disabled="true" />
+				<div class="blank"></div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">手机号码：</label>
+				<input type="text" value="{$user_info.mobile}" id="settings-mobile" name="mobile" class="textbox webkit-box-flex" placeholder="请输入手机号码" />
+			</li>
+			<li class="webkit-box">
+				<input type="text" value="" name="verify_coder" id="verify_coder"  class="textbox webkit-box-flex" placeholder="请输入验证码" />
+				<input type="button" value="获取验证码" class="ui-button btn_yzm bg_red ml5" id="J_send_sms_verify" rel="ui-button">
+				<div class="blank"></div>
+			</li>
+		</ul>
+	</div>
+	<div class="blank15"></div> 
+	<div class="submit_btn_row control-group">
+		<label class="form_lable"></label>
+		<div class="ui-button theme_color" rel="ui-button" onclick="javascript:save_mobile();">
+			绑定手机
+		</div>
+		<input type="hidden" value="{$cid}" id="cid" />
+		<div class="blank15"></div>
+	</div>
+</section>
+<!-- user_bind_mobile.js -->
+{include file="inc/footer.html"} 
+
+

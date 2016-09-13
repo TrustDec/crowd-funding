@@ -1,0 +1,19 @@
+{include file="inc/header.html"}
+<section class="investor_explain mod_main">
+	<h3>你可以通过以下途径进行发起项目操作:</h3>
+	<div class="explain_box">
+		<div class="explain_m">1.请在PC登录后发起众筹</div>
+		<div class="explain_m">2.请发邮件到：<span class="f_red">fanwe88@163.com</span></div>
+		<div class="explain_m">
+			3.</i>请在下面输入框留下您的信息，我们会与您联系！
+			<div class="blank5"></div>
+			<form class="ajax_form" action="{url_wap r="#save_consignee"}">
+				<input type="text" placeholder="请输入您的姓名" value="{$user_info.user_name}"  name ="user_name" class="textboxs sizing" />
+				<input type="text" placeholder="请输入您的手机" value="{$user_info.mobile}" name ="tel" class="textboxs sizing" />
+				<textarea placeholder="请输入您的信息" name="content" class="sizing"></textarea>
+				<input class="ui-button theme_color" type="button" value="提交" rel="ui-button">
+			</form>
+		</div>
+	</div>
+</section>
+{include file="inc/footer.html"}

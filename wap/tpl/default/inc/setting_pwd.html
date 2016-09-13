@@ -1,0 +1,35 @@
+<div class="setting_security_box" id="setting_pwd_box">
+	<form id="ajax_form_password" action="{url_wap r="settings#save_pass"}" id="save_pass">
+		<div class="ul_block">
+			<ul>
+				{if $user_info.user_pwd}
+				<li class="webkit-box">
+					<label class="input_lable">旧密码：</label>
+					<input type="password"  autocomplete="off" placeholder="请输入旧密码" value="" name="user_old_pwd" class="textbox webkit-box-flex"  />
+				</li>
+				<input type="hidden" name="change_pwd" value="1">
+				{else}
+				<input type="hidden" name="change_pwd" value="0">
+				{/if}
+				<li class="webkit-box">
+					<label class="input_lable">新密码：</label>
+					<input type="password"  autocomplete="off" placeholder="请输入新密码" value="" name="user_pwd" class="textbox webkit-box-flex" />
+				</li>
+				<li class="webkit-box">
+					<label class="input_lable">确认密码：</label>
+					<input type="password"  autocomplete="off" placeholder="请输入确认密码" value="" name="confirm_user_pwd" class="textbox webkit-box-flex" />
+				</li>
+			</ul>
+			<div class="blank10"></div>
+			<div class="submit_btn_row control-group">
+				<div class="two_btn webkit-box">
+					<input type="button" value="保存密码" name="pass" class="ui-button ui_button_l theme_color webkit-box-flex" id="pass"  />
+					<input type="button" value="取消" onclick="$.closeModal();" class="ui_button bg_red webkit-box-flex">
+				</div>
+				<input type="hidden" value="1" name="ajax" />
+				<input type="hidden" name="setting_pwd" value="1">
+			</div>
+			<div class="blank10"></div>
+		</div>
+	</form>
+</div>

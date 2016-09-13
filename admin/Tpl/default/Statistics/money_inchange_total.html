@@ -1,0 +1,63 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Common/js/calendar/calendar.php?lang=zh-cn" ></script>
+<php>
+	function get_date_url($date){
+		return "<a href='".APP_ROOT."/".URL_NAME."?m=Statistics&a=money_inchange_info&time=".$date."'>$date</a>";
+	}
+</php>
+<script type="text/javascript">	
+	function export_csv_money_inchange_total()
+	{
+		var query = $("#search_form").serialize();
+		query = query.replace("&m=Statistics","");
+		query = query.replace("&a=money_inchange_total","");
+		var url= ROOT+"?"+VAR_MODULE+"="+MODULE_NAME+"&"+VAR_ACTION+"=export_csv_money_inchange_total"+"&"+query;
+		location.href = url;
+	}
+	
+</script>
+
+<load href='__TMPL__Common/js/calendar/calendar.css' />
+<load href='__TMPL__Common/js/calendar/calendar.js' />
+<div class="main">
+<div class="main_title">平台统计-充值统计</div>
+<div class="blank5"></div>
+
+	<form name="search" id = "search_form"  action="__APP__" method="get">	
+		<input type="hidden" value='{$q_date_diff}' name="q_date_diff" id="q_date_diff"  />
+		<label id="start_time_item_title">按时间查询:</label><input class = "require textbox" type="text" name="start_time" id="q_start_time" value="{$start_time}" style=""  onfocus="return showCalendar('q_start_time', '%Y-%m-%d', false, false, 'q_start_time');" />
+		<input class = "require textbox" type="text" name="end_time" id="q_end_time" value="{$end_time}" style=""  onfocus="return showCalendar('q_end_time', '%Y-%m-%d', false, false, 'q_end_time');" />
+		
+		<input type="hidden" value='Statistics' name="m" />
+		<input type="hidden" value='money_inchange_total' name="a" />
+		<input type="submit" class="button" value="{%SEARCH}" />
+		<input type="button" class="button" value="{%EXPORT}" onclick="export_csv_money_inchange_total();" />
+		
+		<input type="button" id = "submit_date_0" class="button_none" value="今天" />
+		<input type="button" id = "submit_date_1" class="button_none" value="昨天" />
+		<input type="button" id = "submit_date_7" class="button_none" value="最近一周" />
+		<input type="button" id = "submit_date_30" class="button_none" value="最近一月" />		
+	</form>
+	
+<div class="blank5"></div>
+
+<div class="blank5"></div>
+	
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="deal" 
+	datasource="list" 
+	show="时间|get_date_url:时间
+		,成功充值总额|format_price:成功充值总额
+		"/> 
+		
+			
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+
+</div>
+
+<include file="Public:footer" />

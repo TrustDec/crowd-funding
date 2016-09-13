@@ -1,0 +1,106 @@
+<tagLib name="html" />
+<include file="Public:wx_header" />
+<include file="Public:weixin_script" />
+<link rel="stylesheet" href="__ROOT__/public/weixin/kindeditor/themes/default/default.css" />
+<script type="text/javascript" src="__ROOT__/public/weixin/kindeditor/kindeditor-min.js"></script>
+<script type="text/javascript" src="__ROOT__/public/weixin/kindeditor/plugins/wxemoticons/wxemoticons.js"></script>
+<script type="text/javascript" src="__ROOT__/public/weixin/kindeditor/plugins/wxlink/wxlink.js"></script>
+<script charset="utf-8" src="__ROOT__/public/weixin/kindeditor/lang/zh_CN.js"></script>
+ 
+<div class="container-f">
+	<div class="box-title clearfix">
+		<h3>
+			<i class="fa fa-cog"></i>
+			{$box_title}
+		</h3>
+	</div>
+</div>
+<div class="box-content clearfix">
+	<div class="row clearfix">
+		<form action="{:u("WeixinTemplate/save_industry")}" method="post" class="form-horizontal ajax_form">
+			<div class="changeStepBox clearfix  cf">
+				<div class="control-group-left clearfix cf f_l">
+					 <div class="control-group cf clearfix">
+		                	<label class="control-label" for="weixin_account">
+		                		行业1：
+		                	</label>
+							<div class="controls">
+								<select name="industry_1">
+										<option value="">请选择行业</option>
+ 										<foreach name="industry" item="item" key="key" >
+											<option value="{$key}" <if condition="$key eq $account['industry_1']">selected="selected"</if> >{$item}</option>
+										</foreach>
+								</select>
+ 								<span class="maroon">* <if condition="$account['industry_1_status']">已同步<else />未同步</if></span>
+							</div>
+		                </div>
+					<div class="control-group cf clearfix">
+		                	<label class="control-label" for="weixin_account">
+		                		行业2：
+		                	</label>
+							<div class="controls">
+								<select name="industry_2">
+										<option value="">请选择行业</option>
+											<foreach name="industry" item="item" key="key" >
+											<option value="{$key}" <if condition="$key eq $account['industry_2']">selected="selected"</if> >{$item}</option>
+										</foreach>
+								</select>
+									<span class="maroon">* <if condition="$account['industry_1_status']">已同步<else />未同步</if></span>
+							</div>
+		             </div>
+					 <div class="control-group cf clearfix">
+		                	<label class="control-label" for="weixin_account">
+		                		管理员微信号：
+		                	</label>
+							<div class="controls">
+								 
+								<input type="text"  value="{$account.test_user}" name="test_user">
+							</div>
+		             </div>
+					 <div class="control-group cf clearfix">
+		                	<label class="control-label" for="weixin_account">
+		                	</label>
+							<div class="controls">
+ 									<span class="maroon">*需要选择公众账号服务所处的2个行业，每月可只可改1次所选行业</span>
+							</div>
+		             </div>
+				</div>
+				<div class="cf clearfix"></div>
+				<div class="form-actions">	                    
+					<input type="hidden" name="id" value="{$account.id}" />
+					<input type="submit" class="btn btn-primary" value="保存" />
+					<input type="button" class="btn btn-primary" value="同步到微信公众平台" id="syn_weixin" rel="{:u("WeixinTemplate/syn_industry_to_weixin")}" />	                    
+
+ 				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+var seting = {
+        themeType: "simple",
+        resizeType: 1,
+        syncType:"",
+        allowPreviewEmoticons: true,
+        items: ['wxemoticons','wxlink','unlink'],
+        allowFileManager: false,
+        useContextmenu:false,
+        minWidth: 500,
+        width: 500,
+		minHeight:150,
+		newlineTag:"br",
+		height:150,
+        afterCreate: function () {
+            this.sync();
+        },
+        afterBlur: function () {
+            this.sync();
+        }
+    }
+	KindEditor.ready(function(K) {
+		K.create('#reply_content', seting);
+	});
+
+</script>
+
+<include file="Public:footer" />

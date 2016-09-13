@@ -1,0 +1,103 @@
+{include file="inc/header.html"} 
+<style>
+.settings_modify ul li{padding:10px 0}
+.settings_modify ul li.profile label{height:auto;line-height:100%;margin-bottom:10px;}
+.input_lable{
+	height: auto;
+	line-height: 100%;
+	margin-bottom: 10px;
+	font-weight: bold;
+	color: #45392f;
+	text-align:left;
+}
+</style>
+<section class="settings_modify">
+	<div class="page_title p15 pb0">
+		投资资料
+		{if $user_investment.investor_status eq 0}(审核中){/if}
+		{if $user_investment.investor_status eq 1}(审核通过){/if}
+		{if $user_investment.investor_status eq 2}(审核未通过){/if}
+		<div class="f_red">以下信息{if $user_investment.is_investor eq 1}(个人投资者){/if}{if $user_investment.is_investor eq 2}(机构投资者){/if}我们承诺保护用户的隐私，不会公开。</div>
+	</div>
+	<ul class="ul_block sizing">
+		<li class="webkit-box">
+			<label class="input_lable mr10">身份证名称</label>
+			<div class="list_con webkit-box-flex">
+				<input type="text" value="{$user_investment.identify_name}" class="textbox" disabled="true" />
+			</div>
+		</li>
+		<li class="webkit-box">
+			<label class="input_lable mr10">身份证号码</label>
+			<div class="list_con webkit-box-flex">
+				<input type="text" value="{$user_investment.identify_number}" class="textbox" disabled="true" />
+			</div>
+		</li>
+		<!--个人投资者start-->
+		{if $user_investment.is_investor eq 1}
+		
+		<li class="profile webkit-box">
+			<label class="input_lable mr10">身份证正面</label>
+			<div class="list_con webkit-box-flex">
+				<a href="{function name="get_spec_image" v=$user_investment.identify_positive_image w=750 h=450}">
+				<img id="avatar" src="{function name="get_spec_image" v=$user_investment.identify_positive_image w=250 h=150}" />
+				</a>
+			</div>
+		</li>
+		<li class="profile webkit-box">
+			<label class="input_lable mr10">身份证反面</label>
+			<div class="list_con webkit-box-flex">
+				<a href="{function name="get_spec_image" v=$user_investment.identify_nagative_image w=750 h=450}">
+					<img id="avatar" src="{function name="get_spec_image" v=$user_investment.identify_nagative_image w=250 h=150}" />
+				</a>
+			</div>
+		</li>
+		{/if}
+		<!--个人投资者end-->
+		<!--机构投资者start-->
+		{if $user_investment.is_investor eq 2}
+		<li class="webkit-box">
+			<label class="input_lable mr10">机构名称</label>
+			<div class="list_con webkit-box-flex">
+				<input type="text" value="{$user_investment.identify_business_name}" class="textbox" disabled="true" />
+			</div>
+		</li>
+		<li class="profile">
+			<label class="input_lable mr10 tl">营业执照</label>
+			<div class="list_con">
+				<a href="{function name="get_spec_image" v=$user_investment.identify_business_licence w=750 h=450}">
+					<img id="avatar" src="{function name="get_spec_image" v=$user_investment.identify_business_licence w=300 h=150}" />
+				</a>
+			</div>
+		</li>
+		<li class="profile">
+			<label class="input_lable mr10 tl">组织机构代码证</label>
+			<div class="list_con">
+				<a href="{function name="get_spec_image" v=$user_investment.identify_business_code w=750 h=450}">
+					<img id="avatar" src="{function name="get_spec_image" v=$user_investment.identify_business_code w=300 h=150}" />
+				</a>
+			</div>
+		</li>
+		<li class="profile">
+			<label class="input_lable mr10 tl">税务登记证</label>
+			<div class="list_con">
+				<a href="{function name="get_spec_image" v=$user_investment.identify_business_tax w=750 h=450}">
+					<img id="avatar" src="{function name="get_spec_image" v=$user_investment.identify_business_tax w=300 h=150}" />
+				</a>
+			</div>
+		</li>
+		{/if}
+		<!--机构投资者end-->
+	</ul>
+	{if $user_investment.investor_status eq 2}
+	<div class="p15 pt10 pb10 mt10 mb10" style="background:#fff;border-top:1px solid #e5e5e5;border-bottom:1px solid #e5e5e5;">
+		<label class="input_lable">未通过理由:</label>
+		<div class="blank5"></div>
+		<textarea class="textareabox" disabled="true" style="width:100%">{if $user_investment.investor_send_info}{$user_investment.investor_send_info}{else}暂无{/if}</textarea>
+	</div>
+	<div class="pl15 pr15">
+		<a href="#" onclick="RouterURL('{url_wap r="investor#index"}','#investor-index');" class="ui-button theme_color">重新申请</a>
+	</div>
+	<div class="blank15"></div>
+	{/if}
+</section>
+{include file="inc/footer.html"} 

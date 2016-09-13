@@ -1,0 +1,110 @@
+{include file="inc/header.html"} 
+<link rel="stylesheet" type="text/css" href="{$TMPL}/css/fancybox.css" />
+<script type='text/javascript' src='{$TMPL}/js/jquery.fancybox.js'></script>
+<style type="text/css">
+	.image_item img{cursor:url({$TMPL}/images/zoom.cur),auto;}
+</style>
+{include file="inc/home_user_info.html"}
+<!--中间开始-->
+<div class="dlmain Myhomepage">
+		 {include file="inc/account_left.html"} 
+		<div class="homeright pageright f_r">
+			<div >
+				<div class="page_title">
+					投资资料
+					{if $user_investment.investor_status eq 0}(审核中){/if}
+					{if $user_investment.investor_status eq 1}(审核通过){/if}
+					{if $user_investment.investor_status eq 2}(审核未通过){/if}
+				</div>
+				<div class="blank"></div>
+				<div class="blank"></div>
+				<div class="full">
+				<div class="empty_tip" style="color:red;">以下信息{if $user_investment.is_investor eq 1}(个人投资者){/if}{if $user_investment.is_investor eq 2}(机构投资者){/if}我们承诺保护用户的隐私，不会公开。</div>
+				</div>
+				<div class="blank"></div>
+				<div class="left" style="width:768px">
+					<!--个人投资者start-->
+					{if $user_investment.is_investor eq 1}
+						<div class="form_row control-group">
+							<label class="form_lable">身份证名称:</label>
+							<input type="text" value="{$user_investment.identify_name}" class="textbox" disabled="true" />
+						</div>
+						<div class="blank0"></div>
+						<div class="form_row control-group">
+							<label class="form_lable">身份证号码:</label>
+							<input type="text" value="{$user_investment.identify_number}" class="textbox" disabled="true" />
+						</div>
+						<div class="blank0"></div>
+						<div class="form_row control-group image_item">
+							<label class="form_lable">身份证正面:</label>
+							<img id="avatar" src="{function name="get_spec_image" v=$user_investment.identify_positive_image w=300 h=200}" rel="{function name="get_spec_image" v=$user_investment.identify_positive_image w=900 h=600}" />
+						</div>
+						<div class="blank0"></div>
+						<div class="form_row control-group image_item">
+							<label class="form_lable">身份证反面:</label>
+							<img id="avatar" src="{function name="get_spec_image" v=$user_investment.identify_nagative_image w=300 h=200}" rel="{function name="get_spec_image" v=$user_investment.identify_nagative_image w=900 h=600}" />
+						</div>
+					{/if}
+					<!--个人投资者end-->
+					<!--机构投资者start-->
+					{if $user_investment.is_investor eq 2}
+						<div class="form_row control-group">
+							<label class="form_lable" style="width:105px">机构名称:</label>
+							<input type="text" value="{$user_investment.identify_business_name}" class="textbox" disabled="true" />
+						</div>
+						<div class="form_row control-group image_item">
+							<label class="form_lable" style="width:105px">营业执照:</label>
+							<img id="avatar" src="{function name="get_spec_image" v=$user_investment.identify_business_licence w=300 h=200}" rel="{function name="get_spec_image" v=$user_investment.identify_business_licence w=900 h=600}" />
+						</div>
+						<div class="form_row control-group image_item">
+							<label class="form_lable" style="width:105px">组织机构代码证:</label>
+							<img id="avatar" src="{function name="get_spec_image" v=$user_investment.identify_business_code w=300 h=200}" rel="{function name="get_spec_image" v=$user_investment.identify_business_code w=900 h=600}" />
+						</div>
+						<div class="form_row control-group image_item">
+							<label class="form_lable" style="width:105px">税务登记证:</label>
+							<img id="avatar" src="{function name="get_spec_image" v=$user_investment.identify_business_tax w=300 h=200}" rel="{function name="get_spec_image" v=$user_investment.identify_business_tax w=900 h=600}" />
+						</div>
+					{/if}
+					<!--机构投资者end-->
+					{if $user_investment.investor_status eq 2}
+						<div class="form_row control-group">
+							<label class="form_lable">未通过理由:</label>
+							<textarea class="textareabox" disabled="true" style="width:300px;">{if $user_investment.investor_send_info}{$user_investment.investor_send_info}{else}暂无{/if}</textarea>
+						</div>
+						<div class="form_row control-group">
+							<div class="ui-button theme_bgcolor" rel="green" id="apply_again" style="display:inline; margin-left:111px;margin-top:20px;">
+								<div>
+									<span>重新申请</span>
+								</div>
+							</div>
+						</div>
+ 					{/if}
+				</div><!--left-->
+				<div class="blank"></div>
+			</div>
+	 		<div class="blank"></div>	
+		</div>
+<!--中间结束-->
+<div class="blank"></div>
+</div>
+<div class="blank"></div>
+<script type="text/javascript">
+	$(function(){
+		apply_again();
+		bind_zoom();
+	});
+	function apply_again(){
+		$("#apply_again").bind("click",function(){
+			location.href='{url r="investor#index"}';
+		});
+	}
+
+	// 图片放大镜
+	function bind_zoom(){
+		$(".image_item").bind("click",function(){
+			var img = $(this).find("img").attr("rel");
+			$.fancybox.open(img);
+		});
+	}
+</script>
+{include file="inc/footer.html"} 

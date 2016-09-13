@@ -1,0 +1,247 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<script type="text/javascript" src="__ROOT__/public/region.js"></script>	
+<load href='__TMPL__Common/js/deal_edit.js' />
+<script type="text/javascript" src="__TMPL__Common/js/calendar/calendar.php?lang=zh-cn" ></script>
+<load href='__TMPL__Common/js/calendar/calendar.css' />
+<load href='__TMPL__Common/js/calendar/calendar.js' />
+<div class="main">
+<div class="main_title">{%ADD} <a href="{:u("Deal/online_index")}" class="back_list">{%BACK_LIST}</a></div>
+<div class="blank5"></div>
+<form name="edit" action="__APP__" method="post" enctype="multipart/form-data">
+<table class="form conf_tab" cellpadding=0 cellspacing=0 >
+	<tr>
+		<td colspan=2 class="topTd"></td>
+	</tr>
+	<tr>
+		<td class="item_title">项目名称:</td>
+		<td class="item_input"><input type="text" class="textbox require" name="name" /></td>
+	</tr>
+	<tr>
+		<td class="item_title">项目等级:</td>
+		<td class="item_input">
+			<select name="user_level">
+				<option value="0">请选择等级</option>
+				<foreach name="user_level" item="level" key="kk">
+					<option value="{$level.id}" <if condition="($kk eq 0)">selected="selected"</if>>{$level.name}</option>
+				</foreach>
+			</select>
+			<span class='tip_span'>后台发起项目默认最低等级</span>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">发起人ID:</td>
+		<td class="item_input"><input type="text" class="textbox" name="user_id" style="width:30px;" /> <span class='tip_span'>不填写表示管理员发起</span></td>
+	</tr>
+	<tr>
+		<td class="item_title">项目图片:</td>
+		<td class="item_input">
+			<html:imgUpload name = 'image' id='image' />
+			<span class='tip_span'>推荐760*530图片</span>
+		</td>
+	</tr>
+	<tr style="display:none">
+		<td class="item_title">广告图片:</td>
+		<td class="item_input">
+			<html:imgUpload name = 'adv_image' id='adv_image' />
+			<span class='tip_span'>推荐765*317图片</span>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">详情页海报图:</td>
+		<td class="item_input">
+			<html:imgUpload name = 'deal_background_image' id='deal_background_image' />
+			<span class='tip_span'>推荐宽1920像素图片</span>
+		</td>
+	</tr>
+	<tr>
+	<td class="item_title">详情页背景图:</td>
+		<td class="item_input">
+			<html:imgUpload name = 'deal_backgroundColor_image' id='deal_backgroundColor_image' />
+			<span class='tip_span'>推荐单原色图片</span>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">视频地址:</td>
+		<td class="item_input"><input type="text" class="textbox" name="vedio" /></td>
+	</tr>
+	<tr>
+		<td class="item_title">参考上线天数:</td>
+		<td class="item_input"><input type="text" class="textbox" name="deal_days" /></td>
+	</tr>
+	<tr>
+		<td class="item_title">项目开始时间:</td>
+		<td class="item_input">
+			<input type="text" class="textbox require" name="begin_time" id="begin_time" value="" onfocus="this.blur(); return showCalendar('begin_time', '%Y-%m-%d %H:%M:%S', false, false, 'btn_begin_time');" />
+			<input type="button" class="button" id="btn_begin_time" value="{%SELECT_TIME}" onclick="return showCalendar('begin_time', '%Y-%m-%d %H:%M:%S', false, false, 'btn_begin_time');" />	
+			<input type="button" class="button" value="{%CLEAR_TIME}" onclick="$('#begin_time').val('');" />	
+
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">项目结束时间:</td>
+		<td class="item_input">
+			<input type="text" class="textbox require" name="end_time" id="end_time" value="" onfocus="this.blur(); return showCalendar('end_time', '%Y-%m-%d %H:%M:%S', false, false, 'btn_end_time');" />
+			<input type="button" class="button" id="btn_end_time" value="{%SELECT_TIME}" onclick="return showCalendar('end_time', '%Y-%m-%d %H:%M:%S', false, false, 'btn_end_time');" />	
+			<input type="button" class="button" value="{%CLEAR_TIME}" onclick="$('#end_time').val('');" />
+
+		</td>
+	</tr>
+	
+	<tr>
+		<td class="item_title">上架:</td>
+		<td class="item_input">
+			<label>{%IS_EFFECT_1}<input type="radio" name="is_effect" value="1" checked="checked" /></label>
+			<label>{%IS_EFFECT_0}<input type="radio" name="is_effect" value="0" /></label>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">是否显示支持者:</td>
+		<td class="item_input">
+			<label>{%IS_SUPPORT_PRINT_1}<input type="radio" name="is_support_print" value="1" /></label>
+			<label>{%IS_SUPPORT_PRINT_0}<input type="radio" name="is_support_print" value="0" checked="checked" /></label>
+			<span class='tip_span'>前台页面是否显示支持者的人数</span>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">支付类型:</td>
+		<td class="item_input">
+			<select name="ips_bill_no">
+ 				<option value="0" <if condition="$vo.ips_bill_no eq ''">selected="selected"</if> >网站支付</option>
+				<option value="1" <if condition="$vo.ips_bill_no neq ''">selected="selected"</if> >第三方托管</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">目标金额:</td>
+		<td class="item_input"><input type="text" class="textbox" name="limit_price" /></td>
+	</tr>
+	<tr>
+		<td class="item_title">佣金比例:</td>
+		<td class="item_input">
+			<input type="text" class="textbox" name="pay_radio"  value="{$vo.pay_radio}"/>
+			<span class='tip_span'>佣金比例为0的话，按系统的佣金比例0.1来算，不是0的话按这里的佣金比例来算</span>
+		
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">项目简介:</td>
+		<td class="item_input">
+			<textarea name="brief" class="textarea"></textarea>
+		</td>
+	</tr>
+	
+	<tr>
+		<td class="item_title">项目详情:</td>
+		<td class="item_input">
+			 <html:editor id="description" name="description" type="KINDEDITOR" content="" />
+		</td>
+	</tr>
+	
+        <tr>
+		<td class="item_title">付款与退款说明:</td>
+		<td class="item_input">
+			 <html:editor id="description_1" name="description_1" type="KINDEDITOR" content="" />
+		</td>
+	</tr>
+        
+	<tr>
+		<td class="item_title">标签:</td>
+		<td class="item_input"><input type="text" class="textbox" name="tags" style="width:500px;" /> <span class='tip_span'>用空格分隔</span></td>
+	</tr>
+	
+	<tr>
+		<td class="item_title">项目所属类别:</td>
+		<td class="item_input">
+			<select name="cate_id" class="require">
+				<option value="0">请选择</option>
+				<foreach name="cate_list" item="cate_item">
+					<option value="{$cate_item.id}">{$cate_item.title_show}</option>
+				</foreach>
+			</select>
+		</td>
+	</tr>
+	
+	<tr>
+		<td class="item_title">项目所属地区:</td>
+		<td class="item_input">
+			<select name="province">				
+			<option value="" rel="0">请选择省份</option>
+			<foreach name="region_lv2" item="region">
+				<option value="{$region.name}" rel="{$region.id}">{$region.name}</option>
+			</foreach>
+			</select>
+			
+			<select name="city">				
+			<option value="" rel="0">请选择城市</option>
+			</select>
+			<script type="text/javascript">
+				load_city();
+			</script>
+		</td>
+	</tr>
+	
+	<tr>
+		<td class="item_title">项目排序:</td>
+		<td class="item_input"><input type="text" class="textbox" name="sort" value="{$new_sort}" /></td>
+	</tr>
+	
+	<tr>
+		<td class="item_title">常见问题: [<a href="javascript:void(0);" onclick="add_faq();">增加</a>]</td>
+		<td class="item_input" id="faq">
+			
+		</td>
+	</tr>
+	
+	
+	<tr>
+		<td class="item_title">SEO标题:</td>
+		<td class="item_input">
+			<textarea name="seo_title" class="textarea"></textarea>
+		</td>
+	</tr>
+	
+	<tr>
+		<td class="item_title">SEO关键词:</td>
+		<td class="item_input">
+			<textarea name="seo_keyword" class="textarea"></textarea>
+		</td>
+	</tr>
+	
+	<tr>
+		<td class="item_title">SEO描述:</td>
+		<td class="item_input">
+			<textarea name="seo_description" class="textarea"></textarea>
+		</td>
+	</tr>
+	
+	<tr>
+		<td colspan=2 class="bottomTd"></td>
+	</tr>
+</table>
+
+<div class="blank5"></div>
+	<table class="form" cellpadding=0 cellspacing=0>
+		<tr>
+			<td colspan=2 class="topTd"></td>
+		</tr>
+		<tr>
+			<td class="item_title"></td>
+			<td class="item_input">
+			<!--隐藏元素-->
+			<input type="hidden" value="2" name="type">
+			<input type="hidden" name="{:conf("VAR_MODULE")}" value="Deal" />
+			<input type="hidden" name="{:conf("VAR_ACTION")}" value="insert_house" />
+			<!--隐藏元素-->
+			<input type="submit" class="button" value="{%ADD}" />
+			<input type="reset" class="button" value="{%RESET}" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan=2 class="bottomTd"></td>
+		</tr>
+	</table> 		 
+</form>
+</div>
+<include file="Public:footer" />

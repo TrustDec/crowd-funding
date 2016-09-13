@@ -1,0 +1,359 @@
+{include file="inc/header.html"}
+<?php
+	$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/deal_show.css";
+	$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/deal.js";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs"}"></script>
+<!-- 中间 开始 -->
+<div class="mod">
+	<section class="deal_box">
+		<!--1-->
+    	<div class="imgboxdt">
+		    <a href="#" title="{$deal_info.name}">
+		    	{if $deal_info.source_vedio eq ''}
+				<img src="{if $deal_info.image eq ''}{$TMPL}/images/empty_thumb.gif{else}{function name="get_spec_image" v=$deal_info.image w="640" h="445" g="1"}{/if}" alt="{$deal_info.name}" class="deal_image" />
+				{else}
+  				<iframe width=100% src="{$deal_info.source_vedio}" frameborder=0 allowfullscreen></iframe>
+				{/if}
+ 	    	</a>
+    	</div>
+    	<a href="#" title="{$deal_info.name}" class="deal_title sizing">{$deal_info.name}</a>
+    	<!--2-->
+    	<div class="paiduan">
+        	<span class="caption-title">
+	        	已筹资：<span class="symbol">¥</span><span class="f_money">{$deal_info.total_virtual_price_format}</span>&nbsp;&nbsp;
+	        	目标：<span class="symbol" style="color:#333">¥</span><span class="f_money" style="color:#333">{$deal_info.limit_price_format}</span>
+        	</span>
+            <span class="f_r ">
+        		{if $deal_info.status eq 0}
+                    <span class="common common-success">预热中</span>
+                {else}
+	            	{if $deal_info.percent >=100}
+						<span class="common common-success">已成功</span>
+					{else}
+                    	{if $deal_info.status eq 1}
+                            <span class="common common-success">已成功</span>
+                        {/if}
+                        {if $deal_info.status eq 2}
+                            <span class="common common-fail">筹资失败</span>
+                        {/if}
+                        {if $deal_info.status eq 3}
+                            <span class="common common-sprite">筹资中</span>
+                        {/if}
+                        {if $deal_info.status eq 4}
+                            <span class="common common-sprite">长期项目</span>
+                        {/if}
+				 	{/if}
+	  			{/if}
+            </span>
+	 	</div>
+    	<div class="blank5"></div>
+     	<!--3-->
+    	<div class="deal_content_box pd">             
+     		<div class="ui">
+      			<span class="{if $deal_info.percent gte 100}common-success{/if} progress" style="width:{$deal_info.percent}%;"></span>
+         	</div>             
+        	<div class="blank"></div>
+        	<div class="div_dt">
+        		<span class="num">{$deal_info.percent}%</span><br />
+        		<span class="til">已达</span>
+        	</div>
+        	<div class="div_dt">
+        		{if $deal_info.status==0}
+				<span class="num">
+					{$deal_info.left_days}天
+				</span>
+				<span class="til">距离开始</span>
+				{else}
+	        	<span class="num">
+	        		{if $deal.percent >=100}
+				 	已成功
+					{else}
+						{if $deal_info.status eq 1}
+                   	 		已成功
+	                    {/if}
+	                    {if $deal_info.status eq 2}
+                   			筹资失败
+	                    {/if}
+	                    {if $deal_info.status eq 3}
+	                        {$deal_info.remain_days}天
+	                    {/if}
+	                    {if $deal_info.status eq 4}
+	                       	 长期项目
+	                    {/if}
+					{/if}	
+ 				</span><br />
+				<span class="til">剩余时间</span>
+				{/if}
+			</div>
+	        <div class="div_dt" style="border:none;">
+	            <span class="num">{$deal_info.person}</span><br />
+	            <span class="til">支持者</span>               
+	        </div>
+        	<div class="blank"></div>
+    	</div>
+	</section>
+	<section class="shit">
+	    <span>发起人：{if $deal_info.user_name}{$deal_info.user_name}{else}{$site_name}{/if}</span>
+	    <a class="orange" href="">{$deal_user_info.user_name}</a>
+	    <a class="f_r {if $is_focus}qxgz{else}gz{/if} attention_focus_deal" id="{$deal_info.id}" href="#">{if $is_focus}<i class="icon iconfont is_focus">&#xe605;</i> 取消关注{else}<i class="icon iconfont no_focus">&#xe606;</i> 关注{/if}</a>
+	    <div class="blank0"></div>
+	    支付方式：{if $deal_info.ips_bill_no eq 0}网站支付{else}第三方托管{/if}
+	</section>
+	<section class="detailmain">
+	    <p class="detailpd">{function name="msubstr" v=$deal_info.brief p=0 e=60}</p>
+	    {if $access==1||$access==3}
+	    <div class="blank10"></div>
+	    <p class="tc">
+	    	<a class="detailmain_a" href="#" id="detailmain_a">
+		    	<span class="theme_fcolor" id="view_details">展开详情 +</span><i class="fa fa-angle-right"></i>
+		    </a>
+	    </p>
+	    <div class="blank10"></div>
+	    <div class="deal_info_box pb15" id="deal_info_box" style="display:none">
+	    	{include file="deal_info.html"} 
+	    	<div class="blank15"></div>
+	    	<p class="tc">
+	    		<a class="detailmain_aa" href="#" id="detailmain_aa">
+					<span class="theme_fcolor" id="view_detailss">收起详情 -</span>
+			    </a>
+	    	</p>
+	    </div>
+	    {else}
+			{if $access eq 0}
+	        <div class="authority_box">
+           		温馨提示：您需要<a href="#" onclick="RouterURL('{url_wap r="user#login"}','#user-login');" class="f_red link_underline">登录</a>才可以查看项目详细信息！ 
+	        </div>
+    		{/if}
+	        {if $access eq 2}
+	     	<div class="authority_box f_red">
+	            温馨提示：您的会员等级不够，无法查看项目详细信息！
+	        </div>
+	        {/if}
+	        {if $access eq 4}
+	        <div class="authority_box">
+	            温馨提示：您未实名认证，马上去<a href='#' onclick="RouterURL('{url_wap r="settings#security"  p="method=setting-id-box"}','#settings-security',2);" class="f_red link_underline">实名认证</a>！
+	        </div>
+	        {/if}
+	        {if $access eq 5}
+	        <div class="authority_box f_red">
+	            温馨提示：您的实名认证正在审核中，无法查看项目详细信息！
+	        </div>
+	        {/if}
+	        {if $access eq 6}
+	        <div class="authority_box">
+	            温馨提示：您的实名认证未通过，重新去<a href='#' onclick="RouterURL('{url_wap r="settings#security"  p="method=setting-id-box"}','#settings-security',2);" class="f_red link_underline">实名认证</a>！
+	        </div>
+	        {/if}
+	        <div class="blank15"></div>
+		{/if}
+	</section>
+	{if $access==1||$access==3}
+	<section class="detailborder">
+		<h3>选择回报</h3>
+		{foreach from=$deal_info.deal_item_list item=item key=k}
+		{if $k>=3}
+	  	<div class="displayReturn">
+	 	{/if}
+			{if $item.type eq 1}
+			<div class="detailReturn">
+	    		<div class="Returntop webkit-box mb10">
+	    			{if $deal_info.remain_days>0}
+					{if ($item.support_count+$item.virtual_person) < $item.limit_user or $item.limit_user eq 0}
+				    <div class="Returntitle webkit-box-flex">
+				        <span class="span1 f_money mr5">无私奉献</span>
+				        <span class="span2 f_999">{$item.support_count}人已支持</span>
+				    </div>
+				    <a href="javascript:dedicate_pop({$item.id});" class="ui-button ui-small-button theme_color" style="width:80px;">立即支持</a>
+					{else}
+				    <div class="Returntitle webkit-box-flex">
+				        <span class="span1 f_money mr5"><i class="font-yen support-yen">¥</i>{$item.price_format}</span>
+				        <span class="span2">已满额</span>
+				    </div>
+				    <a href="javascript:dedicate_pop();" disabled="true" class="ui-button ui-small-button bg_gray" style="width:80px;">立即支持</a>
+					{/if}
+					{else}
+				    <div class="Returntitle webkit-box-flex">
+				        <span class="span1 f_money mr5">无私奉献</span>
+				        <span class="span2 f_999">{$item.person}人已支持</span>
+				    </div>
+				    <a href="#"  disabled="true" class="ui-button ui-small-button bg_gray" style="width:80px;">立即支持</a>
+					{/if}	
+	    		</div>
+			    <p>{$item.description}</p>
+			    <p>
+			    	{foreach from=$item.images item=image}
+				    <img class="pimg pimg_{$k}" src="{$image.image}">
+				    {/foreach}
+			    </p>
+		    </div>
+			{else}
+	    	<div class="detailReturn">
+	    		<div class="Returntop webkit-box mb10">
+	    			{if ($deal_info.end_time > $now_time or $deal_info.end_time eq 0) and $deal_info.begin_time < $now_time and $deal_info.is_effect eq 1}
+					{if ($item.support_count+$item.virtual_person) < $item.limit_user or $item.limit_user eq 0}
+				    <div class="Returntitle webkit-box-flex">
+				        <span class="span1 f_money mr5">{if $item.type eq 2 }抽奖{/if}<i class="font-yen support-yen">¥</i>{$item.price_format}</span>
+				        <span class="span2 f_999">{$item.person}人已支持{if $item.is_limit_user eq 1}{if $item.limit_user gt 0}/限{$item.limit_user}名{/if}{/if}</span>
+				    </div>
+					<!---->
+					{if $item.type eq 2}
+						{if !$deal_info.lottery_draw_time}
+						 <a href="javascript:lottery_pop({$item.id},{$item.price_format});" class="ui-button ui-small-button theme_color J_lottery_pop" style="width:80px;">立即支持</a>
+						{else}
+							<div class="Returntitle webkit-box-flex">
+						        <span class="span1 f_money mr5"><i class="font-yen support-yen">¥</i>{$item.price_format}</span>
+						        <span class="span2">已抽奖</span>
+						    </div>
+						{/if}
+					{else}
+						<a href="{$item.cart_url}" class="ui-button ui-small-button theme_color" style="width:80px;">立即支持</a>						
+					{/if}
+					<!---->
+					{else}
+				    <div class="Returntitle webkit-box-flex">
+				        <span class="span1 f_money mr5"><i class="font-yen support-yen">¥</i>{$item.price_format}</span>
+						{if $item.type eq 2 && $deal_info.lottery_draw_time gt 0}
+							<span class="span2">已抽奖</span>
+						{else}
+							<span class="span2">已满额</span>
+						{/if}
+				        
+				    </div>
+				    <a href="#" disabled="true" class="ui-button ui-small-button bg_gray" style="width:80px;">立即支持</a>
+					{/if}
+					{else}
+				    <div class="Returntitle webkit-box-flex">
+				        <span class="span1 f_money mr5"><i class="font-yen support-yen">¥</i>{$item.price_format}</span>
+				        <span class="span2">{$item.person}人已支持</span>
+				    </div>
+				    <a href="#"  disabled="true" class="ui-button ui-small-button bg_gray" style="width:80px;">立即支持</a>
+					{/if}	
+	    		</div>
+			    <p>{$item.description}</p>
+		     	<p class="f_666 f12" style="padding-bottom:5px">
+			    	{if $item.is_delivery eq 1}
+						{if $item.delivery_fee eq 0}
+						运费：包邮
+						{else}
+						运费：¥{function name="round" v=$item.delivery_fee e=2}
+						{/if}
+						&nbsp;&nbsp;
+					{/if}
+					{if $item.is_share eq 1 && $item.share_fee gt 0}
+						分红：¥{function name="round" v=$item.share_fee e=2}
+					{/if}
+			    </p>
+				{if $item.type eq 2 && $item.maxbuy gt 0}
+				<p class="f_666 f12" style="padding-bottom:5px">
+					每个会员最大支持数量：{$item.maxbuy}
+				</p>
+				{/if}
+		     	{if $item.repaid_day gt 0}
+				<p class="f_666 f12" style="padding-bottom:5px">
+					预计发放时间：项目成功结束后{$item.repaid_day}天内
+				</p>
+				{/if}
+			    <p>
+			    	{foreach from=$item.images item=image}
+				    <img class="pimg pimg_{$k}" src="{$image.image}">
+				    {/foreach}
+			    </p>
+		    </div>
+			{/if}
+		{if $k>=3}
+	  	</div>
+	 	{/if}
+	 		
+		{/foreach}
+		{if $deal_info.deal_item_count>3}
+    	<div class="moreProject" id="display_item">
+        	<div class="openmore">
+        		查看其他全部回报<i class="fa fa-chevron-down"></i>
+        	</div>
+       	 	<div class="closemore">收起其他全部回报<i class="fa fa-chevron-up"></i></div>
+    	</div>
+		{/if}   
+    	<div class="blank"></div>
+	</section>
+	{if $log_num}
+	<section class="detailborder" onclick="window.location.href='{$deal_info.update_url}';">
+	    <div class="detailmain Dynamic">        
+	        <span class="span1">圈子动态（{$log_num}）</span>
+	        <span class="span3"><i class="fa fa-angle-right "></i></span>
+	    </div>
+	    <div class="critical_ul">
+	        <ul>
+	        	{foreach from=$log_list item=log}
+	            <li>
+	                <div class="uer_pic"><img src="{$log.user_info.avatar}" width="44" height="44"></div>
+	                <div class="comment">
+	                    <h4>{$log.user_info.user_name}</h4>
+	                    <div class="details">
+	                        <div class="lov1"></div>
+	                        <p>
+	                             {$log.log_info}
+	                        </p>
+	                    </div>
+	                </div>
+	            </li>
+	            {/foreach}
+	        </ul>
+	    </div>
+    	<div class="blank"></div>
+	</section>
+	{/if}
+	
+	<section class="detailborder" onclick="window.location.href='{$deal_info.comment_url}';">
+	    <div class="detailmain Dynamic">        
+	        <span class="span1">评论（{$comment_count}）</span>
+	        <span class="span3"><i class="fa fa-angle-right "></i></span>
+	    </div>
+	    <div class="critical_ul">
+	        <ul>
+	        	{foreach from=$comment_list item=comment}
+	            <li>
+	                <div class="uer_pic"><img src="{$comment.user_info.avatar}" width="44" height="44"></div>
+	                <div class="comment">
+	                    <h4>{$comment.user_info.user_name}</h4>
+	                    <div class="details">
+	                        <div class="lov1"></div>
+	                        <p>
+	                           	{$comment.content}
+	                        </p>
+	                    </div>
+	                </div>
+	            </li> 
+				{/foreach}
+	        </ul>
+	    </div>
+    	<div class="blank"></div>
+	</section>
+	
+	{/if}
+</div>
+<div class="hide" id="dedicate_demo">
+	<div class="dedicate_box">
+		<form class="ajax_form_dedicate" action="{url_wap r="cart#index" }">
+			<div class="webkit-box">
+				<label>奉献金额:</label>
+				<input type="text" placeholder="请输入奉献金额" value="" name="pay_money" class="textboxs sizing webkit-box-flex">
+			</div>
+			<div class="dedicate_tip f_red hide mt5" style="padding-left:70px;">*请输入正确的金额</div>
+			<div class="blank15"></div>
+			<input type="hidden" name="id" value="item_id">
+			<input type="hidden" name="deal_id" value="{$deal_info.id}">
+			<input type="hidden" name="ctl" value="cart">
+			<input type="button" name="" value="提交" class="ui-button theme_color" />
+		</form>
+	</div>
+</div>
+<div class="blank15"></div>
+<!-- 中间 结束 -->
+<script type="text/javascript">
+	var item_id = '{$item.id}';
+	var item_price_format = '{$item.price_format}';
+	var deal_info_id = '{$deal_info.id}';
+</script>
+{include file="inc/footer.html"}

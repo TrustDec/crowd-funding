@@ -1,0 +1,66 @@
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/yeepayinvestmentpass/bindbankcard_confirm.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/yeepayinvestmentpass/bindbankcard_confirm.js";
+?>
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<form id="bindbankcard_confirm" action="{url r="settings#bindbankcard_confirm"}" class="enquiry">				
+	<div class="control-group small-control-group">
+		<input type="hidden"  name="requestid"  value="{$requestid}" />
+		<label class="control-label" style="width:50px;"><span class="f_red">*</span>验证码</label>
+		<div class="control-text">
+			<input type="text"  name="validatecode" class="small_textbox w250 c_founder_team_job" value="" />
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="blank10"></div>
+	<div class="submit_btn_row control-group">
+		<label class="control-label" style="width:50px;"></label>
+		<span class="ui-button theme_bgcolor button_y mr10" rel="green">确认</span>
+		<span class="ui-button bg_red button_n" rel="green">取消</span>
+		{if $addbindbankcard}
+			<input type="hidden" value="{$cart_info.bankcard}" name="bankcard" />
+			<input type="hidden" value="{$cart_info.real_name}" name="real_name" />
+			<input type="hidden" value="{$cart_info.mobile}" name="mobile" />
+			<input type="hidden" value="{$cart_info.bank_id}" name="bank_id" />
+			<input type="hidden" value="{$cart_info.region_lv2}" name="region_lv2" />
+			<input type="hidden" value="{$cart_info.region_lv3}" name="region_lv3" />
+			<input type="hidden" value="{$cart_info.bankzone}" name="bankzone" />
+			<input type="hidden" value="{$cart_info.identityid}" name="identityid" />		
+			<input type="hidden" value="{$cart_info.identitytype}" name="identitytype" />
+			<input type="hidden" value="{$addbindbankcard}" name="addbindbankcard" />
+		{else}
+			<input type="hidden" value="{$cart_info.bankcard}" name="bankcard" />
+			<input type="hidden" value="{$cart_info.real_name}" name="real_name" />
+			<input type="hidden" value="{$cart_info.mobile}" name="mobile" />
+			<input type="hidden" value="{$cart_info.bank_id}" name="bank_id" />
+			<input type="hidden" value="{$cart_info.region_lv2}" name="region_lv2" />
+			<input type="hidden" value="{$cart_info.region_lv3}" name="region_lv3" />
+			<input type="hidden" value="{$cart_info.bankzone}" name="bankzone" />
+			<input type="hidden" value="{$cart_info.identityid}" name="identityid" />
+			<input type="hidden" value="{$cart_info.identitytype}" name="identitytype" />
+			<input type="hidden" value="" name="addbindbankcard" />
+			{if $user_infos.is_investor eq 1}
+				<input type="hidden" value="{$user_infos.card}" name="card" />
+				<input type="hidden" value="{$user_infos.identity_conditions}" name="identity_conditions" />
+				<input type="hidden" value="{$user_infos.credit_report}" name="credit_report" />
+				<input type="hidden" value="{$user_infos.housing_certificate}" name="housing_certificate" />
+			{else}
+				<input type="hidden" value="{$user_infos.identify_business_name}" name="identify_business_name" />
+				<input type="hidden" value="{$user_infos.identify_business_licence}" name="identify_business_licence" />
+				<input type="hidden" value="{$user_infos.identify_business_code}" name="identify_business_code" />
+				<input type="hidden" value="{$user_infos.identify_business_tax}" name="identify_business_tax" />
+			{/if}
+			<input type="hidden" value="{$user_infos.is_investor}" name="is_investor" />
+			<input type="hidden" value="{$user_infos.identify_name}" name="identify_name" />
+			<input type="hidden" value="{$user_infos.identify_number}" name="identify_number" />
+			<input type="hidden" value="{$user_infos.identify_positive_image}" name="identify_positive_image" />
+			<input type="hidden" value="{$user_infos.identify_positive_image}" name="identify_nagative_image" />
+		{/if}
+	</div>
+	<div class="blank5"></div>
+</form>
+<script type="text/javascript">
+	$(function(){
+		bindbankcard_confirm_save("#bindbankcard_confirm");
+	});
+</script>

@@ -1,0 +1,107 @@
+/* ui_list 开始 */
+.ui_list{ width:100% }  
+.ui_list ul{
+	background:#fff;
+	padding:0 10px;
+	border:1px solid #e5e5e5;
+	border-radius: 3px;
+}
+.ui_list ul li{
+	position:relative;
+	padding:5px;
+	border-bottom:1px solid #e5e5e5;
+	overflow:hidden;
+	display:-webkit-box;
+	-webkit-box-orient:horizontal;
+}
+.ui_list .flex{
+	display:block;
+	-webkit-box-flex:1;
+	-moz-box-flex:1;
+	-webkit-box-align:center;
+}
+.ui_list.no_border ul {
+	border-radius:0;
+	border:0;
+	border-bottom: 1px solid #e5e5e5;
+}
+.ui_list .ui_list_label { 
+	color: #666;
+	display:block;
+}
+.ui_list li{line-height: 40px;}
+.ui_list .ui_list_label ,
+.ui_list .ui_list_content{
+	height:40px;
+	line-height:40px;
+}
+.ui_list ul li.dotted { border-bottom:1px dotted #e5e5e5; }
+.ui_list ul li.auto_height{
+	height:auto;
+	line-height:1.5;
+}
+.ui_list ul li.auto_height .ui_list_label ,
+.ui_list ul li.auto_height .ui_list_content{
+	height:auto !important;
+	line-height:1.5 !important;
+}
+.ui_list ul li.auto_height textarea{
+	width:100%;
+	min-height:100px;
+	padding:10px 0;
+	font-size:1.4rem;
+  	-moz-box-sizing: border-box;
+	-o-box-sizing: border-box;
+ 	box-sizing: border-box;
+}
+.ui_list ul li.auto_height .text { margin-top:10px; }
+.ui_list ul li.last ,
+.ui_list ul li:last-child{
+	border-bottom:0 !important;
+}
+
+.ui_normal_lis li{line-height: 40px;}
+.ui_normal_list .ui_list_label ,
+.ui_normal_list .ui_list_content{
+	height:40px;
+	line-height:40px;
+}
+.ui_small_list li{line-height: 30px;}
+.ui_small_list .ui_list_label ,
+.ui_small_list .ui_list_content{
+	height:30px;
+	line-height:30px;
+}
+.ui_smaller_list li{line-height: 20px;}
+.ui_smaller_list .ui_list_label ,
+.ui_smaller_list .ui_list_content{
+	height:20px;
+	line-height:20px;
+}
+
+.data_list ul{padding:0;}
+.data_list ul li{
+	border: 0;
+	padding:5px 15px;
+}
+.data_list li:nth-of-type(odd){background:#fff;}
+.data_list li:nth-of-type(even){background:#f9f9f9;}
+/* ui_list 结束 */
+
+/* ui_text 开始 */
+.ui_text {
+	padding:20px 8px;
+	width:100%;
+	height:14px;
+	line-height:1;
+	display:block;
+	-webkit-box-flex: 1;
+	display:inline-block;
+	font-size:1.4rem;
+	color:#333;
+}
+.ui_border_text{border:1px solid #ddd;}
+
+.ui_small_text{padding:15px 8px;}
+.ui_smaller_text{padding:10px 8px;}
+/* ui_text 结束 */

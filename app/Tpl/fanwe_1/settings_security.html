@@ -1,0 +1,1015 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/switch_city.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/switch_city.js";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/setting_security.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/setting_security.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<script type="text/javascript">
+    var ROOT = '{$APP_ROOT}/{$URL_NAME}';
+    var VAR_MODULE = "m";
+    var VAR_ACTION = "a";
+    var WEB_SESSION_ID = '<?php echo es_session::id(); ?>';
+    var EMOT_URL = '{$APP_ROOT}/public/emoticons/';
+    var MAX_FILE_SIZE =  '{$max_size_byte}b';
+    var UPLOAD_URL ='{$APP_ROOT}/{$URL_NAME}?m=File&a=do_upload&upload_type=0&dir=image' ;
+	var UPLOAD_SWF='{$TMPL}/js/plupload/Moxie.swf';
+	var UPLOAD_XAP='{$TMPL}/js/plupload//Moxie.xap';
+	var ALLOW_IMAGE_EXT= "gif,jpg,jpeg,png,bmp";
+	var MAX_IMAGE_SIZE= '{$max_size_byte}b';
+	function get_file_fun(str){
+  		$(str).ui_upload({multi:false,
+		FileUploaded:function(ajaxobj){
+ 				if(ajaxobj.error==1)
+				{
+					$.showErr(ajaxobj.info);
+				}else{
+					$(str).attr('src',ajaxobj.url);
+					if(str=='#business_tax'||str=='#business_code'||str=='#business_licence'){
+						str=str.replace("#","");
+ 						$("#identify_"+str).val(ajaxobj.public_url);
+					}else{
+						$(str+"_image").val(ajaxobj.public_url);
+					}
+					
+ 				}
+			},Error:function(error){
+			if(error.code==-600){
+				$.showErr("您上传的文件太大，最大允许上传{$max_size}");
+			}else{
+				$.showErr(error.message);
+			}
+ 		}});
+	}
+</script>
+<style>
+	.control-group .control-label{width:160px;}
+</style>
+{include file="inc/home_user_info.html"}
+<!--中间开始-->
+<div class="dlmain Myhomepage">
+	{include file="inc/account_left.html"} 
+	<div class="homeright pageright f_r">
+		<div class="list_title clearfix">
+			<div class="cur">
+				<span>安全信息</span>
+			</div>
+		</div>
+		<div class="list_conment setting_security">
+			<ul class="security-ul">
+				<li>
+					<div class="it cf clearfix">
+						<div class="icon nicheng"></div>
+						<h3>昵称</h3>
+						{if $user_info.user_name}
+						<p>已设置</p>
+						<div class="update">{$user_info.user_name}</div>
+						{else}
+						<p class="f_red">未设置</p>
+						<div class="update">
+							<a href="javascript:void(0);" class="J_setting" id="J_setting_user_name">{if $user_info.user_name}修改{else}设置{/if}</a>
+						</div>
+						{/if}
+ 					</div>
+					<div class="setting_box" id="setting-username-box">
+						{if !$user_info.user_name}
+						<form class="ajax_form_user_name" action="{url r="settings#save_username"}" id="save_name" > 
+ 							<div class="form_row control-group" >
+								<label class="form_lable">昵称:</label>
+								<input type="text" value="" class="small_textbox" name="user_name" />
+							</div>
+ 							<div class="blank20"></div>
+							<div class="submit_btn_row control-group">
+								<label class="form_lable"></label>
+								<input type="button" value="保存昵称" name="pass" class="ui-button theme_bgcolor" id="user_name"  />
+								<input type="hidden" value="1" name="ajax" />
+ 								<div class="blank15"></div>
+							</div>
+						</form>
+						{/if}
+					</div>
+				</li>
+				<li>
+					<div class="it cf clearfix">
+						<div class="icon pwd"></div>
+						<h3>登录密码</h3>
+						{if $user_info.user_pwd}
+						<p>已设置</p>
+						{else}
+						<p class="f_red">未设置</p>
+						{/if}
+						<div class="update">
+							<a href="javascript:void(0);" class="J_setting" id="J_setting_pwd">{if $user_info.user_pwd}修改{else}设置{/if}</a>
+						</div>
+					</div>
+					<div class="setting_box" id="setting-pwd-box">
+						<form class="ajax_form_password" action="{url r="settings#save_pass"}" id="save_pass" > 
+							{if $user_info.user_pwd}
+							<div class="control-group small-control-group">
+								<label class="control-label">旧密码:</label>
+								<div class="control-text">
+									<input type="password"  autocomplete="off" value="" class="small_textbox" name="user_old_pwd" />
+								</div>
+							</div>
+							<input type="hidden" name="change_pwd" value="1">
+							{else}
+							<input type="hidden" name="change_pwd" value="0">
+							{/if}
+	 						<div class="blank0"></div> 				
+							<div class="control-group small-control-group">
+								<label class="control-label">新密码:</label>
+								<div class="control-text">
+									<input type="password"  autocomplete="off" value="" class="small_textbox" name="user_pwd" />
+								</div>
+								<div class="blank0"></div>
+							</div>
+							<div class="control-group small-control-group">
+								<label class="control-label">确认密码:</label>
+								<div class="control-text">
+									<input type="password"  autocomplete="off" value="" class="small_textbox" name="confirm_user_pwd" />
+								</div>
+							</div>
+							<div class="blank10"></div>
+							<div class="submit_btn_row control-group">
+								<label class="control-label"></label>
+								<input type="button" value="保存密码" name="pass" class="ui-button theme_bgcolor" id="pass"  />
+								<input type="hidden" value="1" name="ajax" />
+								<input type="hidden" name="setting_pwd" value="1">
+							</div>
+						</form>
+					</div>
+				</li>
+				<li>
+					<div class="it cf clearfix">
+						<div class="icon email"></div>
+						<h3>绑定邮箱</h3>
+						{if $user_info.email}
+							<p>已绑定</p>
+						{else}
+							<p class="f_red">未绑定</p>
+						{/if}
+						<div class="update">
+ 							<a href="javascript:void(0);" class="J_setting" id="J_setting_email">{if $user_info.email}修改{else}绑定{/if}</a>
+						</div>
+					</div>
+					<div class="setting_box" id="setting-email-box">
+						<form class="ajax_form_email" action="{url r="settings#email_binding" }">
+						{if $user_info.email}
+							<div class="control-group smaller-control-group">
+								<label class="control-label">原邮箱:</label>
+								<div class="control-text">{function name="hideEmail" v=$user_info.email}</div>
+								<div class="blank0"></div>
+	 						</div>
+							<div class="control-group small-control-group">
+								<label class="control-label">邮箱验证码:</label>
+								<div class="control-text">
+									<input type="text" value="" class="small_textbox mr10" name="verify_coder"  style="width:165px;"/>
+	 								<input type="button" value="获取验证码" class="ui_button send_sms_verify small_send_sms_verify bg_red" id="email_verify_code" />
+	 							</div>
+	 							<div class="blank0"></div>
+	 						</div>
+							<div class="control-group small-control-group">
+								<label class="control-label">新邮箱:</label>
+								<div class="control-text">
+									<input type="text" value="" class="small_textbox" name="email" />
+								</div>
+	 						</div>
+							<input type="hidden" value="2" name="step" />
+						{else}
+							<div class="control-group small-control-group">
+								<label class="control-label">新邮箱:</label>
+								<div class="control-text">
+									<input type="text"   value=""   class="small_textbox" name="email" />
+								</div>
+								<div class="blank0"></div>
+	 						</div>
+							<div class="control-group small-control-group">
+								<label class="control-label">邮箱验证码:</label>
+								<div class="control-text">
+									<input type="text" value="" class="small_textbox mr10" name="verify_coder"  style="width:165px;"/>
+	 								<input type="button" value="获取验证码" class="ui_button send_sms_verify small_send_sms_verify bg_red" id="email_verify_code" />
+	 							</div>
+	 						</div>
+							<input type="hidden" value="1" name="step" />
+						{/if}				
+ 	 						<div class="blank10"></div>
+							<div class="submit_btn_row control-group">
+								<label class="control-label"></label>
+								<div class="ui-button theme_bgcolor" rel="green">绑定邮箱</div>
+								<input type="hidden" value="1" name="ajax" />
+							</div>
+						</form>
+					</div>
+				</li>
+				<li>
+					<div class="it cf clearfix">
+						<div class="icon mobile"></div>
+						<h3>绑定手机</h3>
+						{if $user_info.mobile}
+							<p>已绑定</p>
+							<div class="update"><a href="javascript:void(0)" class="J_setting" id="J_setting_mobile">修改</a></div>
+						{else}
+							<p class="f_red">未绑定</p>
+							<div class="update"><a href="javascript:void(0)" class="J_setting f_red" id="J_setting_mobile">绑定</a></div>
+						{/if}
+						
+					</div>
+					<div class="setting_box" id="setting-mobile-box">
+						<form class="ajax_form_mobile" action="{url r="settings#mobile_binding"}" >
+							{if $user_info.mobile}
+							<div class="control-group small-control-group">
+								<label class="control-label">原手机号:</label>
+								<div class="control-text">{function name="hideMobile" v=$user_info.mobile}</div>
+								<input type="hidden" id="settings-mobile-type" name="step" value="2">
+								<div class="blank0"></div>
+	 						</div>
+						 	<div class="control-group small-control-group">
+								<label class="control-label">验证码:</label>
+								<div class="control-text">
+									<input type="text" value="" class="small_textbox mr10" name="verify_coder"  style="width:165px;"/>
+	 								<input type="button" value="获取验证码" class="ui_button send_sms_verify small_send_sms_verify bg_red" id="J_send_sms_verify" />
+	 							</div>
+	 							<div class="blank0"></div>
+	 						</div>
+							<div class="control-group small-control-group">
+								<label class="control-label">新机号:</label>
+								<div class="control-text">
+									<input type="text" id="settings-new-mobile" value="" class="small_textbox" name="mobile" />
+	 							</div>
+	 						</div>
+							<input type="hidden" name="bind_mobile" value="0">
+							{else}
+							<div class="control-group small-control-group">
+								<label class="control-label">手机号:</label>
+								<div class="control-text">
+									<input type="text" id="settings-mobile" value="" class="small_textbox" name="mobile" />
+	 								<input type="hidden" id="settings-mobile-type" name="step" value="1">
+	 							</div>
+	 							<div class="blank0"></div>
+							</div>
+						 	<div class="control-group small-control-group">
+								<label class="control-label">验证码:</label>
+								<div class="control-text">
+									<input type="text" value="" class="small_textbox mr10" name="verify_coder"  style="width:165px;"/>
+	 								<input type="button" value="获取验证码" class="ui_button send_sms_verify small_send_sms_verify bg_red" id="J_send_sms_verify" />
+	 							</div>
+	 						</div>
+							<input type="hidden" name="bind_mobile" value="1">
+							{/if}
+	 						<div class="blank10"></div>
+							<div class="submit_btn_row control-group">
+								<label class="control-label"></label>
+								<input type="button" value="提交" name="setting_mobile" class="ui-button theme_bgcolor" id="setting_mobile"  />
+								<input type="hidden" value="1" name="ajax" />
+							</div>
+						</form>
+					</div>
+				</li>
+				<li>
+					<div class="it cf clearfix">
+						<div class="icon paypwd"></div>
+						<h3>支付密码{if $user_info.mobile}{if $user_info.paypassword eq ''}<br /><span class="f12 f_red">请设置支付密码，以免投资项目时无法完成支付</span>{/if}{/if}</h3>
+						{if $user_info.mobile}
+						{if $user_info.paypassword}
+						<p>已设置</p>
+						{else}
+						<p class="f_red">未设置</p>
+						{/if}
+ 						<div class="update"><a href="javascript:void(0)" class="J_setting" id="J_setting_paypwd">设置</a></div>
+						{else}
+						<p class="f_red">请先设置手机号</p>
+						{/if}
+					</div>
+					<div class="setting_box" id="setting-pass-box">
+						<form class="ajax_form_paypassword" action="{url r="settings#paypassword_binding"}">
+							<div class="control-group small-control-group">
+								<label class="control-label">支付密码:</label>
+								<div class="control-text">
+									<input type="password"  autocomplete="off" id="" value="" class="small_textbox" name="paypassword" />
+								</div>
+								<div class="blank0"></div>
+	 						</div>
+							<div class="control-group small-control-group">
+								<label class="control-label">确认支付密码:</label>
+								<div class="control-text">
+									<input type="password"  autocomplete="off" id="" value="" class="small_textbox" name="confirm_pypassword" />
+								</div>
+								<div class="blank0"></div>
+	 						</div>
+							<div class="control-group smaller-control-group">
+								<label class="control-label">手机号:</label>
+								<div class="control-text">{function name="hideMobile" v=$user_info.mobile}</div>
+								<div class="blank0"></div>
+	 						</div>
+						 	<div class="control-group small-control-group">
+								<label class="control-label">验证码:</label>
+								<div class="control-text">
+									<input type="text" value="" class="small_textbox mr10" name="verify"  style="width:165px;"/>
+	 								<input type="button" value="获取验证码" class="ui_button send_sms_verify small_send_sms_verify bg_red" id="J_send_sms_verify_pay" />
+	 							</div>
+	 						</div>
+	 						<div class="blank10"></div>
+							<div class="submit_btn_row control-group">
+								<label class="control-label"></label>
+								<div class="ui-button theme_bgcolor" rel="green">提交</div>
+								<input type="hidden" value="1" name="ajax" />
+								<input type="hidden" value="0" name="step" />
+							</div>
+						</form>
+					</div>
+ 				</li>
+				<li>
+					<div class="it cf clearfix">
+						<div class="icon verified"></div>
+						<h3>实名认证</h3>
+						{if $user_info.mobile}
+							{if $user_info.is_investor>0 || $user_info.identify_name neq ''}
+								{if $user_info.investor_status==0}
+								<p>已提交,认证中</p>
+								<div class="update"><span class="theme_fcolor">认证中</span></div>
+								{elseif $user_info.investor_status==1}
+								<p>已设置</p>
+								{if  $user_info.identify_name eq ''}
+								<div class="update"><a href="javascript:void(0)" class="J_setting" id="J_setting_paypwd">修改</a></div>
+								{else}
+								<div class="update"><a href="javascript:void(0)" class="J_setting theme_fcolor" id="J_setting_paypwd">认证成功</a></div>
+								{/if}
+								{elseif $user_info.investor_status==2}
+								<p class="f_red">未通过</p>
+								<div class="update"><a href="javascript:void(0)" class="J_setting" id="J_setting_paypwd">修改</a></div>
+								{/if}
+							{else}
+							<p class="f_red">未认证</p>
+							<div class="update"><a href="javascript:void(0)" class="J_setting" id="J_setting_paypwd">设置</a></div>
+							{/if}
+  						   
+						{else}
+						<p class="f_red">请先设置手机号</p>
+						{/if}
+					</div>
+					<div class="setting_box" id="setting-id-box">
+						<form class="ajax_form_identify" action="{url r="settings#binding_investor"}" style="position:relative">
+						<!-- 2016.04.25插入示例图 -->
+							 <img src="app/Tpl/fanwe_1/images/idexample.jpg" style="position:absolute;right:0;top:165px;"> 
+						<!-- end -->
+						{if ($user_info.investor_status neq 1) && ($user_info.is_investor  eq 0 ||($user_info.is_investor gt 0&&$user_info.investor_status eq 2)|| $user_info.identify_name eq '')}
+							{if $user_info.is_investor gt 0&&$user_info.investor_status eq 2&&$user_info.investor_send_info}
+							<div class="control-group smaller-control-group">
+								<label class="control-label fail_form_lable f_red"><i></i>错误理由:</label>
+								<div class="control-text" style="width:423px;height:auto;">{$user_info.investor_send_info}</div>
+								<div class="blank0"></div>
+	 						</div>
+							{/if}
+							<div class="control-group small-control-group">
+								<label class="control-label">类型:</label>
+								<div class="control-text">
+									<span {if $user_info.is_investor==0||$user_info.is_investor==1}class="ui_check info_view ui_checked "{else}class="ui_check info_view"{/if} type="radio" rel="info_view">
+										<input type="radio" name="is_investor" value="1" {if $user_info.is_investor==0||$user_info.is_investor==1}checked="checked"{/if}  />
+									</span>
+									个人会员
+									<span {if $user_info.is_investor==2}class="ui_check info_view ml10 ui_checked "{else}class="ui_check ml10 info_view"{/if} type="radio" rel="info_view" >
+										<input type="radio" name="is_investor" value="2" {if $user_info.is_investor==2}checked="checked"{/if} />
+									</span>	
+									企业会员
+								</div>
+								<div class="blank0"></div>
+	 						</div>
+							{if $payment_count}
+								<div class="control-group small-control-group">
+									<label class="control-label">是否绑卡:</label>
+									<div class="control-text">
+										<div class="mt10">
+											<label class='ui_radiobox mr10' rel="is_binding">
+												<input type="radio" name="is_binding" value="1" {if $user_info.is_binding==1}checked="checked"{/if}  />绑卡
+											</label>
+											<label class='ui_radiobox' rel="is_binding">
+												<input type="radio" name="is_binding" value="0" {if $user_info.is_binding==0}checked="checked"{/if} />不绑卡
+											</label>
+										</div>
+									</div>
+									<div class="blank0"></div>
+		 						</div>
+							{/if}
+ 							<div class="control-group small-control-group">
+								<label class="control-label" id="identify_name_str">{if $user_info.is_investor==0||$user_info.is_investor==1}个人{else}法人{/if}身份证姓名:</label>
+								<div class="control-text">
+									<input type="text" id="" value="{$user_info.identify_name}" class="small_textbox" name="identify_name" />
+								</div>
+								<div class="blank0"></div>
+	 						</div>
+							<div class="control-group small-control-group">
+								<label class="control-label">身份证号码:</label>
+								<div class="control-text">
+									<input type="text" id="" value="{$user_info.identify_number}" class="small_textbox" name="identify_number" />
+								</div>
+								<div class="blank0"></div>
+	 						</div>
+							{if app_conf('IDENTIFY_POSITIVE')}
+ 							<div class="control-group small-control-group">
+								<label class="control-label">身份证正面:</label>
+								<div class="pic_box f_l mr20">
+									<i class="del_pic"></i>
+									<div class="pic_show" id="audit_data_legal_num">
+										<img id="identify_positive" src="{$user_info.identify_positive_image}" />
+										<input type="hidden" name="identify_positive_image" id="identify_positive_image"  value="{$user_info.identify_positive_image}" rel="num" />
+									</div>
+								</div>
+								<div class="blank0"></div>
+	 						</div>
+							{/if}
+							{if app_conf('IDENTIFY_NAGATIVE')}
+ 							<div class="control-group small-control-group">
+								<label class="control-label">身份证反面:</label>
+						      	<div class="pic_box f_l mr20">
+						            <i class="del_pic"></i>
+						            <div class="pic_show" id="audit_data_legal_credit_num">
+						                <img id="identify_nagative" src="{$user_info.identify_nagative_image}" />
+						                <input type="hidden" name="identify_nagative_image" id="identify_nagative_image" value="{$user_info.identify_nagative_image}" rel="num" />
+						            </div>
+						        </div>
+						        <div class="blank0"></div>
+	 						</div>
+							{/if}
+							{if app_conf('CARD')}
+ 							<div class="control-group small-control-group gr_div">
+								<label class="control-label">名片:</label>
+						      	<div class="pic_box f_l mr20">
+						            <i class="del_pic"></i>
+						            <div class="pic_show">
+						                <img id="card" src="{$user_info.card}" />
+						                <input type="hidden" name="card" id="card_image" value="{$user_info.card}" rel="num" />
+						            </div>
+						        </div>
+						        <div class="blank0"></div>
+	 						</div>
+							{/if}
+							
+							
+							{if app_conf('CREDIT_REPORT')}
+							<div class="control-group small-control-group gr_div">
+								<label class="control-label">信用报告:</label>
+						      	<div class="pic_box f_l mr20">
+						            <i class="del_pic"></i>
+						            <div class="pic_show">
+						                <img id="credit_report" src="{$user_info.credit_report}" />
+						                <input type="hidden" name="credit_report" id="credit_report_image" value="{$user_info.credit_report}" rel="num" />
+						            </div>
+						        </div>
+						        <div class="blank0"></div>
+	 						</div>
+							{/if}
+							{if app_conf('HOUSING_CERTIFICATE')}
+							<div class="control-group small-control-group gr_div">
+								<label class="control-label">房产认证:</label>
+						      	<div class="pic_box f_l mr20">
+						            <i class="del_pic"></i>
+						            <div class="pic_show">
+						                <img id="housing_certificate" src="{$user_info.housing_certificate}" />
+						                <input type="hidden" name="housing_certificate" id="housing_certificate_image" value="{$user_info.housing_certificate}" rel="num" />
+						            </div>
+						        </div>
+						        <div class="blank0"></div>
+	 						</div>
+							{/if}
+							{if app_conf('IDENTIFY_POSITIVE')|| app_conf('IDENTIFY_NAGATIVE')}
+							<div class="control-group small-control-group">
+								<label class="control-label">&nbsp;</label>
+								<div>
+									<span class="prompt" style="margin-top:3px;width:500px;">支持jpg、jpeg、png、gif格式，大小不超过{$max_size}。【推荐尺寸760px*530px】</span>
+								</div>
+								<div class="blank0"></div>
+	 						</div>
+							{/if}
+							<div class="control-group small-control-group gr_div identity_conditions_box">
+								<label class="control-label">符合以下条件之一的自然人投资者:</label>
+						      	<div class="f_l mr20">
+						            <label class='ui_radiobox' rel="identity_conditions">
+										<input type="radio" name="identity_conditions" {if $user_info.identity_conditions eq 0}checked="checked"{/if} value="0"  />我的金融资产超过100万元
+									</label>
+									<div class="blank10"></div>
+									<label class='ui_radiobox' rel="identity_conditions">
+										<input type="radio" name="identity_conditions" {if $user_info.identity_conditions eq 1}checked="checked"{/if} value="1" />我的年收入超过30万元
+									</label>
+									<div class="blank10"></div>
+									<label class='ui_radiobox' rel="identity_conditions">
+										<input type="radio" name="identity_conditions" {if $user_info.identity_conditions eq 2}checked="checked"{/if} value="2" />我是专业的风险投资人
+									</label>
+									<div class="blank10"></div>
+									<label class='ui_radiobox' rel="identity_conditions">
+										<input type="radio" name="identity_conditions" {if $user_info.identity_conditions eq 3}checked="checked"{/if} value="3" />我不符合上述任一条件
+									</label>
+						        </div>
+						        <div class="blank0"></div>
+	 						</div>
+ 							<div class="{if $user_info.is_investor neq 2}hidden{/if} pt20 mt20" id="qy_div">
+								<div class="control-group small-control-group">
+									<label class="control-label">企业名称:</label>
+									<div class="control-text">
+										<input type="text" id="" value="{$user_info.identify_business_name}" class="small_textbox" name="identify_business_name" />
+									</div>
+									<div class="blank0"></div>
+	 							</div>
+								{if app_conf('BUSINESS_LICENCE')}
+ 								<div class="control-group small-control-group">
+									<label class="control-label">营业执照:</label>
+									<div class="pic_box f_l mr20">
+										<i class="del_pic"></i>
+										<div class="pic_show" id="audit_data_legal_num">
+											<img id="business_licence" src="{$user_info.identify_business_licence}" />
+											<input type="hidden" name="identify_business_licence" id="identify_business_licence"  value="{$user_info.identify_business_licence}" rel="num" />
+										</div>
+									</div>
+									<div class="blank0"></div>
+		 						</div>
+								{/if}
+								{if app_conf('BUSINESS_CODE')}
+ 								<div class="control-group small-control-group">
+									<label class="control-label">组织机构代码证:</label>
+							      	<div class="pic_box f_l mr20">
+							            <i class="del_pic"></i>
+							            <div class="pic_show" id="audit_data_legal_credit_num">
+							                <img id="business_code" src="{$user_info.identify_business_code}" />
+							                <input type="hidden" name="identify_business_code" id="identify_business_code" value="{$user_info.identify_business_code}" rel="num" />
+							            </div>
+							        </div>
+							        <div class="blank0"></div>
+		 						</div>
+								{/if}
+								{if app_conf('BUSINESS_TAX')}
+ 								<div class="control-group small-control-group">
+									<label class="control-label">税务登记证:</label>
+							      	<div class="pic_box f_l mr20">
+							            <i class="del_pic"></i>
+							            <div class="pic_show" id="audit_data_legal_credit_num">
+							                <img id="business_tax" src="{$user_info.identify_business_tax}" />
+							                <input type="hidden" name="identify_business_tax" id="identify_business_tax" value="{$user_info.identify_business_tax}" rel="num" />
+							            </div>
+							        </div>
+							        <div class="blank0"></div>
+		 						</div>
+								{/if}
+							</div>
+							{if $payment_count}
+							<div class="binding">
+								<!--绑卡请求号-->
+								<input type="hidden" id="" value="{$requestid}" class="small_textbox" name="requestid" />
+								<!--用户标识类型-->
+								<input type="hidden" id="" value="5" class="small_textbox"  name="identitytype"  />						
+								<!--用户标识-->
+								<input type="hidden" id="" value="{$identityid}" class="small_textbox"  name="identityid" />
+																	
+								<div class="control-group small-control-group">
+									<label class="control-label">银行卡号:</label>
+									<div class="control-text">
+										<input type="text" id="" value="" class="small_textbox" name="cardno" />
+									</div>
+									<div class="blank0"></div>
+		 						</div>								
+								<div class="control-group small-control-group">
+									<label class="control-label">银行预留手机号:</label>
+									<div class="control-text">
+										<input type="text" id="" value="" class="small_textbox" name="phone" />
+									</div>
+									<div class="blank0"></div>
+		 						</div>								
+								<!--用户请求ip-->
+								<input type="hidden" id="" value="{$userip}" class="small_textbox" name="userip" />	
+								<input type="hidden" id="" value="{$payment_count}" class="small_textbox" name="payment_count" />		
+								<div class="control-group small-control-group">
+								    <label class="control-label">
+								    	 选择银行：
+								    </label>
+									<select name="bank_id" id="Jbank_bank_id" class="ui-select field_select small bank_id">
+										<option value="">请选择</option>
+										{foreach from=$bank_list item=item}
+										<option value="{$item.id}" day="{$item.day}">{$item.name}</option>
+										{/foreach}
+									</select>
+								    <div class="blank0"></div>
+								</div>
+								<div class="control-group small-control-group">								
+									<label for="settings-region" class="control-label"> 开户行所在地：</label>
+									<select name="province" id="cityid-1" class="ui-select field_select small">
+										<option value="" rel="0">请选择省份</option>
+										{foreach from=$region_lv2 item=region}
+										<option value="{$region.name}" class="ld-option" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+										{/foreach}	
+									</select>
+									<select name="city" id="cityid-2" class="ui-select field_select small">
+										<option value="" rel="0">请选择城市</option>
+										{foreach from=$region_lv3 item=region}
+										<option class="ld-option" value="{$region.name}" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+										{/foreach}
+									</select>
+									<div class="blank0"></div>
+							 	</div>					
+								<div class="control-group small-control-group">			
+									<label for="settings-bankzone" class="control-label"> 开户行网点：</label>
+									<div class="control-text">
+										<input type="text" name="bankzone" id="Jbank_bankzone" class="small_textbox w250 mr10" value="">
+										<a href="http://www.cardbaobao.com/wangdian/" target="_blank">网点查询</a>
+									</div>
+									<div class="blank0"></div>	
+								</div>
+							</div>
+							{/if}
+							<div class="binding_y">
+								<div class="blank0"></div>
+								<div class="control-group smaller-control-group">
+									<label class="control-label">手机号:</label>
+									<div class="control-text">{function name="hideMobile" v=$user_info.mobile}</div>
+									<div class="blank0"></div>
+		 						</div>
+							 	<div class="control-group small-control-group">
+									<label class="control-label">验证码:</label>
+									<div class="control-text">
+										<input type="text" value="" class="small_textbox mr10" name="verify"  style="width:165px;"/>
+		 								<input type="button" value="获取验证码" class="ui_button send_sms_verify small_send_sms_verify bg_red" id="J_send_sms_verify_iden" />
+		 							</div>
+		 						</div>
+							</div>
+	 						<div class="blank10"></div>
+							<div class="submit_btn_row control-group">
+								<label class="control-label"></label>
+								<div class="ui-button theme_bgcolor" rel="green" >提交</div>
+								<input type="hidden" value="1" name="ajax" />
+								<input type="hidden" value="0" name="step" />
+							</div>
+						{/if}
+						</form>
+						{if $user_info.investor_status eq 1}
+							<div class="control-group smaller-control-group">
+								<label class="control-label">类型:</label>
+								<div class="control-text">
+									{if $user_info.is_investor==0||$user_info.is_investor==1}个人会员{/if}
+									{if $user_info.is_investor==2}企业会员{/if}
+								</div>
+								<div class="blank0"></div>
+	 						</div>
+ 							<div class="control-group small-control-group">
+								<label class="control-label" id="">{if $user_info.is_investor==0||$user_info.is_investor==1}个人{else}法人{/if}身份证姓名:</label>
+								<div class="control-text">
+									<input type="text" id="" value="{$user_info.identify_name}" class="small_textbox" name="identify_name" disabled="disabled" />
+								</div>
+								<div class="blank0"></div>
+	 						</div>
+							<div class="control-group small-control-group">
+								<label class="control-label">身份证号码:</label>
+								<div class="control-text">
+									<input type="text" id="" value="{$user_info.identify_number}" class="small_textbox" name="identify_number" disabled="disabled" />
+								</div>
+								<div class="blank0"></div>
+	 						</div>
+							{if app_conf('IDENTIFY_POSITIVE')}
+							<div class="control-group small-control-group">
+								<label class="control-label">身份证正面:</label>
+								<div class="pic_box f_l mr20">
+									<img src="{$user_info.identify_positive_image}" width="150" height="150" />
+								</div>
+	 						</div>
+							{/if}
+							{if app_conf('IDENTIFY_NAGATIVE')}
+	 						<div class="blank0"></div>
+							<div class="control-group small-control-group">
+								<label class="control-label">身份证反面:</label>
+						      	<div class="pic_box f_l mr20">
+						            <img src="{$user_info.identify_nagative_image}" width="150" height="150" />
+						        </div>
+	 						</div>
+							{/if}
+							{if $user_info.is_investor eq 1}
+							{if app_conf('CARD')}
+							<div class="control-group small-control-group">
+								<label class="control-label">名片:</label>
+						      	<div class="pic_box f_l mr20">
+						             <img id="card" src="{$user_info.card}" width="150" height="150"/>
+						        </div>
+						        <div class="blank0"></div>
+	 						</div>
+							{/if}
+							
+							{if app_conf('CREDIT_REPORT')}
+							<div class="control-group small-control-group">
+								<label class="control-label">信用报告:</label>
+						      	<div class="pic_box f_l mr20">
+						             <img id="credit_report" src="{$user_info.credit_report}" width="150" height="150"/>
+						        </div>
+						        <div class="blank0"></div>
+	 						</div>
+							{/if}
+							{if app_conf('HOUSING_CERTIFICATE')}
+							<div class="control-group small-control-group">
+								<label class="control-label">房产认证:</label>
+						      	<div class="pic_box f_l mr20">
+						             <img id="housing_certificate" src="{$user_info.housing_certificate}" width="150" height="150"/>
+						        </div>
+						        <div class="blank0"></div>
+	 						</div>
+							{/if}
+							<div class="control-group small-control-group">
+								<label class="control-label">符合的自然人投资者条件:</label>
+						      	<div class="control-text">
+									{if $user_info.identity_conditions eq 0}
+										<span>我的金融资产超过100万元</span>
+									{elseif $user_info.identity_conditions eq 1}
+										<span>我的年收入超过30万元</span>
+									{elseif $user_info.identity_conditions eq 2}
+										<span>我是专业的风险投资人</span>
+									{else}
+										<span>我不符合任何条件</span>
+									{/if}
+						        </div>
+						        <div class="blank0"></div>
+	 						</div>
+							{/if}
+							<div class="blank0"></div>
+							<div class="{if $user_info.is_investor neq 2}hide{/if} mt20">
+								<div class="control-group small-control-group">
+									<label class="control-label">企业名称:</label>
+									<input type="text" id="" value="{$user_info.identify_business_name}" class="small_textbox" name="identify_business_name" disabled="disabled" />
+	 							</div>
+								{if app_conf('BUSINESS_LICENCE')}
+	 							<div class="blank0"></div>
+								<div class="control-group small-control-group">
+									<label class="control-label">营业执照:</label>
+									<div class="pic_box f_l mr20">
+										<img src="{$user_info.identify_business_licence}" width="150" height="150" />
+									</div>
+		 						</div>
+								{/if}
+								{if app_conf('BUSINESS_CODE')}
+		 						<div class="blank0"></div>
+								<div class="control-group small-control-group">
+									<label class="control-label">组织机构代码证:</label>
+							      	<div class="pic_box f_l mr20">
+							        	<img src="{$user_info.identify_business_code}" width="150" height="150" />
+							        </div>
+		 						</div>
+								{/if}
+								{if app_conf('BUSINESS_TAX')}
+		 						<div class="blank0"></div>
+								<div class="control-group small-control-group">
+									<label class="control-label">税务登记证:</label>
+							      	<div class="pic_box f_l mr20">
+							            <img src="{$user_info.identify_business_tax}" width="150" height="150" />
+							        </div>
+		 						</div>
+								{/if}
+		 					</div>
+						{/if}
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="blank"></div>
+</div>
+<!--中间结束-->
+<div class="blank"></div>
+<div class="ajax_loading_box">
+	<img src="{$TMPL}/images/loading.gif" class="ajax_loading_icon" />
+</div>
+<script>
+	var code_timeer = null;
+	var code_lefttime = 0 ;
+	$(document).ready(function(){
+		{if $method}
+			$("#{$method}").show();
+		{/if}
+		// 上传图片
+		get_file_fun("#identify_positive");
+		get_file_fun("#identify_nagative");
+		get_file_fun("#business_licence");
+		get_file_fun("#business_code");
+		get_file_fun("#business_tax");
+		get_file_fun("#card");		
+		get_file_fun("#credit_report");	
+		get_file_fun("#housing_certificate");	
+		// 绑定手机发送验证码
+		$("#J_send_sms_verify").bind("click",function(){
+			send_mobile_verify_sms_custom($.trim($("#settings-mobile-type").val()),$.trim($("#settings-mobile").val()),"#J_send_sms_verify");
+		});
+
+		// 绑定邮箱发送验证码
+		$("#email_verify_code").bind("click",function(){
+			step=$(".ajax_form_email").find("input[name='step']").val();
+			if(step==1){
+				email=$(".ajax_form_email").find("input[name='email']").val();
+				send_email_verify(step,email,"#email_verify_code");
+			}
+			else{
+				if(step==2){
+					send_email_verify(step,'',"#email_verify_code");
+				}
+			}
+		});
+
+		// 支付密码发送验证码
+		$("#J_send_sms_verify_pay").bind("click",function(){
+				send_mobile_verify_sms_custom(2,'',"#J_send_sms_verify_pay");
+		});
+
+		// 安全信息发送验证码
+		$("#J_send_sms_verify_iden").bind("click",function(){
+				send_mobile_verify_sms_custom(2,'',"#J_send_sms_verify_iden");
+		});
+		
+		bind_ajax_form_custom(".ajax_form_user_name");
+		bind_ajax_form_custom(".ajax_form_paypassword");
+		bind_ajax_form_custom(".ajax_form_mobile");
+		bind_ajax_form_custom(".ajax_form_email");
+		bind_ajax_form_custom(".ajax_form_password");
+		if({$payment_count}){
+			var is_binding =$(".ajax_form_identify").find("input[name='is_binding']:checked").val();
+			if(is_binding==1){
+				$(".binding").show();
+				$(".binding_y").hide();
+			}
+			else{
+				$(".binding").hide();
+				$(".binding_y").show()
+			}
+			$(".ajax_form_identify").find("input[name='is_binding']").on('click',function(){
+				if($(this).val()==1){
+					$(".binding").show();
+					$(".binding_y").hide();
+					is_binding =1;
+					//bind_ajax_form_identify(".ajax_form_identify");
+					return false;
+				}
+				else{
+					$(".binding").hide();
+					$(".binding_y").show();
+					is_binding =0;                                                                                                                                                                                                                      
+					//bind_ajax_form_custom(".ajax_form_identify");
+					return false;
+				}
+				return false;
+			});
+			$(".ajax_form_identify").find(".ui-button").live("click",function(){
+				if(is_binding){
+					bind_ajax_form_identify(".ajax_form_identify");
+				}
+				else{
+					bind_ajax_form_no_identify(".ajax_form_identify");
+				}
+			});
+		}else{
+			bind_ajax_form_custom(".ajax_form_identify");
+		}
+		
+		if($("input[name='is_investor']:checked").val()==1){
+			$("#identify_name_str").html("个人身份证姓名:");
+			$("#qy_div").hide();
+			$(".gr_div").show();
+		}else{
+			$("#identify_name_str").html("法人身份证姓名:");
+			$("#qy_div").show();
+			$(".gr_div").hide();
+		}
+		$(".ajax_form_identify").find("input[name='is_investor']").bind('click',function(){
+				if($(this).val()==2){
+				$("#identify_name_str").html("法人身份证姓名:");
+				$("#qy_div").show();
+				$(".gr_div").hide();
+			}else{
+				$("#identify_name_str").html("个人身份证姓名:");
+				$("#qy_div").hide();
+				$(".gr_div").show();
+			}
+		});
+	});
+</script>
+<script type="text/javascript">
+	$(".J_setting").bind('click',function(){
+		var setting_box = $(this).parent().parent().parent().find(".setting_box");
+		if(setting_box.is(":hidden")){
+			setting_box.slideDown(300);
+			if($(this).text()=='修改'){
+				$(this).text("取消修改");
+			}
+			if($(this).text()=='绑定'){
+				$(this).text("取消绑定");
+			}
+			if($(this).text()=='设置'){
+				$(this).text("取消设置");
+			}
+  		}
+		else{
+			setting_box.slideUp(300);
+ 			if($(this).text()=='取消绑定'){
+				$(this).text("绑定");
+			}
+			if($(this).text()=='取消修改'){
+				$(this).text("修改");
+			}
+			if($(this).text()=='取消设置'){
+				$(this).text("设置");
+			}
+		}
+	});
+</script>
+<script type="text/javascript">
+	$(function(){
+		$("#Jbank_bank_id").bind("change",function(){
+			if($(this).val()=='other'){
+				$("dl.otherbank").show();
+			}else{
+				$("dl.otherbank").hide();
+			}
+		});
+		
+	});
+	function bind_ajax_form_identify(obj_form)
+	{
+		$(".ajax_loading_box").show();
+		var ajaxurl = "{url r="settings#bind_investor"}";
+		var query = $(obj_form).serialize();
+		$.ajax({ 
+			url: ajaxurl,
+			dataType: "json",
+			data:query,
+			type: "POST",
+			success: function(ajaxobj){
+				$(".ajax_loading_box").hide();
+				if(ajaxobj.status==1){
+					$.weeboxs.open(ajaxobj.html, {boxid:'bindbankcard_info',contentType:'text',showButton:false, showCancel:false, showOk:false,title:'绑卡短信验证',width:480,type:'wee'});
+				}
+			    if(ajaxobj.status==2){
+					$.showErr(ajaxobj.info);
+				}
+				if(ajaxobj.status==0){
+					$.showErr(ajaxobj.info);
+				}
+			},
+			error:function(ajaxobj)
+			{
+				if(ajaxobj.responseText!='')
+				alert(ajaxobj.responseText);
+			}
+		});
+		return false;
+	}
+	function bind_ajax_form_no_identify(obj_form)
+	{
+		var ajaxurl = $(obj_form).attr("action");
+		var query = $(obj_form).serialize();
+//		return false;
+		$.ajax({ 
+			url: ajaxurl,
+			dataType: "json",
+			data:query,
+			type: "POST",
+			success: function(ajaxobj){
+				if(ajaxobj.status==1)
+				{
+					if(ajaxobj.info!="")
+					{
+						$.showSuccess(ajaxobj.info,function(){
+							if(ajaxobj.jump!="")
+							{
+								location.href = ajaxobj.jump;
+							}
+						});	
+					}
+					else
+					{
+						if(ajaxobj.jump!="")
+						{
+							location.href = ajaxobj.jump;
+						}
+					}
+				}
+				else
+				{
+					if(ajaxobj.info!="")
+					{
+						$.showErr(ajaxobj.info,function(){
+							if(ajaxobj.jump!="")
+							{
+								location.href = ajaxobj.jump;
+							}
+						});	
+					}
+					else
+					{
+						if(ajaxobj.jump!="")
+						{
+							location.href = ajaxobj.jump;
+						}
+					}							
+				}
+			},
+			error:function(ajaxobj)
+			{
+				if(ajaxobj.responseText!='')
+				alert(ajaxobj.responseText);
+			}
+		});
+		return false;
+	}
+
+</script>
+{include file="inc/footer.html"} 

@@ -1,0 +1,215 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<script type="text/javascript" src="__ROOT__/public/region.js"></script>	
+<load href='__TMPL__Common/js/deal_edit.js' />
+<script type="text/javascript" src="__TMPL__Common/js/calendar/calendar.php?lang=zh-cn" ></script>
+<load href='__TMPL__Common/js/calendar/calendar.css' />
+<load href='__TMPL__Common/js/calendar/calendar.js' />
+<div class="main">
+<div class="main_title">{%EDIT} <a href="{:u("DealHouseOnline/user_bonus",array("deal_id"=>$vo['deal_id'],"type"=>2))}" class="back_list">{%BACK_LIST}</a></div>
+<div class="blank5"></div>
+<form name="edit" action="__APP__" method="post" enctype="multipart/form-data">
+<table class="form conf_tab" cellpadding=0 cellspacing=0 >
+	<tr>
+		<td colspan=2 class="topTd"></td>
+	</tr>
+	<tr>
+		<td class="item_title">
+			<if condition="($vo.type eq 0)">
+				分红金额:
+			<elseif condition="($vo.type eq 1)" />
+				回报金额:
+			<else />
+				收益金额:
+			</if>
+			
+		</td>
+		<td class="item_input"><input type="text" class="textbox require" value="{$vo.money}"  readonly="" name="money" /></td>
+	</tr>
+	<tr>
+		<td class="item_title">
+			<if condition="($vo.type eq 0)">
+				分红年度:
+			<elseif condition="($vo.type eq 1)" />
+				回报年度:
+			<else />
+				收益年度:
+			</if>
+			
+		</td>
+		<td class="item_input">
+			<select name="year">
+					<option value="{$vo.year}" selected="selected">{$vo.year}</option>          
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">
+			<if condition="($vo.type eq 0)">
+				分红期数:
+			<elseif condition="($vo.type eq 1)" />
+				回报期数:
+			<else />
+				收益期数:
+			</if>
+		</td>
+		<td class="item_input">
+			<select name="number">
+					<option value="{$vo.number}" selected="selected">第{$vo.number}期</option>          
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<if condition="($vo.type eq 0)">
+			<td class="item_title">平均月回报率:</td>
+			<td class="item_input"><input type="text" class="textbox" name="average_monthly_returns"  readonly="" value="{$vo.average_monthly_returns}"/>%</td>
+		<elseif condition="($vo.type eq 1)" />
+			<td class="item_title">回报周期:</td>
+			<td class="item_input"><input type="text" class="textbox" name="return_cycle"  readonly="" value="{$vo.return_cycle}"/>个月</td>
+		<else />
+			<td class="item_title">收益周期:</td>
+			<td class="item_input"><input type="text" class="textbox" name="return_cycle"  readonly="" value="{$vo.return_cycle}"/>个月</td>
+		</if>
+	</tr>
+	<tr>
+		<td class="item_title">平均年回报率:</td>
+		<td class="item_input"><input type="text" class="textbox" name="average_annualized_return" readonly="" value="{$vo.average_annualized_return}"/>%</td>
+	</tr>
+	<tr>
+		<td class="item_title">发放时间:</td>
+		<td class="item_input">
+
+            <input readonly="" type="text"  class="textbox"  value="{$vo.begin_time}" name="begin_time" >
+            
+			-
+            <input readonly="" type="text"  class="textbox"  value="{$vo.end_time}" name="end_time" >
+            
+ 		</td>		
+	</tr>
+	<tr>
+		<td class="item_title">是否展示:</td>
+		<td class="item_input">
+			<lable>显示<input type="radio" name="is_show" value="0" <if condition="$vo['is_show'] eq 0">checked="checked"</if> /></lable>
+			<lable>隐藏<input type="radio" name="is_show" value="1" <if condition="$vo['is_show'] eq 1">checked="checked"</if> /></lable>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">
+			<if condition="($vo.type eq 0)">
+				分红明细:
+			<elseif condition="($vo.type eq 1)" />
+				回报明细:
+			<else />
+				收益明细:
+			</if>
+			
+		</td>
+		<td>
+			<table class="form " cellpadding=0 cellspacing=0 rel="2_input">
+				<thead>
+					<tr>
+						<td style="text-align:center;">编号</td>
+						<td style="text-align:center;">投资人</td>
+						<td style="text-align:center;">投资金额</td>
+						<td style="text-align:center;">
+							<if condition="($vo.type eq 2)">
+								支持比例(%)
+							<else />
+								占股比例(%)
+							</if>	
+						</td>
+						<if condition="($vo.earnings_send_capital eq 1)">
+							<td style="text-align:center;">本金</td>
+							<td style="text-align:center;">收益</td>
+						</if>
+						<td style="text-align:center;">
+							<if condition="($vo.type eq 0)">
+								分红金额
+							<elseif condition="($vo.type eq 1)" />
+								回报金额
+							<else />
+								<if condition="($vo.earnings_send_capital eq 1)">
+									最终收益(含本金)
+								<else />
+									收益金额(不含本金)
+								</if>
+							</if>
+						</td>
+					</tr>
+				</thead>
+				<tbody>
+					<volist name="user_bonus_list" id="user_bonus"  >
+						<tr>
+							<if condition="($vo.earnings_send_capital eq 1)">
+								<td style="text-align:center;" width="14.3%">{$user_bonus.notice_sn}</td>
+								<td style="text-align:center;" width="14.3%">{$user_bonus.investor}</td>
+								<td style="text-align:center;" width="14.3%">{$user_bonus.investor_money}</td>
+								<td style="text-align:center;" width="14.3%">{$user_bonus.percentage_shares}</td>
+								<td style="text-align:center;" width="14.3%">{$user_bonus.investor_part_money}</td>
+								<td style="text-align:center;" width="14.3%">{$user_bonus.part_amount}</td>
+								<td style="text-align:center;" width="14.3%">{$user_bonus.amount}</td>
+							<else />
+								<td style="text-align:center;" width="20%">{$user_bonus.notice_sn}</td>
+								<td style="text-align:center;" width="20%">{$user_bonus.investor}</td>
+								<td style="text-align:center;" width="20%">{$user_bonus.investor_money}</td>
+								<td style="text-align:center;" width="20%">{$user_bonus.percentage_shares}</td>
+								<td style="text-align:center;" width="20%">{$user_bonus.amount}</td>
+							</if>
+						</tr>
+					</volist>
+				</tbody>
+			</table>	
+		</td>
+	</tr>
+	 <tr  >
+		<td class="item_title">
+			<if condition="($vo.type eq 0)">
+				分红说明:
+			<elseif condition="($vo.type eq 1)" />
+				回报说明:
+			<else />
+				收益说明:
+			</if>
+			
+		</td>
+		<td class="item_input" >
+			 <html:editor id="descripe" name="descripe" type="KINDEDITOR" content="{$vo.descripe}" disabled="disabled"/>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">审核状态:</td>
+		<td class="item_input">
+			<lable>等待审核<input type="radio" name="status" value="0" <if condition="$vo['status'] eq 0">checked="checked"</if> /></lable>
+			<lable>审核通过<input type="radio" name="status" value="1" <if condition="$vo['status'] eq 1">checked="checked"</if> /></lable>
+			<lable>审核未通过<input type="radio" name="status" value="2" <if condition="$vo['status'] eq 2">checked="checked"</if> /></lable>
+		</td>
+	</tr>
+	
+</table>
+
+<div class="blank5"></div>
+	<table class="form" cellpadding=0 cellspacing=0>
+		<tr>
+			<td colspan=2 class="topTd"></td>
+		</tr>
+		<tr>
+			<td class="item_title"></td>
+			<td class="item_input">
+			<!--隐藏元素-->
+			<input type="hidden" name="{:conf("VAR_MODULE")}" value="DealHouseOnline" />
+			<input type="hidden" name="{:conf("VAR_ACTION")}" value="update_user_bonus" />
+			<input type="hidden" name="id" value="{$vo.id}" />
+			<!--隐藏元素-->
+			<input type="submit" class="button" value="{%EDIT}" />
+		
+			</td>
+		</tr>
+		<tr>
+			<td colspan=2 class="bottomTd"></td>
+		</tr>
+	</table> 		 
+</form>
+
+</div>
+<include file="Public:footer" />

@@ -1,0 +1,171 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<PHP>
+	function get_refund_user_name($uid)
+	{
+		return M("User")->where("id=".$uid)->getField("user_name");
+	}
+</PHP>
+<div class="main">
+<div class="main_title">{$user.do_info}{$user.user_name}成为{$user.is_investor_name}</div>
+<div class="blank5"></div>
+<form name="edit" action="__APP__" method="post" enctype="multipart/form-data" onsubmit="return check_val();">
+<table class="form" cellpadding=0 cellspacing=0>
+	<tr>
+		<td colspan=2 class="topTd"></td>
+	</tr>
+	<tr>
+		<td colspan=2 ><span style=" color:red;">点击图片可查看源图</span></td>
+	</tr>
+ 		<tr>
+			<td class="item_name">身份证姓名：</td>
+			<td class="item_input"><input type="text" value="{$user.identify_name}" disabled="true"></td>
+		</tr>
+		<tr>
+			<td class="item_name">身份证号码：</td>
+			<td class="item_input"><input type="text" value="{$user.identify_number}" disabled="true"></td>
+		</tr>
+		<if condition="app_conf('IDENTIFY_POSITIVE') eq 1">
+		<tr>
+			<td class="item_name">身份证正面 ：</td>
+			<td class="item_input"><a target="_blank" href="{$user.identify_positive_image}"><img src="{$user.identify_positive_image}" height="50" /></a></td>
+		</tr>
+		</if>
+		<if condition="app_conf('IDENTIFY_NAGATIVE') eq 1">
+		<tr>
+			<td class="item_name">身份证反面</td>
+			<td class="item_input"><a target="_blank" href="{$user.identify_nagative_image}"><img src="{$user.identify_nagative_image}"  height="50" /></a></td>
+		</tr>
+		</if>
+		<if condition="$user.is_investor eq 1">
+			<if condition="app_conf('CARD') eq 1">
+			<tr>
+				<td class="item_name">名片</td>
+				<td class="item_input"><a target="_blank" href="{$user.card}"><img src="{$user.card}"  height="50" /></a></td>
+			</tr>
+			</if>
+			<tr>
+				<td class="item_name">符合以下条件之一</td>
+				<td class="item_input">
+					<lable>
+						<if condition="$user.identity_conditions eq 0">
+							我的金融资产超过100万元
+						<elseif condition="$user.identity_conditions eq 1" />
+							我的年收入超过30万元
+						<elseif condition="$user.identity_conditions eq 2" />
+							我是专业的风险投资人
+						<else />		
+							我不符合任何条件
+						</if>
+					</lable>
+				</td>
+			</tr>
+			<if condition="app_conf('CREDIT_REPORT') eq 1">
+			<tr>
+				<td class="item_name">信用报告</td>
+				<td class="item_input"><a target="_blank" href="{$user.credit_report}"><img src="{$user.credit_report}"  height="50" /></a></td>
+			</tr>
+			</if>
+			<if condition="app_conf('HOUSING_CERTIFICATE') eq 1">
+			<tr>
+				<td class="item_name">房产认证</td>
+				<td class="item_input"><a target="_blank" href="{$user.housing_certificate}"><img src="{$user.housing_certificate}"  height="50" /></a></td>
+			</tr>
+			</if>
+		</if>
+ 	<if condition="$user.is_investor eq 2">
+			<tr>
+				<td class="item_title">机构名称:</td>
+				<td class="item_input"><input type="text" name="identify_business_name" value="{$user.identify_business_name}"></td>
+			</tr>
+		<if condition="app_conf('BUSINESS_LICENCE') eq 1">
+			<tr>
+				<td class="item_title">营业执照：</td>
+				<td class="item_input"><a target="_blank" href="{$user.identify_business_licence}"><img src="{$user.identify_business_licence}"  height="50"></a></td>
+			</tr>
+		</if>
+		<if condition="app_conf('BUSINESS_CODE') eq 1">
+			<tr>
+				<td class="item_title">组织机构代码证：</td>
+				<td class="item_input"><a target="_blank" href="{$user.identify_business_code}"><img src="{$user.identify_business_code}"  height="50"></a> </td>
+			</tr>
+		</if>
+		<if condition="app_conf('BUSINESS_TAX') eq 1">
+			<tr>
+				<td class="item_title">税务登记证:</td>
+				<td class="item_input"><a target="_blank" href="{$user.identify_business_tax}"><img src="{$user.identify_business_tax}"  height="50"></a></td>
+			</tr>
+		</if>
+	</if>
+	<tr>
+		<td class="item_title">类型:</td>
+		<td class="item_input">
+			查看<input type="radio" name="investor_status" value="0" checked="checked">
+			通过<input type="radio" name="investor_status" value="1"  >
+			未通过<input type="radio" name="investor_status" value="2"  >
+		</td>
+	</tr>
+	
+	<tr class="type_1">
+		<td class="item_title">拒绝理由:</td>
+		<td class="item_input">
+			<textarea name="investor_send_info">{$user.investor_send_info}</textarea>
+		</td>
+	</tr>	
+ 	 
+	<tr  class="type_2">
+		<td class="item_title">&nbsp;</td>
+		<td class="item_input">
+			<!--隐藏元素-->
+			<input type="hidden" name="id" value="{$user.id}" />
+			<input type="hidden" name="status" value="{$status}" />
+			<input type="hidden" name="{:conf("VAR_MODULE")}" value="UserInvestor" />
+			<input type="hidden" name="{:conf("VAR_ACTION")}" value="investor_go_allow" />
+			<!--隐藏元素-->
+			<input type="submit" class="button" value="确认" />
+			<input type="reset" class="button" value="{%RESET}" />
+		</td>
+	</tr>
+	 
+	<tr>
+		<td colspan=2 class="bottomTd"></td>
+	</tr>
+</table>	 
+</form>
+</div>
+<script>
+	$(function(){
+		$(".type_1").hide();
+		$(".type_2").hide();
+		$("input[name='investor_status']").bind("click",function(){
+			val=$(this).val();
+			if(val==0){
+				$(".type_1").hide();
+				$(".type_2").hide();
+			}else{
+				if(val==1){
+					$(".type_1").hide();
+					$(".type_2").show();
+				}
+				if(val==2){
+					$(".type_1").show();
+					$(".type_2").show();
+				}
+			}
+		});
+	});
+	function check_val(){
+		val=$("input[name='investor_status']:checked").val();
+ 		if(val==0){
+				return false;
+			}else{
+				if(val==1){
+					return confirm('确认将审核通过该用户，确认吗？');
+				}
+				if(val==2){
+					return confirm('确认将审核不通过该用户，确认吗？');
+				}
+			}
+		
+	}
+</script>

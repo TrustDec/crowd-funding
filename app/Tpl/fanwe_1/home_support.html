@@ -1,0 +1,44 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/home.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<div id="J_wrap">
+	<div class="userhome">
+		<div class="wrap">
+			<div class="blank20"></div>
+	 		{include file="inc/account_left.html"}
+	 		<div class="userhomebd">
+	 			<div class="nav_box">
+					<ul>
+						<li {if ACTION_NAME eq 'home' or ACTION_NAME eq 'index'}class="cur"{/if}>
+							<a href="{url r="home" }">发起的项目</a>
+							<i></i>
+						</li>
+						<li {if ACTION_NAME eq 'home' or ACTION_NAME eq 'support'}class="cur"{/if}>
+							<a href="{url r="home#support"}">支持的项目({$deal_count})</a>
+							<i></i>
+						</li>
+						<li {if ACTION_NAME eq 'home' or ACTION_NAME eq 'support'}class="cur"{/if}>
+							<a href="{url r="home#support" p="id=$home_user_info.id"}">发起的项目</a>
+							<i></i>
+						</li>
+					</ul>
+				</div>
+				<div id="con_one_1" class="hover" style="display: block;">
+					<div id="pin_box">
+						{include file="inc/deal_list.html"}
+						{if $deal_list}
+						<div class="blank20"></div>
+						<div class="pages">{$pages}</div>
+						<div class="blank20"></div>
+						{/if}
+					</div>
+					<div class="blank"></div>		
+				</div>
+	 		</div>
+	 	</div>
+ 	</div>
+ 	<div class="blank20"></div>
+</div>
+{include file="inc/footer.html"} 

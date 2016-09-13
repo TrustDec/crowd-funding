@@ -1,0 +1,76 @@
+<style type="text/css">
+	.project_recommend .ui_check{margin-right:15px;}
+	.project_recommend ul{
+		height:200px;
+		overflow-y:auto;
+	}
+	.project_recommend li{
+		width:100%;
+		margin-bottom:15px;
+		overflow:hidden;
+	}
+	.project_recommend img{
+		width:50px;
+		height:40px;
+		display:inline;
+		float:left;
+		margin-right:10px;
+		border-radius:3px;
+	}
+	.project_recommend .inf{
+		text-align:left;
+		overflow:hidden;
+	    text-overflow: ellipsis;
+	    display: -webkit-box;
+	    -webkit-line-clamp: 2;
+	    -webkit-box-orient: vertical;
+	}
+	.project_recommend .cur .inf{
+		color:#00b0f5;
+	}
+	.textareabox{
+		border:1px solid #ddd;
+		width:100%;
+		height:60px;
+		padding:10px;
+	}
+</style>
+<div class="project_recommend overflow_hide">
+	<div class="blank10"></div>
+	<!-- 推荐项目列表 开始 -->
+	<ul class="project_list">
+		{foreach from=$effective_deal_info item=effective_deal_item}
+		<li class="J_check webkit-box" rel="project_recommend">
+			<div class="l">
+				<span class="ui_check">
+					<input type="radio" name="project_recommend" value="{$effective_deal_item.id}" rel="{$effective_deal_item.type}" rel2="{$effective_deal_item.name}" rel3="{$effective_deal_item.image}" class="mt" />
+				</span>
+			</div>
+			<div class="r tl webkit-box-flex">
+				<img src="{function name="get_spec_image" v=$effective_deal_item.image w=40 h=30 g=1}"  alt="{$order_item.deal_name}"/>
+				<span class="inf">{function name="msubstr" v=$effective_deal_item.name b=0 e=25}</span>
+			</div>
+		</li>
+		{/foreach}
+	</ul>
+	<!-- 推荐项目列表 结束 -->
+	<div class="blank10"></div>
+	<!-- 自荐理由 开始 -->
+	<div class="tl">自荐理由：</div>
+	<div class="blank10"></div>
+	<textarea class="textareabox sizing" name="memo" id="memo"></textarea>
+	<!-- 自荐理由 结束 -->
+
+	<div class="blank10"></div>
+	<div class="submit_btn_row webkit-box">
+		
+		<div class="ui-button ui-two-button webkit-box-flex theme_color button_y">立即推荐</div>
+		<div onclick="$.closeModal();" class="ui_button ui-two-button webkit-box-flex bg_gray button_n">取消</div>
+		<input type="hidden" value="1" name="ajax" />
+		<!--推荐人id-->
+		<input type="hidden" value="{$recommend_user_id}" name="recommend_user_id" id="recommend_user_id"/>
+		<!--被推荐人id-->
+		<input type="hidden" value="{$user_id}" name="user_id" id="user_id"/>
+	</div>
+	<div class="blank5"></div>
+</div>

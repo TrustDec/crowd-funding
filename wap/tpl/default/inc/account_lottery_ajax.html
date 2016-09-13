@@ -1,0 +1,53 @@
+<div class="ul_block ul_block_list">
+{if $list}
+	{foreach from=$list item=list_item}
+	<ul>
+		<li class="webkit-box">
+			<label class="input_lable">抽奖号：</label>
+			<div class="text webkit-box-flex">{if $list_item.is_winner eq 1}（幸运号）{/if}{$list_item.lottery_sn}</div>
+		</li>
+		{if $list_item.is_winner eq 1}
+		<li class="webkit-box">
+			<label class="input_lable">揭晓时间：</label>
+			<div class="text webkit-box-flex">{function name="to_date" value="$list_item.lottery_draw_time"}</div>
+		</li>
+		{/if}
+		<li class="webkit-box">
+			<label class="input_lable">会员名：</label>
+			<div class="text webkit-box-flex">{$list_item.user_name}</div>
+		</li>
+		<li class="webkit-box">
+			<label class="input_lable">支持金额：</label>
+			<div class="text webkit-box-flex"><span class="f_money">{function name="format_price" v="$list_item.price"}</span></div>
+		</li>
+		<li class="webkit-box">
+			<label class="input_lable">创建时间：</label>
+			<div class="text webkit-box-flex">{function name="to_date" v="$list_item.create_time"}</div>
+		</li>
+		{if $list_item.is_winner eq 1 && $deal_info.is_success eq 1}
+		<li class="webkit-box">
+			<label class="input_lable">操作：</label>
+			<div class="text webkit-box-flex">
+				{if $list_item.repay_time gt 0}
+					{if $list_item.repay_make_time gt 0}
+						会员已确认收到
+					{else}
+						已发放
+					{/if}
+				{else}
+					<a href="#" onclick="RouterURL('{url_wap r="account#set_repay" p="id=$list_item.order_id"}','#account-set_repay',2);" class="ui_button ui_small_button theme_color">立即设置回报</a>
+				{/if}	
+			</div>
+		</li>
+		{/if}
+	</ul>
+	<div class="blank10"></div>
+	{/foreach}		
+	<div class="blank5"></div>
+	<div class="pages">{$pages}</div>
+	<div class="blank15"></div>
+	{else}
+	<div class="empty_tip tc">没有任何抽奖记录</div>
+	<div class="blank15"></div>
+{/if}
+</div>

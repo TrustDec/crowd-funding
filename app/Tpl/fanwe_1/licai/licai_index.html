@@ -1,0 +1,509 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jquery.SuperSlide.2.1.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jquery.SuperSlide.2.1.js";
+?>
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<style type="text/css">
+	body{background:#fff;}
+</style>
+<div class="blank0"></div>
+<div class="licai">
+	<div class="licai_index">
+		<div class="banner_box pr">
+			<!--  海报区域开始  1-->
+			<div class="banner slideBox" id="banner">
+				<div class="banner_cont effect_bd">
+					<ul>
+						{foreach from=$image_list item=image_item}
+						<li><a href="{$image_item.url}" target=_blank style="display:block;background: url({function name="get_spec_image" v=$image_item.image w=1920 h=320 g=1}) 50% 50% no-repeat;"></a></li>
+						{/foreach}
+					</ul>
+				</div>
+				<div class="btn_tit effect_hd">
+					{foreach from=$image_list item=image_item}
+					<span></span>
+					{/foreach}
+				</div>
+				
+				<div class="fy_box" style="display:none">
+					<!--左右翻页按钮，可以不用-->
+					<a class="prev" href="javascript:void(0)"></a>
+					<a class="next" href="javascript:void(0)"></a>
+				</div>
+			</div>
+			<script type="text/javascript"> 
+				if(!$(".banner_cont ul").has('li').length){ 
+					$("#banner").css("display","none");
+				} 
+				if($(".banner_cont ul").find('li').length==1){ 
+					$(".btn_tit").css("display","none");
+				}
+				else if($(".banner_cont ul").find('li').length>1){
+					$(".btn_tit").css("display","block");
+				}
+				if($(".banner_cont ul").find('li').length>1){
+					jQuery("#banner").slide({mainCell:".banner_cont ul",titCell:".effect_hd span",effect:"fold",easing:"easeInOutQuint",delayTime:500,autoPlay:true});
+					$("#banner").mousemove(function(){
+						$(this).find(".prev").show();
+						$(this).find(".next").show();
+					}).mouseout(function(){
+						$(this).find(".prev").hide();
+						$(this).find(".next").hide();
+					});
+				}
+			</script>
+			<!--  海报区域结束  -->
+			<!-- 悬浮登录窗口 开始 -->
+			<div class="xf_m">
+				<div class="xf_wrap">
+					<div class="xf_main">
+						<div class="xf_body">
+							<h3 class="xf_title">合金小金库</h3>
+							<div class="xf_text" id="xf_text">
+								<div class="xf_cont effect_bd">
+									<ul>
+										{foreach from="$rectype_list" item="rectype_item" name="rectype"}
+										{if $smarty.foreach.rectype.iteration lte 5}
+										<li>
+											<div class="xf_cont1">{function name="msubstr" v=$rectype_item.name b=0 e=20}</div>
+											<div class='xf_cont2'><span class="font_en b">{$rectype_item.average_income_rate}</span>%</div>
+											<a href="{$rectype_item.url}" class="ui-button pub_btn_red theme_bgcolor">立即转入</a>
+											<div>本产品由嘉实基金和鹏华基金共同提供</div>
+										</li>
+										{/if}
+										{/foreach}
+									</ul>
+								</div>
+								<div class="fy_box">
+									<!--左右翻页按钮，可以不用-->
+									<a class="prev" href="javascript:void(0)"><</a>
+									<a class="next" href="javascript:void(0)">></a>
+								</div>
+								<script type="text/javascript">
+									jQuery("#xf_text").slide({mainCell:".xf_cont ul",effect:"leftLoop",autoPlay:true,delayTime:700});
+								</script>
+							</div>
+						</div>
+						<div class="xf_mask"></div>
+					</div>
+				</div>
+			</div>
+			<!-- 悬浮登录窗口 结束 -->
+		</div>
+		<div class="wrap">
+			<!-- 热销模块 开始 -->
+			<div class="hot_m">
+				<div class="hot_box">
+					{foreach from="$week_bestseller_list" item="week_bestseller_item" name="week_bestseller"}
+					{if $smarty.foreach.week_bestseller.iteration lte 1}
+					<i class="hot"></i>
+					<div class="hot_title">
+						<h3><a href="{$week_bestseller_item.url}" target="_blank">{function name="msubstr" v=$week_bestseller_item.name b=0 e=11}</a></h3>
+						<div class="sub_tt f_999">{$week_bestseller_item.brief}</div>
+						<div class="blank20"></div>
+					</div>
+					<div class="hot_data">
+						<dl class="data1 first">
+							<dt>近3个月收益率</dt>
+							<dd class="f_money"><span>{function name="number_format" v=$week_bestseller_item.average_income_rate f="2"}</span>%</dd>
+						</dl>
+						<dl class="data2">
+							<dt>起购金额</dt>
+							<dd><span class="f22 font_en">{$week_bestseller_item.min_money}</span></dd>
+						</dl>
+						<dl class="data3">
+							<dt>投资风险</dt>
+							<dd>
+								{if $week_bestseller_item.risk_rank eq 0}
+								<span class="risk1"></span>低
+								{elseif $week_bestseller_item.risk_rank eq 1}
+								<span class="risk3"></span>中
+								{else}
+								<span class="risk5"></span>高
+								{/if}
+							</dd>
+						</dl>
+						<div class="blank0"></div>
+					</div>
+					<div class="end_date f_999 f12">截止{$week_bestseller_item.end_buy_date}</div>
+					<div class="sub_box">
+						<span class="f_999 f_l">最新净值<span class="f_red">{$week_bestseller_item.net_value}</span>元</span>
+						{if ($week_bestseller_item.end_buy_date_time && $week_bestseller_item.end_buy_date_time neq '0000-00-00' && $week_bestseller_item.end_buy_date_time < $now) || ($week_bestseller_item.end_date_time && $week_bestseller_item.end_date_time neq '0000-00-00' && $week_bestseller_item.end_date_time < $now)}
+							<div class="sold_out"></div>
+						{else}
+							{if $week_bestseller_item.begin_buy_date_time neq '0000-00-00' && $week_bestseller_item.begin_buy_date_time > $now}
+								<div class="to_begin"></div>
+							{/if}
+							{if ($week_bestseller_item.begin_buy_date_time neq '0000-00-00' && $week_bestseller_item.begin_interest_date_time neq '0000-00-00') && ($week_bestseller_item.begin_buy_date_time <= $now && $week_bestseller_item.begin_interest_date_time >= $now)}
+								<a href="{$week_bestseller_item.url}" target="_blank" class="ui_button pub_btn_red bg_red">火爆预约</a>
+							{/if}
+							{if $week_bestseller_item.type eq 0}
+								{if ($week_bestseller_item.begin_buy_date_time neq '0000-00-00' && $week_bestseller_item.end_date_time neq '0000-00-00') && ($now >= $week_bestseller_item.begin_buy_date_time && $now <= $week_bestseller_item.end_date_time)}
+									<a href="{$week_bestseller_item.url}" target="_blank" class="ui_button pub_btn theme_bgcolor">立即购买</a>
+								{/if}
+							{else}
+								{if ($week_bestseller_item.begin_interest_date_time neq '0000-00-00' && $week_bestseller_item.end_buy_date_time neq '0000-00-00') && ($now >= $week_bestseller_item.begin_interest_date_time && $now <= $week_bestseller_item.end_buy_date_time)}
+									<a href="{$week_bestseller_item.url}" target="_blank" class="ui_button pub_btn theme_bgcolor">立即购买</a>
+								{/if}
+							{/if}
+						{/if}
+					</div>
+					{/if}
+					{/foreach}
+				</div>
+				<div class="hot_box">
+					{foreach from="$limit_rush_list" item="limit_rush_item" name="limit_rush"}
+					{if $smarty.foreach.limit_rush.iteration lte 1}
+					<i class="limit"></i>
+					<div class="hot_title">
+						<h3><a href="{url r="licai#deal" p="id=$limit_rush_item.id"}" target="_blank">{function name="msubstr" v=$limit_rush_item.name b=0 e=11}</a></h3>
+						<div class="sub_tt f_999">{$limit_rush_item.brief}</div>
+						<div class="blank20"></div>
+					</div>
+					<div class="hot_data">
+						<dl class="data1 first">
+							<dt>预期年化收益率</dt>
+							<dd class="f_money"><span>{function name="number_format" v=$limit_rush_item.average_income_rate f="2"}</span>%</dd>
+						</dl>
+						<dl class="data2">
+							<dt>起购金额</dt>
+							<dd><span class="f22 font_en">{$limit_rush_item.min_money}</span></dd>
+						</dl>
+						<dl class="data3">
+							<dt>投资风险</dt>
+							<dd>
+								{if $limit_rush_item.risk_rank eq 0}
+								<span class="risk1"></span>低
+								{elseif $limit_rush_item.risk_rank eq 1}
+								<span class="risk3"></span>中
+								{else}
+								<span class="risk5"></span>高
+								{/if}
+							</dd>
+						</dl>
+						<div class="blank0"></div>
+					</div>
+					<div class="end_date f_999 f12"></div>
+					<div class="sub_box">
+						<!-- <span class="f_999">最新净值<span class="f_red">1.7650</span>元</span> -->
+						{if ($limit_rush_item.end_buy_date_time && $limit_rush_item.end_buy_date_time neq '0000-00-00' && $limit_rush_item.end_buy_date_time < $now) || ($limit_rush_item.end_date_time && $limit_rush_item.end_date_time neq '0000-00-00' && $limit_rush_item.end_date_time < $now)}
+							<div class="sold_out"></div>
+						{else}
+							{if $limit_rush_item.begin_buy_date_time neq '0000-00-00' && $limit_rush_item.begin_buy_date_time > $now}
+								<div class="to_begin"></div>
+							{/if}
+							{if ($limit_rush_item.begin_buy_date_time neq '0000-00-00' && $limit_rush_item.begin_interest_date_time neq '0000-00-00') && ($limit_rush_item.begin_buy_date_time <= $now && $limit_rush_item.begin_interest_date_time >= $now)}
+								<a href="{$limit_rush_item.url}" target="_blank" class="ui_button bg_red">火爆预约</a>
+							{/if}
+							{if $limit_rush_item.type eq 0}
+								{if ($limit_rush_item.begin_buy_date_time neq '0000-00-00' && $limit_rush_item.end_date_time neq '0000-00-00') && ($now >= $limit_rush_item.begin_buy_date_time && $now <= $limit_rush_item.end_date_time)}
+									<a href="{$limit_rush_item.url}" target="_blank" class="ui_button pub_btn theme_bgcolor">立即购买</a>
+								{/if}
+							{else}
+								{if ($limit_rush_item.begin_interest_date_time neq '0000-00-00' && $limit_rush_item.end_buy_date_time neq '0000-00-00') && ($now >= $limit_rush_item.begin_interest_date_time && $now <= $limit_rush_item.end_buy_date_time)}
+									<a href="{$limit_rush_item.url}" target="_blank" class="ui_button pub_btn theme_bgcolor">立即购买</a>
+								{/if}
+							{/if}
+						{/if}
+					</div>
+					{/if}
+					{/foreach}
+				</div>
+				<div class="hot_box last">
+					{foreach from="$news_list" item="news_item" name="news"}
+					{if $smarty.foreach.news.iteration lte 1}
+					<i class="new"></i>
+					<div class="hot_title">
+						<h3><a href="{url r="licai#deal" p="id=$news_item.id"}" target="_blank">{function name="msubstr" v=$news_item.name b=0 e=11}</a></h3>
+						<div class="sub_tt f_999">{$news_item.name}</div>
+						<div class="blank20"></div>
+					</div>
+					<div class="hot_data">
+						<dl class="data1 first">
+							<dt>近3个月收益率</dt>
+							<dd class="f_money"><span>{function name="number_format" v=$news_item.average_income_rate f="2"}</span>%</dd>
+						</dl>
+						<dl class="data2">
+							<dt>起购金额</dt>
+							<dd><span class="f22 font_en">{$news_item.min_money}</span></dd>
+						</dl>
+						<dl class="data3">
+							<dt>投资风险</dt>
+							<dd>
+								{if $news_item.risk_rank eq 0}
+								<span class="risk1"></span>低
+								{elseif $news_item.risk_rank eq 1}
+								<span class="risk3"></span>中
+								{else}
+								<span class="risk5"></span>高
+								{/if}
+							</dd>
+						</dl>
+						<div class="blank0"></div>
+					</div>
+					<div class="end_date f_999 f12">截止{$news_item.end_buy_date}</div>
+					<div class="sub_box">
+						<span class="f_999 f_l">最新净值<span class="f_money">{$news_item.net_value}</span>元</span>
+						{if ($news_item.end_buy_date_time && $news_item.end_buy_date_time neq '0000-00-00' && $news_item.end_buy_date_time < $now) || ($news_item.end_date_time && $news_item.end_date_time neq '0000-00-00' && $news_item.end_date_time < $now)}
+							<div class="sold_out"></div>
+						{else}
+							{if $news_item.begin_buy_date_time neq '0000-00-00' && $news_item.begin_buy_date_time > $now}
+								<div class="to_begin"></div>
+							{/if}
+							{if ($news_item.begin_buy_date_time neq '0000-00-00' && $news_item.begin_interest_date_time neq '0000-00-00') && ($news_item.begin_buy_date_time <= $now && $news_item.begin_interest_date_time >= $now)}
+								<a href="{$news_item.url}" target="_blank" class="ui_button bg_red">火爆预约</a>
+							{/if}
+							{if $news_item.type eq 0}
+								{if ($news_item.begin_buy_date_time neq '0000-00-00' && $news_item.end_date_time neq '0000-00-00') && ($now >= $news_item.begin_buy_date_time && $now <= $news_item.end_date_time)}
+									<a href="{$news_item.url}" target="_blank" class="ui_button pub_btn theme_bgcolor">立即购买</a>
+								{/if}
+							{else}
+								{if ($news_item.begin_interest_date_time neq '0000-00-00' && $news_item.end_buy_date_time neq '0000-00-00') && ($now >= $news_item.begin_interest_date_time && $now <= $news_item.end_buy_date_time)}
+									<a href="{$news_item.url}" target="_blank" class="ui_button pub_btn theme_bgcolor">立即购买</a>
+								{/if}
+							{/if}
+						{/if}
+					</div>
+					{/if}
+					{/foreach}
+				</div>
+				<div class="blank0"></div>
+			</div>
+			<!-- 热销模块 结束 -->
+			<div class="l_r_layout">
+				<div class="l_layout">
+					{if $special_list}
+					<div class="l_layout_m recommend_box">
+						<h3 class="common_tt"><span class="theme_fcolor">个性推荐</span>选择最适合的</h3>
+						<div class="text" id="recommend_hover" onmouseover="recommend_box_mousemove(this)" onmouseout="recommend_box_mouseout(this)">
+							<ul>
+								{foreach from="$special_list" item="special_item" name="special"}
+							 	{if $smarty.foreach.special.iteration lte 3}
+								<li {if $smarty.foreach.special.last}class="last"{/if}>
+									<a href="{$special_item.url}" target="_blank">
+									<img src="{if $special_item.special_img eq ''}{$TMPL}/images/empty_thumb.gif{else}{function name="get_spec_image" v=$special_item.special_img w="272" h="270" g=1}{/if}" alt="{$special_item.special_name}" lazy="true" />
+									<div class="text_show">
+										<div  class="text_box">
+											<div class="main_tt">{function name="msubstr" v=$special_item.special_name b=0 e=9}</div>
+											<div class="minor_tt">{function name="msubstr" v=$special_item.special_brief b=0 e=16}</div>
+											<div class="cft_add_box">
+												<div class="blank10"></div>
+												<div class="j_add_box">
+													<div class="data1">
+														<div class="data11" style="line-height:1">
+															<span class="f30 f_money">{function name="number_format" v=$special_item.average_income_rate f="2"}</span><em class="f14 f_money">%</em><span class="f12">&nbsp;(近3个月收益率)</span>
+														</div>
+													</div>
+													<div class="data2 f_666">投资风险：{if $special_item.risk_rank eq 0}低{elseif $special_item.risk_rank eq 1}中{else}高{/if}</div>
+													<div class="data2 f_666">最新净值：<span class="f_money">&nbsp;{$special_item.net_value}</span></div>
+													<div class="data2 f_666">起购金额：{$special_item.min_money_format_num}</div>
+												</div>
+											</div>
+											<div class="blank10"></div>
+											<span href="{$special_item.url}" target="_blank" class="view_btn f_r">了解详情<i class="view_icon"></i></span>
+										</div>
+										<div class="text_mask"></div>
+									</div>
+									</a>
+								</li>
+								{/if}
+								{/foreach}
+							</ul>
+						</div>
+					</div>
+					{/if}
+					<div class="l_layout_m l_layout_m2_m3_m4 l_layout_m2">
+						<h3 class="common_tt">
+							<span class="theme_fcolor">维余宝</span>短平快稳，理财之王
+							<a href="{url r="licai#deals" p="type=0"}" target="_blank" class="f_999 f_r view_more">更多</a>
+						</h3>
+						<div class="text">
+							<div class="data_box">
+								<table width="100%" border="0" cellspacing="0" cellpadding="0" class="index_table">
+									{foreach from="$balance_list" item="balance_item" name="balance"}
+							 		{if $smarty.foreach.balance.iteration lte 4}
+									<tr>
+										<td width="" class="deal_name"><a href="{$balance_item.url}" target="_blank">{function name="msubstr" v=$balance_item.name b=0 e=18}</a></td>
+										<td width="200" style="text-align:center">预期年化收益率 <span class="f_money f20">{function name="number_format" v=$balance_item.average_income_rate f="2"}</span><em class="f_red">%</em></td>
+										<td width="90" style="text-align:center;padding-left:20px">
+											{if ($balance_item.end_buy_date_time && $balance_item.end_buy_date_time neq '0000-00-00' && $balance_item.end_buy_date_time < $now) || ($balance_item.end_date_time && $balance_item.end_date_time neq '0000-00-00' && $balance_item.end_date_time < $now)}
+												<div class="sold_out_mini"></div>
+											{else}
+												{if $balance_item.begin_buy_date_time neq '0000-00-00' && $balance_item.begin_buy_date_time > $now}
+													<div class="ui_button bg_gray">预热中</div>
+												{/if}
+												{if ($balance_item.begin_buy_date_time neq '0000-00-00' && $balance_item.end_date_time neq '0000-00-00') && ($now >= $balance_item.begin_buy_date_time && $now <= $balance_item.end_date_time)}
+													<a href="{$balance_item.url}" target="_blank" class="ui_button theme_bgcolor">购买</a>
+												{/if}
+											{/if}
+										</td>
+									</tr>
+									{/if}
+									{/foreach}
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="l_layout_m l_layout_m2_m3_m4 l_layout_m3">
+						<h3 class="common_tt"><span class="theme_fcolor">定存宝</span>专业投资，实力强劲<a href="{url r="licai#deals" p="type=1"}" target="_blank" class="f_999 f_r view_more">更多</a></h3>
+						<div class="text">
+							<div class="data_box">
+								<ul>
+									{foreach from="$deposit_list" item="deposit_item" name="deposit"}
+							 		{if $smarty.foreach.deposit.iteration lte 4}
+									<li class="pr {if $smarty.foreach.deposit.last}last{/if}">
+										<h3><a href="{$deposit_item.url}" target="_blank">{$deposit_item.name}</a></h3>
+										<span class="minor_tt f_999">{function name="msubstr" v=$deposit_item.brief b=0 e=26}</span>
+										<div class="data1">
+											<div class="data11 f_money">
+												<span>{function name="number_format" v=$deposit_item.average_income_rate f="2"}</span>%
+											</div>
+											<div class="data22 f13">近3个月收益率&nbsp;<span class="f12 f_999">(截止{$deposit_item.end_buy_date})</span></div>
+										</div>
+										<div class="data2">投资风险：{if $deposit_item.risk_rank eq 0}低{elseif $deposit_item.risk_rank eq 1}中{else}高{/if}</div>
+										{if ($deposit_item.end_buy_date_time && $deposit_item.end_buy_date_time neq '0000-00-00' && $deposit_item.end_buy_date_time < $now) || ($deposit_item.end_date_time && $deposit_item.end_date_time neq '0000-00-00' && $deposit_item.end_date_time < $now)}
+											<div class="sold_out"></div>
+										{else}
+											{if $deposit_item.begin_buy_date_time neq '0000-00-00' && $deposit_item.begin_buy_date_time > $now}
+												<a href="javascript:void(0);" class="ui_button bg_gray">预热中</a>
+											{/if}
+											{if ($deposit_item.begin_buy_date_time neq '0000-00-00' && $deposit_item.begin_interest_date_time neq '0000-00-00') && ($deposit_item.begin_buy_date_time <= $now && $deposit_item.begin_interest_date_time >= $now)}
+												<a href="{$deposit_item.url}" target="_blank" class="ui_button bg_red">火爆预约</a>
+											{/if}
+											{if ($deposit_item.begin_interest_date_time neq '0000-00-00' && $deposit_item.end_buy_date_time neq '0000-00-00') && ($now >= $deposit_item.begin_interest_date_time && $now <= $deposit_item.end_buy_date_time)}
+												<a href="{$deposit_item.url}" target="_blank" class="ui_button theme_bgcolor">立即购买</a>
+											{/if}
+										{/if}
+									</li>
+									{/if}
+									{/foreach}
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="l_layout_m l_layout_m2_m3_m4 l_layout_m3 l_layout_m4">
+						<h3 class="common_tt"><span class="theme_fcolor">非标理财</span>收益高，保安全</h3>
+						<div class="text">
+							<div class="data_box">
+								<ul>
+									{foreach from="$float_list" item="float_item" name="float"}
+							 		{if $smarty.foreach.float.iteration lte 4}
+									<li class="pr {if $smarty.foreach.float.last}last{/if}">
+										<h3><a href="{$float_item.url}" target="_blank">{$float_item.name}</a></h3>
+										<div class="data1">
+											<div class="data11 f_money">
+												<span>{function name="number_format" v=$float_item.average_income_rate f="2"}</span>%
+											</div>
+											<div class="data22">历史年化收益率</div>
+										</div>
+										<div class="data2">投资风险：{if $float_item.risk_rank eq 0}低{elseif $float_item.risk_rank eq 1}中{else}高{/if}</div>
+										<div class="data2">起投金额：{$float_item.min_money}元</div>
+										{if ($float_item.end_buy_date_time && $float_item.end_buy_date_time neq '0000-00-00' && $float_item.end_buy_date_time < $now) || ($float_item.end_date_time && $float_item.end_date_time neq '0000-00-00' && $float_item.end_date_time < $now)}
+											<div class="sold_out"></div>
+										{else}
+											{if $float_item.begin_buy_date_time neq '0000-00-00' && $float_item.begin_buy_date_time > $now}
+												<a href="javascript:void(0);" class="ui_button bg_gray">预热中</a>
+											{/if}
+											{if ($float_item.begin_buy_date_time neq '0000-00-00' && $float_item.begin_interest_date_time neq '0000-00-00') && ($float_item.begin_buy_date_time <= $now && $float_item.begin_interest_date_time >= $now)}
+												<a href="{$float_item.url}" target="_blank" class="ui_button bg_red">火爆预约</a>
+											{/if}
+											{if ($float_item.begin_interest_date_time neq '0000-00-00' && $float_item.end_buy_date_time neq '0000-00-00') && ($now >= $float_item.begin_interest_date_time && $now <= $float_item.end_buy_date_time)}
+												<a href="{$float_item.url}" target="_blank" class="ui_button theme_bgcolor">立即购买</a>
+											{/if}
+										{/if}
+									</li>
+									{/if}
+									{/foreach}
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="r_layout">
+					{if $licai_dealshow}
+					<div class="r_layout_m r_layout_m1">
+						<h3 class="common_tt"><span class="theme_fcolor">大家都在抢</span></h3>
+						<div class="text" id="r_layout_m1">
+							<div class="scroll_show" id="r_layout_m1_bd">
+								<ul>
+									{foreach from=$licai_dealshow item=licai_dealshow_item name=licai_dealshow_name}
+									<li>
+										<a href="{$licai_dealshow_item.url}" target="_blank">
+											<div class="toux f_l"><img src="{function name="get_spec_image" v=$licai_dealshow_item.img w="50" h="50"}" /></div>
+											<div class="text_show f_r">
+												<h3>{function name="msubstr" v=$licai_dealshow_item.name b=0 e=11}</h3>
+												<div class="f_999"><span>{$licai_dealshow_item.user_name}</span>购买了该产品</div>
+											</div>
+											{if !($smarty.foreach.licai_dealshow_name.last)}
+											<div class="blank5"></div>
+											<i class="line"></i>
+											{/if}
+										</a>
+									</li>
+									{/foreach}
+								</ul>
+							</div>
+							<script type="text/javascript">
+						 		jQuery("#r_layout_m1").slide({mainCell:"#r_layout_m1_bd ul",autoPage:true,effect:"top",easing:"easeInOutCirc",autoPlay:true,vis:6,delayTime:500});
+							</script>
+							<div class="blank5"></div>
+							<i class="line"></i>
+						</div>
+					</div>
+					{/if}
+					<div class="r_layout_m r_layout_m2">
+						<h3 class="common_tt"><span>品牌推荐</span></h3>
+						<div class="text">
+							<ul>
+								<li>
+									<a href="{url r="licai#deal" p="id=$deal_item.id"}" target="_blank"><img src="{$TMPL}/images/licai/brand.jpg" /></a>
+								</li>
+								<li>
+									<a href="{url r="licai#deal" p="id=$deal_item.id"}" target="_blank"><img src="{$TMPL}/images/licai/brand.jpg" /></a>
+								</li>
+								<li>
+									<a href="{url r="licai#deal" p="id=$deal_item.id"}" target="_blank"><img src="{$TMPL}/images/licai/brand.jpg" /></a>
+								</li>
+								<li>
+									<a href="{url r="licai#deal" p="id=$deal_item.id"}" target="_blank"><img src="{$TMPL}/images/licai/brand.jpg" /></a>
+								</li>
+							</ul>
+							<div class="blank0"></div>
+						</div>
+					</div>
+					<div class="r_m_banner">
+						<a href="{url r="licai#deal" p="id=$deal_item.id"}" target="_blank"><img src="{$TMPL}/images/licai/m_banner.jpg" /></a>
+					</div>
+					<div class="blank20"></div>
+					<div class="r_m_banner">
+						<a href="{url r="licai#deal" p="id=$deal_item.id"}" target="_blank"><img src="{$TMPL}/images/licai/m_banner.jpg" /></a>
+					</div>
+					<div class="blank20"></div>
+					<div class="r_m_banner">
+						<a href="{url r="licai#deal" p="id=$deal_item.id"}" target="_blank"><img src="{$TMPL}/images/licai/m_banner.jpg" /></a>
+					</div>
+				</div>
+				<div class="blank0"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="blank0"></div>
+<script type="text/javascript">
+	function add_box_mousemove(o){
+		$(o).find(".j_add_box").stop().animate({marginTop:'-42px'}, 300);
+	}
+	function add_box_mouseout(o){
+		$(o).find(".j_add_box").stop().animate({marginTop:'0'}, 300);
+	}
+	function recommend_box_mousemove(o){
+		$(o).find(".text_show").stop().animate({height:'215px'}, 300);
+		$(o).find(".text_box").stop().animate({height:'185px'}, 300);
+	}
+	function recommend_box_mouseout(o){
+		$(o).find(".text_show").stop().animate({height:'80px'}, 300);
+		$(o).find(".text_box").stop().animate({height:'50px'}, 300);
+	}
+</script>
+{include file="inc/footer.html"}

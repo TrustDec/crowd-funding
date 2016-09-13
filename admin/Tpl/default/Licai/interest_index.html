@@ -1,0 +1,65 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<div class="main">
+<div class="main_title">{$licai.name}&nbsp;的{$main_title}&nbsp;<a href="{:u("Licai/index")}" class="back_list">{%BACK_LIST}</a></div>
+<div class="blank5"></div>
+<script>
+	//添加跳转
+function interest_add(id)
+{
+	location.href = ROOT+"?"+VAR_MODULE+"="+MODULE_NAME+"&"+VAR_ACTION+"=interest_add&id="+id;
+}
+function interest_edit(id)
+{
+	location.href = ROOT+"?"+VAR_MODULE+"="+MODULE_NAME+"&"+VAR_ACTION+"=interest_edit&id="+id;
+}
+//普通删除
+function interest_del(id)
+{
+	if(!id)
+	{
+		idBox = $(".key:checked");
+		if(idBox.length == 0)
+		{
+			alert(LANG['DELETE_EMPTY_WARNING']);
+			return;
+		}
+		idArray = new Array();
+		$.each( idBox, function(i, n){
+			idArray.push($(n).val());
+		});
+		id = idArray.join(",");
+	}
+	if(confirm(LANG['CONFIRM_DELETE']))
+	$.ajax({ 
+			url: ROOT+"?"+VAR_MODULE+"="+MODULE_NAME+"&"+VAR_ACTION+"=interest_delete&id="+id , 
+			data: "ajax=1",
+			dataType: "json",
+			success: function(obj){
+				$("#info").html(obj.info);
+				if(obj.status==1)
+				location.href=location.href;
+			}
+	});
+}
+</script>
+<div class="button_row">
+	<input type="button" class="button" value="{%ADD}" onclick="interest_add({$licai.id});" />
+	<input type="button" class="button" value="{%DEL}" onclick="interest_del();" />
+</div>
+<div class="blank5"></div>
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="bank" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{%ID}|50px,min_money_format:最小金额,max_money_format:最大金额,buy_fee_rate_format:原手续费率,site_buy_fee_rate_format:网站手续费率,redemption_fee_rate_format:赎回手续费率,before_rate_format:预热期收益率,before_breach_rate_format:预热期违约收益率,breach_rate_format:违约收益率,interest_rate_format:收益率,platform_rate_format:平台收益率,freeze_bond_rate_format:保证金比率,platform_breach_rate_format:用户违约平台收益率" 
+    actionlist="interest_edit:{%EDIT}, interest_del:{%DEL}" /> 
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

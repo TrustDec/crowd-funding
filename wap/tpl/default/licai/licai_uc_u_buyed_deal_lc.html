@@ -1,0 +1,123 @@
+{include file="./inc/header.html"}
+<?php
+    $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/licai/licai.css";
+    $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/licai/deals.css";
+    $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/licai/uc_buyed_lc.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$pagecss"}" />
+<div class="lc_head">
+    <div class="ui_list ui_smaller_list">
+        <ul>
+            <li>
+                <label class="ui_list_label">待处理赎回总额</label>
+                <div class="ui_list_content flex tr">
+                    <span class="f_money">{$vo.licai_all_money_format}</span>
+                </div>
+            </li>
+            <li>
+                <label class="ui_list_label">待处理赎回申请</label>
+                <div class="ui_list_content flex tr">
+                    <em>{$vo.licai_total_count}</em>个
+                </div>
+            </li>
+            <li>
+                <label class="ui_list_label">已赎回本金</label>
+                <div class="ui_list_content flex tr">
+                    <em>{$vo.licai_total_money_format}</em>
+                </div>
+            </li>
+            <li>
+                <label class="ui_list_label">累计收益</label>
+                <div class="ui_list_content flex tr">
+                    <em>{$vo.total_earn_money_format}</em>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="blank10"></div>
+<article id="earn_list" class="earn-list">
+    <section class="earn-item">
+        <a href="{url_wap r="licai#deal" p="id=$vo.id"}">
+            <h1 class="earn-title"><i class="fa fa-chevron-right earn-entry"></i>{$vo.name}</h1>
+            <div class="earn-body">
+                <div class="earn-profit">
+                    <p class="earn-profit-percent"><span>{function name="number_format" v=$vo.average_income_rate_format f="2"}</span>%</p>
+                    <p>收益率</p>
+                </div>
+                <div class="earn-info">
+                    <ul class="earn-info-list">
+                        <li><span class="earn-remaining">{$vo.min_money}元</span>起购金额</li>
+                        <li><span>{if $vo.time_limit}{$$vo.time_limit}个月{else}无期限{/if}</span>理财期限</li>
+                    </ul>
+                </div>
+            </div>
+        </a>
+    </section>
+</article>
+<div class="invest">
+<!--mainborder开始-->  
+{if $list}
+    {foreach from=$list item="item" key=key name="deal"}
+    <div class="blok_10 mainborder">
+        <div class="invest_tit Headerbackground">
+            <span class="sub_name">{function name="msubstr" v="$item.name"}</span>
+        </div>
+        <div class="index_content">
+            <ul class="two_column">
+                <li>
+                    <label>赎回本金</label>
+                    <span>{$item.money_format}</span>
+                </li>
+                <li>
+                    <label>收益金额</label>
+                    <span class="f_red">{$item.earn_money_format}<em> 元</em></span>
+                </li>
+                <li>
+                    <label>手续费</label>
+                    <span>{$item.fee_format}</span>
+                </li>
+                <li>
+                    <label>到账金额</label>
+                    <span>{$item.real_money_format}</span>
+                </li>
+                <li>
+                    <label>类型</label>
+                    <span>{$item.type_format}</span>
+                </li>
+				<li>
+                    <label>状态</label>
+                    <span>{$item.status_format}</span>
+                </li>
+				
+            </ul>
+            <p class="pl10 f12">
+                <label style="color:#878787;margin-right:6px">申请/到账时间</label>
+                <span>
+                    {if $item.status == 1 || $item.status == 2 }
+                        <span> {$item.update_date}</span>
+                    {else}
+                        <span> {$item.create_date}</span>
+                    {/if}
+                </span>
+            </p>
+            <div class="blank10"></div>
+            <div class="bor_d"></div>
+            <div class="b_box">
+                <a class="buyrecord" href="{url_wap  r="licai#uc_deal_lc" p="id=$vo.id"}">查看详情</a>
+                 {if $item.status==0}
+				    <a class="redeemmng" href="{url_wap  r="licai#uc_redeem_lc_status" p="id=$item.id"}">审核通过</a>
+                 {/if}
+                <div class="blank10"></div>
+            </div>
+            
+        </div>
+        <div class="blank"></div>    
+    </div><!--mainborder结束-->
+    {/foreach}
+{else}
+    <div style="text-align: center;width:100%;line-height:60px;">无任何记录</div>
+{/if}       
+</div>
+<div class="blank15"></div>
+{include file="./inc/footer.html"}

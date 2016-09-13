@@ -1,0 +1,110 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Common/js/calendar/calendar.php?lang=zh-cn" ></script>
+<load href='__TMPL__Common/js/calendar/calendar.css' />
+<load href='__TMPL__Common/js/calendar/calendar.js' />
+<div class="main">
+<div class="main_title">{$main_title}</div>
+<div class="blank5"></div>
+<PHP>
+function get_order_item($order_sn,$order_id)
+{
+	$deal_order_item = M("GoodsOrder")->where("id = ".$order_id)->findAll();
+	$str = "<span style='font-size:14px; font-family:verdana; font-weight:bold;'>".$order_sn."</span>";
+	return $str;
+}
+
+function get_handle($id,$order_info)
+{
+	if($order_info['order_status']==0)
+	{
+		$str = l("DEAL_ORDER_HANDLE");
+	}
+	else
+	{
+		$str = l("DEAL_ORDER_VIEW");
+	}
+	$str = "<a href='".u("GoodsOrder/view_order",array("id"=>$id))."'>".$str."</a>";
+	
+	return $str;
+}
+
+function del_order($id,$order_info)
+{
+	if($order_info['order_status'] !=1 )
+	{
+		$str1 = "删除订单";
+	}
+	
+	$str1 = "<a href='".u("GoodsOrder/del_order",array("id"=>$id))."'>".$str1."</a>";
+	
+	return $str1;
+}
+
+
+</PHP>
+<div class="blank5"></div>
+
+<div class="search_row">
+	<form name="search" action="__APP__" method="get">
+		订单号：
+		<input type="text" class="textbox" name="order_sn" id="order_sn" value="{$param.order_sn}" style="width:100px" />&nbsp;
+		商品id:
+		<input type="text" class="textbox" name="goods_id" id="goods_id" value="{$param.goods_id}" style="width:60px" />&nbsp;
+		商品名称：
+		<input type="text" class="textbox" name="goods_name" id="goods_name" value="{$param.goods_name}" style="width:130px" />&nbsp;
+		会员名：
+		<input type="text" class="textbox" name="user_name" id="user_name" value="{$param.user_name}" style="width:100px" />&nbsp;
+		订单状态：
+		<select name="order_status">
+			<option value="-1" <if condition="$param['order_status'] eq -1">selected="selected"</if> >所有</option>
+			<option value="1" <if condition="$param['order_status'] eq 1">selected="selected"</if>>已兑换</option>
+			<option value="2" <if condition="$param['order_status'] eq 2">selected="selected"</if>>已兑换(无库存)</option>
+			<option value="3" <if condition="$param['order_status'] eq 3">selected="selected"</if>>已退积分</option>
+			<option value="5" <if condition="$param['order_status'] eq 5">selected="selected"</if>>已无效</option>			
+		</select>&nbsp;
+		发货状态：
+		<select name="delivery_status">
+			<option value="-1" <if condition="$param['delivery_status'] eq -1">selected="selected"</if> >所有</option>
+			<option value="0" <if condition="$param['delivery_status'] eq 0">selected="selected"</if>>未发货</option>
+			<option value="1" <if condition="$param['delivery_status'] eq 1">selected="selected"</if>>已发货</option>
+			<option value="2" <if condition="$param['delivery_status'] eq 2">selected="selected"</if>>无需发货</option>		
+		</select>
+		<div class="blank5"></div>
+		兑换时间：
+		<input type="text" class="textbox" name="begin_time" id="begin_time" value="{:trim($_REQUEST['begin_time'])}" onfocus="return showCalendar('begin_time', '%Y-%m-%d %H:%M:%S', false, false, 'begin_time');" style="width:130px" />
+		-
+		<input type="text" class="textbox" name="end_time" id="end_time" value="{:trim($_REQUEST['end_time'])}" onfocus="return showCalendar('end_time', '%Y-%m-%d %H:%M:%S', false, false, 'end_time');" style="width:130px" />
+		
+		
+		<input type="hidden" value="GoodsOrder" name="m" />
+		<input type="hidden" value="index" name="a" />
+		<input type="submit" class="button" value="{%SEARCH}" />
+	
+		<input type="button" class="button" value="{%EXPORT}" onclick="export_csv();" />
+	</form>
+</div>
+<div class="blank5"></div>
+<html:list 
+	id="dataTable"
+	style="dataTable"
+	name="goods_order"
+	action="true"
+	datasource="list"
+	show="id:{%ID}|50px
+		,order_sn|get_order_item=$goods_order['id']:{%ORDER_SN}
+		,goods_name:商品名称|230px
+		,user_name:会员名
+		,total_score:所需积分
+		,ex_time|to_date:兑换时间
+		,delivery_time|to_date:发货时间
+		,order_status_format:订单状态
+		,delivery_status_format:配送状态
+		"
+	actionlist="id|get_handle=$goods_order,id|del_order=$goods_order" /> 
+	
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

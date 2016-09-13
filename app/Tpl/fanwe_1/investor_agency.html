@@ -1,0 +1,169 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/investor_agency_image_one.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/investor_agency_image_one.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/investor_agency_image_two.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/investor_agency_image_two.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/investor_agency_image_three.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/investor_agency_image_three.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/ajaxupload.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/investor_agency.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/check_idcard.js";
+
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/plupload/plupload.full.min.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/plupload/plupload.full.min.js";
+?>
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<script type='text/javascript' src='{$TMPL}/js/jQuery-jcDate.js'></script>
+<script type="text/javascript">
+    var ROOT = '{$APP_ROOT}/m.php';
+    var VAR_MODULE = "m";
+    var VAR_ACTION = "a";
+    var WEB_SESSION_ID = '<?php echo es_session::id(); ?>';
+    var EMOT_URL = '{$APP_ROOT}/public/emoticons/';
+    var MAX_FILE_SIZE = "<?php echo (app_conf("MAX_IMAGE_SIZE")/1000000)."MB"; ?>";
+    var UPLOAD_URL ='{$APP_ROOT}/m.php?m=File&a=do_upload&upload_type=0&dir=image' ;
+	var UPLOAD_SWF='{$TMPL}/js/plupload/Moxie.swf';
+	var UPLOAD_XAP='{$TMPL}/js/plupload//Moxie.xap';
+	var ALLOW_IMAGE_EXT= "gif,jpg,jpeg,png,bmp";
+	var MAX_IMAGE_SIZE= "<?php echo (app_conf("MAX_IMAGE_SIZE")/1000000)."MB"; ?>";
+	function get_file_fun(name,num){
+   		$("#"+name+"_"+num).ui_upload({multi:false,
+		FileUploaded:function(ajaxobj){
+ 				if(ajaxobj.error==1)
+				{
+					$.showErr(ajaxobj.info);
+				}else{
+					$("#"+name+"_"+num+"_url").val(ajaxobj.public_url);
+					$("#"+name+"_"+num+"_image").attr('src',ajaxobj.url);
+ 				}
+			},Error:function(error){
+			$.showErr(error.message);
+ 		}});
+	}
+</script>
+<style type="text/css">
+	.form_lable{width:120px}
+</style>
+<div id="J_wrap">
+	<div class="investor_two wrap1000">
+		<div class="blank20"></div>
+		<div class="progress_box">
+			<div class="progress_bar progress_bar_two"></div>
+			<div class="blank10"></div>
+			<ul class="progress_inf">
+				<li class="theme_fcolor">填写个人信息</li>
+				<li class="theme_fcolor">进行身份验证</li>
+				<li>认证中</li>
+			</ul>
+		</div>
+		<div class="blank20"></div>
+		<div class="mod_box">
+			<div class="item">
+				<div class="form_row control-group mycontrol-group">
+					<label class="form_lable">法人姓名：</label>
+					<input type="text" value="" id="real_name" name="real_name" class="textbox" />
+					<div class="tip_box"></div>
+				</div>
+				<div class="blank0"></div>
+				<div class="form_row control-group mycontrol-group">
+					<label class="form_lable">身份证号：</label>
+					<input type="text" value="" id="idcard_number" name="idcard_number" class="textbox"/>
+					<div class="tip_box"></div>
+				</div>
+				<div class="blank0"></div>
+				<div class="form_row control-group mycontrol-group" style="height:152px;">
+					<label class="form_lable">身份证正面照片：</label>
+					<div class="pic_show f_l mr20">
+						<img id="image1" src="{$deal_image1.url}"/>
+						身份证正面照片，文件格式为PNG、jpg、gif、jpeg（文件不能超过2M）
+						<input type="hidden" id="idcard_zheng_u" name="idcard_zheng_u" />
+					</div>
+					<label class="fileupload" onclick="upd_file1(this,'idcard_zheng');" style="width:97px;">
+					<input type="file" class="filebox" name="idcard_zheng" id="idcard_zheng"  style="cursor:pointer;padding: 0;height: 39px;width: 97px;filter: alpha(opacity=0);-moz-opacity: 0;-khtml-opacity: 0;opacity: 0;" />						
+					</label>
+					<div class="tip_box"></div>
+					<div class="blank15"></div>
+					<div class="fileuploading"></div>
+				</div>
+				<div class="form_row control-group mycontrol-group" style="height:152px;">
+					<label class="form_lable">身份证反面照片：</label>
+					<div class="pic_show f_l mr20">
+						<img id="image2" src="{$deal_image2.url}" />
+						身份证反面照片，文件格式为PNG、jpg、gif、jpeg（文件不能超过2M）
+						<input type="hidden" id="idcard_fang_u" name="idcard_fang_u" />
+					</div>
+				    <label class="fileupload" onclick="upd_file2(this,'idcard_fang');">
+						<input type="file" class="filebox" name="idcard_fang" id="idcard_fang" style="cursor:pointer;padding: 0;height: 39px;width: 97px;filter: alpha(opacity=0);-moz-opacity: 0;-khtml-opacity: 0;opacity: 0;" />
+					</label>
+					<div class="tip_box"></div>
+					<div class="blank15"></div>
+					<div class="fileuploading"></div>
+				</div>
+				<div class="blank15"></div>
+				 
+			</div>
+			<div class="item mt20 pt20  dashed" >
+				<div class="form_row control-group mycontrol-group">
+					<label class="form_lable">机构名称：</label>
+					<input type="text" value="" id="identify_business_name" name="identify_business_name" class="textbox" />
+					<div class="tip_box"></div>
+					<div class="blank15"></div>
+				</div>
+				<div class="form_row control-group mycontrol-group" style="height:152px;">
+					<label class="form_lable">营业执照：</label>
+					<div class="pic_show f_l mr20">
+						<img id="image1" src="{$identify_business_licence.url}" />
+						营业执照，文件格式为PNG、jpg、gif、jpeg（文件不能超过2M）
+						<input type="hidden" id="identify_business_licence_u" name="identify_business_licence_u" />
+					</div>
+					<label class="fileupload" onclick="upd_file1(this,'identify_business_licence');" style="width:97px;height:39px">
+						<input type="file" class="filebox" name="identify_business_licence" id="identify_business_licence"  style="cursor:pointer;padding:0;height: 39px;width: 97px;filter: alpha(opacity=0);-moz-opacity: 0;-khtml-opacity: 0;opacity: 0;"/>	
+					</label>
+					<div class="tip_box"></div>
+					<div class="blank15"></div>
+					<div class="fileuploading"></div>
+				</div>
+				<div class="form_row control-group mycontrol-group" style="height:152px;">
+					<label class="form_lable">组织机构代码证：</label>
+					<div class="pic_show f_l mr20">
+						<img id="image2" src="{$identify_business_code.url}" />
+						组织机构代码证照片，文件格式为PNG、jpg、gif、jpeg（文件不能超过2M）
+						<input type="hidden" id="identify_business_code_u" name="identify_business_code_u" />
+					</div>
+					<label class="fileupload" onclick="upd_file2(this,'identify_business_code');" style="width:97px;height:39px">
+						<input type="file" class="filebox" name="identify_business_code" id="identify_business_code" style="cursor:pointer;padding:0;height: 39px;width: 97px;filter: alpha(opacity=0);-moz-opacity: 0;-khtml-opacity: 0;opacity: 0;"/>	
+					</label>
+					<div class="tip_box"></div>
+					<div class="blank15"></div>
+					<div class="fileuploading"></div>
+				</div>
+				<div class="form_row control-group mycontrol-group" style="height:152px;">
+					<label class="form_lable">税务登记证：</label>
+					<div class="pic_show f_l mr20">
+						<img id="image3" src="{$identify_business_tax.url}" />
+						税务登记证照片，文件格式为PNG、jpg、gif、jpeg（文件不能超过2M）
+						<input type="hidden" id="identify_business_tax_u" name="identify_business_tax_u" />
+					</div>
+					<label class="fileupload" onclick="upd_file3(this,'identify_business_tax');" style="width:97px;height:39px">
+						<input type="file" class="filebox" name="identify_business_tax" id="identify_business_tax" style="cursor:pointer;padding:0;height: 39px;width: 97px;filter: alpha(opacity=0);-moz-opacity: 0;-khtml-opacity: 0;opacity: 0;"/>	
+					</label>
+					<div class="tip_box"></div>
+					<div class="blank15"></div>
+					<div class="fileuploading"></div>
+				</div>
+				<div class="blank20"></div>
+				<div class="button_row">
+					<a class="ui-button theme_bgcolor" id="previous" style="margin-left:144px;" href="{url r="investor"}">上一步</a>
+					<input type="button" value="提交审核" name="submit_form" class="ui-button theme_bgcolor ml20" id="ui-button" rel="ui-button" onclick="javascript:check_data();"/>
+					<input type="hidden" value="1" name="ajax" id="ajax"/>
+					<input type="hidden" value="{url r"user#investor_result"}" name="result_url" id="result_url"/>
+					<input type="hidden" value="{url r="user#investor_agency_save_data" p="id=$user_info.id"}" name="ajaxurl" id="ajaxurl"/>
+					<div class="blank15"></div>
+				</div>
+			</div>
+		</div>
+		<div class="blank20"></div>
+	</div>
+</div>
+{include file="inc/footer.html"} 

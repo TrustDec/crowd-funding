@@ -1,0 +1,70 @@
+{include file="inc/header.html"} 
+
+<div class="blank"></div>
+<!--中间开始-->
+<div class="dlmain Myhomepage">
+		<div class="homeleft pageleft f_l ">
+			<div class="menutitle">项目管理</div>
+			<ul class="homemenulist">
+				<li><a href="{url r="account#index"}" class="a1">支持的项目</a></li>
+				<li><a href="{url r="account#project"}" class="a2">我的项目</a></li>
+				<li><a href="{url r="account#focus"}" class="a3">关注的项目</a></li>
+				<li><a href="{url r="account#credit"}" class="a4">收支明细</a></li>
+				<li><a href="{url r="account#record"}">充值记录</a></li>	
+			</ul>
+			<div class="menutitle">个人设置</div>
+			<ul class="homemenulist">
+				<li><a href="{url r="settings#index"}" class="a5">资料修改</a></li>
+				<li class="select"><a href="{url r="settings#password"}" class="a6">修改密码</a></li>
+				<li><a href="{url r="settings#consignee"}" class="a8">收件地址管理</a></li>
+				<li><a href="{url r="settings#bind"}" class="a7">绑定设置</a></li>
+				<li><a href="{url r="settings#bank"}" class="a9">银行帐户</a></li>	
+			</ul>			
+		</div>
+		<div class="homeright pageright f_r">
+			<div >
+				<div class="page_title">
+					 修改密码
+				</div>
+				<div class="blank"></div>
+				<div class="left">
+					<form class="ajax_form" action="{url r="settings#save_password"}">
+											
+						<div class="form_row control-group">
+							<div class="blank15"></div>
+							<label class="form_lable">新密码:</label>
+							<input type="password" value="" class="textbox" name="user_pwd" />
+							<div class="blank15"></div>
+						</div>
+						<div class="form_row control-group">
+							<label class="form_lable">确认密码:</label>
+							<input type="password" value="" class="textbox" name="confirm_user_pwd" />
+							<div class="blank15"></div>
+						</div>
+						
+						
+						<div class="submit_btn_row control-group">
+							<div class="ui-button green" rel="green" style="margin-left:105px;">
+								<div>
+									<span>保存密码</span>
+								</div>
+							</div>
+							<input type="hidden" value="1" name="ajax" />
+							<div class="blank15"></div>
+						</div>
+						
+					</form>
+				</div><!--left-->
+				
+				
+				<div class="blank"></div>
+			</div>
+	
+	 		<div class="blank"></div>	
+		</div>
+
+<!--中间结束-->
+<div class="blank"></div>
+</div>
+<div class="blank"></div>
+{include file="inc/footer.html"} 

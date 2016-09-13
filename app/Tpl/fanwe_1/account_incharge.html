@@ -1,0 +1,38 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/account.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<div id="J_wrap">
+	<div class="blank20"></div>
+	<div class="xqmain xqmain1000">
+		<div class="xqmain_main white_box" style="height:310px;">
+			<div class="page_title">充值</div>
+			<div class="switch_nav" style="height:1px;"></div>
+			<div class="blank20"></div>
+			<div class="full">
+				<form class="ajax_form" action="{url r="account#do_incharge"}">					
+					<div class="control-group">
+						<label class="control-label">充值金额:</label>
+						<div class="control-text">
+							<input type="text" class="textbox" value="" name="money" />人民币(元)
+						</div>
+					</div>
+					<div class="blank15"></div>
+					<div class="submit_btn_row control-group">
+						<label class="control-label"></label>
+						<div class="ui-button theme_bgcolor" rel="green">
+							<span>确定，去付款</span>
+						</div>					
+						<a href="{url r="account#index"}" class="cancel_incharge">取消充值</a>
+						<input type="hidden" value="1" name="ajax" />					
+						<div class="blank15"></div>
+					</div>
+				</form>
+			</div>
+			<div class="blank"></div>
+		</div>	
+	</div>
+	<div class="blank20"></div>
+</div>
+{include file="inc/footer.html"} 

@@ -1,0 +1,68 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Common/js/calendar/calendar.php?lang=zh-cn" ></script>
+<script type="text/javascript">	
+	function export_csv_hasback_info()
+	{
+		var inputs = $(".search_row").find("input");
+		var selects = $(".search_row").find("select");
+		var param = '';
+		for(i=0;i<inputs.length;i++)
+		{
+			if(inputs[i].name!='m'&&inputs[i].name!='a')
+			param += "&"+inputs[i].name+"="+$(inputs[i]).val();
+		}
+		for(i=0;i<selects.length;i++)
+		{
+			param += "&"+selects[i].name+"="+$(selects[i]).val();
+		}
+		var url= ROOT+"?"+VAR_MODULE+"="+MODULE_NAME+"&"+VAR_ACTION+"=export_csv_hasback_info";
+		location.href = url+param;
+	}
+	
+</script>
+<load href='__TMPL__Common/js/calendar/calendar.css' />
+<load href='__TMPL__Common/js/calendar/calendar.js' />
+<div class="main">
+<div class="main_title">回报众筹-回报明细</div>
+<div class="blank5"></div>
+<div class="search_row">
+	<form name="search" action="__APP__" method="get">	
+		
+		用户名：<input type="text" class="textbox" name="user_name" value="{:trim($_REQUEST['user_name'])}" style="width:100px;" />
+		
+		时间：
+		<input type="text" class="textbox" name="begin_time" id="begin_time" value="{:trim($_REQUEST['begin_time'])}" onfocus="return showCalendar('begin_time', '%Y-%m-%d %H:%M:%S', false, false, 'btn_begin_time');" style="width:130px" />
+		<input type="button" class="button" id="btn_begin_time" value="{%SELECT_TIME}" onclick="return showCalendar('begin_time', '%Y-%m-%d %H:%M:%S', false, false, 'btn_begin_time');" />	
+		-
+		<input type="text" class="textbox" name="end_time" id="end_time" value="{:trim($_REQUEST['end_time'])}" onfocus="return showCalendar('end_time', '%Y-%m-%d %H:%M:%S', false, false, 'btn_end_time');" style="width:130px" />
+		<input type="button" class="button" id="btn_end_time" value="{%SELECT_TIME}" onclick="return showCalendar('end_time', '%Y-%m-%d %H:%M:%S', false, false, 'btn_end_time');" />	
+		
+		<input type="hidden" value="Statistics" name="m" />
+		<input type="hidden" value="hasback_info" name="a" />
+		<input type="submit" class="button" value="{%SEARCH}" />
+    	<input type="button" class="button" value="{%EXPORT}" onclick="export_csv_hasback_info();" />
+	</form>
+</div>			
+<div class="blank5"></div>
+		
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="deal" 
+	
+	datasource="list" 
+	show="
+		,项目编号:项目编号
+		,项目名称:项目名称
+		,已回报人数:已回报人数
+		,待回报人数:待回报人数
+		"/>
+			
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+
+</div>
+
+<include file="Public:footer" />

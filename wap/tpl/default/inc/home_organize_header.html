@@ -1,0 +1,23 @@
+<div class="deal_header">
+	<div class="deal_header_content tc">
+		<div class="logo"><img src="{function name="get_user_avatar" uid=$home_user_info.id type="middle"}" /></div>
+		<div class="name">{$home_user_info.identify_business_name}</div>
+		<div class="sub_name">
+			<a href="{$user_info.company_url}">
+				{$home_user_info.company_url}
+			</a>
+		</div>
+		<div class="other">
+			<p>
+				<span><i class="icon iconfont">&#xe624;</i>{$home_user_info.province} {$home_user_info.city}</span>
+			</p>
+		</div>
+		<div class="operat">
+			<a href="#" rel="{$home_user_info.id}" name="recommend_project" onclick="ajax_get_recommend_project(this);" class="btn_custom">自荐我的项目</a>
+			<a href="#" class="btn_custom" onclick="send_message({$home_user_info.id});">私信</a>
+		</div>
+	</div>
+</div>
+<script>
+	var user_info_id = '{$user_info.id}';
+</script>

@@ -1,0 +1,62 @@
+
+<div class="equity_box equity_box1">
+	<div class="equity_box_l f_l">
+		<div class="pic f_l mr10">
+			<a href="{url r="deal#show" p="id=$hot_item.id"}" target="_blank"><img src="{if $hot_item.image eq ''}{$TMPL}/images/empty_thumb.gif{else}{function name="get_spec_image" v=$hot_item.image w="282" h="220" g="1"}{/if}" alt="{$hot_item.name}">
+			</a>
+		</div>
+		<div class="inf f_r">
+			<h3>
+				<a href="{url r="deal#show" p="id=$hot_item.id"}" target="_blank"><span class="theme_fcolor">{$hot_item.name}</span></a>
+			</h3>
+			<div class="blank10"></div>
+			<div class="inf_2">
+				<span class="mr20">
+					<label>发起人：</label>
+					<span>{$hot_item.user_name}</span>
+				</span>
+				<span>
+					<label>地区：</label>
+					<span>{$hot_item.province}{$hot_item.city}</span>
+				</span>
+			</div>
+			<div class="blank10"></div>
+			<div class="inf_3">
+				<label>项目介绍：</label><span>{$hot_item.business_descripe}</span>
+			</div>
+			<div class="blank5"></div>
+			<div class="inf_4">
+				<label>项目进度：</label>
+				<span>
+					{$hot_item.percent}%
+				</span>
+			</div>
+			<div class="blank5"></div>
+			<div class="inf_4">
+				<label>筹资方案：</label><span>{$hot_item.limit_price_w}万，出让{$hot_item.limit_price_w}%股份</span>
+			</div>
+			<div class="blank5"></div>
+			<div class="inf_4">
+				<label>付款方式：</label><span>一次性</span>
+			</div>
+			<div class="blank5"></div>
+			<div class="inf_4">
+				<div class="tl"><label>关注：</label><span>{$hot_item.focus_count}次</span></div>
+				<div class="tc"><label>支持者：</label><span>{$hot_item.support_count}人</span></div>
+				<div class="tr">
+					{if $hot_item.begin_time > $now}
+					 预热中 
+					{elseif $hot_item.end_time < $now and $hot_item.end_time neq 0}
+					{if $hot_item.is_success eq 1}已成功{else}筹资失败{/if} 
+					{else}
+					{if $hot_item.percent gte 100}
+						已成功
+					{else}
+						融资中
+					{/if}
+					{/if}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

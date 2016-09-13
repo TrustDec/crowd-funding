@@ -1,0 +1,134 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/account.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/account.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss" c="$dcpagecss"}" />
+<div class="blank15"></div>
+<section class="settings_security">
+	<div class="ul_block">
+		<ul>
+			<li class="webkit-box">
+				<div class="label_box">
+					<i class="fa fa-user mr10"></i>
+					<label>昵称</label>
+				</div>
+				{if $user_info.user_name}
+				<span>已设置</span>
+				<span class="update webkit-box-flex">{$user_info.user_name}</span>
+				{else}
+				<span class="f_red">未设置</span>
+				<span class="update webkit-box-flex">
+					<a href="#" class="J_setting" rel="setting_username">{if $user_info.user_name}修改{else}设置{/if}</a>
+				</span>
+				{/if}
+			</li>
+			<li class="webkit-box">
+				<div class="label_box">
+					<i class="fa fa-unlock-alt"></i>
+					<label>登录密码</label>
+				</div>
+				{if $user_info.user_pwd}
+				<span>已设置</span>
+				{else}
+				<span class="f_red">未设置</span>
+				{/if}
+				<div class="update webkit-box-flex">
+					<a href="#" class="J_setting" rel="setting_pwd">{if $user_info.user_pwd}修改{else}设置{/if}</a>
+				</div>
+			</li>
+			<li class="webkit-box">
+				<div class="label_box">
+					<i class="fa fa-envelope-o"></i>
+					<label>绑定邮箱</label>
+				</div>
+				{if $user_info.email}
+				<span>已绑定</span>
+				{else}
+				<span class="f_red">未绑定</span>
+				{/if}
+				<div class="update webkit-box-flex">
+					<a href="#" class="J_setting" rel="setting_email">{if $user_info.email}修改{else}绑定{/if}</a>
+				</div>
+			</li>
+			<li class="webkit-box">
+				<div class="label_box">
+					<i class="fa fa-mobile-phone"></i>
+					<label>绑定手机</label>
+				</div>
+				{if $user_info.mobile}
+				<span>已绑定</span>
+				<div class="update webkit-box-flex">
+					<a href="#" class="J_setting" rel="setting_mobile">修改</a>
+				</div>
+				{else}
+				<span class="f_red">未绑定</span>
+				<div class="update webkit-box-flex">
+					<a href="#" class="J_setting f_red" rel="setting_mobile">绑定</a>
+				</div>
+				{/if}
+			</li>
+			<li class="webkit-box">
+				<div class="label_box">
+					<i class="fa fa-unlock-alt"></i>
+					<label>付款密码</label>
+				</div>
+				{if $user_info.mobile}
+					{if $user_info.paypassword}
+					<span>已设置</span>
+					{else}
+					<span class="f_red">未设置</span>
+					{/if}
+					<div class="update webkit-box-flex">
+						<a href="#" class="J_setting" rel="setting_paypwd">设置</a>
+					</div>
+				{else}
+					<span class="f_red webkit-box-flex">请先设置手机号</span>
+				{/if}
+			</li>
+			<li class="webkit-box">
+				<div class="label_box">
+					<i class="fa fa-user"></i>
+					<label>实名认证</label>
+				</div>
+				{if $user_info.mobile}
+					{if $user_info.is_investor>0 || $user_info.identify_name neq ''}
+						{if $user_info.investor_status==0}
+						<span>已提交,认证中</span>
+						<div class="update webkit-box-flex">
+							<span class="theme_fcolor">认证中</span>
+						</div>
+						{elseif $user_info.investor_status==1}
+							<span>已设置</span>
+							{if $user_info.identify_name eq ''}
+							<div class="update webkit-box-flex">
+								<a href="#" id="J_setting_paypwd">修改</a>
+							</div>
+							{else}
+							<div class="update webkit-box-flex">
+								<a href="#" onclick="RouterURL('{url_wap r="settings#setting_id"}','#settings-setting_id');" class="theme_fcolor">认证成功</a>
+							</div>
+							{/if}
+						{elseif $user_info.investor_status==2}
+							<span class="f_red">未通过</span>
+							<div class="update webkit-box-flex">
+								<a href="#" onclick="RouterURL('{url_wap r="settings#setting_id"}','#settings-setting_id');">修改</a>
+							</div>
+						{/if}
+					{else}
+					<span class="f_red">未认证</span>
+					<div class="update webkit-box-flex">
+						<a href="#" onclick="RouterURL('{url_wap r="settings#setting_id"}','#settings-setting_id');">设置</a>
+					</div>
+					{/if}
+				{else}
+					<span class="f_red webkit-box-flex">请先设置手机号</span>
+				{/if}
+			</li>
+		</ul>
+	</div>
+</section>
+<div class="blank15"></div>
+<!--中间结束-->
+<!-- settings_security.js -->
+{include file="inc/footer.html"} 

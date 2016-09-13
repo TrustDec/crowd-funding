@@ -1,0 +1,95 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<div class="main">
+<div class="main_title">{$vo.user_id|get_user_name}的提现申请</div>
+<div class="blank5"></div>
+<form name="edit" action="__APP__" method="post">
+<table class="form" cellpadding=0 cellspacing=0>
+	<tr>
+		<td colspan=2 class="topTd"></td>
+	</tr>
+	<tr>
+		<td class="item_title">开户行</td>
+		<td class="item_input">
+			{$vo.bank_name}
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">开户行所在地</td>
+		<td class="item_input">
+			{$vo.region_lv1_name} &nbsp;{$vo.region_lv2_name} &nbsp;{$vo.region_lv3_name} &nbsp;{$vo.region_lv4_name}
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">开户行网点</td>
+		<td class="item_input">
+			{$vo.bankzone}
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">银行卡卡号</td>
+		<td class="item_input">
+			{$vo.bankcard}
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">开户名</td>
+		<td class="item_input">
+			{$vo.real_name}
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">处理结果</td>
+		<td class="item_input" id="CarryStatusBox">
+			<select name="status" <if condition="$vo['status'] eq 2 || $vo['status'] eq 1">disabled="disabled"</if>>
+				<option value="0" <if condition="$vo['status'] eq 0">selected="selected"</if>>待审核</option>
+				<option value="3" <if condition="$vo['status'] eq 3">selected="selected"</if>>待付款</option>
+				<option value="1" <if condition="$vo['status'] eq 1">selected="selected"</if>>已付款</option>
+				<option value="2" <if condition="$vo['status'] eq 2">selected="selected"</if>>未通过</option>
+			</select>
+		</td>
+	</tr>
+	
+	<tr>
+		<td class="item_title">原因:</td>
+		<td class="item_input"><textarea id="msgarea" <if condition="$vo['status'] neq 2 || $vo['msg'] neq ''">disabled="true"</if> class="textbox" name="msg" style="width:400px;height:80px" >{$vo.msg}</textarea>
+		</td>
+	</tr>
+	
+	<tr>
+		<td class="item_title">操作备注:</td>
+		<td class="item_input"><textarea class="textbox" name="desc" <if condition="$vo['status'] eq 1 || $vo['status'] eq 2 ">disabled="true"</if> style="width:400px;height:80px" >{$vo.desc}</textarea>
+		</td>
+	</tr>
+	<if condition="$vo['status'] eq 0 || $vo['status'] eq 3">
+	<tr>
+		<td class="item_title">&nbsp;</td>
+		<td class="item_input">
+			<!--隐藏元素-->
+			<input type="hidden" name="id" value="{$vo.id}" />
+			<input type="hidden" name="{:conf("VAR_MODULE")}" value="UserCarry" />
+			<input type="hidden" name="{:conf("VAR_ACTION")}" value="update" />
+			<!--隐藏元素-->
+			<input type="submit" class="button" value="{%OK}" />
+			<input type="reset" class="button" value="{%RESET}" />
+		</td>
+	</tr>
+	</if>
+	<tr>
+		<td colspan=2 class="bottomTd"></td>
+	</tr>
+</table>	 
+</form>
+</div>
+<script type="text/javascript">
+	jQuery(function(){
+		$("#CarryStatusBox select").change(function(){
+			if($(this).val()=="2"){
+				$("#msgarea").attr("disabled",false);
+			}
+			else{
+				$("#msgarea").attr("disabled",true);
+			}
+		});
+	});
+</script>

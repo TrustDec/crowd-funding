@@ -1,0 +1,205 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/home_organize.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/u_home_recommend_project.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/u_home_recommend_project.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jquery.SuperSlide.2.1.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jquery.SuperSlide.2.1.js";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<div id="J_wrap">
+	<div class="userhome">
+		<div class="userhomehd">
+			<div class="basic_info">
+				<div class="container">
+					<div class="logo_box">
+						<div class="logo">
+							<img id="avatar" src="{function name="get_user_avatar" uid=$home_user_info.id type="middle"}" />       		
+	            		</div>
+            		</div>
+            		<div class="name ng-binding">
+		               	{$home_user_info.identify_business_name}
+		                <div class="en ng-binding">{$home_user_info.company_english_name}</div>
+		            </div>
+		            <div class="website ng-binding">
+		            	<a style=" color:#fff;" href="{$user_info.company_url}">
+		                {$home_user_info.company_url}
+						</a>
+		            </div>
+				</div>
+			</div>
+		</div>
+		<div class="userhomebd">
+			<div class="overview">
+				<div class="container clearfix">
+					<div class="intro">
+		                <div class="hd clearfix">
+		                    <div class="title clearfix"><h3>机构简介</h3></div>
+		                </div>
+                		<!--显示8行，更多和收起-->
+                    	<div class="content J_introContent ng-binding" ng-bind-html="basic.intro" clamp="introLines" style="overflow: hidden; text-overflow: ellipsis; -webkit-box-orient: vertical; display: -webkit-box; -webkit-line-clamp: 1000;">{$home_user_info.concept}</div>
+            		</div>
+            		<div class="guide organization-guide">
+		                <div class="guide-item">
+		                    <div class="clearfix">
+		                        <div class="item-tit">成立时间</div>
+		                        <div class="item-val ng-binding ng-scope">{$company_create_time}</div>
+		                    </div>
+		                    <div class="clearfix">
+		                        <div class="item-tit">投资案例总数</div>
+		                        <div class="item-val ng-binding ng-scope">{$home_user_info.investment_num}个</div>
+		                    </div>
+		                </div>
+		                <div class="guide-item"> 
+		                    <div class="clearfix">
+		                        <div class="item-tit">预计单项最小投资额</div>
+		                        <div class="item-val">
+		                           <div class="ng-scope">{$home_user_info.investment_begin}万</div>
+		                        </div>
+		                    </div>
+		                    <div class="clearfix">
+		                        <div class="item-tit">预计单项最大投资额</div>
+		                        <div class="item-val">
+		                           <div class="ng-scope">{$home_user_info.investment_end}万</div>
+		                        </div>
+		                    </div>
+		                </div>
+		            </div>
+				</div>
+			</div>
+			{if app_conf("IS_FINANCE")}
+			{if $finance_count}
+			<div class="invest-cases ng-scope">
+				<div class="container clearfix">
+					<div class="hd clearfix">
+						<div class="title">
+							<h3>融资案例</h3>
+							<span class="ng-binding">{if $finance_count}{$finance_count}{else}0{/if}</span>
+							<div class="blank0"></div>
+						</div>
+						<div class="tags">
+							{foreach from=$finance_cate_list item=finance_cate_item}
+								<a  class="ng-binding ng-scope" href="{url r="home#organize_list" p="cate_id=$finance_cate_item.id"}" target="_blank">{$finance_cate_item.cate_name}</a>
+							{/foreach}
+						</div>
+						<div class="more"><a href="{url r="home#organize_list" p="id=$u_id"}" class="theme_fcolor">查看全部&nbsp;<strong>></strong></a></div>
+						<div class="blank0"></div>
+					</div>
+					{foreach from=$finance_list item=finance_item}
+					<div class="bd list">
+						<div class="item ng-scope">
+                    		<div class="basic">
+                    			<a class="logo" href="{url r="finance#company_show" p="cid=$finance_item.id"}" target="_blank">
+                    				<img src="{if $finance_item.company_logo eq ''}{$TMPL}/images/empty_thumb.gif{else}{$finance_item.company_logo}{/if}" alt="{$finance_item.company_name}" lazy="true" />
+                    			</a>
+	                    		<div class="desc">
+	                            	<a class="ng-binding" href="{url r="finance#company_show" p="cid=$finance_item.id"}" target="_blank">{$finance_item.company_name}</a>
+		                            <div class="brief ng-binding">
+		                                {$finance_item.company_brief}
+		                            </div>
+	                        	</div>
+	                        	<div class="blank0"></div>
+	                    	</div>
+                    		<ul class="detail">
+                    			{foreach from=$finance_item.deal_list item=deal_item}
+								<li class="ng-scope">
+                            		<span class="time ng-binding">{function name="to_date" v=$deal_item.end_time f="Y-m-d"}</span>
+                           	 		<div class="content">
+                                		<p>
+                                   			<span class="ng-binding ng-scope">{function name="get_invest_phase" v=$deal_item.invest_phase} &nbsp;|&nbsp;</span>
+                                    		投资金额 &nbsp;
+                                    		<span class="ng-binding ng-scope">
+												<span class="ng-scope">¥</span>{$deal_item.total_price}万&nbsp;&nbsp;
+                               			 	</span>                                      		
+                                		</p>
+		                                
+                            		</div>
+                            		<div class="clear"></div>
+                   			 	</li>
+								{/foreach}
+                			</ul>
+							<div class="toggle-more ng-scope">
+								<a class="J_fold_btn tr theme_fcolor" rel="c_invest_exp" onclick="trigger_detail(this);">展开 </a>
+		                    </div>
+                    		<div class="group"></div>
+           			 	</div>
+			
+					</div>
+					{/foreach}
+				</div>
+			</div>
+			{/if}
+			{/if}
+			{if $equity_count}
+			<div class="invest-cases ng-scope">
+				<div class="container clearfix">
+					<div class="hd clearfix">
+						<div class="title">
+							<h3>股权案例</h3>
+							<span class="ng-binding">{if $equity_count}{$equity_count}{else}0{/if}</span>
+							<div class="blank0"></div>
+						</div>
+						<div class="tags">
+							{foreach from=$equity_cate_list item=equity_cate_item}
+								<a  class="ng-binding ng-scope" href="{url r="home#deal_list" p="id=$equity_cate_item.id&type=1&u_id=$u_id"}" target="_blank">{$equity_cate_item.cate_name}</a>
+							{/foreach}
+						</div>
+						<div class="more"><a href="{url r="home#deal_list" p="type=1&u_id=$u_id"}" class="theme_fcolor">查看全部&nbsp;<strong>></strong></a></div>
+						<div class="blank0"></div>
+					</div>
+					<div class="bd list">
+						{include file="inc/home_list_invest.html"}
+					</div>
+				</div>
+			</div>
+			{/if}
+			{if $product_count}
+			<div class="invest-cases ng-scope">
+				<div class="container clearfix">
+					<div class="hd clearfix">
+						<div class="title">
+							<h3>产品案例</h3>
+							<span class="ng-binding">{if $product_count}{$product_count}{else}0{/if}</span>
+							<div class="blank0"></div>
+						</div>
+						<div class="tags">
+							{foreach from=$product_cate_list item=product_cate_item}
+								<a class="ng-binding ng-scope" href="{url r="home#deal_list" p="id=$product_cate_item.id&type=0&u_id=$u_id"}" target="_blank">{$product_cate_item.cate_name}</a>
+							{/foreach}
+						</div>
+						<div class="more"><a href="{url r="home#deal_list" p="type=0&&u_id=$u_id"}" class="theme_fcolor">查看全部&nbsp;<strong>></strong></a></div>
+						<div class="blank0"></div>
+					</div>
+					{include file="inc/home_product_list.html"}
+				</div>
+			</div>
+			{/if}
+			{if $company_count}
+			<div class="members ng-scope">
+				<div class="container">
+		            <div class="hd clearfix">
+		                <div class="title clearfix">
+		                	<h3>机构成员</h3><span class="ng-binding">{$company_count}</span>
+		                </div>
+		            </div>
+		            <div class="bd list clearfix">
+		                <div class="scroll-wrap clearfix">
+		                	{foreach from=$company_list item=company_item }
+			                    <div class="item ng-scope">
+			                        <a class="avatar" href="{url r="home#index" p="id=$company_item.user_id"}" target="_blank">
+			                        	<img id="avatar" src="{function name="get_user_avatar" uid=$company_item.company_id type="middle"}" />   
+			                        </a>
+			                        <a class="name ng-binding" href="{url r="home#index" p="id=$company_item.user_id"}" target="_blank">{$company_item.user_name}</a>
+			                        <span class="ng-binding">{$company_item.position}</span>
+			                    </div>
+		                   {/foreach}
+		                </div>
+		            </div>
+		        </div>
+			</div>
+			{/if}
+		</div>
+	</div>
+</div>
+{include file="inc/footer.html"} 

@@ -1,0 +1,123 @@
+{include file="inc/header.html"} 
+<style>
+	body{ background:#f3f3f3; }
+	.setlist_new {
+		padding: 5px 0;
+		width: 100%;
+	}
+	.tip_box{
+		height:41px;
+		line-height:41px;
+		
+	}
+	.tip_box .form_tip{ color:red;}
+	.tip_box .form_success{ color:green;}
+	.gomailcheck{
+		height:40px;
+		line-height:40px;
+		padding:0 20px;
+		background:#00b0f5;
+		display:inline-block;
+		color:#fff;
+		-moz-border-radius:3px; 
+		-khtml-border-radius:3px; 
+		-webkit-border-radius:3px; 
+		border-radius:3px;
+	}
+	.gomailcheck:hover{ color:#fff; }
+</style>
+{include file="inc/home_user_info.html"}
+<!--中间开始-->
+<div class="dlmain Myhomepage">
+		 {include file="inc/account_left.html"} 
+		<div class="homeright pageright f_r">
+			<div>
+				<div class="page_title">修改邮箱</div>
+				<div class="blank20"></div>
+ 				{if $step eq 1}
+				<div class="msg_box">
+					<h2 class="tc f_red">恭喜您，验证邮件发送成功</h2>
+					<div class="blank40"></div>		
+					<div class="notice">
+						<h2 class="notice-title tc">下一步，请验证您的Email</h2>
+						<div class="blank5"></div>
+						<div>
+							<p class="tc f14">
+								<?PHP echo sprintf("我们发送了一封验证邮件到%s，请到您的邮箱收信，并点击其中的链接验证您的邮箱。","<span class='red'>".$this->_var['user_email']."</span>");?>
+							</p>
+						</div>
+						<div class="blank5"></div>
+						{if $gocheck_url neq ''}
+						<div class="tc">
+							<a target="_blank" href="{$gocheck_url}" class="gomailcheck f16 b">立刻去邮箱激活帐户</a>
+						</div>
+						<div class="blank20"></div>
+						{/if}
+						<div class="help-tip">
+							<h3 class="help-title tc">收不到邮件？</h3>
+							<div class="blank5"></div>
+							<ul class="help-list tc f14">
+								<li>有可能被误判为垃圾邮件了，请到垃圾邮件文件夹找找。</li>
+								<li>
+									<?PHP echo sprintf("用  %s 向 %s 发送一封任意内容的邮件，几分钟后即可直接登录。",$this->_var['user_email'],app_conf("REPLY_ADDRESS"));?>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>	
+				{elseif $step eq 2}
+				<div class="left" >
+					<form class="ajax_form" action="{url r="settings#mail_change_1" }">
+						<div class="form_row control-group">
+							<label class="form_lable">新邮箱:</label>
+							<input type="text" id="settings-email" value=" "   class="textbox" name="email"  style="width:310px;"/>
+ 						</div>					
+ 						<div class="blank15"></div>
+						<div class="submit_btn_row control-group">
+							<label class="form_lable"></label>
+							<div class="ui-button theme_bgcolor" rel="green">
+								<div>
+									<span>发送验证</span>
+								</div>
+							</div>
+							<input type="hidden" value="1" name="ajax" />
+							<input type="hidden" value="2" name="step" />
+							<div class="blank15"></div>
+						</div>
+					</form>
+				</div>
+				{else}
+				<div class="left" >
+					<form class="ajax_form" action="{url r="settings#mail_change_1" }">
+						<div class="form_row control-group">
+							<label class="form_lable">邮箱:</label>
+							<input type="text" id="settings-email" value="{$user.email}"  disabled="true" class="textbox" name="email_show" />
+ 							<input type="hidden" name="email" value="{$user.email}">
+ 						</div>					
+ 						<div class="blank15"></div>
+						<div class="submit_btn_row control-group">
+							<label class="form_lable"></label>
+							<div class="ui-button theme_bgcolor" rel="green">
+								<div>
+									<span>下一步</span>
+								</div>
+							</div>
+							<input type="hidden" value="1" name="ajax" />
+							<input type="hidden" value="1" name="step" />
+							<div class="blank15"></div>
+						</div>
+					</form>
+				</div>
+				{/if}
+				
+											
+ 				</div><!--left-->
+				<div class="blank"></div>
+			</div>
+	 		<div class="blank"></div>	
+		</div>
+<!--中间结束-->
+<div class="blank"></div>
+</div>
+<div class="blank"></div>
+{include file="inc/footer.html"} 

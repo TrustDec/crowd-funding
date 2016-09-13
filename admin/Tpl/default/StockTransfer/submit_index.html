@@ -1,0 +1,89 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<load href='__TMPL__Common/js/jquery.bgiframe.js' />
+<load href='__TMPL__Common/js/jquery.weebox.js' />
+<load href='__TMPL__Common/js/deal.js' />
+<load href='__TMPL__Common/style/weebox.css' />
+<script type="text/javascript" src="__TMPL__Common/js/calendar/calendar.php?lang=zh-cn" ></script>
+<load href='__TMPL__Common/js/calendar/calendar.css' />
+<load href='__TMPL__Common/js/calendar/calendar.js' />
+
+<PHP>
+function get_edit($s,$stocktransfer){
+	if($stocktransfer['status'] == 2){
+		return "未通过";
+	}
+	elseif($stocktransfer['status']==0)
+		return "待审核";
+	else
+		return "通过";	
+}
+function edit_investor_index($id){
+			return "<a href=\"javascript:edit_investor_index('".$id."')\">编辑上架</a>";
+	}
+function get_item($id,$day){
+			return "<a href=\"javascript:get_item('".$id."')\">查看项目</a>";
+		
+	}
+
+</PHP>
+<script>
+	//编辑跳转
+ 
+function get_item(id)
+{
+	location.href = ROOT+"?m=StockTransfer&a=edit&id="+id;
+}
+function edit_investor_index(id)
+{
+	location.href = ROOT+"?m=StockTransfer&a=edit_investor&id="+id;
+}
+</script>
+<div class="main">
+<div class="main_title">未审核股权项目</div>
+<div class="blank5"></div>
+<div class="button_row">
+	
+
+</div>
+<div class="blank5"></div>
+<div class="search_row">
+	<form name="search" action="__APP__" method="get">	
+		项目名称：<input type="text" class="textbox" name="deal_name" value="{:trim($_REQUEST['deal_name'])}" style="width:100px;" />
+		发起人ID: <input type="text" class="textbox" name="user_id" value="{:trim($_REQUEST['user_id'])}" style="width:30px;" />
+		<div class="blank10"></div>
+		创建时间：<input type="text" class="textbox" name="create_time_1" id="create_time_1" value="{$_REQUEST['create_time_1']}" onfocus="this.blur(); return showCalendar('create_time_1', '%Y-%m-%d', false, false, 'btn_create_time_1');" />
+			   <input type="button" class="button" id="btn_create_time_1" value="{%SELECT_TIME}" onclick="return showCalendar('create_time_1', '%Y-%m-%d', false, false, 'btn_create_time_1');" />	
+		至 <input type="text" class="textbox" name="create_time_2" id="create_time_2" value="{$_REQUEST['create_time_2']}" onfocus="this.blur(); return showCalendar('create_time_2', '%Y-%m-%d', false, false, 'btn_create_time_2');" />
+		<input type="button" class="button" id="btn_create_time_2" value="{%SELECT_TIME}" onclick="return showCalendar('create_time_2', '%Y-%m-%d', false, false, 'btn_create_time_2');" />	
+		
+		<input type="hidden" value="StockTransfer" name="m" />
+		<input type="hidden" value="submit_index" name="a" />
+		<input type="submit" class="button" value="{%SEARCH}" />
+	</form>
+</div>
+<div class="blank5"></div>
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="stocktransfer" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{%ID}|50px
+		,deal_name:项目名称
+		,ips_bill_no|is_ips_bill_no_admin:支付方式|100px
+		,user_name:发起人|50px
+		,price|format_price:转让金额|100px
+		,stock_value|format_price:股权价值|100px
+		,create_time|to_date:创建时间
+		,num:交易股份数
+		,day:交易天数" 
+	actionlist="id|edit_investor_index" /> 
+	
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

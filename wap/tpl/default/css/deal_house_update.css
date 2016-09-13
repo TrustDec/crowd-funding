@@ -1,0 +1,10 @@
+.deal_update .timeline-left-gray{
+	background:#55acef;
+	width:30px;
+	height:30px;
+	left:-55px;
+}
+.deal_update .timeline-box{
+	margin-left:40px;
+}
+.mod_main{padding-left:20px}

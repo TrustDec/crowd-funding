@@ -1,0 +1,262 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/account.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<style type="text/css">
+	.control-group .control-label{width: 110px;}
+</style>
+{include file="inc/home_user_info.html"}
+<div class="blank0"></div>
+<!--中间 开始-->
+<div class="dlmain Myhomepage licai_uc">
+	{include file="inc/account_left.html"} 
+	<div class="homeright pageright f_r">
+		<div class="list_title clearfix">
+			<div class="cur">
+				<a href="/hjs/index.php?ctl=account">赎回申请</a>
+			</div>
+		</div>
+		<div class="list_content licai_uc_redeem">
+        	<form class="ajax_form" action="{url r="licai#uc_redeem_add" }" method="post">	
+            <input type="hidden" name="id" value="{$vo.id}" />
+			<div class="licai_uc_redeem_hd">
+				<h3>
+					<img src="{$TMPL}/images/licai/licai_img1.jpg" width="50" height="50" class="pl20" />
+					<div class="text">
+						<span>理财宝资金受特别保护，安全可靠，请放心操作</span>
+						<span class="f_999"><br />赎回申请通过后,您的本金和收益会转入会员余额帐户,可以申请提现！</span>
+					</div>
+				</h3>
+				<div class="blank10"></div>
+			</div>
+			<div class="licai_uc_redeem_bd">
+				<div class="control-group smaller-control-group">
+					<label class="control-label">持有金额:</label>
+                    <div class="control-text" >
+                    	<span class="f_money" >{$vo.money_format}</span><span class="f12">（赎回申请中：<span>{$vo.redempte_wait_pay_format}</span>，还可赎回：<span id='have_money' title='{$vo.have_money}'>{$vo.have_money_format}</span>）</span>
+                    </div>
+                    <div class="blank0"></div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">申请赎回金额:</label>
+					<div class="control-text">
+						<input type="text" name="redeem_money" class="textbox" id="redeem_money" autocomplete="off" />万元
+					</div>
+					<div class="blank5"></div>
+					<span class="notes">{if $licai.type>0}{$vo.back_status_format}赎回，理财按{if $vo.licai_status neq 2 && $vo.licai_status neq 3}违约{/if}收益率：<em class="theme_fcolor" id='q_rate'>0.00%</em>计算收益，{/if}预计收益金额：<em class="f_money" id='redeem_interest_money' >0元</em></span>
+                    <span class='hide' id="back_rate">{$vo.back_rate}</span>
+					<div class="blank0"></div>
+				</div>
+                <div class="control-group smaller-control-group">
+					<label class="control-label">预计到账金额:</label>
+					<div class="control-text">
+						<span class="f_money">
+							<span id="expect_amount">0</span>万元
+						</span>
+						{if $licai.type>0}
+						<span class="f12">
+							（预热期收益：<span id='expect_before_earn'>0</span>元，理财收益：<span id='expect_earn'>0</span>元）
+						</span>
+						{/if}
+					</div>
+					<div class="blank0"></div>
+                </div>
+				<div class="control-group smaller-control-group">
+					<label class="control-label">预计到账时间:</label>
+					<div class="control-text">
+						预计<span class="f_red">{$vo.purchasing_time}</span>前到账，转出资金自转出申请之日起不产生收益!
+					</div>
+					<div class="blank0"></div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">平台支付密码:</label>
+					<div class="control-text">
+						<input type="password"  autocomplete="off" name="password" class="textbox"  autocomplete="off" />
+	                    {if $user_info.paypassword}
+	                    <a href="{url r="settings#security"}" class="f_999 f12">忘记密码？</a>
+	                    {else}
+	                    	还未设置，<a href='{url r="settings#security"  p="method=setting-pass-box"}' target="_blank" class="f_red">点击设置</a>。
+	                    {/if}
+	                </div>
+					<div class="blank15"></div>
+				</div>
+				<div class="submit_btn_row control-group">
+					<label class="control-label"></label>
+					<input type="button" value="确认赎回" class="ui-button bg_red mr10" id="redeem_btn" />
+					<a href="{url r="licai#uc_buyed_lc"}" class="ui_button bg_gray">返回</a>
+					<div class="blank20"></div>
+				</div>
+				<div class="question_box">
+					<div class="question_hd f14">使用遇到问题？</div>
+					<div class="question_bd">
+						<div class="question_item">
+							<div class="q">
+								<label>问：</label>
+								<span>理财宝转出至银行卡到账时间</span>
+							</div>
+							<div class="a">
+								<label>答：</label>
+								<div class="text">
+									按理财宝转出至银行卡的金额，会区分以下3种到账时间：<br />
+                                    1、普通到账：提交后的下一个基金交易日内24点前到账。<br />
+									2、实时到账：仅支持中信、光大、平安、招行卡通。<br />
+									3、2小时到账：仅支持无线，日累计5万以内（含），且在该卡服务时间内。具体到账时间点此查看<br />
+								</div>
+							</div>
+						</div>
+						<div class="question_item">
+							<div class="q">
+								<label>问：</label>
+								<span>理财宝转出至银行卡有次数和额度限制吗？</span>
+							</div>
+							<div class="a">
+								<label>答：</label>
+								<div class="text">
+									一个账户一天最多可操作3次转出至银行卡，具体限额以页面显示为准，以下限额仅供参考： <br />
+                                    1、普通提现银行卡：单日/单笔5万、单月无限额； <br />
+                                    2、储蓄卡快捷银行卡：超过5万需要账户开通储蓄卡快捷支付后再操作，单笔/单日100万、单月无限额； <br />
+                                    3、实时提现银行卡：支持中信、光大、平安、招行卡通，以卡通本身额度为准。
+								</div>
+							</div>
+						</div>
+						<div class="question_item">
+							<div class="q">
+								<label>问：</label>
+								<span>理财宝转出至银行卡支持的银行</span>
+							</div>
+							<div class="a">
+								<label>答：</label>
+								<div class="text">
+									目前支持工行、招行、建行、中行、农行、交行、浦发、广发、邮储、中信、光大、兴业、民生、平安、杭州银行、宁波银行等多家银行，具体以页面展示为准。
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+                </form>
+			</div>
+		</div>
+		<div class="blank0"></div>
+	</div>
+	<div class="blank0"></div>
+</div>
+<script>
+	$("#redeem_money").bind("keyup",function(event){
+			code = event.keyCode;
+			//if( code>=96 && code <=105 ||code == 110)
+			//{
+				if(parseFloat($("#redeem_money").val())>parseFloat($("#have_money").attr("title")))
+				{
+					$("#redeem_money").val($("#have_money").attr("title"));
+					$.showErr("赎回的金额不能大于持有本金");
+				}
+				
+				money = $("#back_rate").html() * $("#redeem_money").val();
+				
+				if(isNaN(money))
+				{
+					money = 0;
+				}
+				
+				fun_money();
+			//}
+		});
+	
+//计算 
+	var licai_type =  {$licai.type};
+	var licai_interest_json = {$licai_interest_json};
+	var before_rate = 0;
+	var before_breach_rate = 0;
+	var breach_rate = 0;
+	var interest_rate = 0;
+
+	function fun_money(){
+		
+		$money = $("#redeem_money");
+		
+		var money_val=$money.val()*10000;
+		
+		//$("#arrival_amount")   //预计到账金额
+		//$("#arrival_earn")     //预计收益
+		//$("#arrival_licai")    //预计理财收益
+		
+		if(licai_type > 0){
+			
+			if(parseFloat(licai_interest_json[licai_interest_json.length - 1]['max_money']) <= parseFloat(money_val) && licai_interest_json.length){
+									
+				before_rate = licai_interest_json[licai_interest_json.length - 1]['before_rate'];
+				
+				before_breach_rate = licai_interest_json[licai_interest_json.length - 1]['before_breach_rate'];
+				
+				breach_rate = licai_interest_json[licai_interest_json.length - 1]['breach_rate'];
+				
+				interest_rate = licai_interest_json[licai_interest_json.length - 1]['interest_rate'];
+				
+			}
+			else{
+				$.each(licai_interest_json,function(i,v){
+					
+					if( parseFloat(v['min_money']) <= parseFloat(money_val) && parseFloat(v['max_money']) > parseFloat(money_val)){
+
+						before_rate = v['before_rate'];
+				
+						before_breach_rate = v['before_breach_rate'];
+				
+						breach_rate = v['breach_rate'];
+				
+						interest_rate = v['interest_rate'];
+					}
+					
+				});
+			}
+		}
+		else{
+			income_money_val = licai_interest_json;
+		}
+		if(money_val){
+			{if $licai.type > 0}
+				{if $vo.licai_status == 0}
+				 	// 预热期违约收益
+			 	 	before_arrival_earn = parseFloat(money_val) * before_breach_rate / 365 / 100 * ({$vo.before_days});
+				  	// 理财期收益
+				  	arrival_earn = 0;
+				  	$("#q_rate").html(before_breach_rate+"%");
+				{elseif $vo.licai_status == 1}
+			   		// 预热期完成收益
+				  	before_arrival_earn = parseFloat(money_val) * before_rate / 365 / 100 * ({$vo.before_days});
+			  		// 理财期违约收益
+				  	arrival_earn = parseFloat(money_val) * breach_rate / 365 / 100 * ({$vo.days});
+				  	$("#q_rate").html(breach_rate+"%");
+				{elseif $vo.licai_status == 2}
+				   	// 预热期完成收益
+				  	before_arrival_earn = parseFloat(money_val) * before_rate / 365 / 100 * ({$vo.before_days});
+				  	// 理财期完成收益
+				  	arrival_earn = parseFloat(money_val) * interest_rate / 365 / 100 * ({$vo.days});
+				  	$("#q_rate").html(interest_rate+"%");
+				{elseif $vo.licai_status == 3}
+					// 预热期当天赎回，按照预热期正常收益
+				 	// 预热期完成收益
+				  	before_arrival_earn = parseFloat(money_val) * before_rate / 365 / 100 * ({$vo.before_days});
+				  	// 理财期收益
+				  	arrival_earn = 0;
+				  	$("#q_rate").html(before_rate+"%");
+				{/if}
+			{else}
+				before_arrival_earn = 0;
+				arrival_earn = income_money_val*money_val/365/100;
+			{/if}
+		  	//预计收益
+		  	arrival_amount = parseFloat(money_val)+ before_arrival_earn + arrival_earn;
+			  
+		  	$("#redeem_interest_money").html(parseFloat(before_arrival_earn + arrival_earn).toFixed(2) +"元");
+			  
+		  	$("#expect_amount").html((arrival_amount/10000).toFixed(4));   //预计到账金额
+		  	$("#expect_before_earn").html(before_arrival_earn.toFixed(2));     //预计收益
+		  	$("#expect_earn").html(arrival_earn.toFixed(2));   //预计理财收益
+		}
+	}
+</script>
+<!--中间 结束 -->
+<div class="blank0"></div>
+{include file="inc/footer.html"} 

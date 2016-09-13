@@ -1,0 +1,85 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Common/js/calendar/calendar.php?lang=zh-cn" ></script>
+<load href='__TMPL__Common/js/calendar/calendar.css' />
+<load href='__TMPL__Common/js/calendar/calendar.js' />
+<load href='__TMPL__Common/js/mail_index.js' />
+<div class="main">
+<div class="main_title">{%ADD} <a href="{:u("PromoteMsg/mail_index")}" class="back_list">{%BACK_LIST}</a></div>
+<div class="blank5"></div>
+<form name="edit" action="__APP__" method="post" enctype="multipart/form-data">
+<table class="form" cellpadding=0 cellspacing=0>
+	<tr>
+		<td colspan=2 class="topTd"></td>
+	</tr>
+	<tr>
+		<td class="item_title">{%MAIL_TYPE}:</td>
+		<td class="item_input">
+			<span>
+				{%IS_HTML}：
+				<select name="is_html">
+					<option value="0">{%NO}</option>
+					<option value="1">{%YES}</option>
+				</select>
+			</span>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">{%SEND_TIME}:</td>
+		<td class="item_input">
+			<input type="text" class="textbox require" name="send_time" id="send_time" value="{:to_date(get_gmtime())}" onfocus="this.blur(); return showCalendar('send_time', '%Y-%m-%d %H:%M:%S', false, false, 'btn_send_time');" />
+			<input type="button" class="button" id="btn_send_time" value="{%SELECT_TIME}" onclick="return showCalendar('send_time', '%Y-%m-%d %H:%M:%S', false, false, 'btn_send_time');" />	
+			<input type="button" class="button" value="{%CLEAR_TIME}" onclick="$('#send_time').val('');" />	
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">{%MAIL_TITLE}:</td>
+		<td class="item_input"><input type="text" class="textbox" name="title" /></td>
+	</tr>
+	<tr id="mail_content">
+		<td class="item_title">{%MAIL_CONTENT}:</td>
+		<td class="item_input">
+			 <html:editor id="mail_content_editor" name="content" type="MAILEDITOR" content="" />
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">{%SEND_TYPE}:</td>
+		<td class="item_input">
+			 <select name="send_type">
+			 	<option value="0">所有会员</option>
+				<option value="2">{%SEND_TYPE_2}</option>
+			 </select>
+		</td>
+	</tr>
+
+
+	<tr id="send_define_data">
+		<td class="item_title">{%SEND_DEFINE_DATA}:</td>
+		<td class="item_input">
+			<textarea class="textarea" name="send_define_data" ></textarea>
+			<span class="tip_span">{%SEND_DEFINE_DATA_TIP}</span>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title"></td>
+		<td class="item_input">
+			<!--隐藏元素-->
+			<input type="hidden" name="type" value="1" />
+			<input type="hidden" name="{:conf("VAR_MODULE")}" value="PromoteMsg" />
+			<input type="hidden" name="{:conf("VAR_ACTION")}" value="insert_mail" />
+			<!--隐藏元素-->
+			<input type="submit" class="button" value="{%ADD}" />
+			<if condition="app_conf('EDM_ON') eq 1">
+			<input type="button" class="button" value="{%IMPORT_TO_EDM}" id="edm" />	
+			</if>
+			<input type="reset" class="button" value="{%RESET}" />
+		</td>
+	</tr>
+	<tr>
+		<td colspan=2 class="bottomTd"></td>
+	</tr>
+</table>	 
+</form>
+</div>
+<include file="Public:footer" />

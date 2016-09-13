@@ -1,0 +1,65 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/project_choose.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/project_choose.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/project_choose.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/project_choose.js";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<div id="J_wraps">
+	<div class="blank20"></div>
+	<div class="project_choose clearfix">
+		<div class="project_choose_top">
+			<h2 class="tc">{$site_name}</h2>
+			<div class="choose_info">
+				<p><span class="b">回报众筹：</span>通过{$site_name}发布筹款项目，筹资成功后，以约定的实物或虚拟作为奖励回报给支持者。（包括公益众筹）</p>
+				<p><span class="b">{$gq_name}：</span>公司出让一定比例的股权，面向投资者募集资金，投资者通过出资入股公司，获得未来收益。</p>
+			</div>
+			<div class="choose_type tc">
+				{if app_conf("INVEST_STATUS") eq 0}
+				<span class="ui_button ui-center-button {if $type eq ''}checked{/if}" type_url="{url r="project#add"}"><i></i>回报众筹</span>
+				<span class="ui_button ui-center-button {if $type eq 4}checked{/if}" type_url="{if $type eq 4}{url r="project#investor_one" p="type=4&company_id=$company_id"}{else}{url r="project#investor_one"}{/if}"><i></i>{$gq_name}</span> 
+				{/if}
+				{if app_conf("INVEST_STATUS") eq 1}
+				<span class="ui_button ui-center-button" type_url="{url r="project#add"}"><i></i>回报众筹</span>
+				{/if}
+				{if app_conf("INVEST_STATUS") eq 2}
+				<span class="ui_button ui-center-button" type_url="{if $type eq 4}{url r="project#investor_one" p="type=4&company_id=$company_id"}{else}{url r="project#investor_one"}{/if}"><i></i>{$gq_name}</span>
+				{/if}
+ 				{if app_conf("IS_SELFLESS") eq 1}
+				<span class="ui_button ui-center-button" type_url="{url r="project#add_selfless"}"><i></i>公益众筹</span>
+				{/if}
+				{if app_conf("IS_HOUSE") eq 1 && $user_info.is_investor eq 2 && $user_info.investor_status eq 1}
+				<span class="ui_button ui-center-button" type_url="{url r="project#add_house"}"><i></i>房产众筹</span>
+				{/if}
+			</div>
+		</div>
+		<div class="project_choose_bottom tc">
+			<div class="wrap">
+				<label class="ui_checkbox mr10" rel="flag" id="flag_checkbox">
+					<input id="flag" name="flag" type="checkbox" />阅读并同意<a class="f_red" href="{url "help#term"}" target="_blank">《{function name="app_conf" v="SITE_NAME"}服务条款》</a>
+				</label>
+				<div class="choose_btn tc">
+					<a href="{if $type eq 4}{url r="project#investor_one" p="type=4&company_id=$company_id"}{else}{url r="project#add"}{/if}" class="ui_button ui-center-button" id="btn_create">立即创建</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="project_choose_help">
+		<div class="wrap">
+			<div class="help_group tc">
+				<i class="icon iconfont">&#xe618;</i>
+				<div class="help_question b f24"><span class="theme_fcolor">什么人</span>可以发起众筹？</div>
+				<div class="help_answer">
+					<span>已满18周岁有完全民事行为能力的人、未满18周岁请由监护人协助提供相关资料。</span>
+					<span>中华人民共和国公民，或能提供长期在中国居住证明的非中华人民共和国公民，并在网站需要时，按照网站要求，提供必要的身份认证和资质认证，根据项目内容，包括但不限于：身份证、护照、学历证明等。</span>
+					<span>拥有能够在中国地区接收人民币汇款的银行卡或者支付宝账户。</span>
+					<span>{$site_name}的注册用户，已仔细阅读、同意并无条件接受{$site_name}的《服务条款》所涉全部内容。</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="blank20"></div>
+</div>
+{include file="inc/footer.html"} 

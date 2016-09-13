@@ -1,0 +1,762 @@
+.xqmain {
+	width:1200px;
+	margin:20px auto;
+	background:#fff;
+	overflow:hidden;
+}
+.xqmain1000{width:1000px}
+.hd { padding-top:20px; }
+.hd1 {
+	height:35px;
+	padding:0 20px;
+	*overflow:hidden;
+}
+.hd2 {
+	height:35px;
+	color:#929191;
+	padding:0 20px;
+	font-size:12px;
+}
+.dz , .kj { background:url(../images/all.png) no-repeat; }
+.mf {
+	background-position:0 -184px;
+	display:inline-block;
+	margin:0 7px;
+	color:#929191;
+}
+.mf img {
+	vertical-align:middle;
+	padding-left:3px;
+}
+.dz {
+	font-family:"SimSun";
+	background-position:0 -131px;
+	display:inline-block;
+	padding-left:15px;
+	margin:0 7px;
+}
+.kj {
+	background-position:0 -154px;
+	display:inline-block;
+	padding-left:15px;
+	margin:0 7px;
+}
+.title {
+	font-size:25px;
+	line-height:1;
+	display:inline-block;
+}
+.bt1 { display:inline-block; }
+.hd3 {
+	width:1181px;
+	height:40px;
+	padding:10px 0px 0px;
+	border-bottom:1px solid #e0e0e0;
+	z-index:100;
+	color:#666;
+	font-size:14px;
+	margin:0;
+}
+.hd31 {
+	height:40px;
+	float:left;
+	position:relative;
+	bottom:-1px;
+	overflow:hidden;
+	text-align:center;
+	margin-left:20px;
+}
+.hd31 ul li {
+	float:left;
+	margin-right:10px;
+	display:inline;
+	height:40px;
+	background:#f2f2f2;
+	margin-top:-1px;
+	overflow:hidden;
+	_width:100px;
+}
+.hd31 ul li.select {
+	margin-top:0px;
+	background:#fff;
+	border-right:1px solid #d4d4d4;
+	border-left:1px solid #d4d4d4;
+}
+.hd31 ul li a {
+	display:block;
+	height:40px;
+	line-height:40px;
+	padding:0 20px;
+	overflow:hidden;
+}
+.hd31 ul li.select a {
+	height:37px;
+	line-height:34px;
+}
+.fx ,
+.attention_focus_deal {
+	height:30px;
+	line-height:30px;
+	cursor:pointer;
+	display:inline-block;
+	font-weight:bold;
+	margin-left:7px;
+	text-align:left;
+	padding-left:35px;
+}
+.fx i ,
+.attention_focus_deal i {
+	position:absolute;
+	top:5px;
+	left:10px;
+	background:url(../images/all.png) -80px -73px no-repeat;
+	width:20px;
+	height:20px;
+	display:block;
+}
+.attention_focus_deal i { background-position:-80px -103px; }
+.attention_focus_deal { position:relative; }
+.xqmain_main {
+	height:auto;
+	overflow:hidden;
+	background:url(../images/deal_show_border.gif) repeat-y;
+}
+.xqmain_left {
+	width:800px;
+	float:left;
+	background:#fff;
+	overflow:hidden;
+	border-right:1px solid #e0e0e0;
+}
+.xqmain_left .xqmain_left_m{
+	padding:20px;
+	overflow:hidden;
+}
+.l_hd , .l_main , .l_foot {
+	width:100%;
+	overflow:hidden;
+}
+.l_hd img {
+	display:block;
+	overflow:hidden;
+}
+.l_hd span {
+	font-size:20px;
+	font-weight:bold;
+	margin-top:25px;
+	display:block;
+	color:#0f0f0f;
+}
+.l_main {
+	color:#555;
+	font-size:14px;
+}
+.l_main p {
+	margin-top:20px;
+	line-height:150%;
+}
+.l_main img { max-width:800px; }
+.l_foot {
+	margin-top:20px;
+	color:#555;
+	border-top:#ccc dashed 1px;
+}
+.l_foot1 {
+	float:left;
+	height:20px;
+	padding:15px 0;
+}
+.l_foot1 a {
+	color:#2e76c4;
+	display:inline-block;
+	padding:0 2px;
+}
+.l_foot1 span {
+	margin:0 15px;
+}
+.l_foot2 {
+	float:left;
+	overflow:hidden;
+	padding:5px;
+	background:#f8f8f8;
+	width:750px;
+}
+#nc {
+	overflow:hidden;
+	width:161px;
+}
+.lft1 {
+	padding-top:4px;
+	display:block;
+	background:url(../images/all.png) 0 -234px no-repeat;
+	padding-left:20px;
+	font-size:14px;
+}
+.xqmain_right {
+	width:380px;
+	float:right;
+	background:#fff;
+	padding-right:19px;
+}
+/* box 开始 */
+.schedule_box {
+	position:relative;
+	width:380px;
+	background:#f4faff;
+	display:inline-block;
+	*overflow:visible;
+}
+.schedule_box .schedule_m{
+	width:350px;
+	padding:30px 15px;
+	overflow:hidden;
+}
+.schedule_box .box_title {
+	font-size:16px;
+	color:#666;
+	margin-bottom:5px;
+	padding:0 15px;
+}
+.schedule_box .invest_status {
+	position:absolute;
+	top:20px;
+	right:-9px;
+	background:url(../images/images/zcz.png) no-repeat transparent;
+	color:#fff;
+	font-size:16px;
+	width:83px;
+	height:40px;
+	line-height:33px;
+	display:inline-block;
+	text-align:center;
+}
+.schedule_box .box_nu {
+	font-size:26px;
+	line-height:100%;
+	display:block;
+	font-weight:700;
+	margin-bottom:15px;
+	padding:0 15px;
+}
+.schedule_box .ui-success , .schedule_box .ui-success span ,
+.schedule_box .ui-progress , .schedule_box .ui-progress span {
+	height:10px;
+  	-moz-border-radius: 5px;
+  	-khtml-border-radius: 5px;
+  	-webkit-border-radius: 5px;
+  	border-radius: 5px;
+}
+.schedule_box .target_money{
+	word-break:break-word;
+	margin-bottom:30px;
+	overflow:hidden;
+	padding:0 15px;
+}
+.schedule_box .box_progress {
+	padding:10px;
+	background:#fff;
+	overflow:hidden;
+	margin-bottom:30px;
+	-moz-border-radius:5px; -khtml-border-radius:5px; -webkit-border-radius:5px; border-radius:5px;
+}
+.schedule_box .box_progress .iconfont{
+	font-size:24px;
+	color:#999;
+}
+.schedule_box .box_progress .left_time{
+	font-size:22px;
+}
+.schedule_box .box_promoter{
+	position:relative;
+	overflow:hidden;
+	margin:0 15px;
+}
+.schedule_box .box_promoter .promoter_bg{
+	position:absolute;
+	top:0;
+	left:0;
+	background:url(../images/avatar_bg.png) no-repeat;
+	width:88px;
+	height:88px;
+}
+.schedule_box .box_promoter .promoter_img{
+	width:88px;
+	height:88px;
+	float:left;
+	margin-right:10px;
+	overflow:hidden;
+}
+.schedule_box .box_promoter .promoter_img img{
+	width:100%;
+	height:100%;
+  	overflow:hidden;
+}
+
+.schedule_box .box_promoter .promoter_text{
+	float:left;
+	overflow:hidden;
+	padding-top:10px;
+}
+.schedule_box .jd{
+	width: 100%;
+	overflow:hidden;
+}
+/* box 结束 */
+
+.other_box{
+	width:100%;
+	overflow:hidden;
+}
+/* 回报子项目 开始 */
+.repays_box{
+	width:100%;
+	overflow:hidden;
+}
+.repays_box .repays_m{
+	width:100%;
+	overflow:hidden;
+}
+.repays_box .repays {
+	width:330px;
+	background:#fff;
+	border:#f4faff solid 10px;
+	display:inline-block;
+	margin-top:10px;
+	border-radius:2px;
+	font-size:14px;
+}
+.repays_box .repays:hover{
+	border:10px solid #d7edff;
+}
+.repays_box .repays .repays_hd {
+	padding:15px;
+	height:25px;
+	line-height:25px;
+	color:#666;
+	font-size:12px;
+	border-bottom:#e5e5e5 dashed 1px;
+}
+.repays_box .repays .repays_hd .f_l {
+	font-size:18px;
+	color:#0099ff;
+	font-weight:bold;
+}
+.repays_box .repays .repays_bd {
+	padding:15px;
+	overflow:hidden;
+}
+.repays_box .repays .repay_intro {
+	font-size:13px;
+	margin-bottom:15px;
+	word-break: break-all;
+  	word-wrap: break-word;
+}
+.repays_box .repays .repay_img {
+	margin-bottom:15px;
+	overflow:hidden;
+}
+.repays_box .repays .repay_img .image_item{
+	float:left;
+	border:#ccc solid 1px;
+	display:inline-block;
+	width:50px;
+	height:50px;
+	margin-right:10px;
+	cursor:url(../images/zoom.cur),auto;
+}
+.repays_box .repays .repay_num {
+	color:#999;
+	font-size:12px;
+	margin-bottom:15px;
+}
+.repays_box .repays .repay_btn {
+	height:44px;
+	line-height:44px;
+	display:inline;
+	float:left;
+	text-align:center;
+	font-size:22px;
+	color:#FFF;
+	margin-left:0;
+	padding:0 15px;
+	-moz-border-radius:3px;
+	-khtml-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
+}
+/* 回报子项目 结束 */
+
+/* explain_box 开始 */
+.explain_box{
+	background:#fff9e9;
+  	margin-left:10px;
+  	width:368px;
+  	overflow: hidden;
+  	border:#e5e5e5 solid 1px;
+  	margin-top:15px;
+}
+.explain_box .explain_hd{
+	font-size:18px;
+  	padding:10px 15px;
+  	border-bottom: #e5e5e5 dashed 1px;
+}
+.explain_box .explain_bd{
+	padding:15px;
+	overflow:hidden;
+	color:#666;
+}
+
+/* explain_box 结束 */
+
+/* 股权项目详细页 开始 */
+.pro_hd{
+	background:#fff;
+	width:760px;
+}
+.pro_hd ul{
+	font-size: 16px;
+	height: 50px;
+	line-height: 50px;
+	border-bottom: 4px solid #f1f1f1;
+	padding: 6px 0 0 27px;
+}
+.pro_hd li {
+	padding:0 20px;
+	margin-right:28px;
+	float:left;
+	text-align:center;
+}
+.pro_hd li a{
+	cursor:pointer;
+	display:block;
+}
+
+.box_money {
+	margin:35px 2px 15px;
+	overflow:hidden;
+	float:left;
+}
+.box_money .sub {
+	width:91px;
+	line-height:24px;
+	background: url(../images/vector.png) repeat-x;
+	color:#666;
+	display:inline;
+	float:left;
+	font-size:14px;
+	padding-top:95px;
+	margin:0 6px;
+	margin:0 12px;
+	overflow:hidden;
+}
+.box_money .pic2 {
+	background-position: -100px 0;
+}
+.box_money .pic3 {
+	background-position: -199px 0;
+}
+/* 股权项目详细页 结束 */
+
+/* 详情页其他资料图片 开始 */
+.shenhe{
+	width:368px;
+	border:1px solid #e0e0e0;
+	margin-bottom:15px;
+}
+.shenhe_tt{
+	width:100%;
+	height:45px;
+	background: #dbdbdb;
+}
+.shenhe .shenhe_tt span {
+	display: block;
+	line-height: 45px;
+	font-size: 14px;
+	font-weight: 700;
+	text-align: center;
+	height: 45px;
+	float: left;
+	color: #666;
+}
+.shenhe .shenhe_tt .xiangmu {
+	width:228px;
+	border-right: 2px solid #fff;
+	color: #666;
+	font-size: 16px;
+}
+.shenhe .shenhe_tt .zhuangtai {
+	width:138px;
+	color: #666;
+	font-size: 16px;
+}
+.shenhe .shenhe_info li{
+	height:35px;
+	line-height:35px;
+	padding:0 35px;
+	font-size:14px;
+	background:url(../images/check_status.png) no-repeat;
+	border-bottom:1px solid #e0e0e0;
+}
+.shenhe .shenhe_info li:last-child{
+	border-bottom:0;
+}
+.shenhe .shenhe_info li.no{
+	background-position:290px -33px;
+}
+.shenhe .shenhe_info li.yes{
+	background-position:290px 7px;
+}
+/* 详情页其他资料图片 结束 */
+
+/* 投资按钮 开始 */
+.btn_invest{
+	width:150px;
+	height:51px;
+	background:url(../images/btn_invest.png) no-repeat;
+	cursor:pointer;
+	display:inline;
+	float:left;
+}
+.invest_btn_box{
+	margin:0 0 15px 15px;
+	overflow:hidden;
+}
+.invest_btn_box .first_invest{
+	background-position:0 0;
+}
+.invest_btn_box .conver{
+	background-position:0 -116px;
+}
+
+.invest_btn_box .follow_invest{
+	background-position:0 -58px;
+}
+.invest_btn_box .collect{
+	background-position:0 -174px;
+}
+.invest_btn_box .d_gz , .invest_btn_box .d_qxgz{
+	cursor:pointer;
+	background:url(../images/btn_invest.png) 0 -156 no-repeat;
+	width:150px;
+	height:51px;
+	display:block;
+}
+.invest_btn_box .d_qxgz{
+	background:url(../images/btn_collect.png) no-repeat;
+}
+.btn_uninvest{
+	width:150px;
+	height:51px;
+	background:url(../images/btn_uninvest.png) no-repeat;
+	display:block;
+	float:left;
+	cursor:default;
+}
+.btn_uninvest_collect{
+	background:url(../images/btn_uninvest_collect.png) 0 0 no-repeat !important;
+}
+/* 投资按钮 结束 */
+
+/* 项目详情页领投、跟投 开始 */
+.box4 .mod_conment .l ,
+.box5 .mod_conment .l {
+	width:94px;
+	float:left;
+	text-align:center;
+	overflow:hidden;
+}
+.box4 .mod_conment .l img ,
+.box5 .mod_conment .l img {
+	border:1px solid #e3e3e3;
+	width:90px;
+	height:90px;
+	padding:2px;
+}
+.box4 .mod_conment .r ,
+.box5 .mod_conment .r {
+	float: right;
+	width: 240px;
+}
+.box4 .mod_conment .text {
+	line-height:30px;
+	margin:10px 0;
+	color:#666;
+	font-size:14px;
+}
+.box4 .mod_conment .data {
+	padding:0 5px;
+	color:#fff;
+}
+.box4 .mod_cont2 {
+	border-top:1px dashed #e3e3e3;
+	border-bottom:1px dashed #e3e3e3;
+	padding:12px 0;
+	font-size:14px;
+	color:#666;
+}
+.box4 .mod_cont3 .tit ,
+.invester .invester_bd .pro_tit{
+	background: url(../images/icon_bg10.gif) 0 center no-repeat;
+	height:30px;
+	line-height:30px;
+	padding-left:13px;
+	font-size:16px;	
+	font-weight:normal;
+}
+.box4 .mod_cont3 .word {
+	text-align: center;
+	padding-top:90px;
+	margin: 10px 0;
+}
+.box4 .mod_cont3 .leader_t{
+	background:url(../images/accessory_t.png) center top no-repeat;
+}
+.box4 .mod_cont3 .leader_w{
+	background:url(../images/accessory_w.png) center top no-repeat;
+}
+.box4 .mod_cont3 .leader_r{
+	background:url(../images/accessory_r.png) center top no-repeat;
+}
+.box4 .mod_cont3 .leader_x{
+	background:url(../images/accessory_x.png) center top no-repeat;
+}
+.box4 .mod_cont3 .leader_p{
+	background:url(../images/accessory_p.png) center top no-repeat;
+}
+.box4 .mod_cont3 .word .btn_1 {
+	background: #09F;
+	border: none;
+	padding: 5px 17px 6px 17px;
+	color: #fff;
+	cursor: pointer;
+}
+.box4 .leader_conment .leader_icon ,
+.box4 .leader_conment .level_icon ,
+.box4 .leader_conment .investor_type{margin-top:2px;}
+
+.box5 .project_cont li {
+	width:100%;
+	float:left;
+	margin-bottom:20px;
+	overflow:hidden;
+}
+.box5 .project_cont .name {
+	height: 25px;
+	font-size: 20px;
+	margin-bottom: 10px;
+	color: #333;
+}
+.box6{
+	border:1px solid #e4e4e4;
+	padding:10px 15px;
+	overflow:hidden;
+}
+.box6 .mod_title {border-bottom:1px solid #e4e4e4;}
+.box6 .mod_conment .l{
+	width:86px;
+}
+.box6 .mod_conment .l img{
+	width:80px;
+	height:80px;
+	-moz-border-radius:50%; -khtml-border-radius:50%; -webkit-border-radius:50%; border-radius:50%;
+}
+.box6 .mod_conment .r .title {
+	font-size:20px;
+	line-height:20px;
+}
+.box6 .mod_conment .r .title .v_lea{
+	margin:0;
+}
+.box6 .mod_conment .r .text div{
+	line-height:22px;
+	font-size:13px;
+}
+.box6 .mod_cont3 .text , 
+.invester .invester_bd .pro_text{
+	line-height:20px;
+	margin:0 0 0 13px;
+}
+.box6 .mod_conment li{
+	margin:10px 0;
+	overflow:hidden;
+	border-bottom:1px dashed #e0e0e0;
+}
+/* 项目详情页领投、跟投 结束 */
+
+.deal_body{
+	width:100%;
+	height:100%;
+}
+.deal_show .faq_question ,
+.deal_investor_show .faq_question {
+	border:1px solid #F0F0F0;
+	background:#f8f8f8;
+	color:#428bca;
+	font-size:14px;
+	height:25px;
+	line-height:25px;
+	padding:0px 20px;
+	cursor:pointer;
+}
+.deal_show .faq_answer ,
+.deal_investor_show .faq_answer {
+	display:none;
+	border:1px dotted #f0f0f0;
+	border-top:0px;
+	padding:10px 20px;
+	font-size:14px;
+	line-height:25px;
+}
+.deal_show .deal_item_images .image_item {
+	float:left;
+	border:#ccc solid 1px;
+	display:inline-block;
+	width:50px;
+	height:50px;
+	margin-right:10px;
+	cursor:url(../images/zoom.cur),auto;
+}
+.boxname {
+	font-size:14px;
+	color:#555555;
+	display:block;
+}
+.boxname .f_l{height:17px;line-height:17px;margin-right:5px;}
+.boxtime , .boxaddress , .boxmail {
+	color:#999;
+	font-size:12px;
+	margin-top:5px;
+	line-height:18px;
+	display:block;
+}
+.boxaddress {
+}
+.boxmail a{
+	color:#999;
+}
+.boxmail .iconfont{
+	font-size:23px;
+	height:23px;
+	line-height:23px;
+	float:left;
+	margin-top:-1px;
+}
+/* 优势项目推荐 开始 */
+.nav_item{width:244px;margin-left:10px;}
+.nav_item.first{margin-left:0;}
+.nav_item1{height:260px;margin-bottom:0}
+.prompt_box a{color:#ff634d !important;}
+.project_text {width:244px;}
+.caption-title{font-size:12px;}
+.index_m{padding-bottom:0}
+.project_image{width:244px;height:170px;}
+.project_image img{width:100%;}
+/* 优势项目推荐 结束 */
+
+.pro_hd li.on{background:#fff;}
+
+/* 分红列表 开始 */
+.bonus_deal_box .control-group{
+	padding:0;
+}
+/* 分红列表 结束 */

@@ -1,0 +1,67 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<php>
+	function get_collocation_effect($effect)
+	{
+		return l("IS_EFFECT_".$effect);
+	}
+	function get_collocation_install($install)
+	{
+		return l("IS_INSTALL_".$install);
+	}
+	function get_collocation_online($online)
+	{
+		return l("ONLINE_PAY_".$online);
+	}
+</php>
+<script type="text/javascript">
+	function uninstall(id)
+	{
+		if(confirm("{%CONFIRM_DELETE}"))
+		{
+			location.href = ROOT + "?m=Collocation&a=uninstall&id="+id;
+		}
+	}
+</script>
+<div class="main">
+<div class="main_title">资金托管[注：状态同时只能一种有效,系统确定完后,不可再更改资金托管方式; 除非重新安装系统,请慎重]</div>
+<div class="blank5"></div>
+
+<table cellspacing="0" cellpadding="0" class="dataTable" id="dataTable">
+	<tbody>
+		<tr>
+			<td class="topTd" colspan="7">&nbsp; </td>
+			</tr>
+			<tr class="row">
+				<th>{%PAYMENT_NAME}</th>
+				<th>{%IS_EFFECT}</th>
+				<th>{%IS_INSTALL}</th>
+				<th>{%TAG_LANG_OPERATE}</th>
+				</tr>
+				<foreach name="collocation_list" item="collocation_item">
+				<if condition="$collocation_item.name neq ''">
+				<tr class="row">
+					<td>{$collocation_item.name}					
+					</td>
+					<td>{$collocation_item.is_effect|get_collocation_effect}</td>
+					<td>{$collocation_item.installed|get_collocation_install}</td>
+					</td>
+					<td>
+						<if condition="$collocation_item['installed'] eq 0">
+						<a href="{:u("Collocation/install",array("class_name"=>$collocation_item['class_name']))}">{%INSTALL}</a>
+						<else />
+						<a href="{:u("Collocation/edit",array("id"=>$collocation_item['id']))}">{%EDIT}</a>
+						<a href="javascript:uninstall({$collocation_item.id});" >{%UNINSTALL}</a>
+						</if>
+					</td>
+				</tr>
+				</if>
+				</foreach>
+				<tr><td class="bottomTd" colspan="7"> &nbsp;</td></tr>
+			</tbody>
+		</table>
+
+
+</div>
+<include file="Public:footer" />

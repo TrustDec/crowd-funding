@@ -1,0 +1,112 @@
+{include file="inc/header.html"}
+<!--中间部分-->  
+<section class="my_project account_index account_mod">
+	<ul class="tab-nav webkit-box">
+		<li class="webkit-box-flex tc current">
+			<a href="#" onclick="RouterURL('{url_wap r="account#project"}','#account-project');">回报项目({if $deal_cp_sum}{$deal_cp_sum}{else}0{/if})</a>
+		</li>
+	</ul>
+	<div class="blank15"></div>
+    <ul>
+    	{foreach from=$deal_list item=deal_item}
+        <li class="item_{$deal_item.id}">
+            <div class="pro_box webkit-box">
+            	<div class="webkit-box-flex">
+            		<div class="webkit-box">
+		                <div class="pic_show mr5">
+		                	<a href="#" onclick="RouterURL('{url_wap r="deal#show" p="id=$deal_item.id"}','#deal-show',2);">
+			                    <img src="{function name="get_spec_image" v=$deal_item.image w=50 h=50 g=1}" width="100%" height="100%" />
+			                </a>
+		                </div>
+		                <div class="details mr5 webkit-box-flex">
+		                    <h3 class="info_name">
+		                        {$deal_item.name}
+		                    </h3>
+		                    <div class="info_all">
+		                        <div class="info_group">
+		                            <label class="label_l">状态：</label>
+		                            <span class="label_r">
+		                                {if $deal_item.is_effect eq 0}
+		                                    {if $deal_item.is_edit eq 1}
+		                                        准备中
+		                                    {else}
+		                                        等待审核
+		                                    {/if}
+		                                {elseif $deal_item.is_effect eq 2}
+		                                    未通过 
+		                                {else}
+		                                    {if $deal_item.is_success eq 1}
+		                                        {if $deal_item.begin_time > $now}预热中{/if}
+		                                        {if $deal_item.end_time < $now and $deal_item.end_time neq 0}已成功{/if}
+		                                        {if $deal_item.begin_time < $now and ($deal_item.end_time > $now or $deal_item.end_time eq 0)}已成功{/if}
+		                                    {else}
+		                                        {if $deal_item.begin_time > $now}预热中{/if}
+		                                        {if $deal_item.end_time < $now and $deal_item.end_time neq 0}未成功{/if}
+		                                        {if $deal_item.begin_time < $now and ($deal_item.end_time > $now or $deal_item.end_time eq 0)}进行中{/if}
+		                                    {/if}
+		                                {/if}
+		                            </span>
+		                        </div>
+		                        <div class="info_group">
+		                            <label class="label_l">类型：</label>
+		                            <span class="label_r">
+										{function name="get_type_name" v=$deal_item.type}
+		                            </span>
+		                        </div>
+		                    </div>
+		                </div>
+		            </div>
+				</div>
+                <div>
+					{if $deal_item.is_effect eq 0}
+						{if $deal_item.is_edit eq 1}
+						<div class="webkit-box">
+							{if $deal_item.type eq 1}
+								<a href="#" onclick="RouterURL('{url_wap r="project#investor_edit" p="id=$deal_item.id"}','#project-investor_edit',2);" rel="编辑" class="oper_btn mr5 mt15"><i class="icon iconfont theme_fcolor">&#xe60d;</i></a>
+							{else}
+								<a href="#" onclick="RouterURL('{url_wap r="project#edit" p="id=$deal_item.id"}','#project-edit',2);" rel="编辑" class="oper_btn mr5 mt15"><i class="icon iconfont theme_fcolor">&#xe60d;</i></a>
+							{/if}
+							<div class="oper_btn del_deal mt15 J_btn_del_item" rel="删除" ajax_del_id="{$deal_item.id}"><i class="icon iconfont f_red">&#xe620;</i></div>
+						</div>
+						{/if}
+					{elseif $deal_item.is_effect eq 2}
+						<div class="webkit-box">
+						{if $deal_item.type eq 1}
+							<a href="#" onclick="RouterURL('{url_wap r="project#investor_edit" p="id=$deal_item.id"}','#project-investor_edit',2);" rel="编辑" class="oper_btn mr5 mt15"><i class="icon iconfont theme_fcolor">&#xe60d;</i></a>
+						{else}
+							<a href="#" onclick="RouterURL('{url_wap r="project#edit" p="id=$deal_item.id"}','#project-edit',2);" rel="编辑" class="oper_btn mr5 mt15"><i class="icon iconfont theme_fcolor">&#xe60d;</i></a>
+						{/if}
+						<div class="oper_btn del_deal mt15 J_btn_del_item" rel="删除" ajax_del_id="{$deal_item.id}"><i class="icon iconfont f_red">&#xe620;</i></div>
+						</div>
+					{else}
+						<div class="blank5"></div>
+						{if $deal_item.is_success eq 1}
+						<span class="f12">
+							{if $deal_item.type eq 1}
+								<a href="#" onclick="RouterURL('{url_wap r="account#get_investor_status" p="id=$deal_item.id&type=0"}','#account-get_investor_status',2);">申请列表</a>
+								<div class="blank5"></div>
+								<a href="#" onclick="RouterURL('{url_wap r="account#support" p="id=$deal_item.id&type=1"}','#account-support',2);">投资列表</a>
+								<div class="blank5"></div>
+								<a href="#" onclick="RouterURL('{url_wap r="account#paid" p="id=$deal_item.id"}','#account-paid',2);">放款记录</a>
+							{else}
+								<a href="#" onclick="RouterURL('{url_wap r="account#support" p="id=$deal_item.id"}','#account-support',2);">支持记录</a>
+								<div class="blank5"></div>
+								<a href="#" onclick="RouterURL('{url_wap r="account#paid" p="id=$deal_item.id"}','#account-paid',2);">放款记录</a>
+								{if $deal_item.is_lottery eq 1}
+								<div class="blank5"></div>
+								<a href="#" onclick="RouterURL('{url_wap r="account#lottery" p="id=$deal_item.id"}','#account-lottery',2);">抽奖记录</a>
+								{/if}
+							{/if}
+						</span>
+						{/if}
+					{/if}
+				</div>
+            </div>
+        </li>
+        {/foreach}
+    </ul>
+</section>
+<div class="blank15"></div>
+<div class="pages">{$pages}</div>
+<div class="blank15"></div>
+{include file="inc/footer.html"}

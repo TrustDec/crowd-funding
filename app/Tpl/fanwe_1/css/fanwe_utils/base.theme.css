@@ -1,0 +1,166 @@
+/*全局链接样式*/
+a{color:#333;text-decoration:none;}
+
+a , .ui-button , .ui_button , .ui-center-button { 
+ 	transition:all 0.3s;
+	-moz-transition:all 0.3s; /* Firefox 4 */
+	-webkit-transition:all 0.3s; /* Safari and Chrome */
+	-o-transition:all 0.3s; /* Opera */
+}
+a:hover{ text-decoration:none; color:#178fe6;}
+
+/* 模版主题色 开始 */
+.theme_bgcolor ,
+.ckgd:hover ,
+.ui_deals_filter_l ul li a:hover ,
+.ui_deals_filter_l ul li.current a ,
+.ui_deals_filter_l ul li.current a:hover ,
+.category ul li a:hover ,
+.invester_all .con2_r .con3 ,
+.invester_all .con2_r .navtext:hover ,
+.tab-nav li.current a ,
+.invester .invester_bd .r2 .tit ,
+.pages span.current ,
+.btn_select.cur ,
+.switch_nav ul li.current a ,
+.header .header_top .search_cate.cur ,
+.header_search .seach_submit ,
+.account_paid .deal_name_title ,
+.account_credit .opt.cur ,
+.xzdq .city-content li a:hover ,
+.con3 .tit .tit_bg ,
+.invester_table .btn_recommend_project:hover ,
+.ui_deals_filter_item .filter_text li.current a ,
+.ui_deals_filter_item .child_cate li.current a ,
+.tab_title ul li.on ,
+.reg_user .index_title .more_browse ,
+.nav_item a:hover .follow em.rush ,
+.nav_item a:hover .btn_sprite ,
+.homemenulist li.select a, .pageleft li a:hover ,
+.uc_table th ,
+.account_view_order .uc_table .deal_name ,
+.index_recommend .recommend_left .special_hd a:hover ,
+.change_item a.cur ,
+#jcDayWrap ul li.visited ,
+#jcDateBtn a#d_sub ,
+.news_fenlei ul li .on ,
+.nav_box li.cur ,
+.licai .licai_deals .xf_text .xf_hd span.on ,
+.licai .licai_deals .deals_box .deals_select li a.cur ,
+.effect_hd li.on ,
+.follows .icomore:hover ,
+.btn_group .l_btn.cur,.btn_group .r_btn.cur ,
+.Js-pop .titleWrap ,
+.gz_region_box label ,
+.userhomebd_l_m .effect_hd li.on ,
+.map_img_slide .cover_info .cover_list.cover_list_traffic:hover span,
+.map_img_slide .cover_info .cover_list.cover_list_traffic.active span ,
+.bd_left .map_img li.on { background:#178fe6; }
+#jcDateTt div span{background:url(../images/Jc_date_icon.png) #178fe6 no-repeat;}
+#jcDateTt div samp{background:url(../images/Jc_date_icon.png) #178fe6 no-repeat;}
+
+.theme_fcolor ,
+.hd31 ul li.select a ,
+.tab li.on ,
+.invester .invester_bd .r2 .val ,
+.tab2 .col td ,
+.box_nu ,
+.invester_all .con9 .text a:hover ,
+.drop_box span a:hover ,
+.xzdq .Menubox li.hover ,
+.boxmail a:hover ,
+.muxfb_left_tab_wrap .muxfb_left_logo i ,
+.muxfb_left_tab_wrap .muxfb_left_logo .title ,
+#jcDateBtn samp:hover,#jcDateBtn span:hover ,
+.nav_item a:hover .project_title ,
+.invest_choice_btn.cur ,
+.licai .recommend_box .text li a:hover .text_box .view_btn ,
+.userhomebd_l_m_body .item .tag b ,
+.effect_hd .next:hover,.effect_hd .prev:hover ,
+.effect_flip .next:hover,.effect_flip .prev:hover ,
+.userhomebd_l_m_body .item a:hover b ,
+.follows .follower:hover, .follows .following:hover ,
+.head-sub-nav .login-actions a , .head-sub-nav .login-actions a i , .head-sub-nav > li > a:hover i ,
+.choose_btn .ui_button ,
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {color:#178fe6;}
+
+.tab li.on{border-right:4px solid #178fe6;}
+.tab_title ,
+.project_agencyAdd .hd3 {border-bottom:3px solid #178fe6;}
+.rel-key-rec a.current {border-color:#178fe6;}
+.invester_all .col_c span ,
+.invester .invester_hd .f_l span ,
+.leader .invester_hd span{border-bottom:1px solid #178fe6;}
+.nav_hd ul li.nav_select ,
+.hd31 ul li.select ,
+.licai .licai_deal .deal_top_r .deal_top_r_hd {border-top: 3px solid #178fe6;}
+.list_title .cur,
+.invest_choice_btn.cur{ border:0;border-top:2px solid #178fe6; }
+.homeleft .menutitle.cur{border-left:3px solid #178fe6;}
+.invester .invester_bd .r2 .val ,
+.switch_nav ul li.current a ,
+.pages a , .pages span ,
+.invester_table .btn_recommend_project ,
+.invester_all .xqmain_right .success_item_box .btn_recommend_project:hover,.reg_users li:hover,.userhomebd_l_m_body .item .tag ,
+.btn_group .l_btn,.btn_group .r_btn {border:1px solid #178fe6;}
+.header_search .seach_text ,
+.reg_user li:hover .user_img ,
+.nav_box li.cur {border:2px solid #178fe6;}
+.pro_hd li.on{border-bottom:4px solid #178fe6}
+.xzdq .Menubox li.hover ,
+.news_left .lan .cn_txt ,
+.news_fenlei .lan .cn_txt {border-bottom:2px solid #178fe6;}
+/* 模版主题色 结束 */
+
+.bg_blue{background:#00b0f5;}
+.bg_red{background:#ff6600;}
+.bg_green{background:#a5ca4d;}
+.bg_orange{ background-color:#fab928; }
+.bg_gray ,
+.qxgz {background:#c0c0c0;}
+.bg_eee{background:#eee;}
+.bg_white{background:#fff;}
+
+
+.theme_fcolor2{color:#307ab6;}
+.f_money{color:#f63;}
+.f_blue{color:#00b0f5;}
+.f_red,
+.filter-box .rel-key-rec a.current ,
+.deal_img .mask .mask_invest_status span ,
+.filter-box .rel-key-rec.f_r a:hover ,
+.filter-box .rel-key-rec.f_l a:hover{
+	color:#ff634d;
+}
+.f_gray{color:#c0c0c0;}
+.f_green{color:#a5ca4d;}
+.f_orange{color:#fab928;}
+.f_333{color:#333;}
+.f_666{color:#666;} 
+.f_999{color:#999;}
+
+/* ui-button 鼠标悬浮颜色 开始 */
+.theme_bgcolor1 ,
+.header .header_nav_box .main_nav li:hover ,
+.header .header_nav_box .main_publish ,
+#jcDayWrap ul li:hover ,
+#jcDateBtn a#d_sub:hover{background:#1272b8;color:#fff !important;}
+#jcDateTt div span:hover{background:url(../images/Jc_date_icon.png) #3797e3 no-repeat;}
+#jcDateTt div samp:hover{background:url(../images/Jc_date_icon.png) #3797e3 no-repeat;}
+.bg_red1{background:#ff0000;color:#fff !important;}
+.bg_gray1{background:#b1b1b1;color:#fff !important;}
+.bg_green1{background:#3fb81e;color:#fff !important;}
+
+.bg_gray2 ,
+.list_title .cur{background:#eee;color:#fff;}
+
+.theme_bgcolor2 ,
+.header .header_nav_box .main_nav li.current ,
+.hd31 ul li.select ,
+.project_agencyAdd .hd31 ul li.select ,
+.account_paid .deal_name_title1 {background:#307ab6;}
+.list_title{border-bottom:2px solid #307ab6;}
+.theme_bgcolor3 ,
+.btn_sprite{ background:#3dbaf0; }
+
+/* ui-button 鼠标悬浮颜色 结束 */

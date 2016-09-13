@@ -1,0 +1,64 @@
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/ajax_user_login.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/ajax_user_login.js";
+?>
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+
+<div class="blank"></div>
+<!--中间开始-->
+<div class="dlmain" style="height:360px;margin-top:50px;margin-bottom:50px;">
+	
+
+		<div class="f_l dlr"  style="height:300px;width:500px;">
+			<div class="dlr1">
+				<span class="f_l" style="*line-height:45px;">用户登录</span>
+
+				<span class="f_r" style="font-size:14px;color:#8c8c8c;*line-height:45px;" >还没账号？  <a href="{url r="user#register"}" style="color:#1184df;"> 注册</a> </span>
+			</div>
+			<form id="user_login_form" name="user_login_form" action="{url r="user#do_login"}">
+
+				<div class="control-group">
+					<span class="title control-label"><label>用户名</label></span>
+                        <div class="controls">
+                            <input type="text" value="邮箱或者用户名" class="textbox" name="email">
+                        </div>
+					</span>
+				</div>
+				<!-- end info_row -->
+                
+  
+				<div class="control-group"> 
+					<span class="title control-label"><label>登录密码</label></span> 
+					<span class="input">
+						<div class="controls">
+        					<input type="password" name="user_pwd"  class="textbox" />
+        					<a href="{url r="user#getpassword"}"><label style="cursor:pointer;color:#1184df;font-size:13px;margin-left:15px;">忘记密码</label></a> 
+						</div>
+					</span>
+
+				</div>
+		        <div>
+		        	<label style="float:left;margin-left: 80px;	margin-bottom:20px;text-align:center;font-size:14px;color:#8c8c8c;"><input type="checkbox" value="1" name="auto_login" checked="checked" />
+						记住我（下次自动登录）</label>   
+		        </div>     
+		
+				<div>
+					<br>
+					  <div class="blank"></div>
+					  <div class="blank"></div>
+					<input type="button" value="" name="submit_form" class="btn_do_login" id="btn_do_login" style="margin-left: 80px;"/>
+					<input type="hidden" value="1" name="ajax" />
+				</div>
+			</form>
+		</div>
+
+		<div class="f_r dl" style="height:300px;">
+			<div class="dl1">使用其他账号直接登录:</div>
+				{insert name="api_login"}
+		</div>
+</div>
+
+<!--中间结束-->
+
+<div class="blank"></div>
+<div id="gotop" style="display: block;z-index:99;"></div>

@@ -1,0 +1,90 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/deal.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/deal_log.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/fancybox.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/jquery.fancybox.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/deal.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/deal.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/deal_log.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/deal_log.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/discover.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/discover.js";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+
+	<script type="text/javascript">
+				 $(function(){
+					$(".pl_1").bind('click',function(){
+						$(this).parent().parent().find(".detail_hide").slideToggle(500);
+					});
+				 });
+				 $(function(){
+			        $(".pimg").click(function(){
+			            var _this = $(this);//将当前的pimg元素作为_this传入函数
+			            imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);
+			        });
+			    });
+	</script>
+<div class="blank"></div>
+
+<!--中间开始-->
+<div class="xqmain">
+<!--中间页面头部start-->	
+	{include file="inc/deal_header.html"}
+<!--中间页面头部end-->	
+<!--上-->	
+	<!--弹出图片-->	
+
+<div class="xqmain_main">
+<!--左-->	
+	<div class="xqmain_left">
+		<div class="blank0"></div>
+<!--主体开始-->	
+        <div class="topic-box">		
+	      <div class="deal_left">
+				<div class="deal_log_title">
+					<div class="title">项目最新动态</div>				
+					{if $deal_info.user_id eq $user_info.id and $deal_info.is_effect eq 1}
+					<div class="ui-button green" id="add_update" rel="green" url="{url r="deal#add_update" p="id=$deal_info.id"}">
+						<div>
+							<span>更新动态</span>
+						</div>
+					</div>	
+					{/if}
+				</div>
+				<div class="blank"></div>
+				<div class="timeline">
+					<div id="pin_box">
+					
+					{include file="inc/time_line_item.html"}
+				
+					</div>
+					<div class="ajax_loading_log" id="pin_loading" rel="{url r="ajax#dealupdate" e="id=$deal_info.id&p=$current_page"}">加载更多动态</div>
+					
+					<div class="pages">{$pages}</div>
+										
+				</div><!--end timeline-->
+			</div><!--end left-->
+	</div>
+<!--主体结束-->	
+
+	</div>
+
+<!--右-->
+	{include file="inc/deal_right.html"}
+<!--右结束-->
+
+<div class="blank"></div>
+
+</div>
+
+</div>
+
+<!--中间结束-->
+
+<div id="gotop" style="display: block;z-index:99;"></div>
+
+<div class="blank"></div>
+{include file="inc/footer.html"} 

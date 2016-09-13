@@ -1,0 +1,183 @@
+.detail_tit {
+	margin: 0 15px 10px;
+}
+.detail_tit h3 {
+	padding: 5px 0;
+	text-align: left;
+	width: 100%;
+	font-size: 16px;
+}
+.detail_tit span {
+	display: block;
+	width: 100%;
+	text-align: center;
+	height: 26px;
+	line-height: 26px;
+	border-radius:3px;
+	background: #f4f4f4;
+	font-size: 13px;
+}
+.detail_list ul li {
+	color: #3f3e3e;
+	font-size: 14px;
+	border-bottom:1px solid #f2f2f2;
+	margin: 0;
+	position: relative;
+}
+.detail_list ul li label {
+	width: 75px;
+	height: 36px;
+	line-height: 36px;
+	float: left;
+}
+.detail_list .list_con {
+	height: 36px;
+	line-height: 36px;
+	margin-left: 75px;
+}
+.detail_list .list_con .textbox { padding:11px 8px; }
+.detail_Orange {
+	color: #eb8327;
+}
+.main_font {
+	color:#b6b6b6;
+}
+.aggregate {
+	background:#fff;
+	padding:10px;
+}
+.aggregate .money {
+	float:right;
+	font-size:18px;
+	line-height:38px;
+}
+.aggregate .total {
+	float:left;
+	fofont-siz:16px;
+	line-height:25px;
+}
+.recharge {
+	background: none repeat scroll 0 0 #ff8400;
+	border-radius: 3px;
+	color: #fff;
+	display: inline-block;
+	float: right;
+	font-size: 14px;
+	height: 31px;
+	line-height: 31px;
+	margin: 2px 0;
+	text-align: center;
+	width: 70px;
+	font-weight: 700;
+}
+.ui_width {
+	width:90%;
+	height:22px;
+	line-height:20px;
+}
+.money h1 {
+	display: inline-block;
+	font-size: 38px;
+}
+.money h2 {
+	display: inline-block;
+	font-size: 22px;
+}
+.reset_pay_pwd .recharge {
+	width:100px;
+	float:right;
+	margin-right:-100px;
+}
+.reset_pay_pwd .list_con {
+	margin-right:100px;
+}
+.nun_choose .Minus,.nun_choose .Plus {
+	height:30px;
+	line-height:30px;
+	width:30px;
+	border:1px solid #cbcbcb;
+	text-align:center;
+	font-size:12px;
+	color:#878787;
+	display:block;
+	background:#fff;
+}
+.nuns {
+	width:45px;
+	line-height:34px;
+	border-bottom:1px solid #cbcbcb;
+	border-top:1px solid #cbcbcb;
+	text-align:center;
+	color:#878787;
+}
+.nun_choose .Minus {
+	border-radius:3px 0 0 3px;
+}
+.nun_choose .Plus {
+	border-radius:0px 3px 3px 0px;
+}
+#deal-intro .deal-rf .moneybox li {
+	color:#888;
+	height:30px;
+	line-height:30px;
+	text-align:right;
+	border-bottom:1px solid #EEEEEE
+}
+#deal-intro .deal-rf .moneybox li span.t {
+	display:block;
+	float:left;
+	width:90px;
+	color:#999;
+	text-align:left;
+}
+#deal-intro .deal-rf .touzbox .unit {
+	color:#666;
+	right:10px;
+	top:5px;
+	color:#999 }
+#deal-intro .deal-rf .touzbox input.f-input {
+	border:1px solid #B7D7F3;
+}
+#deal-intro .deal-rf .c_number-box {
+	line-height:36px;
+}
+#deal-intro .deal-rf .c_number-box .tz_link {
+	margin-top:0px;
+}
+#deal-intro .deal-rf .touzbox .c_number {
+	float:left;
+	font-size:16px;
+	display:inline-block;
+	*display:inline;
+	*zoom:1;
+	font-weight:bolder;
+	border:1px solid #e0e0e0;
+	background:#fff;
+	line-height:34px;
+	height:34px;
+	width:24px;
+	text-align:center;
+}
+
+.ui_list ul{
+	border:0;
+}
+
+.detail_hd{
+	background:#4dbdf5;
+	color:#fff;
+	padding:15px;
+	text-align: center;
+}
+.detail_hd .t_name{
+	font-size: 16px;
+}
+.detail_hd .t_info p:first-child {
+   	font-size: 12px;
+  	letter-spacing: .1em;
+}
+.detail_hd .t_info p:last-child {
+    font-size: 60px;
+  	font-weight: 100;
+ 	line-height: 1;
+}

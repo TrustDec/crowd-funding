@@ -1,0 +1,54 @@
+{include file="inc/header.html"}
+<!--中间开始-->
+<div class="dlmain Myhomepage">
+	<div class="homeright pageright f_r">
+		<div class="list_content">
+			<div class="account_credit">
+				<div class="blank20"></div>
+				{if $yeepay_money_freeze_list}
+				<div class="i_deal_list clearfix">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc_table">
+						<tbody>
+							<tr>
+								<th>类型</th>
+								<th>项目名称</th>
+ 								<th width="200">操作金额</th>
+								<th width="160">支付类型</th>
+								<th width="160">完成时间</th>
+ 								
+							</tr>
+							{foreach from=$yeepay_money_freeze_list item=yeepay_money_freeze_item}
+							<tr>
+								<td>{if $yeepay_money_freeze_item.status eq 1}冻结{elseif $yeepay_money_freeze_item.status eq 2}解冻{else}申请解冻{/if}</td>
+								<td>
+									{function name="msubstr" v=$yeepay_money_freeze_item.deal_name b=0 e=20}
+								</td>
+								<td>
+									{function name="format_price" v=$yeepay_money_freeze_item.amount}
+								</td>
+								<td>
+									{if $yeepay_money_freeze_item.pay_type eq 0}第三方托管{else}余额支付{/if}
+								</td>
+								<td>
+									{function name="to_date" v=$yeepay_money_freeze_item.create_time}
+								</td>
+							
+							</tr>
+							{/foreach}
+						</tbody>
+					</table>
+				</div>
+				<div class="blank20"></div>
+				<div class="pages">{$pages}</div>
+				<div class="blank20"></div>
+				{else}
+				<div class="empty_tip tc">
+					还没有诚意金记录
+				</div>
+				{/if}
+			</div>
+		</div>
+	</div>
+</div>
+<!--中间结束-->
+{include file="inc/footer.html"} 

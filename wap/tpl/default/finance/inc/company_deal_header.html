@@ -1,0 +1,31 @@
+<div class="deal_header">
+	<div class="deal_header_content tc">
+		<div class="logo"><img src="{$company_info.company_logo}" /></div>
+		<div class="name">{$company_info.company_name}</div>
+		<div class="info">
+			<span>{$company_info.company_brief}</span>
+		</div>
+		<div class="other">
+			<p>
+				{if $company_info.company_create_time}
+				<span><i class="icon iconfont">&#xe627;</i>{function name="to_date" v=$company_info.company_create_time f="Y年m月d日"}</span>
+				{/if}
+				{if $company_info.province}
+				<span><i class="icon iconfont">&#xe624;</i>{$company_info.province}&nbsp;{$company_info.city}</span>
+				{/if}
+			</p>
+			{if $company_info.company_tag}
+			<p>
+				<span><i class="icon iconfont">&#xe622;</i>{$company_info.company_tag}</span>
+			</p>
+			{/if}
+		</div>
+		<div class="operat">
+			{if $is_focuss}
+				<a href="#" class="btn_custom J_attention_focus_company" cid="{$company_info.id}">取消关注</a>
+			{else}
+			    <a href="#" class="btn_custom J_attention_focus_company" cid="{$company_info.id}">关注</a>
+			{/if}
+		</div>
+	</div>
+</div>

@@ -1,0 +1,26 @@
+{include file="inc/header.html"}
+<section class="account_cridit">
+	<ul>
+		<li class="webkit-box sizing mb10" style="border-top:0;border-bottom:1px solid #e5e5e5;">
+			<h1>信用值：<span class="f_red">{$total_point}</span></h1>
+		</li>
+		{foreach from=$log_list item=log_item}
+		<li class="webkit-box sizing">
+			<div class="accountlist_fl webkit-box-flex mr5 tl">
+				<h1>{$log_item.log_info}</h1>
+				<span class="f_999">
+					{function name="to_date" v=$log_item.log_time}
+ 				</span>
+			</div>
+			<div class="accountlist_fr tr">
+				<h2 class="f_money">{$log_item.point}</h2>
+				<span><em class="f_999">类型:</em>{if $log_item.point gt 0}增加{else}减少{/if}</span>
+			</div>
+		</li>
+		{/foreach}
+	</ul>
+	<div class="blank15"></div>
+	<div class="pages">{$pages}</div>
+	<div class="blank15"></div>
+</section>
+{include file="inc/footer.html"}

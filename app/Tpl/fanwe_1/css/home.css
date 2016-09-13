@@ -1,0 +1,101 @@
+body { background:#fff; }
+.userhome{
+	background:url(../images/u_home_bg.jpg) center 0 no-repeat #fff;
+	overflow:hidden;
+}
+.userhomehd{
+	height:auto;
+	width:1200px;
+	overflow:hidden;
+	margin-bottom:20px;
+}
+.user_info_t { margin-bottom:20px; }
+.user_info_t .user_info_l { float:left; }
+.user_info_l .homebox1main { width:650px;overflow:hidden; }
+.user_info_l .userbox1img{
+	height:124px;
+	width:124px;
+	margin-right:20px;
+}
+.user_info_l .userbox1img img{
+	width:120px;
+	height:120px;
+	overflow:hidden;
+	padding:2px;
+	background:#fff;
+	-moz-box-shadow:2px 2px 2px #ddd;
+	-webkit-box-shadow:2px 2px 2px #ddd;
+	box-shadow:2px 2px 2px #ddd;
+}
+.user_info_l .user_name{
+	font-size:16px;
+	font-weight:700;
+	height:21px;
+	line-height:21px;
+}
+.user_info_l .user_text_1{
+	height:21px;
+	line-height:21px;
+	margin-bottom:15px;
+	padding:5px 0;
+}
+.user_info_l .level_icon ,
+.user_info_l .investor_type { margin-top:2px; }
+
+.user_info_t .user_info_r {
+	float:right;
+	overflow:hidden;
+}
+.user_info_r .user_info_r_m{
+	width:236px;
+	height:110px;
+	overflow:hidden;
+	margin:2px 20px 0 0;
+	text-align:center;
+}
+.user_info_r .ui-button{
+	margin-top:20px;
+	border-radius:0;
+	background:#ff7e00;
+}
+.user_info_b{
+	background:#fffeef;
+	overflow:hidden;
+	border:1px solid #efedce;
+}
+.user_info_b .user_info_b_m {
+	padding:20px;
+	overflow:hidden;
+}
+
+.nav_box { width:100%; }
+.nav_box li{
+	position:relative;
+	width:397px;
+	height:46px;
+	line-height:46px;
+	border:2px solid #e3e3e3;
+	float:left;
+	text-align:center;
+}
+.nav_box li i{
+	position:absolute;
+	bottom:-9px;
+	left:50%;
+	z-index:99;
+	width:13px;
+	height:7px;
+	display:block;
+	background:url(../images/all.png) 0 -583px no-repeat;
+	display:none;
+}
+.nav_box li a , 
+.nav_box li.cur i { display:block; }
+.nav_box li.cur a { color:#fff; }
+
+#con_one_1{width:100%;display:block;}
+.deal_item1_box{padding-top:5px;}
+.nav_item2{margin-top:5px;}
+.nav_item{height:368px;}
+.nav_item .follow{display:none;}
+.nav_items{height:auto}

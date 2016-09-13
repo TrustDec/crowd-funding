@@ -1,0 +1,205 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/fanwe_utils/jcDate.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/fanwe_utils/jcDate.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jQuery-jcDate.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jQuery-jcDate.js";
+
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+{include file="inc/home_user_info.html"}
+<!--中间开始-->
+<div class="dlmain Myhomepage">
+	{include file="inc/account_left.html"}
+	<div class="homeright pageright f_r">
+		<div class="list_title clearfix">
+			<div {if $all eq 0}class="cur"{/if}>
+				<span>诚意金记录</span>
+			</div>
+		</div>
+		<div class="list_content">
+			<div class="account_credit">
+				<form  class="ajax_form_1" method="post"  action="{url r="account#money_freeze"}">
+					<div class="account_search" id="account_search">
+						<div class="blank10"></div>
+						<div class="form_row control-group f_l">
+							<label class="form_lable small_form_lable">选择时间：</label>
+							<div class="small_form_text">
+								<input readonly="" type="text" class="small_textbox w100 jcDate" rel="input-text" value="{$begin_time}" name="begin_time" id="inputLaunchTime" placeholder="请选择日期">
+								<span class="f_l pl10 pr10">─</span>
+								<input readonly="" type="text" class="small_textbox w100 jcDate mr20" rel="input-text" value="{$end_time}" name="end_time" id="inputLaunchTime" placeholder="请选择日期">
+								<a href="{url r="account#money_freeze" p="day=1"}" class="opt {if $day==1} cur {/if} credit_date">今日</a>
+								<a href="{url r="account#money_freeze" p="day=-1"}" day="-1"  class="opt{if $day==-1} cur {/if} credit_date">昨日</a>
+								<a href="{url r="account#money_freeze" p="day=-7"}" day="-7"  class="opt{if $day==-7} cur {/if} credit_date">最近7天</a>
+								<a href="{url r="account#money_freeze" p="day=-30"}" day="-30"  class="opt{if $day==-30} cur {/if} credit_date">最近30天</a>
+							</div>
+						</div>
+						<input type="hidden" name="more_search" value="{$more_search}">
+						<input type="submit" value="搜索" class="ui-button theme_bgcolor" />
+						<a href="javascript:void(0);" id="more_search_btn" class="more_search_btn f_red">更多筛选条件<i class="icon iconfont iconfont_down" id="iconfont_down">&#xe61d;</i><i class="icon iconfont iconfont_up" id="iconfont_up">&#xe61c;</i></a>
+						<div id="more_search" {if $more_search}style="display:block;"{else}style="display:none;"{/if}>
+							<div class="blank0"></div>
+							<div class="form_row control-group f_l">
+								<label class="form_lable small_form_lable">输入金额：</label>
+								<div class="pr f_l">
+									<input type="text" name="begin_amount" value="{$begin_amount}"  class="small_textbox w100" />
+									<span class="holder_tip">请输入金额</span>
+								</div>
+								<span class="small_form_text f_l pl10 pr10">─</span>
+								<div class="pr f_l mr20">
+									<input type="text" name="end_amount"  value="{$end_amount}"  class="small_textbox w100" />
+									<span class="holder_tip">请输入金额</span>
+								</div>
+								<select name="type" id='type' class="ui-select field_select small">
+									<option>类型</option>
+									<option value="0">全部</option>
+									<option value="1" {if $type==1}selected="selected"{/if}>冻结</option>
+									<option value="2" {if $type==2}selected="selected"{/if}>解冻</option>
+									<option value="3" {if $type==3}selected="selected"{/if}>申请解冻</option>
+  								</select>
+								<div class="blank0"></div>
+							</div>
+						</div>
+					</div>
+				</form>
+				<div class="blank20"></div>
+				{if $money_freeze_list}
+				<div class="i_deal_list clearfix">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc_table">
+						<tbody>
+							<tr>
+								<th>类型</th>
+								<th>项目名称</th>
+ 								<th width="200">操作金额</th>
+								<th width="160">支付类型</th>
+								<th width="160">完成时间</th>
+ 								<th>备注</th>
+							</tr>
+							{foreach from=$money_freeze_list item=money_freeze_item}
+							<tr>
+								<td>{if $money_freeze_item.status eq 1}冻结{elseif $money_freeze_item.status eq 2}解冻{else}申请解冻{/if}</td>
+								<td>
+									{function name="msubstr" v=$money_freeze_item.deal_name b=0 e=20}
+								</td>
+								<td>
+									{function name="format_price" v=$money_freeze_item.amount}
+								</td>
+								<td>
+									{if $money_freeze_item.pay_type eq 0}第三方托管支付{else}网站余额支付{/if}
+								</td>
+								<td>
+									{function name="to_date" v=$money_freeze_item.create_time}
+								</td>
+								
+								<td class="deal_name">
+									{if $money_freeze_item.status eq 1}
+										诚意金已冻结，
+										<li onclick="bind_money_unfreeze({$money_freeze_item.id});">
+											<a href="javascript:void(0);" class="city_like f_red ">
+												申请解冻						
+				 							</a>
+										</li>
+										<script>
+											function bind_money_unfreeze(unfreeze_id){
+												var ajaxurl = "{url r="account#set_money_unfreeze"}";
+												var obj=new Object();
+												obj.ajax=1;
+												obj.id=unfreeze_id;
+												$.ajax({
+													url:ajaxurl,
+													type:"POST",
+													data:obj,
+													dataType:"json",
+													success:function(ajaxobj){
+														if(ajaxobj.status==1){
+															$.showSuccess(ajaxobj.info,function(){
+																		if(ajaxobj.jump!="")
+																		{
+																			location.href = ajaxobj.jump;
+																		}
+																	});
+														}else{
+															$.showErr(ajaxobj.info);
+														}
+													}
+												});
+											}
+										</script>
+									
+									{elseif $money_freeze_item.status eq 2}
+										诚意金已解冻
+									{else}
+										申请解冻审核中，
+										<li onclick="bind_money_freeze({$money_freeze_item.id});">
+											<a href="javascript:void(0);" class="city_like f_red ">
+												取消申请						
+				 							</a>
+										</li>
+										<script>
+											function bind_money_freeze(freeze_id){
+												var ajaxurl = "{url r="account#set_money_freeze"}";
+												var obj=new Object();
+												obj.ajax=1;
+												obj.id=freeze_id;
+												$.ajax({
+													url:ajaxurl,
+													type:"POST",
+													data:obj,
+													dataType:"json",
+													success:function(ajaxobj){
+														if(ajaxobj.status==1){
+															$.showSuccess(ajaxobj.info,function(){
+																		if(ajaxobj.jump!="")
+																		{
+																			location.href = ajaxobj.jump;
+																		}
+																	});
+														}else{
+															$.showErr(ajaxobj.info);
+														}
+													}
+												});
+											}
+										</script>
+										
+									{/if}</td>
+							
+							</tr>
+							{/foreach}
+						</tbody>
+					</table>
+				</div>
+				<div class="blank20"></div>
+				<div class="pages">{$pages}</div>
+				<div class="blank20"></div>
+				{else}
+				<div class="empty_tip">
+					还没有诚意金记录
+				</div>
+				{/if}
+			</div>
+		</div>
+	</div>
+	
+	
+<!--中间结束-->
+<div class="blank"></div>
+</div>
+<div class="blank"></div>
+<script type="text/javascript">
+	account_more_search("#more_search_btn","#more_search");
+	//选择日期控件
+    $("input.jcDate").jcDate({
+        IcoClass : "jcDateIco",
+        Event : "click",
+        Speed : 100,
+        Left :-125,
+        Top : 28,
+        format : "-",
+        Timeout : 100,
+        Oldyearall : 17,  // 配置过去多少年
+		Newyearall : 0  // 配置未来多少年
+    });
+</script>
+{include file="inc/footer.html"} 

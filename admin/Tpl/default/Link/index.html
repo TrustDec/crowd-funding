@@ -1,0 +1,41 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<PHP>
+	function get_link_group_name($id)
+	{
+		$group = M("LinkGroup")->where("id=".$id)->find();
+		if($group)
+		{
+			return $group['name'];
+		}
+		else
+		return l("NO_LINK_GROUP");
+	}
+	function get_show_index($status)
+	{
+		return l("SHOW_INDEX_".$status);
+	}
+</PHP>
+<div class="main">
+<div class="main_title">{$main_title}</div>
+<div class="blank5"></div>
+<div class="button_row">
+	<input type="button" class="button" value="{%ADD}" onclick="add();" />
+	<input type="button" class="button" value="{%FOREVERDEL}" onclick="foreverdel();" />
+</div>
+<div class="blank5"></div>
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="link" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{%ID}|50px,name:{%LINK_NAME}:edit,group_id|get_link_group_name:{%LINK_GROUP_NAME},is_effect|get_is_effect=$link['id']:{%IS_EFFECT},show_index|get_show_index:{%SHOW_INDEX},sort|get_sort=$link['id']:{%SORT},count:{%LINK_COUNT}" 
+	actionlist="edit:{%EDIT}, foreverdel:{%FOREVERDEL}" /> 
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

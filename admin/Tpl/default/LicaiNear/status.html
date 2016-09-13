@@ -1,0 +1,22 @@
+<table class="form" cellpadding=0 cellspacing=0>
+	<tr>
+		<td colspan=2 class="topTd"></td>
+	</tr>
+	<tr>
+		<td class="item_title">申请金额:</td>
+		<td class="item_input">{$vo.money_format}</td>
+	</tr>
+    <tr>
+		<td class="item_title">收益:</td>
+		<td class="item_input"><input type="text" class="textbox require" name="earn_money" id="earn_money" value="{$vo.earn_money}" />元</td>
+	</tr>
+    <tr>
+		<td class="item_title">手续费:</td>
+		<td class="item_input"><input type="text" class="textbox require" name="fee" id="fee" value="{$vo.fee}" />元</td>
+	</tr>
+    <tr>
+		<td class="item_title">平台收益:</td>
+		<td class="item_input"><input type="text" class="textbox require" name="organiser_fee" id="organiser_fee" value="{$vo.organiser_fee}" />元</td>
+	</tr>
+    <input type="hidden" value="$vo.organiser_fee" id="organiser_fee"/>
+</table>	 

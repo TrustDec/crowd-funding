@@ -1,0 +1,321 @@
+<script type="text/javascript">
+	function get_file_fun(name){
+		$("#"+name).ui_upload({multi:false,
+			FileUploaded:function(ajaxobj){
+				if($("#image_box .image_item").length>=5) {
+					$.showErr("最多只能上传5张图片");
+				}
+					else if(ajaxobj.error==1) {
+					$.showErr(ajaxobj.info);
+				}
+				else {
+		   			$("#image_box").append(
+		   				'<div class="image_item">'+
+							'<div class="remove_image bg_red"><i class="fa fa-remove"></i></div>'+
+							'<img src="'+ajaxobj.url+'" width=150 height=90 class="b_radius6" />'+
+							'<input type="hidden" name="introduce_image[]" value="'+ajaxobj.public_url+'"  />'+
+						'</div>'
+					);
+		   			f_company_info.del_company_introduce_img(); // 删除已上传的图片
+		   			f_company_info.hide_imgupload(); // 上传4张图片后，隐藏上传图片按钮
+					}
+			},Error:function(error) {
+				if(error.code==-600){
+					$.showErr("您上传的文件太大，最大允许上传{$max_size}");
+				}else{
+					$.showErr(error.message);
+				}
+	 		}
+	 	});
+	}
+</script>
+<script type="text/javascript">
+	var company_sub_project_ajaxurl = '{url r="finance#do_company_overview" p="method=company_sub_project"}';
+</script>
+<div class="edit-panel clearfix">
+	<div class="title line clearfix">
+	    <h3>公司介绍</h3>
+	    <a href="javascript:void(0);" class="icon-edit c_company_intro_icon_edit {if $company.company_introduce_word}show{else}hide{/if}" onclick="edit_item(this);" rel="c_company_intro" ng-show="is_edit"><i class="icon iconfont">&#xe60c;</i></a>
+	</div>
+	<div class="edit-intro-inner clearfix">
+		<!-- 公司介绍 开始 -->
+		<div class="block-editor-intro">
+			<!-- 保存生成 -->
+			<div class="item-panel-normal c_company_intro_normal clearfix {if $company.company_introduce_word}show{else}hide{/if}">
+				<div class="overview-intro-inner">
+					<div class="banner">
+						<div class="banner-wrap">
+							<div class="banner-con c_company_intro_normal_list">
+								{if $company.introduce_image}
+									{foreach from=$company.introduce_image item=introduce_image_item name=introduce_image_name}
+									<div class="item ajax_company_introduce_image {if !$smarty.foreach.introduce_image_name.first}hide{/if}">
+										<img src="{$introduce_image_item}" width="100%" height="100%" />
+									</div>
+									{/foreach}
+								{/if}
+							</div>
+							<div class="banner-p">
+								{if $company.introduce_image&&count($company.introduce_image) >1}
+									{foreach from=$company.introduce_image item=introduce_image_item name=introduce_image_name}
+										<a href="javascript:void(0);" onclick="f_company_info.scrollTo(this);" class="{if $smarty.foreach.introduce_image_name.first}active{/if}">
+											<img src="{$introduce_image_item}" width="100%" height="100%" />
+										</a>
+									{/foreach}
+								{/if}
+							</div>
+						</div>
+					</div>
+					<div class="intro company-basic-intro ajax_company_introduce_word c_company_intro_introduce">{$company.company_introduce_word}</div>
+				</div>
+			</div>
+			<!-- 编辑 -->
+			<div class="item-panel-edit c_company_intro_edit clearfix edit_form {if $company.company_introduce_word}hide{else}show{/if}" ng-show="is_edit">
+	    		<div class="item-panel dashed clearfix">
+	    			<form name="introForm" class="ajax_company_intro_form" action="{url r="finance#do_company_overview" p="method=company_intro"}" method="post" rel="c_company_intro">
+        				<div class="item clearfix">
+	    					<h4 class="sub-tit">图片介绍
+	    						<small>（ 最多可以上传5张，仅支持JPG、GIF、PNG格式，文件不超过{$max_size}，建议尺寸700 * 400 ）</small>
+	    					</h4>
+	    					<div class="intro-pic-list clearfix">
+								<div id="image_box">
+									{if $company.introduce_image}
+									{foreach from=$company.introduce_image item=introduce_image_item}
+									<div class="image_item">
+										<div class="remove_image bg_red"><i class="fa fa-remove"></i></div>
+										<img src="{$introduce_image_item}" width="150" height="90" class="b_radius6">
+										<input type="hidden" name="introduce_image[]" value="{$introduce_image_item}">
+									</div>
+									{/foreach}
+									{/if}
+								</div>
+								<div id="image_file" class="upload_pic">
+									<i class="icon iconfont">&#xe60d;</i>
+								</div>
+	    					</div>
+	    					<script type="text/javascript">
+	    						get_file_fun('image_file');
+	    					</script>
+	    				</div>
+	    				<div class="item company-intro clearfix">
+	    					<h4 class="sub-tit">文字介绍<!--<small>（ 必填 ）</small>--></h4>
+	    					<textarea class="textareabox company-intro-textarea" id="intro" name="intro" value="{$company.company_introduce_word}" placeholder="让创业与投资的圈子更加了解你的公司，e.g. 公司基础信息，市场及目标用户，商业模式，发展历程，愿景…" onkeyup="checkstrlength(this,'#c_company_intro_left_words',1000);">{$company.company_introduce_word}</textarea>
+	    					<div class="blank5"></div>
+	    					<p>您还可以输入<span class="f_red" id="c_company_intro_left_words" style="">1000</span>个字</p>
+	    				</div>
+	    				<div class="submit_row clearfix">
+	    					<a href="javascript:void(0);" class="ui-button bg_gray cancle-btn" rel="c_company_intro">跳过</a>
+	    					<a class="ui-button  theme_bgcolor mr10 save-btn" rel="c_company_intro">保存</a>
+							<input type="hidden" name="method" value="company_intro">
+							<input type="hidden" name="ajax" value="1">
+							<input type="hidden" name="company_id" value="{$company.id}">	
+	    				</div>
+	    			</form>
+	    		</div>
+	    	</div>
+	    </div>
+	    <!-- 公司介绍 结束 -->
+	    <!-- 相关链接 开始 -->
+	    <div class="block-editor-link">
+	    	<div class="op-tit clearfix">
+	            <h4 class="sub-tit">
+	              相关链接
+	              <small ng-if="status=='edit' || status=='draft'" class="ng-scope">（ 填写主要产品的相关链接，方便浏览者了解产品 ）</small>
+	            </h4>
+	           <a class="icon-edit c_link_icon_edit" onclick="edit_item(this);" rel="c_link" ng-show="is_edit"><i class="icon iconfont">&#xe60c;</i></a>
+	        </div>
+	        <!-- 保存生成 -->
+        	<div class="item-panel-normal c_link_normal c_link_normal_list {if $company.company_website eq '' && $company.iphone_url eq '' && $company.pc_url eq '' && $company.android_url eq '' && $company.ipd_url eq ''}hide{/if}">
+				<div class="link-content">
+	        		<ul class="list-unstyled">
+	        			{if $company.company_website neq ''}
+	        			<li>
+							<span class="link-title">Web端链接</span>
+							<div class="link-con">
+								<a class="link ajax_company_website" title="{$company.company_website}" target="_blank" href="{$company.company_website}">{$company.company_website}</a>
+							</div>
+						</li>
+						{/if}
+						
+						{if $company.iphone_url neq ''}
+						<li>
+							<span class="link-title">iPhone下载链接</span>
+							<div class="link-con">
+								<a class="link ajax_iphone_url" title="{$company.iphone_url}" target="_blank" href="{$company.iphone_url}">{$company.iphone_url}</a>
+							</div>
+						</li>
+						{/if}
+						
+						{if $company.pc_url neq ''}
+						<li>
+							<span class="link-title">PC端下载链接</span>
+							<div class="link-con">
+								<a class="link ajax_pc_url" title="{$company.pc_url}" target="_blank" href="{$company.pc_url}">{$company.pc_url}</a>
+							</div>
+						</li>
+						{/if}
+						
+						{if $company.android_url neq ''}
+						<li>
+							<span class="link-title">Android下载链接</span>
+							<div class="link-con">
+								<a class="link ajax_android_url" title="{$company.android_url}" target="_blank" href="{$company.android_url}">{$company.android_url}</a>
+							</div>
+						</li>
+						{/if}
+						
+						{if $company.ipd_url neq ''}
+						<li>
+							<span class="link-title">iPad下载链接</span>
+							<div class="link-con">
+								<a class="link ajax_ipd_url" title="{$company.ipd_url}" target="_blank" href="{$company.ipd_url}">{$company.ipd_url}</a>
+							</div>
+						</li>
+						{/if}
+	        		</ul>
+	        	</div>
+	        </div>
+	        <!-- 编辑 -->
+        	<div class="item-panel-edit c_link_edit {if $company.company_website || $company.iphone_url || $company.pc_url || $company.android_url || $company.ipd_url}hide{/if} edit_form" ng-show="is_edit">
+    			<form name="linkForm" class="ajax_company_link_form ml20" action="{url r="finance#do_company_overview" p="method=company_link"}" method="post" rel="c_link">
+        			<div class="control-group small-control-group">
+        				<label class="control-label">Web端链接</label>
+        				<div class="control-text">
+        					<div class="holder_tip_box">
+        						<input type="text" name="webLink" class="textbox small_textbox" value="{$company.company_website}" onfocus="auto_write_focus(this);" />
+        						<div class="holder_tip small_holder_tip"><span>如:http://www.fanwe.com</span></div>
+        					</div>
+        				</div>
+        				<div class="clear"></div>
+        			</div>
+        			<div class="control-group small-control-group">
+        				<label class="control-label">iPhone下载链接</label>
+        				<div class="control-text">
+        					<div class="holder_tip_box">
+        						<input type="text" name="iphoneAppstoreLink" class="textbox small_textbox" value="{$company.iphone_url}" onfocus="auto_write_focus(this);" />
+        						<div class="holder_tip small_holder_tip"><span>如:https://fanwe.zc.apple.com/cn/app/id593394038</span></div>
+        					</div>
+        				</div>
+        				<div class="clear"></div>
+        			</div>
+        			<div class="control-group small-control-group">
+        				<label class="control-label">PC端下载链接</label>
+        				<div class="control-text">
+        					<div class="holder_tip_box">
+        						<input type="text" name="pcLink" class="textbox small_textbox" value="{$company.pc_url}" onfocus="auto_write_focus(this);" />
+        						<div class="holder_tip small_holder_tip"><span>如:http://music.163.com/#/download</span></div>
+        					</div>
+        				</div>
+        				<div class="clear"></div>
+        			</div>
+        			<div class="control-group small-control-group">
+        				<label class="control-label">Android下载链接</label>
+        				<div class="control-text">
+        					<div class="holder_tip_box">
+        						<input type="text" name="androidLink" class="textbox small_textbox" value="{$company.android_url}" onfocus="auto_write_focus(this);" />
+        						<div class="holder_tip small_holder_tip"><span>如:https://google.com/store/apps/details?id=com.androidzc.app</span></div>
+        					</div>
+        				</div>
+        				<div class="clear"></div>
+        			</div>
+        			<div class="control-group small-control-group">
+        				<label class="control-label">iPad下载链接</label>
+        				<div class="control-text">
+        					<div class="holder_tip_box">
+        						<input type="text" name="ipadAppstoreLink" class="textbox small_textbox" value="{$company.ipd_url}" onfocus="auto_write_focus(this);" />
+        						<div class="holder_tip small_holder_tip"><span>如:https://itunes.apple.com/cn/app/fanwezc/id593394038</span></div>
+        					</div>
+        				</div>
+        				<div class="clear"></div>
+        			</div>
+        			<div class="submit_row clearfix">
+    					<a href="javascript:void(0);" class="ui-button bg_gray cancle-btn" rel="c_link">跳过</a>
+						<a class="ui-button  theme_bgcolor mr10 save-btn" rel="c_link">保存</a>
+						<input type="hidden" name="method" value="company_link">
+						<input type="hidden" name="ajax" value="1">
+						<input type="hidden" name="company_id" value="{$company.id}">
+    				</div>
+        		</form>
+	        </div>
+		</div>
+		<!-- 相关链接 结束 -->
+		<!-- 子产品介绍 开始 -->
+		<div class="block-editor-product">
+			<div class="link-content">
+				<div class="op-tit clearfix">
+				    <h4 class="sub-tit">
+				        子产品介绍
+				        <small>（ 如有多个产品，请添加其他子产品链接 ）</small>
+				    </h4>
+				    <a class="icon-add" onclick="f_item.add_item(this);" rel="c_sub_product" ng-show="is_edit"><i class="icon iconfont">&#xe60e;</i></a>
+				</div>
+				<div class="add-item c_sub_product_btn_add {if $productall}hide{/if}" onclick="f_item.edit_item(this);" rel="c_sub_product" ng-show="is_edit">
+					<span class="icon-big-add"><i class="icon iconfont">&#xe60d;</i></span> 添加子产品介绍
+			    </div>
+			    <!-- 编辑 -->
+			    <div class="item-panel-edit c_sub_product_edit edit_form hide" ng-show="is_edit">
+					<form name="productForm" class="ml20 ajax_companty_sub_product_form" action="{url r="finance#do_company_overview" p="method=company_sub_project"}" method="post" rel="c_sub_product">
+						<div class="control-group small-control-group">
+							<label class="control-label"><span class="f_red">*</span>子产品名称</label>
+							<div class="control-text">
+								<div class="holder_tip_box">
+									<input type="text" name="subPro_name" value="{$company.subPro_name}" class="textbox small_textbox init_data" />
+									<div class="holder_tip small_holder_tip"><span>请输入产品名称</span></div>
+								</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="control-group small-control-group">
+							<label class="control-label"><span class="f_red">*</span>子产品链接</label>
+							<div class="control-text">
+								<div class="holder_tip_box">
+									<input type="text" name="subPro_website" value="{$company.subPro_website}" class="textbox small_textbox init_data" onfocus="auto_write_focus(this);" onblur="auto_write_blur(this);" />
+									<div class="holder_tip small_holder_tip"><span>如:http://www.fanwe.com</span></div>
+								</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="submit_row clearfix">
+							<a href="javascript:void(0);" class="ui-button bg_gray cancle-btn" rel="c_sub_product">跳过</a>
+							<a href="javascript:void(0);" class="ui-button theme_bgcolor mr10 save-btn" rel="c_sub_product">保存</a>
+							<input type="hidden" name="method" value="company_sub_project">
+							<input type="hidden" name="ajax" value="1">
+							<input type="hidden" name="company_id" value="{$company.id}">
+							<input type="hidden" name="ajax_act" value="save">
+						</div>
+					</form>
+				</div>
+				<!-- 生成 -->
+	    		<div class="item-panel-normal c_sub_product_normal c_sub_product_normal_list {if !$productall}hide{/if}">
+					{foreach from=$productall item=product_item}
+	    			<div class="product-item c_sub_product_{$product_item.id}_item">
+	    				<span class="link-title ajax_product_name">{$product_item.product_name}</span>
+		    			<div class="link-con">
+					        <a class="link ajax_product_website" target="_blank" href="{$product_item.product_website}">{$product_item.product_website}</a>
+					    </div>
+					    <span class="actions" ng-show="is_edit">
+				            <a href="javascript:void(0)" class="icon-edit c_sub_product_ajax_edit" ajax_act="edit" rel="c_sub_product_{$product_item.id}"><i class="icon iconfont">&#xe60c;</i></a>&nbsp;
+				            <a href="javascript:void(0)" class="icon-del c_sub_product_ajax_del" ajax_act="del" rel="c_sub_product_{$product_item.id}"><i class="icon iconfont">&#xe604;</i></a>
+				            <input type="hidden" name="ajax_item_id" value="{$product_item.id}" />
+				            <input type="hidden" name="method" value="company_sub_project" />
+							<input type="hidden" name="ajax" value="1" />
+							<input type="hidden" name="company_id" value="{$company.id}" />
+							<input type="hidden" name="ajax_url" value="{url r="finance#do_company_overview" p="method=company_sub_project"}" />
+				        </span>
+				    </div>
+				    {/foreach}
+	    		</div>
+			</div>
+		</div>
+		<!-- 子产品介绍 结束 -->
+	</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		$(".c_sub_product_ajax_del").live('click',function(){
+			f_item.del_ajax_item(this,'{url r="finance#do_company_overview" p="method=company_sub_project"}');
+		});
+		$(".c_sub_product_ajax_edit").live('click',function(){
+			f_item.edit_ajax_item(this,'{url r="finance#do_company_overview" p="method=company_sub_project"}');
+		});
+	});
+</script>

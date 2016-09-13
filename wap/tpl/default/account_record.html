@@ -1,0 +1,48 @@
+{include file="inc/header.html"}
+<section class="account_record">
+	<ul class="tab-nav webkit-box">
+		{if $is_tg && $user_info.ips_acct_no}
+		<li class="webkit-box-flex tc current">
+			<a href="#" onclick="RouterURL('{url_wap r="account#record"}','#account-record');">在线支付</a>
+		</li>
+		<li class="webkit-box-flex tc">
+			<a href="#" onclick="RouterURL('{url_wap r="account#yeepay_recharge"}','#account-yeepay_recharge');">第三方托管</a>
+		</li>
+		{else}
+		<li class="webkit-box-flex tc">
+			<a href="#" onclick="RouterURL('{url_wap r="account#project"}','#account-project');">在线支付</a>
+		</li>
+		{/if}
+	</ul>
+	<div class="blank15"></div>
+	{if $record_list}
+	<ul class="ui_account_record">
+		{foreach from=$record_list item=record_item}
+		<li class="webkit-box sizing">
+			<div class="accountlist_fl {if $record_item.is_paid eq 0}thirds{/if}{if $record_item.is_paid eq 1}half{/if} tl">
+				<h1>{if $record_item.deal_name eq null}在线支付{/if}</h1>
+				<span class="f_999">{if $record_item.create_time neq 0}{function name="to_date" v=$record_item.pay_time}{/if}</span>
+			</div>
+			<div class="accountlist_fr {if $record_item.is_paid eq 0}thirds tc{/if}{if $record_item.is_paid eq 1}half tr{/if}">
+				<h2 class="f_red">¥{$record_item.money}</h2>
+				<span><em class="f_999">类型</em>{if $record_item.is_paid eq 1}已支付{/if}{if $record_item.is_paid eq 0}未支付{/if}</span>
+			</div>
+			{if $record_item.is_paid eq 0}
+			<div class="submit_btn_row webkit-box-flex pt10 pb10 mt5 tr">
+				<input type="button" rel="finish" class="ui-button theme_color finish f_r" value="去支付" onclick="window.location.href='{$record_item.pay_url}';"   />
+				<input type="hidden" value="1" name="ajax" />				
+			</div>
+			{/if}
+		</li>
+		{/foreach}
+	</ul>
+	<div class="blank15"></div>
+	<div class="pages">{$pages}</div>
+	<div class="blank15"></div>
+	{else}
+	<div class="empty_tip tc">还没有诚意金记录</div>
+	<div class="blank15"></div>
+	{/if}
+</section>
+<div class="blank15"></div>
+{include file="inc/footer.html"}

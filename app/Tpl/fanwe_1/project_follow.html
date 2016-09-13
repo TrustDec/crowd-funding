@@ -1,0 +1,170 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/deal_invest_show.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/finance/company_deal_overviews.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/project_follow.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/fancybox.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/jquery.fancybox.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/deal.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/deal.js";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<!-- 项目背景 开始-->
+<div class="deal_body" {if $deal_info.deal_backgroundColor_image neq null} style="background:url({$deal_info.deal_backgroundColor_image}) repeat;" {/if}>
+	<!-- 项目大海报-->
+	<div class="deal_banner" {if $deal_info.deal_background_image neq null}style="background:url({$deal_info.deal_background_image}) top center no-repeat;padding-top:405px;"{/if}>
+		<!--中间开始-->
+		<div class="xqmain">
+			<!--项目头部信息 开始-->
+			{include file="inc/deal_invest_header.html"}
+			<!--项目头部信息 结束-->
+			<div class="blank20"></div>
+			<div class="xqmain_main">
+				<!--中间页面左边start-->
+				<div class="xqmain_left">
+					<!--项目领投人 start-->
+					{if $leader_info.user_id gt 0}
+					<div class="invester leader">
+						<div class="box_main">
+							<div class="title line clearfix">
+					            <h3>项目领投人</h3>
+					        </div>
+							<div class="invester_bd">
+								<div class="l">
+									<a href="" class="overflow_hide" style="display:block">{function name="show_avatar" p="$leader_info.user_id" t="middle"}</a>
+									<div class="blank10"></div>
+									<a href="javascript:void(0);" onclick="send_message({$leader_info.user_id})" class="btn_send_message theme_fcolor">+发私信</a>
+								</div>
+								<div class="r">
+							    	<div class="m">
+										 <div class="title">
+											<a href="javascript:void(0);" onclick="send_message({$leader_info.user_id})" class="inline_user_name f24">{$leader_info.user_name}</a>
+											<i class="inline_leader_icon leader_icon" title="项目领投人"></i>
+											{if $leader_info.user_icon}
+							                	<img src="{$leader_info.user_icon}" title="会员等级" class="inline_level_icon level_icon" />
+											{/if}
+											<i class="inline_investor_type investor_type {if $leader_info.is_investor==0 || $leader_info.is_investor==1}personal_icon{else}agency_icon{/if}" title="{if $leader_info.is_investor==0 || $leader_info.is_investor==1}个人投资者{else}机构投资者{/if}"></i>
+										</div>
+										<div class="blank0"></div>
+							            <div class="pro f_666">
+							            	<div>
+							            		{$leader_info.identify_name}&nbsp;&nbsp;|&nbsp;&nbsp;<span class="f_line"><a href="javascript:void(0)" id="detailed_information">详细&gt;&gt;</a></span>
+							            	</div>
+											<div>
+												领投时间：<span class="f_333">{function name="to_date" v=$leader_info.create_time}</span>
+											</div>
+											<div>
+												是否愿意担任有限合伙企业普通合伙人：<span class="f_red">{if $leader_info.is_partner eq 1}愿意{/if}{if $leader_info.is_partner eq 2}不愿意{/if}</span>
+											</div>
+										</div>
+							        </div>
+							        <div class="r2">
+							        	<div class="tit">领投金额</div>
+							        	<div class="val">{$leader_info.money}万</div>
+							        </div>
+									<div class="blank0"></div>
+							        <div class="pro">
+							        	<h3 class="pro_tit theme_fcolor">能为创业者提供的其它帮助：</h3>
+							        	<div class="pro_text f_666">{$leader_info.leader_help}</div>
+							        </div>
+							        <div class="pro">
+							        	<h3 class="pro_tit theme_fcolor">对创业团队评价：</h3>
+							        	<div class="pro_text f_666">{$leader_info.leader_for_team}</div>
+							        </div>
+							        <div class="pro">
+							        	<h3 class="pro_tit theme_fcolor">对创业项目评价：</h3>
+						        		<div class="pro_text f_666">{$leader_info.leader_for_project}</div>
+							        </div>
+							    </div>
+							</div>
+						</div>
+					</div>
+					{/if}
+					<!--项目领投人 end-->
+					<div class="blank20"></div>
+					<!--项目跟投人start-->
+					{if $enquiry_info_all}
+						<div class="invester follower">
+							<div class="box_main">
+								<div class="title line clearfix">
+						            <h3>项目跟投人</h3>
+						            <div class="f_r f14">
+										共<span class="f_red f20" style="font-family:'Palatino Linotype'">{$enquiry_count}</span>位
+									</div>
+						        </div>
+								<ul class="invester_bd">
+									{foreach from=$enquiry_info_all item=enquiry_all_item}
+									<li class="follower_list">
+										<div class="l">
+											{function name="show_avatar" p="$enquiry_all_item.user_id" t="middle"}
+										</div>
+										<div class="m">
+											<div class="blank10"></div>
+									    	<div class="title">
+												<a href="javascript:void(0);" onclick="send_message({$enquiry_all_item.user_id})" class="inline_user_name f24">{$enquiry_all_item.user_name}</a>
+												{if $enquiry_all_item.user_icon}
+								                	<img src="{$enquiry_all_item.user_icon}" title="会员等级" class="inline_level_icon level_icon" />
+												{/if}
+												<i class="inline_investor_type investor_type {if $enquiry_all_item.is_investor==0 || $enquiry_all_item.is_investor==1}personal_icon{else}agency_icon{/if}" title="{if $enquiry_all_item.is_investor==0 || $enquiry_all_item.is_investor==1}个人投资者{else}机构投资者{/if}"></i>
+												<a href="javascript:void(0);" onclick="send_message({$enquiry_all_item.user_id})" class="inline_btn_send_message btn_send_message">+发私信</a>
+											</div>
+											<div class="blank0"></div>
+											<div class="pro">
+												<div>
+										        	跟投时间：<span>{function name="to_date" v=$enquiry_all_item.create_time}</span>
+										        </div>
+											</div>
+										</div>
+			    						<div class="r2">
+			    							<div class="tit">跟投金额</div>
+			    							<div class="val">{$enquiry_all_item.money}万</div>
+			    						</div>
+			    						<div class="blank1"></div>
+									</li>
+									{/foreach}
+								</ul>
+								<div class="blank20"></div>
+								<div class="pages">{$pages}</div>
+							</div>
+						</div>
+					{/if}
+					<!--项目跟投人start-->
+				</div>
+				<!--中间页面左边end-->
+				{include file="inc/deal_investor_right.html"}
+				<div class="blank"></div>
+			</div>
+		</div>
+		<!--中间结束-->
+		</div>
+		</div>
+		<div class="blank"></div>
+	</div>
+</div>
+<!-- 项目背景 结束-->
+<script type="text/javascript">
+	$(function(){
+		leader_detailed_information();
+	});
+//领投人详细资料
+function leader_detailed_information(){
+	$("#detailed_information").bind("click",function(){
+		var ajaxurl='{url r="ajax#leader_detailed_information" p="id=$leader_info.id"}';
+		$.ajax({
+			url: ajaxurl,
+			dataType: "json",
+			type: "POST",
+			success: function(ajaxobj){
+				if(ajaxobj.status==1){
+					$.weeboxs.open(ajaxobj.html, {boxid:'leader_detailed_info',contentType:'text',showButton:false, showCancel:false, showOk:false,title:'详细信息',width:480,type:'wee'});
+				}
+			    if(ajaxobj.status==2){
+					$.showErr(ajaxobj.info);
+				}
+			}
+		});
+	});
+}
+</script>
+{include file="inc/footer.html"}

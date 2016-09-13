@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{:app_conf("SITE_NAME")}{:l("ADMIN_PLATFORM")}</title>
+<load href='__TMPL__Common/style/style.css' />
+<load href='__TMPL__Common/style/left.css' />
+<load href='__TMPL__Common/js/jquery.js' />
+<load href='__TMPL__Common/js/jquery.timer.js' />
+<load href='__TMPL__Common/js/left.js' />
+</head>
+
+<body>
+	<volist name="menus" id="menu_group" key="k">
+	<dl class="menu <if condition="$k gt 1">menu-hide</if>">
+		<dt>{$menu_group.name}</dt>
+		<foreach name="menu_group.nodes" item="node">
+		<dd><a href="{:u($node["module"]."/".$node["action"])}">{$node.name}</a></dd>
+		</foreach>		
+	</dl>
+	</volist>
+	<script type="text/javascript">
+		jQuery(function(){
+			$(".menu dt").click(function(){
+				if($(this).parent().hasClass("menu-hide")){
+					$(this).parent().removeClass("menu-hide");
+				}
+				else{
+					$(this).parent().addClass("menu-hide");
+				}
+			});
+		})
+	</script>
+</body>
+</html>

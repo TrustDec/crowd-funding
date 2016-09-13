@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html>
+<head>
+<title>方维众筹系统  -- 安装向导</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<load href ="__TMPL__Public/css/style.css" />
+</head>
+<body>
+<div class="install block">
+<form name="install" action="{:u('Index/index')}" method="POST" >
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+	  	<td colspan="2" style="height:10px;">
+	  		
+	  	</td>
+	  </tr>
+	  <foreach name="result" item="rs" key="key">
+	  <if condition="$key neq 'status'">
+	  	<tr>
+	  		
+	  			<if condition="$key eq 'msg' or $key eq 'php_env' or $key eq 'gd_info' or $key eq 'mb_info'">
+	  			<td>
+		  			<if condition="$key eq 'msg'">检测结果：</if>
+		  			<if condition="$key eq 'php_env'">PHP 环境：</if>
+		  			<if condition="$key eq 'gd_info'">GD函数库：</if>
+		  			<if condition="$key eq 'mb_info'">MBSTRING函数库：</if>
+		  		</td>
+		  		<td>
+	 		  		{$rs}
+	  	  		</td>
+		  		<else/>
+		  		<td>
+		  		<if condition="$rs.file_type eq 'dir' ">
+	 		  		目录
+			  		<else/>
+			  		文件
+			  		</if>{$key}:
+			  	</td>
+			  	<td>
+	 		  		{$rs.msg}
+	  	  		</td>
+		  		</if>
+	  		
+	  		
+	  	</tr>
+	  </if>
+	  </foreach>
+	  
+	  <tr>
+	  	<td style="height:50px;"></td>
+	  	<td>
+	  		<if condition="$result['status'] eq 1">
+	  			<input type="button" value="继续安装" onclick="location.href='{:u('Index/database')}'" />
+
+	  		</if>
+
+	  	</td>
+	  </tr>
+	  <tr>
+	  	<td colspan="2" style="text-align: center;">
+	  		方维众筹系统安装程序
+	  	</td>
+	  </tr>
+	</table>
+	</form>
+</div>
+</body>
+</html>

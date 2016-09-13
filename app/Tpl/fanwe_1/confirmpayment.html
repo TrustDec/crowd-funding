@@ -1,0 +1,70 @@
+{include file="inc/header.html"}
+<style>
+	.sms_box{
+		padding:20px;
+		overflow:hidden;
+		border:1px solid #ddd;
+		width:300px;
+		margin-top:50px;
+	}
+</style>
+<div id="J_wrap">
+	<div class="blank20"></div>
+	<div class="sms_box wrap">
+		<form class="ajax_form_identify" action="{url r="cart#save_confirmpayment"}">
+		 	<div class="control-group small-control-group">
+				<label class="control-label">支付验证码:</label>
+				<div class="control-text">
+					<input type="text" value="" class="textbox w150" name="validatecode" />
+				</div>
+			</div>
+			<div class="blank10"></div>
+			<div class="submit_btn_row control-group">
+				<label class="control-label"></label>
+				<div class="ui-button theme_bgcolor" rel="green" >提交</div>
+				<input type="hidden" name="payment" value="{$payment}" />
+				<input type="hidden" name="orderid" value="{$orderid}" />
+			</div>
+		</form>
+	</div>
+	<div class="blank20"></div>
+</div>
+<script>
+$(function(){
+	bind_ajax_form_identify(".ajax_form_identify");
+});
+function bind_ajax_form_identify()
+{
+	$(".ajax_form_identify").find(".ui-button").bind("click",function(){
+ 		$(".ajax_form_identify").submit();
+	});
+	$(".ajax_form_identify").bind("submit",function(){
+		var ajaxurl = $(this).attr("action");
+		var query = $(this).serialize();
+		$.ajax({ 
+			url: ajaxurl,
+			dataType: "json",
+			data:query,
+			type: "POST",
+			success: function(ajaxobj){
+				if(ajaxobj.status==1){
+					//支付成功
+					$.showSuccess(ajaxobj.info,function(){
+						location.reload();
+					});
+				}
+				if(ajaxobj.status==0){
+					$.showErr(ajaxobj.info);
+				}
+			},
+			error:function(ajaxobj)
+			{
+				if(ajaxobj.responseText!='')
+				alert(ajaxobj.responseText);
+			}
+		});
+		return false;
+	});
+}
+</script>	
+{include file="inc/footer.html"} 

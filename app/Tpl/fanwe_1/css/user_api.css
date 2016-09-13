@@ -1,0 +1,29 @@
+.term span{ display:inline-block; background:url(../images/tip_ico.gif) no-repeat 0 -182px; padding-left:15px; }
+.term span a{ color:#690; font-size:14px; text-decoration:none;}
+.term span a:hover{ color:#12adff; font-size:14px; text-decoration:none;}
+.term{ padding-left:82px;}
+
+.do_api_register{ padding-left:100px;}
+.do_api_login{ padding-left:82px;}
+
+.btn_do_api_register , .btn_do_api_login { cursor:pointer; background:#00b0f5; font-family:"Microsoft YaHei"; height:40px; line-height:40px; padding:0 20px; text-align:center; font-size:16px; color:#fff; -moz-border-radius:3px; -khtml-border-radius:3px; -webkit-border-radius:3px; border-radius:3px; }
+.btn_do_api_register_hover , .btn_do_api_register_active , .btn_do_api_login_hover , .btn_do_api_login_active { cursor:pointer; background:#01a5e6; font-family:"Microsoft YaHei"; height:40px; line-height:40px; padding:0 20px; text-align:center; font-size:16px; color:#fff; -moz-border-radius:3px; -khtml-border-radius:3px; -webkit-border-radius:3px; border-radius:3px; }
+
+
+.radio_row{ font-size:14px; color:#7FA632}
+.radio_row input,.radio_row label{ float:left;}
+
+
+
+.signlogin_box{ padding:30px; }
+.item_tt{ 
+	color:#12ADFF;
+	line-height: 45px;
+	font-size: 25px;
+	font-family: "微软雅黑";
+	height: 45px; 
+	padding-bottom:10px;
+	border-bottom:1px solid #e3e3e3;
+	width:100%
+}
+.term , .do_api_login{ padding-left:100px; }

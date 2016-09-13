@@ -1,0 +1,217 @@
+.header_nav,
+.header_top .logo,
+.header_top .header_search{display:none;}
+.header .header_top{position:relative;height:0;}
+.head-sub-nav{
+	position: absolute;
+	top:10px;
+	right:0;
+}
+.cf {
+  zoom: 1;
+}
+.site-mast__branding {
+  position: relative;
+  margin: 0 auto;
+  height: 105px;
+  width: 1200px;
+}
+.pg-buy-process .site-mast__branding {
+  height: 95px;
+}
+.site-mast__branding .site-logo {
+  float: left;
+  display: block;
+  _display: inline;
+  height: 60px;
+  margin-top: 21px;
+  overflow: hidden;
+  background-position: 0 -896px;
+}
+.site-mast__branding .site-logo img{
+	height:60px;
+}
+.pg-buy-process .buy-process-bar-container {
+  float: left;
+  position: relative;
+  margin: 36px 0 0 25px;
+  width: 426px;
+}
+.pg-buy-process .buy-process-desc {
+  width: 100%;
+  box-sizing: border-box;
+  background: 0 0;
+  margin-bottom: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.pg-buy-process .buy-process-desc .step {
+  position: relative;
+  display: inline-block;
+  width: 33.33%;
+  font-size: 12px;
+  color: #999;
+  line-height: 30px;
+  _line-height: 29px;
+  text-align: center;
+}
+.pg-buy-process .buy-process-desc .step--current {
+  color: #666;
+  background: 0 0;
+}
+.pg-buy-process .progress {
+  height: 3px;
+  width: 100%;
+  padding: 1px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  background-color: #eee;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+}
+.pg-buy-process .progress .progress-bar {
+  width: 33%;
+  height: 100%;
+  background: #178fe6;
+  background-image: linear-gradient(-45deg,#178fe6 0,#178fe6 25%,#178fe6 25%,#178fe6 50%,#178fe6 50%,#178fe6 75%,#178fe6 75%,#178fe6 100%);
+  background-size: 40px 40px;
+  margin:0;
+}
+
+#bdw {
+  min-height: 500px;
+}
+#bd {
+  width: 1200px;
+  margin: 0 auto;
+  padding: 10px 0 65px;
+}
+.order-pay-weixin #bd {
+  padding-bottom: 170px;
+}
+.pg-buy-process #content {
+  width: 1200px;
+}
+.pg-check .orders-summary {
+  padding: 10px 0;
+  z-index: 20;
+  position: relative;
+}
+.pg-order-check .order-list {
+  margin-bottom: 15px;
+  font-size: 12px;
+}
+.pg-check .orders-summary .order-list {
+  width: 410px;
+  font-size: 12px;
+  overflow: hidden;
+  margin:0;
+}
+.pg-check .orders-summary .order-item {
+  overflow: hidden;
+  margin: 5px 0;
+}
+.pg-check .orders-summary .order-name {
+  float: left;
+  width: 370px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: pre;
+}
+.pg-check .orders-summary .order-number {
+  float: right;
+}
+.pg-check .orders-summary .total-money {
+  position: absolute;
+  top: 6px;
+  right: 0;
+}
+.rates, .steps-bar .step__num, span.money {
+  font-family: arial,sans-serif;
+}
+.pg-check .money {
+  color: #ff6600;
+  margin: 0 3px;
+}
+.pg-check .orders-summary .total-money .money {
+  font-size: 24px;
+  display: inline-block;
+  vertical-align: middle;
+  font-weight: 700;
+}
+
+.weixin-container {
+  border: 2px solid #eee;
+  padding-top: 28px;
+  padding-bottom: 24px;
+  overflow: hidden;
+  zoom: 1;
+}
+.weixin-container .qrcode-container {
+  float: left;
+  width: 598px;
+  border-right: solid 1px #eee;
+  zoom: 1;
+}
+.weixin-container .qrcode-container .qrcode {
+  margin: 0 auto;
+  overflow: hidden;
+  width: 307px;
+  box-shadow: 0 10px 20px #f9f9f9;
+}
+.weixin-container .qrcode-container .title {
+  line-height: 30px;
+  margin-bottom: 18px;
+  text-align: center;
+  font-size: 24px;
+  color: #333;
+}
+.weixin-container .qrcode-container .qrcode-img {
+  border: 1px solid #ddd;
+  border-right: none;
+  float: left;
+  zoom: 1;
+}
+.weixin-container .qrcode-container .qrcode-img img {
+  width: 266px;
+  height: 268px;
+  display: block;
+}
+.weixin-container .qrcode-container .qrcode .warning {
+  float: left;
+  width: 40px;
+  height: 270px;
+  background: url(../images/pay_weixin.png) 0 -369px;
+}
+.weixin-container .qrcode-container .tip {
+  width: 118px;
+  height: 40px;
+  line-height: 20px;
+  margin: 26px auto 28px;
+  padding-left: 42px;
+  position: relative;
+  zoom: 1;
+}
+.weixin-container .qrcode-container .tip .icon {
+  height: 32px;
+  width: 32px;
+  position: absolute;
+  left: 0;
+  top: 4px;
+  background: url(../images/pay_weixin.png) 0 -337px;
+}
+.weixin-container .mobile {
+  float: left;
+  width: 597px;
+  height: 100%;
+}
+.weixin-container .mobile .img {
+  width: 270px;
+  height: 337px;
+  margin-top: 20px;
+  background: url(../images/pay_weixin.png);
+}
+.weixin-container .qrcode-container .qrcode-img{
+  padding: 27px;
+}

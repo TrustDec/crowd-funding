@@ -1,0 +1,28 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+
+<div class="main">
+<div class="main_title">{$main_title}</div>
+<div class="blank5"></div>
+<div class="button_row">
+	<input type="button" class="button" value="{%ADD}" onclick="add();" />
+	<input type="button" class="button" value="{%DEL}" onclick="foreverdel();" />
+
+</div>
+<div class="blank5"></div>
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="item" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{%ID}|50,name:{%NAME}:edit,page_name:所在页面,type_name:数据类型,data:数据,status|get_toogle_status=$item['id']#status:{%STATUS},sort|get_sort=$item['id']:{%SORT}" 
+	actionlist="edit:{%EDIT}, foreverdel:{%DEL}" /> 
+
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

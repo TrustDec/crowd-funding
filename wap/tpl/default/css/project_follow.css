@@ -1,0 +1,64 @@
+.hd{
+	background:#fff;
+	border-bottom:1px solid #ddd;
+	padding:10px;
+}
+.hd .hd1{
+	font-size:16px;
+}
+.hd .hd2{
+	font-size:13px;
+}
+
+.leader{
+	padding:0 10px;
+	overflow:hidden;
+	background:#fff;
+}
+.leader h3{
+	height:45px;
+	line-height:45px;
+	font-size:18px;
+	border-bottom:2px solid #ddd;
+}
+.leader h3 .f_r{
+	font-size:13px;
+}
+.leader .text{
+	padding:20px 0;
+	overflow:hidden;
+}
+.leader .l{
+	width:70px;
+	text-align:center;
+}
+.leader .l img{
+	width:70px;
+	height:70px;
+	margin:0;
+	-moz-border-radius:50%; -khtml-border-radius:50%; -webkit-border-radius:50%; border-radius:50%;
+}
+.leader .l .btn_send{
+	height:24px;
+	line-height:24px;
+	display:block;
+	padding:0 5px;
+	text-align:center;
+	color:#fff;
+	font-size:13px
+}
+.leader .l .btn_send i{font-size:14px;}
+.leader .leader_title{
+	color:#333;
+}
+.leader .text{
+	font-size:13px;
+	color:#666;
+}
+.follower .text{
+	border-bottom:1px solid #ddd;
+}
+.pro_text{
+	word-break:break-word;
+}
+.user_icon{margin:2px 5px 0 0;}

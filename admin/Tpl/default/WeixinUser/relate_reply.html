@@ -1,0 +1,35 @@
+<script type="text/javascript">
+var LOAD_REPLY_LIST_URL = "{url send/ajaxnews main_id=$send['id'] send_type=$send['send_type']}";
+</script>
+<script type="text/javascript" src="{$TPL_PATH}js/init_relate_reply.js"></script>
+<!-- 多图文 -->
+<div class="control-group cf clearfix">
+	<label class="control-label" > 多图文回复 </label>
+	<div class="controls">
+		<button type="button" class="btn" id="add_relate_reply">添加</button>
+		<span class="help-inline">最多9个</span>
+	</div>
+</div>
+
+<div class="control-group cf clearfix" id="relate_table_div" {if !$relate_replys}style="display:none;"{/if}>
+	<div class="controls" id="relate_reply_box">
+		{if $relate_replys}
+		<table id="relate_table" class="dataTable">
+			<tr>
+				<th>操作</th>
+				<th>标题</th>
+			</tr>
+			{foreach from=$relate_replys item=relate_reply}
+			<tr>
+				<td><a class="remove_relate" href="javascript:void(0);">删除</a></td>
+				<td>
+					<input type="hidden" value="{$relate_reply.id}" name="relate_reply_id[]" id="relate_reply_id_{$relate_reply.id}">
+					{$relate_reply.title}
+				</td>
+			</tr>
+			{/foreach}
+		</table>
+		{/if}
+	</div>
+</div>
+<!-- 多图文 -->

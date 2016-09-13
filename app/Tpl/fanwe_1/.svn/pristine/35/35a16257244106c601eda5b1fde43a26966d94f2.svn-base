@@ -1,0 +1,50 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/home.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/deal.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/deal.css";
+
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<style>
+	body{
+		background:#fff;
+	}
+</style>
+<div class="blank"></div>
+<!--中间开始-->
+{include file="inc/home_user_info.html"}
+ <div class="blank"></div>
+	 
+	</div>
+</div>
+	<div class="nav_height">
+		<div class="nav_hd f_l">
+			<ul class="clearfix">
+				<a href="{url r="home" p="id=$home_user_info.id"}"><li {if ACTION_NAME eq 'home' or ACTION_NAME eq 'index'}class="nav_select"{/if}>发起的项目</li></a>
+				<a href="{url r="home#support" p="id=$home_user_info.id"}"><li {if ACTION_NAME eq 'home' or ACTION_NAME eq 'support'}class="nav_select"{/if}>支持的项目({$deal_count})</li></a>
+			</ul>
+		</div>
+	</div>
+	<div class="blank" style="margin-top:35px;"></div>
+
+<div class="wrap">
+	   <div id="con_one_1" class="hover" style="display: block;">
+	   <div id="pin_box">
+				{include file="inc/deal_list.html"}
+		<div class="blank"></div>
+			<div class="pageuser">
+				<div class="pages">{$pages}</div>
+			</div>
+		</div>
+
+	   <div class="blank"></div>		
+	   </div>
+	   <div id="con_one_2" style="display: none;"> 支持的项目（12）</div>
+ <div class="blank"></div>	
+</div>
+<!--中间结束-->
+
+  <div class="blank"></div>
+<div id="gotop" style="display: block;z-index:99;"></div>
+{include file="inc/footer.html"} 

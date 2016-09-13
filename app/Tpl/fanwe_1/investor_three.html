@@ -1,0 +1,540 @@
+{include file="inc/header.html"}
+<link href="{$APP_ROOT}/admin/public/kindeditor/themes/default/default.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{$APP_ROOT}/public/runtime/admin/lang.js"></script>
+<script type='text/javascript' src='{$APP_ROOT}/admin/public/kindeditor/kindeditor.js'></script>
+<script type="text/javascript">
+    var ROOT = '{$APP_ROOT}/{$URL_NAME}';
+    var VAR_MODULE = "m";
+    var VAR_ACTION = "a";
+    var WEB_SESSION_ID = '<?php echo es_session::id(); ?>';
+    var EMOT_URL = '{$APP_ROOT}/public/emoticons/';
+    var MAX_FILE_SIZE = "<?php echo (app_conf("MAX_IMAGE_SIZE")/1000000)."MB"; ?>";
+    var FILE_UPLOAD_URL ='{$APP_ROOT}/{$URL_NAME}?m=File&a=do_upload&' ;
+</script>
+<style type="text/css">
+.group{
+    position:relative;
+}
+.holder_tip{
+    top:0;
+    left:0;
+    width:auto;
+    height:37px;
+    line-height:37px;
+}
+</style>
+<div class="blank20"></div>
+<div class="location_box wrap1000">
+    <div class="location f_l">
+        <i class="fl ico loc_ico mr5"></i>
+        <label>您现在的位置：</label><a>发布股权项目</a><em>>></em><a>编辑及管理团队</a>
+    </div>
+</div>
+<div class="blank10"></div>
+<div class="step_box step_box3">
+    <ul>
+        <li class="l1"><span>1</span> 项目基本信息</li>
+        <li class="l2"><span>2</span> 市场定位与商业模式</li>
+        <li class="l3 cur"><span>3</span> 编辑及管理团队</li>
+        <li class="l4"><span>4</span> 项目历史执行资料</li>
+        <li class="l5"><span>5</span> 未来三年内计划</li>
+        <li class="l6"><span>6</span> 项目附件</li>
+        <li class="l7"><span>7</span> 提交审核</li>
+    </ul>
+</div>
+<div class="blank20"></div>
+<table style="display:none;">
+ <tr id="demo_input">
+    <td>
+        <div class="group">
+            <input type="text" value="{$stock.name}" name="stock[{$stock_num}][name]" class="textbox stock_name" style="width:90px;">
+            <span class="holder_tip">股东姓名</span>
+        </div>
+    </td>
+    <td>
+        <div class="group">
+            <input type="text" value="{$stock.job}" name="stock[{$stock_num}][job]" class="textbox" style="width:100px;">
+            <span class="holder_tip">股东职务</span>
+        </div>
+    </td>
+    <td>
+        <div class="group">
+            <input type="text" value="{$stock.is_full_time}" name="stock[{$stock_num}][is_full_time]" class="textbox" style="width:100px;">
+            <span class="holder_tip">是否全职</span>
+        </div>
+    </td>
+    <td>
+        <div class="group">
+            <input type="text" value="{$stock.share}" name="stock[{$stock_num}][share]" onkeyup="amount(this);" class="textbox" style="width:70px;margin-right:5px;">
+            <span style="float:left;line-height:37px">%</span>
+            <span class="holder_tip">所占股份</span>
+        </div>
+    </td>
+    <td>
+        <div class="group">
+            <input type="text" value="{$stock.invest_money}" name="stock[{$stock_num}][invest_money]" onkeyup="amount(this);" class="textbox" style="width:100px;margin-right:5px;">
+            <span style="float:left;line-height:37px">万元</span>
+            <span class="holder_tip">实际出资</span>
+        </div>
+    </td>
+    <td>
+        <div class="group">
+            <input type="text" value="{$stock.relation}" name="stock[{$stock_num}][relation]" class="textbox" style="width:150px;">
+            <span class="holder_tip">关系描述</span>
+        </div>
+    </td>
+    <td><a href="javascript:void(0);" class="del_new_row">删除</a></td>
+</tr>
+<tr id="demo_finput">
+    <td>
+        <div class="group">
+            <input type="text" value="" name="unstock[{$unstock_num}][name]" class="textbox" style="width:90px;">
+            <span class="holder_tip">姓名</span>
+        </div>
+    </td>
+    <td>
+        <div class="group">
+            <input type="text" value="" name="unstock[{$unstock_num}][job]" class="textbox" style="width:100px;">
+            <span class="holder_tip">职务</span>
+        </div>
+    </td>
+    <td>
+        <div class="group">
+            <input type="text" value="" name="unstock[{$unstock_num}][is_full_time]" class="textbox" style="width:100px;">
+            <span class="holder_tip">是否全职</span>
+        </div>
+    </td>
+    <td>
+        <div class="group">
+            <input type="text" value="" name="unstock[{$unstock_num}][relation]" class="textbox" style="width:250px;">
+            <span class="holder_tip">关系描述</span>
+        </div>
+    </td>
+    <td><a href="javascript:void(0);" class="del_new_frow">删除</a></td>
+</tr>
+</table>
+<ul style="display:none;">
+    <li id="demo_descript" class="stock_descibe" >
+        <div class="name">▍股东团队<span class="f_red">1</span>简介：</div>
+        <div class="item_input pb10">
+            <textarea id='stock[describe]' name='stock[{$stock_num}][describe]' class='ketext' style='width:958px; height:350px;' ></textarea> 
+        </div>
+    </li>
+    <li id="demo_fdescript" class="stock_descibe" >
+        <div class="name">▍非股东团队<span class="f_red">1</span>简介：</div>
+        <div class="item_input pb10">
+            <textarea id='unstock[describe]' name='unstock[{$unstock_num}][describe]' class='ketext' style='width:958px; height:350px;' ></textarea> 
+        </div>
+    </li>
+</ul>
+<script type="text/javascript">
+    $(function(){
+        show_tip();
+    })
+</script>
+<div class="mod_box project_edit project_agency_add_stepthree">
+    <div class="con_tit theme_fcolor f_20">编辑及管理团队</div>
+    <div class="prompt_box f14 f_666 tc" style="">
+        温馨提示：本页内容一旦审核通过，将不再允许修改，请依照事实诚信填写，珍惜自己诚信信用！
+    </div>
+    <div class="con3">
+        <form method="post" action="{url r="project#investor_three_save"}" id="agencyAdd_stepthree_form">
+            <input type="hidden" name="siteid" value="1">
+            <input type="hidden" value="{$id}" name="id" />
+            <div class="blank20"></div>
+            <div id="shareholder">
+                <div class="tit f18 theme_fcolor">
+                    <i></i>
+                    <div class="tit_bg"></div>
+                    <div class="tit_text theme_fcolor">
+                        <span class="num b">1</span>股东团队说明
+                    </div>
+                </div>
+                <div class="pro">
+                    <div class="blank0"></div>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab2 f14" rel="1_input">
+                        <thead>
+                            <tr class="col">
+                                <td width="12%">股东姓名</td>
+                                <td width="12%">股东职务</td>
+                                <td width="12%">是否全职</td>
+                                <td width="16%">所占股份(%)</td>
+                                <td width="22%">实际出资金额（万元）</td>
+                                <td width="12%">与其他股东关系描述</td>
+                                <td width="10%">操作</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {if $stock_list}
+                            {foreach from=$stock_list item=stock_list key=k1}
+                                 <tr>
+                                    <td>
+                                        <div class="group">
+                                            <input type="text" value="{$stock_list.name}" name="stock[{$k1}][name]" class="textbox stock_name" style="width:90px;">
+                                            <span class="holder_tip">股东姓名</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="group">
+                                            <input type="text" value="{$stock_list.job}" name="stock[{$k1}][job]" class="textbox" style="width:100px;">
+                                            <span class="holder_tip">股东职务</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="group">
+                                            <input type="text" value="{$stock_list.is_full_time}" name="stock[{$k1}][is_full_time]" class="textbox" style="width:100px;">
+                                            <span class="holder_tip">是否全职</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="group">
+                                            <input type="text" value="{$stock_list.share}" name="stock[{$k1}][share]" onkeyup="amount(this);" class="textbox" style="width:70px;margin-right:5px;">
+                                            <span style="float:left;line-height:37px">%</span>
+                                            <span class="holder_tip">所占股份</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="group">
+                                            <input type="text" value="{$stock_list.invest_money}" name="stock[{$k1}][invest_money]" onkeyup="amount(this);" class="textbox" style="width:100px;margin-right:5px;">
+                                            <span style="float:left;line-height:37px">万元</span>
+                                            <span class="holder_tip">实际出资</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="group">
+                                            <input type="text" value="{$stock_list.relation}" name="stock[{$k1}][relation]" class="textbox" style="width:150px;">
+                                            <span class="holder_tip">关系描述</span>
+                                        </div>
+                                    </td>
+                                    <td><a href="javascript:void(0);" class="del_new_row">删除</a></td>
+                                </tr>
+                            {/foreach}
+                            {/if}
+                           {if !$stock_list}
+                                <tr>
+                                    <td>
+                                        <div class="group">
+                                            <input type="text" value="{$stock.name}" name="stock[{$stock_num}][name]" class="textbox stock_name" style="width:90px;">
+                                            <span class="holder_tip">股东姓名</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="group">
+                                            <input type="text" value="{$stock.job}" name="stock[{$stock_num}][job]" class="textbox" style="width:100px;">
+                                            <span class="holder_tip">股东职务</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="group">
+                                            <input type="text" value="{$stock.is_full_time}" name="stock[{$stock_num}][is_full_time]" class="textbox" style="width:100px;">
+                                            <span class="holder_tip">是否全职</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="group">
+                                            <input type="text" value="{$stock.share}" name="stock[{$stock_num}][share]" onkeyup="amount(this);" class="textbox" style="width:70px;margin-right:5px;">
+                                            <span style="float:left;line-height:37px">%</span>
+                                            <span class="holder_tip">所占股份</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="group">
+                                            <input type="text" value="{$stock.invest_money}" name="stock[{$stock_num}][invest_money]" onkeyup="amount(this);" class="textbox" style="width:100px;margin-right:5px;">
+                                            <span style="float:left;line-height:37px">万元</span>
+                                            <span class="holder_tip">实际出资</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="group">
+                                            <input type="text" value="{$stock.relation}" name="stock[{$stock_num}][relation]" class="textbox" style="width:150px;">
+                                            <span class="holder_tip">关系描述</span>
+                                        </div>
+                                    </td>
+                                    <td><a href="javascript:void(0);" class="del_new_row">删除</a></td>
+                                </tr>
+                           {/if}
+                        </tbody>
+                    </table>    
+                    <div align="center" class="pb10">
+                        <input type="hidden" name="stock_num" value="{$stock_num}">
+                        <input type="button" class="ui-button theme_bgcolor add_new_row" value="增加一行" style="margin-left:400px;" />
+                    </div>
+                    <div class="blank0"></div>
+                    <ul class="form" rel="1_descript">
+                        {if $stock_list}
+                        {foreach from=$stock_list item=stock_list key=k1}
+                            <li  class="stock_descibe" >
+                                <div class="name">▍股东团队<span class="f_red">{$stock_list.name}</span>简介：</div>
+                                <div class="item_input pb10">
+                                    <textarea id='stock[describe]' name='stock[{$k1}][describe]' class='ketext' style='width:958px; height:350px;' >{$stock_list.describe}</textarea> 
+                                </div>
+                            </li>
+                        {/foreach}
+                        {/if}
+                        {if !$stock_list}
+                            <li  class="stock_descibe" >
+                                <div class="name">▍股东团队<span class="f_red">1</span>简介：</div>
+                                <div class="item_input pb10">
+                                    <textarea id='stock[describe]' name='stock[{$stock_num}][describe]' class='ketext' style='width:958px; height:350px;' ></textarea> 
+                                </div>
+                            </li>
+                        {/if}
+                    </ul> 
+                </div>   
+            </div>
+            <div id="no_shareholder">
+                <div class="tit f18 theme_fcolor">
+                    <i></i>
+                    <div class="tit_bg"></div>
+                    <div class="tit_text theme_fcolor">
+                        <span class="num">2</span>非股东管理团队&nbsp;&nbsp;（<label class="ui_radiobox mr10" onclick="setTeam(1)" rel="hasTeam"><input type="radio" name="hasTeam" id="hasTeam" onclick="setTeam(1)" {if $is_unstock eq 1}checked="checked"{/if}  value="1">有</label><label class="ui_radiobox" onclick="setTeam(0)" rel="hasTeam"><input name="hasTeam" type="radio" id="noTeam" value="0" onclick="setTeam(0)"  {if !$is_unstock}checked="checked"{/if}>无</label>）  
+                    </div>
+                </div>
+                <div class="pro" id="show_no_shareholder" {if $is_unstock eq 1}style="display: block;"{/if} >
+                    <div class="blank0"></div>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab2 f14" rel="2_input">
+                        <thead>
+                            <tr class="col">
+                                <td width="12%">姓名</td>
+                                <td width="12%">职务</td>
+                                <td width="12%">是否全职</td>
+                                <td width="30%">与创始团队成员历史关系</td>
+                                <td width="12%">操作</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {if $unstock_list}
+                            {foreach from=$unstock_list item=unstock_list key=k2}
+                                <tr>
+                                    <td>
+                                        <div class="group">
+                                            <input type="text" value="{$unstock_list.name}" name="unstock[{$k2}][name]" class="textbox" style="width:90px;">
+                                            <span class="holder_tip">姓名</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="group">
+                                            <input type="text" value="{$unstock_list.job}" name="unstock[{$k2}][job]" class="textbox" style="width:100px;">
+                                            <span class="holder_tip">职务</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="group">
+                                            <input type="text" value="{$unstock_list.is_full_time}" name="unstock[{$k2}][is_full_time]" class="textbox" style="width:100px;">
+                                            <span class="holder_tip">是否全职</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="group">
+                                            <input type="text" value="{$unstock_list.relation}" name="unstock[{$k2}][relation]" class="textbox" style="width:250px;">
+                                            <span class="holder_tip">关系描述</span>
+                                        </div>
+                                    </td>
+                                    <td><a href="javascript:void(0);" class="del_new_frow">删除</a></td>
+                                </tr>
+                            {/foreach}
+                            {/if}
+                            {if !$unstock_list}
+                                <tr>
+                                    <td>
+                                        <div class="group">
+                                            <input type="text" value="" name="unstock[{$unstock_num}][name]" class="textbox" style="width:90px;">
+                                            <span class="holder_tip">姓名</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="group">
+                                            <input type="text" value="" name="unstock[{$unstock_num}][job]" class="textbox" style="width:100px;">
+                                            <span class="holder_tip">职务</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="group">
+                                            <input type="text" value="" name="unstock[{$unstock_num}][is_full_time]" class="textbox" style="width:100px;">
+                                            <span class="holder_tip">是否全职</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="group">
+                                            <input type="text" value="" name="unstock[{$unstock_num}][relation]" class="textbox" style="width:250px;">
+                                            <span class="holder_tip">关系描述</span>
+                                        </div>
+                                    </td>
+                                    <td><a href="javascript:void(0);" class="del_new_frow">删除</a></td>
+                                </tr>
+                            {/if}
+                            
+                        </tbody>
+                    </table>    
+                    <div align="center" class="pb10">
+                        <input type="hidden" name="unstock_num" value="{$unstock_num}">
+                        <input type="button" class="ui-button theme_bgcolor add_new_frow" value="增加一行" style="margin-left:400px;" />
+                    </div>
+                    <div class="blank0"></div>
+                    <ul class="form" rel="2_descript">
+                        {if $unstock_list}
+                        {foreach from=$unstock_list item=unstock_list key=k2}
+                            <li  class="stock_descibe" >
+                                <div class="name">▍非股东团队<span class="f_red">{$unstock_list.name}</span>简介：</div>
+                                <div class="item_input pb10">
+                                    <textarea id='unstock[describe]' name='unstock[{$k2}][describe]' class='ketext' style='width:958px; height:350px;' >{$unstock_list.describe}</textarea> 
+                                </div>
+                            </li>
+                        {/foreach}
+                        {/if}
+                        {if !$unstock_list}
+                        <li class="stock_descibe" >
+                            <div class="name">▍非股东团队<span class="f_red">1</span>简介：</div>
+                            <div class="item_input pb10">
+                                <textarea id='unstock[describe]' name='unstock[{$unstock_num}][describe]' class='ketext' style='width:958px; height:350px;' ></textarea> 
+                            </div>
+                        </li>
+                        {/if}
+                    </ul> 
+                </div>   
+            </div>
+            <div class="blank20"></div>
+            {if $item.investor_edit}
+                <div class="button_row tc">
+                    <div class="blank15"></div>
+                    <input type="button" value="保存" name="submit_form" class="ui-center-button theme_bgcolor" id="ui-button" style="margin:0 5px;*margin-left:400px" />
+                    <div class="ui-center-button bg_red" rel="green" onclick="window.history.go(-1)" style="margin:0 5px;">
+                       返回
+                    </div>
+                    <input type="hidden" value="1" name="ajax" />
+                    <div class="blank15"></div>
+                </div>
+            {/if}
+            {if !$item.investor_edit}
+                <div class="button_row">
+                    <div class="blank15"></div>
+                    <div class="ui-button bg_red" id="previous" style="margin-left:350px;" ><a href="{url r="project#investor_two" p="id=$id"}" style="color:#fff;">上一步</a></div>
+                    <input type="button" value="下一步" name="submit_form" class="ui-button theme_bgcolor ml20" id="ui-button" />
+                    <input type="hidden" value="1" name="ajax" />   
+                    <div class="blank15"></div>
+                </div>
+            {/if}
+        </form>
+    </div>             
+</div>
+<div class="blank20"></div>
+<script type="text/javascript">
+    function setTeam(id) {
+        if(id==1) {
+            $("#show_no_shareholder").show();
+        }
+        else {
+            $("#show_no_shareholder").hide();
+        }
+    }
+    $(function(){
+        show_tip();
+
+        // 股东团队
+        var demo_descript="<li>"+$("#demo_descript").html()+"</li>";
+        var demo_input="<tr>"+$("#demo_input").html()+"</tr>";
+        $(".add_new_row").live("click",function(){
+            var num=parseInt($("input[name='stock_num']").val());
+            num=num+1;
+            $("input[name='stock_num']").val(num);
+            new_descript= demo_descript.replace("1",num);
+            new_descript = new_descript.replace(/stock\[1\]/g,"stock["+num+"]");
+            new_input=demo_input.replace(/stock\[1\]/g,"stock["+num+"]");
+            $("ul[rel='1_descript']").append(new_descript);
+            $("table[rel='1_input']").append(new_input);
+            bindKindeditor();
+            username_keyup();
+        });
+        $("table[rel='1_input']  .del_new_row").live("click",function(){
+             sort_num=$("table[rel='1_input']  .del_new_row").index($(this));
+             $("ul[rel='1_descript'] li:eq("+sort_num+")").remove("li");
+             $("table[rel='1_input'] tbody tr:eq("+sort_num+")").remove("tr");
+        });
+
+        // 非股东团队
+        var demo_fdescript="<li>"+$("#demo_fdescript").html()+"</li>";
+        var demo_finput="<tr>"+$("#demo_finput").html()+"</tr>";
+        $(".add_new_frow").live("click",function(){
+            var num=parseInt($("input[name='unstock_num']").val());
+            num=num+1;
+            $("input[name='unstock_num']").val(num);
+            new_fdescript= demo_fdescript.replace("1",num);
+            new_fdescript = new_fdescript.replace(/unstock\[1\]/g,"unstock["+num+"]");
+            new_finput=demo_finput.replace(/unstock\[1\]/g,"unstock["+num+"]");
+            $("ul[rel='2_descript']").append(new_fdescript);
+            $("table[rel='2_input']").append(new_finput);
+            bindKindeditor();
+            staff_keyup();
+        });
+        $("table[rel='2_input'] .del_new_frow").live("click",function(){
+             sort_fnum=$("table[rel='2_input'] .del_new_frow").index($(this));
+             $("ul[rel='2_descript'] li:eq("+sort_fnum+")").remove("li");
+             $("table[rel='2_input'] tbody tr:eq("+sort_fnum+")").remove("tr");
+        });
+
+         //股东团队姓名
+        username_keyup();
+        function username_keyup(){
+            $("input[name$='\[name\]']").keyup(function(){
+                var $textarea_obj = $(this).attr('name').replace('name','describe');
+                var text_obj = $("textarea[name='"+$textarea_obj+"']").parent().parent().find(".name");
+                text_obj.html('▍股东团队<span class="f_red">'+$(this).val()+'</span>简介:');
+            });
+        }
+
+        //非股东团队姓名
+        staff_keyup();
+        function staff_keyup(){
+            $("input[name$='\[name\]']").keyup(function(){
+                var $textarea_obj = $(this).attr('name').replace('name','describe');
+                var text_obj = $("textarea[name='"+$textarea_obj+"']").parent().siblings().eq(0);
+                text_obj.html('▍非股东团队<span class="f_red">'+$(this).val()+'</span>简介:');
+            });
+        }
+    });
+    
+    $(document).ready(function(){
+        bind_project_form();
+    });
+    
+    function bind_project_form()
+    {   
+        $("#agencyAdd_stepthree_form").bind("submit",function(){
+            var ajaxurl = $(this).attr("action");
+            var query = $(this).serialize();
+        //  query+="&description_2="+ encodeURIComponent($("textarea[name='descript1']").val())+"&description_3="+encodeURIComponent($("textarea[name='descript2']").val())+"&description_4="+encodeURIComponent($("textarea[name='descript3']").val())+"&description_5="+encodeURIComponent($("textarea[name='descript4']").val())+"&description_6="+encodeURIComponent($("textarea[name='descript5']").val())+"&description_7="+encodeURIComponent($("textarea[name='descript6']").val());
+            $.ajax({ 
+                    url: ajaxurl,
+                    dataType: "json",
+                    data:query,
+                    type: "POST",
+                    success: function(ajaxobj){
+                        if(ajaxobj.status)
+                        {
+                            $.showSuccess(ajaxobj.info,function(){
+                                 location.href = ajaxobj.jump;
+                            });
+                        }
+                        else
+                        {
+                            if(ajaxobj.jump!="")
+                                location.href = ajaxobj.jump;
+                            else
+                            $.showErr(ajaxobj.info);
+                        }                       
+                    },
+                    error:function(ajaxobj)
+                    {
+                        if(ajaxobj.responseText!='')
+                        alert(ajaxobj.responseText);
+                    }
+                });
+                return false;
+            });
+    
+        $("#ui-button").bind("click",function(){
+            $("#agencyAdd_stepthree_form").submit();
+        });
+    }
+</script>
+{include file="inc/footer.html"} 

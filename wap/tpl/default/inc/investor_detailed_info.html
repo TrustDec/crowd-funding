@@ -1,0 +1,29 @@
+<div class="detailed_info sizing">
+	<div class="text webkit-box">
+		<div class="l mr10">
+			{function name="show_avatar" p="$investor_info.id" t="middle"}
+		</div>
+		<div class="r webkit-box-flex">
+			<div class="detailed_info_title">
+	    		<span class="f16">{$investor_info.user_name}</span>
+			</div>
+			<div class="blank5"></div>
+	        <div class="conment">
+	        	{if $invester_item.province}
+				<div>
+					<span class="v_aut"><i class="fa fa-map-marker mr5"></i>{$investor_info.province}{$investor_info.city}</span>
+				</div>
+				{/if}
+				<div class="clear"></div>
+				<div>
+					<a href="#" onclick="send_message({$investor_info.id})" class="btn_send theme_fcolor f14 b_radius3"><i class="fa fa-envelope mr5"></i>发私信</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="leader_info_bd">
+		<div class="detailed_info_title theme_fcolor"><span class="fa_box theme_color mr5"><i class="fa fa-pencil"></i></span>详细资料</div>
+		<div class="blank0"></div>
+		<div class="conment f12 f_666">{$investor_info.intro}</div>
+	</div>
+</div>

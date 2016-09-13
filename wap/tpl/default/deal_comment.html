@@ -1,0 +1,62 @@
+{include file="inc/header.html"}
+<!--中间部分-->  
+<div class="discussion">
+    <div class="dsc_titile">
+        {$deal_info.name}
+        <span class="dsc_titrt"><i class="fa fa-angle-right"></i></span>
+    </div>
+	<div class="critical_ul" style="background:#f0f0f0;">
+		<input id="post_url" type="hidden" value="{$save_url}"/>
+		<input id="deal_id" type="hidden" value="{$deal_id}"/>
+        <ul>
+        	{foreach from=$comment_list item=comment name=comments}
+        	{if $smarty.foreach.comments.iteration mod 2 eq 1}
+		  	<li>
+                <div class="uer_pic">{function name="show_avatar" p="$comment.user_id" t="small"}</div>
+                <div class="comment">
+                    <h4>{$comment.user_name}{if $deal_info.user_name eq $comment.user_name}<span>发起人</span>{else}&nbsp;&nbsp;&nbsp;&nbsp;{/if}<em>{function name="pass_date" v=$comment.create_time}</em></h4>
+                    <div class="details">
+                        <div class="lov1"></div>
+                        <p>
+                            {function name="nl2br" v=$comment.content}
+							</br>
+							<a href="#" class="linkgreen replycomment J_replycomment" rel="{$comment.id}" onclick="javascript:focus_event(this,'{$comment.user_name}');">回复</a>
+                        </p>
+                    </div>
+                </div>
+			</li>
+			{/if}
+   			{if $smarty.foreach.comments.iteration mod 2 eq 0}
+			<li class="dsc_mine">  
+                <div class="comment">
+                    <h4>{$comment.user_name}{if $deal_info.user_name eq $comment.user_name}<span>发起人</span>{else}&nbsp;&nbsp;&nbsp;&nbsp;{/if}<em>{function name="pass_date" v=$comment.create_time}</em></h4>
+                    <div class="details">
+                        <p>
+                 			{function name="nl2br" v=$comment.content}
+							</br>
+								<a href="#" class="linkgreen replycomment J_replycomment" rel="{$comment.id}" onclick="javascript:focus_event(this,'{$comment.user_name}');">回复</a>
+                        </p>
+                         <div class="lov2"></div>
+                    </div>
+                </div>
+        		<div class="uer_pic">{function name="show_avatar" p="$comment.user_id" t="small"}</div>
+	 		</li>
+			{/if}
+            {/foreach}
+        </ul>
+    </div>
+</div>
+<div class="alwaysfoot dsc_pd">
+    <div class="dsc_dialogbox">
+	    <div class="dsc_inputk">
+		    <input class="dsc_input" name="content" id="content" type="text" placeholder="输入内容···"/>
+			<input type="hidden" name="ajax" id="ajax" value="1" />
+			<input type="hidden" name="comment_pid" id="comment_pid" value="0" />
+	    </div>
+    	<input class="dsc_send J_dsc_send" type="button" value="发送" />
+    </div>
+</div>
+<script type="text/javascript">
+	var user_name = '{$comment.user_name}';
+</script>
+{include file="inc/footer.html"}

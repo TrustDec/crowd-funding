@@ -1,0 +1,138 @@
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/enquiry.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/enquiry_two_save.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/enquiry_two_save.js";
+?>
+<script type="text/javascript">
+	var invote_mini_money = {$deal_info.invote_mini_moneys};
+</script>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<style>
+	.dialog-mask{opacity:0}
+	.control-group .control-label{width:auto;}
+</style>
+<div class="full pr">
+<form id="enquiry_two" action="{url r="investor#enquiry_save"}" class="enquiry">
+	<div class="mod_hd f22 theme_fcolor tl">我要跟投（询价）</div>
+	<div class="blank20"></div>
+	<div class="chance_left tc ps">
+		<h3 class="theme_bgcolor f14">该项目剩余询价机会</h3>
+		<span class="theme_fcolor f20">{$inquiry_num}次</span>
+	</div>
+	<div class="mod_bd">
+		<div class="control-group small-control-group">
+			<label class="control-label">项目估值:</label>
+			<div class="control-text">
+				<div class="pr f_l">
+					<input type="text" name="stock_value" class="textbox w100 f_l mr5" value="" onkeyup="amount(this);" />万元
+					<span class="f_red pl5 f12">*项目估值为{$deal_info.invote_mini_moneys}万元的倍数</span>
+					<span class="holder_tip">请输入金额</span>
+				</div>
+			</div>
+			<div class="blank0"></div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" style="width:auto;">投资金额:</label>
+			<div class="control-text">
+				<span id="money"></span>万元
+				<input type="hidden" name="money" value="" />
+			</div>
+		</div>
+		<div class="control-group small-control-group choose_amount">
+			<label class="control-label" style="width:auto;">投资份数:</label>
+			<div class="control-text">
+				<div class="pr f_l">
+					<a href="javascript:void(0);" class="plus" id="minus" >-</a>
+					<a href="javascript:void(0);" class="minus" id="plus" >+</a>
+					<input type="text" name="num" value="1" class="small_textbox w100 f_l money mr5" id="buy_num"  />
+				</div>
+			</div>
+			
+		</div>
+		<div class="blank0"></div>
+		<div class="control-group tl">
+			<label>投资（询价）理由：</label>
+			<div class="blank0"></div>
+			<div>
+				<textarea class="textareabox w400 f_l" placeholder="请输入内容" name="investment_reason" id="investment_reason" value="" style="height:60px"></textarea>
+			</div>
+		</div>
+		<div class="blank0"></div>
+		<div class="control-group tl">
+			<label>我能为创业者提供非资金帮助：</label>
+			<div class="blank0"></div>
+			<div>
+				<textarea class="textareabox w400 f_l" placeholder="请输入内容" name="funding_to_help" id="funding_to_help" value="" style="height:60px"></textarea>
+			</div>
+		</div>
+		<div class="blank20"></div>
+		<label class="ui_checkbox mr10" rel="is_partner">
+			<input type="checkbox" name="is_partner" checked="checked" value="1" />是否愿意担任有限合伙企业普通合伙人
+		</label>
+	</div>
+	<div class="blank20"></div>
+	<div class="submit_btn_row tc">
+		<span class="ui-center-button theme_bgcolor mr10 button_y" rel="green">提交</span>
+		<span class="ui-center-button bg_red button_n" rel="green">取消</span>
+		<input type="hidden" value="1" name="ajax" />
+		<input type="hidden" value="{$deal_id}" name="deal_id" id="deal_id"/>
+		<input type="hidden" value="{$user_id}" name="user_id" id="user_id"/>
+	</div>
+	<div class="blank5"></div>
+</form>
+</div>
+<script type="text/javascript">
+$(function(){
+	ui_checkbox();
+	enquiry_two_save("#enquiry_two");
+	
+	$(document).ready(function(){
+		$("input[name='money']").val(invote_mini_money);
+		$("#money").html(invote_mini_money);
+		//minus 减
+		$("#minus").bind('click',function(){
+			var money = invote_mini_money;
+			var num=parseInt($("#buy_num").val());
+			if(num <=1)
+				num=1;
+			else
+			{
+				num -=1;
+			}
+			$("#buy_num").val(num);
+			account_money(num,invote_mini_money);
+		});
+		
+		//plus 加
+		$("#plus").bind('click',function(){
+			var money = invote_mini_money;
+			var num=parseInt($("#buy_num").val());
+			
+			if(num <1)
+				num=1;
+			else
+			{
+				num=num+1;
+			}
+			
+			$("#buy_num").val(num);
+		
+			account_money(num,invote_mini_money);
+		});
+		$("input[name='num']").bind('keyup blur',function(){
+			var u_num = $(this).val();
+			$(this).val(u_num.replace(/[^0-9]/g,''));
+			u_num = $(this).val();
+			account_money(u_num,invote_mini_money);
+		});
+	});
+	// 统计投资金额
+	function account_money(num,invote_mini_money){
+		money = (parseFloat(num*invote_mini_money)).toFixed(2);
+		$("input[name='money']").val(money);
+		$("#money").html(money);
+	}
+});
+
+</script>

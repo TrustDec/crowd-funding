@@ -1,0 +1,95 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<load href='__TMPL__Common/js/jquery.bgiframe.js' />
+<load href='__TMPL__Common/js/jquery.weebox.js' />
+<load href='__TMPL__Common/js/deal.js' />
+<load href='__TMPL__Common/style/weebox.css' />
+<div class="main">
+<div class="main_title">{$deal_info.name} 投票列表</div>
+<div class="blank5"></div>
+<div class="button_row">
+	<input type="button" class="button" value="{%ADD}" onclick="add_deal_vote({$deal_info.id});" />
+	<input type="button" class="button" value="删除" onclick="del_deal_vote();" />
+</div>
+<script type="text/javascript">
+	function add_deal_vote(deal_id)
+	{
+		location.href = ROOT + '?m=Deal&a=add_deal_vote&id='+deal_id;
+	}
+	function del_deal_vote(id)
+	{
+		if(!id)
+		{
+			idBox = $(".key:checked");
+			if(idBox.length == 0)
+			{
+				alert("请选择需要删除的项目");
+				return;
+			}
+			idArray = new Array();
+			$.each( idBox, function(i, n){
+				idArray.push($(n).val());
+			});
+			id = idArray.join(",");
+		}
+		if(confirm("确定要删除选中的项目吗？"))
+		$.ajax({ 
+				url: ROOT+"?"+VAR_MODULE+"=Deal&"+VAR_ACTION+"=del_deal_vote&id="+id, 
+				data: "ajax=1",
+				dataType: "json",
+				success: function(obj){
+					$("#info").html(obj.info);
+					if(obj.status==1)
+					location.href=location.href;
+				}
+		});
+	}
+	function edit_deal_vote(item_id)
+	{
+		location.href = ROOT + '?m=Deal&a=edit_deal_vote&id='+item_id;
+	}
+	function deal_vote_log(id)
+	{
+		location.href = ROOT + '?m=Deal&a=deal_vote_log&id='+id;
+	}
+	
+</script>
+<PHP>
+	function get_vote_log($id,$deal){
+		return "<a href=\"javascript:deal_vote_log('".$id."')\">投票详细列表</a>";
+	}
+	function get_vote_status($status)
+	{
+		if($status==0)
+		{
+			return "还没有结果";
+		}
+		elseif($status==1){
+			return "同意";
+		}
+		else
+			return "投票失败";
+	}
+</PHP>
+<div class="blank5"></div>
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="deal" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{%ID}|50px
+		,create_time|to_date:创建时间
+		,end_time|get_to_date:结束时间
+		,money:卖出金额
+		,status|get_vote_status:投票结果
+		,yes_num:同意的总票数
+		,no_num:不同意的总票数" 
+	actionlist="edit_deal_vote:{%EDIT}, del_deal_vote:删除,id|get_vote_log=$deal,send_notification:发送通知" /> 
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

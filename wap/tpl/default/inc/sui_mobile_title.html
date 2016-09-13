@@ -1,0 +1,16 @@
+<header class="bar bar-nav header_nav">
+	{if $class neq 'index'}
+	<a class="button button-link button-nav pull-left {if $is_back}back{/if}" href="{$HTTP_REFERER}" data-transition="slide-out">
+	  <span class="icon icon-left"></span>
+	  	返回
+	</a>
+	{/if}
+	{if $class eq 'index'}
+	<h1 class="title">{$site_name}</h1>
+	{else}
+	<h1 class="title pull-left">{$page_title}</h1>
+	{/if}
+	<a class="button  button-link button-nav  pull-right open-panel" data-panel='#panel-left-box'>
+		<span class="icon icon-menu"></span>
+	</a>
+</header>

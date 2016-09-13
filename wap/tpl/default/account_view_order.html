@@ -1,0 +1,374 @@
+{include file="inc/header.html"}
+<?php
+	$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/cart.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<div class="blank15"></div>
+<section class="account_view_order">
+	<div class="ul_block ul_block_list">
+		<ul>
+			<li class="webkit-box">
+				<label class="input_lable mr10">项目名称</label>
+				<div class="list_con webkit-box-flex">
+					{if $deal_info}
+					<a href="#" onclick="RouterURL('{url_wap r="deal#show" p="id=$deal_info.id"}','#deal-show',2);" class="f_blue">{$order_info.deal_name}</a>
+					{else}
+					{$order_info.deal_name}
+					{/if}
+				</div>
+			</li>
+			{if $order_info.consignee neq ''}
+			<li class="webkit-box" style="height: 65px;">
+				<label class="input_lable mr10">配送信息</label>
+				<div class="list_con webkit-box-flex">地址:{$order_info.province}{$order_info.city}{$order_info.address} 邮编:{$order_info.zip} 收件人:{$order_info.consignee} 电话:{$order_info.mobile}
+				</div>
+			</li>
+			{/if}
+			{if $order_info.type eq 1}
+			<li class="webkit-box">
+				<label class="input_lable mr10">出让股份</label>
+				<div class="list_con webkit-box-flex">{$order_info.transfer_share}%</div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable mr10">项目金额</label>
+				<div class="list_con webkit-box-flex">{$order_info.stock_value}元</div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable mr10">用户所占股份</label>
+				<div class="list_con webkit-box-flex">{$order_info.user_stock}%</div>
+			</li>
+			{/if}
+			<li class="webkit-box {if $order_info.type eq 0}{if $order_info.delivery_fee gt 0}textarea{/if}{/if}">
+				<label class="input_lable mr10">应付金额</label>
+				<div class="list_con webkit-box-flex">
+					{if $order_info.type eq 0}
+						{if $order_info.delivery_fee gt 0}
+						项目金额:{function name="format_price" v=$order_info.deal_price}
+						运费:{function name="format_price" v=$order_info.delivery_fee}
+						总额：{function name="format_price" v=$order_info.total_price}
+						{else}
+						<span class="f_money">{function name="format_price" v=$order_info.total_price}</span>
+						{/if}
+					{else}
+						<span>{$order_info.total_price}元</span>
+					{/if}
+				</div>
+			</li>
+			<li class="textarea webkit-box">
+				<label class="input_lable mr10">收款情况</label>
+				<div class="list_con webkit-box-flex">
+					{if $order_info.order_status eq 1}
+					因项目过期，资金已退到个人帐户
+					{/if}
+					{if $order_info.order_status eq 2}
+					因项目限额已满，资金已退到个人帐户
+					{/if}	
+					{if $order_info.order_status eq 3}
+					支付成功
+					{/if}	
+					{if $order_info.order_status eq 0}
+						支付未完成
+						{if $order_info.credit_pay gt 0 || $order_info.score gt 0}
+							<div class="blank0"></div>
+							预支付：{if $order_info.credit_pay gt 0}余额支付<span class="f_money">{function name="format_price" v=$order_info.credit_pay}</span>{/if}{if $order_info.score gt 0}积分支付<span class="f_money">{function name="format_price" v=$order_info.score_money}</span>{/if}
+						{/if}
+					{/if}	
+				</div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable mr10">支付时间</label>
+				<div class="list_con webkit-box-flex">
+					{function name="to_date" v=$order_info.pay_time}
+				</div>
+			</li>
+			{if $order_info.type eq 3}
+			<li class="webkit-box">
+				<label class="input_lable mr10">支持数量</label>
+				<div class="list_con webkit-box-flex">
+					{$order_info.num}
+				</div>
+			</li>
+			<li class="webkit-box"  style="height:auto;">
+				<label class="input_lable mr10">抽奖号</label>
+				<div class="list_con webkit-box-flex">
+					{if $order_info.lottery_draw_time gt 0}
+							<a href='#' onclick="RouterURL('{url_wap r="deal#update" p="id=$deal_info.id"}','#deal-update',2);" class="theme_fcolor">
+								揭晓时间：{function name=to_date v=$deal_info.lottery_draw_time}<br />
+								{if $order_info.lottery_luckyer_list}
+								<div>
+									幸运号：
+									{foreach from=$order_info.lottery_luckyer_list item=luckyer}
+										<span class="f_red">
+											{$luckyer.lottery_sn}&nbsp;&nbsp;
+										</span>
+									{/foreach}
+								</div>
+								{/if}
+							</a>
+						{/if}
+						
+						<div style="max-height:200px;overflow-y:scroll;">
+							{foreach from=$order_info.lottery_list item=lottery}
+								{$lottery.lottery_sn}&nbsp;&nbsp;
+							{/foreach}
+						</div>
+				</div>
+			</li>
+			{/if}
+			{if $order_info.support_memo neq ''}
+			<li class="webkit-box">
+				<label class="input_lable mr10">备注信息</label>
+				<div class="list_con webkit-box-flex">{$order_info.support_memo}</div>
+			</li>
+			{/if}
+			{if $order_info.order_status eq 3}
+			<li class="webkit-box">
+				<label class="input_lable mr10">回报情况</label>
+				<div class="list_con webkit-box-flex">
+					{if $order_info.is_success eq 0}
+						{if $order_info.is_refund eq 1}
+						项目失败，金额已退回会员帐户
+						{else}
+						项目未成功
+						{/if}
+					{else}
+						{if $order_info.repay_time eq 0}
+						项目成功，回报未发放
+						{else}
+						{$order_info.repay_memo}
+						{/if}
+					{/if}
+				</div>
+			</li>
+			{if $deal_info.type eq 0}
+				{if $order_info.is_delivery eq 1}
+				<li class="webkit-box">
+					<label class="input_lable mr10">物流公司</label>
+					<div class="list_con webkit-box-flex"><a href="{$order_info.logistics_links}" target="_blank" style="text-decoration:underline" class="theme_fcolor">{$order_info.logistics_company}</a></div>
+				</li>
+				<li class="webkit-box">
+					<label class="input_lable mr10">物流编号</label>
+					<div class="list_con webkit-box-flex">{$order_info.logistics_number}</div>
+				</li>
+				{/if}
+			{/if}
+			{if $deal_info.type eq 1}
+			{else}
+				{if $order_info.repay_memo }
+				<li class="last textarea webkit-box" id="deal_order_status">
+					<div class="list_con tl webkit-box-flex">
+						{if $order_info.repay_make_time==0}
+							<p>还有 <span class="f_red" id="left_time"></span> 来确认收到回报,超时订单自动确认收到回报</p>
+							<a class="ui-button ui_small_button bg_red" id="J_detail_panel" href="javascript:void();" style="width:80px">确认收到</a>
+							<script type="text/javascript">
+								window.setInterval(function(){ShowCountDown('left_time');}, 1000);
+							</script>
+						{else}
+							确认收到
+						{/if}
+					</div>
+				</li>
+				<script>
+					var repay_left_time = '{$order_info.repay_left_time}';
+					function ShowCountDown(divname){ 
+						if(repay_left_time > 0){
+							var day  =  parseInt(repay_left_time / 24 /3600);
+							var hour = parseInt((repay_left_time % (24 *3600)) / 3600);
+							var min = parseInt((repay_left_time % 3600) / 60);
+							var sec = parseInt((repay_left_time % 3600) % 60);
+							var cc = document.getElementById(divname);
+							cc.innerHTML = day+"天"+hour+"小时"+min+"分"+sec+"秒";
+							repay_left_time--;
+						}
+						else{
+							$("#deal_order_status").innerHTML = ("确认收到");
+						}
+					} 
+				</script>
+				<script>
+					$(function(){
+						$("#J_detail_panel").bind("click",function(){
+							var ajaxurl = APP_ROOT+"/index.php?ctl=ajax&act=set_repay_make";
+							var query = new Object();
+							query.id = {$order_info.id};
+							$.ajax({ 
+								url: ajaxurl,
+								data:query,
+								type: "POST",
+								dataType: "json",
+								success: function(data){
+									if(data.status==1){
+										$.showSuccess(data.info,function(){
+	 									 	$.router.loadPage(window.location.href);
+	 									});
+									}else{
+										$.showErr(data.info);
+									}
+								}
+							});	
+						});
+					});	
+				</script>
+				{/if}
+				{/if}
+			{/if}
+		</ul>
+	</div>
+	{if $order_info.order_status eq 0}
+	<form class="pay_form" action="{url_wap r="account#go_order_pay"}"  method="post">	
+		<div class="blank10"></div>
+		{if $deal_info.ips_bill_no neq "" && $is_tg}
+		<div class="ul_block">
+			<ul>
+				<li class="webkit-box">
+					<label class="input_lable mr10">支付方式</label>
+					<div class="text webkit-box-flex tr">{$coll.name}</div>
+					<input type="hidden" name="is_tg" value="1">
+				</li>
+			</ul>
+		</div>			
+		{else}
+		<div class="ul_block ul_block_list">
+			<ul>
+				<li class="webkit-box">
+					<label class="input_lable mr10">应付总额</label>
+					<div class="text webkit-box-flex tr">
+						<span class="f_money">{function name="format_price" v=$order_info.deal_price}</span>
+					</div>
+				</li>
+				<li class="webkit-box" id="real_money_box">
+					<label class="input_lable mr10">余额支付</label>
+					<div class="text webkit-box-flex tr">
+						<span class="f_money" id="real_money_val"></span>
+					</div>
+				</li>
+				<li class="webkit-box" id="real_score_box">
+					<label class="input_lable mr10">积分支付</label>
+					<div class="text webkit-box-flex tr">
+						<span class="f_money" id="real_score_money"></span>
+					</div>
+				</li>
+				<li class="webkit-box" id="real_online_box">
+					<label class="input_lable mr10">在线应付</label>
+					<div class="text webkit-box-flex tr">
+						<span class="f_money" id="real_online_money"></span>
+					</div>
+				</li>
+			</ul>
+			<input type="hidden" name="max_pay" value="{$max_pay}" />
+		</div>
+		<div class="blank10"></div>
+		<div class="ul_block">
+		 	<div class="pl15 mb5 f16">选择支付方式</div>
+			<ul>
+				{if $user_info.money gt 0}
+				<li class="webkit-box dotted">
+					<label class="input_lable mr10">余额支付</label>
+					<input type="text" class="textbox webkit-box-flex mr10" value="0" name="credit" />
+					<input type="checkbox" name="ye_check" class="mt" />
+				</li>
+				<li class="small_li">
+					<div class="tr">
+						可用余额&nbsp;<span class="f_money">{function name="format_price" v=$user_info.money}</span>
+						<input type="hidden" name="max_credit" value="{$user_info.money}" />
+                    	<input type="hidden" name="max_pay" value="{$order_info.total_price}" />
+					</div>
+				</li>
+				{/if}
+				{if $user_info.score gt 0 && app_conf("SCORE_TRADE_NUMBER") >0}
+				<li class="webkit-box dotted">
+					<label class="input_lable mr10">积分支付</label>
+					<input type="text" class="textbox webkit-box-flex mr10" value="0" name="pay_score" {if $order_info.score eq 0}disabled='disabled'{/if} />抵用<span id="score_trade_money" class="f_money mr5">¥0</span>
+					<input type="checkbox" name="score_check" value="0" class="mt" />
+				</li>
+				<li class="small_li">
+					<div class="tr">
+						可用积分&nbsp;<span class="f_money">{$user_info.score}</span>
+						<input type="hidden" name="max_credit" value="{$user_info.money}" />
+                    	<input type="hidden" name="max_pay" value="{$order_info.total_price}" />
+					</div>
+				</li>
+				{/if}
+			</ul>
+		</div>
+		 {if $payment_html}
+		<div class="ul_block pay_way_list">
+			<ul {if $payment_html && $payment_list}style="border-bottom:0"{/if}>
+				<li>{$payment_html}</li>
+			</ul>
+		</div>
+		{/if}
+		{if $payment_list}
+		<div class="ul_block pay_way_list pay_way_bank_list">
+			<ul>
+				{foreach from=$payment_list item=payment name=payment key=k}
+				{if $payment.name neq '牛付银行支付(WAP版本)'}
+		   		<li {if $payment.class_name eq 'Wbfpay'}class="textarea"{/if}>
+		   			<label class="webkit-box">
+		   				{$payment.name}{if $payment.logo}<img src="{$payment.logo}" />{/if}
+			   			<div class="text webkit-box-flex tr">
+							<input type="radio" value="{$payment.id}" name="payment" class="mt" />
+						</div>
+					</label>
+					{if $payment.class_name eq 'Wbfpay'}
+					<div class="bank_list hide clearfix">
+						{foreach from=$payment_payid item=payment_pay name=payment_pay key=i}
+						<label class="p5">
+							<input type="radio" value="{$i}" name="payid" class="mt" />&nbsp;{$payment_pay}
+						</label>
+						{/foreach}
+					</div>
+			    	{/if}
+		    	</li>
+				{/if}
+		    	{/foreach}
+	    	</ul>
+	    </div>
+	    {/if}
+		{/if}
+		{if app_conf("PAYPASS_STATUS")}
+		<div class="blank10"></div>
+		<div class="ul_block">
+			<ul>
+				<li class="webkit-box">
+					<label class="input_lable mr10">付款密码</label>
+					<input type="password" placeholder="请输入付款密码" class="textbox webkit-box-flex" value="" name="paypassword" >
+					<span class="f12 f_999">&nbsp;&nbsp;忘记了？<a href="#" onclick="RouterURL('{url_wap r="settings#security" v="method=setting-pass-box"}','#settings-security');" class="theme_fcolor">点这里</a></span>
+				</li>
+			</ul>
+		</div>
+		{/if}
+		{if $order_info.type==6}
+		<div class="submit_btn_row mod_main">		 
+			<input class="ui-button theme_color" type="button" value="付款" />				
+			<input type="hidden" id="back_url" value="{url_wap r="account#stock_transfer_in" }" />	
+			<input type="hidden" value="{$order_info.id}" name="order_id" />
+			<input type="hidden" value="wap" name="from" />	
+			<input type="hidden" value="1" name="ajax" />		
+		</div>				
+ 				{else}
+		<div class="submit_btn_row mod_main">		 
+			<input class="ui-button theme_color" type="button" value="付款" />				
+			<input type="hidden" id="back_url" value="{url_wap r="account#view_order" p="id=$order_info.id"}" />	
+			<input type="hidden" value="{$order_info.id}" name="order_id" />
+			<input type="hidden" value="wap" name="from" />	
+			<input type="hidden" value="1" name="ajax" />		
+		</div>
+		{/if}
+	</form>
+	{/if}
+</section>
+<div class="blank15"></div>
+<script type="text/javascript">
+	var ips_bill_no = '{$deal_info.ips_bill_no}';
+	var is_tg = '{$is_tg}';
+	if(ips_bill_no == '' || !is_tg){
+		var order_sm={$order_sm};
+		var left_money=parseFloat({$user_info.money});
+		var need_money=parseFloat({$order_info.total_price});
+		var score={$user_info.score};
+		var trade_score='{function name='app_conf' value='SCORE_TRADE_NUMBER'}';
+	}
+</script>
+<!-- cart_pay.js -->
+{include file="inc/footer.html"} 

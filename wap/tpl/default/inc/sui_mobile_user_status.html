@@ -1,0 +1,56 @@
+{if $is_app}
+<script type="text/javascript">
+	function deal_left_app_msg(){
+		//$.alert({$is_back});
+		//$.alert({$back_url});
+		$.closeModal();
+	  	{if $is_back eq 1}
+			$.router.back();
+		{elseif $is_back eq 2}
+			$.router.loadPage("{$back_url}");
+		{else}
+		 	$.router.loadPage("{url_wap r="index"}");
+		{/if}
+    }
+	function deal_login_init(user_name,user_pwd){
+		var ajaxurl = APP_ROOT+"/index.php?ctl=user&act=do_login&ajax=1&auto_login=1";
+		var query = new Object();
+		query.email = user_name;
+		query.user_pwd = user_pwd;
+		$.ajax({
+			url: ajaxurl,
+			dataType: "json",
+			data:query,
+			type: "POST",
+			success: function(ajaxobj){
+				if(ajaxobj.status==1||ajaxobj.status==2)
+				{
+					App.login_success('{"user_name":"'+user_name+'","user_pwd":"'+user_pwd+'"}');
+ 				}
+				else
+				{
+					App.logout('{"user_name":"'+user_name+'","user_pwd":"'+user_pwd+'"}');	
+				}
+			}
+		});
+	}
+	</script>
+{else}
+<script type="text/javascript">
+   	 login_status = $("#login_status").attr('title');
+	{if $is_login||$is_loginout}
+		syn_user_info()
+	{/if}
+ 
+	function syn_user_info()
+	{	
+ 		{if $is_login}
+ 		  $("#login_status_info").html('您好，<span style="color:#fff;">{$user_info.user_name}</span>');
+		  $("#login_status_url").html('<a href="{url_wap r="settings#index"}" class="close-panel">用户中心</a>');
+		{else}
+		  $("#login_status_info").html('您好，您还没有登录哦');
+		  $("#login_status_url").html('<a href="{url_wap r="user#login"}"  class="close-panel {if $is_weixin}external{/if}">登录/注册</a>');
+		{/if}
+	}	
+</script>
+{/if}

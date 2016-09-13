@@ -1,0 +1,203 @@
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/finance/company_overview.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/finance/company_overview.css";
+?>
+<script type="text/javascript">
+//	var c_founder_team_ajaxurl = '{url r="settings#save_invite"}';
+	var c_founder_team_checkname_ajaxurl = '{url_wap r="settings#chack_team_name"}';
+</script>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss" c="$dcpagecss"}" />
+<form class="ajax_form c_founder_team_form" action="{url_wap r="settings#save_invite"}">									
+	<div class="control-group small-control-group pr" style="overflow:inherit;">
+		<label class="control-label"><span class="f_red">*</span>姓名</label>
+		<div class="control-text">
+			<div class="holder_tip_box">
+				<input type="text" value="" name="founder_name" class="textbox small_textbox w250 init_data c_founder_team_name c_founder_team_input J_check_u_name" rel="c_founder_team" />
+				<div class="holder_tip small_holder_tip"><span>输入成员姓名</span></div>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<ul class="ui_select_choices c_founder_team_menu hide" role="menu">
+			<li class="ui_select_choices_group">
+			</li>
+		</ul>
+	</div>
+	<div class="control-group small-control-group hide c_founder_team_hide">
+		<label class="control-label"><span class="f_red">*</span>职位</label>
+		<div class="control-text">
+			<input type="text"  name="job" class="small_textbox w250 c_founder_team_job" value="" />
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="control-group small-control-group hide c_founder_team_hide">
+		<label class="control-label"><span class="f_red">*</span>邮箱地址</label>
+		<div class="control-text">
+			<div class="holder_tip_box">
+				<input type="text" value="" name="founder_email" class="textbox small_textbox w250 init_data c_founder_team_email" />
+				<div class="holder_tip small_holder_tip"><span>如：example@163.com</span></div>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="control-group small-control-group" style="height:auto;">
+		<label class="control-label"><span class="f_red">*</span>任职时间段</label>
+		<div class="control-text" style="height:auto;line-height:1.5;">
+			<input readonly="" type="text" class="small_textbox w100 jcDate" rel="input-text" id="job_start_time" value="" name="job_start_time" placeholder="请选择时间">
+			<span class="f_l" style="height:35px;line-height:35px;">&nbsp;-&nbsp;</span>
+			<label class="ui_checkbox mr10 J_c_employee_team_job_time mt10" rel="is_partner">
+				<input type="checkbox" name="job_end_time" id="job_end_time" checked="checked" value="0" />至今
+			</label>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="blank10"></div>
+	<div class="submit_btn_row control-group">
+		<label class="control-label"></label>
+		<div class="two_btn webkit-box">
+			<input type="button" value="邀请提交" name="pass" class="ui-button ui_button_l theme_color webkit-box-flex" />
+			<input type="button" value="取消" onclick="$.closeModal();" class="ui_button bg_red webkit-box-flex">
+		</div>
+		<input type="hidden" value="1" name="ajax" />
+	</div>
+</form>
+<script type="text/javascript">
+	$(".J_check_u_name").bind('keyup',function(){
+		check_u_name(this,c_founder_team_checkname_ajaxurl,'c_founder_team');
+	});
+	$(document).ready(function(){
+		bind_ajax_form();
+	});
+</script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		bind_add_invite();
+	});
+	
+	function bind_add_invite()
+	{	
+		$("#add_invite").bind("click",function(){		
+			var ajaxurl = $(this).attr("url");
+			$.ajax({ 
+				url: ajaxurl,
+				type: "POST",
+				dataType: "json",
+				success: function(ajaxobj){
+					if(ajaxobj.status==1)
+					{
+						//$.weeboxs.open(ajaxobj.html, {boxid:'add_invite',contentType:'text',showButton:false, showCancel:false, showOk:false,title:'邀请机构成员',width:480,type:'wee',onopen:function(){init_ui_select();}});
+						var modal = $.modal({
+					      	text: ajaxobj.html,
+					      	buttons: []
+			    		})
+				    	$.swiper($(modal).find('.swiper-container'), {pagination: '.swiper-pagination'});
+					}
+					else
+					{
+						//$.weeboxs.open(ajaxobj.html, {boxid:'user_login',contentType:'text',showButton:false, showCancel:false, showOk:false,title:'用户登录',width:940,type:'wee'});
+						var modal = $.modal({
+					      	text: ajaxobj.html,
+					      	buttons: []
+			    		})
+				    	$.swiper($(modal).find('.swiper-container'), {pagination: '.swiper-pagination'});
+					}
+				},
+				error:function(ajaxobj)
+				{
+	//				if(ajaxobj.responseText!='')
+	//				alert(ajaxobj.responseText);
+				}
+			});
+		});
+	}
+	
+	
+	function check_u_name(obj,ajaxurl,check_type){
+		if($(obj).val()){
+			var c_val = $(obj).attr("rel");
+			var ajaxurl = ajaxurl;
+	        var query = new Object();
+	        query.name = $(obj).val();
+	        window.setTimeout(function(){
+		        $.ajax({ 
+		            url: ajaxurl,
+		            dataType: "json",
+		            data:query,
+		            type: "POST",
+		            success: function(ajaxobj){
+		                if(ajaxobj.status==1)
+		                {
+		                	var arr_name = ajaxobj.name;
+		                	var menu_width = $("."+c_val+"_input").outerWidth()-2;
+		                	var menu_top = $("."+c_val+"_input").outerHeight()+8;
+		                	var html = '';
+		                	var arr_name_length = arr_name.length;
+		                	if(check_type == 'c_founder_team'){
+		                		if(arr_name_length){
+				                	$("."+c_val+"_menu").show();
+				                	$("."+c_val+"_menu").css({width:menu_width+"px",top:menu_top+"px"});
+				                	$("."+c_val+"_menu").find(".ui_select_choices_row").remove();
+				                	for(var i=0; i<arr_name_length; i++){
+				                		html+='<div class="ui_select_choices_row clearfix">'+
+											  '		<span class="row_img mr5"><img src="'+arr_name[i].image+'"></span>'+
+											  '		<span class="row_text u_name">'+arr_name[i].user_name+'</span>'+
+											  '		<input type="hidden" name="u_email" value="'+arr_name[i].email+'">'+
+											  '		<input type="hidden" name="id" value="'+arr_name[i].id+'">'+
+											  '		<input type="hidden" name="u_job" value="'+arr_name[i].job+'">'+
+											  '</div>';
+				                	}
+				                	$("."+c_val+"_menu").find(".ui_select_choices_group").html(html);
+				                	$(".ui_select_choices_row").live('click',function(){
+										bind_yes_item.bind_yes_c_founder_team(this,c_val);
+										$("."+c_val+"_hide").show();
+										$("."+c_val+"_menu").hide();
+										show_tip();
+									});
+			                	}
+			                	else{
+			                		$("."+c_val+"_menu").hide().end().find(".ui_select_choices_row").remove();
+			                		$("."+c_val+"_hide").hide();
+			                	}
+		                	}
+		                }
+		                else{
+		                
+		                }
+		            }
+		        });
+		        return false;
+		    },300);
+		}
+	}
+	function bind_yes_item(){
+		this.bind_yes_c_founder_team = function(obj,c_val){
+			var name = $(obj).find(".u_name").text();
+			var email = $(obj).find("input[name='u_email']").val();
+			var job = $(obj).find("input[name='u_job']").val();
+			var id = $(obj).find("input[name='id']").val();
+			$("."+c_val+"_form").find("."+c_val+"_name").val(name);
+			$("."+c_val+"_form").find("."+c_val+"_job").val(job).attr("disabled","disabled").addClass("disabled");
+			$("."+c_val+"_form").find("."+c_val+"_email").val(email).attr("disabled","disabled").addClass("disabled");
+			$("."+c_val+"_form").find("input[name='user_id']").val(id);
+		}
+	}
+	var bind_yes_item = new bind_yes_item();
+</script>
+<script type="text/javascript">
+	$(function() {
+	  $(document).on("pageInit", function() {
+		$("#job_start_time,#job_end_time").datetimePickers({
+		  toolbarTemplate: '<header class="bar bar-nav">\
+		  <button class="button button-link pull-right close-picker">确定</button>\
+		  <h1 class="title">选择日期</h1>\
+		  </header>'
+		});
+		  });
+	});
+
+	$(function(){
+		$(".J_c_employee_team_job_time").on('click',function(){
+			add_job_end_time(this);
+		});
+	});	
+	
+</script>

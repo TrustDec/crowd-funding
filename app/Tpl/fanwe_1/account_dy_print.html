@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="myApp">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="renderer" content="webkit" />
+<meta name="keywords" content="{if $page_seo_keyword neq ''}{$page_seo_keyword}{else}{$seo_keyword}{/if}" />
+<meta name="description" content="{if $page_seo_description neq ''}{$page_seo_description}{else}{$seo_description}{/if}" />
+<title>{if $page_title neq ''}{$page_title} - {/if}{$site_name} - {$seo_title}</title>
+<script type="text/javascript" src="{$TMPL}/js/common_js/jquery.min.js"></script>
+<style>
+	div{margin:0 auto;}
+	.wrap{width:1200px;height:auto;}
+</style>
+</head>
+<body>
+	<div class="blank20"></div>
+	<div class="wrap">
+		<p><a href='javascript:void(0);' id="J_btn_print" class="theme_fcolor">打印</a></p>
+		<!--startprint-->
+		<div class="news_box">
+	    	<div class="page_vd">{$contract_content}</div>			
+		</div>
+		<!--endprint-->
+	</div>
+	<div class="blank20"></div>
+</body>
+<script>
+	$(function(){
+		$("#J_btn_print").live('click',function(){
+			J_print();
+		});
+		function J_print(){
+			bdhtml=window.document.body.innerHTML;
+			sprnstr="<!--startprint-->";
+			eprnstr="<!--endprint-->";
+			prnhtml=bdhtml.substr(bdhtml.indexOf(sprnstr)+17);
+			prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));
+			window.document.body.innerHTML=prnhtml;
+			window.print();
+			document.body.innerHTML = bdhtml;
+		}
+	});	
+</script>
+</html>

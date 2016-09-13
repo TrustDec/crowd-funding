@@ -1,0 +1,104 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<load href='__TMPL__Common/js/jquery.bank.js' />
+<load href='__TMPL__Common/js/user_bank.js' />
+<script type="text/javascript" src="__ROOT__/public/region.js"></script>
+<script type="text/javascript" >
+	$(document).ready(function(){	
+		$("#Jbank_bankcard").bankInput();
+		$("form").bind("submit",function(){
+			var bankcard=$("#Jbank_bankcard").val();
+			if(bankcard.length <10)
+			{
+				alert('最少输入10位账号信息！');
+				$("#Jbank_bankcard").focus();
+				return false;
+			}
+		});
+	});
+</script>
+<div class="main">
+<div class="main_title">{%EDIT}{$username}银行信息 <a href="{$back_url}" class="back_list">{%BACK_LIST}</a></div>
+<div class="blank5"></div>
+<form name="edit" action="__APP__" method="post" enctype="multipart/form-data">
+<table class="form" cellpadding=0 cellspacing=0>
+	<tr>
+		<td colspan=2 class="topTd"></td>
+	</tr>
+	<tr>
+		<td class="item_title">{%ACCOUNT_NAME}:</td>
+		<td class="item_input">{$vo.real_name}</td>
+	</tr>
+	<tr>
+		<td class="item_title">{%ACCOUNT_CATE}:</td>
+		<td class="item_input">(不支持信用卡)借记卡</td>
+	</tr>
+	<tr>
+		<td class="item_title">{%SELECT_BANK}:</td>
+		<td class="item_input">
+			<select name="bank_id" class="require">				
+			<option value="">请选择</option>
+			<foreach name="bank_list" item="item">
+				<option value="{$item.id}" day="{$item.day}" <if condition="$vo['bank_id'] eq $item['id']" >selected="selected"</if> >{$item.name}</option>
+			</foreach>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">{%ACCOUNT_ADDRESS}:</td>
+		<td class="item_input">
+			<select name="region_lv2" class="require">				
+			<option value="" rel="0">请选择省份</option>
+			<foreach name="region_lv2" item="region">			  	
+				<option value="{$region.name}" rel="{$region.id}" <if condition="$vo['region_lv2'] eq $region['name']">selected=selected</if> >{$region.name}</option>
+			</foreach>
+			</select>
+			
+			<select name="region_lv3" class="require">				
+			<option value="" rel="0">请选择城市</option>
+			<foreach name="region_lv3" item="region">			  	
+				<option value="{$region.name}" rel="{$region.id}" <if condition="$vo['region_lv3'] eq $region['name']">selected=selected</if> >{$region.name}</option>
+			</foreach>
+			</select>
+			<script type="text/javascript">
+				
+			</script>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">{%ACCOUNT_WEB}:</td>
+		<td class="item_input">
+			<input type="text" class="textbox require" name="bankzone" value="{$vo.bankzone}" />
+			<span class="">
+				<a href="http://www.cardbaobao.com/bank/index.asp" target="_blank">网点查询</a>
+			</span>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">{%BANK_NOBER}:</td>
+		<td class="item_input">
+			<input type="text" class="textbox require" name="bankcard" id="Jbank_bankcard" value="{$vo.bankcard}" />
+		</td>
+	</tr>
+
+	<tr>
+		<td class="item_title"></td>
+		<td class="item_input">
+			<!--隐藏元素-->
+			<input type="hidden" name="{:conf("VAR_MODULE")}" value="UserBank" />
+			<input type="hidden" name="{:conf("VAR_ACTION")}" value="update" />
+			<input type="hidden" name="id" value="{$vo.id}" />
+			<input type="hidden" name="user_id" value="{$user_id}" />
+			<!--隐藏元素-->
+			<input type="submit" class="button" id="submit_bank" value="{%EDIT}" />
+			<input type="reset" class="button" value="{%RESET}" />
+		</td>
+	</tr>
+	<tr>
+		<td colspan=2 class="bottomTd"></td>
+	</tr>
+</table>	 
+</form>
+</div>
+<include file="Public:footer" />

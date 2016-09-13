@@ -1,0 +1,132 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/fanwe_utils/jcDate.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jQuery-jcDate.js";
+
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/invite.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/invite.js";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/consignee.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/finance/company_overview.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<style>
+	.control-group{width:inherit;}
+	.ui-button,.ui_button{height:34px;line-height: 34px;padding: 0 30px;}
+	.control-group .control-label{width:100px;}
+</style>
+{include file="inc/home_user_info.html"}
+<!--中间开始-->
+<div class="dlmain Myhomepage">
+	{include file="inc/account_left.html"} 
+	<div class="homeright pageright f_r">
+		<div class="list_title clearfix">
+			<div class="cur">
+				<span>机构成员</span>
+			</div>
+			<a url="{url r="settings#add_invite"}" id="add_invite" class="ui-small-button f_r mt10 theme_bgcolor">+ 邀请机构成员</a>
+		</div>
+		<div class="html_add_invite"></div>
+		{if $invite_number}
+		<form method="get" action="{url r="settings#docheck"}">
+			<div class="account_search" id="account_search">
+				<div class="blank10"></div>
+				<div class="form_row control-group f_l">
+					<select name="status" id='status' class="ui-select field_select small">
+						<option value=""   {if $status eq ''}selected="selected"{/if}>选择邀请状态</option>
+						<option value="0"  {if $status eq 0 && $status neq ''}selected="selected"{/if}>未确认</option>
+	 					<option value="1"  {if $status eq 1}selected="selected"{/if}>接受邀请</option>
+						<option value="2"  {if $status eq 2}selected="selected"{/if}>拒绝邀请</option>
+					</select>
+				</div>
+				<input type="submit" value="搜索" class="ui-button theme_bgcolor" />
+				<input type="hidden" name="ctl" value="settings">
+				<input type="hidden" name="act" value="invite">
+			</div>
+		</form>
+		{/if}
+		<div class="i_deal_list clearfix">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc_table">
+				<tbody>
+					<tr border="0" style="background-color:#f4f4f4; color:#555; height:40px;">
+						<th width="100">机构成员姓名</th>
+						<th width="130">机构成员职业</th>
+						<th width="100">机构成员邮箱</th>
+						<th width="100">邀请机构成员时间</th>
+						<th width="80">邀请状态</th>	
+						<th width="80">操作</th>
+					</tr>
+					{if $invite_list}
+					{foreach from=$invite_list item=invite_item}
+					<tr>
+						<td >
+							{$invite_item.user_name}	
+						</td>
+						<td>
+							{$invite_item.position}
+						</td>
+						<td>
+							<span>{$invite_item.email}</span>
+						</td>
+						<td>	
+							{if $invite_item.update_time eq 0}		
+							<span>{function name="to_date" v=$invite_item.create_time}</span>
+							{else}
+								<span>{function name="to_date" v=$invite_item.update_time}</span>
+							{/if}
+						</td>
+						<td >
+							{if $invite_item.status eq 0}	
+								 待确认
+							{elseif  $invite_item.status eq 1}
+								接受邀请
+							{else}
+								拒绝邀请
+							{/if}
+						</td>
+						<td >
+							{if $invite_item.status eq 0}	
+								无
+							{else}
+								<a href="javascript:void(0);" onclick="javascript:del_invite('{$invite_item.id}')">删除</a>
+							{/if}
+						</td>
+					</tr>
+					{/foreach}
+					{else}
+					<tr>
+						<td colspan="6">还没有机构成员邀请记录</td>
+					</tr>
+					{/if}
+				</tbody>
+			</table>
+			<div class="blank20"></div>
+			<div class="pages">{$pages}</div>
+			<div class="blank20"></div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="clear"></div>
+</div>
+<!--中间结束-->
+<div class="blank"></div>
+<script type="text/javascript">
+	function del_invite(id){
+		var post_url=APP_ROOT+"/index.php?ctl=settings&act=del_invite&id="+id;
+		$.ajax({
+			url:post_url,
+			dataType:"json",
+			type:"post",
+			success:function(data){
+				if(data.status==1){
+					$.showSuccess(data.info,function(){
+							window.location.reload()
+					});
+				}else{
+					$.showErr(data.info);
+				}
+			}
+		});
+	}
+</script>
+{include file="inc/footer.html"} 

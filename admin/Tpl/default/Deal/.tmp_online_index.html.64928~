@@ -1,0 +1,140 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<PHP>
+	function get_refund($id,$deal)
+	{
+		if($deal['is_success']==0&&$deal['end_time']<get_gmtime()&&$deal['end_time']!=0)
+		{
+ 			return "<a href='javascript:void(0);' onclick=\"if(confirm('是否确认退款')){window.location.href='".u("Deal/batch_refund",array("id"=>$id))."';} \" >批量退款</a>";
+		}
+	}
+	function get_edit($id,$deal){
+ 		if($deal['type']==1){
+			return "<a href=\"javascript:edit_investor_index('".$id."')\">编辑</a>";
+		}else{
+			return "<a href=\"javascript:edit_index('".$id."')\">编辑</a>";
+		}
+	}
+	function get_pay_list($id,$deal){
+		if($deal['type']==1){
+			return "<a href=\"javascript:get_pay_list('".$id."')\">投资列表</a>";
+		}else{
+			return "<a href=\"javascript:get_pay_list('".$id."')\">支持列表</a>";
+		}
+	}
+	function get_item($id,$deal){
+ 		if($deal['type']==1){
+			return "";
+		}else{
+			return "<a href=\"javascript:deal_item('".$id."')\">子项目</a>";
+		}
+	}
+	function get_level($level){
+		$user_level = $GLOBALS['db']->getOne("select `name` from ".DB_PREFIX."deal_level where id = '".intval($level)."'");
+		return $user_level;
+	}
+	function edit_new($name,$id){
+		$deal=$GLOBALS['db']->getOne("select type from ".DB_PREFIX."deal where id=$id ");
+ 		if($deal['type']==1){
+			return "<a href=\"javascript:edit_investor('".$id."')\">$name</a>";
+		}else{
+			return "<a href=\"javascript:edit('".$id."')\">$name</a>";
+		}
+	}
+</PHP>
+<script>
+	//编辑跳转
+function edit_1(id)
+{
+	location.href = ROOT+"?"+VAR_MODULE+"="+MODULE_NAME+"&"+VAR_ACTION+"=edit_investor&id="+id;
+}
+function get_pay_list(id){
+	location.href = ROOT+"?"+VAR_MODULE+"=DealOrder&"+VAR_ACTION+"=get_pay_list&deal_id="+id;
+}
+function edit_index(id)
+{
+	location.href = ROOT+"?"+VAR_MODULE+"="+MODULE_NAME+"&"+VAR_ACTION+"=edit&id="+id;
+}
+function edit_investor_index(id)
+{
+	location.href = ROOT+"?"+VAR_MODULE+"="+MODULE_NAME+"&"+VAR_ACTION+"=edit_investor&id="+id;
+}
+</script>
+<load href='__TMPL__Common/js/jquery.bgiframe.js' />
+<load href='__TMPL__Common/js/jquery.weebox.js' />
+<load href='__TMPL__Common/js/deal.js' />
+<load href='__TMPL__Common/style/weebox.css' />
+<script type="text/javascript" src="__TMPL__Common/js/calendar/calendar.php?lang=zh-cn" ></script>
+<load href='__TMPL__Common/js/calendar/calendar.css' />
+<load href='__TMPL__Common/js/calendar/calendar.js' />
+<div class="main">
+<div class="main_title">上线项目</div>
+<div class="blank5"></div>
+<div class="button_row">
+	<input type="button" class="button" value="新增产品众筹" onclick="add();" />
+	<input type="button" class="button" value="新增股权众筹" onclick="add_investor();" >
+	<input type="button" class="button" value="移到回收站" onclick="del();" />
+</div>
+<div class="blank5"></div>
+<div class="search_row">
+	<form name="search" action="__APP__" method="get">	
+		项目名称：<input type="text" class="textbox" name="name" value="{:trim($_REQUEST['name'])}" style="width:100px;" />
+		时间:<select name="time_status">
+				<option value="0" <if condition="$_REQUEST['time_status'] eq 0">selected="selected"</if>>全部</option>
+				<option value="1" <if condition="$_REQUEST['time_status'] eq 1">selected="selected"</if>>未开始</option>
+				<option value="2" <if condition="$_REQUEST['time_status'] eq 2">selected="selected"</if>>进行中</option>
+				<option value="3" <if condition="$_REQUEST['time_status'] eq 3">selected="selected"</if>>已结束</option>
+			</select>
+		分类:<select name="cate_id">
+				<option value="0" <if condition="$_REQUEST['time_status'] eq 0">selected="selected"</if>>全部</option>
+				<foreach name="cate_list" item="cate_item">
+					<option value="{$cate_item.id}" <if condition="$_REQUEST['cate_id'] eq $cate_item['id']">selected="selected"</if>>{$cate_item.name}</option>
+				</foreach>
+			</select>
+		类型:<select name="type">
+			<option value="NULL" <if condition="$_REQUEST['type'] eq 'NULL'">selected="selected"</if> >请选择</option>
+			<option value="0" <if condition="$_REQUEST['type'] eq '0'">selected="selected"</if> >产品众筹</option>
+			<option value="1" <if condition="$_REQUEST['type'] eq '1'">selected="selected"</if> >股权众筹</option>
+			</select>
+		发起人ID: <input type="text" class="textbox" name="user_id" value="{:trim($_REQUEST['user_id'])}" style="width:30px;" />
+		<br/>
+		创建时间：<input type="text" class="textbox" name="create_time_1" id="create_time_1" value="{$_REQUEST['create_time_1']}" onfocus="this.blur(); return showCalendar('create_time_1', '%Y-%m-%d', false, false, 'btn_create_time_1');" />
+			   <input type="button" class="button" id="btn_create_time_1" value="{%SELECT_TIME}" onclick="return showCalendar('create_time_1', '%Y-%m-%d', false, false, 'btn_create_time_1');" />	
+		至 <input type="text" class="textbox" name="create_time_2" id="create_time_2" value="{$_REQUEST['create_time_2']}" onfocus="this.blur(); return showCalendar('create_time_2', '%Y-%m-%d', false, false, 'btn_create_time_2');" />
+		<input type="button" class="button" id="btn_create_time_2" value="{%SELECT_TIME}" onclick="return showCalendar('create_time_2', '%Y-%m-%d', false, false, 'btn_create_time_2');" />	
+		
+		<input type="hidden" value="Deal" name="m" />
+		<input type="hidden" value="online_index" name="a" />
+		<input type="submit" class="button" value="{%SEARCH}" />
+	</form>
+</div>
+<div class="blank5"></div>
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="deal" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{%ID}|50px
+		,name|edit_new=$deal['id']:项目名称
+		,type|get_type_name:类型|100px
+		,user_level|get_level=$deal['user_level']:项目等级
+		,user_id|get_deal_user:发起人|50px
+		,support_amount|format_price:已筹金额
+		,is_success|get_status:成功	
+		,focus_count:关注|50px
+		,support_count:支持|50px
+		,create_time|to_date:创建时间
+		,end_time|get_to_date:结束时间
+		,sort|get_sort=$deal['id']:{%SORT}
+		,is_recommend|get_toogle_status=$deal['id']#is_recommend:推荐
+		,is_classic|get_toogle_status=$deal['id']#is_classic:经典
+		,is_hot|get_toogle_status=$deal['id']#is_hot:热门" 
+	actionlist="id|get_edit=$deal, del:移到回收站,id|get_item=$deal, pay_log:发放筹款, deal_log:项目日志,id|get_refund=$deal,id|get_pay_list=$deal" /> 
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

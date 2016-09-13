@@ -1,0 +1,223 @@
+<div class="xqmain_header">
+	<div class="deal_basic box_main clearfix">
+		<div class="deal_basic_hd deal_cp_basic_hd clearfix">
+			<div class="img">
+				{function name="show_avatar" p="$deal_info.user_id"}
+			</div>
+			<div class="text">
+				<h3>{$deal_info.name}</h3>
+				<p>{if $deal_info.user_id neq 0}<label class="f_999">发起人</label>&nbsp;<a href="{url r="home" p="id=$deal_info.user_id"}" class="theme_fcolor">{$deal_info.user_name}{if $user_info.user_icon} <img src="{$user_info.user_icon}" title="会员等级" class="level_icon" />{/if}</a>&nbsp;<a href="javascript:void(0)" onclick="send_message(100)" class="btn_send_message" style="display:inline-block">+发私信</a>{else}<span>{function name="app_conf" v="SITE_NAME"}</span>{/if}</p>
+			</div>
+			<div class="share_focus_box">
+				<div class="share">
+		        	<label class="f_l">分享：</label>
+					<div class="bdsharebuttonbox">
+						<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+						<a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+						<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+						<a href="#" class="bds_mail" data-cmd="mail" title="分享到邮件分享"></a>
+					</div>
+					<script type="text/javascript">
+						window._bd_share_config={
+							"common":{
+								"bdSnsKey":{},
+								"bdText":"{$deal_info.name}",
+								"bdDesc":"{$deal_info.brief}",
+								"bdPic":"{$deal_info.image}",
+								"bdMini":"1",
+								"bdMiniList":false,
+								"bdStyle":"1",
+								"bdSize":"32"
+							},
+							"share":{},
+							"selectShare":{
+								"bdContainerClass":null,
+								"bdSelectMiniList":["weixin","sqq","tsina","mail"]
+							}
+						};
+						with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+					</script>
+		        </div>
+				<div class="focus">
+					<label class="f_l">关注：</label>
+					{if $deal_info.type neq 1}	
+						{if $is_focus}
+						<div class="qxgz attention_focus_deal" id="{$deal_info.id}" title="取消关注"></div>	
+						{else}
+						<div class="gz attention_focus_deal" id="{$deal_info.id}" title="关注"></div>	
+						{/if}
+					{/if}
+				</div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+		<div class="deal_basic_bd">
+			<div class="bd_left">
+				<div class="img_show">
+				{foreach from=$deal_info.deal_imgs item=img name=deal_imgs_name}
+					<img src="{$img.image}" alt="{$deal_info.name}" width="760" height="530" class="{if !$smarty.foreach.deal_imgs_name.first}hide{/if}" />
+				{/foreach}
+				</div>
+				{if $deal_info.deal_imgs&&count($deal_info.deal_imgs) >1}
+				<div class="img_navs">
+					<div class="img_nav">
+						{foreach from=$deal_info.deal_imgs item=img name=deal_imgs_name}
+						<img src="{$img.image}" alt="{$deal_info.name}" width="80" height="56" onclick="scrollTo(this);" {if $smarty.foreach.deal_imgs_name.first}class="active"{/if} />
+						{/foreach}
+					</div>
+					<div class="img_nav_mask"></div>
+				</div>
+				{/if}
+			</div>
+			<div class="bd_right">
+				{if $access==1}
+				<div class="schedule_box f_l">
+					<span class="finance_status">
+					{if $deal_info.is_effect eq 1}
+						{if $deal_info.begin_time > $now}
+						<i class="preheat">预热中</i>
+						{elseif $deal_info.end_time < $now and $deal_info.end_time neq 0}
+							{if $deal_info.is_success eq 1}
+						<i class="success">已成功</i>
+							{else}
+						<i class="fail">筹资失败</i>
+							{/if}	 
+						{else}
+							{if $deal_info.percent gte 100}
+								<i class="success">已成功</i>
+							{elseif $deal_info.end_time eq 0}
+						<i class="long">长期项目</i>
+							{else}
+						<i class="financing">筹资中</i>
+							{/if}
+						{/if}
+					{elseif $deal_info.is_effect eq 2}
+						<i class="audit_fail">审核失败</i>
+					{else}
+						<i class="audit_wait">待审核</i>
+					{/if}
+					</span>
+					<div class="schedule_m">
+						<div class="loading-progress">
+							<span title="{$deal_info.percent}%">
+								{if $deal_info.begin_time > $now}
+								<div class="loading-bar" style="width:{$deal_info.percent}%;background:#ffae00;">{$deal_info.percent}%</div>
+								{elseif $deal_info.end_time < $now and $deal_info.end_time neq 0}
+									{if $deal_info.is_success eq 1}
+									<div class="loading-bar" style="width:100%;"><span>{$deal_info.percent}%</span></div>
+									{else}
+									<div class="loading-bar" style="width:{$deal_info.percent}%;background:#4d4d4f;"><span>{$deal_info.percent}%</span></div>
+									{/if}
+								{else}
+									{if $deal_info.percent gte 100}
+									<div class="loading-bar" style="width:100%;"><span>{$deal_info.percent}%</span></div>
+									{else}
+										{if $deal_info.end_time eq 0}
+										<div class="loading-bar" style="width:{$deal_info.percent}%;"><span>{$deal_info.percent}%</span></div>
+										{else}
+										<div class="loading-bar" style="width:{$deal_info.percent}%;"><span>{$deal_info.percent}%</span></div>
+										{/if}
+									{/if}
+								{/if}
+								<div class="loading-container">
+									<i width="15" height="15" class="myCanvas"></i>
+									<span class="loading-point"></span>
+									<span class="loading-detail">已筹集：{$deal_info.total_virtual_price}元</span>
+								</div>
+								<div class="loading-container syndicate-goal">
+									<span class="loading-detail">筹集目标：{$deal_info.limit_price_format}元</span>
+									<span class="loading-point"></span>
+									<i width="15" height="15" class="myCanvas"></i>
+								</div>
+							</span>
+						</div>
+						<div class="blank0"></div>
+						<div class="target_money f_999">
+							<span>此项目须在 {function name="to_date" v=$deal_info.end_time f="Y年m月d日H时i分"} 前，获得<span class="f_money">{function name="format_price" v=$deal_info.limit_price_format}</span>的支持才可成功!</span>
+						</div>
+						<div class="info-area mb20">
+					        <div class="info-content">
+					            <p class="content-val">{if $deal_info.ips_bill_no eq 0}网站支付{else}第三方托管{/if}</p>
+					            <p class="start-num">支付方式</p>
+					        </div>
+					        <div class="info-line"></div>
+					        <div class="info-content">
+					            <p class="content-val">{if $deal_info.is_effect eq 1}{if $deal_info.begin_time gt NOW_TIME}预热中{else}{if $deal_info.remain_days < 0}{if $deal_info.percent gte 100}已成功{else}已过期{/if}{else}{if $deal_info.remain_days le 0}0{else}{$deal_info.remain_days}{/if}天{/if}{/if}{elseif $deal_info.is_effect eq 2}审核失败{else}待审核{/if}</p>
+					            <p class="start-num">剩余时间</p>
+					        </div>
+					        <div class="info-line next"></div>
+					        <div class="info-content">
+					            <p class="content-val">{if $deal_info.virtual_person eq 0}{$deal_info.support_count}{else}{$deal_info.person}{/if}人</p>
+					            <p class="start-num">支持人数</p>
+					        </div>
+						</div>
+						{if ($deal_info.end_time > $now or $deal_info.end_time eq 0) and $deal_info.begin_time < $now and $deal_info.is_effect eq 1 }
+							<a href="#repays_box" class="ui_button ui-button-block theme_bgcolor mb30">立即支持</a>
+						{else}
+							<a href="javascript:void(0);" class="ui_button ui-button-block bg_gray mb30" id="J_btn_end" {if $deal_info.begin_time > $now}rel="preheat"{/if}>立即支持</a>
+						{/if}
+						<div class="jlxqTitleText siteIlB_box">
+							<span class="gy siteIlB_item">
+	                            <a href="{url r="deals" p="id=$deal_info.cate_id&type=0"}" title="{$deal_info.deal_type}" target="_blank">{$deal_info.deal_type}</a>
+	                        </span>
+							<span class="addr siteIlB_item">{$deal_info.province}&nbsp;{$deal_info.city}</span>
+							{if $deal_info.tags neq ''}
+		                    <span class="label siteIlB_item">
+		                    	{foreach from=$deal_info.tags_arr item=tag}
+		                    	{if trim($tag) neq ''}
+	                            <a href="{url r="deals" p="tag=$tag&type=0"}" title="{$tag}" target="_blank">{$tag}</a>
+	                            {/if}
+		                    	{/foreach}
+	                        </span>
+		                	{/if}
+		                </div>
+					</div>
+				</div>
+				{else}
+				<div class="blank0"></div>
+				    {if $access eq 0}
+                    <div class="box border_dashed2 border_radius7 mt20" style="margin:20px 0 20px 20px;">
+                        <div class="box_main f16 tc clearfix">
+                            <span>您需要登录后才可以查看该项目详情</span>
+                            <div class="blank10"></div>
+                            <a onclick="javascript:show_pop_login();" class="ui-button ui-center-button theme_bgcolor">马上登录</a>
+                        </div>
+                    </div>
+                    {/if}
+                    {if $access eq 2}
+                    <div class="box border_dashed2 border_radius7 mt20" style="margin:20px 0 20px 20px;">
+                        <div class="box_main f16 tc clearfix">
+                            <span>您的会员等级不够，无法查看项目详细信息！</span>
+                        </div>
+                    </div>
+                    {/if}
+                    {if $access eq 3}
+                    <div class="box border_dashed2 border_radius7 mt20" style="margin:20px 0 20px 20px;">
+                        <div class="box_main f16 tc clearfix">
+                            <span>手机认证后，即可查看该项目详情</span>
+                            <div class="blank10"></div>
+                            <a href="{url r="settings#security" p="method=setting-mobile-box"}" class="ui-button ui-center-button theme_bgcolor">马上去手机认证</a>
+                        </div>
+                    </div>
+                    {/if}
+				{/if}
+			</div>
+		</div>
+	</div>
+	<div class="tab-section">
+    	<a href="{url r="deal#show" p="id=$deal_info.id"}" {if ACTION_NAME eq 'show'}class="active"{/if}>项目主页</a>
+    	{if $access==1}
+	    	<a href="{url r="deal#update" p="id=$deal_info.id"}" {if ACTION_NAME eq 'update' or ACTION_NAME eq 'updatedetail'}class="active"{/if}>动态({$deal_info.log_count})</a>
+	    	{if $deal_info.is_support_print eq 1 && $deal_info.type neq 1}
+	    		<a href="{url r="deal#support" p="id=$deal_info.id"}" {if ACTION_NAME eq 'support'}class="active"{/if}>支持者({$deal_info.person})</a>
+	    	{/if}
+	    	<a href="{url r="deal#comment" p="id=$deal_info.id"}" {if ACTION_NAME eq 'comment'}class="active"{/if}>评论({if $comment_count gt 0}{$comment_count}{else}0{/if})</a>
+	    	{if $deal_info.type eq 1 && ($deal_info.stock_type eq 2 || $deal_info.stock_type eq 3 ) }
+	    		<a href="{url r="deal#fixation_return" p="id=$deal_info.id"}" {if ACTION_NAME eq 'fixation_return'}class="active"{/if}>固定回报({if $fixation_return_num gt 0}{$fixation_return_num}{else}0{/if})</a>
+	    	{/if}
+	    	{if $deal_info.type eq 1 && ($deal_info.stock_type eq 1 || $deal_info.stock_type eq 3) }
+	    		<a href="{url r="deal#share_bonus" p="id=$deal_info.id"}" {if ACTION_NAME eq 'share_bonus'}class="active"{/if}>分红纪录({if $share_bonus_num gt 0}{$share_bonus_num}{else}0{/if})</a>		
+			{/if}
+    	{/if}
+ 	</div>
+</div>

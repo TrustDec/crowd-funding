@@ -1,0 +1,102 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/jquery.bank.js";
+$this->_var['cpagejs'][] = array();
+?>
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$cpagejs"}"></script>
+<div class="blank"></div>
+<script>
+	$(document).ready(
+		function(){
+			$("#Jbank_bankcard").bankInput(); 
+		}
+	);
+</script>
+<!--中间开始-->
+<div class="dlmain Myhomepage">
+		<div class="homeleft pageleft f_l ">
+			<div class="menutitle">项目管理</div>
+			<ul class="homemenulist">
+				<li><a href="{url r="account#index"}" class="a1">支持的项目</a></li>
+				<li><a href="{url r="account#project"}" class="a2">我的项目</a></li>
+				<li><a href="{url r="account#focus"}" class="a3">关注的项目</a></li>
+				<li><a href="{url r="account#credit"}" class="a4">收支明细</a></li>
+				<li><a href="{url r="account#record"}">充值记录</a></li>	
+			</ul>
+			<div class="menutitle">个人设置</div>
+			<ul class="homemenulist">
+				<li><a href="{url r="settings#index"}" class="a5">资料修改</a></li>
+				<li><a href="{url r="settings#password"}" class="a6">修改密码</a></li>
+				<li><a href="{url r="settings#consignee"}" class="a8">收件地址管理</a></li>
+				<li><a href="{url r="settings#bind"}" class="a7">绑定设置</a></li>
+				<li class="select"><a href="{url r="settings#bank"}" class="a9">银行帐户</a></li>	
+			</ul>			
+		</div>
+		<div class="homeright pageright f_r">
+			<div >
+				<div class="page_title">
+					请填写真实的银行帐户信息，用于提现与发放筹款。
+				</div>
+				<div class="blank"></div>
+		
+				<div class="blank"></div>
+				<div class="full">
+				<div class="empty_tip">以下信息我们承诺保护用户的隐私，不会公开。</div>
+				</div>
+				<div class="blank"></div>
+				<div class="left">
+					<form class="ajax_form" action="{url r="settings#save_bank"}">
+											
+						<div class=" control-group">
+							<label class="form_lable">真实姓名:</label>
+							<input type="text" {if $user_info.is_bank gt 0}readonly="readonly"{/if} value="{$user_info.ex_real_name}" class="textbox" name="ex_real_name" />
+							<div class="form_tip">与开户行相对应的真实姓名</div>
+						</div>
+						<div class="control-group">
+							<label class="form_lable">开户银行:</label>
+							<input type="text" {if $user_info.is_bank gt 0}readonly="readonly"{/if} value="{$user_info.ex_account_bank}" class="textbox" name="ex_account_bank" />
+							<div class="form_tip">请填写你的开户行信息。</div>
+						</div>
+						<div class="control-group">
+							<label class="form_lable">银行帐号:</label>
+							<input type="text" {if $user_info.is_bank gt 0}readonly="readonly"{/if} value="{$user_info.ex_account_info}" class="textbox" name="ex_account_info" id="Jbank_bankcard" />
+							<div class="form_tip">请填写真实的银行帐号与相关信息。</div>
+						</div>
+						<div class="control-group">
+							<label class="form_lable">联系电话:</label>
+							<input type="text" {if $user_info.is_bank gt 0}readonly="readonly"{/if} value="{$user_info.ex_contact}" class="textbox" name="ex_contact" />
+							<div class="form_tip">请填写手机或电话等有效联系方式</div>
+						</div>
+						<div class="control-group">
+							<label class="form_lable">联系QQ:</label>
+							<input type="text" {if $user_info.is_bank gt 0}readonly="readonly"{/if} value="{$user_info.ex_qq}" class="textbox" name="ex_qq" />
+							<div class="form_tip">请填写真实的QQ号码，以便我们的客服人员能更快捷的联系到您。</div>
+						</div>
+						
+					{if $user_info.is_bank eq 0}	
+						<div class="submit_btn_row" >
+							<div class="ui-button green" rel="green" style="margin-left: 115px;">
+								<div>
+									<span>保存</span>
+								</div>
+							</div>
+							<input type="hidden" value="1" name="ajax" />
+							<div class="blank15"></div>
+						</div>
+					{/if}	
+					</form>
+				</div><!--left-->
+				
+				
+				<div class="blank"></div>
+		
+			</div>
+	
+	 		<div class="blank"></div>	
+		</div>
+
+<!--中间结束-->
+<div class="blank"></div>
+</div>
+<div class="blank"></div>
+{include file="inc/footer.html"} 

@@ -1,0 +1,31 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<php>
+	function getArticleType($type_id)
+	{
+		return l("ARTICLE_TYPE_".$type_id);
+	}
+</php>
+<div class="main">
+<div class="main_title">{$main_title}</div>
+<div class="blank5"></div>
+<div class="button_row">
+	<input type="button" class="button" value="{%ADD}" onclick="add();" />
+	<input type="button" class="button" value="{%DEL}" onclick="del();" />
+</div>
+<div class="blank5"></div>
+<html:tree_list 
+	id="dataTable" 
+	style="dataTable" 
+	name="articlecate" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{%ID}|50px,title:{%TITLE_SHOW}:edit,type_id|getArticleType:{%ARTICLE_TYPE},seo_title:SEO标识,is_effect|get_is_effect=$articlecate['id']:{%IS_EFFECT},sort|get_sort=$articlecate['id']:{%SORT}" 
+	actionlist="edit:{%EDIT}, del:{%DEL}" /> 
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

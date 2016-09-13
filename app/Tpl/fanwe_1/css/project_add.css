@@ -1,0 +1,149 @@
+/* project_add project_edit 开始 */
+.agreement_hd {
+	width:100%;
+	height:65px;
+	background:url(../images/images/agreementhd.png) no-repeat center;
+}
+.agreement_bd{
+	background:#fff;
+	border:1px solid #dedede;
+	border-top:0;
+	width:998px;
+}
+.agreementlf {
+	width:620px;
+	padding-bottom:50px;
+	background:#f8f8f8;
+}
+.agreementrt {
+	width:378px;
+}
+.agreementlist {
+	margin:35px 0 0 60px;
+}
+.agreementlf label {
+	width:110px;
+	color:#999;
+	margin-right:15px;
+	text-align:right;
+	float:left;
+	font-size:13px;
+}
+.se {
+	color:#3789e0;
+	cursor:pointer;
+}
+.addqs {
+	width:110px;
+	display:inline-block;
+	margin-right:15px;
+	text-align:right;
+	float:left;
+	font-size:13px;
+}
+
+.pro_msg{
+	font-size:20px;
+	color:#000;
+	margin:35px 0 15px 56px;
+}
+.setlist{
+	padding:5px 0;
+	margin:5px 0;
+	width: 100%;
+}
+.setleft label{
+	width: 90px;
+	color: #666666;
+	margin-right: 15px;
+	text-align: right;
+	float: left;
+	font-size: 13px;
+}
+.setmid{
+	color:#999;
+	display: inline-block;
+	margin-top:10px;
+}
+.setleft input {
+	vertical-align:top;
+	height: 22px;
+	line-height: 23px;
+	border: 1px solid #d7d7d7;
+	border-radius: 5px;
+}
+.setleft textarea {
+	width:365px;
+	height:115px;
+	line-height:22px;
+	display:block;
+	border:1px solid #d7d7d7;
+	border-radius:5px;
+	padding:11px 0px 11px 5px;
+}
+
+.pro_lf{ padding:10px; width:350px; }
+.hide { height:0;float:none }
+.setlist{position:relative;}
+.holder_tip{left:125px}
+.faq_item1{position:relative;overflow:hidden;padding:4px;}
+.faq_item1 .holder_tip{left:4px;top:4px;}
+
+/*地图*/
+#container{height:200px; width: 200px; float:left;}  
+#container_front{width: 600px; height:500px; border: 1px solid #000; position: absolute; top: 10px; background-color: #fff; overflow: hidden;z-index:9999;}
+#container_m{ width: 550px; height: 450px; margin: 0 auto; z-index:9999;}
+#cancel_btn{display: block; width: 600px; height: 18px; line-height: 18px; text-align: right; z-index:9999;}
+/*end 地图*/
+/* project_add project_edit 结束 */
+
+
+.image_box .image_item{
+	position:relative;
+	width:60px;
+	height:60px;
+	margin-right:15px;
+}
+.image_box .image_item .remove_image{
+	position:absolute;
+	top:-8px;
+	right:-8px;
+	width:16px;
+	height:16px;
+	line-height:16px;
+	text-align:center;
+	cursor:pointer;
+	-moz-border-radius:50%; -khtml-border-radius:50%; -webkit-border-radius:50%; border-radius:50%;
+}
+.image_box .image_item .remove_image .iconfont{
+	color:#fff;
+	font-size:12px;
+}
+.imgupload_box input.filebox{
+	position:absolute;
+	top:0;
+	left:0;
+  	width: 60px;
+  	height: 60px;
+  	cursor: pointer;
+  	padding: 0;
+	filter: alpha(opacity=0);
+  	-moz-opacity: 0;
+  	-khtml-opacity: 0;
+  	opacity: 0;
+}
+.imgupload_box .imgupload{
+	width: 58px;
+  	height: 58px;
+  	line-height:55px;
+  	border:1px dashed #ccc;
+  	text-align:center;
+  	font-size:40px;
+  	cursor:pointer;
+  	word-wrap:normal;
+}
+.img_con{
+	  display: inline-block;
+	  padding-top:6px;
+      height:39px;
+}

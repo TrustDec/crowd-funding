@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="Generator" />
+        <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=0,minimum-scale=0.5">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="format-detection" content="telephone=no">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{if $page_title neq ''}{$page_title} - {/if}{$site_name} - {$seo_title}</title>
+        <meta name="keywords" content="{$seo_keyword}" />
+        <meta name="description" content="{$seo_description}" />
+        <?php
+        $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/layout.css";
+		$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/style.css";
+		$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/weebox.css";
+	    $this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/jquery.js";
+		$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/jquery.bgiframe.js";
+		$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/jquery.weebox.js";
+		$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/jquery.bgiframe.js";
+		$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/jquery.weebox.js";
+        $this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/script.js";
+		$this->_var['cpagejs'][]='';
+		if(app_conf("APP_MSG_SENDER_OPEN")==1)
+		{
+	 		$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/msg_sender.js";
+			$this->_var['cpagejs'][] = $this->_var['TMPL_REAL']."/js/msg_sender.js";
+		}
+ 
+  		?>
+        <link rel="stylesheet" type="text/css" href="{$font_url}" />
+        <link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$pagecss"}" />
+        <script type="text/javascript">
+            var APP_ROOT = '{$APP_URL}';
+			var APP_ROOT_ORA = '{$PC_URL}';
+			{if app_conf("APP_MSG_SENDER_OPEN") eq 1}
+			var send_span = {function name="app_conf" v="SEND_SPAN"}000;
+			{/if}
+        </script>
+        <script type="text/javascript" src="{function name="parse_script" v="$pagejs" c="$cpagejs"}">
+        </script>
+        <!--百度轻应用-->
+        <meta name="baidu-tc-cerfication" content="688cdfaa49f7c8f87fd5883492587d8e">
+    </head>
+    <body {if  ACT eq 'index'}  style="background: #f9f9f9;"{/if}>
+    <div class="wraper">
+
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/fancybox.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/jquery.fancybox.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/deal.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/deal.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/script.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/script.js";
+
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/deal_support.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/css/font-awesome.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/deal.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<!-- 中间 开始 -->
+<div class="l_main_bd slideTxtBox">
+    <div class="effect_bd">
+        
+        
+        <!-- 股东及管理团队 开始 -->
+        <div class="investor_info_box" id="pro_con_2">
+            <div class="title f_red">
+                <i class="fa fa-tags mr5"></i>股东团队说明
+            </div>
+            <div class="text">
+            {if $stock_list}
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab2">
+                <tbody>
+                    <tr class="col">
+                        <td>姓名</td>
+                        <td>职务</td>
+                        <td>所占股份(%)</td>
+                        <td>是否全职</td>
+                        <td>实际出资金额（万元）</td>
+                        <td>与其他股东历史关系描述</td>
+                    </tr>
+                    {foreach from=$stock_list item=stock_item key=k1}
+                    <tr>
+                        <td>{$stock_item.name}</td>
+                        <td>{$stock_item.job}</td>
+                        <td>{$stock_item.share}</td>
+                        <td>{$stock_item.is_full_time}</td>
+                        <td>{$stock_item.invest_money}</td>
+                        <td>{$stock_item.relation}</td>
+                    </tr>
+                    {/foreach}
+                </tbody>
+                </table>
+                {foreach from=$stock_list item=stock_item key=k1}
+                <div class="name">▍股东团队成员{$stock_item.name}简介：</div>
+                <div class="sub"> {$stock_item.describe} </div>
+                {/foreach}
+            {/if}
+            {if !$stock_list}
+                暂无股东团队说明
+            {/if} 
+            </div>
+            <div class="blank15"></div>
+            <div class="title f_red">
+                <i class="fa fa-tags mr5"></i>非股东管理团队
+            </div>
+            <div class="text">
+            {if $unstock_list}
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab2">
+                <tbody>
+                    <tr class="col">
+                        <td>姓名</td>
+                        <td>职务</td>
+                        <td>是否全职</td>
+                        <td>与创始团队成员历史关系</td>
+                    </tr>
+                    {foreach from=$unstock_list item=unstock_item}
+                        <tr>
+                            <td>{$unstock_item.name}</td>
+                            <td>{$unstock_item.job}</td>
+                            <td>{$unstock_item.is_full_time}</td>
+                            <td>{$unstock_item.relation}</td>
+                        </tr> 
+                    {/foreach}
+                </tbody>
+                </table>
+                {foreach from=$unstock_list item=unstock_item }
+                        <div class="name">▍非股东团队成员{$unstock_item.name}简介：</div>
+                        <div class="sub"> {$unstock_item.describe} </div>
+                {/foreach}
+            {/if}
+            {if !$unstock_list}
+            <div class="tc f_999">暂无非股东管理团队</div>
+            {/if}
+            </div>
+        </div>
+        <!-- 股东及管理团队 结束 --> 
+    </div>   
+</div>
+<!-- 中间 结束 -->
+<script type="text/javascript">
+	
+	
+//领投人详细资料
+function leader_detailed_information(){
+		var ajaxurl='{url_wap r="ajax#leader_detailed_information" p="id=$deal_info.id"}';
+		$.ajax({
+			url: ajaxurl,
+			dataType: "json",
+			type: "POST",
+			success: function(ajaxobj){
+				if(ajaxobj.status==1){
+					$.weeboxs.open(ajaxobj.html, {boxid:'leader_detailed_info',contentType:'text',showButton:false, showCancel:false, showOk:false,title:'详细信息',width:300,type:'wee'});
+				}
+			    if(ajaxobj.status==2){
+					$.showErr(ajaxobj.info);
+				}
+			}
+		});
+}
+
+</script>
+</div>
+<div id="jumphelper" style="display:block;">
+    <a href="#" id="gotop" class="gotop">∧</a>
+    <a href="#" id="gobot">∨</a>
+</div>
+</body>
+<script type="text/javascript">
+$(function(){
+	resetWinsize();
+	init_gotop();
+});
+// 底部模块固定
+var resetTimeact=null;
+function resetWinsize(){
+	clearTimeout(resetTimeact);
+	var bodyheight=$(document.body).outerHeight(true);
+    var windowheight=$(window).height();
+    if (bodyheight<windowheight) {
+        var mgheight=windowheight-bodyheight;
+        $("#foot").css("margin-top",mgheight+'px');
+    }
+	resetTimeact = setTimeout(resetWinsize,100);
+}
+
+function init_gotop() {
+	if($("body").height() <= document.documentElement.clientHeight*1.8){
+		$("#jumphelper").remove();
+	}
+
+	$(window).scroll(function(){
+		var s_top = $(document).scrollTop()+$(window).height()-70;
+		if($.browser.msie && $.browser.version =="6.0")
+		{
+			$("#jumphelper").css("top",s_top);
+		}
+	});
+	$("#gotop").click(function(){
+		$("html,body").animate({scrollTop:0},"fast","swing",function(){});		
+	});
+	$("#gobot").click(function(){
+		$("html,body").animate({scrollTop:$(document).height()},"fast","swing",function(){});		
+	});
+	var top = $(document).scrollTop()+$(window).height()-70;
+	if($.browser.msie && $.browser.version =="6.0")
+	{
+		$("#jumphelper").css("top",top);
+	}
+}
+</script>
+</html>

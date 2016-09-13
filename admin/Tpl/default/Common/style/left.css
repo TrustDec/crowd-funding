@@ -1,0 +1,14 @@
+@CHARSET "UTF-8";
+body{background:#edf3f7; font-size:12px; font-family:"verdana,Arial";  margin:0px; padding:0px; color:#404040;padding-top:5px }
+div{margin:0 auto; padding:0;}
+h1,h2,h3,h4,h5,h6,ul,li,dl,dt,dd,form,img,p{margin:0; padding:0; border:none; list-style-type:none;}
+a{ color:#333; display:block; width:100%; height:20px; line-height:20px; }
+
+dl.menu { display:block; padding:0 5px;}
+dl.menu dt{ cursor:pointer; display:block; background:url(../images/vh.gif) no-repeat 95% -45px #2191C3; padding:0 5px; margin:2px 0px; color:#fff; font-size:12px; font-weight:bold; text-indent:15px; height:30px; line-height:30px}
+dl.menu dd{ display:block; background:#fff; padding:0 2px; margin:1px 0px;  text-indent:25px;height:26px; line-height:26px}
+dl.menu dd a{display:block; width:100%;text-decoration:none; height:28px; line-height:28px; }
+a.current{background:#9AD3E9; color:#333;}
+
+dl.menu-hide dt{ background-position:95% 10px}
+dl.menu-hide dd{ display:none;}

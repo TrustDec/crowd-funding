@@ -1,0 +1,22 @@
+{include file="inc/header.html"}
+<div class="blank20"></div>
+<div class="wrap">
+	<div class="white_box">
+		<div class="blank20"></div>
+		
+		<div class="" style="text-align:center; margin:0 auto;font-size: 18px;">
+			{$payment_info.name}
+		</div>
+		<div class="blank10"></div>
+		<div style="text-align:center;font-size: 16px;">支付总额:<span style="color: #c00;">{function name="format_price" v="$order_info.total_price"}</span></div>
+		<div class="blank20"></div>
+		<div class="blank20"></div>
+		<div style="text-align:center;">
+			<a href="{url r="account#view_order" p="id=$order_info.id"}">» 查看订单</a>&nbsp;&nbsp;
+			<a href="{url r="account#index"}">» 我参与的项目</a>
+		</div>
+		<div class="blank20"></div>
+	</div>
+</div>
+<div class="blank20"></div>
+{include file="inc/footer.html"} 

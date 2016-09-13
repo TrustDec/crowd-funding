@@ -1,0 +1,194 @@
+{include file="inc/header.html"}
+<style type="text/css">
+	.ui_small_button{width:90px;display:inline-block;}
+	.weedialog .dialog-content{text-align:left;}
+</style>
+<section class="account_index account_mod">
+	<ul class="tab-nav webkit-box">
+		{if app_conf("IS_ENQUIRY") eq 1}
+		<li class="webkit-box-flex tc {if $type eq 0}current{/if}">
+			<a href="{url_wap r="account#get_investor_status" p="type=0&id=$deal_id"}">询价</a>
+		</li>
+		{/if}
+		<li class="webkit-box-flex tc {if $type eq 1}current{/if}">
+			<a href="{url_wap r="account#get_investor_status" p="type=1&id=$deal_id"}">领投</a>
+		</li>
+		<li class="webkit-box-flex tc {if $type eq 2}current{/if}">
+			<a href="{url_wap r="account#get_investor_status" p="type=2&id=$deal_id"}">跟投</a>
+		</li>
+		<li class="webkit-box-flex tc">
+			<a href="{url_wap r="account#get_leader_list" p="type=2&id=$deal_id"}">领投资格</a>
+		</li>
+	</ul>
+	{if $investor_list}
+	<div class="blank10"></div>
+	<div class="ul_block ul_block_list">
+		{foreach from=$investor_list item=item}
+		<ul>
+			<li class="webkit-box">
+				<label class="input_lable">序号：</label>
+				<div class="webkit-box-flex">
+					{$item.id}
+				</div>
+			</li>
+			<li class="textarea webkit-box">
+				<label class="input_lable">项目：</label>
+				<div class="webkit-box-flex">
+					<a href="#" onclick="RouterURL('{url_wap r="deal#show" p="id=$item.deal_id"}','#deal-show',2);">
+						<img src="{$deal.image}" width=30 height=30 style="margin:0" />
+					</a>
+				</div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">投资人：</label>
+				<div class="webkit-box-flex">
+					{$item.user_name}
+				</div>
+			</li>
+			{if $type==0}
+			<li class="webkit-box">
+				<label class="input_lable">项目估值：</label>
+				<div class="webkit-box-flex">
+					¥{function name="round" v=$item.stock_value e=2}
+				</div>
+			</li>
+			{/if}
+			<li class="webkit-box">
+				<label class="input_lable">投资金额：</label>
+				<div class="webkit-box-flex">
+					<span class="f_money">¥{function name="round" v=$item.money e=2}</span>
+				</div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">时间：</label>
+				<div class="webkit-box-flex">
+					{function name="to_date" v=$item.create_time}
+				</div>
+			</li>
+			<li class="textarea webkit-box">
+				<label class="input_lable">操作：</label>
+				<div class="webkit-box-flex">
+					{if $item.type==0}
+						{if $item.investor_money_status==0}
+							
+							{if $now>$deal.begin_time and $now<$deal.end_time}
+								{if $deal.is_success eq 1}
+								<a href="#" class="button button-success J_examine f_l" rel="{$item.id}">进行审核</a>
+								<div class="J_examine_box examine_{$item.id} hide">
+									<div class="tl mod_main" style="background:#fff;">
+										<div style="margin:0 2%">
+											<p>投资（询价）理由:</p>
+											<div class="mb10">
+												<span>{$item.investment_reason}</span>
+											</div>
+											<p>为创业者提供非资金帮助:</p>
+											<div>
+												<span>{$item.funding_to_help}</span>
+											</div>
+										</div>
+										<div class="blank10"></div>
+										<div class="webkit-box tc">
+											<span href="#" rel="{$item.id}" title="{function name="round" v=$item.stock_value e=2}" class="button button-success examine_yes mr10 webkit-box-flex">通过询价</span>
+											<span href="#" rel="{$item.id}" class="button button-warning examine_no webkit-box-flex">拒绝询价</span>
+										</div>
+									</div>
+									<div class="blank10"></div>
+									<div class="webkit-box tc">
+										<span href="#" class="button button-fill bg_red webkit-box-flex" onclick="$.closeModal();">取消</span>
+									</div>
+								</div>
+								{else}
+									项目未成功
+								{/if}
+							{else}
+							审核未通过
+							{/if}
+							
+						{elseif $item.investor_money_status==1}
+							{if $now>$deal.begin_time and $now<$deal.end_time}
+								审核通过,未开始支付
+							{else}
+							审核通过,等待用户支付
+							{/if}
+						{elseif $item.investor_money_status==2}
+							<span class="red">审核不通过</span>
+						{elseif $item.investor_money_status==3}
+							支付完成
+						{elseif $item.investor_money_status==4}
+							该用户未付款，已违约
+						{/if}
+					{elseif $item.type==1}
+						{if $item.status==0}
+							<a class="lead_yes button button-success" rel="{$item.id}" title="{function name="round" v=$item.stock_value e=2}">允许成为领投人</a>
+							<a class="lead_no button button-waring"  rel="{$item.id}">不允许成为领投人</a>
+						{elseif $item.status==1}
+							{if $item.investor_money_status==0}
+								
+								{if $now>$deal.begin_time and $now<$deal.end_time}
+									{if $deal.is_success eq 1}
+										<a href="#" class="lead_examine_yes button button-fill theme_bgcolor f_l mr10" rel="{$item.id}" title="{function name="round" v=$item.stock_value e=2}">允许领投</a>&nbsp;
+										<a href="#" class="lead_examine_no button button-fill bg_red f_l"  rel="{$item.id}">拒绝领投</a>
+									{else}
+										项目未成功
+									{/if}
+								{else}
+								审核未通过
+								{/if}
+								
+							{elseif $item.investor_money_status==1}
+								{if $now>$deal.begin_time and $now<$deal.end_time}
+									审核通过,未开始支付
+								{else}
+								审核通过,等待用户支付
+								{/if}
+							{elseif $item.investor_money_status==2}
+								<span class="red">审核不通过</span>
+							{elseif $item.investor_money_status==3}
+								支付完成
+							{elseif $item.investor_money_status==4}
+								该用户未付款，已违约
+							{/if}
+						{elseif $item.status==2}
+							<span class="red">投资人审核不通过</span>
+						{/if}
+					{elseif $item.type==2}
+						{if $item.investor_money_status==0}
+							{if $now>$deal.begin_time and $now<$deal.end_time}
+								{if $deal.is_success eq 1}
+									<a href="#" class="gentou_yes button button-success" rel="{$item.id}" title="{function name="round" v=$item.stock_value e=2}">允许跟投</a>&nbsp;
+									<a href="#" class="gentou_no button button-warning"  rel="{$item.id}">拒绝跟投</a>
+								{else}
+									  项目未成功
+								{/if}
+							{else}
+							审核未通过
+							{/if}
+						{elseif $item.investor_money_status==1}
+							{if $now>$deal.begin_time and $now<$deal.end_time}
+								审核通过,未开始支付
+							{else}
+							审核通过,等待用户支付
+							{/if}
+						{elseif $item.investor_money_status==2}
+							<span class="red">审核不通过</span>
+						{elseif $item.investor_money_status==3}
+							支付完成
+						{elseif $item.investor_money_status==4}
+							该用户未付款，已违约
+						{/if}
+					{/if}
+				</div>
+			</li>
+		</ul>
+		<div class="blank10"></div>
+		{/foreach}
+		<div class="pages">{$pages}</div>
+		<div class="blank15"></div>
+	</div>
+	{else}
+	<div class="tc mod_main">
+		还没有{$title}记录
+	</div>
+	{/if}
+</section>
+{include file="inc/footer.html"} 

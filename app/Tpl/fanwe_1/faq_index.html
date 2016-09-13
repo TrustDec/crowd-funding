@@ -1,0 +1,96 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/faq.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/faq.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/faq.js";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+	<div class="adv_article_cate">
+		<adv adv_id="faq_index_top" />
+	</div>
+	<div class="blank20"></div>
+<div class="location_box wrap">
+	<div class="location f_l">
+		<i class="fl ico loc_ico mr5"></i>
+		<label>您现在的位置：</label>{if $nav_top.top}<a href="{$nav_top.top.url}">{$nav_top.top.name}</a>{/if}{if $nav_top.list}<em>>></em><a href="{$nav_top.list.url}">{$nav_top.list.name}</a>{/if}
+		{if $nav_top.faq}<em>>></em><a href="{$nav_top.cate_child.url}">{$nav_top.faq.name}</a>{/if}
+	</div>
+</div>
+<div class="blank10"></div>
+<div class="article_main article_box faq_box" style="padding:0">
+	<!--<div class="article_l f_gray">
+		<ul><!--class="on"-->
+			<!--<li {if $module eq 'article_cate' && $action eq 'index' && $id eq 0}class="on"{/if}>
+    			<a href="{url r="article_cate" p="id=$artilce_cate_item.cate_id"}">全部</a>
+    		</li>
+ 			{foreach from=$artilce_cate item=artilce_cate_item}
+				{if $artilce_cate_item.is_effect eq 1 && $artilce_cate_item.is_delete eq 0 && $artilce_cate_item.type_id eq 0}
+					<li {if $artilce_cate_item.current eq 1}class="on"{/if}>
+	        			<a href="{url r="article_cate" p="id=$artilce_cate_item.cate_id"}">{$artilce_cate_item.title}</a>
+	        		</li>
+				{/if}
+    		{/foreach}
+				<li {if $module eq 'faq' && $action eq 'index' && $id eq 0}class="on"{/if}>
+    			<a href="{url r="faq"}">常见问题</a>
+    		</li>
+			<li {if $module eq 'help' && $action eq 'index' && $id eq 0}class="on"{/if}>
+        			<a href="{url r="help#show"}">帮助列表</a>
+        	</li>
+		</ul>
+	</div>-->
+    <div class="news_fenlei" style="float:left;">
+	<div class="lan">
+		<div class="cn_txt">
+			<span>文章分类</span>
+		</div>
+	</div>
+	<div class="blank10"></div> 
+		<ul>
+			<li>
+				<a {if $module eq 'article_cate' && $action eq 'index' && $id eq 0}class="on"{/if} href="{url r="article_cate" p="id=$artilce_cate_item.cate_id"}">全部</a>
+			</li>
+			{foreach from=$artilce_cate item=artilce_cate_item}
+			{if $artilce_cate_item.is_effect eq 1 && $artilce_cate_item.is_delete eq 0 && $artilce_cate_item.type_id eq 0}
+				<li>
+					<a {if $artilce_cate_item.current eq 1}class="on"{/if} href="{url r="article_cate" p="id=$artilce_cate_item.cate_id"}">{$artilce_cate_item.title}</a>
+				</li>
+			{/if}
+			{/foreach}
+			<li {if $module eq 'faq' && $action eq 'index' && $id eq 0}class="on"{/if}>
+				<a href="{url r="faq"}">常见问题</a>
+			</li>
+			<li {if $module eq 'help' && $action eq 'index' && $id eq 0}class="on"{/if}>
+				<a href="{url r="help#show"}">帮助列表</a>
+			</li>
+		</ul>     
+</div>
+	<div class="article_r">
+		<div class="article_r_main">
+			<div class="blank20"></div>
+			{foreach from=$faq_list item=faq_res key=key}
+			<div class="mod_title"><i></i>{$key}</div>
+			<div class="blank20"></div>
+			<div class="article_r_cont">
+				{foreach from=$faq_res item=faq  name=faq}
+				<div class="article_r_list {if $smarty.foreach.faq.last eq 1}last{/if}">
+					<h3><i></i>{$faq.question}</h3>
+					<div class="blank0"></div>
+					<div class="text"><i></i>{function name="nl2br" v=$faq.answer}</div>
+				</div>
+				{/foreach} 
+			</div>
+			{/foreach} 
+		</div>
+		<div class="blank20"></div>
+		<div class="pages" style="width:100%;">{$pages}</div>
+		<div class="blank20"></div>
+	</div>
+</div>
+<div class="blank20"></div>
+<script type="text/javascript">
+$(function(){
+	$(".article_r_cont").parent(".article_r_list").last().css("border","0");
+});
+</script>
+{include file="inc/footer.html"} 

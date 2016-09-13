@@ -1,0 +1,61 @@
+.filter-box {
+ 	width:1198px;
+	height:42px;
+	line-height:42px;
+	border:1px solid #e5e5e5;
+	background:#f7f7f7;
+	margin-bottom:15px;
+	font:12px 'SimSun';
+	color:#666;
+}
+.filter-box .rel-key-rec a {
+	height:42px;
+	line-height:42px;
+	float:left;
+	padding:0 15px;
+	color:#666;
+}
+.filter-box .rel-key-rec.f_l a{
+	border-right:1px solid #e5e5e5;
+}
+.filter-box .rel-key-rec.f_l a.current{
+	background:#fff;
+}
+.filter-box .rel-key-rec.f_r a.current{
+	border-left:1px solid #e5e5e5;
+	border-right:1px solid #e5e5e5;
+	background:#fff;
+}
+.filter-box .rel-key-rec.f_l a:hover{
+	background:#fff;
+}
+.filter-box .rel-key-rec.f_r a:hover{
+
+}
+.filter-box .rel-key-rec a.first{
+	border-left:0;
+}
+.filter-box .rel-key-rec a i{
+	width:7px;
+	height:8px;
+	display:inline-block;
+	background:url(../images/seq_icon.png) no-repeat;
+	margin-left:5px;
+}
+.filter-box .rel-key-rec a i.asc{
+	background-position:0 -13px;
+}
+.filter-box .rel-key-rec a.current i ,
+.filter-box .rel-key-rec a:hover i{
+	background-position:-9px 0;
+}
+.filter-box .rel-key-rec a.current i.asc{
+	background-position:-9px -13px;
+}
+.filter-box .field_select{
+	margin:6px 6px 0 0;
+}
+.filter-box .field_select dt ,
+.filter-box .field_select dd a {
+	font-size:12px;
+}

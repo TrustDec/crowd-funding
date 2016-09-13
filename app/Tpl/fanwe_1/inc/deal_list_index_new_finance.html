@@ -1,0 +1,211 @@
+{foreach from=$deal_new_list_4 item=deal_new_4_item key=key name="deal_new_4_items"} 
+<div class="nav_items">
+	<div class="invest_status">
+		{if $deal_new_4_item.begin_time > $now}
+		<i style="font-size:0">预热中</i>
+		{elseif $deal_new_4_item.end_time < $now and $deal_new_4_item.end_time neq 0}
+			{if $deal_new_4_item.is_success eq 100}
+			<i class="invest_status_icon success">已成功</i>
+			{else}
+			<i class="invest_status_icon fail">筹资失败</i>
+			{/if}
+		{else}
+			{if $deal_new_4_item.percent gte 100}
+			<i class="invest_status_icon success">已成功</i>
+			<i class="invest_status_icon in_progress">融资中</i>
+			{else}
+				{if $deal_new_4_item.end_time eq 0}
+					<i class="invest_status_icon long_term">长期项目</i>
+				{else}
+					{if $deal_new_4_item.type eq 1}
+					<i class="invest_status_icon in_progress">融资中</i>
+					{else}
+					<i class="invest_status_icon in_progress">筹资中</i>
+					{/if}
+				{/if}
+			{/if}
+		{/if}
+	</div>
+	<div class="nav_item nav_item1 f_l{if $smarty.foreach.deal_new_4_items.iteration mod 4 eq 1} first{/if}"  >
+		{if $deal_new_4_item.company_id neq '' && $deal_new_4_item.company_id neq 0}
+			<a href="{url r="finance#company_finance" p="id=$deal_new_4_item.id"}" target="_blank" style="display:block;overflow:hidden">
+		{else}
+			<a href="{url r="deal#show" p="id=$deal_new_4_item.id"}" target="_blank" style="display:block;overflow:hidden">
+		{/if}
+			<div class="project_image">
+				<img src="{if $deal_new_4_item.image eq ''}{$TMPL}/images/empty_thumb.gif{else}{function name="get_spec_image" v=$deal_new_4_item.image w="300" h="210" g="1"}{/if}" alt="{$deal_new_4_item.name}" lazy="true" />
+				<div class="mask">
+					<div class="mask_text">
+					{if $deal_new_4_item.begin_time > $now}
+						<div class="mask_invest_status">
+							<span class="soon">项目预热中</span>
+						</div>
+						<div class="mb5">认投开始时间：{function name="to_date" v=$deal_new_4_item.begin_time f="Y年m月d日H时i分"}</div>
+						<div class="f_red">可约谈创业者</div>
+					{elseif $deal_new_4_item.end_time < $now and $deal_new_4_item.end_time neq 0}
+						{if $deal_new_4_item.is_success eq 1}
+						<div class="mask_invest_status">
+							<span class="soon">认投成功</span>
+						</div>
+						<div class="mb5">已认投金额：<i class="font-yen">¥</i>{function name="round" v=$deal_new_4_item.support_amount e=2}</div>
+						<div class="f_red">完成时间：{function name="to_date" v=$deal_new_4_item.success_time f="Y年m月d日H时i分"}</div>
+						{else}
+						<div class="mask_invest_status">
+							<span class="soon">认投失败</span>
+						</div>
+						<div class="f_red">项目已失败，亲可以浏览其他项目哦</div>
+						{/if}
+					{else}
+						{if $deal_new_4_item.percent gte 100}
+						<div class="mask_invest_status">
+							<span class="soon">认投成功</span>
+						</div>
+						<div class="mb5">已认投金额：<i class="font-yen">¥</i>{function name="round" v=$deal_new_4_item.support_amount e=2}</div>
+						<div class="f_red">项目未结束，可继续认投</div>
+						{else}
+							{if $deal_new_4_item.end_time eq 0}
+							<div class="mask_invest_status">
+								<span class="soon">长期项目</span>
+							</div>
+							<div class="mb5">认投金额：<i class="font-yen">¥</i>{function name="round" v=$deal_new_4_item.support_amount e=2}</div>
+							<div class="f_red">预计完成时间：{function name="to_date" v=$deal_new_4_item.end_time f="Y年m月d日H时i分"}</div>
+							{else}
+								{if $deal_new_4_item.type eq 1}
+								<div class="mask_invest_status">
+									<span class="soon">项目进行中</span>
+								</div>
+								<div class="mb5">认投金额：<i class="font-yen">¥</i>{function name="round" v=$deal_new_4_item.support_amount e=2}</div>
+								<div class="f_red">预计完成时间：{function name="to_date" v=$deal_new_4_item.end_time f="Y年m月d日H时i分"}</div>
+								{else}
+								<span>筹资中</span>
+								{/if}
+							{/if}
+						{/if}
+					{/if}
+					</div>
+					<div class="mask_bg"></div>
+				</div>
+				<div class="blank0"></div>
+			</div>
+			<div class="project_text">
+				<span class="project_title">{function name="msubstr" v=$deal_new_4_item.name b=0 e=25}</span>
+				<div class="project_intro">
+					<span class="caption-title f_l">{if $deal_new_4_item.type eq 1}融资金额{else}已预购{/if}：<em class="f_red">{function name="round" v=$deal_new_4_item.limit_price_w e=2}万</em></span>
+					{if $deal_new_4_item.stock_type eq 1 && $deal_new_4_item.bonus_count gt 0}
+					<i class="invest_type theme_bgcolor">股权众筹</i>
+					{elseif $deal_new_4_item.stock_type eq 2 && $deal_new_4_item.bonus_count gt 0}
+					<i class="invest_type bg_red">债权众筹</i>
+					{elseif $deal_new_4_item.stock_type eq 3 && $deal_new_4_item.bonus_count gt 0}
+					<i class="invest_type theme_bgcolor">股权+债权众筹</i>
+					{else}
+					{/if}
+				</div>
+				<div class="schedule_bar">
+					{if $deal_new_4_item.begin_time > $now}
+					<div class="ui-progress">
+						<span style="background:##eaeaea;width:{$deal_new_4_item.percent}%;">{$deal_new_4_item.percent}%</span>
+					</div>
+					{elseif $deal_new_4_item.end_time < $now and $deal_new_4_item.end_time neq 0}
+						{if $deal_new_4_item.is_success eq 1}				
+						<div class="ui-progress">
+							<span class="bg_green" style="width:100%;">{$deal_new_4_item.percent}%</span>
+						</div>
+						{else}
+						<div class="ui-progress">
+							<span class="bg_gray" style="width:{$deal_new_4_item.percent}%;">{ if ($deal_new_4_item.percent gt 0 && $deal_new_4_item.percent lt 100) }{$deal_new_4_item.percent}%{/if}</span>
+						</div>
+						{/if}
+			 		{else}
+			 			{if $deal_new_4_item.percent gte 100}
+						<div class="ui-progress">
+							<span class="bg_green" style="width:100%;">{$deal_new_4_item.percent}%</span>
+						</div>
+						{else}
+							{if $deal_new_4_item.end_time eq 0}
+							<div class="ui-progress">
+								<span class="bg_green" style="width:{$deal_new_4_item.percent}%;"></span>
+							</div>
+							{else}
+							<div class="ui-progress">
+								<span class="bg_green" style="width:{$deal_new_4_item.percent}%;">{ if ($deal_new_4_item.percent gt 0 && $deal_new_4_item.percent lt 100) }{$deal_new_4_item.percent}%{/if}</span>
+							</div>
+							{/if}	
+						{/if}
+					{/if}
+				</div>
+				<div class="project_schedule">
+					<div class="blank"></div>
+					{if $deal_new_4_item.begin_time > $now}
+						<div class="div3" style="width:100%;text-align:center;border:0">
+							<div class="f_999">离项目开始还有</div>
+							<div class="left_times" data="{$deal_new_4_item.left_begin_day}">
+								<em class="s day">--</em>
+								<em class="l">天</em>
+								<em class="s hour">--</em>
+								<em class="l">时</em>
+								<em class="s min">--</em>
+								<em class="l">分</em>
+								<em class="s sec">--</em>
+								<em class="l">秒</em>
+							</div>
+						</div>
+						<div class="left_time_hide hide">
+							<div class="div3 div3_invest" style="text-align:left">
+								<span class="num"><i class="font-yen">¥</i><font>{function name="round" v=$deal_new_4_item.support_amount e=2}</font></span>
+								<div class="blank10"></div>
+								<span class="til">已认投</span>
+							</div>
+							<div class="div3 div3_invest">
+								<span class="num">{if $deal_new_4_item.remain_days < 0}{if $deal_new_4_item.percent gt 100}已成功{else}已过期{/if}{else}{if $deal_new_4_item.remain_days le 0}0{else}{$deal_new_4_item.remain_days}{/if}天{/if}</span>
+								<div class="blank10"></div>
+								<span class="til">剩余时间</span>
+							</div>
+							<div class="div3 div3_invest div3_last" style="text-align:right;">
+								<span class="num"><font>{$deal_new_4_item.invote_mini_money_w}</font>万</span>
+								<div class="blank10"></div>
+								<span class="til">起投金额</span>
+							</div>
+							<div class="blank10"></div>
+							<div class="follow">
+								<em class="tl">支持：{$deal_new_4_item.support_count}</em>
+								<em class="tr">关注：{$deal_new_4_item.focus_count}</em>
+							</div>
+							<div class="blank0"></div>
+						</div>
+					{else}
+					<div class="div3 div3_invest" style="text-align:left">
+						<span class="num"><i class="font-yen">¥</i><font>{function name="round" v=$deal_new_4_item.support_amount e=2}</font></span>
+						<div class="blank10"></div>
+						<span class="til">已认投</span>
+					</div>
+					<div class="div3 div3_invest">
+						<span class="num">{if $deal_new_4_item.remain_days < 0}{if $deal_new_4_item.percent gt 100}已成功{else}已过期{/if}{else}{if $deal_new_4_item.remain_days le 0}0{else}{$deal_new_4_item.remain_days}{/if}天{/if}</span>
+						<div class="blank10"></div>
+						<span class="til">剩余时间</span>
+					</div>
+					<div class="div3 div3_invest div3_last" style="text-align:right;">
+						<span class="num"><font>{$deal_new_4_item.invote_mini_money_w}</font>万</span>
+						<div class="blank10"></div>
+						<span class="til">起投金额</span>
+					</div>
+					{/if}
+					{if $deal_new_4_item.begin_time <= $now}
+					<div class="blank10"></div>
+					<div class="follow">
+						<em class="tl">支持：{$deal_new_4_item.support_count}</em>
+						<em class="tr">关注：{$deal_new_4_item.focus_count}</em>
+					</div>
+					<div class="blank0"></div>
+					{/if}
+				</div>
+				{if $deal_new_4_item.begin_time > $now}
+				<div class="follow left_time_follow">
+					<div class="blank10"></div>
+					<em class="rush tc" style="width:100%">抢先浏览</em>
+				</div>
+				{/if}
+			</div>
+		</a>
+	</div>
+</div>
+{/foreach}

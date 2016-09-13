@@ -1,0 +1,140 @@
+<tagLib name="html" />
+<include file="Public:header" />
+<include file="Public:weixin_script" />
+<div class="main">
+<div class="main_title">微信配置</div>
+<div class="blank5"></div>
+   <if condition="$config">
+	<form method='post' id="form" name="form" action="__APP__">
+	<table cellpadding="4" cellspacing="0" border="0" class="form">
+		<tr>
+			<td colspan="2" class="topTd"></td>
+		</tr>
+		<if condition="$config.nick_name">
+	 		<tr>
+	 			<td  class="item_title">公众号名称</td>
+				<td class="item_input">
+					 {$config.nick_name}
+				</td>
+	 		</tr>
+		</if>
+		<if condition="$config.user_name">
+	 		<tr>
+	 			<td  class="item_title">授权方公众号的原始ID</td>
+				<td class="item_input">
+					 {$config.user_name}
+				</td>
+	 		</tr>
+		</if>
+		<if condition="$config.head_img">
+	 		<tr>
+	 			<td  class="item_title">授权方公众号的头像</td>
+				<td class="item_input">
+					<a href="{$config.head_img}" target="_blank"><img src="{$config.head_img}" width="50" height="50"></a>
+				</td>
+	 		</tr>
+		</if>
+		<!--
+		<if condition="$config.qrcode_url">
+	 		<tr>
+	 			<td  class="item_title">授权方公众号的二维码</td>
+				<td class="item_input">
+					<a href="{$config.qrcode_url}" target="_blank"><img src="{$config.qrcode_url}" width="50" height="50"></a>
+				</td>
+	 		</tr>
+		</if>
+		-->
+		
+		<if condition="$verify_type">
+		<tr>		
+			<td class="item_title" style=" width:200px;">授权方认证类型</th>
+			<td class="item_input">
+				 {$verify_type}
+ 			</td>
+		</tr>
+		</if>
+		<if condition="$service_type">
+ 		<tr>		
+			<td class="item_title" style=" width:200px;">授权方公众号类型</th>
+			<td class="item_input">
+				{$service_type}
+	 		</td>
+		</tr>
+		<tr>
+		</if>
+		<if condition="$config.authorizer_appid">
+ 		<tr>		
+			<td class="item_title" style=" width:200px;">授权方appid</th>
+			<td class="item_input">
+				 {$config.authorizer_appid}
+ 			</td>
+		</tr>
+		</if>
+		<if condition="$config.authorizer_access_token">
+		<tr>		
+			<td class="item_title" style=" width:200px;">授权方access_token</th>
+			<td class="item_input">
+				 {$config.authorizer_access_token}
+ 			</td>
+		</tr>
+		</if>
+		<if condition="$config.authorizer_refresh_token">
+		<tr>		
+			<td class="item_title" style=" width:200px;">授权方refresh_token</th>
+			<td class="item_input">
+				 {$config.authorizer_refresh_token}
+ 			</td>
+		</tr>
+		</if>
+		<if condition="$config.user_name eq ''">
+	 		<tr>
+	 			<td  class="item_title"></td>
+				<td class="item_input">
+					<input type="button" class="btn "  onclick="window.location.reload();" value="获取公众号信息">
+				</td>
+	 		</tr>
+			<else />
+			<tr>
+				<tr>
+		 			<td  class="item_title"></td>
+					<td class="item_input">
+						<input type="button" class="btn  remove_account"  value="解除绑定">
+					</td>
+		 		</tr>
+			</tr>
+ 		</if>
+		
+	</table>
+	</form>
+	<else />
+		<if condition="$sq_url neq ''">
+			<a href="{$sq_url}" target="_blank">进行授权绑定</a>
+		<else />
+			{$error}
+		</if>
+	</if>
+</div>
+<script>
+	$(function(){
+		$(".remove_account").bind('click',function(){
+  			$.ajax({ 
+				url: '{:u("WeixinInfo/account_remove")}', 
+				data: "ajax=1",
+				dataType: "json",
+				success: function(obj){
+					if(obj.status)
+					{
+						 $.showSuccess(obj.info,function(){
+						 	window.location.reload();
+						 });
+					}
+					else
+					{
+						$.showErr(obj.info);   
+					}
+				}
+			});
+		});
+	});
+</script>
+<include file="Public:footer" />

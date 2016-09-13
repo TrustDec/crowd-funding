@@ -1,0 +1,484 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/cart.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+{if $deal_info.ips_bill_no eq "" || !$is_tg}
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/cart_pay.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/cart_pay.js";
+?>
+{else}
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/cart_pay_tg.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/cart_pay_tg.js";
+?>
+{/if}
+<script type="text/javascript">
+	var trade_score='{function name='app_conf' value='SCORE_TRADE_NUMBER'}';
+	trade_score=parseInt(trade_score)>0?parseInt(trade_score):0;
+</script>
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<div class="blank20"></div>
+<div class="shadow_bg">
+	<div class="white_box">
+		<div class="page_title">
+			<p class="mb10">《{$deal_info.name}》股权转让</p>
+			<div class="support_price">
+				转让份数：{$transfer_order.num}份
+			</div>
+			<div class="support_price mb10">
+				应付总额：<span>¥{$transfer_order.price}</span> 元
+			</div>
+			<div class="pay_branch" id="real_money_box">
+				余额支付：<span id="real_money_val"></span>
+			</div>
+			<div class="pay_branch" id="real_score_box">
+				积分支付：<span id="real_score_money"></span>
+			</div>
+			<div class="pay_branch" id="real_online_box">
+				在线应付：<span id="real_online_money" class="pay_val"></span>
+			</div>
+		</div>
+		<div class="blank10"></div>
+		<div class="public_left">
+			<form class="pay_form" action="{url r="account#go_order_pay"}" target="_blank" method="post" >
+ 				{if !$deal_info.ips_bill_no eq false && $is_tg}
+				<div class="control-group smaller-control-group">
+					<label class="control-label" style="width:auto">支付方式:</label>
+					<div class="control-text">{$coll.name}</div>
+					<input type="hidden" name="is_tg" value="1">
+					<div class="blank0"></div>
+				</div>
+				{else}
+				<div id="instation_pay">
+					{if $user_info.money gt 0}
+					<div class="control-group">
+						<label class="control-label pay_label">
+							<span class="ui_check ui_checked f_l mt10" type="radio" rel="ye_check">
+								<input type="checkbox" name="ye_check" value="0" />
+							</span>
+						</label>
+						<div class="control-text">
+							<span class="f_l mr10 f20">使用余额支付:</span>
+							<input type="text" class="textbox pay_textbox" value="0" name="credit" />
+						</div>
+						<input type="hidden" name="max_credit" value="{$user_info.money}" />
+						<div class="blank0"></div>
+					</div>
+					<div class="control-group smaller-control-group pay-control-group">
+						<label class="control-label pay_label"></label>
+						<div class="control-text">
+							<span class="s_title f_l">可用余额:&nbsp;{function name="format_price" v=$user_info.money}</span>
+						</div>
+					</div>
+ 					{/if}
+					{if $user_info.score gt 0 && app_conf("SCORE_TRADE_NUMBER") >0}
+					<div class="blank10"></div>
+					<div class="control-group">
+						<label class="control-label pay_label">
+							<span class="ui_check f_l mt10" type="radio" rel="score_check">
+								<input type="checkbox" name="score_check" value="0" />
+							</span>
+						</label>
+						<div class="control-text">
+							<span class="f_l mr10 f20">使用积分支付:</span>
+							<input type="text" class="textbox pay_textbox" value="0" name="pay_score" disabled='true' />
+							抵用&nbsp;<span class="f_money">¥<span id="score_trade_money">0</span></span>
+						</div>
+						<div class="blank0"></div>
+					</div>
+					<div class="control-group smaller-control-group pay-control-group">
+						<label class="control-label pay_label"></label>
+						<div class="control-text">
+							<span class="s_title f_l">可用积分:&nbsp;{$user_info.score}</span>
+						</div>
+						<div class="blank0"></div>
+					</div>
+	 				{/if}
+				</div>
+				<input type="hidden" name="max_pay" value="{$deal_item.total_price}" />
+				<div class="blank10"></div>
+ 				{$payment_html}
+				{/if}
+				{if app_conf("PAYPASS_STATUS")}
+				<div class="blank10"></div>
+				<div class="control-group">
+					<label class="control-label" style="width:auto">支付密码:</label>
+					<div class="control-text">
+						<input type="password"  autocomplete="off" class="textbox w200 mr10" value="" name="paypassword" >&nbsp;&nbsp;<span class="f12 f_666">忘记了？<a href="{url r="settings#security" v="method=setting-pass-box"}" target="_blank" class="theme_fcolor">点这里</a></span>
+					</div>
+				</div>
+				{/if}
+				<div class="blank10"></div>
+				<div class="submit_row control-group">
+					<label class="control-label" style="width:60px"></label>
+					<div class="ui-button theme_bgcolor" rel="green">
+						<span>确定，去付款</span>
+					</div>				
+					<input type="hidden" id="back_url" value="{url r="account#stock_transfer_in"}" />	
+					<input type="hidden" value="{$memo}" name="memo" />	
+					<input type="hidden" value="{$order_info.id}" name="order_id" />
+					<input type="hidden" value="{$order_info.total_price}" name="needmoney" id="needmoney" />	
+					<input type="hidden" value="1" name="ajax" />	
+					{if $deal_item.type eq 1}
+						<input type="hidden" value="{$pay_money}" name="pay_money">
+					{/if}				
+					<div class="blank0"></div>
+				</div>
+			</form>
+		</div>
+		<div class="public_right" style="padding:20px;">
+			<div class="deal_item_box" style="height:auto">
+				<div class="deal_content_box">
+					<a href="{url r="deal#show" p="id=$deal_info.id"}" title="{$deal_info.name}" target="_blank" style="display:block;overflow:hidden">
+						<img  src="{if $deal_info.image eq ''}{$TMPL}/images/empty_thumb.gif{else}{function name="get_spec_image" v=$deal_info.image w="286" h="200" g="1"}{/if}" />
+					</a>
+					<div class="blank5"></div>
+					<a href="{url r="deal#show" p="id=$deal_info.id"}" class="deal_title" title="{$deal_info.name}">{$deal_info.name}</a>
+					<div class="blank5"></div>
+					<a href="{url r="home" p="id=$deal_info.user_id"}">{$deal_info.user_name}</a></a>&nbsp;&nbsp;(<span><a href="{url r="deals" p="loc=$deal_info.province"}" title="{$deal_info.province}">{$deal_info.province}</a></span><span><a href="{url r="deals" p="loc=$deal_info.city"}" title="{$deal_info.city}">{$deal_info.city}</a></span>)
+					<div class="blank5"></div>
+					<div>{$deal_info.brief}</div>
+					<div class="blank5"></div>
+				</div>
+				<div class="deal_item_dash"></div>
+					<div class="deal_content_box">
+						<div class="ui-progress">
+							<span class="theme_bgcolor" style="width:{$deal_info.percent}%;"></span>
+						</div>
+						<div class="blank"></div>
+						<div class="div3" style="text-align:left">
+							<span class="num">{$deal_info.percent}%</span>
+							<div class="blank5"></div>
+							<span class="til">达到</span>
+						</div>
+						<div class="div3 div3_middle">
+							<span class="num" ><font>{function name="round" v=$deal_info.support_amount e=2}</font>元</span>
+							<div class="blank5"></div>
+							<span class="til">已获支持</span>
+						</div>
+	
+						<div class="div3 div3_last"  style="text-align:right">
+							{if $deal_info.begin_time > $now}
+							<span class="num">未上线</span>
+							<div class="blank5"></div>
+							<span class="til">剩余时间</span>
+							{elseif $deal_info.end_time < $now and $deal_info.end_time neq 0}
+							<span class="num">已过期</span>
+							<div class="blank5"></div>
+							<span class="til">剩余时间</span>
+							{else}
+							<span class="num">
+								{if $deal_info.end_time eq 0}
+								长期项目
+								{else}
+								<font>{$deal_info.remain_days}</font>天
+								{/if}
+							</span>
+							<div class="blank5"></div>
+							<span class="til">剩余时间</span>
+							{/if}					
+						</div>
+						<div class="blank1"></div>
+					</div>
+				</div>
+			</div>
+		<div class="blank10"></div>
+	</div>
+</div>
+<div class="blank20"></div>
+<script type="text/javascript">
+{if $deal_info.ips_bill_no eq "" || !$is_tg}
+	var left_money=parseFloat({$user_info.money});
+	var need_money=parseFloat({$transfer_order.price});
+	var score={$user_info.score};
+	var trade_score='{function name='app_conf' value='SCORE_TRADE_NUMBER'}';//兑换1元所需积分数
+	trade_score=parseInt(trade_score)>0?parseInt(trade_score):0;
+	
+	if(trade_score >0)
+	{
+		var score_db_money=parseFloat(parseInt(score/trade_score*100)/100);//保留两位小数
+		var score_db_pay=parseInt(score_db_money*trade_score);
+	}
+	else{
+		var score_db_money=0;
+		var score_db_pay=0;
+	}
+	
+	$(function(){
+		$("input[name='ye_check']").attr("checked","checked");
+		if(left_money>=need_money){
+			$("input[name='credit']").val(need_money);
+			$("input[name='payment']").attr("disabled",true);
+			count_total_money(need_money,0,0,need_money);
+		}else{
+			$("input[name='credit']").val(left_money);
+			count_total_money(left_money,0,0,need_money);
+		}
+		$("input[name='ye_check']").bind("click",function(){
+			var pay_score=isNaN($("input[name='pay_score']").attr("value"))?0:parseInt($("input[name='pay_score']").attr("value"));
+			
+			if(trade_score >0)
+				var pay_score_money=parseFloat(parseInt(pay_score/trade_score*100)/100);//保留两位小数
+			else
+				var pay_score_money=0;
+			
+			var need_money_m=need_money-pay_score_money;
+				need_money_m=round2(need_money_m,2);
+			var pay_money_val=0;
+			if($(this).attr("checked")=='checked'){
+				$("input[name='credit']").attr("disabled",false);
+				if(pay_score_money>=need_money)
+				{
+					$("input[name='credit']").val(0);
+					$("input[name='payment']").attr("disabled",true);
+				}
+				else if(left_money>=need_money_m){
+					pay_money_val=need_money_m;
+					$("input[name='credit']").val(need_money_m);
+					$("input[name='payment']").attr("disabled",true);
+				}else{
+					pay_money_val=left_money;
+					$("input[name='credit']").val(left_money);
+				}
+			}else{
+				$("input[name='credit']").val(0);
+				$("input[name='payment']").attr("disabled",false);
+				$("input[name='credit']").attr("disabled",true);
+			}
+			
+			count_total_money(pay_money_val,pay_score,pay_score_money,need_money);
+		});
+		$("input[name='credit']").bind("blur",function(){
+			var money=isNaN($(this).val())?0:round2($(this).val(),2);
+			var pay_score=isNaN($("input[name='pay_score']").val())?0:parseInt($("input[name='pay_score']").val());
+			
+			if(trade_score >0)
+				var pay_score_money=parseFloat(parseInt(pay_score/trade_score*100)/100);//保留两位小数
+			else
+				var pay_score_money=0;
+			
+			var need_money_m=need_money-pay_score_money;
+				need_money_m=round2(need_money_m,2);
+
+			var pay_money_val=0;
+			if(money >0){
+				if(pay_score_money>=need_money)
+				{
+					$("input[name='credit']").val(0);
+					$("input[name='payment']").attr("disabled",true);
+				}
+				else if(money>=need_money_m){
+					pay_money_val=need_money_m;
+					$("input[name='credit']").val(need_money_m);
+					$("input[name='payment']").attr("disabled",true);
+				}else{
+					pay_money_val=money;
+					$("input[name='credit']").val(money);
+					$("input[name='payment']").attr("disabled",false);
+				}
+			}else{
+				$("input[name='credit']").val(0);
+			}
+			
+			count_total_money(pay_money_val,pay_score,pay_score_money,need_money);
+		});
+		
+		if(trade_score >0)
+		{
+			$("input[name='score_check']").bind('click',function(){
+				
+				var credit_money=isNaN($("input[name='credit']").val())?0:parseFloat($("input[name='credit']").val());
+				var need_money_s=need_money-credit_money;
+					need_money_s=round2(need_money_s,2);
+				
+				var pay_score_val=0;
+				var pay_score_money_val=0;
+				if($(this).attr("checked")=='checked'){
+					$("input[name='pay_score']").attr("disabled",false);
+					if(credit_money>=need_money)
+					{
+						$("input[name='pay_score']").val(0);
+						$("#score_trade_money").html("0");
+						$("input[name='payment']").attr("disabled",true);
+					}
+					else if(score_db_money>=need_money_s){
+						pay_score_val=parseInt(need_money_s*trade_score);
+						pay_score_money_val=need_money_s;
+						$("input[name='pay_score']").val(pay_score_val);
+						$("#score_trade_money").html(need_money_s);
+						$("input[name='payment']").attr("disabled",true);
+						
+					}else{
+						pay_score_val=score_db_pay;
+						pay_score_money_val=score_db_money;
+						$("input[name='pay_score']").val(score_db_pay);
+						$("#score_trade_money").html(score_db_money);
+					}
+					
+				}else{
+					$("input[name='pay_score']").val(0);
+					$("#score_trade_money").html("0");
+					$("input[name='pay_score']").attr("disabled",true);
+					$("input[name='payment']").attr("disabled",false);
+				}
+				
+				count_total_money(credit_money,pay_score_val,pay_score_money_val,need_money);
+			});
+			
+			$("input[name='pay_score']").bind("blur",function(){
+				var pay_score=isNaN($(this).val())?0:parseInt($(this).val());
+				var pay_score_money=parseFloat(parseInt(pay_score/trade_score*100)/100);//保留两位小数
+					pay_score=parseInt(pay_score_money*trade_score);
+					
+				var credit_money=parseFloat($("input[name='credit']").val());
+				var need_money_s=need_money-credit_money;
+					need_money_s=round2(need_money_s,2);
+				
+				var pay_score_val=0;
+				var pay_score_money_val=0;
+				if(pay_score >0)
+				{
+					if(credit_money>=need_money)
+					{
+						$("input[name='pay_score']").val(0);
+						$("input[name='payment']").attr("disabled",true);
+						$("#score_trade_money").html("0");
+					}
+					else if(pay_score_money>=need_money_s){
+						pay_score_val=parseInt(need_money_s*trade_score);
+						pay_score_money_val=need_money_s;
+						$("input[name='pay_score']").val(pay_score_val);
+						$("input[name='payment']").attr("disabled",true);
+						$("#score_trade_money").html(pay_score_money_val);
+					}else{
+						pay_score_val=pay_score;
+						pay_score_money_val=pay_score_money;
+						$("input[name='payment']").attr("disabled",false);
+						$("input[name='pay_score']").val(pay_score);
+						$("#score_trade_money").html(pay_score_money);
+						
+					}
+				}
+				else
+				{	
+					$("input[name='pay_score']").val(0);
+					$("#score_trade_money").html("0");
+				}
+				
+				count_total_money(credit_money,pay_score_val,pay_score_money_val,need_money);
+			});
+		}
+		
+		$("input[name='payment']").bind("click",function(){
+			var paytype=$(this).attr("paytype");
+			if(paytype == 'offline')
+			{
+				$("input[name='ye_check']").attr("checked",false).parent(".ui_check").removeClass("ui_checked");
+				$("input[name='ye_check']").attr("disabled",true);
+				$("input[name='credit']").val(0);
+				$("input[name='credit']").attr("disabled",true);
+				
+				$("input[name='score_check']").attr("checked",false).parent(".ui_check").removeClass("ui_checked");;
+				$("input[name='score_check']").attr("disabled",true);
+				$("input[name='pay_score']").val(0);
+				$("#score_trade_money").html("0");
+				$("input[name='pay_score']").attr("disabled",true);
+				$("#instation_pay").hide();
+			}
+			else{
+				$("input[name='ye_check']").attr("disabled",false);
+				$("input[name='score_check']").attr("disabled",false);
+				$("#instation_pay").show();
+			}
+			count_total_money(0,0,0,0);
+		});
+		
+	});
+ 
+	function count_total_money(pay_money,pay_score,pay_score_money,total)
+	{
+		if(isNaN(pay_score_money)){
+			pay_score_money = 0;
+		}
+		
+		pay_money=parseFloat(pay_money);
+		pay_score_money=parseFloat(pay_score_money);
+		total=parseFloat(total);
+		var online_pay_money=total-(pay_money+pay_score_money);
+			online_pay_money=round2(online_pay_money,2);
+
+		if(pay_money >0)
+		{
+			var html="-¥"+pay_money;
+			$("#real_money_box").fadeIn("slow");
+			$("#real_money_val").html(html);
+		}else{
+			$("#real_money_val").html("");
+			$("#real_money_box").fadeOut("slow");
+		}
+		
+		if(pay_score_money>0)
+		{
+			$("#real_score_box").fadeIn("slow");
+			$("#real_score_money").html("-¥"+pay_score_money+"&nbsp;("+pay_score+"积分)");
+		}else
+		{
+			$("#real_money").html("");
+			$("#real_score_box").fadeOut("slow");	
+		}
+		
+		
+		if(pay_money>0 || pay_score_money>0)
+		{
+			$("#real_online_box").fadeIn("fast");
+			$("#real_online_money").html("¥"+online_pay_money);
+		}else{
+			$("#real_online_money").html("");
+			$("#real_online_box").fadeOut("fast");
+		}
+		
+	}     
+{/if}
+	
+</script>
+<script>
+	// $(function(){
+	// 	insert({$transfer_order.id});
+	// });
+	// function insert(id){
+	// 	$(".theme_bgcolor").bind("click",function(){
+					
+	// 		var ajaxurl ='{url r="stock_transfer#add_deal_order"}';		
+	// 		var query = new Object();
+	// 		query.id=id;
+	// 		$.ajax({
+	// 			url: ajaxurl,
+	// 			data:query,
+	// 			type: "POST",
+	// 			dataType: "json",
+	// 			success:function(data){
+	// 				if(data.status==0){
+	// 					$.showErr(data.info);
+	// 					return false;
+	// 				}
+	// 				if(data.status==2){
+	// 					$.showErr(data.info);
+	// 					return false;
+	// 				}
+	// 				if(data.status==1){
+	// 					$.showSuccess("提交成功",function(){
+	// 						if(data.jump!="")
+	// 						{
+	// 							location.href = data.jump;
+	// 						}
+	// 					});
+	// 				}
+	// 			}
+	// 		});
+	// 	});		
+	// 	return false;
+	// }
+</script>
+{include file="inc/footer.html"} 

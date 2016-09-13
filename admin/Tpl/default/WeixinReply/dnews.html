@@ -1,0 +1,198 @@
+<tagLib name="html" />
+<include file="Public:wx_header" />
+<include file="Public:weixin_script" />
+<link rel="stylesheet" href="__ROOT__/public/weixin/kindeditor/themes/default/default.css" />
+<script type="text/javascript" src="__ROOT__/public/weixin/kindeditor/kindeditor-min.js"></script>
+<script type="text/javascript" src="__ROOT__/public/weixin/kindeditor/plugins/wxemoticons/wxemoticons.js"></script>
+<script type="text/javascript" src="__ROOT__/public/weixin/kindeditor/plugins/wxlink/wxlink.js"></script>
+<script charset="utf-8" src="__ROOT__/public/weixin/kindeditor/lang/zh_CN.js"></script>
+<load href='__TMPL__Common/js/plupload/plupload.full.min.js' />
+<script type="text/javascript">
+     var EMOT_URL = '{$APP_ROOT}/public/emoticons/';
+    var MAX_FILE_SIZE = '{$max_size_byte}b';
+    var UPLOAD_URL =ROOT +'?m=File&a=do_upload&upload_type=0&dir=image' ;
+ 	var UPLOAD_SWF='__TMPL__Common/js/plupload/Moxie.swf';
+	var UPLOAD_XAP='__TMPL__Common/js/plupload/Moxie.xap';
+	var ALLOW_IMAGE_EXT= "gif,jpg,jpeg,png,bmp";
+	var MAX_IMAGE_SIZE= '{$max_size_byte}b';
+	function get_file_fun(name){
+    		$("#"+name).ui_upload({multi:false,
+		FileUploaded:function(ajaxobj){
+ 				if(ajaxobj.error==1)
+				{
+					$.showErr(ajaxobj.info);
+				}else{
+					$("#"+name+"_url").val(ajaxobj.public_url);
+					$("#"+name+"_image").attr('src',ajaxobj.url);
+ 				}
+			},Error:function(error){
+				if(error.code==-600){
+					$.showErr("您上传的文件太大，最大允许上传{$max_size}");
+				}else{
+					$.showErr(error.message);
+				}
+ 		}});
+	}
+ 
+</script>
+<div class="container-f">
+	<div class="box-title clearfix">
+		<div class="f_l">
+			<h3>
+				<i class="fa fa-table"></i>
+				默认回复(图文)
+			</h3>
+		</div>
+ 	</div>
+	<div class="box-content clearfix">
+		<div class="row clearfix">
+			<form action="{:u("WeixinReply/save_dnews")}" method="post" class="form-horizontal ajax_form">
+				
+				<div class="changeStepBox clearfix  cf">
+					<div class="control-group-left clearfix cf f_l">
+						
+						<div class="control-group cf clearfix">
+		                	<label class="control-label" for="weixin_account">
+		                		标题：
+		                	</label>
+							<div class="controls">
+								<input type="text" name="reply_news_title" id="reply_news_title" class="input-xlarge ipt_require" value="{$reply.reply_news_title}" />
+								<span class="maroon">*</span>
+							</div>
+		                </div>
+		                
+		                <div class="control-group cf clearfix">
+		                	<label class="control-label" for="app_icon">
+		                		图文封面图：
+		                	</label>
+							<div class="controls">
+								
+									<img src="{$reply.reply_news_picurl}" id="reply_news_picurl_image" style="height:50px;    margin-bottom:5px;"  />
+ 									<input type="hidden" class="input-xlarge ipt_require"  name="reply_news_picurl" value="{$reply.reply_news_picurl}"  id="reply_news_picurl_url"  />
+									<button type="button" class="btn add_reply_news_picurl" id="reply_news_picurl">选择图文封面</button>
+ 									<span class="maroon">*</span>
+									<span class="help-inline">建议大小:720*300px， 允许上传大小{$max_size}</span>
+									
+							</div>
+		                </div>
+						
+						<div class="control-group cf clearfix">
+		                	<label class="control-label" for="name">
+		                		回复内容：
+		                	</label>
+							<div class="controls">
+								<textarea  id="reply_news_description" name="reply_news_description" class="input-xlarge ipt_require" >{$reply.reply_news_description}</textarea>
+								<span class="maroon">*</span>
+							</div>
+		                </div>
+						<include file="Public:relate_reply" />
+						<div class="control-group cf clearfix">
+		                	<label class="control-label" for="weixin_account">
+		                		回复跳转链接：
+		                	</label>
+							<div class="controls">
+								<select name="u_module">
+										<option value="">{%U_DEFINE}</option>
+										<foreach name="navs" item="nav" key="key" >
+											<option value="{$key}" <if condition="$key eq $reply['u_module']">selected="selected"</if> >{$nav.name}</option>
+										</foreach>
+								</select>
+								<span id="u_act">				
+								</span>
+								<span id="u_config">				
+									{%U_PARAM}：<input type="text" class="textbox" name="u_param"  value="{$reply.u_param} "/>
+								</span>
+								
+								<span id="u_define">
+									<input type="text" class="textbox" name="reply_news_url" value="{$reply.reply_news_url}" />
+								</span>
+							</div>
+		                </div>
+		                
+		                 
+						
+						<div class="control-group cf clearfix">
+		                	<label class="control-label" for="name">
+		                		是否关闭默认回复：
+		                	</label>
+							<div class="controls">
+								<input type="checkbox" name="default_close" id="default_close" <if condition="$reply.default_close eq 1">checked="checked"</if>  value="1"  />
+							</div>
+		                </div>
+		                
+		              
+		
+					</div>
+					
+
+					<div class="cf clearfix"></div>
+					<div class="form-actions">	                    
+						<input type="hidden" name="id" value="{$reply.id}" />
+	                    <input type="submit" class="btn btn-primary" value="保存" />
+	                    <input type="button" class="btn" value="切换到文本模式" onclick="location.href='{:u("WeixinReply/index",array('t'=>1))}'" / >
+	                    
+	                </div>
+				</div>				
+				
+			
+            </form>
+		</div>
+	</div>
+</div>
+ 
+<script type="text/javascript">
+	$(document).ready(function(){
+		load_u_define();
+		$("select[name='u_module']").bind("change",function(){ load_u_define();});		
+	});
+	function load_u_define()
+	{
+		if($("select[name='u_module']").val()=='')
+		{
+			$("#u_config").hide();
+			$("#u_act").hide();
+			$("#u_define").show();
+		}
+		else
+		{
+			var module = $("select[name='u_module']").val();
+			var id = $("input[name='id']").val();
+			$.ajax({ 
+					url: ROOT+"?"+VAR_MODULE+"="+MODULE_NAME+"&"+VAR_ACTION+"=load_module&module="+module+"&id="+id, 
+					data: "ajax=1",
+					dataType: "json",
+					success: function(obj){
+						if(obj.data)
+						{
+							var html="<select name='u_action'>";
+							for(names in obj.data)
+							{
+								html+="<option value='"+names+"' ";
+								if(obj.info==names)
+								{
+									html+=" selected='selected' ";
+								}
+								html+=" >"+obj.data[names]+"</option>";
+							}
+							html+="</select>";
+							$("#u_act").html(html);
+						}
+						else
+						{
+							$("#u_act").html("");
+						}
+					}
+			});
+			$("#u_act").show();
+			$("#u_define").hide();
+			$("#u_config").show();
+		}
+	}
+</script>
+<script type="text/javascript">
+	$(function(){
+		get_file_fun("reply_news_picurl");
+		//show_tip();
+	});
+</script>
+<include file="Public:footer" />

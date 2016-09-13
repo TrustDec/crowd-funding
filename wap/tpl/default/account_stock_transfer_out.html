@@ -1,0 +1,112 @@
+{include file="inc/header.html"}
+<div class="buttons-tab">
+    <span class="tab-link button {if $stock_transfer_type eq 1}active{/if}">
+        <a href="#" onclick="RouterURL('{url_wap r="account#stock_transfer_out"}','#account-stock_transfer_out');">股权转让管理</a>
+    </span>
+    <span class="tab-link button {if $stock_transfer_type eq 2}active{/if}">
+        <a href="#" onclick="RouterURL('{url_wap r="account#stock_transfer_in"}','#account-stock_transfer_in');">股权转入管理</a>
+    </span>
+</div>
+{if $stock_transfer_list}
+	{foreach from=$stock_transfer_list item=stock_transfer_item}
+	<div class="list-block">
+        <ul>
+            <li class="item-content">
+                <div class="item-inner">
+                    <div class="item-title">{$stock_transfer_item.deal_name}</div>
+                </div>
+            </li>
+            <li class="item-content">
+                <div class="item-inner">
+                    <div class="item-title">转让金额</div>
+                    <div class="item-after"><span class="f_money">¥{$stock_transfer_item.price}</span></div>
+                </div>
+            </li>
+            <li class="item-content">
+                <div class="item-inner">
+                    <div class="item-title">转让股数</div>
+                    <div class="item-after">{$stock_transfer_item.num}股</div>
+                </div>
+            </li>
+             <li class="item-content">
+                <div class="item-inner">
+                    <div class="item-title">天数</div>
+                    <div class="item-after">{$stock_transfer_item.day}天</div>
+                </div>
+            </li>
+            <li class="item-content">
+                <div class="item-inner">
+                    <div class="item-title">开始时间</div>
+                    <div class="item-after">{function name=""to_date v=$stock_transfer_item.begin_time}</div>
+                </div>
+            </li>
+          	<li class="item-content">
+                <div class="item-inner">
+                    <div class="item-title">付款截止时间</div>
+                    <div class="item-after">{if $stock_transfer_item.end_time>0 && $stock_transfer_item.end_time < $now}已过期{else}{function name=""to_date v=$stock_transfer_item.end_time}{/if}</div>
+                </div>
+            </li>
+         	<li class="item-content">
+                <div class="item-inner">
+                    <div class="item-title">状态</div>
+                    <div class="item-after">
+                    	{if $stock_transfer_item.is_success==0}
+						{if $stock_transfer_item.is_edit}
+						    {if $stock_transfer_item.status==2}
+	   					 	<span>审核未通过，请修改</span>
+						    <div class="blank0"></div>
+						    {/if}
+							<a href="#" onclick="RouterURL('{url_wap r="account#stock_transfer_edit" p="id=$stock_transfer_item.id"}','#account-stock_transfer_edit',2);" class="button button-fill theme_bgcolor mr10">编辑</a>
+							<a href="#" onclick="RouterURL('{url_wap r="account#stock_transfer_delete" p="id=$stock_transfer_item.id"}','#account-stock_transfer_delete',2);" class="button button-fill bg_red">删除</a>	
+						{else}
+							{if $stock_transfer_item.status==0}
+								<span>等待审核中</span>
+								<div class="blank0"></div>
+								<a href="#" onclick="RouterURL('{url_wap r="account#stock_transfer_cancel" p="id=$stock_transfer_item.id"}','#account-stock_transfer_cancel',2);" class="button button-fill bg_red">取消交易</a>	
+							{elseif $stock_transfer_item.status==1}
+					   		 	{if $stock_transfer_item.purchaser_id==0}
+					   		 		{if $stock_transfer_item.end_time < $now}
+					   		 			<span>已过期</span>
+					   		 		{else}
+						    			<span>已通过审核，等待交易</span>
+						    			<div class="blank0"></div>
+						    			<a href="#" onclick="RouterURL('{url_wap r="account#stock_transfer_cancel" p="id=$stock_transfer_item.id"}','#account-stock_transfer_cancel',2);" class="button button-fill bg_red">取消交易</a>	
+						    		{/if}
+				    			{else}
+			    	        		{if $stock_transfer_item.deal_status==3}
+					    	            {if $stock_transfer_item.deal_share_status==0}
+						    	            <span>乙方已付款</span>
+						    	            <div class="blank0"></div>
+						    	            <a href="#" onclick="RouterURL('{url_wap r="account#stock_transfer_out_end" p="id=$stock_transfer_item.deal_order_id"}','#account-stock_transfer_out_end',2);" class="button button-fill theme_bgcolor">线下转移完成</a>		    
+					    	            {else}
+					    	            	<span>等待乙方确认线下股权转移</span>
+					    	            {/if}
+					    	        {else}
+					    	        	<span>等待乙方付款</span>
+					    	        {/if}
+					    	        
+					    		{/if}
+					    		
+							{elseif $stock_transfer_item.status==2}
+								<span>审核未通过</span>
+							{elseif $stock_transfer_item.status==3}
+								<span>交易已取消</span>
+							{elseif $stock_transfer_item.status==4}
+							
+							{/if}
+						{/if}
+					{elseif $stock_transfer_item.is_success==1}
+						<span>已完成交易</span>				    
+					{/if}
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+	{/foreach}
+	<div class="pages">{$pages}</div>
+    <div class="blank15"></div>
+{else}
+<div class="empty_tip content-padded tc">还没有{$title}记录</div>
+{/if}
+{include file="inc/footer.html"} 

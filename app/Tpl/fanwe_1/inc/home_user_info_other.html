@@ -1,0 +1,40 @@
+<div class="userhomehd_bg">
+	<div class="wrap">
+		<div class="userhomehd">
+			<div class="user_info_t">
+				<div class="user_info_l">
+					<div class="userbox1img f_l">{function name="show_avatar" p="$home_user_info.id" t="big"}</div>
+					<div class="homebox1main f_l">
+						<div class="user_text user_text_1">
+							<span class="inline_user_name user_name">{$home_user_info.user_name}</span>
+							{if $home_user_info.user_icon}
+					        <img src="{$home_user_info.user_icon}" title="会员等级" class="inline_level_icon level_icon" />
+							{/if}
+							<i class="inline_investor_type investor_type {if $home_user_info.is_investor==0 || $home_user_info.is_investor==1}personal_icon{else}agency_icon{/if}" title="{if $home_user_info.is_investor==0 || $home_user_info.is_investor==1}个人投资者{else}机构投资者{/if}"></i>
+							{if $home_user_info.investor_status eq 1}<span>信息已认证成功</span>{/if}
+						</div>
+						<div class="user_text" style="height:63px;">
+							<span title="{$home_user_info.intro}">{function name="msubstr" v=$home_user_info.intro b=0 e=150}</span>
+						</div>
+						<div class="user_text">
+							<span>{function name="to_date" v=$home_user_info.create_time f="Y年m月d日"} 加入 {function name="app_conf" v="SITE_NAME"}</span>
+						</div>
+						<div class="user_text" style="margin-bottom:0">
+							{if $home_user_info.province}<span>{$home_user_info.province}&nbsp;{$home_user_info.city}</span>{/if}
+						</div>
+					</div>
+				</div>
+				<div class="user_info_r">
+					<div class="user_info_r_m">
+						<a href="javascript:void(0)" onclick="ajax_get_recommend_project(this,'{$user_info.id}','{url r="ajax#ajax_get_recommend_project"}');" rel="{$home_user_info.id}" name="recommend_project" class="ui-button ui-center-button theme_bgcolor">自荐我的项目</a>
+						<div class="blank15"></div>
+						<a href="javascript:void(0);" onclick="send_message({$home_user_info.id});">+先和他聊聊</a>
+					</div>
+					<div class="mask_bg"></div>
+				</div>
+				<div class="blank0"></div>
+			</div>
+			<!--<div class="user_info_b"></div>-->
+		</div>
+	</div>
+</div>

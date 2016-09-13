@@ -1,0 +1,199 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("select[name='name']").bind("change",function(){
+			load_tpl($("select[name='name']").val());
+		});
+		load_tpl($("select[name='name']").val());
+		
+		$(".template_btn").bind('click',function(){
+			var type=parseInt($(this).attr("rel"));
+			$(".template_btn").removeClass("currentbtn");
+			$(this).addClass("currentbtn");
+			$.ajax({
+				url: ROOT+"?"+VAR_MODULE+"="+MODULE_NAME+"&"+VAR_ACTION+"=ajax_tpl&type="+type,
+				data:"ajax=1",
+				dataType: "json",
+				success:function(obj){
+					if(obj.status==1)
+					{
+						var tpl_list=obj.data.list;
+						var type=obj.data.type;
+						var tpl_html='<option value="">'+LANG['SELECT_MSG_TPL']+'</option>';
+						for(i=0;i<tpl_list.length;i++)
+						{
+							tpl_html+='<option value="'+tpl_list[i]['name']+'">'+LANG['LANG_'+tpl_list[i]['name']+'']+'</option>';
+						}
+						$("select[name='name']").html(tpl_html);
+						
+						if(type == 1)
+						{
+							$("#html_row").show();
+							$("select[name='is_html']").val(1);	
+						}
+						else
+						{
+							hide_html_row();
+						}
+						
+						$("textarea[name='content']").val('');
+						$("input[name='id']").val(0);
+						
+						$("#content_tip").find("td").html('');
+						$("#content_tip").hide();
+						
+					}
+				}
+			});
+		});
+		
+		
+		$("#sub_button").bind("click",function(){
+			var query=new Object();
+			query.m='MsgTemplate';
+			query.a='update';
+			query.id=$("#template_form").find("input[name='id']").val();
+			query.name=$("#template_form").find("select[name='name']").val();
+			query.content=$("#template_form").find("textarea[name='content']").val();
+			query.is_html=$("#template_form").find("select[name='is_html']").val();
+			query.ajax=1;
+			if(query.name =='' || query.id <=0)
+				alert(LANG("SELECT_MSG_TPL"));
+				
+			$.ajax({
+				url:ROOT,
+				data:query,
+				dataType: "json",
+				type:'POST',
+				success:function(obj){		
+					if(obj.status==0){
+						alert(obj.info);
+					}		
+				}
+			});
+		});
+		
+	});
+	
+	
+	function load_tpl(tpl_name)
+	{
+		if(tpl_name != '')
+		{
+			$.ajax({ 
+					url: ROOT+"?"+VAR_MODULE+"="+MODULE_NAME+"&"+VAR_ACTION+"=load_tpl&name="+tpl_name, 
+					data: "ajax=1",
+					dataType: "json",
+					success: function(obj){						
+						if(obj.status==1)
+						{
+							var tpl = obj.data;
+							if(tpl.type == 1)
+							{
+								$("#html_row").show();
+								$("select[name='is_html']").val(tpl.is_html);	
+							}
+							else
+							{
+								hide_html_row();
+							}
+							$("textarea[name='content']").val(tpl.content);
+							$("input[name='id']").val(tpl.id);
+							if(tpl.tip)
+							{
+								$("#content_tip").find("td").html(tpl.tip);
+								$("#content_tip").show();
+							}
+							
+						}
+						else
+						{
+							$("textarea[name='content']").val('');
+							$("input[name='id']").val(0);
+							hide_html_row();
+						}
+					}
+			});
+		}
+		else
+		{
+			$("textarea[name='content']").val('');
+			$("input[name='id']").val(0);
+			$("#content_tip").hide();
+			hide_html_row();
+		}
+	}
+	function hide_html_row()
+	{
+		$("#html_row").hide();
+		$("select[name='is_html']").val(0);		
+		$("#content_tip").hide();
+	}
+</script>
+<div class="main">
+<div class="main_title">{$main_title}</div>
+<div class="blank5"></div>
+<div class="button_row">
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input type="button" class="button template_btn currentbtn" rel="0" value="短信模板" />&nbsp;
+	<input type="button" class="button template_btn"  rel="1" value="邮件模板" />&nbsp;
+</div>
+<div class="blank5"></div>
+<form name="edit" action="__APP__" id="template_form" method="post" enctype="multipart/form-data">
+<table class="form" cellpadding=0 cellspacing=0>
+	<tr>
+		<td colspan=2 class="topTd"></td>
+	</tr>
+	<tr>
+		<td class="item_title">{%MSG_TPL_NAME}:</td>
+		<td class="item_input">
+			<select name="name">
+				<option value="">{%SELECT_MSG_TPL}</option>
+				<foreach name="tpl_list" item="tpl_item">
+					<option value="{$tpl_item.name}">{:l("LANG_".$tpl_item['name'])}</option>
+				</foreach>
+			</select>
+		</td>
+	</tr>
+	<tr id="html_row">
+		<td class="item_title">{%IS_HTML}:</td>
+		<td class="item_input">
+			<select name="is_html">
+				<option value="0">{%IS_HTML_0}</option>
+				<option value="1">{%IS_HTML_1}</option>
+			</select>
+		</td>
+	</tr>
+	
+	<tr>
+		<td class="item_title">{%CONTENT}:</td>
+		<td class="item_input">
+			<textarea class="textarea" name="content" style="width:600px; height:250px;" ></textarea>
+		</td>
+	</tr>
+	<tr id="content_tip">
+		<td colspan="2">
+			
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title"></td>
+		<td class="item_input">
+			<!--隐藏元素-->
+			<input type="hidden" value="0" name="id" />
+			<input type="hidden" name="{:conf("VAR_MODULE")}" value="MsgTemplate" />
+			<input type="hidden" name="{:conf("VAR_ACTION")}" value="update" />
+			<!--隐藏元素-->
+			<input type="button" class="button"  id="sub_button" value="{%EDIT}" />
+			<input type="reset" class="button" value="{%RESET}" />
+		</td>
+	</tr>
+	<tr>
+		<td colspan=2 class="bottomTd"></td>
+	</tr>
+</table>
+</form>
+</div>
+<include file="Public:footer" />

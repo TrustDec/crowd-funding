@@ -1,0 +1,72 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<include file="Public:new" />
+<load href='__TMPL__Common/js/jquery.bgiframe.js' />
+<load href='__TMPL__Common/js/jquery.weebox.js' />
+<load href='__TMPL__Common/style/weebox.css' />
+<script type="text/javascript" src="__TMPL__Common/js/calendar/calendar.php?lang=zh-cn" ></script>
+<load href='__TMPL__Common/js/calendar/calendar.css' />
+<load href='__TMPL__Common/js/calendar/calendar.js' />
+<div class="main">
+<div class="main_title">申请解冻资金列表</div>
+<div class="blank5"></div>
+<PHP>
+	function get_pay_type($pay_type){
+		if($pay_type ==0)
+		{
+			$pay_type="第三方托管";
+		}else{
+			$pay_type="余额支付";
+		}
+		return $pay_type;
+	}
+	function get_freeze_status($status){
+		if($status ==1)
+		{
+			$status="冻结";
+		}elseif($status ==2){
+			$status="解冻";
+		}else{
+			$status="申请解冻";
+		}
+		return $status;
+	}
+	function get_freeze($id,$deal){
+		$freeze = $GLOBALS['db']->getRow("select * from ".DB_PREFIX."money_freeze where id = '".$id."'");
+		if($freeze['pay_type']==0){
+			return "<a href=\"__ROOT__/index.php?ctl=collocation&act=SincerityGoldUnfreeze&user_id=".$freeze['platformUserNo']."&user_type=0&freezeRequestNo=".$freeze['requestNo']."&deal_id=".$freeze['deal_id']."\">解冻诚意金</a>";
+		}
+		if($freeze['pay_type']==1){
+			return "<a href=\"javascript:pay_type('".$id."')\">解冻诚意金</a>";
+		}
+		
+	}
+</PHP>
+<script>
+	function pay_type(id)
+	{
+		location.href = ROOT+"?"+VAR_MODULE+"="+MODULE_NAME+"&"+VAR_ACTION+"=edit_dsffreezer&id="+id;
+	}
+</script>
+<div class="blank5"></div>
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="money_freeze" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{%ID}|50px
+			,platformUserNo|get_deal_user:发起人|100px
+			,amount:冻结金额|100px
+			,deal_id|get_deal_name:项目名称
+			,pay_type|get_pay_type:支付类型|100px
+			,status|get_freeze_status:诚意金状态|100px
+			,create_time|to_date:冻结时间" 
+	actionlist="id|get_freeze=$deal" /> 
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" /> 

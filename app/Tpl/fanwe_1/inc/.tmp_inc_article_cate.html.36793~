@@ -1,0 +1,71 @@
+<style>
+	.lf_title , .rt_title { border-bottom:1px solid #e3e3e3; height:25px; line-height:25px; font-size:25px; font-weight:normal; padding-bottom:10px; }
+	.l1 {width: 690px;float: left;}
+	.l1 .c1 {overflow: hidden;border-bottom: dashed 1px #e3e3e3;padding:15px 0; width:690px; }
+	.l1 .c1 dd.c3 {width: 100%;font-size: 12px;color: #999;height: 30px;line-height: 30px;}
+	.l1 .c1 dt, .l1 .c1 dd {width: 550px;float: left;overflow: hidden;}
+	.l1 .c1 dd.c3 .c32 {float: left;}
+	.c31 {margin-left:10px; _margin-left:5px; display: none;float: left;}
+	.l1 .c1 dd.c3 {font-size: 12px;color: #999;line-height: 30px;}
+	.l1 .c1:hover dd.c3 .c31, .l1 .c1:hover dd.c3 .c33 {display: block;}
+	.l1 .c1 dd.c3 .c33 {float: right;display: none;}
+	.l1 .c1 dt {line-height: 27px; margin-bottom:5px;}
+	.l1 .c1 dt a {color: #000;font-size:20px;}
+	.l1 .c1 dt, .l1 .c1 dd {width: 550px;float: left;overflow: hidden;}
+	a {text-decoration: none;outline: none;}
+	a:hover{text-decoration: none;outline: none; color:12adff;}
+	.l1 .c1 dd.c4 {font-size: 13px;color: #333;line-height: 23px;}
+	.l1 .c1 dd.c5 {font-size: 12px;color: #999;line-height: 18px;clear: both;}
+	.content .l2 {margin-bottom: 20px;}
+	.l2 {width: 240px;float: right;}
+	.c78 {position: relative;}
+	.c77 {margin-top: 9px;overflow: hidden;}
+	.c78 h2 { -7px -118px;}
+	.c78 .button {position: absolute;top: 10px;right: 0px;}
+	.button-green {background-position: left -490px;}
+	.button-green button, .button-green a {background-position: right -140px;}
+	.button button, .button a {color: white !important;font-size: 14px;padding: 0 18px 0 15px;margin-left: 5px;line-height: 30px;}
+	.l2 ul li {overflow: hidden;border-bottom: dashed 1px #e3e3e3;line-height: 19px;padding: 10px 0;}
+	.l2 ul li a { font-size:14px; color:#00648d; }
+	.l2 ul li a:hover { font-size:14px; color:#12adff; text-decoration:underline; }
+	.l1 .c1 h3 { font-size:18px; line-height:32px; font-weight:normal; }
+	.l1 .c1 h3 a { color:#00648d; }
+	.l1 .c1 h3 a:hover { text-decoration:underline; color:#12adff; }
+	small{ font-size:85%; }
+	.muted { color:#999; }
+</style>
+
+
+		<div class="l1">
+			<div class="blank20"></div>
+			<h2 class="lf_title">{if $cate_name}{$cate_name}{else}最新智能头条{/if}</h2>
+			{foreach from=$artilce_list item=article_item}
+			<div class="c1">
+				<h3>
+					
+					{if !$cate_name}[<a href="{$article_item.cate_url}" >{$article_item.cate_name}</a>]&nbsp;{/if}<a href="{$article_item.url}" >{$article_item.title}</a>
+				
+				</h3>
+				<small class="muted">{function name="to_date" v=$article_item.update_time}</small>
+			</div>
+			{/foreach} 
+		</div>
+		<div class="l2">
+			<div class="blank20"></div>
+			<h2 class="rt_title">热门话题</h2>
+			<ul>					
+				{foreach from=$hot_1 item=article_1 key=k1 name=hot_list} 
+				<li><a href="{$article_1.url}" >{$article_1.title}</a></li>
+		        {/foreach}
+			</ul>
+			<div class="blank20"></div>
+			<div class="c77 c79"><h2 class="rt_title">本周必读</h2></div>
+			<ul>
+				{foreach from=$hot_2 item=article_2 key=k1 name=hot_list}  
+				<li><a href="{$article_2.url}" >{$article_2.title}</a></li>
+		        {/foreach}
+			</ul>
+		</div>
+
+     
+

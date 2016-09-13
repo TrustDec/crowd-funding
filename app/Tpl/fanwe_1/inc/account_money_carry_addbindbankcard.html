@@ -1,0 +1,172 @@
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/switch_city.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/switch_city.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/add_consignee.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/add_consignee.js";
+?>
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<form name="Jbank_From" class="ajax_form_identify" id="Jbank_From" action="{url r="account#savebindbankcard"}" method="post">
+	<div class="control-group small-control-group">
+	    <label class="control-label">开户名：</label>
+	    <div class="control-text">
+	    	<input type="text" disabled="disabled" name="real_name" id="Jbank_real_name" class="small_textbox w250" value="{$user_info.identify_name}">
+	    </div>
+	    <div class="blank0"></div>
+	</div>
+	<!--绑卡请求号-->
+	<input type="hidden" id="" value="{$requestid}" class="small_textbox" name="requestid" />
+	<!--用户标识类型-->
+	<input type="hidden" id="" value="2" class="small_textbox"  name="identitytype"  />						
+	<!--用户标识-->
+	<input type="hidden" id="" value="{$identityid}" class="small_textbox"  name="identityid" />
+	<!--用户请求ip-->
+	<input type="hidden" id="" value="{$userip}" class="small_textbox" name="userip" />	
+	<input type="hidden" id="" value="{$payment_count}" class="small_textbox" name="payment_count" />	
+	
+	<div id="otherbank_text" class="control-group smaller-control-group" style="display:none;">
+	    <label class="control-label">帐户类型：</label>
+	   	<div class="control-text">
+	    	借记卡&nbsp;&nbsp;<span class="f_red">(不支持信用卡)</span>
+	    </div>
+	    <div class="blank0"></div>
+	</div>	
+	<div class="control-group small-control-group">
+	    <label class="control-label">
+	    	<span class="f_red b">*</span> 选择银行：
+	    </label>
+		<select name="bank_id" id="Jbank_bank_id" class="ui-select field_select small bank_id">
+			<option value="">请选择</option>
+			{foreach from=$bank_list.recommend item=item}
+			<option value="{$item.id}" day="{$item.day}">{$item.name}</option>
+			{/foreach}
+			<option value="other">其他</option>
+		</select>
+		<select name="otherbank" id="Jbank_otherbank" class="ui-select field_select small otherbank">
+			<option value="">请选择</option>
+			{foreach from="$bank_list.other" item="item"}
+			<option value="{$item.id}" day="{$item.day}">{$item.name}</option>
+			{/foreach}
+		</select>			
+	    <div class="blank0"></div>
+	</div>	
+						
+	<div class="control-group small-control-group">
+		<label class="control-label"><span class="f_red b">*</span>银行卡号:</label>
+		<div class="control-text">
+			<input type="text" id="" value="" class="small_textbox" name="cardno" />
+		</div>
+		<div class="blank0"></div>
+	</div>	
+	<div id="otherbank_text_1" class="control-group small-control-group" style="display:none;">
+       	<label class="control-label"><span class="f_red b">*</span> 确认卡号：</label>
+       	<div class="control-text">
+       		<input type="text" name="reBankcard" class="small_textbox w250" id="Jbank_rebankcard" value="">
+       	</div>
+       	<div class="blank0"></div>
+   	</div>
+	<div class="control-group small-control-group">								
+		<label for="settings-region" class="control-label"><span class="f_red b">*</span> 开户行所在地：</label>
+		<select name="province" id="cityid-1" class="ui-select field_select small">
+			<option value="" rel="0">请选择省份</option>
+			{foreach from=$region_lv2 item=region}
+			<option value="{$region.name}" class="ld-option" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+			{/foreach}	
+		</select>
+		<select name="city" id="cityid-2" class="ui-select field_select small">
+			<option value="" rel="0">请选择城市</option>
+			{foreach from=$region_lv3 item=region}
+			<option class="ld-option" value="{$region.name}" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+			{/foreach}
+		</select>
+		<div class="blank0"></div>
+ 	</div>								
+	<div class="control-group small-control-group">
+		<label class="control-label"><span class="f_red b">*</span>银行预留手机号:</label>
+		<div class="control-text">
+			<input type="text" id="" value="" class="small_textbox" name="phone" />
+		</div>
+		<div class="blank0"></div>
+	</div>								
+	
+					
+	<div class="control-group small-control-group">			
+		<label for="settings-bankzone" class="control-label"><span class="f_red b">*</span> 开户行网点：</label>
+		<div class="control-text">
+			<input type="text" name="bankzone" id="Jbank_bankzone" class="small_textbox w250 mr10" value="">
+			<a href="http://www.cardbaobao.com/wangdian/" target="_blank">网点查询</a>
+		</div>
+		<div class="blank0"></div>	
+	</div>
+	<div class="submit_btn_row control-group">
+		<label class="control-label"></label>
+		<input type="button" value="确认添加" class="ui-button theme_bgcolor mr10">
+		<input type="button" value="取消" class="ui_button bg_red cancel">
+		
+		<input type="hidden" name="addbindbankcard" value="{$addbindbankcard}">
+    </div>    
+</form>
+<div class="ajax_loading_box">
+	<img src="{$TMPL}/images/loading.gif" class="ajax_loading_icon" />
+</div>
+<script type="text/javascript">
+	//$("#Jbank_bankcard,#Jbank_rebankcard").bankInput(); 
+ 	$(function(){
+		$("#Jbank_bank_id").bind("change",function(){
+			if($(this).val()=='other'){
+				$("dl.otherbank").show();
+				$("#otherbank_text").show();
+				$("#otherbank_text_1").show();
+				
+			}else{
+				$("dl.otherbank").hide();
+				$("#otherbank_text").hide();
+				$("#otherbank_text_1").hide();
+			}
+		});
+		bind_ajax_form_identify(".ajax_form_identify");
+	});
+
+	function bind_ajax_form_identify()
+	{
+		$(".ajax_form_identify").find(".ui-button").bind("click",function(){
+	 		$(".ajax_form_identify").submit();
+		});
+		$(".ajax_form_identify").bind("submit",function(){
+			$(".ajax_loading_box").show();
+			var ajaxurl = $(this).attr("action");
+			var query = $(this).serialize();
+			$.ajax({ 
+				url: ajaxurl,
+				dataType: "json",
+				data:query,
+				type: "POST",
+				success: function(ajaxobj){
+					$(".ajax_loading_box").hide();
+					if(ajaxobj.status==1){
+	
+						$.weeboxs.open(ajaxobj.html, {boxid:'bindbankcard_info',contentType:'text',showButton:false, showCancel:false, showOk:false,title:'绑卡短信验证',width:480,type:'wee'});
+					}
+				    if(ajaxobj.status==2){
+						$.showErr(ajaxobj.info);
+					}
+					if(ajaxobj.status==0){
+						$.showErr(ajaxobj.info);
+					}
+					if(ajaxobj.status==4){
+						$.showSuccess(ajaxobj.info,function(){
+							location.href = ajaxobj.jump;
+						});
+					}
+					
+				},
+				error:function(ajaxobj)
+				{
+					if(ajaxobj.responseText!='')
+					alert(ajaxobj.responseText);
+				}
+			});
+			return false;
+		});
+	}
+
+</script>

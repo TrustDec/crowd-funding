@@ -1,0 +1,346 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/fanwe_utils/jcDate.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jQuery-jcDate.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jQuery-jcDate.js";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+{include file="inc/home_user_info.html"}
+<!--中间开始-->
+<div class="dlmain Myhomepage">
+	{include file="inc/account_left.html"}
+	<div class="homeright pageright f_r">
+		<div class="list_title clearfix">
+			{if app_conf("IS_ENQUIRY") eq 1}
+			<div {if $type eq 0}class="cur"{/if}>
+				<a href="{url r="account#get_investor_status" p="type=0&id=$deal_id"}">询价</a>
+			</div>
+			{/if}
+			<div {if $type eq 1}class="cur"{/if}>
+				<a href="{url r="account#get_investor_status" p="type=1&id=$deal_id"}">领投</a>
+			</div>
+			<div {if $type eq 2}class="cur"{/if}>
+				<a href="{url r="account#get_investor_status" p="type=2&id=$deal_id"}">跟投</a>
+			</div>
+			<div>
+				<a href="{url r="account#get_leader_list" p="type=2&id=$deal_id"}">领投资格</a>
+			</div>
+		</div>
+		<form method="post" name="form_chh" action="{url r="account#get_investor_status" p="id=$deal_id"}">
+		<div class="account_search" id="account_search">
+			<div class="blank10"></div>
+			{if $type neq 1}
+			<div class="form_row control-group f_l">
+				<label class="form_lable small_form_lable">会员名称：</label>
+				<div class="pr f_l">
+					<input type="text" name="user_name_i" value="{$user_name_i}" class="small_textbox w200 mr10" />
+					<span class="holder_tip">请输入会员名称</span>
+				</div>
+				<select name="money_status" id='money_status' class="ui-select field_select small">
+					<option value="0">请选择状态</option>
+					<option value="5" {if $money_status eq 5} selected="selected"{/if}>未审核</option>
+					<option value="1" {if $money_status eq 1} selected="selected"{/if}>审核通过</option>
+					<option value="2" {if $money_status eq 2} selected="selected"{/if}>审核未通过</option>
+					<option value="3" {if $money_status eq 3} selected="selected"{/if}>已支付</option>
+					<option value="4" {if $money_status eq 4} selected="selected"{/if}>违约</option>
+				</select>
+			</div>
+			
+			<input type="submit" name="submit" value="搜索" class="ui-button theme_bgcolor" />
+			<input type="hidden" name="type" value="{$type}">
+			<input type="hidden" name="id" value="{$deal.id}">
+			<input type="hidden" name="more_search" value="{$more_search}">
+			<a href="javascript:void(0);" id="more_search_btn" class="more_search_btn f_red">更多筛选条件<i class="icon iconfont iconfont_down" id="iconfont_down">&#xe61d;</i><i class="icon iconfont iconfont_up" id="iconfont_up">&#xe61c;</i></a>
+			<div id="more_search" {if $more_search eq 1}style="display:block;"{else}style="display:none;"{/if}>
+				<div class="blank0"></div>
+				<div class="form_row control-group f_l">
+					<label class="form_lable small_form_lable">申请时间：</label>
+					<div class="small_form_text">
+						<input readonly="" type="text" class="small_textbox w100 jcDate" rel="input-text" value="{$begin_time}" name="begin_time" id="inputLaunchTime" placeholder="请选择日期">
+						<span class="f_l pl10 pr10">─</span>
+						<input readonly="" type="text" class="small_textbox w100 jcDate mr20" rel="input-text" value="{$end_time}" name="end_time" id="inputLaunchTime" placeholder="请选择日期">
+					</div>
+					<div class="blank0"></div>
+				</div>
+			</div>
+			{/if}
+		</div>
+		</form>
+		<div class="list_conment">
+			<div class="page_title">
+				{$deal.name}-{$title}
+			</div>
+			<div class="blank0"></div>
+			{if $investor_list}
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc_table">
+				<thead>
+					<tr>
+						<th>序号</th>
+						<th>项目</th>
+						<th>投资人</th>
+						{if $type==0}
+						<th>项目估值</th>
+						{/if}
+						<th width="120">投资金额</th>
+						<th width="160">时间</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{foreach from=$investor_list item=item}
+					<tr>
+						<td>{$item.id}</td>
+						<td>
+							<a href="{url r="deal#show" p="id=$item.deal_id" }" target="_blank" ><img src="{$deal.image}" width=30 height=30 /></a>
+						</td>
+						<td>
+							<a href="{url r="home#index" p="id=$item.user_id"}">{$item.user_name}</a>
+						</td>
+						{if $type==0}
+						<td>¥{function name="round" v=$item.stock_value e=2}</td>
+						{/if}
+						<td>¥{function name="round" v=$item.money e=2}</td>
+						<td class="deal_name" style="text-align:left;padding-left:26px;">{function name="to_date" v=$item.create_time}</td>
+						<td>
+							{if $item.type==0}
+								{if $item.investor_money_status==0}
+									
+									{if $now>$deal.begin_time and $now<$deal.end_time}
+										{if $deal.is_success eq 1}
+											<a href="javascript:void(0);" class="J_examine">进行审核</a>
+											<div class="J_examine_box hide">
+												<div class="control-group smaller-control-group" style="padding:0;">
+													<label class="control-label" style="width:auto;font-size:16px;">投资（询价）理由:</label>
+													<div class="blank0"></div>
+													<div class="control-text tl" style="height:auto;">
+														<span>{$item.investment_reason}</span>
+													</div>
+													<div class="blank5"></div>
+												</div>
+												<div class="control-group smaller-control-group" style="padding:0;">
+													<label class="control-label" style="width:auto;font-size:16px;">为创业者提供非资金帮助:</label>
+													<div class="control-text tl" style="width:354px;height:auto;">
+														<span>{$item.funding_to_help}</span>
+													</div>
+													<div class="blank5"></div>
+												</div>
+												<div class="blank10"></div>
+												<span href="javascript:void(0);" rel="{$item.id}" title="{function name="round" v=$item.stock_value e=2}" class="ui-center-button theme_bgcolor examine_yes">通过询价</span>
+												<span href="javascript:void(0);" rel="{$item.id}" class="ui-center-button bg_red examine_no">拒绝询价</span>
+												<div class="blank10"></div>
+											</div>
+											<script type="text/javascript">
+												$(function(){
+													$(".J_examine").on('click',function(){
+														var ajaxobj = $(this).next(".J_examine_box").html();
+														$.weeboxs.open(ajaxobj, {boxid:'J_examine_box',contentType:'text',showButton:false, showCancel:false, showOk:false,title:'询价审核',width:480,type:'wee',onopen:function(){J_examine();}});
+													});
+												});
+											</script>
+										{else}
+											项目未成功
+										{/if}
+									{else}
+									审核未通过
+									{/if}
+									
+								{elseif $item.investor_money_status==1}
+									{if $now>$deal.begin_time and $now<$deal.end_time}
+										审核通过,未开始支付
+									{else}
+									审核通过,等待用户支付
+									{/if}
+								{elseif $item.investor_money_status==2}
+									<span class="red">审核不通过</span>
+								{elseif $item.investor_money_status==3}
+									支付完成
+								{elseif $item.investor_money_status==4}
+									该用户未付款，已违约
+								{/if}
+							{elseif $item.type==1}
+								{if $item.status==0}
+									<a class="lead_yes" rel="{$item.id}" title="{function name="round" v=$item.stock_value e=2}">允许成为领投人</a>&nbsp;
+									<a class="lead_no"  rel="{$item.id}">不允许成为领投人</a>
+								{elseif $item.status==1}
+									{if $item.investor_money_status==0}
+										
+										{if $now>$deal.begin_time and $now<$deal.end_time}
+											{if $deal.is_success eq 1}
+												<a href="javascript:void(0);" class="lead_examine_yes" rel="{$item.id}" title="{function name="round" v=$item.stock_value e=2}">允许投资</a>&nbsp;
+												<a href="javascript:void(0);" class="lead_examine_no"  rel="{$item.id}">拒绝投资</a>
+											{else}
+												项目未成功
+											{/if}
+										{else}
+										审核未通过
+										{/if}
+										
+									{elseif $item.investor_money_status==1}
+										{if $now>$deal.begin_time and $now<$deal.end_time}
+											审核通过,未开始支付
+										{else}
+										审核通过,等待用户支付
+										{/if}
+									{elseif $item.investor_money_status==2}
+										<span class="red">审核不通过</span>
+									{elseif $item.investor_money_status==3}
+										支付完成
+									{elseif $item.investor_money_status==4}
+										该用户未付款，已违约
+									{/if}
+								{elseif $item.status==2}
+									<span class="red">投资人审核不通过</span>
+								{/if}
+							{elseif $item.type==2}
+								{if $item.investor_money_status==0}
+									{if $now>$deal.begin_time and $now<$deal.end_time}
+										{if $deal.is_success eq 1}
+											<a href="javascript:void(0);" class="gentou_yes" rel="{$item.id}" title="{function name="round" v=$item.stock_value e=2}">允许跟投</a>&nbsp;
+											<a href="javascript:void(0);" class="gentou_no"  rel="{$item.id}">拒绝跟投</a>
+										{else}
+											  项目未成功
+										{/if}
+									{else}
+									审核未通过
+									{/if}
+								{elseif $item.investor_money_status==1}
+									{if $now>$deal.begin_time and $now<$deal.end_time}
+										审核通过,未开始支付
+									{else}
+									审核通过,等待用户支付
+									{/if}
+								{elseif $item.investor_money_status==2}
+									<span class="red">审核不通过</span>
+								{elseif $item.investor_money_status==3}
+									支付完成
+								{elseif $item.investor_money_status==4}
+									该用户未付款，已违约
+								{/if}
+							{/if}
+						</td>
+					</tr>
+					{/foreach}
+				</tbody>
+			</table>
+			<div class="blank20"></div>
+			<div class="pages">{$pages}</div>
+			<div class="blank20"></div>
+			{else}
+			<div class="empty_tip">
+				还没有{$title}记录
+			</div>
+			{/if}
+		</div>	
+		<div class="blank0"></div>
+	</div>
+	<div class="blank0"></div>
+</div>
+<!--中间结束-->
+<script>
+$(function(){
+	account_more_search("#more_search_btn","#more_search");
+	//选择日期控件
+    $("input.jcDate").jcDate({
+        IcoClass : "jcDateIco",
+        Event : "click",
+        Speed : 100,
+        Left :-125,
+        Top : 28,
+        format : "-",
+        Timeout : 100,
+        Oldyearall : 17,  // 配置过去多少年
+		Newyearall : 0  // 配置未来多少年
+    });
+    
+	$(".gentou_yes").bind('click',function(){
+		var id=$(this).attr("rel");
+		deal_investor(id,1,"是否允许跟投？",2);
+	});
+
+	$(".gentou_no").bind('click',function(){
+		var id=$(this).attr("rel");
+		deal_investor(id,0,"是否要拒绝跟投？",2);
+	});
+
+	$(".lead_yes").bind('click',function(){
+		var id=$(this).attr("rel");
+		deal_lead(id,1,"是否允许该用户成为领投人？",2);
+	});
+	$(".lead_no").bind('click',function(){
+		var id=$(this).attr("rel");
+		deal_lead(id,0,"是否要拒绝该用户成为领投人？",2);
+	});
+	
+	$(".lead_examine_yes").bind('click',function(){
+		var id=$(this).attr("rel");
+		deal_investor(id,1,"是否要通过投资？",1);
+	});
+
+	$(".lead_examine_no").bind('click',function(){
+		var id=$(this).attr("rel");
+		deal_investor(id,0,"是否要拒绝该领投人投资？",1);
+	});
+});
+
+// 询价审核
+function J_examine(){
+	$(".examine_yes").bind('click',function(){
+		var id=$(this).attr("rel");
+		var stock_money=$(this).attr("title");
+		deal_investor(id,1,"是否要通过该询价？通过后您的项目融资金额将会变成"+stock_money,0)
+		 
+	});
+	$(".examine_no").bind('click',function(){
+		var id=$(this).attr("rel");
+		var stock_money=$(this).attr("title");
+		deal_investor(id,0,"是否要拒绝该询价？",0);
+		 
+	});
+}
+
+function deal_investor(id,status,msg,type){
+	var ajaxurl = APP_ROOT+"/index.php?ctl=account&act=investor_examine&status="+status+"&id="+id+"&type="+type;
+	$.showConfirm(msg,function(){
+		$.ajax({
+			url:ajaxurl,
+			dataType:"json",
+			type:'POST',
+			success:function(ajaxobj){
+				if(ajaxobj.status==1){
+					//$.showSuccess(ajaxobj.info);
+					window.location.reload();
+				}else{
+					$.showErr(ajaxobj.info,function(){
+						$.weeboxs.close();
+					});
+					
+				}
+			}
+		});
+	});
+}
+
+function deal_lead(id,status,msg,type){
+	var ajaxurl = APP_ROOT+"/index.php?ctl=account&act=lead_examine&status="+status+"&id="+id+"&type="+type;
+	$.showConfirm(msg,function(){
+		$.ajax({
+			url:ajaxurl,
+			dataType:"json",
+			type:'POST',
+			success:function(ajaxobj){
+				if(ajaxobj.status==1){
+					//$.showSuccess(ajaxobj.info);
+					window.location.reload();
+				}else{
+					$.showErr(ajaxobj.info,function(){
+						$.weeboxs.close();
+					});
+					
+				}
+			}
+		});
+	});
+}
+</script>
+{include file="inc/footer.html"} 

@@ -1,0 +1,448 @@
+{include file="inc/header.html"} 
+<?php
+	$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/project_add.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+
+<script type="text/javascript">
+//	var VAR_MODULE = "m";
+//	var VAR_ACTION = "a";
+	var ROOT = '{$APP_ROOT}/keupload.php';
+	var ROOT_PATH = '{$APP_ROOT}';
+	var can_use_quota = "{$can_use_quota}";
+//	var MAX_FILE_SIZE = "<?php echo (app_conf("MAX_IMAGE_SIZE")/1000000)."MB"; ?>";
+</script>
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/deal_publish.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/deal_publish.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/ajaxupload.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/switch_city.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/switch_city.js";
+
+?>
+<script type="text/javascript">
+    var ROOT = '{$APP_ROOT}/{$URL_NAME}';
+    var VAR_MODULE = "m";
+    var VAR_ACTION = "a";
+    var WEB_SESSION_ID = '<?php echo es_session::id(); ?>';
+    var EMOT_URL = '{$APP_ROOT}/public/emoticons/';
+    var MAX_FILE_SIZE =  '{$max_size_byte}b';
+    var UPLOAD_URL ='{$APP_ROOT}/{$URL_NAME}?m=File&a=do_upload&upload_type=1&dir=image' ;
+	var UPLOAD_SWF='{$TMPL}/js/plupload/Moxie.swf';
+	var UPLOAD_XAP='{$TMPL}/js/plupload/Moxie.xap';
+	var ALLOW_IMAGE_EXT= "gif,jpg,jpeg,png,bmp";
+	var MAX_IMAGE_SIZE= '{$max_size_byte}b';
+	function get_file_fun(name,view){
+    		$("#"+name).ui_upload({multi:false,
+			FileUploaded:function(ajaxobj){
+ 				if(ajaxobj.error==1)
+				{
+					$.showErr(ajaxobj.info);
+				}else{
+					if(view==1)
+					{
+						$("#"+name+"_img").attr('src',ajaxobj.public_url);
+						$("#"+name+"_url").val(ajaxobj.public_url);
+					}else
+					{
+						$("#"+name+"_url").val(ajaxobj.public_url);
+						$("#"+name+"_image").attr('src',ajaxobj.url);
+					}
+ 				}
+			},Error:function(error){
+			if(error.code==-600){
+				$.showErr("您上传的文件太大，最大允许上传{$max_size}");
+			}else{
+				$.showErr(error.message);
+			}
+			
+ 		}});
+	}
+	
+	function get_file_more_fun(name){
+    		$("#"+name).ui_upload({multi:false,
+			FileUploaded:function(ajaxobj){
+				if($("#image_box .image_item").length>=5) {
+					$.showErr("最多只能上传5张图片");
+				}
+ 				else if(ajaxobj.error==1) {
+					$.showErr(ajaxobj.info);
+				}
+				else {
+		   			$("#image_box").append(
+		   				'<div class="image_item f_l">'+
+							'<div class="remove_image bg_red"><i class="icon iconfont">&#xe61f;</i></div>'+
+							'<img src="'+ajaxobj.url+'" width=60 height=60 class="b_radius6" />'+
+							'<input type="hidden" name="image_more[]" value="'+ajaxobj.public_url+'"  />'+
+						'</div>'
+					);
+		   			bind_del_image(); // 删除已上传的图片
+		   			hide_imgupload(); // 上传4张图片后，隐藏上传图片按钮
+ 				}
+			},Error:function(error) {
+				$.showErr(error.message);
+	 		}
+	 	});
+	}
+ 	//解决点击下一步后点击浏览器后退，城市未选中问题
+ 	$(document).ready(function(){
+		$("select[name='city']").bind("change",function(){
+			var city_name=$("select[name='city']").val();
+			$('#city_name').val(city_name);
+		});
+		var city=$('#city_name').val();
+		var province_id=$("select[name='province']").find("option:selected").attr("rel");
+		if(province_id>0){
+			load_city();
+			$("dl[name='city']").find("dd").find("a[value='"+city+"']").click();
+		}			
+	});
+
+</script>
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<link rel="stylesheet" href="{$APP_ROOT}/admin/public/kindeditor/themes/default/default.css" />
+<script type='text/javascript'  src='{$APP_ROOT}/admin/public/kindeditor/kindeditor.js'></script>
+<script type="text/javascript" src="{$APP_ROOT}/admin/public/kindeditor/lang/zh_CN.js"></script>
+
+{if $type eq 2}
+<script type="text/javascript">
+	var blue_point = APP_ROOT +"/system/blue_point.png";
+	var red_point = APP_ROOT +"/system/red_point.png";
+</script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=<?php echo app_conf("BAIDU_MAP_APPKEY"); ?>"></script>
+<script type="text/javascript" src="{$TMPL}/js/map.js"></script>
+{/if}
+<div class="blank20"></div>
+<div class="location_box wrap1000">
+	<div class="location f_l">
+		<i class="fl ico loc_ico mr5"></i>
+		<label>您现在的位置：</label><a>发布产品项目</a><em>>></em><a>基本信息</a>
+		<div class="blank0"></div>
+	</div>
+	<div class="blank10"></div>
+	<!--中间开始-->
+	<div class="agreement_hd"></div>
+	<div class="agreement_bd">
+		<div class="agreementlf f_l">
+			<form id="project_form" action="{url r="project#save"}" method="post">		
+				<div class="pro_msg">项目信息</div>
+				<div class="blank5"></div>
+				<div class="setlist">
+					<label class="setmid">项目标题</label>
+					<input type="text" class="pro_lf textbox" name="name">
+					<span class="holder_tip">名称不可超过30个字</span>
+					<div class="blank0"></div>
+				</div>
+				<div class="setlist">
+					<label class="setmid">筹资金额</label>
+					<input type="text" class="pro_lf textbox" name="limit_price" onkeyup="amount(this);" />
+					<span class="setmid">元</span>
+					<span class="holder_tip">不少于50</span>
+					<div class="blank0"></div>
+				</div>
+				<div class="setlist">
+					<label class="setmid">筹集天数</label>
+					<input type="text" class="pro_lf textbox" name="deal_days">
+					<span class="setmid">天</span>
+					<span class="holder_tip">10~90</span>
+					<div class="blank0"></div>
+				</div>
+				<div class="setlist" style="*z-index:10;">
+					<label class="setmid">项目分类</label>
+					<select id="cate_id" class="ui-select field_select small">
+						{foreach from=$cate_list item="cate_item" key=key}
+			      		<option rel="{$cate_item.id}">{if $cate_item.title_show}┣{/if}{$cate_item.name}<br /></option>
+						{/foreach}
+					</select>
+					<input type="hidden" name="cate_id" id='cate_id_last' value="{$cate_list.0.id}" />
+					<div class="blank0"></div>
+				</div>
+				<div class="setlist" style="*z-index:9;">
+					<label class="setmid">所在地区</label>		
+					<select name="province" id="cityid-1" class="ui-select field_select small">
+						<option value="" rel="0">请选择省份</option>			
+						{foreach from=$region_lv2 item=region}
+						<option value="{$region.name}" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+						{/foreach}
+					</select>
+					<select name="city" id="cityid-2" class="ui-select field_select small">
+						<option value="" rel="0">请选择城市</option>
+						{foreach from=$region_lv3 item=region}
+						<option value="{$region.name}" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+						{/foreach}
+					</select>
+					<div class="blank0"></div>
+				</div>
+				{if $type eq 2}
+				<div class="setlist">
+					<label class="setmid">楼盘名称</label>
+					<input type="text" class="pro_lf textbox" name="houses_name">
+					<span class="holder_tip">请输入楼盘名称</span>
+					<div class="blank0"></div>
+				</div>
+				<div class="setlist" style="*z-index:8;">
+					<label class="setmid">楼盘阶段:</label>
+					<select name="houses_status" class="ui-select field_select big">
+						<option value="">请选择楼盘阶段</option>
+						{foreach from="$houses_status_list" item="houses_status"}
+						<option value="{$houses_status}">{$houses_status}</option>
+						{/foreach}
+					</select>
+					<div class="blank0"></div>
+				</div>
+				<div class="setlist">
+					<label class="setmid">楼盘地址</label>
+					<input type="text" class="pro_lf textbox" name="houses_address">
+					<span class="holder_tip">请输入楼盘地址</span>
+					<div class="blank0"></div>
+				</div>
+				<div class="setlist">
+					<label class="setmid">地图定位</label>
+					<div class="" style="float:left">
+						<input type="text" class="textbox" name="api_address" value="" />
+						<span class="holder_tip">地图定位关键字</span>
+						<input type="button" value="查找" class="ui_button theme_bgcolor" name="search_api" id="search_api" >
+						
+						<div style="height:10px; clear:both;"></div>
+		                <div id="container"></div>
+						<div style="height:10px; clear:both;"></div>
+		                <script type="text/javascript"></script> 
+		                <input type="button" value="手动修改" name="chang_api" id="chang_api">
+		                <div style="position:relative; top:-400px;">
+		                    <div  id="container_front">
+		                        <a href="#" id="cancel_btn">取消</a>
+		                        <div id="container_m"></div>
+		                    </div>
+		             	</div>
+						<input type="hidden" name="xpoint" />
+						<input type="hidden" name="ypoint" />
+					</div>
+					<div class="blank0"></div>
+				</div>
+				<div class="setlist" style="*z-index:7;">
+					<label class="setmid">是否有收益:</label>
+					<select name="is_earnings" id="is_earnings" class="ui-select field_select small">
+						<option value="0">否</option>
+						<option value="1" selected="selected">是</option>
+					</select>
+					<div class="blank0"></div>
+				</div>
+				<div class="setlist js_earnings_con">
+					<label class="setmid">收益百分比</label>
+					<input type="text" value="" class="pro_lf textbox" name="earnings" onkeyup="amount(this);" />
+					<span class="setmid">%</span>
+					<span class="holder_tip">请输入收益百分比</span>
+					<div class="blank0"></div>
+				</div>
+				<div class="setlist js_earnings_con" style="*z-index:6;">
+					<label class="setmid">收益周期:</label>
+					<select name="earnings_cycle" class="ui-select field_select small">
+						<option value="1">1个月</option>
+						<option value="2">2个月</option>
+						<option value="3">3个月</option>
+						<option value="4">4个月</option>
+						<option value="5">5个月</option>
+						<option value="6">6个月</option>
+						<option value="7">7个月</option>
+						<option value="8">8个月</option>
+						<option value="9">9个月</option>
+						<option value="10">10个月</option>
+						<option value="11">11个月</option>
+						<option value="12">12个月</option>
+					</select>
+					<div class="blank0"></div>
+				</div>
+				
+				<div class="setlist js_earnings_con">
+					<label class="setmid">收益期数:</label>
+					<input type="text" value="" class="pro_lf textbox" name="earnings_send_count" onkeyup="amount(this);" />
+					<span class="holder_tip">请输入收益期数</span>
+					<div class="blank0"></div>
+				</div>
+				
+				<div class="setlist js_earnings_con" style="*z-index:5;">
+					<label class="setmid">收益发放含本金:</label>
+					<select name="earnings_send_capital" class="ui-select field_select small">
+						<option value="0">否</option>
+						<option value="1" selected="selected">是</option>
+					</select>
+					<div class="blank0"></div>
+				</div>
+				{/if}
+				<div class="setlist" style="*z-index:4;">
+					<label class="setmid">项目封面</label>
+					
+					<label class="fileupload" style="width:97px;">
+						<input type="button" class="filebox" name="image_file" id="image_file"  style="cursor:pointer;padding: 0;height: 39px;width: 97px;filter: alpha(opacity=0);-moz-opacity: 0;-khtml-opacity: 0;opacity: 0;">						
+					</label>
+					<span class="prompt" style="margin-top:3px;">支持jpg、jpeg、png、gif格式，大小不超过{$max_size}。【推荐尺寸760px*530px】</span>
+					<div class="blank0"></div>
+				</div>
+				<div class="setlist" style="*z-index:3;">
+					<label class="setmid">项目图片</label>
+					<div>
+						<div class="image_box" id="image_box"></div>
+						<div class="imgupload_box">
+							<label class="imgupload">
+								<span>+</span>
+								<input type="button" class="filebox" name="deal_images_file" id="deal_images_file" />	
+								<div class="fileuploading"></div>
+							</label>
+						</div>
+					</div>
+					<div class="blank0"></div>
+				</div>
+				{if $type eq 2}
+				<div class="setlist" style="*z-index:2;">
+					<label class="setmid">房产众筹动态展示小图标</label>
+					<label class="fileupload" style="width:97px;">
+						<input type="button" class="filebox" name="update_log_icon_bj" id="update_log_icon_bj"  style="cursor:pointer;padding: 0;height: 39px;width: 97px;filter: alpha(opacity=0);-moz-opacity: 0;-khtml-opacity: 0;opacity: 0;">						
+					</label>
+					<label class="fileuploading hide" style=" height:0px;" ></label>
+					<input type="hidden" name="update_log_icon" value="{$deal_item.update_log_icon}" id="update_log_icon_bj_url" />
+					<span class="img_con"><img src="" id="update_log_icon_bj_img" height="30"/></span>
+					<span class="prompt" style="margin-top:3px;">【推荐尺寸30px*30px】</span>
+					<div class="blank0"></div>
+				</div>
+				{/if}
+				<div class="setlist">
+					<label class="setmid">项目视频</label>
+					<input type="text" class="pro_lf textbox"  name="vedio">
+					<span class="holder_tip">请输入优酷、腾讯、土豆等flash地址。</span>
+					<div class="blank0"></div>
+				</div>	
+				<div class="setlist">
+					<label class="setmid">简要说明</label>
+					<textarea name="brief" id="intro" class="textareabox textbox w350"></textarea>
+					<span class="holder_tip">不超过75个字，简要描述一下你的项目</span>
+					<div class="blank0"></div>
+				</div>
+				<div class="setlist">
+					<label class="setmid">项目详情</label>
+					<div class="ke_form f_l">
+						{function name="show_ke_form" text_name="descript" width="470" height="300" ctn=""}		
+					</div>
+					<div class="blank0"></div>
+				</div>
+				{if $type eq 2}
+				<div class="setlist">
+					<label class="setmid">楼盘信息</label>
+					<div class="ke_form f_l">
+					<textarea name="houses_info" class='ketext' style="width:470px;heigth:300px;" value="" ></textarea>
+					</div>
+					<div class="blank0"></div>
+				</div>
+				<div class="setlist">
+					<label class="setmid">收益说明</label>
+					<div class="ke_form f_l">
+					<textarea name="houses_earnings_info" class='ketext' style="width:470px;heigth:300px;" value=""></textarea>
+					</div>
+					<div class="blank0"></div>
+				</div>
+				{/if}
+				<div class="setlist" style="margin:10px 0; *margin:5px 0;">
+					<label class="setmid" style="overflow:hidden">
+					<span class="setmid se addqs" style="margin-top:0;">常见问题:</span><br /> 
+					<a href="javascript:void(0);" id="add_faq" class="setmid se addqs" style="margin-top:20px;*margin-top:30px;">添加</a></label>		
+					<div  id="faq_list" style="float:left; overflow:hidden; width:470px;">
+						{include file="inc/deal_faq_item.html"}					
+					</div>
+					<div class="blank0"></div>
+				</div>
+				<div class="blank5"></div>
+				<div class="f_l">
+					<label class="setmid"></label>
+					<input type="hidden" name="image" value="{$deal_image.url}" id="image_file_url" />
+					<input type="hidden" name="savenext" value="0" />
+					<div class="ui-button bg_green mr10" rel="gray" id="savenow">先保存一步</div>
+					<div class="ui-button theme_bgcolor" rel="green" id="savenext">下一步</div>
+					<input type="hidden" value="1" name="ajax" />
+					<input type="hidden" name="id" value="0" />
+					<input type="hidden" name="city_name" id="city_name" value="0" />
+					<input type="hidden" name="type" value="{$type}" />
+					<div class="blank15"></div>
+				</div>
+			</form>
+		<div class="blank0"></div>		
+		</div>
+		<div class="agreementrt f_r">
+			<div class="nav_item nav_item2 agreementlist">		
+				<div class="project_image">
+					<img id="image_file_image" src="{if $deal_image.thumb_url eq ''}{$TMPL}/images/empty_thumb.gif{else}{$deal_image.thumb_url}{/if}" />
+					<div class="blank0"></div>
+				</div>
+				<div class="project_text">
+					<span class="project_title" id="project_title">项目的名称</span>
+					<div class="project_intro">
+						<span class="caption-title">目标：<em><span class="deal_days">0</span>天</em> <em><i class="font-yen">¥</i><span class="limit_price">0</span></em></span>
+						<span class="f_r ">
+							<span class="common-sprite">筹资中</span>
+						</span>
+					</div>
+					<div class="schedule_bar">
+						<div class="ui-progress">
+							<span class="theme_bgcolor" style="width:100%;"></span>
+			            </div>	
+					</div>
+					<div class="project_schedule">
+						<div class="div3" style="text-align:left;">
+							<span class="num">100%</span>
+							<div class="blank10"></div>
+							<span class="til">已达</span>
+						</div>
+						<div class="div3">
+							<span class="num"><font class="limit_price">0</font>元</span>
+							<div class="blank10"></div>
+							<span class="til">已筹资</span>
+						</div>
+						<div class="div3 div3_last" style="text-align:right;">
+							<span class="num"><font class="deal_days">0</font>天</span>
+							<div class="blank10"></div>
+							<span class="til">剩余时间</span>				
+						</div>
+						<div class="blank10"></div>
+						<div class="follow">
+							<em class="tl">支持：0</em>
+							<em class="tr">关注：0</em>
+						</div>
+					<div class="blank0"></div>
+					</div>
+				</div>
+			</div>
+			<div class="blank0"></div>
+		</div>
+		<div class="blank0"></div>
+	</div>
+	<!--中间结束-->
+	<div class="blank0"></div>
+</div>
+<div class="blank20"></div>
+<script type="text/javascript">
+	$(function(){
+		get_file_fun("image_file");
+		get_file_fun("update_log_icon_bj",1);
+		show_tip();
+		bind_del_image();
+		get_file_more_fun("deal_images_file");
+	});
+	
+	// 删除已上传的图片
+	function bind_del_image() {
+		$(".image_item").find(".remove_image").on("click",function() {
+			del_image($(this));
+			hide_imgupload();
+		});
+	}
+
+	// 上传4张图片后，隐藏上传图片按钮
+	function hide_imgupload() {
+		var pic_box_num = $("#image_box").find(".image_item").length;
+		var $imgupload_box = $(".imgupload_box");
+		pic_box_num == 5 ? $imgupload_box.hide() : $imgupload_box.show();
+	}
+
+	function del_image(o) {
+		$(o).parent().remove();
+	}
+</script>
+{include file="inc/footer.html"} 

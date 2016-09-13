@@ -1,0 +1,43 @@
+/* 主题色系 开始 */
+.theme_color ,
+.index_nav i ,
+nav.tab_hd a.cur ,
+.user_icon ,
+.foot .invest_plus ,
+.selectbj .search_cate.cur ,
+.seach_submit { background:#4dbdf5; }
+.theme_color1 { background:#468cd4; }
+.theme_fcolor ,
+.index_nav li.curr a ,
+.settings_security .fa ,
+.settings_security .iconfont ,
+.project_add .reward_add a ,
+.tab-nav li.current a ,
+.foot a { color:#4dbdf5; }
+
+nav.tab_hd a ,
+.selectbox1 .search ,
+.selectbj .search_cate { border:1px solid #4dbdf5;}
+.tab-nav li.current a{ border-bottom:2px solid #4dbdf5;}
+
+.theme_fcolor1 { color:#468cd4; }
+
+.bg_red { background:#ff4800; }
+.bg_gray { background:#ccc; }
+.bg_green{background:#64bd66;}
+.bg_eee{background:#eee;}
+
+.f_red { color:#ff4800 !important; }
+.f_gray { color:#ccc; }
+.f_555 { color:#555; }
+.f_666 { color:#666; }
+.f_999 { color:#999 !important; }
+/* 主题色系 结束 */
+
+/*color*/
+.white{color:#fff;margin-top:2px;}
+.red{color:#ff3737;}
+.blak{color:#555;}
+.gray{color:#adadad;}
+.blue{color:#468cd4;}
+.orange{color:#ff6c00;}

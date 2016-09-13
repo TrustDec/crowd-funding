@@ -1,0 +1,206 @@
+{include file="./inc/header.html"}
+<?php
+    $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/licai/licai.css";
+    $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/licai/deal.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$pagecss"}" />
+<!-- <script type="text/javascript" src="{$TMPL}/js/licai/jscharts_cr.js"></script> -->
+<style type="text/css">
+#data_table canvas{
+    margin: 0 auto;
+}
+</style>
+<!--投资借款简单详情-->
+
+<div class="detail">
+    <div class="detail_hd">
+        <div class="t_name f15">{$licai.name}</div>
+        <div class="t_info mt30">
+            <p class="f12">预期到期收益率(%)</p>
+            <p>
+                {if $licai.scope}
+                    {$licai.scope}
+                {else}
+                    {if $licai.type eq 0}
+                        {function name="number_format" v=$licai.average_income_rate f="2"}
+                    {else}
+                        {function name="number_format" v=$data.min_interest_rate f=2}起
+                    {/if}
+                {/if}
+            </p>
+        </div>
+    </div>
+    <div class="mainblok mainborder">
+        <div class="detail_tit">
+            <div class="blank10"></div>
+            <span>借款编号:{$licai.licai_sn}</span>
+        </div>
+        <div class="ui_list ui_small_list no_border data_list">
+            <ul>
+                <li>
+                    <label class="ui_list_label">当前成交总额</label>
+                    <div class="ui_list_content flex tr">
+                        <span class="f_red">{$licai.subscribing_amount_format_num}元</span>
+                    </div>
+                </li> 
+    			<li>
+                    <label class="ui_list_label">理财期限</label>
+                    <div class="ui_list_content flex tr">
+                        <span>
+                        	{if $licai.type > 0}
+                        		{if $licai.time_limit}{$licai.time_limit}个月{else}无限期{/if}
+                            {else}
+                            	{$licai.end_date}
+                            {/if}
+                        </span>
+                    </div>
+                </li>
+    			<li>
+                    <label class="ui_list_label">最低投资额</label>
+                    <div class="ui_list_content flex tr">
+                        <span>{$licai.min_money_format_num}</span>
+                    </div>
+                </li>
+    			<li>
+                    <label class="ui_list_label">产品规模</label>
+                    <div class="ui_list_content flex tr">
+                        <span class="f_red">{$licai.product_size_format_num}</span>
+                    </div>
+                </li>
+                <li>
+                    <label class="ui_list_label">到期时间</label>
+                    <div class="ui_list_content flex tr">
+                        <span>{if to_timespan($licai['end_date']) eq 0}永久有效{else}{$licai.end_date}{/if}</span>
+                    </div>
+                </li>
+                <li>
+                    <label class="ui_list_label">获取收益方式</label>
+                    <div class="ui_list_content flex tr">
+                        <span>{function name='msubstr' v="$licai.profit_way"}</span>
+                    </div>
+                </li>
+                <li>
+                    <label class="ui_list_label">剩余购买时间</label>
+                    <div class="ui_list_content flex tr">
+                    	<span class="sp3 f_red" data="{function name='to_timespan' v="$licai.end_buy_date"}" id="left_time">
+    					<em class="s day">--</em>
+    					<em class="l">天</em>
+    					<em class="s hour">--</em>
+    					<em class="l">时</em>
+    					<em class="s min">--</em>
+    					<em class="l">分</em>
+    					<em class="s sec">--</em>
+    					<em class="l mr0">秒</em>
+    					</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div><!--mainblok——end--> 
+	{if $licai.type == 0}
+    <div class="blank10"></div>
+    <div class="mainblok mainborder">
+    	<div class="ui_list ui_smaller_list no_border">
+    	<ul><li style="border-bottom:none"><label>年化收益率表</label></li></ul>
+    	</div>
+    	<div class="deal_middle_bd">
+            <div id='data_table'></div>
+        </div>
+    </div><!--mainblok——end--> 
+    {/if}
+	<div class="blank10"></div>
+    <div class="mainblok mainborder">
+        <div class="ui_list ui_small_list">
+            <ul>
+                <li>
+                    <label class="ui_list_label">可用余额</label>
+                    <div class="ui_list_content flex tr">
+                    	<em class="f_money">{function name="format_price" v=$user_info.money" f=2}</em>&nbsp;
+						{if $is_login eq 0}
+						<a {if $is_weixin} onclick="window.location.href='{url_wap r="user#login"}';" href="#"{else} href="{url_wap r="user#login"}"{/if} class="theme_fcolor f_r">我要充值</a>
+						{else}
+						<a href="{url_wap r="account#incharge"}" class="theme_fcolor f_r">我要充值</a>
+						{/if}
+					</div>
+                </li>
+				<li>
+                    <label class="ui_list_label">投标金额</label>
+                	<input type="hidden" name="id" id="id" value="{$licai.id}" />
+					<input type="hidden" name="tc_money" id="tc_money" value="{$data.user_info.money}" />
+                	<input type="text" name="money" id="money" value="" class="ui_text ui_small_text flex" placeholder="输入金额" autocomplete="off" />
+					<input type="hidden" name="min_money" id="min_money" value="{$licai.min_money}" />
+                    <input type="hidden" name="income_money" value="" class="textbox" readonly="readonly" />
+                    <input type="hidden" name="income_money_val" value="1.18" />
+                    <div>收益：<span class="J_u_money_sy f_red">0.00</span></div>
+                </li>
+				{if $data.ecv_list}
+				<li class="auto_height">
+                    <label class="ui_list_label">使用红包</label>
+                    <div class="ui_list_content flex tr">
+                    	<select name="ecv_id" id="ecv_id">
+                    		<option value="0">选择红包</option>
+							{foreach from="$data.ecv_list" item="ecv"}
+							<option value="{$ecv.id}">{$ecv.name}[抵{$ecv.money}元]</option>
+							{/foreach}
+                    	</select>
+						<p class="f_red">超出部分不返还</p>
+                    </div>
+                 </li>
+				{/if}
+				<li class="reset_pay_pwd">
+                    <label class="ui_list_label">付款密码</label>
+                    <input id="pay_inmoney_password" class="ui_text ui_small_text flex"  autocomplete="off" type="password" placeholder="输入密码">
+                    {if $is_login eq 0}
+					<a href="{url_wap r="user#login"}" class="f_red">设置付款密码</a>
+					{else}
+					<a href="{url_wap r="index#reset_pay_pwd"}" class="f_red">设置付款密码</a>
+					{/if}
+			    </li>
+            </ul>
+        </div>
+    </div><!--mainblok——end--> 
+</div>
+<div class="blank10"></div>
+<div class="ui_list ui_small_list">
+    <a href="{url_wap r="licai#deal_detail" p="id=$licai.id"}">
+        <ul>
+            <li>
+                <label class="ui_list_label">图文介绍</label>
+                <div class="ui_list_content flex tr">
+                    <i class="fa fa-chevron-right" style="color:#ccc"></i>
+                </div>
+            </li>
+        </ul>
+    </a>
+</div>
+<div class="mod_main">
+    {if $data.today gt $licai.end_buy_date}
+        <a href="#" class="ui-button bg_gray">项目已结束</a>
+    {else}
+        {if $is_login eq 1}
+           <div id="pay_deal" class="ui-button bg_red">我要投资</div>  
+        {else}
+           <a href="{url_wap r="user#login"}" id="pay_deal" class="ui-button bg_red">我要投资</a>
+        {/if}
+    {/if}
+</div>
+<div class="blank10"></div>
+<script type='text/javascript'>
+    var licai_type =  {$licai.type};
+    var licai_interest_json = {$licai_interest_json};
+    var income_money_val = 0;
+    var before_day = {$licai.before_day};
+    var buy_day = {$licai.buy_day};
+    var before_money_val = 0;
+    var site_buy_fee_rate= 0;
+    var redemption_fee_rate = 0;
+    //yeb
+    var yeb_;
+</script>
+<!-- licai_deal.js -->
+{include file="./inc/footer.html"}
+
+
+
+
+

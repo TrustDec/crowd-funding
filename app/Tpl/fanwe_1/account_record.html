@@ -1,0 +1,70 @@
+{include file="inc/header.html"} 
+{include file="inc/home_user_info.html"}
+<!--中间开始-->
+<div class="dlmain Myhomepage">
+ 	{include file="inc/account_left.html"} 
+ 	<div class="homeright pageright f_r">
+		<div class="account_money">
+			<div class="list_title clearfix">
+				<div {if $module eq 'account'&& $action eq 'money_inchange'}class="cur"{/if}>
+					<a href="{url r="account#money_inchange"}">我要充值</a>
+				</div>
+				<div {if $module eq 'account'&& ($action eq 'record'||$action eq 'pay')}class="cur"{/if}>
+					<a href="{url r="account#record"}">充值日志</a>
+				</div>
+			</div>
+			<div class="list_conment">
+				<div class="ui_button theme_bgcolor mr20">
+					<span>已充值总额：{function name="format_price" v=$total_money p=2}</span>
+				</div>
+				<div class="ui_button bg_red">
+					<span>可用资金：{function name="format_price" v=$user_info.money p=2}</span>
+				</div>
+				<div class="blank20"></div>
+				{if $record_list}
+				<div class="i_deal_list clearfix">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc_table">
+						<tbody>
+							<tr>
+								<th>充值类型</th>
+								<th>充值时间</th>
+								<th>金额</th>
+								<th>是否支付</th>
+							</tr>
+							{foreach from=$record_list item=record_item}
+							<tr>
+								<td>
+									{if $record_item.deal_name eq null}在线支付{/if}
+								</td>
+								<td>
+									{if $record_item.pay_time eq 0}无{/if}
+									{if $record_item.create_time neq 0}{function name="to_date" v=$record_item.pay_time}{/if}
+								</td>
+								<td>
+									<span class="f_money b">{$record_item.money}</span>
+								</td>
+								<td>
+									{if $record_item.is_paid eq 1}已支付{/if}
+									{if $record_item.is_paid eq 0}<a class="ui-small-button bg_red f12 b" href="{$record_item.url}" style="float:none;display:inline-block">继续支付</a>{/if}
+								</td>
+							</tr>
+							{/foreach}
+						</tbody>
+					</table>
+				</div>
+				<div class="blank20"></div>
+				<div class="pages">{$pages}</div>
+				<div class="blank20"></div>
+				{else}
+				<div class="empty_tip">
+					还没有任何充值记录
+				</div>
+				{/if}
+			</div>
+		</div>
+	</div>
+ 	<!--中间结束-->
+	<div class="blank"></div>
+</div>
+<div class="blank"></div>
+{include file="inc/footer.html"} 

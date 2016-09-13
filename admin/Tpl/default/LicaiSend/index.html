@@ -1,0 +1,50 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<load href='__TMPL__Common/js/jquery.bgiframe.js' />
+<load href='__TMPL__Common/js/jquery.weebox.js' />
+<load href='__TMPL__Common/js/user.js' />
+<load href='__TMPL__Common/style/weebox.css' />
+<script type="text/javascript" src="__TMPL__Common/js/calendar/calendar.php?lang=zh-cn" ></script>
+<load href='__TMPL__Common/js/calendar/calendar.css' />
+<load href='__TMPL__Common/js/calendar/calendar.js' />
+<div class="main">
+<div class="main_title">{$main_title}</div>
+<div class="blank5"></div>
+<script>
+	function view(id)
+	{
+		location.href = ROOT+"?"+VAR_MODULE+"="+MODULE_NAME+"&"+VAR_ACTION+"=view&id="+id;
+	}
+</script>
+<div class="search_row">
+    <div class="blank5"></div>
+	<form name="search" action="__APP__" method="get">	 
+    	产品名称：<input type="text" class="textbox" name="p_name" value="{:trim($_REQUEST['p_name'])}" style="width:100px;" />
+		购买用户：<input type="text" class="textbox" name="user_name" value="{:trim($_REQUEST['user_name'])}" style="width:100px;" />       
+        购买时间：<input type="text" class="textbox" name="start_time" id="start_time" value="{$_REQUEST['start_time']}" onfocus="this.blur(); return showCalendar('start_time', '%Y-%m-%d', false, false, 'start_time');" />
+		-<input type="text" class="textbox" name="end_time" id="end_time" value="{$_REQUEST['end_time']}" onfocus="this.blur(); return showCalendar('end_time', '%Y-%m-%d', false, false, 'end_time');" />
+        
+		<input type="hidden" value="LicaiSend" name="m" />
+		<input type="hidden" value="index" name="a" />
+        <input type="hidden" value="{$licai_id}" name='id' />
+		<input type="submit" class="button" value="{%SEARCH}" />
+        <input type="button" class="button" value="{%EXPORT}" onclick="export_csv();" />
+	</form>
+</div>
+<div class="blank5"></div>
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="bank" 
+    action="true"
+	checkbox="true" 
+	datasource="list" 
+	show="id:{%ID}|50px,name:产品名称,type_format:理财类型,user_name:购买用户,money_format:投资本金,interest_rate_format:收益率,interest_money_format:收益金额,create_date:支付时间,end_interest_date:到期时间,status_format:状态" 
+    actionlist="view:查看详情"
+	 /> 
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

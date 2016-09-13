@@ -1,0 +1,60 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<div class="main">
+<div class="main_title">[{$vote.name}] {%VOTE_INFO} <a href="{:u("Vote/index")}" class="back_list">{%BACK_LIST}</a></div>
+<div class="blank5"></div>
+<div class="search_row">
+	<form name="search" action="__APP__" method="get">	
+		调查人ID：<input type="text" class="textbox" name="user_id" value="{:trim($_REQUEST['user_id'])}" style="width:100px;" />
+		{%USER_EMAIL}：<input type="text" class="textbox" name="email" value="{:trim($_REQUEST['email'])}" style="width:100px;" />
+		手机号：<input type="text" class="textbox" name="mobile" value="{:trim($_REQUEST['mobile'])}" style="width:100px;" />
+		<input type="hidden" value="Vote" name="m" />
+		<input type="hidden" value="vote_info" name="a" />
+		<input type="hidden" value="{$_REQUEST['id']}" name="id" />
+		<input type="submit" class="button" value="{%SEARCH}" />
+	</form>
+</div>
+<div class="blank5"></div>
+<table class="form" cellpadding=0 cellspacing=0 id="ask_form">
+	<tr>
+		<td colspan=5 class="topTd"></td>
+	</tr>
+	<tr >
+		<th>调查人</th>
+		<th>{%USER_EMAIL}</th>
+		<th>手机号</th>
+		<th>问题名称</th>
+		<th>问题答案</th>
+	</tr>
+	<foreach name="vote_list" item="list">
+		<tr>
+			<td style="text-align:center;" <if condition="$list['count'] gt 1"> rowspan="{$list.count}"</if>><if condition="$list['user_name']">{$list.user_name}</if></td>
+			<td style="text-align:center;" <if condition="$list['count'] gt 1"> rowspan="{$list.count}"</if>>{$list.email}</td>		
+			<td style="text-align:center;" <if condition="$list['count'] gt 1"> rowspan="{$list.count}"</if>>{$list.mobile}</td>	
+			<foreach name="list.info" item="info">	
+				<if condition="$info['number'] eq 1">
+				<td style="text-align:center;">{$info.ask}</td>
+				<td style="text-align:center;">{$info.ask_answer}</td>
+				</if>
+			</foreach>
+		</tr>
+		<if condition="$list['count'] gt 1">
+		<foreach name="list.info" item="info">	
+		<if condition="$info['number'] neq 1">	
+		<tr>
+			<td style="text-align:center;">{$info.ask}</td>
+			<td style="text-align:center;">{$info.ask_answer}</td>	
+		</tr>
+		</if>
+		</foreach>
+		</if>
+	</foreach>
+	<tr id='footer_row'>
+		<td colspan=5 class="bottomTd"></td>
+	</tr>
+</table>
+<div class="blank5"></div> 
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

@@ -1,0 +1,100 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/refund.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/refund.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/go_pay.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/go_pay.js";
+?>
+<style>
+		.aR{text-align:right;}
+		.withdrawal_box{/* border:1px solid red; */ padding:10px;width:100%;float:left;}
+		.input_style{width:200px;border:none;outline:none;border:1px solid #e6e6e6;border-radius:3px;
+			color:#999;padding:10px;}
+		.fee{font-size:13px;color:#999;}
+		.submitButton{width:150px;height:40px;background:#0099FF;border-radius:5px;color:#fff;font-size:17px;cursor:pointer;}
+		.submitButton1{background:#0099FF;transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;}
+		.submitButton2{background:#0066FF;transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;}
+	.warning{color:#F30;}
+	.through{color:#0C9;}
+	table{border-collapse:collapse;}
+	.titleNav{height:40px;background:#39F;color:#ffffff;}
+	</style>
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script> 
+{include file="inc/home_user_info.html"}
+<div class="dlmain Myhomepage"> {include file="inc/account_left.html"}
+  <div class="homeright pageright f_r">
+    <div class="account_money">
+      <div class="list_title clearfix">
+        <div class="default_cur" > <a href="{url r="account#money_withdrawal"}">我的转账</a> </div>
+        <div class=" default_cur" > <a href="javascript:void(0)">我的转权</a> </div>
+        <!--<div class=" default_cur" > <a href="javascript:void(0)">我的动态</a> </div>-->
+        <div class="default_cur cur" > <a href="{url r="account#commit_log"}">操作日志</a> </div>
+      </div>
+      <div class="withdrawal_box" >
+        <table border="0" cellspacing="0" bordercolor="#CCCCCC" cellpadding="0" width="100%" style="dsiplay:none;" id="operationInformation" class="collect">
+          <tr align="center" class="titleNav">
+            <td>时间</td>
+            <td>单号</td>
+            <td>金额</td>
+            <td>收款人</td>
+            <td>转账人</td>
+            <td>类型</td>
+            <td>状态</td>
+          </tr>
+         {foreach from=$notice_info item=notice_info}
+            <tr align="center">
+              <td>{$notice_info.one_time}</td>
+              <td>{$notice_info.shop_id}</td>
+              <td>{$notice_info.one_money}</td>
+              <td>{$notice_info.two_uname}</td>
+              <td>{$notice_info.one_uname}</td>
+              <td>{$notice_info.remark}</td>
+              <td>{if $notice_info.state eq 1}成功{else}未成功{/if}</td>
+            </tr>
+          {/foreach}
+        </table>
+      </div>
+      <div class="pages">{$pages}</div>
+    </div>
+  </div>
+  <div class="blank0"></div>
+</div>
+<div class="blank0"></div>
+<!--预留资费标准/转账条款.....-->
+<div class="alertBox">
+  <div class="box"> </div>
+</div>
+<script type="text/javascript">
+
+$(function(){
+	var table={
+	color1:"#FBFBFB",
+	color2:"#F5F5F5",
+	name:"{$user_info.user_name}",
+	state:true,
+	Default:"<p style='text-align:center;'>没有记录</p>",
+	};
+	$("tr:even").not("tr:eq(0)").css("background",table.color2).height(35);
+	$("tr:odd").css("background",table.color1).height(35);
+//操作日志判断
+	if(table.state){
+		$("#operationInformation").show();
+	}else{
+		$("#operationInformation").parent().html(table.Default);
+	}	
+	$.ajax({
+			url:APP_ROOT+"/index.php?ctl=account&act=commit_log",
+			data:table,
+			dataType:"json"			
+	});
+});
+
+
+ </script> 
+{include file="inc/footer.html"} 

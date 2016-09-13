@@ -1,0 +1,104 @@
+{include file="inc/header.html"} 
+<?php 
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/referrals.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/referrals.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/referrals.js";
+?>
+
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<script type="text/javascript" src="{$TMPL}/js/jquery_zclip/jquery.zclip.js"></script>
+{include file="inc/home_user_info.html"}
+<div class="dlmain Myhomepage">
+    {include file="inc/account_left.html"} 
+	<div class="homeright pageright f_r">
+		<div class="list_title clearfix">
+			<div {if $all eq 0}class="cur"{/if}>
+				<span>邀请列表</span>
+			</div>
+		</div>
+		<div class="list_content">
+			<div id="referrals">
+				<h4 class="ref_titile">这是您的专用邀请链接，请通过 MSN 或 QQ 发送给好友：</h4>
+				<div class="refers clearfix">
+					<input type="text" onfocus="this.select()" class="textbox" id="share-copy-text" size="40" value="{$referrals_url}" init="init">
+					<div class="ui-button theme_bgcolor" rel="green" id="share-copy-button" >
+						<div><span>复制</span></div>
+					</div>
+				</div>
+			</div>
+			<div class="blank20"></div>
+			<div class="money_box" style="margin:0;">
+				<div class=""><strong class="">总返利:</strong>&nbsp;&nbsp;{if $referrals_count.total_score gt 0}{$referrals_count.total_score}{else}0{/if}积分</div>
+				<div class="">
+					<strong>返利规则：</strong><br />
+					1、 通过发送会员专属邀请链接，推荐好友注册成为[本平台] 会员。<br />
+					2、好友通过邀请链接访问网站并成功注册成为本站会员。<br />
+					3、每成功邀请一个会员注册，您获得{function name="app_conf" v="INVITE_REFERRALS"}积分奖励。积分可以抵用金额。<br />
+				</div>
+			</div>	
+			<div class="blank20"></div>
+			<div class="referrals_list">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc_table">
+					<thead>
+						<tr>
+							<th>邀请的会员名</th>
+							<th>注册时间</th>
+							<th>返利订单</th>
+							<th>发放时间</th>
+							<th>发放积分</th>
+							<th>发放状态</th>							
+						</tr>
+					</thead>
+					<tbody>
+						{if $referrals_list}
+						{foreach from=$referrals_list item=referrals}
+						<tr>
+							<td>{$referrals.rel_user_name}</td>
+							<td>{function name=to_date v=$referrals.register_time}</td>
+							<td>{if $referrals.type eq 1}{$referrals.order_id}{else}注册奖励{/if}</td>
+							<td>{function name=to_date v=$referrals.pay_time}</td>
+							<td>{$referrals.score}</td>
+							<td>{if $referrals.pay_time gt 0}已发放{else}未发放{/if}</td>
+						</tr>
+						{/foreach}
+						{else}
+						<tr><td colspan="6">还没有任何邀请记录</td></tr>
+						{/if}
+					</tbody>
+				</table>
+				{if $referrals_list}
+				<div class="blank20"></div>
+				<div class="pages">{$pages}</div>
+				<div class="blank20"></div>
+				{/if}
+			</div>
+			
+		</div>
+		<!---->
+	</div>
+    <div class="blank0"></div>
+</div>
+{include file="inc/footer.html"} 
+<script type="text/javascript">
+$(document).ready(function(){
+	if ($.browser.msie)
+	{
+		$("#share-copy-button").bind("click",function(){
+			$.copyText("#share-copy-text");
+		});
+	}
+	else
+	{
+		$("#share-copy-button").zclip({
+			path: "{$TMPL}/js/jquery_zclip/ZeroClipboard.swf",
+			copy: function(){
+			return $(this).parent().find("#share-copy-text").val();
+			},
+			afterCopy:function(){/* 复制成功后的操作 */
+				$.showSuccess("已经拷贝到剪切板");
+	        }
+		});
+	}
+});
+</script>

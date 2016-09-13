@@ -1,0 +1,49 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<PHP>
+	function get_payment_user_name($uid)
+	{
+		return M("User")->where("id=".$uid)->getField("user_name");
+	}
+
+</PHP>
+<include file="Public:header" />
+<load href='__TMPL__Common/js/jquery.bgiframe.js' />
+<load href='__TMPL__Common/js/jquery.weebox.js' />
+
+<load href='__TMPL__Common/style/weebox.css' />
+<div class="main">
+<div class="main_title">充值记录</div>
+<div class="blank5"></div>
+<div class="button_row">
+	<input type="button" class="button" value="删除" onclick="del();" />
+</div>
+<div class="blank5"></div>
+<div class="search_row">
+	<form name="search" action="__APP__" method="get">	
+		商户充值订单号: <input type="text" class="textbox" name="requestNo" value="{:trim($_REQUEST['requestNo'])}" style="width:30px;" />	
+		<input type="hidden" value="YeepayRecharge" name="m" />
+		<input type="hidden" value="index" name="a" />
+		<input type="submit" class="button" value="{%SEARCH}" />
+	</form>
+</div>
+<div class="blank5"></div>
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="yeepayrecharge" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{%ID}|50px
+		,platformUserNo|get_payment_user_name:会员名
+		,requestNo:商户充值订单号
+		,create_time|to_date:充值日期
+		,amount:充值金额
+		,code|get_status:是否支付" 
+	actionlist="del:删除" /> 
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

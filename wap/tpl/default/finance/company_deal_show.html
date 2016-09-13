@@ -1,0 +1,332 @@
+{include file="inc/header.html"} 
+<?php
+	$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/finance/company_deal_overviews.css";
+	$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/finance/company_deal_overviews.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<div class="company_deal_show">
+	<!-- 详细顶部 开始 -->
+	{include file="finance/inc/company_deal_header.html"}
+	<!-- 详细顶部 结束 -->
+	<div class="deal_content">
+		<!-- 融资信息 开始 -->
+		{if $deal_item.id neq ''}
+		<div class="box">
+			<div class="box_title">融资信息</div>
+			<div class="box_content webkit-box">
+				<div class="image">
+					<img src="{$deal_item.image}" />
+				</div>
+				<div class="text webkit-box-flex">
+					<div class="name">{$deal_item.name}</div>
+					<div class="info">{function name=msubstr v=$deal_item.brief a=0 b=28}</div>
+					<a href='{url_wap r="deal#show" p="id=$deal_item.id"}' class="link">点击查看融资详情</a>
+				</div>
+			</div>
+		</div>
+		{/if}
+		<!-- 融资信息 结束 -->
+		<!-- 公司介绍 开始 -->
+		{if $company_info.company_introduce_word neq ''}
+		<div class="box">
+			<div class="box_title">公司介绍</div>
+			<div class="box_content">
+				<div class="info">
+					<span>{$company_info.company_introduce_word}</span>
+				</div>
+				{if $company_info.introduce_image}
+				<div class="company_img">
+					<div class="swiper-container" data-space-between='10'>
+					    <div class="swiper-wrapper">
+					        {foreach from=$company_info.introduce_image item=image_item name=image_item_name}
+					            <div class="swiper-slide"><img src="{$image_item}" alt=""></div>
+					        {/foreach} 
+					    </div>
+					    {if $company_info.introduce_image && count($company_info.introduce_image) >1}
+					    <div class="swiper-pagination"></div>
+					    {/if}
+					</div>
+					
+				</div>
+				{/if}
+			</div>
+		</div>
+		{/if}
+		<!-- 公司介绍 结束 -->
+		<!-- 相关链接 开始 -->
+		{if $company_info.iphone_url neq '' || $company_info.pc_url neq '' || $company_info.android_url neq '' || $company_info.ipd_url neq ''}
+		<div class="box about_link">
+			<div class="box_title">相关链接</div>
+			<div class="box_content clearfix">
+				{if $company_info.iphone_url neq ''}
+				<a href="{$company_info.iphone_url}" class="ui-button ui_button_l theme_color" external><i class="icon iconfont ios">&#xe628;</i>IOS下载链接</a>
+				{/if}
+				{if $company_info.android_url neq ''}
+				<a href="{$company_info.android_url}" class="ui-button theme_color" external><i class="icon iconfont anzhuo">&#xe626;</i>安卓下载链接</a>
+				{/if}
+				{if $company_info.ipd_url neq ''}
+				<a href="{$company_info.ipd_url}" class="ui-button ui_button_l theme_color" external><i class="icon iconfont ipad">&#xe625;</i>IPAD下载链接</a>
+				{/if}
+				{if $company_info.pc_url neq ''}
+				<a href="{$company_info.pc_url}" class="ui-button theme_color" external><i class="icon iconfont pc">&#xe623;</i>PC下载链接</a>
+				{/if}
+			</div>
+		</div>
+		{/if}
+		<!-- 相关链接 结束 -->
+		<!-- 子产品介绍 开始 -->
+		{if $company_info.sub_product}
+		<div class="box sub_project">
+			<div class="box_title">子产品介绍</div>
+			<div class="box_content clearfix">
+				<ul>
+					{foreach from=$company_info.sub_product item=sub_product_item}
+					<li>
+						<div class="name">{$sub_product_item.product_name}</div>
+						<a href="{$sub_product_item.product_website}" class="link" external>{$sub_product_item.product_website}</a>
+					</li>
+					{/foreach}
+				</ul>
+			</div>
+		</div>
+		{/if}
+		<!-- 子产品介绍 结束 -->
+		<!-- 创始团队 开始 -->
+		{if $company_info.company_team}
+		<div class="box">
+			<div class="box_title">创始团队 <small>目前任职</small></div>
+			<div class="box_content view_all_company_team">
+				{foreach from=$company_info.company_team item=company_team_item}
+				{if $company_team_item.is_manager eq 1 }
+				<div class="teams">
+					<a href="#" onclick="RouterURL('{url_wap r="home" p="id=$company_team_item.id"}','#home-index',2);" class="webkit-box">
+						<div class="image">
+							<img src="{function name="get_user_avatar" uid=$company_team_item.id type="middle"}" />
+						</div>
+						<div class="text webkit-box-flex">
+							<div class="name">{$company_team_item.name}</div>
+							<div class="info">{if $company_info.company_level eq 0}创始人{else}联合创始人{/if} {$company_info.company_job}</div>
+						</div>
+					</a>
+				</div>
+				{else}
+				<div class="teams webkit-box">
+					<a href="#" onclick="RouterURL('{url_wap r="home" p="id=$company_team_item.id"}','#home-index',2);" class="webkit-box">
+						<div class="image">
+							<img src="{function name="get_user_avatar" uid=$company_team_item.id type="middle"}" />
+						</div>
+						<div class="text webkit-box-flex">
+							<div class="name">{$company_team_item.name}</div>
+							<div class="info">{if $company_team_item.level eq 0}创始人{else}联合创始人{/if} {$company_team_item.position}</div>
+						</div>
+					</a>
+				</div>
+				{/if}
+				{/foreach}
+				{if $company_team_sum gt 3}
+				<a class="link view_more J_view_all" rel="view_all_company_team">查看全部({$company_team_sum})</a>
+				{/if}
+			</div>
+		</div>
+		{/if}
+		<!-- 创始团队 结束 -->
+		<!-- 团队优势 开始 -->
+		{if $company_info.team_advantage neq ''}
+		<div class="box">
+			<div class="box_title">团队优势</div>
+			<div class="box_content webkit-box">
+				<div class="info">
+					<span>{$company_info.team_advantage}</span>
+				</div>
+			</div>
+		</div>
+		{/if}
+		<!-- 团队优势 结束 -->
+		<!-- 投资案例 开始 -->
+		{if $company_invests}
+		<div class="box invest_exp">
+			<div class="box_title">投资案例({$company_invests_sum})</div>
+			<div class="box_content">
+				<div class="invest_exp_list view_all_invest_exp">
+					{foreach from=$company_invests item=company_ic_item name=company_ic_items}
+					<div class="exp_item">
+						<a href="#" onclick="RouterURL('{url_wap r="finance#company_show" p="cid=$company_ic_item.company_id"}','#finance-company_show',2);" class="webkit-box">
+							<div class="image">
+								<img src="{$company_ic_item.image}" />
+							</div>
+							<div class="text webkit-box-flex">
+								<div class="company_name">{$company_ic_item.company_name}</div>
+								<div class="info">{function name=msubstr v=$company_ic_item.company_brief a=0 b=28}</div>
+								<ul class="time_line">
+									{foreach from=$company_ic_item.exp item=company_iic_item}
+									<li>
+										<div class="time">{$company_iic_item.invest_time}</div>
+										<div class="text"><span class="theme_fcolor">
+										{if $company_iic_item.invest_phase eq 0}天使轮{/if}
+			                        	{if $company_iic_item.invest_phase eq 1}Pre-A轮{/if}
+			                        	{if $company_iic_item.invest_phase eq 2}A轮{/if}
+			                        	{if $company_iic_item.invest_phase eq 3}A+轮{/if}
+			                        	{if $company_iic_item.invest_phase eq 4}B轮{/if}
+			                        	{if $company_iic_item.invest_phase eq 5}B+轮{/if}
+			                        	{if $company_iic_item.invest_phase eq 6}C轮{/if}
+			                        	{if $company_iic_item.invest_phase eq 7}D轮{/if}
+			                        	{if $company_iic_item.invest_phase eq 8}E轮及以后{/if}
+			                        	{if $company_iic_item.invest_phase eq 9}并购{/if}
+										</span> 总投资金额 <span class="f_red">{if $company_iic_item.finance_amount_unit eq 1}${else}¥{/if} {$company_iic_item.finance_amount}万</span></div>
+									</li>
+									{/foreach}
+								</ul>
+							</div>
+						</a>
+					</div>
+					{/foreach}
+				</div>
+				{if $company_invests_sum gt 3}
+				<a class="link view_more J_view_all" rel="view_all_invest_exp">查看全部({$company_invests_sum})</a>
+				{/if}
+			</div>
+		</div>
+		{/if}
+		<!-- 投资案例 结束 -->
+		<!-- 融资经历 开始 -->
+		{if $company_info.company_experience}
+		<div class="box invest_exp">
+			<div class="box_title">融资经历({$company_experience_sum})</div>
+			<div class="box_content">
+				<div class="exp_item financing_exp_items">
+					<div class="text">
+						<ul class="time_line view_all_financing_exp">
+							{foreach from=$company_info.company_experience item=company_ce_item name=company_ce_name}
+							<li>
+								<div class="time">{$company_ce_item.invest_time}</div>
+								<div class="text">
+									<div class="financing_exp_item">
+										<div class="item_phase"><span class+="theme_fcolor">
+											{if $company_ce_item.invest_phase eq 0}天使轮{/if}
+						                	{if $company_ce_item.invest_phase eq 1}Pre-A轮{/if}
+						                	{if $company_ce_item.invest_phase eq 2}A轮{/if}
+						                	{if $company_ce_item.invest_phase eq 3}A+轮{/if}
+						                	{if $company_ce_item.invest_phase eq 4}B轮{/if}
+						                	{if $company_ce_item.invest_phase eq 5}B+轮{/if}
+						                	{if $company_ce_item.invest_phase eq 6}C轮{/if}
+						                	{if $company_ce_item.invest_phase eq 7}D轮{/if}
+						                	{if $company_ce_item.invest_phase eq 8}E轮及以后{/if}
+						                	{if $company_ce_item.invest_phase eq 9}并购{/if}
+						                	{if $company_ce_item.invest_phase eq 10}上市{/if}
+										</span></div>
+										<div class="item_money webkit-box">
+											<div class="sub_item_money sub_item_money_l webkit-box-flex">
+												<div class="val">{if $company_ce_item.finance_amount_unit eq 1}${else}¥{/if} {$company_ce_item.finance_amount}万</div>
+												<div class="label">{if $company_ce_item.invest_phase eq 9}并购{elseif $company_ce_item.invest_phase eq 10}总募{else}融资{/if}金额</div>
+											</div>
+											{if $company_ce_item.invest_phase lt 9}
+											<div class="sub_item_money webkit-box-flex">
+												<div class="val">{if $company_ce_item.finance_amount_unit eq 1}${else}¥{/if} {$company_ce_item.finance_amount}万</div>
+												<div class="label">融资估值</div>
+											</div>
+											{/if}
+										</div>
+										{if $company_ce_item.invest_subject_info neq ''}
+										<div class="item_subject">
+											{foreach from=$company_ce_item.invest_subject_info item=invest_subject_item}
+											<a href="#" onclick="RouterURL('{url_wap r="home" p="id=$invest_subject_item.id"}','#home-index',2);"><span class="item_subject_item"><img src="{$invest_subject_item.image}" />&nbsp;{$invest_subject_item.name}</span></a>
+											{/foreach}
+											<!--<span class="item_subject_item"><img src="{$TMPL}/images/bg_company_deal.jpg" />&nbsp;寒潭投资</span>-->
+										</div>
+										{else}
+										<div class="item_subject">
+											<span class="item_subject_item">&nbsp;未披露</span>
+										</div>
+										{/if}
+									</div>
+								</div>
+							</li>
+							{/foreach}
+						</ul>
+					</div>
+				</div>
+				<a class="link view_more J_view_all" rel="view_all_financing_exp">查看全部({$company_experience_sum})</a>
+			</div>
+		</div>
+		{/if}
+		<!-- 融资经历 结束 -->
+		<!-- 过往投资方 开始 -->
+		{if $company_info.company_investor}
+		<div class="box">
+			<div class="box_title">过往投资方</div>
+			<div class="box_content view_all_past_investors">
+				{foreach from=$company_info.company_investor item=company_investor_item}
+				<div class="teams">
+					<a href="#" onclick="RouterURL('{url_wap r="home" p="id=$company_investor_item.user_id"}','#home-index',2);" class="webkit-box">
+						<div class="image">
+							<img src="{$company_investor_item.image}" alt="{$company_investor_item.name}"/>
+						</div>
+						<div class="text webkit-box-flex">
+							<div class="company_name">{$company_investor_item.name}</div>
+							<div class="info">{function name=msubstr v=$company_investor_item.brief a=0 b=28}</div>
+						</div>
+					</a>
+				</div>
+				{/foreach}
+				{if $company_investor_sum gt 3}
+				<a class="link view_more J_view_all" rel="view_all_past_investors">查看全部({$company_investor_sum})</a>
+				{/if}
+			</div>
+		</div>
+		{/if}
+		<!-- 过往投资方 结束 -->
+		<!-- 团队成员 开始 -->
+		{if $company_info.employee_team}
+		<div class="box">
+			<div class="box_title">团队成员 <small>目前任职</small></div>
+			<div class="box_content view_all_employee_team">
+				{foreach from=$company_info.employee_team item=employee_team_item}
+				<div class="teams">
+					<a href="#" onclick="RouterURL('{url_wap r="home" p="id=$employee_team_item.id"}','#home-index',2);" class="webkit-box">
+						<div class="image">
+							<img src="{function name="get_user_avatar" uid=$employee_team_item.id type="middle"}" />
+						</div>
+						<div class="text webkit-box-flex">
+							<div class="name">{$employee_team_item.name}</div>
+							<div class="job_type">{$employee_team_item.employee_level} </div>
+							<div class="info job">{$employee_team_item.position}</div>
+						</div>
+					</a>
+				</div>
+				{/foreach}
+				{if $employee_team_sum gt 3}
+				<a class="link view_more J_view_all" rel="view_all_employee_team">查看全部({$employee_team_sum})</a>
+				{/if}
+			</div>
+		</div>
+		{/if}
+		<!-- 团队成员 结束 -->
+		<!-- 过往成员 开始 -->
+		{if $company_info.past_team}
+		<div class="box">
+			<div class="box_title">过往成员</div>
+			<div class="box_content view_all_past_team">
+				{foreach from=$company_info.past_team  item=past_team_item}
+				<div class="teams">
+					<a href="#" onclick="RouterURL('{url_wap r="home" p="id=$past_team_item.id"}','#home-index',2);" class="webkit-box">
+						<div class="image">
+							<img src="{function name="get_user_avatar" uid=$past_team_item.id type="middle"}" />
+						</div>
+						<div class="text webkit-box-flex">
+							<div class="name">{$past_team_item.name}</div>
+							<div class="job_type">{$past_team_item.employee_level} </div>
+							<div class="info job">{$past_team_item.position}</div>
+						</div>
+					</a>
+				</div>
+				{/foreach}
+				{if $past_team_sum gt 3}
+				<a class="link view_more J_view_all" rel="view_all_past_team">查看全部({$past_team_sum})</a>
+				{/if}
+			</div>
+		</div>
+		{/if}
+		<!-- 过往成员 结束 -->
+	</div>
+</div>
+{include file="inc/footer.html"}

@@ -1,0 +1,96 @@
+{include file="inc/header.html"}
+<?php
+    $this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/dz_index.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<div class="deals_index">
+	<div class="main_menu_box">
+		<div class="hide_list">
+		  	<div class="abbr">
+		  	   	<div class="first_list webkit-box-flex" id="first_list">
+		  	   	    <ul>
+						{foreach from=$cate_list item=cate_item }
+						<li class="directory">{$cate_item.name}</li>
+						{/foreach}
+		  	   	    </ul>
+		  	   	</div>
+			   	<div class="second_list webkit-box-flex" id="second_list">
+			   		{foreach from=$cate_list item=cate_item}
+			   	    <ul>
+			   	    	<li class="two_directory"><a href="{$cate_item.url}">全部</a></li>
+			   	    	{if $cate_item.child}
+						{foreach from=$cate_item.child item=clist}
+						{if $clist}
+						<li class="two_directory"><a href="{$clist.url}">{$clist.name}</a></li>
+				   		{/if}
+					    {/foreach}
+						{/if}	
+		  	   	    </ul>
+					{/foreach}
+			   	</div>
+		  	</div>
+		  	<div class="abbr">
+		  	   	<div class="first_list webkit-box-flex" id="first_list">
+		  	   	    <ul>
+						{foreach from=$city_list item=quan key=key}
+						<li class="directory">{$quan.province}</li>
+						{/foreach}
+		  	   	    </ul>
+		  	   	</div>
+			   	<div class="second_list webkit-box-flex" id="second_list">
+			   		{foreach from=$city_list item=quan }
+			   	    <ul>
+	 	  	   	    	<li class="two_directory"><a href="{$quan.url}">全部</a></li>
+	 					{foreach from=$quan.child item=qlist}
+						<li class="two_directory"><a href="{$qlist.url}">{$qlist.name}</a></li>
+						{/foreach}
+		  	   	    </ul>
+					{/foreach}
+			   </div>
+		  	</div>
+		  	<div class="abbr">
+		  	   	<div class="all_list" id="first_list">
+		  	   	    <ul>
+		  	   	    	<li class="directory"><a href="{url_wap r="deals" p="type=$p_type"}" {if $p_state eq ''} class="current"{/if}>所有项目{if $p_state eq ''}({$deal_count}){/if}</a></li>
+						{foreach from=$state_list item=state_item key=key}
+						<li class="directory"><a href="{$state_item.url}" title="{$state_item.name}" {if $p_state eq $key}class="current"{/if}>{$state_item.name}{if $p_state eq $key}({$deal_count}){/if}</a></li>
+						{/foreach}	
+		  	   	    </ul>
+		  	   	</div>  
+		  	</div>
+		</div>
+	 	<div class="main_list">
+	 	   <ul class="mall-cate webkit-box">
+	 	   	   	<li class="webkit-box-flex">{if $cate_name}{$cate_name}{else}全部分类 {/if}<i class="icon iconfont ml5">&#xe607;</i></li>
+			   	<li class="webkit-box-flex">{if $p_loc}{$p_loc}{else}全城 {/if}<i class="icon iconfont ml5">&#xe607;</i></li>
+			   	<li class="webkit-box-flex">{if $state_name}{$state_name}{else}状态{/if}<i class="icon iconfont ml5">&#xe607;</i></li>
+	 	   </ul>
+	 	</div>
+ 	</div>
+ 	<section class="items_list mt10">
+ 		<div class="items">
+			{foreach from=$deal_list item=deal key=k}
+			<div class="item clearfix">
+			    <a href="#" onclick="RouterURL('{url_wap r="deal#show" p="id=$deal.id"}','#deal-show',2);" title="{$deal.name}">
+			        <div class="item-image">
+			            <img src="{if $deal.image eq ''}{$TMPL}/images/empty_thumb.gif{else}{function name="get_spec_image" v=$deal.image w="100" h="80" g="1"}{/if}" alt="{$deal.name}" />
+			        </div>
+			        <div class="item-content">
+			            <h3>{function name=msubstr v=$deal.name a=0 b=10}</h3>
+			            <p class="p-color">{function name=msubstr v=$deal.brief a=0 b=28}</p>
+			            <div class="clearfix bottom">
+			                <div class="price">目标 <em class="f_money number">¥{function name="round" v=$deal.limit_price e=2}</em></div>
+			                <span class="support">完成<em>{$deal.percent}%</em></span>
+			            </div>
+			        </div>
+			    </a>
+			</div>
+			{/foreach}
+		</div>
+	</section>
+	<div class="blank10"></div>
+	<div class="pages">{$pages}</div>
+	<div class="blank10"></div>
+</div>
+<!-- home.js -->
+{include file="inc/footer.html"}

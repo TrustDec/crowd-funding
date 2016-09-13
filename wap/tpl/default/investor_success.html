@@ -1,0 +1,98 @@
+{include file="inc/header.html"}
+<style type="text/css">
+body{background:#f1f1f1}
+	.uc_table .p_inf{text-align:left;padding-left:0}
+	.my_project ul{border:0;}
+	.my_project .tab-nav li{
+		background:#f1f1f1;
+		border:1px solid #ddd;
+		margin:0 -1px;
+	}
+	.my_project .tab-nav li.current{
+		background:#fff;
+	}
+	.my_project .tab-nav li.current a
+	.my_project .tab-nav li.current a{color:#4dbdf5;}
+	.my_project .ul_block{
+		padding:20px 10px;
+	}
+	.my_project .ul_block_box{
+		border:1px solid #ddd;
+		background:#fff;
+	}
+	.my_project .ul_block ul{border:0;}
+	.my_project .ul_block ul li{padding:5px 0;}
+	.my_project .ul_block ul li.uploadbox{
+		height:100px;
+		line-height:100%;
+		padding:20px 0;
+	}
+	.my_project .ul_block ul li.uploadbox .text{
+		height:60px;
+		line-height:16px;
+	}
+	.input_lable{width:70px;}
+	.my_project .ul_block ul li.uploadbox .input_lable{
+		width:85px;
+		line-height:100px;
+	}
+	.investor_index .code_btn{
+		width:180px;
+		font-size:12px;
+	}
+	.ul_block h3{
+		margin:0 15px;
+		height:50px;
+		line-height:50px;
+		border-bottom:2px solid #ddd;
+	}
+	.ul_block h3 span{
+		height:50px;
+		line-height:50px;
+		display:inline-block;
+		font-size:18px;
+		border-bottom:2px solid #ee6966;
+	}
+	.account_index ul li .pic_show {
+	position: relative;
+	width:100px;
+	height:100px;
+	line-height: 18px;
+	background: url({$TMPL}/images/upload_bg.png) no-repeat;
+	}
+	.my_project .ul_block ul li.uploadbox .text{
+		width:100%;
+		line-height:16px;
+		color:#666;
+		font-family:"SimSun";
+		font-size:12px;
+		overflow:hidden;
+	}
+</style>
+<seation class="account_index my_project investor_index">
+	<ul class="tab-nav webkit-box" id="investor_id">
+		<li class="webkit-box-flex tc current">
+			{if $investor_status eq 1}认证成功{else}认证中{/if}
+		</li>
+	</ul>
+	<div class="ul_block sizing">
+		<div class="mod_box">
+			{if $investor_status eq 0}
+			<p class="tc f16">系统正在审核中，如有疑问请咨询客服</p>
+			{/if}
+			{if $investor_status eq 1}
+			<p class="tc f16">{if $is_investor eq 1}"个人投资者"{/if}{if $is_investor eq 2}"机构投资者"{/if}审核通过，如有疑问请拨打XXX-XXX-XXXX咨询，</p>
+			{/if}
+			<div class="blank20"></div>
+			<p class="tc f16">感谢您加入{function name="app_conf" v="SITE_NAME" }！</p>
+			<div class="blank20"></div>
+			<p class="f14 tc">
+	            系统将在 <span id="time" style="color:red;">3</span> 秒钟后自动跳转，如果没有自动跳转
+	        </p>
+	        <div class="blank20"></div>
+	        <a href="#" onclick="RouterURL('{url r="index#index"}','#index-index',2);" title="点击访问" class="ui-button theme_bgcolor" style="margin-left:400px;float:none;display:inline-block;color:#fff" rel="ui-button">点击立即跳转</a>
+		</div>
+	</div>
+</seation>
+<!-- apply_investor.js -->
+{include file="inc/footer.html"} 

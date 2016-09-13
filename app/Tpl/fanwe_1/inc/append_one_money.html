@@ -1,0 +1,60 @@
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/enquiry.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/enquiry_money_save.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/enquiry_money_save.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/enquiry.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/enquiry.js";
+?>
+<script type="text/javascript">
+	var invote_mini_money = {$invote_mini_money}/10000;
+	var total_num = '{$total_num}'; 
+</script>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<form id="add_append_one_form" action="{url r="investor#save_investment_money"}" class="enquiry">				
+	<div class="append_money_hd f22 theme_fcolor tl">我要领投</div>
+	<div class="blank0"></div>
+	<div class="tl" style="padding-left:100px;">
+		<div class="control-group">
+			<label class="control-label" style="width:auto;">投资金额:</label>
+			<div class="control-text">
+				<span id="money"></span>万元
+				<input type="hidden" name="money" value="" />
+			</div>
+		</div>
+		<div class="control-group small-control-group choose_amount">
+			<label class="control-label" style="width:auto;">投资份数:</label>
+			<div class="control-text">
+				<div class="pr f_l">
+					<a href="javascript:void(0);" class="plus" id="minus" >-</a>
+					<a href="javascript:void(0);" class="minus" id="plus" >+</a>
+					<input type="text" name="num" value="1" class="small_textbox w100 f_l money mr5" id="buy_num" />
+				</div>
+			</div>
+			
+		</div>
+		<div class="blank10"></div>
+		{if app_conf("IS_LIMITED_PARTNER") eq 1}
+		<label class="ui_checkbox mr10" rel="is_partner">
+			<input type="checkbox" name="is_partner" checked="checked" value="1" />是否愿意担任有限合伙企业普通合伙人
+		</label>
+		{else}
+			<input type="hidden" name="is_partner" checked="checked" value="0" />
+		{/if}
+		<div class="blank20"></div>
+		<div class="submit_btn_row tl">
+			<span class="ui-center-button theme_bgcolor button_y" rel="green">确认</span>
+			<span class="ui-center-button bg_red button_n" rel="green">取消</span>
+			<input type="hidden" value="1" name="ajax" />
+			<input type="hidden" value="{$deal_id}" name="deal_id" />
+			<input type="hidden" value="{$user_id}" name="user_id" />
+		</div>
+		<div class="blank5"></div>
+	</div>
+</form>
+<script type="text/javascript">
+	$(function(){
+		ui_checkbox();
+		enquiry_money_save("#add_append_one_form");
+	});
+</script>

@@ -1,0 +1,41 @@
+<div class="container-f">
+	<div class="box-title clearfix">
+		<div class="f_l">
+			
+		</div>
+		<div class="search-box f_r">
+			<form action="{$APP_URL}" method="POST" id="ajax_news_form">
+                <input type="text" id="keyword-input" value="{$keywords}" name="keywords" class="input-small-z" placeholder="请输入关键词">
+				<input type="hidden" name="m" value="{$MODULE_NAME}" />
+				<input type="hidden" name="a" value="{$ACTION_NAME}" />
+                <input type="submit" class="btn" value="查询" />
+            </form>
+		</div>
+	</div>
+	<div class="box-content clearfix">
+		<div class="row clearfix">
+			<form action="{url reply/ajaxnews}" method="post" class="form-horizontal">
+                 <table id="listTable" class="table-hover dataTable ajaxdataTable" >
+                    <thead>
+                        <tr>
+                            <th class="with-checkbox">
+                                <input type="checkbox" class="check_all">
+							</th>
+                            <th>标题</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    	{foreach from="$list" item="item"}
+                        <tr>
+                        	<td><input type="checkbox" name="check" rel="relate_reply_id" value="{$item.id}"></td>
+							<td class="reply_content">{$item.title}</td>
+
+                        </tr>
+						{/foreach}
+                    </tbody>
+                </table>
+            </form>
+			<div class="pages clearfix">{include file="public/pager.html"}</div>
+		</div>
+	</div>
+</div>

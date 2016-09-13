@@ -1,0 +1,208 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/invite.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/invite.js";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/account.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/consignee.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<style>
+.note {
+padding: 2px 5px;
+border-color: #ff3800;
+-webkit-border-radius: 3px;
+-moz-border-radius: 3px;
+border-radius: 3px;
+background: #ffd6cc;
+color: #f30;
+}
+.note_show {
+padding: 4px 5px;
+background: #f60;
+color: #fff;
+border: 1px solid #f60;
+border-radius: 3px;
+text-decoration: none;
+}
+.note_hide{ display:none;}
+.note_type{ float:right; }
+.consignee_row{ cursor:pointer;}
+</style>
+{include file="inc/home_user_info.html"}
+<!--中间开始-->
+<div class="dlmain Myhomepage">
+		 {include file="inc/account_left.html"} 
+		<div class="homeright pageright f_r">
+			<div>
+				<div class="list_title clearfix">
+					<div class="cur">
+						<span>邀请列表</span>
+					</div>
+				</div>
+				<div class="blank"></div>
+				{if $invite_number}
+				<form method="get" action="{url r="invite#index"}">
+					<div class="account_search" id="account_search">
+						<div class="blank10"></div>
+						<div class="form_row control-group f_l">
+							<select name="status" id='status' class="ui-select field_select small">
+								<option value=""   {if $status eq ''}selected="selected"{/if}>选择邀请状态</option>
+								<option value="0"  {if $status eq 0 && $status neq ''}selected="selected"{/if}>未确认</option>
+			 					<option value="1"  {if $status eq 1}selected="selected"{/if}>接受邀请</option>
+								<option value="2"  {if $status eq 2}selected="selected"{/if}>拒绝邀请</option>
+							</select>
+						</div>
+						<input type="submit" value="搜索" class="ui-button theme_bgcolor" />
+						<input type="hidden" name="ctl" value="invite">
+						<input type="hidden" name="act" value="index">
+					</div>
+				</form>
+				{/if}
+				<div class="full">		
+						<div class="blank15"></div>
+						{if $invite_list}
+							<div class="i_deal_list clearfix">
+								<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc_table">
+									<tbody>
+										<tr border="0" style="background-color:#f4f4f4; color:#555; height:40px;">
+											<th width="80">邀请人姓名</th>	
+											<th width="80">邀请类型</th>
+											<th width="150">
+												{if $invite_item.type eq 4}
+													投资机构(或公司)的名字
+												{else}
+													公司的名字
+												{/if}
+											</th>	
+											<th width="100">邀请时间</th>
+											<th width="80">操作</th>
+										</tr>
+										{foreach from=$invite_list item=invite_item}
+										<tr>
+											<td>
+												{$invite_item.user_name}
+											</td>
+											<td >
+												{if $invite_item.type eq 0}
+													创始团队的邀请
+												{elseif $invite_item.type eq 1}
+													团队成员的邀请
+												{elseif $invite_item.type eq 2}
+													过往成员的邀请
+												{elseif $invite_item.type eq 3}
+													过往投资方的邀请
+												{elseif $invite_item.type eq 4}	
+													投资机构的邀请
+												{/if}
+											</td>
+											<td>
+												{$invite_item.invite_name}
+											</td>
+											<td>	
+												{if $invite_item.update_time eq 0}		
+												<span>{function name="to_date" v=$invite_item.create_time}</span>
+												{else}
+													<span>{function name="to_date" v=$invite_item.update_time}</span>
+												{/if}
+											</td>
+											
+											<td >
+												{if $invite_item.status eq 0}
+													<li onclick="bind_invite_accept({$invite_item.id});">
+														<a href="javascript:void(0);" class="city_like f_red ">
+															 接受邀请					
+							 							</a>
+													</li>
+													<script>
+														function bind_invite_accept(id){
+															var ajaxurl = "{url r="invite#set_invite_accept"}";
+															var obj=new Object();
+															obj.ajax=1;
+															obj.id=id;
+															$.ajax({
+																url:ajaxurl,
+																type:"POST",
+																data:obj,
+																dataType:"json",
+																success:function(ajaxobj){
+																	if(ajaxobj.status==1){
+																		$.showSuccess(ajaxobj.info,function(){
+																					if(ajaxobj.jump!="")
+																					{
+																						location.href = ajaxobj.jump;
+																					}
+																				});
+																	}else{
+																		$.showErr(ajaxobj.info);
+																	}
+																}
+															});
+														}
+													</script>
+													<li onclick="bind_invite_refuse({$invite_item.id});">
+														<a href="javascript:void(0);" class="city_like f_red ">
+															 拒绝邀请			
+							 							</a>
+													</li>
+													<script>
+														function bind_invite_refuse(id){
+															var ajaxurl = "{url r="invite#set_invite_refuse"}";
+															var obj=new Object();
+															obj.ajax=1;
+															obj.id=id;
+															$.ajax({
+																url:ajaxurl,
+																type:"POST",
+																data:obj,
+																dataType:"json",
+																success:function(ajaxobj){
+																	if(ajaxobj.status==1){
+																		$.showSuccess(ajaxobj.info,function(){
+																					if(ajaxobj.jump!="")
+																					{
+																						location.href = ajaxobj.jump;
+																					}
+																				});
+																	}else{
+																		$.showErr(ajaxobj.info);
+																	}
+																}
+															});
+														}
+													</script>
+													
+													 
+												{elseif  $invite_item.status eq 1}
+													已经接受邀请
+												{else}
+													已经拒绝邀请
+												{/if}
+											</td>
+										</tr>
+										{/foreach}
+									</tbody>
+								</table>
+								<div class="blank20"></div>
+								<div class="pages">{$pages}</div>
+								<div class="blank20"></div>
+							</div>
+						{else}
+						<div class="empty_tip">
+							还没有邀请记录
+						</div>			
+						{/if}
+				</div><!--full-->
+				
+				
+				<div class="blank"></div>
+			</div>
+	
+	 		<div class="blank"></div>	
+		</div>
+
+<!--中间结束-->
+<div class="blank"></div>
+</div>
+<div class="blank"></div>
+{include file="inc/footer.html"} 

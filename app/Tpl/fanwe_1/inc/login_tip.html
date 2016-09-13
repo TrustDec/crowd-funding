@@ -1,0 +1,117 @@
+<ul class="head-sub-nav" id="head-sub-nav">
+{if $user_info}
+	{if $app}
+	<li class="app-download">
+		<a href="javascript:void(0);">
+			<i class="icon iconfont">&#xe621;</i>客户端
+		</a>
+		{if $app['is_app']}
+		<div class="mobile-wrap pop-up mobile-wrap-r">
+			<img class="qr" src="{$app.app_url_logo}" alt="手机端">
+			<div class="btns">
+				<span>下载{$site_name}客户端</span>
+				{if $app['ios_down_url']}
+				<a href="{$app.app_file_url}" target="_blank" title="客户端">
+					<i class="icon iconfont">&#xe602;</i>App Store
+				</a>
+				{/if}
+				{if $app['android_filename']}
+				<a href="{$app.app_file_url}" target="_blank" title="客户端">
+					<i class="icon iconfont">&#xe600;</i>Android
+				</a>
+				{/if}
+			</div>
+		</div>
+		{/if}
+	</li>
+	{/if}
+	<li class="msg-menu">
+		<a href="javascript:void(0);" id="mymessage" class="mymessage cssType_title"><i class="icon iconfont">&#xe611;</i>&nbsp;消息</a>
+		<div class="msg-wrap pop-up">
+			<div class="menu">
+				<a href="{url r="news#fav"}" class="first-of-type">关注动态</a>
+				<a href="{url r="comment"}">查看评论</a>
+				<a href="{url r="message"}">查看私信({$USER_MESSAGE_COUNT})</a>
+				<a href="{url r="notify"}">查看通知({$USER_NOTIFY_COUNT})</a>
+				<a href="{url r="invite"}">查看邀请({$USER_INVITE_COUNT})</a>	
+			</div>
+		</div>
+	</li>
+	<li class="user-menu">
+		<a href="javascript:void(0);" id="mycenter" class="head-avatar">
+			<img id="avatar" src="{function name="get_user_avatar" uid=$user_info.id type="middle"}" /> 
+		</a>
+		<div class="menu-wrap pop-up">
+			<a class="brief" href="{url r="settings"}" >
+				<img id="avatar" src="{function name="get_user_avatar" uid=$user_info.id type="middle"}" />
+				<span> {$user_info.user_name} </span>
+			</a>
+			<div class="menu">
+				<a href="{url r="home" p="id=$user_info.id"}" class="first-of-type">我的主页</a>
+				{if app_conf("IS_FINANCE") eq 1}
+				<a href="{url r="finance#company_create"}">创建公司</a>
+				<a href="{url r="finance#company_manage"}">我管理的公司</a>
+				<a href="{url r="finance#company_focus"}">我关注的公司</a>
+				{/if}
+				<a href="{url r="home"}">账户管理</a>
+				<a href="{function name="get_center_deal_url"}">项目管理</a>
+				<a href="{url r="settings"}">个人设置</a>
+				<a href="{url r="user#loginout"}" title="退出" id="user_login_out">退出</a>
+			</div>
+		</div>
+	</li>
+{else}
+	{if $app}
+	<li class="app-download">
+		<a href="javascript:void(0);">
+			<i class="icon iconfont">&#xe621;</i>客户端
+		</a>
+		{if $app['is_app']}
+		<div class="mobile-wrap pop-up">
+			<img class="qr" src="{$app.app_url_logo}" alt="手机端">
+			<div class="btns">
+				<span>下载{$site_name}客户端</span>
+				{if $app['ios_down_url']}
+				<a href="{$app.app_file_url}" target="_blank" title="客户端">
+					<i class="icon iconfont">&#xe602;</i>App Store
+				</a>
+				{/if}
+				{if $app['android_filename']}
+				<a href="{$app.app_file_url}" target="_blank" title="客户端">
+					<i class="icon iconfont">&#xe600;</i>Android
+				</a>
+				{/if}
+			</div>
+		</div>
+		{/if}
+	</li>
+	{/if}
+	<li class="login-actions">
+		<a title="登录" href="javascript:void(0)" id="show_pop_login" class="log Js-showLogin"><i class="icon iconfont">&#xe617;</i>&nbsp;登录&nbsp;/&nbsp;</a>{if app_conf("USER_INVESTMENT") eq 1}<a href="{url r="user#register"}" title="创业者注册">创业者注册&nbsp;/&nbsp;</a><a href="{url r="user#register"}" title="投资者注册" style="padding:0 6px;">投资者注册</a>{/if}{if app_conf("USER_INVESTMENT") eq 0}<a href="{url r="user#register"}" title="注册" class="reg f_red">注册</a>{/if}
+	</li>
+{/if}
+</ul> 
+ <!-- {if $USER_NOTIFY_COUNT>0 or $USER_MESSAGE_COUNT>0}
+	{if $HIDE_USER_NOTIFY eq 0}
+		<div id="user_notify_tip" style="position:absolute; z-index:1; display:none; margin-top:45px;">		
+			<div class="notify_tip_box1" id="close_user_notify">
+				<div class="close_user_notify1"></div>
+				{if $USER_NOTIFY_COUNT>0}
+				<span><a href="{url r="notify"}">您有 <font>{$USER_NOTIFY_COUNT}</font> 条新通知</a></span>
+				{/if}
+				{if $USER_MESSAGE_COUNT>0}
+				<span><a href="{url r="message"}">您有 <font>{$USER_MESSAGE_COUNT}</font> 条新信息</a></span>
+				{/if}
+			</div>
+		</div>
+	{/if}
+{/if}  -->
+<script type="text/javascript">
+$(function(){
+	var login_pop_ajaxurl = APP_ROOT+"/index.php?ctl=ajax&act=login";
+	$.get(login_pop_ajaxurl, function(data) {
+		var login_pop_html = data;
+    	loginDialog(login_pop_html);
+	});
+});
+</script>

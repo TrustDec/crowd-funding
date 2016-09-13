@@ -1,0 +1,78 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/deal_show.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/deal_show.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/fancybox.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/fancybox.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/deal_house_show.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/deal_house_show.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/finance/company_overview.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/finance/company_overview.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/finance/company_deal_overviews.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/finance/company_deal_overviews.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/jquery.fancybox.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/deal.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/deal.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/finance/company_deal_overviews.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/finance/company_deal_overviews.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jquery.SuperSlide.2.1.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jquery.SuperSlide.2.1.js";
+?>
+{if app_conf("IS_ENQUIRY") eq 0}
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/enquiry_money_first.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/enquiry_money_first.js";
+?>
+{/if}
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<div class="clear"></div>
+<div class="xqmain" id="xqmain">
+	<!-- 公司简介 开始 -->
+	{include file="finance/inc/company_deal_header.html"}
+	<!-- 公司简介 结束 -->
+	<div class="tab-section">
+    	<a href="{url r="finance#company_show" p="cid=$company_info.id&id=$deal_info.id"}">总览</a>
+		{$deal_info.is_effect}
+		 {if $deal_info neq ''&& $deal_info.is_effect eq 1}
+        <a href="{url r="finance#company_finance" p="id=$deal_info.id"}" class="active">融资详情</a>
+        <a href="{url r="finance#company_update" p="id=$deal_info.id"}">动态</a>
+		{/if}
+        <a href="{url r="finance#company_fans" p="cid=$company_info.id&id=$deal_info.id"}">粉丝</a>
+ 	</div>
+ 	<div class="blank20"></div>
+ 	<!-- 左侧详细 开始 -->
+	{if $deal_info.is_effect eq 1}
+ 	<div class="deal_left">
+	 	{include file="finance/inc/company_investor_info.html"}
+   	</div>	
+	{/if}
+   	<!-- 左侧详细 结束 -->
+   	<!-- 右侧详细 开始 -->
+   	<div class="deal_right">
+   		{include file="finance/inc/company_deal_right.html"}
+   </div>
+   <!-- 右侧详细 结束 -->
+</div>
+<div class="clear"></div>
+{include file="inc/footer.html"}
+<script type="text/javascript">
+	$(function(){
+		var $xqmain=$("#xqmain") ,
+			$company_basic=$xqmain.find(".company-basic") ,
+			$tab_section=$xqmain.find(".tab-section") ,
+			$deal_left_box_1=$xqmain.find(".deal_left_box_1") ,
+			$xqmain_l_main_hd=$xqmain.find(".l_main_hd");
+		var navH = $("#J_head").outerHeight()+$company_basic.outerHeight()+$tab_section.outerHeight()+$deal_left_box_1.outerHeight()+$xqmain_l_main_hd.outerHeight()+60;
+		$(window).scroll(function(){
+			var scroH = $(this).scrollTop();
+			if(scroH>=navH){
+				$(".pro_hd").css({"position":"fixed","top":0,"zIndex":999});
+				$xqmain.find(".deal_left_box_2").css("paddingTop","60px");
+			}else if(scroH<navH){
+				$(".pro_hd").css({"position":"static"});
+				$xqmain.find(".deal_left_box_2").css("paddingTop","0");
+			}
+		});
+	});
+</script>

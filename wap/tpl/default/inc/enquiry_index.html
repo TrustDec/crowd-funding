@@ -1,0 +1,45 @@
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/count_invest_money.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<form id="enquiry_index" action="{url_wap r="investor#enquiry_page"}" autocomplete="off">				
+	<div class="mod_lf f_l tl">
+		<div class="prompt_box f_999 f12" style="width:100%;padding:0;background:none;border:0">
+			温馨提示：每个项目有{$inquiry_num}次询价的机会，创业者拒绝{$inquiry_num}次后，您将不能再询价，只能以最终估值认筹该项目，请谨慎填写您能接受的项目估值！
+		</div>
+	</div>
+	<div class="mod_rt f_r">
+		<div class="chance_left tc">
+			<h3 class="theme_color f13">该项目剩余询价机会</h3>
+			<div class="text theme_fcolor f13 sizing">
+				<span class="f20">{$inquiry_num}</span>次
+			</div>
+		</div>
+	</div>
+	<div class="blank10"></div>
+ 	<div class="f14 tc">
+		<div class="info_view tl" type="radio" rel="enquiry">
+		    <input class="mt mr10" type="radio" value="1" name="enquiry" checked="checked">
+		    询价
+		</div>
+		<div class="blank10"></div>
+		<div class="info_view tl" type="radio" rel="enquiry">
+		    <input class="mt mr10" type="radio" name="enquiry" value="0" />
+		    不参与询价无条件接受项目最终估值
+		</div> 
+	</div>
+	<div class="blank20"></div>
+	<div class="submit_btn_row tc webkit-box">
+		<div class="ui-button ui-two-button theme_color button_y">下一步</div>
+		<div class="ui-button ui-two-button bg_gray button_n" onclick="$.closeModal();">取消</div>
+		<input type="hidden" value="1" name="ajax" />
+		<input type="hidden" value="{$user_id}" name="user_id" id="user_id"/>
+		<input type="hidden" value="{$deal_id}" name="deal_id" id="deal_id"/>
+		<input type="hidden" value="{$inquiry_num}" name="inquiry_num" id="inquiry_num"/>
+	</div>
+	<div class="blank5"></div>
+</form>
+<script type="text/javascript">
+	var invote_mini_money = parseFloat({$invote_mini_money}/10000);
+	var total_num = '{$total_num}';
+</script>

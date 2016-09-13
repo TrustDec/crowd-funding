@@ -1,0 +1,28 @@
+{include file="inc/header.html"} 
+<!--中间开始-->
+<div class="main_9">	
+	<div class="xm_9">
+				<form action="/project-add" name="fqform" method="post">
+					<h3>如果你有一颗真诚的心那么请在这里发起你的梦想</h3>
+					<p>众筹网是一家可以帮助您实现梦想的网站，在这里您可以发布您的梦想、创意和创业计划，</br>并通过网络平台面对公众集资，让有创造力的人可能获得他们所需要的资金，</br>以便使他们的梦想有可能实现。</p>
+					<div class="pro-agr-chk">
+						<input id="flag" name="flag" type="checkbox" checked="checked">
+						阅读并同意<a style="color:#12adff;" href="{url "help#term"}">{function name="app_conf" v="SITE_NAME"}服务条款</a>
+					</div>
+					<div class="pro-agr-btn">
+						<a href="{url r="project#add"}" ><span class="common-sprite2">立即发起项目</span></a>
+					</div>
+				</form>
+
+
+		
+	</div>
+</div>
+
+
+<!--中间结束-->
+
+<div class="blank"></div>
+{include file="inc/footer.html"} 
+
+

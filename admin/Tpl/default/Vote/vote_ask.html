@@ -1,0 +1,96 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<load href='__TMPL__Common/js/vote_ask.js' />
+<div class="main">
+<div class="main_title">[{$vote.name}] {%VOTE_ASK} <a href="{:u("Vote/index")}" class="back_list">{%BACK_LIST}</a></div>
+<div class="blank5"></div>
+<form name="edit" action="__APP__" method="post" enctype="multipart/form-data">
+<table class="form" cellpadding=0 cellspacing=0 id="ask_form">
+	<tr>
+		<td colspan=5 class="topTd"></td>
+	</tr>
+	<tr >
+		<th>{%ID}</th>
+		<th>{%NAME}</th>
+		<th>{%SORT}</th>
+		<th>{%VOTE_TYPE}</th>
+		<th>{%VOTE_VAL_SCOPE}</th>
+		<th>{%VOTE_IS_FILL}</th>
+		<th>操作 [<a href='javascript:void(0);' onclick="add_ask_row();">+</a>]</th>
+	</tr>
+	<foreach name="vote_ask" item="ask">
+		<tr>
+		<td style="text-align:center;">{$ask.id}</td>
+		<td style="text-align:center;"><input type="text" class="textbox require" name="name[]" value="{$ask.name}" /></td>
+		<td style="text-align:center;"><input type="text" class="textbox " name="sort[]" value="{$ask.sort}" /></td>		
+		<td style="text-align:center;">
+			{%SINGLE_SELECT}:<input type="radio" name="type[{$key}][]" value='1' <if condition="$ask['type'] eq 1 or $ask['type'] eq 4">checked="checked"</if> />
+			{%MULITY_SELECT}:<input type="radio" name="type[{$key}][]" value='2' <if condition="$ask['type'] eq 2 or $ask['type'] eq 5">checked="checked"</if> />
+			{%DEFINE_SELECT}:<input type="checkbox"  name="type[{$key}][]" value='3' <if condition="$ask['type'] eq 3 or $ask['type'] eq 4 or $ask['type'] eq 5">checked="checked"</if> />
+		</td>		
+		<td style="text-align:center;">
+			<textarea class="textarea" name="val_scope[]">{$ask.val_scope}</textarea>
+		</td>
+		<td style="text-align:center;">
+				<input type="radio" name="is_fill[{$key}][]" value="1" <if condition="$ask['is_fill'] eq 1">checked="checked"</if> />是
+				<input type="radio" name="is_fill[{$key}][]" value="0" <if condition="$ask['is_fill'] eq 0">checked="checked"</if> />否		
+		</td>
+		</td>
+		<td style="text-align:center;">
+			[<a href='javascript:void(0);' onclick="remove_ask_row(this);">-</a>]
+		</td>
+		</tr>
+	</foreach>
+	<tr id='footer_row'>
+		<td colspan=5 class="bottomTd"></td>
+	</tr>
+</table>
+<div class="blank5"></div>
+<if condition="$Count gt 0">
+	<table class="form" cellpadding=0 cellspacing=0 style=" display:none;">
+		<tr>
+			<td colspan=2 class="topTd"></td>
+		</tr>	
+		<tr>
+			<td class="item_title">提示：选项之间用回车或空格符隔开！</td>
+			<td class="item_input">
+				<!--隐藏元素-->
+				<input type="hidden" name="vote_id" value="{$vote.id}" />
+				<input type="hidden" name="{:conf("VAR_MODULE")}" value="Vote" />
+				<input type="hidden" name="{:conf("VAR_ACTION")}" value="do_vote_ask" />
+				<!--隐藏元素-->
+				<input type="submit" class="button" value="{%EDIT}" />
+				<input type="reset" class="button" value="{%RESET}" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan=2 class="bottomTd"></td>
+		</tr>
+	</table>	
+</if> 
+<if condition="$Count lt 1">
+	<table class="form" cellpadding=0 cellspacing=0 >
+		<tr>
+			<td colspan=2 class="topTd"></td>
+		</tr>	
+		<tr>
+			<td style="background:#e2e8eb;width:250px;text-align:center;color:#d70c19">提示：选项之间用回车或空格符隔开！</td>
+			<td class="item_input">
+				<!--隐藏元素-->
+				<input type="hidden" name="vote_id" value="{$vote.id}" />
+				<input type="hidden" name="{:conf("VAR_MODULE")}" value="Vote" />
+				<input type="hidden" name="{:conf("VAR_ACTION")}" value="do_vote_ask" />
+				<!--隐藏元素-->
+				<input type="submit" class="button" value="{%EDIT}" />
+				<input type="reset" class="button" value="{%RESET}" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan=2 class="bottomTd"></td>
+		</tr>
+	</table>	
+</if> 
+</form>
+</div>
+<include file="Public:footer" />

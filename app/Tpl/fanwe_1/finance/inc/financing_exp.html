@@ -1,0 +1,214 @@
+<script type="text/javascript">
+	var c_financing_exp_ajaxurl = '{url r="finance#do_company_overview" p="method=company_experience"}';
+	var c_financing_exp_checkname_ajaxurl = '{url r="finance#chack_investor_name"}';
+</script>
+<div class="edit-panel clearfix">
+	<div class="title line clearfix">
+        <h3>融资经历</h3>
+        <a href="javascript:void(0)" class="icon-add c_financing_exp_icon_edit" onclick="f_item.add_item(this);" rel="c_financing_exp" ng-show="is_edit"><i class="icon iconfont">&#xe60e;</i></a>
+    </div>
+    <!-- 添加操作 -->
+     <div class="add-item c_financing_exp_btn_add {if $company_experience}hide{/if}" onclick="f_item.edit_item(this);" rel="c_financing_exp" ng-show="is_edit">
+    	<span class="icon-big-add"><i class="icon iconfont">&#xe60d;</i></span> 添加投资案例
+    </div>
+    <!-- 编辑 -->
+	<div class="item-panel-edit c_financing_exp_edit edit_form hide" ng-show="is_edit">
+	    <form class="ajax_financing_exp_form c_financing_exp_form ml20" action="{url r="finance#do_company_overview" p="method=company_experience"}" method="post" rel="c_financing_exp">
+	    	<div class="control-group small-control-group">
+				<label class="control-label"><span class="f_red">*</span>融资阶段</label>
+				<div class="control-text">
+					<select name="finance_phase" id="finance_phase" class="ui-select field_select small J_phase" onchange="select_phase(this,'finance_phase','c_financing_exp');">
+						<option selected="selected"  value="">请选择</option>
+						<option value="0" label="天使轮">天使轮</option>
+						<option value="1" label="Pre-A轮">Pre-A轮</option>
+						<option value="2" label="A轮">A轮</option>
+						<option value="3" label="A+轮">A+轮</option>
+						<option value="4" label="B轮">B轮</option>
+						<option value="5" label="B+轮">B+轮</option>
+						<option value="6" label="C轮">C轮</option>
+						<option value="7" label="D轮">D轮</option>
+						<option value="8" label="E轮及以后">E轮及以后</option>
+						<option value="9" label="并购">并购</option>
+						<option value="10" label="上市">上市</option>
+					</select>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="control-group small-control-group">
+				<label class="control-label"><span class="finance_phase_amount_text">融资金额</span></label>
+				<div class="control-text">
+					<select name="finance_amount_unit" id="finance_amount_unit" class="ui-select field_select small">
+						<option value="0" selected="selected" label="人民币">人民币</option>
+						<option value="1" label="美元">美元</option>
+					</select>
+					<div class="holder_tip_box">
+						<input type="text" name="finance_amount" class="textbox small_textbox w200 init_data" />
+						<div class="holder_tip small_holder_tip"><span>1,000,000</span></div>
+					</div> 万
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="control-group small-control-group finance_phase_valuation_text">
+				<label class="control-label">此轮估值</label>
+				<div class="control-text">
+					<select name="finance_valuation_unit" id="finance_valuation_unit" class="ui-select field_select small">
+						<option value="0" selected="selected" label="人民币">人民币</option>
+						<option value="1" label="美元">美元</option>
+					</select>
+					<div class="holder_tip_box">
+						<input type="text" name="finance_valuation" class="textbox small_textbox w200 init_data" />
+						<div class="holder_tip small_holder_tip"><span>5,000,000</span></div>
+					</div> 万
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="control-group small-control-group">
+				<label class="control-label"><span class="f_red f12">*</span><span class="finance_phase_time_text">融资时间</span></label>
+				<div class="control-text">
+					<input readonly="" type="text" class="small_textbox w100 jcDate init_data" rel="input-text" value="{$company.finance_time}" name="finance_time" id="inputLaunchTime" placeholder="请选择时间">
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="control-group small-control-group pr finance_phase_subject_text" style="overflow:inherit;">
+				<label class="control-label">投资主体</label>
+				<div class="control-text" style="overflow:inherit;height:auto;line-heigth:1.5;">
+					<div class="holder_tip_box">
+						<input type="text" class="textbox small_textbox init_data c_financing_exp_name c_financing_exp_input J_check_c_financing_exp_name" rel="c_financing_exp" />
+						<div class="holder_tip small_holder_tip"><span>输入已注册会员的投资主体</span></div>
+					</div>
+					<div class="clear"></div>
+					<ul class="create-tags c_financing_exp_create_tags"></ul>
+				</div>
+				<div class="clear"></div>
+				<ul class="ui_select_choices c_financing_exp_menu hide" role="menu">
+					<!-- 检索列表 -->
+					<li class="ui_select_choices_group"></li>
+				</ul>
+			</div>
+			<div class="control-group small-control-group">
+				<label class="control-label">相关报道</label>
+				<div class="control-text">
+					<div class="holder_tip_box">
+						<input type="text" name="finance_pressurl" class="textbox small_textbox w200 init_data" onfocus="auto_write_focus(this);" onblur="auto_write_blur(this);" />
+						<div class="holder_tip small_holder_tip"><span>填写事件被报道的链接地址</span></div>
+					</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="submit_row clearfix">
+			    <a href="javascript:void(0);" class="ui-button bg_gray cancle-btn" rel="c_financing_exp">跳过</a>
+				<a href="javascript:void(0);" class="ui-button theme_bgcolor mr10 save-btn" rel="c_financing_exp">保存</a>
+				<input type="hidden" name="method" value="company_experience">
+				<input type="hidden" name="company_id" value="{$company.id}">
+				<input type="hidden" name="ajax" value="1">
+				<input type="hidden" name="ajax_act" value="save">
+				<!-- <input type="hidden" name="invest_id" value=""> -->
+				<input type="hidden" name="phase_type" value="0">
+			</div>
+	    </form>
+	</div>
+	<!-- 生成 -->
+	<div class="item-panel-normal c_financing_exp_normal">
+		<!-- 融资经历列表 -->
+		<div class="financing-exp-wrap c_financing_exp_normal_list clearfix">
+	  	{if $company_experience}
+			{foreach from=$company_experience item=company_ce_item name=company_ce_name}
+		    <div class="financing-col c_financing_exp_{$company_ce_item.id}_item {if $smarty.foreach.company_ce_name.iteration % 2 eq 0}even{/if}">
+				<div class="financing-exp">
+		        	<!--角标-->
+	<!-- 	            <div class="mark mark-zhongchou ng-hide">
+		                <span class="text">股权投资</span>
+		                <p class="tips-link">
+		                    本轮融资为股权投资。
+		                    <a class="btn" href="/#/company/169020/zhongchouSuc?fundingId=0">查看详情</a>
+		                </p>
+		            </div> -->
+		            <div class="financing-list-heading clearfix">
+		                <div class="financing-con">
+		                    <span class="round ng-binding">
+		        			{if $company_ce_item.invest_phase eq 0}天使轮{/if}
+		                	{if $company_ce_item.invest_phase eq 1}Pre-A轮{/if}
+		                	{if $company_ce_item.invest_phase eq 2}A轮{/if}
+		                	{if $company_ce_item.invest_phase eq 3}A+轮{/if}
+		                	{if $company_ce_item.invest_phase eq 4}B轮{/if}
+		                	{if $company_ce_item.invest_phase eq 5}B+轮{/if}
+		                	{if $company_ce_item.invest_phase eq 6}C轮{/if}
+		                	{if $company_ce_item.invest_phase eq 7}D轮{/if}
+		                	{if $company_ce_item.invest_phase eq 8}E轮及以后{/if}
+		                	{if $company_ce_item.invest_phase eq 9}并购{/if}
+		                	{if $company_ce_item.invest_phase eq 10}上市{/if}
+							</span>
+							<span class="date ajax_invest_time">{$company_ce_item.invest_time}</span>
+		                    <!--<span class="gray-icon" ng-class="{normal: item.showInviteTip}" ng-show="item.status!='CONFIRMED'" tooltip-placement="bottom" tooltip-html-unsafe="{{item.showInviteTip&&finance.editable?'当前经历需投资主体确认，<br></span>赶紧邀请ta来确认':''}}">待确认</span>-->
+		                    <span class="pressUrl_box">
+			                    {if $company_ce_item.finance_pressurl neq ''}
+			                    <a href="{$company_ce_item.finance_pressurl}" target="_blank" class="pressUrl">相关报道</a>
+			                    {/if}
+		                    </span>
+		                </div>
+		                <div class="tool" ng-show="is_edit">
+		                    <a href="javascript:void(0)" class="icon-edit c_financing_exp_ajax_edit" ajax_act="edit" rel="c_financing_exp_{$company_ce_item.id}"><i class="icon iconfont">&#xe60c;</i></a>&nbsp;
+				            <a href="javascript:void(0)" class="icon-del c_financing_exp_ajax_del" ajax_act="del" rel="c_financing_exp_{$company_ce_item.id}"><i class="icon iconfont">&#xe604;</i></a>
+				            <input type="hidden" name="ajax_item_id" value="{$company_ce_item.id}" />
+				            <input type="hidden" name="method" value="company_experience" />
+							<input type="hidden" name="ajax" value="1" />
+							<input type="hidden" name="company_id" value="{$company.id}" />
+							<input type="hidden" name="ajax_url" value="{url r="finance#do_company_overview" p="method=company_experience"}" />
+		                </div>
+		            </div>
+		            <div class="financing-price">
+		                <div class="f-l">
+		                    <span>{if $company_ce_item.invest_phase eq 9}并购{elseif $company_ce_item.invest_phase eq 10}总募{else}融资{/if}金额：</span>
+		                   	<span class="price1"><span class="ajax_finance_amount_unit">{if $company_ce_item.finance_amount_unit eq 1}${else}¥{/if}</span> <span class="ajax_finance_amount">{$company_ce_item.finance_amount}</span>万</span>
+		                </div>
+		                {if $company_ce_item.invest_phase lt 9}
+		                <div class="f-r">
+		                    融资估值：
+		                    <span class="price2 ng-binding"><span class="ajax_valuation_unit">{if $company_ce_item.valuation_unit eq 1}${else}¥{/if}</span> <span class="ajax_valuation">{$company_ce_item.valuation}</span>万</span>
+		                </div>
+		                {/if}
+		            </div>
+		            {if $company_ce_item.invest_subject_info}
+		            <ul class="financing-list-member list-unstyled ul_maxheight">
+		            	{foreach from=$company_ce_item.invest_subject_info item=invest_subject_item}
+						<li>
+                    		<a class="logo" target="_blank" href="{url r="home" p="id=$invest_subject_item.user_id"}">
+                    			<img alt="" width="50" src="{$invest_subject_item.image}">
+                    		</a>
+		                    <a class="name" target="_blank" href="{url r="home" p="id=$invest_subject_item.user_id"}">
+		                        <span class="ng-binding">{$invest_subject_item.name}</span>
+		                    </a>
+                		</li>
+						{/foreach}
+            		</ul>
+            		{else}
+            		<div class="financing-unknow">未披露</div>
+            		{/if}
+		        </div>
+		    </div>
+			{/foreach}
+	 	{/if}
+ 		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		$(".c_financing_exp_ajax_del").live('click',function(){
+			f_item.del_ajax_item(this,c_financing_exp_ajaxurl);
+		});
+		$(".c_financing_exp_ajax_edit").live('click',function(){
+			f_item.c_financing_exp_edit(this,c_financing_exp_ajaxurl);
+		});
+		$(document).click(function(){
+			$(".ui_select_choices").hide();
+			$(".ui_select_choices_group").html("");
+		});
+		$(".J_check_c_financing_exp_name").bind('input propertychange',function(){
+			check_u_name(this,c_financing_exp_checkname_ajaxurl,'c_financing_exp');
+		});
+/*		$(document).click(function(){
+			$(".ui_select_choices").hide();
+			$(".ui_select_choices_group").html("");
+		});*/
+	});
+</script>

@@ -1,0 +1,80 @@
+{include file="inc/header.html"}
+<div class="buttons-tab">
+    <span class="tab-link button {if $stock_transfer_type eq 1}active{/if}">
+        <a href="#" onclick="RouterURL('{url_wap r="account#stock_transfer_out"}','#account-stock_transfer_out');">股权转让管理</a>
+    </span>
+    <span class="tab-link button {if $stock_transfer_type eq 2}active{/if}">
+        <a href="#" onclick="RouterURL('{url_wap r="account#stock_transfer_in"}','#account-stock_transfer_in');">股权转入管理</a>
+    </span>
+</div>
+{if $stock_transfer_list}
+    {foreach from=$stock_transfer_list item=stock_transfer_item}
+    <div class="list-block">
+        <ul>
+            <li class="item-content">
+                <div class="item-inner">
+                    <div class="item-title">{$stock_transfer_item.deal_name}</div>
+                </div>
+            </li>
+            <li class="item-content">
+                <div class="item-inner">
+                    <div class="item-title">转让金额</div>
+                    <div class="item-after"><span class="f_money">¥{$stock_transfer_item.price}</span></div>
+                </div>
+            </li>
+            <li class="item-content">
+                <div class="item-inner">
+                    <div class="item-title">转让股数</div>
+                    <div class="item-after">{$stock_transfer_item.num}股</div>
+                </div>
+            </li>
+            <li class="item-content">
+                <div class="item-inner">
+                    <div class="item-title">开始时间</div>
+                    <div class="item-after">{function name=""to_date v=$stock_transfer_item.begin_time}</div>
+                </div>
+            </li>
+            <li class="item-content">
+                <div class="item-inner">
+                    <div class="item-title">付款截止时间</div>
+                    <div class="item-after">{if $stock_transfer_item.end_time>0 && $stock_transfer_item.end_time < $now}已过期{else}{function name=""to_date v=$stock_transfer_item.end_time}{/if}</div>
+                </div>
+            </li>
+            <li class="item-content">
+                <div class="item-inner">
+                    <div class="item-title">状态</div>
+                    <div class="item-after">
+                        {if $stock_transfer_item.is_success==0 && $stock_transfer_item.status==1}
+                            {if $stock_transfer_item.deal_status==0 and $stock_transfer_item.end_time > $now}
+                                <a href="#" onclick="RouterURL('{url_wap r="account#stock_transfer_view_order" p="id=$stock_transfer_item.id"}','#account-stock_transfer_view_order',2);" class="button button-fill bg_red">继续支付</a>
+                            {elseif $stock_transfer_item.deal_status==1}
+                                <span>已支付(已退款)</span>
+                            {elseif $stock_transfer_item.deal_status==2}
+                                <span>已支付，交易失败(已退款)</span>
+                            {elseif $stock_transfer_item.deal_status==3}                        
+                                {if $stock_transfer_item.deal_share_status==0}
+                                <span>已支付，等待线下股权转移</span>
+                                {else}
+                                <span>甲方已确认线下股权转移,请确认：</span>
+                                <a href="#" onclick="RouterURL('{url_wap r="account#stock_transfer_in_end" p="id=$stock_transfer_item.id"}','#account-stock_transfer_in_end',2);" class="button button-fill theme_bgcolor">确认转移</a>                        
+                                {/if}
+                            {elseif $stock_transfer_item.deal_status==0 and $stock_transfer_item.end_time < $now}
+                                <span>未支付(已过期)</span>
+                            {/if}
+                        {elseif $stock_transfer_item.is_success==1}
+                        <span>已完成交易</span>
+                        {else}  
+                        <span>交易已取消</span>
+                        {/if}
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    {/foreach}
+    <div class="pages">{$pages}</div>
+    <div class="blank15"></div>
+{else}
+<div class="empty_tip content-padded tc">还没有{$title}记录</div>
+{/if}
+{include file="inc/footer.html"} 

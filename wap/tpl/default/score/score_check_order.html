@@ -1,0 +1,154 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/score.css";
+
+// $this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/switch_city.js";
+// $this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/switch_city.js";
+// $this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/score/score_check_order.js";
+// $this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/score/js/score_check_order.js";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<!-- <script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script> -->
+<script type="text/javascript">
+	var is_delivery='{$goods.is_delivery}';
+	var have_consignee='{$have_consignee}';
+</script>
+<div class="info_box">
+	<h3 class="info_title">商品信息</h3>
+	<ul class="info_box_con">
+    	<li class="border_bn webkit-box">
+		  	<span>商品名称：</span>
+            <span class="webkit-box-flex">{$goods.name}</span>
+    	</li>
+		<li class="border_bn">
+		  	<span>所需积分：</span>
+            <span class="f_money webkit">{$total_score}</span>
+    	</li>
+		<li class="border_bn">
+		  	<span>兑换数量：</span>
+            <span class="webkit">{$number}</span>
+    	</li>
+    </ul>
+</div>
+<form name="score_order" action="{url_wap r="score_good_show#do_score_order"}" method="post">
+<div class="info_box">
+	<h3 class="info_title">收获地址</h3>
+	{if $consignee_list}
+	<ul class="info_box_con">
+        {foreach from=$consignee_list item=consignee key=k}
+    	<li class="border_b">
+		  	<label class="Address webkit-box">
+                <address class="webkit-box-flex mr10">
+                    {$consignee.province}&nbsp;{$consignee.city}&nbsp;{$consignee.address}&nbsp;{$consignee.zip}&nbsp;{$consignee.consignee}&nbsp;{$consignee.mobile}   
+                </address>
+                <input type="radio" name="consignee_id" {if $consignee.is_default}checked="checked"{else}{if $k eq 0}checked="checked"{/if}{/if} value="{$consignee.id}" class="mt" />
+            </label>
+    	</li>
+		{/foreach}
+		<li class="border_b">
+		  	<label class="Address webkit-box">
+                <address class="webkit-box-flex mr10">
+                   	其它   
+                </address>
+                <input type="radio" name="consignee_id"  value="0" class="mt">
+            </label>
+    	</li>
+    </ul>
+	{/if}
+	<div class="ul_block" id="address_box">
+        <ul>
+            <li class="webkit-box">
+                <label class="input_lable">收货人</label>
+                <input type="text" placeholder="请输入收货人姓名" name="delivery_name" value="" class="textbox webkit-box-flex">
+            </li>
+            <li class="webkit-box">
+                 <label class="input_lable mr10">地区</label>
+                 <div class="list_con webkit-box-flex">
+                    <div class="select_mod"> 
+                        <select name="province" id="province" class="f_select">               
+                            <option value="" rel="0">请选择省份</option>          
+                            {foreach from=$region_lv2 item=region}
+                            <option value="{$region.name}" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+                            {/foreach}
+                        </select>
+                    </div>
+                    <div class="select_mod"> 
+                        <select name="city" id="city" class="f_select">             
+                            <option value="" rel="0">请选择城市</option>
+                            {foreach from=$region_lv3 item=region}
+                            <option value="{$region.name}" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+                            {/foreach}
+                        </select>
+                    </div>
+                </div>
+            </li>
+            <li class="textarea webkit-box">
+                <label class="input_lable">详细地址</label>
+                <textarea placeholder="请输入详细地址" rows="1" cols="40" style="min-height:50px;height:50px;overflow:scroll;overflow-y:auto;;overflow-x:hidden" onfocus="window.activeobj=this;this.clock=setInterval(function(){activeobj.style.height=activeobj.scrollHeight+'px';},200);" onblur="clearInterval(this.clock);" name="delivery_addr" class="ml10 webkit-box-flex"></textarea>
+            </li>
+            <li class="webkit-box">
+                <label class="input_lable">邮编</label>
+                <input type="text" placeholder="请输入邮编" name="delivery_zip" value="" class="textbox">
+            </li>
+            <li class="webkit-box">
+                <label class="input_lable">手机号</label>
+                <input type="text" placeholder="请输入手机号" name="delivery_tel" value="" class="textbox">
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="info_box">
+	<h3 class="info_title">配送时间</h3>
+	<ul class="info_box_con">
+    	<li class="">
+		  	<label class="Address webkit-box">
+                <span class="webkit-box-flex mr10">仅工作日送货</span>
+                <input type="radio" name="delivery_time" checked="checked" value="1" class="mt">
+            </label>
+    	</li>
+		<li class="">
+		  	<label class="Address webkit-box">
+                <span class="webkit-box-flex mr10">仅周末送货</span>
+                <input type="radio" name="delivery_time" checked="checked" value="2" class="mt">
+            </label>
+    	</li>
+		<li class="">
+		  	<label class="Address webkit-box">
+                <span class="webkit-box-flex mr10">任何时间均可</span>
+                <input type="radio" name="delivery_time" checked="checked" value="3" class="mt">
+            </label>
+    	</li>
+    </ul>
+</div>
+<div class="blank10"></div>
+<div class="info_box">
+	<div class="ul_block">
+		<ul>
+			<li class="webkit-box" style="height:initial;padding:10px 0;">
+				<label class="input_lable">订单备注：</label>
+				<textarea name="memo" class="textareabox webkit-box-flex"></textarea>
+			</li>
+		</ul>
+	</div>
+	<div class="blank10"></div>
+	<div class="ul_block">
+		<ul>
+			<li class="webkit-box">
+				<label class="input_lable mr10">付款密码</label>
+				<input type="password" autocomplete="off" placeholder="请输入付款密码" class="textbox webkit-box-flex" value="" name="paypassword">
+				<span class="f12 f_999">&nbsp;&nbsp;忘记了？<a href="/zc/wap/index.php?ctl=settings&amp;act=security&amp;method=setting-pass-box" target="_blank" class="theme_fcolor">点这里</a></span>
+			</li>
+		</ul>
+	</div>
+	<div class="submit_btn_row mod_main">		 
+	  	<input class="ui-button theme_color" type="button" id="score_do_order" value="提交表单">
+        <input type="hidden" id="back_url" value="/zc/wap/index.php?ctl=account">
+		<input type="hidden" value="wap" name="from">
+        <input type="hidden" value="{$goods.id}" name="id">
+		<input type="hidden" value="{$number}" name="number">
+        <input type="hidden" value="1" name="ajax">
+	</div>
+</div>
+</form>
+<!-- score_check_order.js -->
+{include file="inc/footer.html"}

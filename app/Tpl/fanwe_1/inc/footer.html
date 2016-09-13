@@ -1,0 +1,279 @@
+
+<!--footer static-->
+<div class="footer" pbid="footer" id="J_footer">
+	{if $g_links}
+	<div class="footer-section footer-section-1">
+		<div class="footer-wrap">
+		 	{foreach from=$g_links item=links}
+			<div class="ft-links {if $links.type==1}ft-imglinks{/if}">
+				<div class="g_links {if $links.type==1}g_imglinks{/if}">
+					<h3 style="color:#C9C9C9;"><i></i>{$links.name}</h3>
+					<div class="g_links_text f_l">
+						{foreach from=$links.list item=g_links key=k name=g_linkss}
+							{if $links.type!=1}
+							{if $g_links.name}
+							<a href="{$g_links.url}" target="_blank">{$g_links.name}</a>
+							{/if}
+							{else}
+							{if $g_links.img}
+							<a href="{$g_links.url}" target="_blank" {if $smarty.foreach.g_linkss.iteration mod 7 eq 0}class="last"{/if}><img src="{$g_links.img}" alt="{$g_links.name}" width=160 height=74></a>
+ 							{/if}
+							{/if}
+						{/foreach}  
+					</div>		
+				</div>
+			</div>
+			<div class="blank0"></div>
+			{/foreach}
+		</div>
+	</div>
+	<div class="blank"></div>
+	{/if}
+	<div class="footer-section footer-section-2">
+		<div class="footer-wrap">
+			<!--footer map start-->
+			<div class="foot-map">
+				{foreach from=$help_cates item=help_item name="help_items"}
+					{if $smarty.foreach.help_items.index lt 6}
+						<dl {if $smarty.foreach.help_items.last}class="last"{/if}>
+							<dt>{$help_item.title}</dt>
+							{foreach from=$help_item.article item=article_list}
+							<dd><a href="{$article_list.url}" >{$article_list.title}</a></dd>
+							{/foreach}
+						</dl>
+					{/if}
+				{/foreach}
+			</div>
+			<!--foot map end-->
+			<div class="foot-contact">
+				<h3>在线客服</h3>
+				<div class="text">
+					<div class="text_show">
+						<div class="iphone">{function name="app_conf" v="KF_PHONE"}</div>
+						<div>{function name="app_conf" v="WORK_TIME"}</div>
+					</div>
+					<i></i>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="blank"></div>
+	<div class="footer-section">
+		<div class="footer-wrap">
+			<div class="blank0"></div>
+			<div class="copy_text">
+				<div class="">
+				{foreach from=$helps item=help name=helpss}
+					<a href="{$help.url}" title="{$help.title}">{$help.title}</a>{if !$smarty.foreach.helpss.last}<span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>{/if}
+				{/foreach}
+				</div>
+				<div>{function name="app_conf" v="SITE_LICENSE"}&nbsp;{function name="app_conf" v="STATE_CDOE"}</div>
+				<div>{function name="app_conf" v="NETWORK_FOR_RECORD"}</div>
+			</div>	
+		</div>
+	</div>
+</div>
+<div></div>
+<div class="sidebar" id="sidebar">
+	<ul>
+		{if app_conf('QR_CODE')||$app.web_url }
+		<li class="ewm_box">
+			<a href="javascript:void(0);" class="ui-sidebar-block app">
+				<div class="sidebox_ewm_hide">
+					<img src="{if app_conf('QR_CODE')}{function name="app_conf" v="QR_CODE"}{else}{$app.web_url}{/if}" width=110 height=110>
+				</div>
+			</a>
+		</li>
+		{/if}
+		{if app_conf('KF_QQ')}
+		<li>
+			<a href="http://wpa.qq.com/msgrd?v=3&uin={function name="app_conf" v="KF_QQ"}&site=qq&menu=yes" target="_blank" class="ui-sidebar-block service"></a>
+		</li>
+		{/if}
+		{if app_conf('KF_PHONE')}
+		<li>
+			<a href="javascript:void(0);">
+				<div class="sidebox"><img src="{$TMPL}/images/sidebar_img/phone.png">{function name="app_conf" v="KF_PHONE"}</div>
+			</a>
+		</li>
+		{/if}
+		<li class="link_box" id="link_box">
+			<a href="javascript:void(0);" class="ui-sidebar-block feedback">
+				<div class="sidebox_link_hide muxfb_global_tip" id="sidebox_link_hide">
+					您可以通过点击&nbsp;&nbsp;<i class="icon iconfont">&#xe603;</i>
+					<div class="blank10"></div>
+					<div style="lh20">对我们产品的体验、功能、系统错误等提出反馈，以帮助 我们改善产品体验，为您提供更好的服务！</div>
+				</div>
+			</a>
+		</li>
+		{if $vote_url}
+		<li>
+			<a href="{$vote_url}" class="ui-sidebar-block survey" target="_blank"></a>
+		</li>
+		{/if}
+		<li>
+			<a href="javascript:goTop();" class="ui-sidebar-block backtop"></a>
+		</li>
+	</ul>
+</div>
+<div class="muxfb_dialog" id="muxfb_dialog">
+	<div class="muxfb_dialog_panel">
+		<i class="muxfb_dialog_close icon iconfont" id="muxfb_dialog_close">&#xe604;</i>
+		<div class="muxfb_dialog_content">
+			<div class="muxfb_left_tab_wrap">
+                <div class="muxfb_left_logo">
+                    <i class="muxfb_left_logo icon iconfont">&#xe605;</i>
+                    <span class="title">用户反馈留言</span>
+                </div>
+            </div>
+			<form class="user_message_ajax" name="user_message_ajax"  action="{url r="user_message#save_info"}">
+            <div class="muxfb_right_content muxfb_form" id="muxfb_form">
+            	<h1 class="muxfb_form_title">用户反馈收集</h1>
+            	<div class="form_row control-group">
+					<label class="form_lable" style="height:37px;line-height:37px">您要反馈的问题类型:</label>
+					<select name="cate_id" class="ui-select field_select small">
+						{foreach from=$message_cate item=cate}
+	              		<option value="{$cate.id}" selected="selected">{$cate.cate_name}</option>
+	              		{/foreach}
+					</select>
+					<div class="blank0"></div>
+				</div>
+            	<div class="form_row control-group">
+					<label class="form_lable small_form_lable">您的姓名:</label>
+					<div class="pr f_l">
+						<input type="text" name="user_name" id="user_name" value="{$user_info.user_name}" class="small_textbox" />
+						<span class="holder_tip">请输入您的姓名</span>
+					</div>
+					<div class="blank0"></div>
+					<div class="muxfb_tip user_name_tip  f_red">*姓名不能为空！</div>
+					<div class="blank0"></div>
+				</div>
+				<div class="form_row control-group">
+					<label class="form_lable small_form_lable">您的手机:</label>
+					<div class="pr f_l">
+						<input type="text" name="tel" id="tel" value="{$user_info.mobile}" class="small_textbox" />
+						<span class="holder_tip">请输入您的手机号</span>
+					</div>
+					<div class="blank0"></div>
+					<div class="muxfb_tip tel_tip f_red">*手机号不能为空！</div>
+					<div class="blank0"></div>
+				</div>
+				<div class="blank0"></div>
+				<div>请您输入需要反馈的信息:</div>
+				<textarea placeholder="您的反馈对我们很重要" name="content" class="textareabox"></textarea>
+				<span class="muxfb_tip content_tip f_red">*请输入您的内容</span>
+				<div class="blank20"></div>
+				<input type="button" value="提交" class="ui-button theme_bgcolor" />
+				<input type="hidden" name="user_id" value="{$user_info.id}">
+				<input type="hidden" name="ajax" value="1">
+            </div>
+		</form>	
+		</div>
+		<div class="blank0"></div>
+	</div>
+	<div class="muxfb_dialog_mask"></div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		resetWindowBox();
+		sidebarFun();
+		bind_ajax_form_custom_footer(".user_message_ajax");
+		
+	});
+
+	// 悬浮客服
+	function sidebarFun(){
+		$("#sidebar ul li").hover(function(){
+			$(this).find(".sidebox").stop().animate({"width":"150px"},200).css("background","#a5a5a5")
+		},function(){
+			$(this).find(".sidebox").stop().animate({"width":"40px"},200).css("background","#939393")	
+		});
+		var lastRmenuStatus=false;
+		$(window).scroll(function(){
+			var _top=$(window).scrollTop();
+			if(_top>300){
+				$("#sidebar").data("expanded",true);
+			}else{
+				$("#sidebar").data("expanded",false);
+			}
+			if($("#sidebar").data("expanded")!=lastRmenuStatus){
+				lastRmenuStatus=$("#sidebar").data("expanded");
+				if(lastRmenuStatus){
+					$("#sidebar .backtop").animate({"height":"40px"},200);
+				}else{
+					$("#sidebar .backtop").animate({"height":"0"},200);
+				}
+			}
+		});
+		// 用户留言
+		var $muxfb_dialog=$("#muxfb_dialog");
+		var $muxfb_dialog_panel=$muxfb_dialog.find(".muxfb_dialog_panel");
+		$muxfb_dialog.find("#muxfb_dialog_close").on('click',function(){
+			$muxfb_dialog.fadeOut(300);
+			$muxfb_dialog_panel.animate({'right':'-532px'},100);
+		});
+		$("#link_box").on('click',function(){
+			$muxfb_dialog.fadeIn(300);
+			$muxfb_dialog_panel.animate({'right':0},100);
+		});
+	}
+
+	//回到顶部
+	function goTop(){
+		$('html,body').animate({'scrollTop':0},100);
+	}
+	function bind_ajax_form_custom_footer(str)
+	{
+		$(str).find(".ui-button").bind("click",function(){
+			var $muxfb_form=$("#muxfb_form");
+			var $muxfb_form_user_name=$("#muxfb_form").find("input[name='user_name']");
+			var $muxfb_form_tel=$("#muxfb_form").find("input[name='tel']");
+			var $muxfb_form_content=$("#muxfb_form").find("textarea[name='content']");
+			$muxfb_form.find(".muxfb_tip").hide();
+			if($.trim($muxfb_form_user_name.val())==''){
+				$muxfb_form.find(".user_name_tip").show();
+				$muxfb_form_user_name.focus();
+				return false;
+			}
+			if($.trim($muxfb_form_tel.val())==''){
+				$muxfb_form.find(".tel_tip").show();
+				$muxfb_form_tel.focus();
+				return false;
+			}
+			if($.trim($muxfb_form_content.val())==''){
+				$muxfb_form.find(".content_tip").show();
+				$muxfb_form_content.focus();
+				return false;
+			}
+			$(str).submit();
+		});
+		$(str).bind("submit",function(){
+			var ajaxurl = $(this).attr("action");
+			var query = $(this).serialize() ;
+			$.ajax({ 
+				url: ajaxurl,
+				dataType: "json",
+				data:query,
+				type: "POST",
+				success: function(ajaxobj){
+					if(ajaxobj.status==1)
+					{
+						location.href = ajaxobj.jump;
+					}
+					else
+					{ 
+						$("."+ajaxobj.info+"_tip").show();		
+					}
+				},
+				error:function(ajaxobj)
+				{
+					if(ajaxobj.responseText!='')
+					alert(ajaxobj.responseText);
+				}
+			});
+			return false;
+		});
+	}
+</script>
+</body>
+</html>

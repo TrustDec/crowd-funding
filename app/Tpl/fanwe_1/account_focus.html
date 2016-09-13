@@ -1,0 +1,84 @@
+{include file="inc/header.html"} 
+{include file="inc/home_user_info.html"}
+<!--中间开始-->
+<div class="dlmain Myhomepage">
+ 	{include file="inc/account_left.html"} 
+	<div class="homeright pageright f_r">
+		{include file="inc/account_focus_top.html"}
+		<div class="list_conment">
+			{if $deal_list}
+			<div class="i_deal_list clearfix">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc_table">
+					<thead>
+						<tr>
+							<th>项目名称</th>
+							<th width="100">
+								获得支持
+							</th>
+							<th width="100">
+								支持人数
+							</th>
+							<th width="100">
+								达成目标
+							</th>
+							<th width="100">
+								剩余时间
+							</th>
+							<th width="70">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{foreach from=$deal_list item=deal_item}
+						<tr>
+							<td class="lf">
+				             	<a href="{if $deal_item.type eq 4}{url r="finance#company_finance" p="id=$deal_item.id"}{else}{url r="deal#show" p="id=$deal_item.id"}{/if}" target="_blank" title="{$deal_item.name}">
+				             		<img src="{function name="get_spec_image" v=$deal_item.image w=50 h=50 g=1}"  alt="{$order_item.deal_name}" class="f_l p_img"/>
+				             		<span class="p_name">{$deal_item.name}</span>
+				             	</a>
+							</td>
+							<td>
+							{if $deal_item.type eq 1}
+								<span class="f_money b">{function name="format_price" v=$deal_item.invote_money}</span>
+							{else}
+								<span class="f_money b">{function name="format_price" v=$deal_item.support_amount}</span>
+							{/if}
+							</td>
+							<td>
+								{if $deal_item.type eq 1}
+									{$deal_item.invote_num}
+								{else}
+									{$deal_item.support_count}
+								{/if}	
+							</td>
+							<td>			
+								{$deal_item.percent}%
+							</td>
+							<td>		
+								{if $deal_item.begin_time > $now}预热中{/if}
+								{if $deal_item.end_time < $now and $deal_item.end_time neq 0}已结束{/if}
+								{if $deal_item.begin_time < $now and ($deal_item.end_time > $now or $deal_item.end_time eq 0)}
+								{$deal_item.remain_days}天
+								{/if}						
+							</td>
+							<td>
+								<a href="{url r="account#del_focus" p="id=$deal_item.fid"}">取消关注</a>
+							</td>
+						</tr>
+						{/foreach}
+					</tbody>
+				</table>
+			</div>
+			<div class="blank20"></div>
+			<div class="pages">{$pages}</div>
+			<div class="blank20"></div>
+			{else}
+			<div class="empty_tip">
+				没有相关的记录
+			</div>
+			{/if}
+		</div>
+	</div>
+ 	<div class="blank"></div>	
+</div>
+<!--中间结束-->
+{include file="inc/footer.html"} 

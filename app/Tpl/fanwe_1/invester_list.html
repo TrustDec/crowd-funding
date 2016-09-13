@@ -1,0 +1,313 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/invester_list.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<style type="text/css">
+	.ui-small-button{
+		height:30px;
+		line-height:30px;
+		padding:0 20px;
+	}
+</style>
+<div class="xqmain">
+	<adv adv_id="invester_list_top" />
+	<div class="blank20"></div>
+	<div class="invester_all">
+		<!-- 检索条件 开始 -->
+		<div class="ui_deals_filter">
+			<div class="ui_deals_filter_item">
+				<div class="filter_item">
+					<label class="f_l">投资类型：</label>
+					<div class="filter_text f_l">
+						<ul>
+							<li {if $p_r eq 'all'}class="current"{/if}>
+								<a href="{url r="investor#invester_list" p="loc=$p_loc"}">全部</a>
+							</li>
+							<li {if $p_r eq 'institutions_invester'}class="current"{/if}>
+								<a href="{url r="investor#invester_list" p="r=institutions_invester&loc=$p_loc"}" value="1">机构投资人</a>
+							</li>
+							<li {if $p_r eq 'invester'}class="current"{/if}>
+								<a href="{url r="investor#invester_list" p="r=invester&loc=$p_loc"}" value="2">投资人</a>
+							</li>
+							{if app_conf('AVERAGE_USER_STATUS') eq 1 || INVEST_TYPE==1}
+							<li {if $p_r eq 'ordinary_user'}class="current"{/if}>
+								<a href="{url r="investor#invester_list" p="r=ordinary_user&loc=$p_loc"}" value="0">普通用户</a>
+							</li>
+							{/if}
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="ui_deals_filter_item last_item">
+				<div class="filter_item" id="deals_area">
+					<label class="f_l">所在地区：</label>
+					<div class="filter_text f_l">
+						<ul>
+							<li {if $p_loc eq ''}class="current"{/if}>
+								<a href="{url r="investor#invester_list" p="r=$p_r"}" value="">全部</a>
+							</li>
+							{foreach from=$city_list item=city_item}
+							{if $city_item.province neq ''}
+							<li {if $p_loc eq $city_item.province}class="current"{/if}>
+								<a href="{$city_item.url}" target="_self" value="">{$city_item.province}</a>
+							</li>
+							{/if}
+							{/foreach}
+						</ul>
+					</div>
+					<a href="javascript:void(0);" onclick="javascript:show_pop_region();" class="more_city"><i class="icon iconfont">&#xe619;</i>选择更多城市</a>
+				</div>
+			</div>
+			<div class="blank0"></div>
+		</div>
+		<!-- 检索条件 结束 -->
+		<div class="blank20"></div>
+		<div class="xqmain_left">
+			<!-- 投资人列表 开始 -->
+			<div class="invester_all_list overflow_hide">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="invester_table">
+					<thead>
+						<tr>
+							<th style="padding-left:20px;text-align:left">投资人</th>
+							<th>投资领域</th>
+							<th>参与项目</th>
+							<th>自荐项目</th>
+						</tr>
+					</thead>
+					<tbody>
+						{foreach from=$invester_list item=invester_item}
+						<tr>
+							<td class="user_img_box">
+								<div class="user_img f_l">
+									<a href="{url r="home" p="id=$invester_item.id"}">
+										<img src="{$invester_item.image}" lazy="true" />
+									</a>
+								</div>
+								<div class="user_text f_l">
+									<div class="user_text_1">
+										<a href="{url r="home" p="id=$invester_item.id"}" class="inline_user_name user_name">
+											<span class="theme_fcolor b">{$invester_item.user_name}</span>
+										</a>
+										{if $invester_item.user_icon}
+						                <img src="{$invester_item.user_icon}" title="会员等级" class="inline_level_icon level_icon" />
+										{/if}
+										<i class="{if $invester_item.is_investor gt 0}inline_investor_type investor_type {/if}{if $invester_item.is_investor==1}personal_icon{/if}{if $invester_item.is_investor==2}agency_icon{/if}" title="{if $invester_item.is_investor==1}个人投资者{/if}{if $invester_item.is_investor==2}机构投资者{/if}"></i>
+										<a href="javascript:void(0)" onclick="send_message({$invester_item.id})" class="inline_btn_send_message btn_send_message theme_fcolor">+发私信</a>
+										<div class="blank0"></div>
+									</div>
+									<div class="user_text_2 brief">
+										{if $invester_item.is_investor eq 0 or $invester_item.is_investor eq 1 }
+										<span>个人</span>
+										{else}
+										<span>
+											{if $invester_item.identify_business_name neq ''}
+											{$invester_item.identify_business_name}
+											{else}
+											投资机构
+											{/if}
+										</span>
+										{/if}
+										
+									</div>
+									<div class="user_text_3 seat">{if $invester_item.province}<i class="icon iconfont">&#xe619;</i>{$invester_item.province}&nbsp;{$invester_item.city}&nbsp;&nbsp;|&nbsp;&nbsp;{/if}<a href="javascript:void(0)" onclick="invester_look({$invester_item.id},this)" id="detailed_information">详细</a></span>
+									<script type="text/javascript">
+										function invester_look(id,obj){			
+											var ajaxurl = APP_ROOT+"/index.php?ctl=ajax&act=investor_detailed_information&id="+id;
+											$.ajax({
+												url: ajaxurl,
+												dataType: "json",
+												type: "POST",
+												success:function(data){
+													if(data.status == 1){
+														$.weeboxs.open(data.html, {boxid:'append_money',contentType:'text',showButton:false, showCancel:false, showOk:false,title:data.user_name+'详细资料',width:480,type:'wee'});
+													}
+												}
+											});
+										}		
+									</script>
+									</div>
+								</div>
+							</td>
+							<td>
+								{if $invester_item.cate_name}
+								{foreach from=$invester_item.cate_name item=cate_item}
+								<div>{$cate_item}</div>
+								{/foreach}
+								{else}
+								<div>暂无</div>
+								{/if}
+							</td>
+							<td>
+								<div>发起：{$invester_item.build_count}个</div>
+								<div>支持：{$invester_item.support_count}个</div>
+							</td>
+							<td>
+				            	<a href="javascript:void(0)" rel="{$invester_item.id}" name="recommend_project" class="btn_recommend_project {if $invester_item.id eq $user_info.id}btn_unrecommend_project{/if} b_radius">自荐我的项目</a>
+							</td>
+						</tr>
+						{/foreach}
+					</tbody>
+				</table>
+				<div class="blank0"></div>
+			</div>
+			<div class="blank20"></div>
+			<div class="pages">{$pages}</div>
+			<div class="blank20"></div>
+			<!-- 投资人列表 结束 -->
+		</div>
+		<div class="xqmain_right">
+			<!-- 融资成功 开始 -->
+			<div class="success_item_box mb20">
+				<h3>融资成功的项目</h3>
+				<div class="text">
+					{foreach from=$deal_success_list item=deal_success_item name=deal_success_items}
+					{if $smarty.foreach.deal_success_items.iteration lte 4}
+					<a href="{url r="deal#show" p="id=$deal_success_item.id"}" title="{$deal_success_item.name}" target="_blank" class="success_item b_radius">
+						<img src="{$deal_success_item.image}" width="64" height="64" />
+					</a>
+					{/if}
+					{/foreach}
+				</div>
+			</div>
+			<!-- 融资成功 结束 -->
+			<!-- 星级投资人 开始 -->
+			<div class="success_item_box">
+				<h3><i class="stars_investor"></i>星级投资人</h3>
+				<div class="text invester_table">
+					{foreach from=$stars_invester_list item=stars_invester_item name=stars_invester_items}
+					{if $smarty.foreach.stars_invester_items.index lt 1}
+						<div class="user_img f_l">
+							<a href="{url r="home" p="id=$stars_invester_item.id"}">
+			            		<img src="{$stars_invester_item.image}" />
+					        </a>
+						</div>
+						<div class="user_text f_l">
+							<div class="user_text_1">
+								<a href="{url r="home" p="id=$stars_invester_item.id"}" class="inline_user_name user_name">
+									<span class="theme_fcolor b">{function name="msubstr" v=$stars_invester_item.user_name b=0 e=5}</span>
+								</a>
+								{if $stars_invester_item.user_icon}
+				                <img src="{$stars_invester_item.user_icon}" title="会员等级" class="inline_level_icon level_icon" />
+								{/if}
+								<i class="inline_investor_type investor_type {if $stars_invester_item.is_investor==0 || $stars_invester_item.is_investor==1}personal_icon{else}agency_icon{/if}" title="{if $stars_invester_item.is_investor==0 || $stars_invester_item.is_investor==1}个人投资者{else}机构投资者{/if}"></i>
+								<a href="javascript:void(0)" onclick="send_message({$stars_invester_item.id})" class="inline_btn_send_message btn_send_message theme_fcolor">+发私信</a>
+								<div class="blank0"></div>
+							</div>
+							<div class="user_text_2 brief">
+								{if $stars_invester_item.cate_name}
+								{foreach from=$stars_invester_item.cate_name item=cate_item}
+								<span>{$cate_item}</span>
+								{/foreach}
+								{else}
+								<span>暂无</span>
+								{/if}
+							</div>
+							<div class="user_text_3 seat f_l">
+								<i class="icon iconfont">&#xe619;</i>{$stars_invester_item.province}&nbsp;{$stars_invester_item.city}
+							</div>
+							<a href="javascript:void(0)" rel="95" name="recommend_project" class="btn_recommend_project  b_radius">自荐项目</a>
+						</div>
+					{/if}
+					{/foreach}
+				</div>
+			</div>
+			<!-- 星级投资人 结束 -->
+			<div class="blank20"></div>
+			<!-- 最新投资人 开始 -->
+			<div class="success_item_box new_investor_box">
+				<h3>最新投资人</h3>
+				<div class="text invester_table">
+					<ul>
+						{foreach from=$new_invester item=new_invester_item name=invester_item}
+						{if $smarty.foreach.invester_item.index lt 5}
+						<li>
+							<div class="user_img f_l">
+								<a href="{url r="home" p="id=$new_invester_item.id"}">
+									<img src="{$new_invester_item.image}" lazy="true" />
+								</a>
+							</div>
+							<div class="user_text f_l">
+								<div class="user_text_1">
+									<a href="{url r="home" p="id=$new_invester_item.id"}" class="user_name">
+										<span class="theme_fcolor b">{$new_invester_item.user_name}</span>
+									</a>
+									{if $new_invester_item.user_icon}
+					                <img src="{$new_invester_item.user_icon}" title="会员等级" class="level_icon" />
+									{/if}
+									<i class="inline_investor_type investor_type {if $new_invester_item.is_investor==0 || $new_invester_item.is_investor==1}personal_icon{else}agency_icon{/if}" title="{if $new_invester_item.is_investor==0 || $new_invester_item.is_investor==1}个人投资者{else}机构投资者{/if}"></i>
+									<div class="blank0"></div>
+								</div>
+								<div class="user_text_2 brief f_l">
+								{if $new_invester_item.cate_name}
+									{foreach from=$new_invester_item.cate_name item=cate_item}
+									<span>{$cate_item}</span>
+									{/foreach}
+									{else}
+									<span>暂无</span>
+								{/if}
+								</div>
+								<a href="javascript:void(0)" rel="95" name="recommend_project" class="btn_recommend_project  b_radius">自荐项目</a>
+							</div>
+							{if !$smarty.foreach.invester_item.last}
+							<div class="blank5"></div>
+							<div class="line"></div>
+							{/if}
+						</li>
+						{/if}
+						{/foreach}
+					</ul>
+				</div>
+			</div>
+			<!-- 最新投资人 结束 -->
+		</div>
+		<div class="blank0"></div>
+	</div>
+	<div class="blank20"></div>
+	<adv adv_id="invester_list_bottom" />
+</div>
+<script type="text/javascript">
+$(function(){
+	var $deals_area=$("#deals_area");
+	if($deals_area.find("li").length>=17){
+		$(this).find(".more_city").show();
+	}
+	ajax_get_recommend_project();
+});
+//获取会员所有项目列表
+function ajax_get_recommend_project(){
+	$("a[name='recommend_project']").bind("click",function(){
+		if($(this).attr("rel")=='{$user_info.id}'){
+			$.showErr("不能给自己推荐！");
+			return false;
+		}
+		var ajaxurl ='{url r="ajax#ajax_get_recommend_project"}';
+		var query=new Object();
+		//推荐人id
+		query.id='{$user_info.id}';
+		//被推荐人id
+		query.user_id=$(this).attr("rel");
+		$.ajax({
+			url: ajaxurl,
+			dataType: "json",
+			data:query,
+			type: "POST",
+			success:function(ajaxobj){
+				if(ajaxobj.status==0){
+					show_pop_login();
+					return false;
+				}
+				if(ajaxobj.status==1){
+					$.showErr(ajaxobj.info);
+					return false;
+				}
+				if(ajaxobj.status==2){
+					$.weeboxs.open(ajaxobj.html, {boxid:'project_recommend_page',contentType:'text',showButton:false, showCancel:false, showOk:false,title:'我的项目',width:480,type:'wee'});
+					return false;
+				}
+			}
+		});
+	});
+}
+</script>
+{include file="inc/footer.html"}

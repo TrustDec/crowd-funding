@@ -1,0 +1,71 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<PHP>
+	function get_refund_user_name($uid)
+	{
+		return M("commit_log")->where("shop_id=".$uid)->getField("user_name");
+	}
+</PHP>
+<include file="Public:header" />
+<load href='__TMPL__Common/js/jquery.bgiframe.js' />
+<load href='__TMPL__Common/js/jquery.weebox.js' />
+
+<load href='__TMPL__Common/style/weebox.css' />
+<div class="main">
+<div class="main_title">转账记录</div>
+<div class="blank5"></div>
+<div class="button_row">
+	<input type="button" class="button" value="删除" onclick="del();" />
+</div>
+<div class="blank5"></div>
+<div class="search_row">
+	<form name="search" action="__APP__" method="get">	
+		交易ID: <input type="text" class="textbox" name="shop_id" value="{:trim($_REQUEST['shop_id'])}" style="width:100px;" />	
+		<input type="hidden" value="PaymentNotice" name="m" />
+		<input type="hidden" value="index" name="a" />
+		<input type="submit" class="button" value="{%SEARCH}" />
+	</form>
+</div>
+<div class="blank5"></div>
+<html:list
+	id="dataTable" 
+	style="dataTable" 
+	name="list1" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{%ID}|50px
+    	,shop_id|shopId:交易ID
+        ,remark|get_refund_user_name:交易单号
+		,one_money_hand|getMoney:转账金额
+		,one_uname|nameOne:转账人
+        ,two_uname|nameTwo:收款人
+		,one_time|timeOne:转账时间
+		,remark|get_title:转账人备注"
+	actionlist="del:删除,id|get_confirm=$deal" /> 
+    
+        <!--<foreach name="list" item="vo" key="k" >
+     
+    
+    <html:list
+	id="dataTable" 
+	style="dataTable" 
+	name="deal" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{%ID}|50px
+    	,shop_id|shopId:交易ID
+        ,remark|get_refund_user_name:交易单号
+		,one_money_hand|getMoney:转账金额
+		,one_uname|nameOne:转账人
+        ,two_uname|nameTwo:收款人
+		,one_time|timeOne:转账时间
+		,remark|get_title:转账人备注"
+	actionlist="del:删除,id|get_confirm=$deal" /> 
+    </foreach>-->
+<!--,pay_time|to_date:确认转账时间-->
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

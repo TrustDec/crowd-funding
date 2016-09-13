@@ -1,0 +1,63 @@
+<tagLib name="html" />
+<include file="Public:wx_header" />
+<include file="Public:weixin_script" />
+
+<div class="container-f">
+	<div class="box-title clearfix">
+		<div class="f_l">
+			<h3>
+				<i class="fa fa-table"></i>
+				{$box_title}
+			</h3>
+		</div>
+	</div>
+	
+	<div class="box-content clearfix">
+		<div class="row cf clearfix">
+            <div class="control-group f_l ">
+                <div class="f_l">
+                    <a class="btn cf" href="{:u("WeixinUser/groups_add")}"><i class="fa fa-plus"></i><span>新增</span></a>
+                    <a class="btn cf" href="{:u("WeixinUser/groups_synch")}"><i class="fa fa-refresh"></i><span>同步</span></a>
+                    &nbsp;
+                    <a class="btn cf" href="javascript:location.reload()"><i class="fa fa-refresh"></i>
+                <span>刷新</span></a>
+                </div>
+            </div>
+            
+        </div>
+		<div class="row clearfix">
+                 <table id="listTable" class="table-hover dataTable" >
+                    <thead>
+                        <tr>
+                            <th>编号</th>
+                            <th>平台编号</th>
+                            <th>名称</th>
+                            <th>粉丝量</th>
+                            <th>简介</th>
+                            <th class="norightborder">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                         <foreach name="groups" item="item">
+ 						<tr>
+                            <td>{$item.id}</td>
+                            <td>{$item.groupid}</td>
+                            <td>{$item.name}</td>
+                            <td>{$item.fanscount}</td>
+                            <td>{$item.intro}</td>
+                            <td>
+                                 <a  href="{:u("WeixinUser/groups_editor",array('id'=>$item['id']))}" class="btn" rel="tooltip"title="修改">
+                                        <i class="fa fa-edit"></i>
+                                       	 修改
+                                </a>
+                            </td>
+                        </tr>
+						</foreach>
+                    </tbody>
+                </table>
+ 			<div class="pages clearfix"><include file="Public/pager" /></div>
+		</div>
+	</div>
+</div>
+
+<include file="Public:footer" />

@@ -1,0 +1,82 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/score.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<div class="dlmain Myhomepage">
+	<div class="list_conment">
+		<ul class="order_list">
+			{foreach from=$order_list item=order}
+			<li class="li_mini">
+				<div class="order_detail_t clearfix">
+				    <div class="goods_info_id clearfix">
+				    	<span class="f_l">订单号：{$order.order_sn}</span>
+						{if $order.order_status eq 0}
+				    	<a class="del_order btn_del_order f_r" href="#" rel="{$order.id}">取消订单</a>
+						{else}
+						<span class="f_r f_red">{$order.delivery_status_info}</span>
+						{/if}
+				    	<div class="blank0"></div>
+				    	<p>订单状态：{$order.order_status_info}</p>
+				    </div>
+				    <div class="goods_info_t webkit-box">
+				        <div class="goods_info_t_Point">
+				            <img src="{if $order.img eq ''}{$TMPL}/images/empty_thumb.gif{else}{function name="get_spec_image" v=$order.img w="50" h="50" g="1"}{/if}">
+				        </div>
+						<div class="goods_info_r webkit-box-flex">
+							<span>{$order.goods_name}</span>
+						</div>
+						<div class="tr">
+							<div class="f_666">{$order.total_score}积分</div>
+							<div class="f_999">×{$order.number}</div>
+						</div>
+				    </div>
+				    <div class="goods_info_num tr clearfix webkit-box">
+				    	<div class="tl webkit-box-flex">
+				    		<span>共{$order.number}件商品 合计:<span class="f_red">{$order.total_score}</span>积分</span>
+				    	</div>
+				    	<div class="tr webkit-box-flex">
+				    		<span>{function name="to_date" v=$order.ex_time}</span>
+				    	</div>
+				    </div>
+				    <div class="f_r Unfold Unfold_open">[&nbsp;展开&nbsp;]</div>
+				</div>
+				<div class="order_detail_t_other hide">
+					{if $order.is_delivery eq 1}
+					<div class="order_detail_t">
+						{if $order.delivery_status eq 1}
+					    <h3>收货信息</h3>
+					    <p>快递单号：{$order.delivery_sn}</p>
+						<p>快递公司：{$order.delivery_express}</p>
+					    <p>发货时间：{function name="to_date" v=$order.delivery_time}</p>
+					    <div class="blank10"></div>
+					 	{/if}
+					    <h3>收货信息</h3>
+					    <p>收货地址：{$order.delivery_province}{$order.delivery_city}{$order.delivery_addr}</p>
+					    <p>收货电话：{$order.delivery_tel}</p>
+					    <p>收货人：{$order.delivery_name}</p>
+					</div>
+					{/if}
+					{if $order.order_status eq 3}
+					<div class="order_detail_t">
+						<div class="order_h_t">退积分备注</div>
+				   		<div class="blank10"></div>
+				    	<span>备注：{$order.admin_memo}</span>
+					</div>
+					{/if}
+					<div class="order_detail_t">
+						<h3>订单备注</h3>
+				    	<p>备注：{$order.memo}</p>
+					</div>
+					<div class="f_r Unfold Unfold_close">[&nbsp;收起&nbsp;]</div>
+				</div>
+			</li>
+			{/foreach}
+		</ul>
+		<div class="pages">{$pages}</div>
+		<div class="blank20"></div>
+	</div>
+	<div class="blank0"></div>
+</div>
+<!-- score_goods_order.js -->
+{include file="inc/footer.html"}

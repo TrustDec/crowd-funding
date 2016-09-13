@@ -1,0 +1,93 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/score/score_mall_index.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/score/score_mall_index.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss" c="$dcpagecss"}" />
+<div id="J_wrap">
+	<div class="blank20"></div>
+	<div class="ui_deals_filter">
+		<div class="ui_deals_filter_item">
+			<div class="filter_item">
+				<label class="f_l">所有类别：</label>
+				<div class="filter_text f_l">
+					<ul>
+						{foreach from=$cate_list item=cate}
+						<li {if $cate_pid eq $cate.id }class="current"{/if}>
+							<a href="{$cate.url}" title="{$cate.name}">{$cate.name}</a>
+						</li>
+						{/foreach}
+					</ul>
+				</div>
+				<!--小分类-->
+				{if $cate_sublist}
+				<div class="blank0"></div>
+				<div class="ui_deals_filter_l child_cate">
+					<ul>
+						{foreach from=$cate_sublist item=child_cate_item}
+						<li {if $cates eq $child_cate_item.id}class="current"{/if} >
+							<a href="{$child_cate_item.url}" title="{$child_cate_item.name}">{$child_cate_item.name}</a>
+						</li>
+						{/foreach}
+					</ul>
+					<div class="blank0"></div>
+				</div>
+				<div class="blank5"></div>
+				{/if}
+				<!---->
+				
+			</div>
+		</div>
+		<div class="ui_deals_filter_item last_item">
+			<div class="filter_item">
+				<label class="f_l">积分范围：</label>
+				<div class="filter_text f_l">
+					<ul>
+						{foreach from=$integral_url item=integral}
+						<li {if $integral.integral eq $integral_str}class="current"{/if}>
+							<a href="{$integral.url}" title="{$integral.name}">{$integral.name}</a>
+						</li>
+						{/foreach}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="pin_box">
+		<div class="deals">
+			<div class="deals_sortbar">
+				<ul>
+					{foreach from=$sort_info item=sort}
+					<li {if $sort.sort eq $sort_str}class="cur"{/if}><a href="{$sort.url}">{$sort.name}</a></li>
+					{/foreach}
+				</ul>
+			</div>
+			<div class="deals_list">
+				<ul>
+					{foreach from=$goods_list item=goods key=key}
+					<li class="score_item {if $key%4 eq 0}first{/if}">
+						<a href="{$goods.url}" target="_blank" title="{$goods.name}" class="score_item_iwrap">
+							<div class="score_img">
+								<img src="{if $goods.img eq ''}{$TMPL}/images/empty_thumb.gif{else}{function name="get_spec_image" v=$goods.img w="270" h="203" g="1"}{/if}" alt="{$goods.name}" lazy="true" />
+							</div>
+							<div class="score_text">
+								<div class="score_title">{function name="msubstr" value=$goods.name a=0 b=16}</div>
+								<div class="score_price">
+									<div class="f_l">所需积分：<span class="f_money">{$goods.score}</span>积分</div>
+									<div class="f_r">购买人数：{$goods.total_buy}人</div>
+								</div>
+							</div>
+							<div class="ui_button theme_bgcolor">查看详情</div>
+						</a>
+					</li>
+					{/foreach}
+				</ul>
+			</div>
+			<div class="blank"></div>
+			<div class="pages">{$pages}</div>
+			<div class="blank20"></div>
+		</div>
+	</div>
+	<div class="blank20"></div>
+</div>
+{include file="inc/footer.html"}

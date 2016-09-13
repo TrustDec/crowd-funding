@@ -1,0 +1,140 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#typeSelect").bind("change",function(){
+	
+			$(".type").hide();
+			$(".type_" + $(this).val()).show();
+
+		});
+	
+	$("#pageSelect").bind("change",function(){
+		
+	 		if ($(this).val() == "top"){
+				$(".type_top").show();
+				type_val =$("#typeSelect").val();
+				 $(".type_" +type_val).show();
+				$("#data_label").html("文章ID号:");
+			}else{
+				 $(".type_top").hide();
+				 type_val =$("#typeSelect").val();
+				 $(".type_" +type_val).hide();
+				 $("#typeSelect_tr").hide();
+			}		
+					
+	});	
+	
+	$(".type").hide();
+	$(".type_" + $("#typeSelect").val()).show();
+	
+	if ($("#pageSelect").val() == "top"){
+		$(".type_top").show();
+		type_val =$("#typeSelect").val();
+		 $(".type_" +type_val).show();
+		$("#data_label").html("文章ID号:");
+	}else{
+		
+		$(".type_top").hide();
+		 type_val =$("#typeSelect").val();
+		 $(".type_" +type_val).hide();
+	}
+});
+
+</script>
+<div class="main">
+<div class="main_title">{%EDIT} <a href="{:u("MAdv/index")}" class="back_list">{%BACK_LIST}</a></div>
+<div class="blank5"></div>
+<form name="edit" action="__APP__" method="post" enctype="multipart/form-data">
+<table class="form" cellpadding=0 cellspacing=0>
+	<tr>
+		<td colspan=2 class="topTd"></td>
+	</tr>
+	<tr>
+		<td class="item_title">{%NAME}:</td>
+		<td class="item_input">
+			<input type="text" class="textbox require" name="name" value="{$vo.name}"  />
+		</td>
+	</tr>
+
+	<tr>
+		<td class="item_title">{%ADV_PAGE}:</td>
+		<td class="item_input">
+			<select name="page"  id='pageSelect'>
+				<option value="top" <if condition="$vo['page'] eq 'top'">selected="selected"</if>>首页广告</option>
+				<!--<option value="deal" <if condition="$vo['page'] eq 'deal'">selected="selected"</if>>首页借款单</option>-->
+				<option value="start" <if condition="$vo['page'] eq 'start'">selected="selected"</if>>启动页广告</option>
+ 			</select>
+		</td>
+	</tr>
+	
+	<tr class="type_top type_start">
+		<td class="item_title">{%ADV_IMAGE}:</td>
+		<td class="item_input">
+			<html:imgUpload name = 'img' id='img' value='$vo.img' />
+			<span class='tip_span'>推荐640*250图片</span>
+ 		</td>
+		
+	</tr>
+	
+	<tr class="type_top">
+		<td class="item_title">{%ADV_TYPE}:</td>
+		<td class="item_input">
+			<select name="type" id='typeSelect'>
+				<option value="1" <if condition="$vo['type'] eq 1">selected="selected"</if>>文章ID号</option>
+				<option value="2" <if condition="$vo['type'] eq 2">selected="selected"</if>>URL连接</option>
+			</select>
+		</td>
+	</tr>
+	
+	
+	<tr class="type_2 type" <if condition="$vo['type'] neq 2">style="display:none;"</if>>
+		<td class="item_title">{%URL}:</td>
+		<td class="item_input">
+			<input type="text" class="textbox " name="url" value="{$vo.data}" />
+			<span class='tip_span'>需要带：http:// 格式的url连接地址</span>
+		</td>
+	</tr>
+	
+	
+	<tr class="type_1 type" <if condition="$vo['type'] neq 1">style="display:none;"</if>>
+		<td id="data_label" class="item_title">数据ID:</td>
+		<td class="item_input">
+			<input type="text" class="textbox " name="data_id" value="{$vo.data}" />
+		</td>
+	</tr>
+	<tr class="type_2 type" <if condition="$vo['type'] neq 2">style="display:none;"</if>>
+		<td class="item_title">使用外置浏览器:</td>
+		<td class="item_input">
+			<select name="open_url_type">
+				<option value="0" <if condition="$vo['open_url_type'] eq 0">selected="selected"</if>>否</option>
+				<option value="1" <if condition="$vo['open_url_type'] eq 1">selected="selected"</if>>是</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">{%SORT}:</td>
+		<td class="item_input">
+			<input type="text" class="textbox " name="sort" value="{$vo.sort}"  />
+		</td>
+	</tr>	
+	<tr>
+		<td class="item_title"></td>
+		<td class="item_input">
+			<!--隐藏元素-->
+			<input type="hidden" value="{$vo.id}" name="id" />
+			<input type="hidden" name="{:conf("VAR_MODULE")}" value="MAdv" />
+			<input type="hidden" name="{:conf("VAR_ACTION")}" value="update" />
+			<!--隐藏元素-->
+			<input type="submit" class="button" value="{%EDIT}" />
+			<input type="reset" class="button" value="{%RESET}" />
+		</td>
+	</tr>
+	<tr>
+		<td colspan=2 class="bottomTd"></td>
+	</tr>
+</table>	 
+</form>
+</div>
+<include file="Public:footer" />

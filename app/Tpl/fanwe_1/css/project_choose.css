@@ -1,0 +1,79 @@
+/* project_choose 开始 */
+.project_choose{
+	background: url(../images/project_choose_bg.jpg) center 0 no-repeat;
+	height: 415px;
+	padding: 60px 0;
+	overflow: hidden;
+	margin-bottom: 50px;
+}
+.project_choose_top{
+	width: 730px;
+	border:5px solid #82b3f8;
+	padding: 40px 50px;
+	overflow: hidden;
+	color: #fff;
+	margin-bottom: 40px;
+}
+.project_choose_top h2 {
+	font-size: 28px;
+	font-weight: normal;
+	margin-bottom: 30px;
+}
+.project_choose_top p{
+	margin-bottom:5px;
+}
+.choose_info{
+	margin-bottom: 30px;
+}
+.choose_type .ui_button{
+	position:relative;
+	background:#323641;
+	height: 44px;
+	line-height: 44px;
+	padding: 0 30px;
+	overflow:hidden;
+	border:0;
+	border-radius: 0;
+}
+.choose_type .ui_button i{
+	position: absolute;
+	top:0;
+	left:0;
+	width:35px;
+	height:35px;
+	background:url(../images/choose_type_dagou.png) no-repeat;
+	display:none;
+}
+.choose_type .ui_button.checked i{display:block;}
+.choose_btn .ui_button{
+	background:#fff;
+	width: 255px;
+	height: 55px;
+	line-height: 55px;
+	padding: 0;
+	font-size: 20px;
+	*margin-left: 472px;
+}
+.help_group .iconfont{ 
+	font-size: 34px;
+	color: #d9d9d9;
+}
+.help_group .help_question{
+	padding:10px 0;
+}
+.help_group .help_answer {
+	color: #666;
+	margin-bottom: 20px;
+}
+.project_choose_bottom .ui_checkbox{ 
+	color:#fff;
+	margin-bottom: 10px;
+}
+.project_choose_bottom .ui_checkbox a{ color:#fe5009; }
+
+.ui_radiobox, .ui_checkbox, .ui_radiogroup{
+	height:16px !important;
+}
+.common_cbo{background:url(../images/fanwe_ui/ui_cbobg_1.png) 0 0 no-repeat;}
+.common_cbo_checked{background:url(../images/fanwe_ui/ui_cbobg_1.png) 0 -18px no-repeat;}
+/* project_choose 结束 */

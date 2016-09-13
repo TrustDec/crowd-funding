@@ -1,0 +1,125 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/refund.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/refund.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/go_pay.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/go_pay.js";
+?>
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+{include file="inc/home_user_info.html"}
+<div class="dlmain Myhomepage">
+ 	{include file="inc/account_left.html"} 
+	<div class="homeright pageright f_r">
+		<div class="account_money">
+			<div class="list_title clearfix">
+				<div {if $module eq 'account'&& $action eq 'money_inchange'}class="cur"{/if}>
+					<a href="{url r="account#money_inchange"}">我要充值</a>
+				</div>
+				<div {if $module eq 'account'&& ($action eq 'record'||$action eq 'pay')}class="cur"{/if}>
+					<a href="{url r="account#record"}">充值日志</a>
+				</div>
+			</div>
+			<div class="list_conment">
+				 <form class="pay_form" action="{url r="account#go_pay"}" target="_blank" method="post">
+					<div class="control-group smaller-control-group">
+						<label class="control-label">充值方式:</label>
+						<div class="control-text">
+							<div class="f_l ui_radiogroup" style="margin-top:6px;">
+								<label class="ui_radiobox mr10" rel="check_ol_bl_pay" onclick="SelectPayType(0);"><input type="radio" checked="checked" name="check_ol_bl_pay">在线支付</label>
+								{if $is_user_tg}
+								<label class="ui_radiobox" rel="check_ol_bl_pay" onclick="SelectPayType(1);"><input type="radio" name="check_ol_bl_pay">第三方托管支付</label>
+								{/if}
+							</div>
+						</div>
+					</div>
+					<div class="blank10"></div>
+					<div class="control-group">
+						<label class="control-label">充值金额:</label>
+						<div class="control-text">
+							<input type="text"  class="textbox w200 mr10" value="{$money}" name="money" onKeyUp="amount(this)" />人民币(元)
+						</div>
+						<div class="blank0"></div>
+					</div> 
+					<div class="full online_pay" id="J_online_pay">
+						<div class="switch_nav" style="height:1px;"></div>
+						<div class="blank20"></div>
+						{$payment_html}	
+					</div>
+					<div id="J_ips_pay" class="clearfix" style="text-align: left;  display:none;">
+						<div class="form_row control-group small-control-group">
+							<label class="form_lable">费&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;率:</label>
+							<span class="form_cont" id="incharge_fee">0 人民币(元)</span>
+						</div>
+					</div>
+					<div id="J_ips_pay_1" class="clearfix" style="text-align: left;  display:none;">
+						<div class="form_row control-group small-control-group">
+							<label class="form_lable">实际到账:</label>
+							<span  class="form_cont" id="incharge_fee_end">0 人民币(元)</span>
+						</div>
+					</div>
+					<div class="blank10"></div>
+					<div class="button_row control-group">
+						<label class="control-label"></label>
+						<div class="ui-button theme_bgcolor" rel="green">
+							<span>确定，去付款</span>
+						</div>				
+						<input type="hidden" id="back_url" value="{url r="account"}" />	
+						<input type="hidden" value="1" name="ajax" />					
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="blank0"></div>
+</div>	
+<div class="blank0"></div>
+<script type="text/javascript">
+	var payType = 0;
+	var ips_submit_lock = true;
+	function SelectPayType(i){
+  		switch(i){
+			case 0:
+				payType = 0;
+				$("#J_online_pay").show();
+ 				$("#J_ips_pay").hide();
+				$("#J_ips_pay_1").hide();
+				$(".pay_form").attr("action","{url r="account#go_pay"}");
+ 				break;
+ 			case 1:
+				payType=1;
+ 				$("input[name='payment']").attr("checked","");
+				payType = 1;
+				$("#J_online_pay").hide();
+ 				//$("#J_ips_pay").show();
+				//$("#J_ips_pay_1").show();
+				url = APP_ROOT+"/index.php?ctl=collocation&act=DoDpTrade&user_type=0&user_id={$user_info.id}"+"&pTrdAmt="+$("input[name='money']").val();
+				$(".pay_form").attr("action",url);
+ 				break;
+		}
+	}
+	$("input[name='money']").bind("blur",function(){
+		if(payType==1){
+			url = APP_ROOT+"/index.php?ctl=collocation&act=DoDpTrade&user_type=0&user_id={$user_info.id}"+"&pTrdAmt="+$("input[name='money']").val();
+ 			$(".pay_form").attr("action",url);
+			get_pay_url="{url r="ajax#get_carry_fee"}";
+			var query = new Object();
+			query.money=$("input[name='money']").val();
+			$.ajax({
+				url: get_pay_url,
+				dataType: "json",
+				data:query,
+				type: "POST",
+				success:function(ajaxobj){
+ 					if(ajaxobj.status==1){
+ 						 $("#incharge_fee").html(ajaxobj.fee+" 人民币(元)");
+						 end_money=parseFloat(query.money)- parseFloat(ajaxobj.fee);
+						 $("#incharge_fee_end").html(end_money+" 人民币(元)");
+					}
+				}
+			});
+		}else{
+			$(".pay_form").attr("action","{url r="account#go_pay"}");
+		}
+	});
+ </script>
+{include file="inc/footer.html"} 

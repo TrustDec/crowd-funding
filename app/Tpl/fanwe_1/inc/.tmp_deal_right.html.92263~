@@ -1,0 +1,156 @@
+<!--右start-->
+<div class="xqmain_right">
+	<!--第一部分start-->
+	<div class="box f_l">
+		<div>
+			<span class="box_title f_l">目前累计金额</span>
+			<span class="zcz f_r">
+			{if $deal_info.begin_time > $now}
+			即将开始
+			{elseif $deal_info.end_time < $now and $deal_info.end_time neq 0}
+				{if $deal_info.percent gte 100}
+			已成功
+				{else $deal_info.percent gt 0}
+			筹资失败
+				{/if}	 
+			{else}
+				{if $deal_info.percent gte 100}
+					已成功
+				{elseif $deal_info.end_time eq 0}
+			长期项目
+				{else}
+			筹资中
+				{/if}
+			{/if}
+			</span>	
+		</div>
+		<div class="blank0"></div>
+		<span class="box_nu f_l"><em style="font-size:17px;">¥</em>{$deal_info.total_virtual_price}</span>
+		<div class="blank"></div>
+		<div class="jd">
+			<div class="f_l" style="width:240px;*width:238px;margin-top:5px;">
+				<div class="ui-progress" style="width:240px;*width:238px;">
+					<span style="width:{$deal_info.percent}%;"></span>
+				</div>
+			</div>		  
+			
+	        <div class="f_r">{$deal_info.percent}%</div>
+		</div>
+		<div class="blank10"></div>
+		<div class="jd1">
+			<span class="zs f_l">目标</span>
+			<span class="nu1 f_r">{$deal_info.limit_price_format}元</span>
+		</div>
+		{if $deal_info.end_time neq 0}	
+		<div class="jd1">
+			<span class="zs f_l">剩余</span>
+			<span class="nu1 f_r">{if $deal_info.remain_days < 0}{if $deal_info.percent gt 100}已成功{else}已过期{/if}{else}{$deal_info.remain_days}天{/if}</span>
+		</div>
+		{/if}
+		<div class="jd1">
+			<span class="zs f_l">支持者</span>
+			{if $deal_info.virtual_person eq 0}
+			<span class="nu1 f_r">{$deal_info.support_count}人</span>
+			{/if}
+			{if $deal_info.virtual_person neq 0}
+			<span class="nu1 f_r">{$deal_info.person}人</span>
+			{/if}
+		</div>
+		<div class="jd2">项目截止时间：{function name="to_date" v=$deal_info.end_time f="Y年m月d日H时i分"}</div>
+	</div>
+	<!--第一部分end-->
+	<!--第二部分start-->
+	<div class="box2 f_l">
+		<!--1-->
+		{foreach from=$deal_item_list item=deal_item key=key}
+		<div class="box21">
+			<span class="box2_title f_l">支持¥{$deal_item.price_format}</span>
+			<span class="f_r">已有<em style="color:#ed5e58;">{$deal_item.virtual_person_list}</em>位支持者</span>
+		</div>
+		<div class="box22">
+			<span class="box22_1 f_l">
+				{function name="nl2br" v=$deal_item.description}
+			</span>
+			<div class="blank1"></div>
+			<span class="box22_2 f_l" style="width:100%">
+			<div style="width:100%">
+			{if $deal_item.is_delivery eq 1}
+				{if $deal_item.delivery_fee eq 0}
+				运费：包邮
+				{else}
+				运费：¥{function name="round" v=$deal_item.delivery_fee e=2}
+				{/if}
+				&nbsp;&nbsp;
+			{/if}
+			{if $deal_item.is_limit_user eq 1}
+				{if $deal_item.limit_user gt 0}
+				限额：{$deal_item.limit_user}位&nbsp;&nbsp;&nbsp;
+				剩余：{$deal_item.remain_person}位
+				{/if}
+			{/if}
+			</div>
+			<div class="deal_item_images" style="overflow:hidden;text-align:left">	
+				<div class="blank5"></div>			
+				{foreach from=$deal_item.images item=image}
+				<div class="image_item">
+					<img src="{function name="get_spec_image" v=$image.image w=50 h=50 g=1}" rel="{function name="get_spec_image" v=$image.image w=570 h=430}" width=50 height=50 />
+				</div>
+				{/foreach}
+			</div>
+			{if $deal_item.repaid_day gt 0}
+			<div class="blank5"></div>
+			<div>
+				预计发放时间：项目成功结束后{$deal_item.repaid_day}天内
+				</div>
+			{/if}
+			</span>
+			{if ($deal_info.end_time > $now or $deal_info.end_time eq 0) and $deal_info.begin_time < $now and $deal_info.is_effect eq 1 }
+			{if $deal_item.support_count < $deal_item.limit_user or $deal_item.limit_user eq 0}
+			<a class="box22_3 bg_blue" href="{url r="cart" p="id=$deal_item.id"}" target=_blank>
+				<div>
+					<span>支持¥{$deal_item.price_format}</span>
+				</div>
+			</a>
+			{else}
+			<div class="box22_3 bg_gray" disabled="disabled">已满额</div>
+			{/if}
+			{else}
+			<div class="box22_3 bg_gray" disabled="disabled">支持¥{$deal_item.price_format}</div>
+			{/if}
+		</div>
+		{/foreach}
+	</div>
+	<!--第二部分end-->	
+		{if $deal_info.description_1 neq null}
+	<div class="blank"></div>
+	<div class="box3" style="background:#fff9e9;">
+		<div class="box31">付款与退款说明：</div>
+		<div class="box32" style="padding-bottom:0">
+				{$deal_info.description_1}
+		</div>
+	</div>
+	<div class="blank"></div>
+	{/if}
+	<!--第3部分-->		
+	<div class="box3">
+		<div class="box31">发起人信息</div>
+		<div class="box32">
+			<div class="box_image f_l">
+				{function name="show_avatar" p="$deal_user_info.id"}
+			</div>
+			<div class="f_l" style=" height:80px; overflow:hidden;">
+				<span class="boxname">{$deal_user_info.user_name}</span>
+				<span class="boxtime">上次登录时间：{function name="to_date" v=$deal_user_info.login_time f="Y/m/d"}</span>
+				{if $deal_user_info.province neq '' or $deal_user_info.city neq ''}
+				<span class="boxaddress">{$deal_user_info.province}&nbsp;{$deal_user_info.city}</span>
+				{/if}
+				<a href="javascript:send_message({$deal_user_info.id});" class="boxmail">发信息</a>
+				
+			</div>
+			
+		</div>
+	</div>
+	<div class="blank"></div>
+	<!--第3部分结束-->	
+</div>
+<!--右end-->

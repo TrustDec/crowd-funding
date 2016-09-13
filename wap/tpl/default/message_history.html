@@ -1,0 +1,43 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/message.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<section class="mod_main message_history">
+	<h2>
+		与 <a class="linkgreen">{$dest_user_info.user_name}</a> 的私信记录
+	</h2>
+	<div class="blank10"></div>
+	{if $message_list}
+	<div class="ul_block">
+		<ul>
+			{foreach from=$message_list item=message_item}
+			<li>
+				<div class="webkit-box">
+						<div class="contact_avatar mr5">{function name="show_wap_avatar" p="$message_item.dest_user_id" t="small"}</div>
+					<div class="contact_info webkit-box-flex">
+						<div>
+							{if $message_item.message_type eq 'inbox'}
+							<a class="linkgreen">{$message_item.dest_user_name}</a> : {function name="nl2br" v=$message_item.message}
+							{/if}
+							{if $message_item.message_type eq 'outbox'}
+							发送给 <a class="linkgreen">{$message_item.dest_user_name}</a> : {function name="nl2br" v=$message_item.message}
+							{/if}
+							<div class="clear"></div>
+							<time class="f_999">{function name="pass_date" v=$message_item.create_time}</time>
+						</div>
+					</div>	
+				</div>
+				<div class="message_op tr mt5 mb5"> <a href="#" onclick="send_message('{url_wap r="ajax#usermessage" p="id=$message_item.dest_user_id"}');" class="theme_fcolor">回复</a> | <a href="{url_wap r="message#delmessage" p="id=$message_item.id"}" class="linkgreen delmessage">删除</a></div>
+			</li>
+			{/foreach}
+		</ul>
+	</div>
+	<div class="blank15"></div>
+	<div class="pages">{$pages}</div>
+	{else}
+	<div class="empty_tip">没有任何私信记录</div>
+	{/if}
+</section>
+<!-- message.js -->
+{include file="inc/footer.html"}

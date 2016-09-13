@@ -1,0 +1,168 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/refund.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/refund.js";
+?>
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+{include file="inc/home_user_info.html"}
+<div class="dlmain Myhomepage">
+ 	{include file="inc/account_left.html"} 
+	<div class="homeright pageright f_r">
+		<div class="account_money_carry">
+			<div class="list_title clearfix">
+				<div {if $module eq 'account'&& ($action eq 'money_carry_bank'|| $action eq 'money_carry')}class="cur"{/if}>
+					<a href="{url r="account#money_carry_bank"}">我要提现</a>
+				</div>
+				<div {if $module eq 'account'&& $action eq 'refund'}class="cur"{/if}>
+					<a href="{url r="account#refund"}">提现日志</a>
+				</div>
+			</div>
+			{if $bank_info.can_use_money gte 0 }
+			<div class="list_conment">
+			    <div class="prompt">
+					<p>
+						<i></i>请输入您要提现的金额，以及正确无误的银行帐号信息。
+					</p>
+					<p>
+						<i></i>我们将在3个工作日（双休日和法定节假日除外）之内，将钱转入您指定的银行帐号 。
+					</p>
+					<p>
+						<i></i>在双休日和法定节假日期间，用户可申请取现，但{function name="app_conf" v="SHOP_TITLE"}暂不处理，需要等恢复正常上班之后才进行处理。不便之处，请多多谅解！
+					</p> 
+					<p class="f_red">
+						<i></i>重要！！如果您填写的开户行支行不正确，提现交易将无法成功，提现费用不予返还。如果您不确定开户行支行名称，可以打电话到当地所在银行的营业网点询问或者上网查询。
+					</p>
+					<div class="blank20"></div>
+				</div>
+				<div class="total pt10 pb10 hidden">
+					<h3>提现审核中金额：<span style="font-weight:normal">{$bank_info.ready_refund_money}元 </span></h3>
+				</div>
+				<div class="blank20"></div>
+				<form name="Jcarry_From" class="ajax_form" action="{url r="account#submitrefund"}" method="post">
+ 				<div class="m_number clearfix">
+					<div class="control-group smaller-control-group">
+			            <label class="control-label">帐户总资金：</label>
+			            <div class="control-text" id="total_money">{function name="format_price" v=$user_info.money p=2}</div>
+			            <div class="blank0"></div>
+			        </div>
+					<div class="control-group smaller-control-group">
+		                <label class="control-label">提现审核中金额：</label>
+		                <div class="control-text">{function name="format_price" v=$bank_info.ready_refund_money p=2}</div>
+		                <div class="blank0"></div>
+		            </div>
+        			<div class="control-group small-control-group">
+                		<label class="control-label"><span class="f_red b">*</span> 提取金额：</label>
+                		<div class="control-text">
+                			<input type="text" autocomplete="off" id="Jcarry_amount" name="money" value="0.00" class="small_textbox w200 mr10" onKeyUp="amount(this)" />元
+                		</div>
+                		<div class="blank0"></div>
+            		</div>
+					<!--
+		            <div class="form_row control-group small-control-group">
+		                <label class="form_lable">提现费用：</label>
+		                <span id="Jcarry_fee" class="form_cont">0.00 元</span>
+						{if $fee_config}
+						<img src="{$TMPL}/images/tips_wh.jpg" id="imgtips" style="position:relative;top:5px;left:10px;z-index:999; cursor:pointer;" onmouseover="tips(this,'第三方收取提现手续费:&lt;/br&gt;&lt;table width=\'100%\' class=\'tiptable\' cellspacing=\'1\' border=\'0\' &gt;&lt;tr style=\'background:#eff5fe;text-align:center\'&gt;{foreach from="$fee_config" item="fee"}&lt;td height=\'22\'&gt;{$fee.name}&lt;/td&gt;{/foreach}&lt;/tr&gt;&lt;tr class=\'bg\'&gt;{foreach from="$fee_config" item="fee"}&lt;td&gt;{$fee.fee_format}&lt;/td&gt;{/foreach}&lt;/tr&gt;&lt;/table&gt;',70,290)"><br>
+		            	{/if}
+		            	<div class="blank0"></div>
+					</div>
+					-->
+					<!--
+		            <div class="form_row control-group small-control-group">
+		                <l【【abel class="form_lable">实付金额：</label>
+		                <span id="Jcarry_realAmount" class="form_cont">0.00 元</span>
+		                <div class="blank0"></div>
+		            </div>
+					-->
+		            <div class="control-group smaller-control-group">
+		                <label class="control-label">提现后账户可用余额：</label>
+		                <div class="control-text">
+			                <span id="Jcarry_acount_balance">{function name="format_price" v=$bank_info.can_use_money p=2}元</span>
+			                <div class="blank0"></div>
+			            </div>
+		            </div>
+					<div class="control-group smaller-control-group">
+		                <label class="control-label">开户行：</label>
+		                <div class="control-text">{$bank_info.bank_name}&nbsp;&nbsp;&nbsp;&nbsp;<a href="{url r="account#money_carry_bank"}" class="f_999 f12">我想重新选择</a></div>
+		                <div class="blank0"></div>
+		            </div>
+		            <div class="control-group smaller-control-group">
+		                <label class="control-label">开户名：</label>
+		                <div class="control-text">{$bank_info.real_name}</div>
+		                <div class="blank0"></div>
+		            </div>
+		            <div class="control-group smaller-control-group">
+		                <label class="control-label">卡号：</label>
+		                <div class="control-text">{$bank_info.bankcard}</div>
+		                <div class="blank0"></div>
+		            </div>
+		           	<div class="control-group smaller-control-group">
+		              	<label class="control-label"></label>
+		              	<div class="control-text">
+	              			<span class="f_gray" id="Jcarry_bankSuggestNote">提现时间约为3个工作日。</span>
+		              	</div>
+		               <div class="blank0"></div>
+		           	</div>
+		           	{if app_conf("PAYPASS_STATUS")}
+				  	<div class="control-group small-control-group">
+						<label class="control-label">支付密码：</label>
+						<div class="control-text">
+							<input type="password" autocomplete="off" class="small_textbox w100"  autocomplete="off" name="paypassword" id="J_PAYPASSWORD" />&nbsp;&nbsp;<span class="f12 f_666">{if $user_info.paypassword eq ''}还未设置！{else}忘记了？{/if}<a href="{url  r="settings#security" p="method=setting-pass-box"}" target="_blank" class='f_blue'>点这里</a></span>
+						</div>
+						<div class="blank10"></div>
+ 					</div>
+ 					{/if}
+				</div>
+				<div class="button_row control-group">
+ 					<label class="control-label"></label>
+		            <input type="button" value="申请提现" class="ui-button theme_bgcolor" />
+		            <input type="hidden" name="acount_balance" id="Jcarry_acount_balance_res" />
+		       		<input type="hidden" name="user_bank_id" value="{$bank_info.id}" />
+					<input type="hidden" name="ajax" value="1" />
+			    </div>
+				</form>
+				<div class="form_row control-group smaller-control-group">
+					<label class="control-label"></label>
+					<div class="control-text">
+						<span class="f14 f_red">警告：禁止信用卡套现、虚假交易等行为，一经确认，将终止该账户的使用。</span>
+					</div>
+				</div>
+			</div>
+			{else}
+			<div class="list_conment">
+			    <div class="prompt">
+			    	<p>
+						<i></i>你提现的金额超出账户余额！<a class="f_red" href="{url r="account#refund"}" > 请前往提现日志中删除提现</a>
+					</p>
+			    </div>
+			</div>
+			{/if}
+		</div>
+	</div>
+	<div class="blank0"></div>
+</div>	
+<div class="blank"></div>
+<script>
+	$(function(){
+		$("#Jcarry_amount").bind("blur",function(){
+ 			money=parseFloat({$user_info.money});
+			use_money=parseFloat($(this).val());
+			 
+			ready_refund_money={$bank_info.ready_refund_money};
+			money=money-ready_refund_money;
+			if(use_money<=0){
+				$.showErr("提现金额要大于0元");
+ 				return false;
+			}
+ 			left_money=money-use_money;
+			if(left_money<0){
+				$(this).attr("value","0");
+				$.showErr("提现金额不能超过"+money+"元");
+ 			}else{
+				$("#Jcarry_acount_balance").html("￥"+foramtmoney(left_money,2)+"元");
+			}
+				
+		});
+	});
+</script>
+{include file="inc/footer.html"} 

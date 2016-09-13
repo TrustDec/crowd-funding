@@ -1,0 +1,98 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<script type="text/javascript" src="__TMPL__Common/js/calendar/calendar.php?lang=zh-cn" ></script>
+
+<load href='__TMPL__Common/js/calendar/calendar.css' />
+<load href='__TMPL__Common/js/calendar/calendar.js' />
+<div class="main">
+<div class="main_title">固定回报列表-等待审核</div>
+<div class="blank5"></div>
+<PHP>
+	function get_bonus_status($status)
+	{
+		if($status==0)return "等待审核";
+		if($status==1)return "通过";
+		if($status==2)return "未通过	";
+	}
+	function get_edit_1($id,$deal){
+ 		if($deal['type']==0){
+			return "<a href=\"javascript:edit_user_bonus('".$id."')\">审核</a>";
+		}
+		elseif($deal['type']==1){
+			return "<a href=\"javascript:edit_user_bonus('".$id."')\">编辑</a>";
+		}
+		else{
+			
+		}
+	}
+	function del_user_bonus($id,$deal){
+		return "<a href=\"javascript:del_user_bonus('".$id."')\">删除</a>";
+	}
+</PHP>
+<script>
+	
+function del_user_bonus(id)
+{
+	if(!id)
+	{
+		idBox = $(".key:checked");
+		if(idBox.length == 0)
+		{
+			alert("请选择需要删除的项目");
+			return;
+		}
+		idArray = new Array();
+		$.each( idBox, function(i, n){
+			idArray.push($(n).val());
+		});
+		id = idArray.join(",");
+	}
+	alert(id);
+	if(confirm("确定要删除选中的项目吗？"))
+	$.ajax({ 
+			url: ROOT+"?"+VAR_MODULE+"=Deal&"+VAR_ACTION+"=del_user_bonus&id="+id, 
+			data: "ajax=1",
+			dataType: "json",
+			success: function(obj){
+				$("#info").html(obj.info);
+				if(obj.status==1)
+				location.href=location.href;
+			}
+	});
+}
+	//编辑跳转
+function edit_user_bonus(id)
+{
+	location.href = ROOT+"?"+VAR_MODULE+"="+MODULE_NAME+"&"+VAR_ACTION+"=edit_user_bonus&id="+id;
+}
+</script>	
+	
+						
+<div class="blank5"></div>
+		
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="deal" 	
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="回报编号:回报编号
+		,项目名称:项目名称
+		,融资金额|format_price:融资金额
+		,回报年度:回报年度
+		,回报期数:回报期数（第几期）
+		,回报金额|format_price:回报金额
+		,回报周期:回报周期（个月）
+		,平均年回报率:平均年回报率（%）
+		,开始时间|to_date:开始时间
+		,结束时间|to_date:结束时间
+		,状态|get_bonus_status:状态 "
+		actionlist="回报编号|get_edit_1=$deal,回报编号|del_user_bonus" />			
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+
+</div>
+
+<include file="Public:footer" />

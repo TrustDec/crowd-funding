@@ -1,0 +1,180 @@
+{include file="inc/header.html"} 
+<script type="text/javascript">
+	var ROOT = '{$APP_ROOT}/keupload.php';
+</script>
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/deal_publish.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/deal_publish.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/upload_deal_image.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/upload_deal_image.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/ajaxupload.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/switch_city.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/switch_city.js";
+$this->_var['dpagejs'][] = APP_ROOT_PATH."/system/region.js";
+$this->_var['dcpagejs'][] = APP_ROOT_PATH."/system/region.js";
+?>
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<script type='text/javascript' src='{$APP_ROOT}/admin/public/kindeditor/kindeditor.js'></script>
+<div class="blank"></div>
+<div class="xqmain">
+	<div class="xqmain_main">	
+			<div class="page_title">
+			{$deal_item.name}
+			</div>
+			<div class="switch_nav">
+				<ul>
+					<li class="current"><a href="{url r="project#edit" p="id=$deal_item.id"}">项目介绍</a></li>		
+					<li><a href="{url r="project#add_item" p="id=$deal_item.id"}">回报设置</a></li>					
+				</ul>
+			</div>
+			
+			<div class="agreementlf f_l">
+				<form id="project_form" action="{url r="project#save"}" method="post">		
+					<div class="pro_msg">项目信息</div>
+					<div class="setlist">
+						<label class="setmid">项目标题</label>
+						<input type="text"  class="pro_lf" placeholder="名称不可超过40个字" name="name" value="{$deal_item.name}">
+					</div>
+					<div class="setlist">
+						<label class="setmid">筹资金额</label>
+						<input type="text" class="pro_lf" placeholder="不少于50" name="limit_price" value="{$deal_item.limit_price}">
+						<span class="setmid">元</span>
+					</div>
+					<div class="setlist">
+						<label class="setmid">筹集天数</label>
+						<input type="text" class="pro_lf" placeholder="10~90" name="deal_days" value="{$deal_item.deal_days}">
+						<span class="setmid">天</span>
+					</div>
+					<div class="setlist">
+						<label class="setmid">项目分类</label>
+							<div class="select-outer select-wh200">
+							  <div class="select-inner">
+							    <select name="cate_id" class="select-h" id='cate_id'>
+							    	{foreach from=$cate_list item="cate_item" key=key}
+							      		<option rel="{$cate_item.id}" {if $cate_item.id eq $deal_item.cate_id}selected{/if}>{$cate_item.name}</br></option>
+									{/foreach}
+							    </select>
+								<input type="hidden" name="cate_id" id='cate_id_last' />
+							  </div>
+							</div>
+					</div>
+					<div class="setlist">
+						<label class="setmid">所在地区</label>				
+						<div class="select_box">
+							<select name="province">				
+							<option value="" rel="0">请选择省份</option>			
+							{foreach from=$region_lv2 item=region}
+								<option value="{$region.name}" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+							{/foreach}
+							</select>
+							
+							<select name="city">				
+							<option value="" rel="0">请选择城市</option>
+							{foreach from=$region_lv3 item=region}
+								<option value="{$region.name}" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+							{/foreach}
+							</select>
+						</div>
+					</div>			
+					<div class="setlist">
+						<label class="setmid">项目封面</label>
+						
+						<label class="fileupload" onclick="upd_file(this,'image_file');" style="width:97px;">
+						<input type="file" class="filebox" name="image_file" id="image_file"/>						
+						</label>
+						<label class="fileuploading hide" style=" height:0px;" ></label>
+					
+						<span class="prompt">支持jpg、jpeg、png、gif格式，大小不超过5M。建议尺寸：600 x 450px</span>
+					</div>
+					<div class="setlist">
+						<label class="setmid">项目视频</label>
+						<input type="text" class="pro_lf" placeholder="请输入优酷视频的播放地址页" name="vedio" value="{$deal_item.vedio}">
+					</div>			
+					<div class="setlist">
+						<label class="setmid">简要说明</label>
+						<textarea name="brief" id="intro" placeholder="不超过75个字，简要描述一下你的项目" >{$deal_item.brief}</textarea>
+					</div>
+					<div class="setlist">
+						<label class="setmid">项目详情</label>
+						<div class="ke_form f_l" style="border: #ccc solid 1px;">
+							{function name="show_ke_form" text_name="descript" width="470" height="300" ctn=""}		
+						</div>
+					</div>
+					<div class="blank"></div>
+					
+					<div class="setlist">
+						<label class="setmid" style=" height:0px; line-height:40px;float: none;">常见问题:<br /> <a href="javascript:void(0);" id="add_faq" class="setmid se addqs">添加</a></label>
+				
+						<div  id="faq_list">
+							{if $deal_item.faq_list}
+							{foreach from=$deal_item.faq_list item=faq_item}
+								{include file="inc/deal_faq_item.html"}			
+							{/foreach}		
+							{else}                                   
+								{include file="inc/deal_faq_item.html"}
+							{/if}				
+						</div>
+						<div class="blank15"></div>
+					</div>
+					<div class="blank15"></div>
+					
+					<div class="setlist">
+						<input type="hidden" name="image" value="{$deal_item.image}" />
+						<input type="hidden" name="savenext" value="0" />
+						<div class="saveone" rel="gray" id="savenow"></div>
+						<div class="nextstep" rel="green" id="savenext"></div>
+						<input type="hidden" value="1" name="ajax" />
+						<input type="hidden" name="id" value="{$deal_item.id}" />
+						<div class="blank15"></div>
+					</div>
+				</form>
+			<div class="blank"></div>		
+			</div>
+			
+			<div class="agreementrt f_r">
+			<div class="deal_item_box agreementlist">
+	    <!--1-->
+				<div class="deal_content_box">
+				<img id="image" src="{if $deal_item.image eq ''}{$TMPL}/images/empty_thumb.gif{else}{function name="get_spec_image" v=$deal_item.image w="205" h="160" g="1"}{/if}" />
+				</a>
+				<div class="blank"></div>
+	            <div class="blank"></div>
+	            <div class="blank"></div>
+				<a href="#" class="deal_title" id="deal_title">{$deal_item.name}</a>
+				<div class="blank"></div>
+				</div>
+	            <!--2-->
+	            <div class="paiduan">
+	            	<span class="caption-title">目标：<em><span class="num"><font id="deal_days">{$deal_item.deal_days}</font>天</span></em> <em><i class="font-yen">¥</i><span class="num" ><font id="price">{function name="round" v=$deal_item.limit_price e=2}</font></em></span>
+						<span class="f_r ">
+						<span class="common-sprite">众筹中</span>
+						</span>
+	            </div>
+
+	             <!--3-->
+	             <div class="deal_content_box" style="padding:0 15px 0 15px; ">             
+	                 <div class="ui-progress">
+	                  <span style="width:100%;"></span>
+	                 </div>				
+					<div class="blank"></div>
+					<div class="div3" style="text-align:left;"><span class="num"><span class="num">100%</span><span class="til"></span><span class="til">已达</span></div>
+					<div class="div3"><span class="num"><font id="price">0</font>元</span><span class="til">已筹资</span></div>
+					<div class="div3" style="text-align:right;">
+	                	<span class="num"><font id="deal_days">0</font>天</span>
+						<span class="til">剩余时间</span>				
+					</div>
+					<div class="blank1"></div>
+				</div>
+			</div>
+
+			<div class="blank"></div>
+			
+	
+	</div>
+</div>
+<div class="blank"></div>	
+</div>
+<div class="blank"></div>
+{include file="inc/footer.html"} 
+
+

@@ -1,0 +1,146 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/deal_support.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/deal.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/project_follow.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<div class="hd">
+	<div class="hd1">{$deal_info.name}</div>
+	<div class="blank5"></div>
+	<div class="hd2">
+		<span class="f_666">发起人:</span>
+		{if $deal_info.user_id neq 0}
+		<span><a class="mf f_666">{$deal_info.user_name}</a></span><span style="color:#ddd;padding:0 5px">|</span>
+		<span class="dz f_666"><i class="fa fa-map-marker"></i>{$deal_info.province}&nbsp;{$deal_info.city}</span><span style="color:#ddd;padding:0 5px">|</span>
+		<span class="kj f_666"><i class="fa fa-tag"></i>{$deal_info.deal_type}</span>
+		{else}
+		<span>{function name="app_conf" v="SITE_NAME"}</span>
+		{/if}
+	</div>
+</div>
+<div class="blank15"></div>
+<div class="leader_box sizing">
+	{if !$leader_info.user_name and !$enquiry_info_all}
+		<div class="tc">暂无项目投资记录</div>
+	{else}
+		{if $leader_info.user_name}
+		<div class="leader">
+			<h3 class="theme_fcolor">项目领投人</h3>
+			<div class="text webkit-box">
+				<div class="l mr10">
+					{function name="show_wap_blank_avatar" p="$leader_info.user_id" t="middle"}
+					<div class="blank5"></div>
+					<a href="#" onclick="send_message({$leader_info.user_id})" class="btn_send theme_color f14 b_radius3"><i class="fa fa-envelope mr5"></i>发私信</a>
+				</div>
+				<div class="r webkit-box-flex">
+					<div class="leader_title">
+						<span class="user_name f_l mr5">{$leader_info.user_name}</span>
+						{if $leader_info.user_icon}
+						<div class="user_icon f_l">
+		                	<img src="{$leader_info.user_icon}" title="会员等级" class="inline_level_icon level_icon" />
+		                </div>
+						{/if}
+						<div class="user_icon f_l">
+							{if $leader_info.is_investor==0 || $leader_info.is_investor==1}
+							<i class="icon iconfont" rel="个人投资者认证">&#xe609;</i>
+							{else}
+							<i class="icon iconfont" rel="机构投资者认证">&#xe608;</i>
+							{/if}
+						</div>
+					</div>
+					
+					<div class="blank5"></div>
+			        <div class="conment">
+			        	<div>{$leader_info.identify_name} | <a href="#" class="theme_fcolor" id="detailed_information">详细资料&gt;&gt;</a></div>
+			    	  	<div>
+			    	  		<label>领投金额：</label><span class="f_money f_red">{$leader_info.money}</span><span class="symbol">万</span>
+			    	  	</div>
+			    	  	<div>
+			    	  	<label>认投时间：</label><span>{function name="to_date" v=$leader_info.create_time}</span>	
+			    	  	</div>
+		    	  	 	<div class="mod_cont2 overflow_hide">
+					    	<label>是否愿意担任合伙人：</label><span style="color:#f60;">{if $leader_info.is_partner eq 0}无状态{/if}{if $leader_info.is_partner eq 1}愿意{/if}{if $leader_info.is_partner eq 2}不愿意{/if}</span>
+					    </div>
+					    <div class="blank5"></div>
+				    	<div class="pro">
+				        	<span class="theme_fcolor">能为创业者提供的其它帮助：</span>
+				        	<div class="clear"></div>
+				        	<span class="f_666 pro_text">{$leader_info.leader_help}</span>
+				        </div>
+				        <div class="blank5"></div>
+				        <div class="pro">
+				        	<span class="theme_fcolor">对创业团队评价：</span>
+							<div class="clear"></div>
+							<span class="f_666 pro_text">{$leader_info.leader_for_team}</span>
+				        </div>
+				        <div class="blank5"></div>
+				        <div class="pro">
+				        	<span class="theme_fcolor">对创业项目评价：</span>
+							<div class="clear"></div>
+							<span class="f_666 pro_text">{$leader_info.leader_for_project}</span>
+				        </div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{/if}
+		{if $enquiry_info_all}
+		<div class="blank15"></div>
+		<div class="leader follower">
+			<h3 class="theme_fcolor">
+				<span class="f_l">项目跟投人</span>
+				<div class="f_r">
+					共<span class="f_red f16">{$enquiry_count}</span>位
+				</div>
+			</h3>
+			{foreach from=$enquiry_info_all item=enquiry_all_item}
+			<div class="text webkit-box">
+				<div class="l mr10">
+					{function name="show_wap_blank_avatar" p="$enquiry_all_item.user_id" t="middle"}
+					<div class="blank5"></div>
+					<a href="#" onclick="send_message({$enquiry_all_item.user_id})" class="btn_send theme_color f14 b_radius3"><i class="fa fa-envelope mr5"></i>发私信</a>
+				</div>
+				<div class="r webkit-box-flex">
+					<div class="leader_title">
+						<span class="user_name f_l mr5">{$enquiry_all_item.user_name}</span>
+						{if $enquiry_all_item.user_icon}
+						<div class="user_icon f_l">
+		                	<img src="{$enquiry_all_item.user_icon}" title="会员等级" class="inline_level_icon level_icon" />
+		                </div>
+						{/if}
+						<div class="user_icon f_l">
+							{if $enquiry_all_item.is_investor==0 || $enquiry_all_item.is_investor==1}
+							<i class="icon iconfont" rel="个人投资者认证">&#xe609;</i>
+							{else}
+							<i class="icon iconfont" rel="机构投资者认证">&#xe608;</i>
+							{/if}
+						</div>
+					</div>
+					<div class="blank5"></div>
+			        <div class="conment">
+			        	<div>
+			    	  		<label>跟投金额：</label><span class="f_money">{$enquiry_all_item.money}万</span>
+			    	  	</div>
+			        	<div>
+			    	  		<label>认投时间：</label><span>{function name="to_date" v=$enquiry_all_item.create_time}</span>
+			    	  	</div>
+					    <div>
+					    	<div class="blank5"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			{/foreach}
+		</div>
+		{/if}
+	{/if}
+</div>
+<div class="blank15"></div>
+<div class="pages">{$pages}</div>
+<div class="blank15"></div>
+<script type="text/javascript">
+	var leader_info_id = '{$leader_info.id}';
+</script>
+<!-- project_follow.js -->
+{include file="inc/footer.html"}

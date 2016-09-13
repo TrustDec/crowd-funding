@@ -1,0 +1,185 @@
+<tagLib name="html" />
+<include file="Public:wx_header" />
+<include file="Public:weixin_script" />
+
+<div class="container-f">
+	<div class="box-title clearfix">
+		<div class="f_l">
+			<h3>
+				<i class="fa fa-table"></i>
+				{$box_title}
+			</h3>
+		</div>
+	</div>
+	
+	<div class="box-content clearfix">
+		<div class="row cf clearfix" style="border-bottom: 1px solid #ddd;margin-bottom:8px;">
+            <div class="control-group f_l ">
+                <div class="f_l">
+                    <a class="btn cf" href="javascript:;" id="send"><i class="fa fa-refresh"></i><span>更新列表</span></a>
+                    <a class="btn cf" href="javascript:;" id="send_info"><i class="fa fa-refresh"></i>
+                <span>刷新所有粉丝信息</span></a>
+                </div>
+            </div>
+            
+        </div>
+		<div class="row cf clearfix">
+			<div class="search-box f_r" style="float:left;">
+				<form action="{$SITE_PATH}site.php" method="get" id="setgroup_form">
+	               	 将选中粉丝转移到分组中
+					 <select id="wechatgroupid"> 
+					 <if condition="$groups">
+					 	<foreach name="groups" item="g">
+					 		<option value="{$g.groupid}">{$g.name}</option>
+					 	</foreach>
+					 </if>
+ 					 </select>
+	                <input type="button" class="btn setgroup" value="转移" />
+					按分组查看粉丝：<select id="groupid" onchange="location.href='{:u("WeixinUser/index",array('groupid'=>''))}'+this.value">
+					 <if condition="$groups">
+					 	<foreach name="groups" item="g">
+					 		<option value="{$g.groupid}"  <if condition="$groupid eq $g.groupid"> selected</if>>{$g.name}</option>
+					 	</foreach>
+					 </if>
+					</select>
+	            </form>
+			</div>
+			<div class="search-box f_r" style="float:right;"> 
+				<form action="{:u("WeixinUser/index")}" method="post">
+					<input type="hidden" name="m" value="WeixinUser"/>
+					<input type="hidden" name="a" value="index"/>
+	                <input type="text" id="keyword-input" value="{$keywords}" name="keyword" class="input-small-z" placeholder="请输入昵称搜索">
+	                <input type="submit" class="btn" value="查询" />
+	            </form>
+			</div>
+		</div>
+		<div class="row clearfix">
+                 <table id="listTable" class="table-hover dataTable" >
+                    <thead>
+                         <tr>
+                        	 <th class="with-checkbox">
+                                <input type="checkbox" class="check_all">
+							</th>
+                            <th>编号</th>
+							<th>openid</th>
+                            <th>粉丝昵称</th>
+                            <th>性别 </th>
+                            <th>分组名</th>
+                            <th>省(直辖市)</th>
+                            <th>城市</th>
+							<th>头像</th>
+							<th>关注时间</th>
+							<th>关联</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                         <foreach name="list" item="item">
+ 						<tr>
+                            <td><input type="checkbox" name="check" value="{$item.id}"></td>
+                            <td>{$item.id}</td>
+							<td>{$item.openid}</td>
+                            <td>{$item.nickname}</td>
+                            <td><if condition="$item.sex eq 1">男<else />女</if></td>
+                            <td>{$item.groupName}</td>
+							<td>{$item.province}</td>
+							<td>{$item.city}</td>
+							<td><img src="{$item.headimgurl}" width="60" height="60"></td>
+							<td>{$item.subscribe_time}</td>
+							<td><if condition="$item.uid gt 0">
+								<a target="_blank" href='{:u("User/index",array("user_name"=>$item['nickname']))}'>关联</a>
+							<else />无关联</if></td>
+                         </tr>	
+						</foreach>
+                    </tbody>
+                </table>
+ 			<div class="pages clearfix"><include file="Public:pager" /> </div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	var g_query = new Object;
+		g_query.all =1;
+	function data_reflash(){
+		$.ajax({
+			url:'{:u("WeixinUser/send_info")}',
+			cache: false,
+			data:g_query,
+			dataType:"json",
+			success:function(data){
+	                    if(data.status == 1){
+						  $(".dialog-content").html(data.info);
+	                       if(data.field !=''){
+						   	g_query.i = data.field;
+							data_reflash();
+						   }else{
+						   	$("div.dialog-button .dialog-ok").live("click",function(){
+								window.location.reload();
+							})
+						   }
+	                    }
+			}
+		});
+	}
+	var url = '{:u("WeixinUser/send")}';
+	var query = new Object;
+	function data_load(){
+		$.ajax({
+				url:url,
+				cache: false,
+				data:query,
+				dataType:"json",
+				success:function(data){
+		                    if(data.status == 1){
+							   $(".dialog-content").html(data.info);
+		                       if(data.field !=''){
+							   	query.next_openid = data.field;
+								data_load();
+							   }else{
+								   	$("div.dialog-button .dialog-ok").live("click",function(){
+										window.location.reload();
+									});
+							   }
+		                    }
+				}
+			});	
+	}		
+	$(function(){
+		$("#send").click(function(){
+			$.weeboxs.open("更新中请勿关闭...", {boxid:'msg_box',contentType:'text',showButton:true, showCancel:false, showOk:true,title:'提示',width:250,type:'wee'});
+			data_load();
+		});
+		$("#send_info").click(function(){
+			$.weeboxs.open("更新中请勿关闭...", {boxid:'msg_box',contentType:'text',showButton:true, showCancel:false, showOk:true,title:'提示',width:250,type:'wee'});
+			data_reflash();
+		});
+		$(".setgroup").click(function(){
+			$.showCfm("确定要批量转移吗？", function(){
+				if ($("#listTable tbody input[name='check']:checked").length == 0) {
+					$.weeboxs.close();
+					return false;
+				}
+				var s_group = new Object;
+				s_group.to_groupid = $("#wechatgroupid").val();
+				s_group.ids = 0 ;
+				$("#listTable tbody input[name='check']:checked").each(function(){
+					s_group.ids += ","+$(this).val();
+				});
+				$(".dialog-ok").hide();
+				$(".dialog-content").html("请稍等...");
+				$.ajax({
+					url:'{:u("WeixinUser/setgroup")}',
+					cache: false,
+					data:s_group,
+					dataType:"json",
+					success:function(data){
+			                    if(data.status == 1){
+								  window.location.reload();
+			                    }
+					}
+				});	
+				});
+		});
+	});
+
+</script>
+<include file="Public:footer" />

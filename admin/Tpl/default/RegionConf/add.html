@@ -1,0 +1,63 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<div class="main">
+<div class="main_title">{%ADD} <a href="{:u("RegionConf/index")}" class="back_list">{%BACK_LIST}</a></div>
+<div class="blank5"></div>
+<form name="edit" action="__APP__" method="post" enctype="multipart/form-data">
+<table class="form" cellpadding=0 cellspacing=0>
+	<tr>
+		<td colspan=2 class="topTd"></td>
+	</tr>
+	
+	<tr>
+		<td class="item_title">上级区域:</td>
+		<td class="item_input">
+			<if condition="$pid eq 1">
+				全国
+			<else />
+			
+				{$region_lv2.name}
+			</if>	
+			<input type="hidden" class="pid" value="{$pid}" />
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">区域:</td>
+		<td class="item_input"><input type="text" class="textbox require" name="name" /></td>
+	</tr>
+	<tr>
+		<td class="item_title">拼音:</td>
+		<td class="item_input"><input type="text" class="textbox require" name="py" /></td>
+	</tr>
+	<tr>
+		<td class="item_title">是否热门:</td>
+		<td class="item_input">
+			<select name="is_hot">
+				<option value="0"   >否</option>
+				<option value="1"  >是</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<input type="hidden" class="pid" value="{$pid}" name="pid" />
+	</tr>
+	<tr>
+		<td class="item_title"></td>
+		<td class="item_input">
+			<!--隐藏元素-->
+			<input type="hidden" name="{:conf("VAR_MODULE")}" value="RegionConf" />
+			<input type="hidden" name="{:conf("VAR_ACTION")}" value="insert" />
+			<input type="hidden" name="region_level" value="{$region_level}" />
+			<!--隐藏元素-->
+			<input type="submit" class="button" value="{%ADD}" />
+			<input type="reset" class="button" value="{%RESET}" />
+		</td>
+	</tr>
+	<tr>
+		<td colspan=2 class="bottomTd"></td>
+	</tr>
+</table>	 
+</form>
+</div>
+<include file="Public:footer" />

@@ -1,0 +1,381 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/home_other.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/u_home_recommend_project.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/u_home_recommend_project.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jquery.SuperSlide.2.1.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jquery.SuperSlide.2.1.js";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<div id="J_wrap">
+	<div class="userhome">
+		{include file="inc/home_user_info_other.html"}
+		<div class="wrap">
+			<div class="userhomebd clearfix">
+				<div class="userhomebd_l">
+					{if $deal_list}
+					<div class="userhomebd_l_m" id="effect_m1">
+						<h2>发起的项目</h2>
+						<div class="userhomebd_l_m_body">
+							<div class="item_nav effect_hd">
+								<ul></ul>
+							</div>
+							<ul class="item_list effect_bd">
+								{foreach from=$deal_list item=deal_item key=key name="deal_items"}
+								
+								{if $smarty.foreach.deal_items.iteration mod 4 eq 1}
+		                        <li>
+		                        {/if}
+								<div class="item">
+									<a href="{if $deal_item.type eq 4}{url r="finance#company_finance" p="id=$deal_item.id"}{else}{url r="deal#show" p="id=$deal_item.id"}{/if}" target="_blank" class="block">
+										<div class="image">
+											<img src="{if $deal_item.image eq ''}{$TMPL}/images/empty_thumb.gif{else}{$deal_item.image}{/if}" />
+										</div>
+										<div class="text">
+											<b>{function name="msubstr" v=$deal_item.name b=0 e=20}</b>
+											<div class="do">{if $deal_item.brief}{function name="msubstr" v=$deal_item.brief b=0 e=30}{else}{function name="msubstr" v=$deal_item.name b=0 e=40}{/if}</div>
+											<!-- <div class="stag-box">
+												<div class="stag tag">
+													<b>已认证</b>
+												</div>
+											</div> -->
+										</div>
+									</a>
+								</div>
+								{if $smarty.foreach.deal_items.iteration % 4 eq 0}
+		                        </li>
+		                        {/if}
+								
+								{/foreach}
+							</ul>
+							<div class="effect_flip">
+								<a class="next"><</a>&nbsp;&nbsp;&nbsp;&nbsp;
+								<a class="prev">></a>
+							</div>
+						</div>
+					</div>
+					{/if}
+					<script type="text/javascript">
+						if($("#effect_m1 .effect_bd").find('li').length==1){ 
+							$("#effect_m1 .effect_hd").css("display","none");
+							$("#effect_m1 .effect_flip").css("display","none");
+						}
+						jQuery("#effect_m1").slide({titCell:".item_nav ul",mainCell:".item_list",autoPage:true,effect:"fade",autoPlay:false,vis:1,easing:"swing",delayTime:500});
+					</script>
+					<div class="blank20"></div>
+					<div class="userhomebd_l_m userhomebd_l_m_b">
+						<h2>投资理念</h2>
+						<div class="userhomebd_l_m_body">
+							<div class="text">
+								<p class="f_666">{if $home_user_info.concept}{$home_user_info.concept}{else}暂无{/if}</p>
+							</div>
+							<div class="goodat">
+								<h3><span class="dot">•</span>擅长投资领域</h3>
+								<div class="dottag f_666">{if $home_user_info.cate_name}{foreach from=$home_user_info.cate_name item=cate_item name=cate_items} {$cate_item} {if !($smarty.foreach.cate_items.last)}•{/if} {/foreach}{else}暂无{/if}</div>
+							</div>
+							<div class="goodat">
+								<h3><span class="dot">•</span>博客或微博</h3>
+								<div class="dottag f_666">{if $home_user_info.weibo_list}{foreach from=$home_user_info.weibo_list item=weibo_item name=weibo_items} <a href="{$weibo_item.weibo_url}" target="_blank" class="linkgreen">{$weibo_item.weibo_url}</a> {if !($smarty.foreach.weibo_items.last)}、{/if} {/foreach}{else}暂无{/if}</div>
+							</div>
+						</div>
+					</div>
+					{if $deal_support_list}
+					<div class="blank20"></div>
+					<div class="userhomebd_l_m" id="effect_m2">
+						<h2>支持的项目</h2>
+						<div class="userhomebd_l_m_body">
+							<div class="item_nav effect_hd">
+								<ul></ul>
+							</div>
+							<ul class="item_list effect_bd">
+								{foreach from=$deal_support_list item=deal_item key=key name="deal_items"}
+								
+								{if $smarty.foreach.deal_items.iteration mod 4 eq 1}
+		                        <li>
+		                        {/if}
+								<div class="item">
+									<a href="{url r="deal#show" p="id=$deal_item.id"}" target="_blank" class="block">
+										<div class="image">
+											<img src="{if $deal_item.image eq ''}{$TMPL}/images/empty_thumb.gif{else}{$deal_item.image}{/if}" />
+										</div>
+										<div class="text">
+											<b>{function name="msubstr" v=$deal_item.name b=0 e=20}</b>
+											<div class="do">{if $deal_item.brief}{function name="msubstr" v=$deal_item.brief b=0 e=30}{else}{function name="msubstr" v=$deal_item.name b=0 e=40}{/if}</div>
+											<!-- <div class="stag-box">
+												<div class="stag tag">
+													<b>已认证</b>
+												</div>
+											</div> -->
+										</div>
+									</a>
+								</div>
+								{if $smarty.foreach.deal_items.iteration % 4 eq 0}
+		                        </li>
+		                        {/if}
+								
+								{/foreach}
+							</ul>
+							<div class="effect_flip">
+								<a class="next"><</a>&nbsp;&nbsp;&nbsp;&nbsp;
+								<a class="prev">></a>
+							</div>
+						</div>
+					</div>
+					{/if}
+					<script type="text/javascript">
+						if($("#effect_m2 .effect_bd").find('li').length==1){ 
+							$("#effect_m2 .effect_hd").css("display","none");
+							$("#effect_m2 .effect_flip").css("display","none");
+						}
+						jQuery("#effect_m2").slide({titCell:".item_nav ul",mainCell:".item_list",autoPage:true,effect:"fade",autoPlay:false,vis:1,easing:"swing",delayTime:500});
+					</script>
+					{if $deal_focus_list}
+					<div class="blank20"></div>
+					<div class="userhomebd_l_m" id="effect_m3">
+						<h2>关注的项目</h2>
+						<div class="userhomebd_l_m_body">
+							<div class="item_nav effect_hd">
+								<ul></ul>
+							</div>
+							<ul class="item_list effect_bd">
+								{foreach from=$deal_focus_list item=deal_item key=key name="deal_items"}
+								
+								{if $smarty.foreach.deal_items.iteration mod 4 eq 1}
+		                        <li>
+		                        {/if}
+								<div class="item">
+									<a href="{url r="deal#show" p="id=$deal_item.id"}" target="_blank" class="block">
+										<div class="image">
+											<img src="{if $deal_item.image eq ''}{$TMPL}/images/empty_thumb.gif{else}{$deal_item.image}{/if}" />
+										</div>
+										<div class="text">
+											<b>{function name="msubstr" v=$deal_item.name b=0 e=20}</b>
+											<div class="do">{if $deal_item.brief}{function name="msubstr" v=$deal_item.brief b=0 e=30}{else}{function name="msubstr" v=$deal_item.name b=0 e=40}{/if}</div>
+											<!-- <div class="stag-box">
+												<div class="stag tag">
+													<b>已认证</b>
+												</div>
+											</div> -->
+										</div>
+									</a>
+								</div>
+								{if $smarty.foreach.deal_items.iteration % 4 eq 0}
+		                        </li>
+		                        {/if}
+								
+								{/foreach}
+							</ul>
+							<div class="effect_flip">
+								<a class="next"><</a>&nbsp;&nbsp;&nbsp;&nbsp;
+								<a class="prev">></a>
+							</div>
+						</div>
+					</div>
+					{/if}
+					<script type="text/javascript">
+						if($("#effect_m3 .effect_bd").find('li').length==1){ 
+							$("#effect_m3 .effect_hd").css("display","none");
+							$("#effect_m3 .effect_flip").css("display","none");
+						}
+						jQuery("#effect_m3").slide({titCell:".item_nav ul",mainCell:".item_list",autoPage:true,effect:"fade",autoPlay:false,vis:1,easing:"swing",delayTime:500});
+					</script>
+					{if $finance_company_group}
+					<div class="blank20"></div>
+					<div class="userhomebd_l_m" id="effect_m5">
+						<h2>工作经历</h2>
+						<div class="userhomebd_l_m_body">
+							<div class="item_nav effect_hd">
+								<ul></ul>
+							</div>
+							<ul class="item_list effect_bd">
+								{foreach from=$finance_company_group item=finance_company_group_item key=key name="finance_company_group_items"}
+								
+								{if $smarty.foreach.finance_company_group_items.iteration mod 4 eq 1}
+		                        <li>
+		                        {/if}
+								{if $finance_company_group_item.type neq 4}
+									<div class="item">
+										<a href="{url r="finance#company_show" p="cid=$finance_company_group_item.company_id"}" target="_blank" class="block">
+											<div class="image">
+												<img src="{if $finance_company_group_item.company_logo eq ''}{$TMPL}/images/empty_thumb.gif{else}{$finance_company_group_item.company_logo}{/if}" />
+											</div>
+											<div class="text">
+												<b>{function name="msubstr" v=$finance_company_group_item.invite_name b=0 e=20}</b>
+												<div class="do">{$finance_company_group_item.position} {function name="to_date" v=$finance_company_group_item.job_start_time f="Y.m"}-{if $finance_company_group_item.job_end_time gt 0}{function name="to_date" v=$finance_company_group_item.job_end_time f="Y.m"}{else}至今{/if}</div>	
+											</div>
+										</a>
+									</div>
+								{else}
+									<div class="item">
+										<a href="{url r="home#index" p="id=$finance_company_group_item.company_id"}" target="_blank" class="block">
+											<div class="image">
+												<img id="avatar" src="{function name="get_user_avatar" uid=$finance_company_group_item.company_id type="middle"}" />     
+											</div>
+											<div class="text">
+												<b>{function name="msubstr" v=$finance_company_group_item.invite_name b=0 e=20}</b>
+												<div class="do">{$finance_company_group_item.position} {function name="to_date" v=$finance_company_group_item.job_start_time f="Y.m"}-{if $finance_company_group_item.job_end_time gt 0}{function name="to_date" v=$finance_company_group_item.job_end_time f="Y.m"}{else}至今{/if}</div>	
+											</div>
+										</a>
+									</div>
+								{/if}
+								{if $smarty.foreach.finance_company_group_items.iteration % 4 eq 0}
+		                        </li>
+		                        {/if}
+								
+								{/foreach}
+							</ul>
+							<div class="effect_flip">
+								<a class="next"><</a>&nbsp;&nbsp;&nbsp;&nbsp;
+								<a class="prev">></a>
+							</div>
+						</div>
+					</div>
+					{/if}
+					<script type="text/javascript">
+						if($("#effect_m5 .effect_bd").find('li').length==1){ 
+							$("#effect_m5 .effect_hd").css("display","none");
+							$("#effect_m5 .effect_flip").css("display","none");
+						}
+						jQuery("#effect_m5").slide({titCell:".item_nav ul",mainCell:".item_list",autoPage:true,effect:"fade",autoPlay:false,vis:1,easing:"swing",delayTime:500});
+					</script>
+				</div>
+				<div class="userhomebd_r">
+					<div class="userhomebd_r_m">
+						<h2>投资计划</h2>
+						<div class="userhomebd_l_m_body">
+							<div class="m_block">
+								<p class="f_999 mb5">关注领域</p>
+								<div>
+									{if $home_user_info.cate_name}
+										{foreach from=$home_user_info.cate_name item=cate_item name=cate_items}
+										
+										 {$cate_item}
+										  {if !($smarty.foreach.cate_items.last)}•{/if}
+										 {/foreach}
+									{else}
+										暂无
+									{/if}
+								</div>
+							</div>
+							<div class="m_block">
+								<p class="f_999 mb5">关注城市</p>
+								<div>
+									{if $gz_region}
+										{foreach from=$gz_region item=gz_region_c key=key_region}
+											{$gz_region_c}
+										{/foreach}
+									{else}
+										暂无
+									{/if}
+								</div>
+							</div>
+							<div class="m_block">
+								<div class="lf">
+									<p class="mb10"><span class="f18">{if $home_user_info.investment_num}{$home_user_info.investment_num}{else}0{/if}</span>个</p>
+									<p class="f12 f_999">一年计划投资项目</p>
+								</div>
+								<div class="rt">
+									<p class="mb10"><span class="f18">{if $home_user_info.investment_begin}{$home_user_info.investment_begin}{else}0.00{/if}</span>万 - <span class="f18">{if $home_user_info.investment_end}{$home_user_info.investment_end}{else}0.00{/if}</span>万</p>
+									<p class="f12 f_999">单个项目投资额度范围</p>
+								</div>
+							</div>
+							<a href="javascript:check_tg();" class="ui-button ui-button-block theme_bgcolor mt15">提交项目</a>
+							<input type="hidden" name="check_login" value="{$user_info.id}">
+						</div>
+					</div>
+					<div class="blank20"></div>
+					<div class="follows" id="effect_m4">
+						<div class="effect_hd">
+							<ul class="clearfix">
+								<li class="following on"><a href="javascript:void(0);">关注({if $deal_focus_count}{$deal_focus_count}{else}0{/if})</a></li>
+								<li class="follower"><a href="javascript:void(0);">粉丝({if $deal_focused_count}{$deal_focused_count}{else}0{/if})</a></li>
+							</ul>
+						</div>
+						<div class="icobg effect_bd">
+							<div class="icowrap" id="d_focus">
+								{foreach from=$deal_focus_user item=deal_item}
+								<a class="ico" target="_blank" title="{$deal_item.user_name}" href="{url r="home" p="id=$deal_item.user_id"}">
+									<img src="{function name="get_user_avatar" p="$deal_item.user_id" t="big"}" width="50" height="50" />
+								</a>
+								{/foreach}
+							</div>
+							<div class="icowrap" style="display:none;" id="d_focused">
+								{foreach from=$deal_focused_list item=deal_item name=deal_items}
+								<a class="ico {if $smarty.foreach.deal_items.iteration % 5 eq 0}last{/if}" target="_blank" title="{$deal_item.user_name}" href="{url r="home" p="id=$deal_item.id"}">
+									<img src="{function name="get_user_avatar" p="$deal_item.id" t="big"}" width="50" height="50" />
+								</a>
+								{/foreach}
+							</div>
+						</div>
+						<!-- <a class="icomore tc" href="javascript:void(0)">查看更多</a> -->
+					</div>
+					<script type="text/javascript">
+						jQuery("#effect_m4").slide({trigger:"click",delayTime:500});
+					</script>
+					<div class="follows" id="effect_m6">
+						<div class="effect_hd">
+							<ul class="clearfix">
+								<li class="following on" style="width: 380px;  border: 1px solid #eee;">关注的公司 ({if $finance_focus_count}{$finance_focus_count}{else}0{/if})</li>
+							</ul>
+						
+						</div>
+						<div class="icobg effect_bd">
+							<div class="icowrap" id="d_focus">
+								{foreach from=$finance_focus item=finance_focus_item name=finance_focus_items}
+								<a class="ico {if $smarty.foreach.finance_focus_items.iteration % 5 eq 0}last{/if}" target="_blank" title="{$finance_focus_item.company_name}" href="{url r="finance#company_show" p="cid=$finance_focus_item.id"}">
+									<img src="{$finance_focus_item.company_logo}" width:"50" height="50" />
+								</a>
+								{/foreach}
+							</div>
+							
+						</div>
+						<!-- <a class="icomore tc" href="javascript:void(0)">查看更多</a> -->
+					</div>
+					<script type="text/javascript">
+						jQuery("#effect_m6").slide({trigger:"click",delayTime:500});
+					</script>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="blank20"></div>
+</div>
+<script type="text/javascript">
+	function check_tg(){
+		var is_tg={$is_tg},
+			is_user_tg={$is_user_tg},
+			is_user_investor={$is_user_investor},
+			check_login=$("input[name='check_login']").val();
+		if(check_login){
+			if(is_tg){
+				if(!is_user_tg){
+					$.showErr("您未绑定资金托管账户，无法发起项目，点击确定后跳转到绑定页面",function(){
+						window.location.href=APP_ROOT +"/index.php?ctl=collocation&act=CreateNewAcct&user_type=0&user_id={$user_info.id}";
+					});
+				}else{
+					window.location.href="{url r="project#choose"}";
+				}
+			}else{
+				
+				if(is_user_investor ==1){
+					window.location.href="{url r="project#choose"}";
+				}else if(is_user_investor ==2){
+					$.showErr("您的实名认证正在审核中，还不能发起项目，请联系网站管理员");
+				}
+				else{
+					$.showErr("您未进行身份认证，无法发起项目，点击确定后跳转到身份认证页面",function(){
+						window.location.href="{url r="settings#security" p="method=setting-id-box"}";
+					});
+				}
+				
+			}
+		}
+		else{
+			$.showErr("请先登录再进行发起项目",function(){
+				show_pop_login();
+			});
+		}
+	}
+</script>
+{include file="inc/footer.html"} 

@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="Generator" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{if $page_title neq ''}{$page_title} - {/if}{$site_name} - {$seo_title}</title>
+<meta name="keywords" content="{if $page_seo_keyword neq ''}{$page_seo_keyword}{else}{$seo_keyword}{/if}" />
+<meta name="description" content="{if $page_seo_description neq ''}{$page_seo_description}{else}{$seo_description}{/if}" />
+<meta property="wb:webmaster" content="025a3af644064fd2" />
+
+<?php
+$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/css/font-awesome.css";
+$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/fanwe_utils/fanweUI.css";
+$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/css/layout_hjs.css";
+$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/css/style_hjs.css";
+$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/css/hejinso.css";
+$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/css/licai.css";
+$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/weebox.css";
+$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/jquery-1.8.2.min.js";
+$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/jquery.bgiframe.js";
+$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/jquery.weebox.js";
+$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/jquery.pngfix.js";
+$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/lazyload.js";
+$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/fanweUI.js";
+$this->_var['cpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/fanweUI.js";
+$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/zcUI.js";
+$this->_var['cpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/zcUI.js";
+$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/script.js";
+$this->_var['cpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/script.js";
+$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/script.js";
+$this->_var['cpagejs'][] = $this->_var['TMPL_REAL']."/js/script.js";
+if(app_conf("APP_MSG_SENDER_OPEN")==1)
+{
+$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/msg_sender.js";
+$this->_var['cpagejs'][] = $this->_var['TMPL_REAL']."/js/msg_sender.js";
+}
+if(HAS_DEAL_NOTIFY>0)
+{
+$this->_var['notifypagejs'][] = $this->_var['TMPL_REAL']."/js/notify_sender.js";
+$this->_var['cnotifypagejs'][] = $this->_var['TMPL_REAL']."/js/notify_sender.js";	
+}
+$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/plupload/plupload.full.min.js";
+$this->_var['cpagejs'][] = $this->_var['TMPL_REAL']."/js/plupload/plupload.full.min.js";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$pagecss"}" />
+
+
+<script type="text/javascript">
+var APP_ROOT = '{$APP_ROOT}';
+var LOADER_IMG = '{$TMPL}/images/lazy_loading.gif';
+var ERROR_IMG = '{$TMPL}/images/image_err.gif';
+{if app_conf("APP_MSG_SENDER_OPEN") eq 1}
+var send_span = {function name="app_conf" v="SEND_SPAN"}000;
+{/if}
+</script>
+<script type="text/javascript" src="{function name="parse_script" v="$pagejs" c="$cpagejs"}"></script>
+{if HAS_DEAL_NOTIFY>0}
+<script type="text/javascript" src="{function name="parse_script" v="$notifypagejs" c="$cnotifypagejs"}"></script>
+{/if}
+
+<!--[if IE 6]>
+	<script src="{$TMPL}/js/DD_belatedPNG_0.0.8a-min.js"></script>
+	<script>
+	DD_belatedPNG.fix('.banner .btn_tit ul li.on , .banner .btn_tit ul li , .mx_1 , .mx_2 , .mx_3 , .mx_4 , .xzdq1 , .zcz , .timeline-left-gray , .deal_log_title .title , .timeline-comment-top , .timeline-start span , .pageleft a , .dz , .kj , .mf , .boxaddress , .xzdq , .con6 .sub , .fx i , .attention_focus_deal i , .head_down_icon , .banner .prev , .banner .next , .mxr_1 , .mxr_2 , .mxr_3 , .shenhe .shenhe_info li , .mod_title i , .box4 .mod_cont3 .leader_t , .box4 .mod_cont3 .leader_w , .box4 .mod_cont3 .leader_r , .box4 .mod_cont3 .leader_x , .box4 .mod_cont3 .leader_p , .step_box , .pageleft a i , .invester_all .col_a , .article_l li.on , .article_box .article_r_list h3 , .deals_cate_equity .equity_box .equity_box_l .inf_2 i , .fa , .send_message , .top_nav .top_nav_l i , .top_nav .top_nav_r i , .index_login .username_icon , .view_more , .help_show .btn_publish , .cooperation .index_title i , .footer .footer_ml .ewm , .footer .footer_ml .app_load .ios , .footer .footer_ml .app_load .android , .footer .footer_mc .m_title i , .footer .footer_mc .tel i , .footer .footer_mc .add i , .footer .footer_mr .gzwx , .footer .footer_mr .gzwb , .footer .footer_mr .gz , .deal_item .btn_apply , .login_title , .tuiguang_con li .tuiguang_icon , .footer_advertise_bg'); 
+	</script>
+<![endif]-->
+</head>
+<body>
+	
+<div class="header" id="J_head">
+  <div class="top_nav">
+    <div class="wrap">
+      	<div class="top_nav_l">欢迎来到好赚钱 - 国内首家互联网资管平台</div>
+      
+      <div class="top_nav_tel">服务热线：400-6161-688</div>
+    </div>
+  </div>
+  <div class="top_nav2">
+    <div class="navlogo_box">
+      <div class="logo"> <a href="{$APP_ROOT}/" title="{$site_name}"> <img alt="{$site_name}" src="{$TMPL}/images/haozhuanqian.gif"  style=" width:280px; height:68px;" /> </a> </div>
+     <div class="login_nav"> {insert name="login_tip"} </div>
+     
+      <div class="top_nav2_r">
+        <ul class="main_nav">
+          {foreach from=$nav_list item=nav_item}
+          <li class="{if $nav_item.url eq $current_url}current{/if}"> <a href="{$nav_item.url}"  target="{if $nav_item.blank eq 1}_blank{/if}" title="{$nav_item.name}"> {$nav_item.name} </a> </li>
+          {/foreach}
+        </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+<div class="clear_bd"></div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		if ($.browser.msie && $.browser.version <= 7){
+			$("#show_pop_login").removeAttr("onclick").attr("href",'{url r="user#login"}');
+		}
+		
+		// 头部搜索类目选项
+		$("#ddlText").click(function(e){  
+            e.stopPropagation();
+            var $this=$(this);
+            $this.next().next(".ddlul").css("width",($this.width()+5)+"px").show();     
+            var lia=$this.prev("input[name='hid_ddlText']").val();
+            if($.trim(lia)!=""){
+                $(".ddlul li").each(function() {  
+                    if($this.attr("livalue")==lia){  
+                        $this.addClass("libg");   
+                    }
+                    else{
+                    	$this.removeClass("libg");
+                	}
+                });  
+            }
+            $(".ddlul li").bind('hover',function(){
+                $(this).addClass("libg").siblings().removeClass("libg");  
+            });
+        });  
+        $(document).click(function(event)  {   
+            var eo  =  $(event.target);   
+            if($(".ddlul").is(":visible") && eo.attr("class") != "ddlul" && !eo.parent(".ddlul").length) {  
+                $('.ddlul').hide();   
+            }  
+        });   
+        $(".ddlul li").live('click',function(){  
+            $(this).parent().prev().prev("#ddlText").text($(this).html());  
+            $(this).parent().prev("input[name='hid_ddlText']").val($(this).attr("livalue"));
+            $("input[name='type']").val($(this).attr("livalue"));
+            $(".ddlul").hide();
+    	});
+
+
+		// //解决input中placeholder值在ie中无法支持的问题
+		// var doc=document,inputs=doc.getElementsByTagName('input'),supportPlaceholder='placeholder'in doc.createElement('input'),placeholder=function(input){var text=input.getAttribute('placeholder'),defaultValue=input.defaultValue;
+		// if(defaultValue==''){
+		// 	input.value=text}
+		// 	input.onfocus=function(){
+		// 		if(input.value===text){
+		// 		this.value=''
+		// 		}
+		// 	};
+		// 	input.onblur=function(){
+		// 		if(input.value===''){
+		// 			this.value=text
+		// 		}
+		// 	}
+		// };
+		// if(!supportPlaceholder){
+		// 	for(var i=0,len=inputs.length;i<len;i++){
+		// 		var input=inputs[i],text=input.getAttribute('placeholder');
+		// 		if(input.type==='text'&&text){
+		// 			placeholder(input)
+		// 		}
+		// 	}
+		// }
+	});
+	function check_tg(){
+		var is_tg={$is_tg};
+		var is_user_tg={$is_user_tg};
+		var is_user_investor={$is_user_investor};
+		// if(is_tg){
+		// 	if(!is_user_tg){
+		// 		$.showErr("您未绑定资金托管账户，无法发起项目，点击确定后跳转到绑定页面",function(){
+		// 			window.location.href=APP_ROOT +"/index.php?ctl=collocation&act=CreateNewAcct&user_type=0&user_id={$user_info.id}";
+		// 		});
+		// 	}else{
+		// 		window.location.href="{url r="project#choose"}";
+		// 	}
+		// }else{
+		// 	if(!is_user_investor){
+		// 		$.showErr("您未进行身份认证，无法发起项目，点击确定后跳转到身份认证页面",function(){
+		// 			window.location.href="{url r="settings#security" p="method=setting-id-box"}";
+		// 		});
+		// 	}else{
+				window.location.href="{url r="project#choose"}";
+		// 	}
+		// }
+	}
+</script>

@@ -1,0 +1,26 @@
+{include file="inc/header.html"} 
+<<div class="blank"></div>
+
+<div class="shadow_bg">
+	<div class="wrap white_box">
+						<form method="post" action="{url x="user#do_modify_password"}" >
+								<div class="field password">
+									<label for="reset-password" class="f-label">{$LANG.USER_TITLE_USER_NEW_PWD}</label>
+									<input type="password" value="" id="reset-password" class="f-input ipttxt" name="user_pwd">
+								</div>
+								<div class="blank1" ></div>
+								<div class="field password">
+									<label for="reset-password" class="f-label">{$LANG.USER_TITLE_USER_CONFIRM_PWD}</label>
+									<input type="password" value="" id="reset-confirm-password" class="f-input ipttxt" name="user_pwd_confirm">
+								</div>
+								<div class="act" style="text-align:left;">	
+									<input type="hidden" value="{$user_info.password_verify}" name="code" />
+									<input type="hidden" value="{$user_info.id}" name="id" />								
+									<input type="submit" value="{$LANG.RESET_PASSWORD}" id="reset-submit" class="formbutton">
+								</div>
+						</form>		
+				</div>
+</div>
+<div class="blank"></div>
+
+{include file="inc/footer.html"}

@@ -1,0 +1,123 @@
+.company-list {
+  padding: 20px 0;
+}
+.company-list .item {
+  float: left;
+  margin: 0 36px 36px;
+  width: 15pc;
+  height: 278px;
+  border: 1px solid #e3e3e3;
+  background: #f8f8f8;
+  -webkit-transition: all .1s;
+  transition: all .1s;
+}
+.company-list .item:hover {
+  -webkit-transform: translate(0,-8px);
+  -ms-transform: translate(0,-8px);
+  transform: translate(0,-8px);
+  box-shadow: 0 6px 2px rgba(0,0,0,.05);
+  -webkit-transition: all .2s;
+  transition: all .2s;
+}
+.company-list .item .bg {
+  height: 110px;
+  position: relative;
+  background: center center no-repeat #ddd;
+  background-size: cover;
+}
+.company-list .item .item-inner {
+  position: relative;
+  padding: 0 20px 20px;
+  text-align: center;
+}
+.company-list .item .item-inner .avatar {
+  width: 5pc;
+  height: 5pc;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  position: relative;
+  margin: -40px auto 10px;
+  display: block;
+  background: #ddd;
+  box-shadow: 0 0 2px rgba(0,0,0,.2);
+}
+.company-list .item .item-inner .avatar:hover {
+  -webkit-transition: all .4s;
+  transition: all .4s;
+  box-shadow: 0 0 18px rgba(255,255,255,.8);
+}
+.company-list .item .item-inner .avatar img {
+  width: 100%;
+  position: absolute;
+  top:0;
+  left:0;
+  min-height: 100%;
+  min-width: 100%;
+  border-radius: 40px;
+}
+.company-list .item .item-inner .info-heading {
+  margin-bottom: 5px;
+}
+.company-list .item .item-inner .info-heading a {
+  font-size: 15px;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 74%;
+  vertical-align: middle;
+}
+.company-list .item .item-inner .info-heading span a {
+  font-size: 13px;
+  color: #888;
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 20%;
+}
+.company-list .item .item-inner p {
+  line-height: 18px;
+  height: 36px;
+  overflow: hidden;
+  font-size: 13px;
+}
+.company-list .item .item-inner .op-links {
+  margin: 20px -20px 0;
+  color: #aaa;
+}
+.company-list .item .item-inner .op-links a {
+  color: #178fe6;
+  font-size: 13px;
+}
+
+.no_data{
+  width:915px;
+  background:#f8f8f8;
+  border: 1px solid #e3e3e3;
+  padding:100px 15px;
+  overflow:hidden;
+}
+.no_data .ui-center-button{font-size:14px;}
+.no_data_l , .no_data_r{
+  width:457px;
+  float:left;
+  overflow:hidden;
+  text-align: center;
+}
+.no_data_l{
+  border-right: 1px solid #e3e3e3;
+}
+.no_data_r .ui-center-button{
+  color:#333;
+  border:1px solid #ccc;
+}
+.no_data_r .ui-center-button:hover{
+  background:#e6e6e6;
+  border:1px solid #adadad;
+}
+.no_data p {
+  display: block;
+  font-size: 1pc;
+  color: #666;
+  line-height: 20px;
+}

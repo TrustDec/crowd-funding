@@ -1,0 +1,484 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/refund.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/refund.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/go_pay.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/go_pay.js";
+?>
+<style>
+		.aR{text-align:right;}
+		.withdrawal_box{/* border:1px solid red; */ padding:10px;width:987px;float:left;}
+		.input_style{width:200px;border:none;outline:none;border:1px solid #e6e6e6;border-radius:3px;
+			color:#999;padding:10px;}
+		.fee{font-size:13px;color:#999;}
+		.submitButton{width:150px;height:40px;background:#0099FF;border-radius:5px;color:#fff;font-size:17px;cursor:pointer;}
+		.submitButton1{background:#0099FF;transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;}
+		.submitButton2{background:#0066FF;transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;}
+	.warning{color:#F30;}
+	.through{color:#0C9;}
+	table{border-collapse:collapse;}
+	.titleNav{height:40px;background:#39F;color:#ffffff;}
+	</style>
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script> 
+{include file="inc/home_user_info.html"}
+<div class="dlmain Myhomepage"> {include file="inc/account_left.html"}
+  <div class="homeright pageright f_r">
+    <div class="account_money">
+      <div class="list_title clearfix">
+        <div class="cur default_cur" > <a href="{url r="account#money_withdrawal"}">我的转账</a> </div>
+        <div class=" default_cur" > <a href="javascript:void(0)">我的转权</a> </div>
+        <!--<div class=" default_cur" > <a href="javascript:void(0)">我的动态</a> </div>-->
+        <div class="default_cur" > <a href="{url r="account#commit_log"}">操作日志</a> </div>
+      </div>
+      <div class="withdrawal_box0">
+        <form action="{url r="settings#invite"}" onSubmit="javascript:return false" id="user_login_form" name="user_login_form">
+          <table border="0" cellspacing="0" cellpadding="0" >
+            
+              <td colspan="3">&nbsp;</td>
+            </tr>
+            <tr>
+              <td class="aR" width="100"><span class="warning">*</span>收款账户:&nbsp;&nbsp;</td>
+              <td ><input type="text" name="user_name" id="account_name" placeholder="账户名" class="input_style input_value value"></td>
+              <td><span class="hideDoc doc"></span></td>
+            </tr>
+            <!--  <tr>
+              <td colspan="3">&nbsp;</td>
+            </tr>
+           <tr>
+              <td class="aR"><span class="warning">*</span>收款人姓名:&nbsp;</td>
+              <td ><input type="text" name="user_name" id="collection_name" class="input_style input_value" placeholder="真实姓名"></td>
+              <td>
+              	<span class="hideDoc1 doc"></span>
+              </td>
+            </tr>-->
+            <tr>
+              <td colspan="3">&nbsp;</td>
+            </tr>
+            <tr>
+              <td class="aR" ><span class="warning">*</span>手机号码:&nbsp;</td>
+              <td><input type="text" maxlength="11" id="mobile_phone" name="mobile_phone" class="input_style input_value value" placeholder="对方手机号码"></td>
+              <td><span class="hideDoc2 doc"></span></td>
+            </tr>
+            <tr>
+              <td colspan="3">&nbsp;</td>
+            </tr>
+            <tr>
+              <td class="aR"><span class="warning">*</span>金额:&nbsp;&nbsp;</td>
+              <td ><input type="text" name="money" id="account_number" class="input_style input_value value" style="width:120px;" placeholder="所转金额">
+                &nbsp;<span style="color:#e6e6e6;">元(人民币)<span></td>
+              <td><span class="hideDoc3 doc"></span></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td colspan="2" class="fee">支付收取0.1%服务费,查看<a href="#">收费标准>></a></td>
+            </tr>
+            <tr>
+              <td colspan="3">&nbsp;</td>
+            </tr>
+            <tr>
+              <td class="aR">备注:&nbsp;&nbsp;</td>
+              <td >
+              <input style="display:none" type="text" name="fakeusernameremembered"/>
+              <input type="text" name="account_remark1" id="account_remark" maxlength="15" placeholder="内容限制15字(非必填)" class="input_style input_value">
+           
+              </td>
+              <td><span class="hideDoc4 doc"></span></td>
+            </tr>
+            <tr>
+              <td colspan="3">&nbsp;</td>
+            </tr>
+            <tr>
+              <td class="aR">支付密码:&nbsp;&nbsp;</td>
+              <td ><input type="password" name="paypassword1" id="paypassword" class="input_style input_value" autocomplete="off"></td>
+              <td><span class="hideDoc5 doc"></span></td>
+            </tr>
+            <tr>
+              <td colspan="3">&nbsp;</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td colspan="3"><input type="submit" value="提交" class="submitButton" ></td>
+            </tr>
+            <tr>
+            	<td id="oop"></td>
+            </tr>
+          </table>
+          <script></script>
+        </form>
+      </div>
+      <div class="withdrawal_box1">
+        <table border="0" cellspacing="0" bordercolor="#CCCCCC" cellpadding="0" width="100%" style="display:none;"  class="collect">
+          <tr align="center" class="titleNav">
+            <td>我参与的众筹项目</td>
+            <td>时间</td>
+            <td>金额</td>
+            <td>说明</td>
+            <td>状态</td>
+          </tr>
+        </table>
+      </div>
+     <!-- <div class="withdrawal_box2" style="display:none;">
+        <table border="0" cellspacing="0" bordercolor="#CCCCCC" cellpadding="0" width="100%" style="display:none;" id="collectionState" class="collect">
+          <tr align="center" class="titleNav">
+            <td>转账人</td>
+            <td>时间</td>
+            <td>金额</td>
+            <td>说明</td>
+            <td>状态</td>
+          </tr>
+        </table>
+      </div>-->
+    </div>
+  </div>
+  <div class="blank0"></div>
+</div>
+<div class="blank0"></div>
+<!--预留资费标准/转账条款.....-->
+<div class="alertBox">
+  <div class="box"> </div>
+</div>
+<script type="text/javascript">
+
+//解决input中placeholder值在ie中无法支持的问题
+    var doc=document,inputs=doc.getElementsByTagName('input'),supportPlaceholder='placeholder'in doc.createElement('input'),placeholder=function(input){
+        var text=input.getAttribute('placeholder'),defaultValue=input.defaultValue;
+        if(defaultValue==''){
+            input.value=text
+        }
+        input.focus=function(){
+            if(input.value===text){
+                this.value=''
+            }
+        };
+        input.blur=function(){
+            if(input.value===''){
+                this.value=text
+            }
+        }
+    };
+    if(!supportPlaceholder){
+        for(var i=0,len=inputs.length;i<len;i++){
+            var input=inputs[i],text=input.getAttribute('placeholder');
+            if(input.type==='text'&&text){
+                placeholder(input)
+            }
+        }
+    }
+	$(function(){
+		$("#paypassword").val("");	
+	});
+/**********************转账操作********************************/
+	var USERNAME="{$user_info.user_name}";
+	var useT={		
+		balance:5000,//用户名
+		account_name:function(name){
+			var reg=/^[\u4e00-\u9fa5a-zA-Z\d_]+$/;
+			if(name.match(reg)){
+				if(name==USERNAME){
+				useT.errorAlert(".hideDoc","warning","不能给自己转账");
+				return false;
+				}else{
+				var query=new Object();
+				query.val=name;
+					$.ajax({
+						url:APP_ROOT+"/index.php?ctl=ajax&act=check_user1",
+							data:query,
+							dataType:"json",
+							success: function(data){
+								if(data.status===1){
+									useT.errorAlert(".hideDoc","through","&radic;");										
+									useT.peer=name;
+								}else{
+									useT.errorAlert(".hideDoc","warning","用户不存在;");										
+								}							
+							},
+							error:function(){
+								useT.errorAlert(".hideDoc","warning","请重新填写");									
+							}					
+					});
+					return true;
+				}
+			} else{
+					useT.errorAlert(".hideDoc","warning","包含非法字符或为空");
+					
+					return false;
+			}
+			
+		},		
+		/*collection_name:function(name){
+			var reg=/^[\u2E80-\uFE4F]+$/ ;
+			if(name.match(reg)!==null){
+				useT.errorAlert(".hideDoc1","through","&radic;");
+			}else{
+				useT.errorAlert(".hideDoc1","warning","请输入对方真实姓名;");		
+			}
+		},*/
+//手机
+		mobile_phone:function(mobile){
+			var reg=/^1[3|4|5|7|8]\d{9}$/;
+			if(mobile.match(reg)){
+				var query=new Object();
+				query.val=$("#account_name").val();
+				query.val1=mobile;				
+					$.ajax({
+						url:APP_ROOT+"/index.php?ctl=ajax&act=check_mobile",
+							data:query,
+							dataType:"json",
+							success: function(data){
+								if(data.status===1){
+									useT.errorAlert(".hideDoc2","through","&radic;");	
+									useT.phone=mobile;
+								}else{
+									useT.errorAlert(".hideDoc2","warning","号码不匹配;");	
+								}						
+							},
+							error:function(){
+								useT.errorAlert(".hideDoc2","warning","请重新填写");	
+								
+							}					
+					});
+					return true;
+			}else{
+				useT.errorAlert(".hideDoc2","warning","手机号码有误;");	
+				return false;
+			}
+		},
+//余额
+		account_number:function(number){
+			var reg= /^([1-9][\d]{0,10}|0)(\.[\d]{1,2})?$/;
+			if(number.match(reg)){
+				var num=parseFloat(number);
+				var query=new Object();
+					query.name=USERNAME;
+					query.val=num;		
+					$.ajax({
+							url:APP_ROOT+"/index.php?ctl=ajax&act=user_money",
+							data:query,
+							dataType:"json",
+							success: function(data){
+								var money=parseFloat(data.status)-num;	
+								if(money>0||money>num){
+									useT.errorAlert(".hideDoc3","through","&radic;");
+									useT.transferMoney=num;
+									useT.moneyNUM=money;
+								}else{
+									useT.errorAlert(".hideDoc3","warning","您的余额不足");										
+								}
+							},
+							error:function(){
+								useT.errorAlert(".hideDoc3","warning","请重新填写");									
+							}					
+					});
+				return true;
+			}else{
+				useT.errorAlert(".hideDoc3","warning","请输入金额");
+				return false;
+			}
+		},
+//备注
+		account_remark:function(val){
+				useT.errorAlert(".hideDoc4","through","&radic;");
+				useT.remark=val;
+				return true;
+		},
+//转账提交信息
+
+		account_user_money:function(){
+			var moneyNum=parseFloat(useT.transferMoney);
+					var time=useT.submitTime();
+					var TransferInformation={
+								username:USERNAME,	
+								money:useT.moneyNUM,
+								moneyNum:moneyNum,	
+								time:time.timeOne,		
+								peerName:useT.peer,		
+								peerPhone:useT.phone,	
+								//peerTime:,			
+								remark:useT.remark,	
+								state:1,				
+								serial:	time.timeTwo
+					};
+					alert(TransferInformation.serial);
+					$.ajax({
+						url:APP_ROOT+"/index.php?ctl=ajax&act=userMoney",
+						data:TransferInformation,
+						dataType:"json",
+						success:function(data){
+							//alert( data.num);
+							show2_pay_tip("操作成功");							
+							//日志生成入口入口							
+							useT.commitLog(TransferInformation);		
+							return;							
+						},
+						error:function(){							
+							show2_pay_tip("操作失败");
+							setTimeout(function(){
+							window.location=APP_ROOT+"/index.php?ctl=account&act=commit_log";							
+							},2000);
+							
+						}
+					});
+		},
+//警告提示
+		errorAlert:function(element,fontColor,str){
+			fontColor=="through"?$(element).removeClass("warning"):$(element).removeClass("through");
+			return $(element).addClass(fontColor).html("&nbsp;&nbsp;&nbsp;&nbsp;"+str);
+		},
+//日志开始 
+		commitLog:function(message){
+			$.ajax({
+				url:APP_ROOT+"/index.php?ctl=ajax&act=commit_Log",
+				data:message,
+				dataType:"json",
+				success:function(data){
+					if(data.status){
+						setTimeout(function(){
+							window.location=APP_ROOT+"/index.php?ctl=account&act=commit_log";							
+						},2000);						
+					}else{
+						show2_pay_tip("转账成功,交易日志生成失败,请联系客服");	
+					}
+				},
+				error:function(){
+					alert("请求失败");	
+				}			
+			});
+		},
+//流水号及事件
+		submitTime:function(){
+			var todayDate=new Date();
+			var year=todayDate.getFullYear();
+			var date=todayDate.getDate();			
+			var month=todayDate.getMonth()+1;			
+			var hour=todayDate.getHours();		
+			var mininutes=todayDate.getMinutes();
+			var seconds=todayDate.getSeconds();
+			var ran=Math.round((Math.random())*10000);
+			var objTime={
+				timeOne:year+"-"+month+"-"+date+" "+hour+":"+mininutes,//转账提交时间
+				timeTwo:year+""+month+""+date+""+hour+""+mininutes+""+seconds+""+ran
+			};
+			return objTime;
+		}
+		
+	};
+//表单事件绑定
+	//转账
+	$("#account_name").bind("blur",function(){
+		useT.account_name($(this).val());
+	});
+	//真实姓名
+	/*$("#collection_name").bind("b
+	lur",function(){
+		useT.collection_name($(this).val());
+	});*/
+	$("#mobile_phone").bind("blur",function(){
+		useT.mobile_phone($(this).val());
+	});
+	$("#account_number").bind("blur",function(){
+		useT.account_number($(this).val());
+	}); 
+	$("#account_remark").bind("blur",function(){
+		if($(this).val().length>0){
+			useT.account_remark($(this).val());
+		}		
+	});
+	//提交
+	$(".submitButton").bind("click",function(){	
+			var paypassword=$("input[name='paypassword1']").val();						
+			if(!paypassword.length>0){
+				$.showErr("请输入支付密码");
+				return false;
+			}else{
+				var temp=function (){
+					for(var i=0;$(".doc").length;i++){
+						if(!$(".doc").eq(i).hasClass("warning")){
+								if(i=$(".doc").length-1){
+									return true;
+								}
+						}else{
+								return false;
+						}
+					}
+				}
+				var temp1=function(){for(var i=0;i<$(".value").length;i++){
+						if($(".value").eq(i).val().length>0){
+							if(i=$(".value").length-1){
+									return true;
+								}
+						}else{
+							return false;
+						}
+					}
+			
+				}
+				var pwd=new Object();
+				pwd.val=paypassword;
+				pwd.uName=USERNAME;
+				$.ajax({
+					url:APP_ROOT+"/index.php?ctl=ajax&act=pay_password",
+					data:pwd,
+					dataType:"json",
+					success: function(data){
+						if(data.status==1&&temp()&&temp1()){							
+							show1_pay_tip();
+							return;		
+						}else if(data.status==0){
+							
+							show2_pay_tip("支付密码错误");
+							return;
+						}else{
+							show2_pay_tip("请正确填写");
+						}						
+					},
+					error:function(){
+						useT.errorAlert(".hideDoc2","warning","服务器异常,稍后再试");						
+					}		
+					
+				});
+	
+			}			
+	});
+	
+//提示框
+function show1_pay_tip()
+{
+	var Click=false;
+	var html =  '<div class="pay_tip_box">'+
+				'	<div class="empty_tip" style="font-size:14px;">您确定转账吗?</div>'+
+				'	<div class="blank"></div>'+
+				'   <div class="blank15"></div>'+
+				'	<div class="tc">'+
+				'		<span class="ui-center-button theme_bgcolor" id="check_btn" rel="green">确定</span>'+
+				'		<span class="ui-center-button bg_red" id="choose_btn" rel="blue">取消</span>'+
+				'	</div>'+
+				'</div>'+
+				'<div class="blank"></div>';
+	$.weeboxs.open(html, {boxid:'pay_tip',contentType:'text',showButton:false, showCancel:true, showOk:false,title:'温馨提示',width:350,type:'wee'});
+	$("#check_btn").bind("click",function(){	
+		useT.account_user_money();
+		return;
+	});
+	$("#choose_btn").bind("click",function(){
+		close_pop();
+		return false;
+	});
+}
+
+function show2_pay_tip(value){
+	var html =  '<div class="pay_tip_box">'+
+				'	<div class="empty_tip" style="font-size:14px;">'+value+'</div>'+
+				'	<div class="blank"></div>'+
+				'</div>'+
+				'<div class="blank"></div>';
+	$.weeboxs.open(html, {boxid:'pay_tip',contentType:'text',showButton:true, showCancel:false, showOk:true,title:'温馨提示',width:350,type:'wee'});	
+	return;	
+}
+ </script> 
+{include file="inc/footer.html"} 

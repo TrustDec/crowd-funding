@@ -1,0 +1,404 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<load href='__TMPL__Common/style/jquery.autocomplete.css' />
+<load href='__TMPL__Common/js/jquery.autocomplete.min.js' />	
+<load href='__TMPL__Common/js/deal_edit.js' />
+<script type="text/javascript" src="__TMPL__Common/js/calendar/calendar.php?lang=zh-cn" ></script>
+<load href='__TMPL__Common/js/calendar/calendar.css' />
+<load href='__TMPL__Common/js/calendar/calendar.js' />
+<div class="main">
+<div class="main_title">{%ADD} <a href="{:u("Licai/index")}" class="back_list">{%BACK_LIST}</a></div>
+<div class="blank5"></div>
+<form name="edit" action="__APP__" method="post" enctype="multipart/form-data">
+<table class="form conf_tab" cellpadding=0 cellspacing=0 >
+	<tr>
+		<td colspan=2 class="topTd"></td>
+	</tr>
+	<tr>
+		<td class="item_title">名称:</td>
+		<td class="item_input"><input type="text" class="textbox require" name="name" /></td>
+	</tr>
+	<tr>
+		<td class="item_title">理财代码:</td>
+		<td class="item_input">
+			<input type="text" class="textbox" value="" name="licai_sn" />
+            <span class='tip_span'>不填由系统随机生成</span>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">发起人:</td>
+		<td class="item_input"><input type="text" class="textbox J_autoUserName require" name="user_id" value="" size="17" /><span class='tip_span'>只识别ID</span></td>
+	</tr>
+	<tr>
+		<td class="item_title">项目图片:</td>
+		<td class="item_input">
+			<html:imgUpload name = 'img' id='img' value='$vo.img' />
+			<span class='tip_span'>推荐700*440图片</span>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">是否推荐:</td>
+		<td class="item_input">
+			<select name="is_recommend">
+ 				<option value="0"  >否</option>
+				<option value="1"  >是</option>
+			</select>
+		</td>
+	</tr>
+    <tr>
+		<td class="item_title">推荐类型:</td>
+		<td class="item_input">
+			<select name="re_type">
+ 				<option value="0"  >无</option>
+				<option value="1"  >新品上架</option>
+                <!--<option value="2"  >当月畅销</option>-->
+                <option value="3"  >本周畅销</option>
+                <option value="4"  >限时抢购</option>
+			</select>
+		</td>
+	</tr>
+    <tr>
+		<td class="item_title">理财类型:</td>
+		<td class="item_input">
+        	<select name="type" id='select_type'>
+ 				<option value="0" >余额宝</option>
+				<option value="1" >固定定存</option>
+                <!--<option value="2" >浮动定存</option>
+                <option value="3" >票据</option>
+                <option value="4" >基金</option>-->
+			</select>
+        </td>
+	</tr>
+	<tr>
+		<td class="item_title">开始购买时间:</td>
+		<td class="item_input">
+            <input type="text" class="textbox require" name="begin_buy_date" id="begin_buy_date" value="" onfocus="this.blur(); return showCalendar('begin_buy_date', '%Y-%m-%d', false, false, 'begin_buy_date');" />
+			<input type="button" class="button" id="btn_begin_buy_date" value="{%SELECT_TIME}" onclick="return showCalendar('begin_buy_date', '%Y-%m-%d', false, false, 'btn_begin_buy_date');" />	
+			<input type="button" class="button" value="{%CLEAR_TIME}" onclick="$('#begin_buy_date').val('');" />	
+		</td>
+	</tr>
+    <tr id='show_begin_interest_date'>
+		<td class="item_title">起息时间:</td>
+		<td class="item_input">
+            <input type="text" class="textbox require" name="begin_interest_date" id="begin_interest_date" value="" onfocus="this.blur(); return showCalendar('begin_interest_date', '%Y-%m-%d', false, false, 'begin_interest_date');" />
+			<input type="button" class="button" id="btn_begin_interest_date" value="{%SELECT_TIME}" onclick="return showCalendar('begin_interest_date', '%Y-%m-%d', false, false, 'btn_begin_interest_date');" />	
+			<input type="button" class="button" value="{%CLEAR_TIME}" onclick="$('#begin_interest_date').val('');" />	
+            <span class='tip_span'>预热结束时间，正常利息计算开始时间</span>
+		</td>
+	</tr>
+    <tr id='show_end_buy_time'>
+		<td class="item_title">购买结束时间:</td>
+		<td class="item_input">
+            <input type="text" class="textbox" name="end_buy_date" id="end_buy_date" value="" onfocus="this.blur(); return showCalendar('end_buy_date', '%Y-%m-%d', false, false, 'end_buy_date');" />
+			<input type="button" class="button" id="btn_end_buy_date" value="{%SELECT_TIME}" onclick="return showCalendar('end_buy_date', '%Y-%m-%d', false, false, 'btn_end_buy_date');" />	
+			<input type="button" class="button" value="{%CLEAR_TIME}" onclick="$('#end_buy_date').val('');" />	
+		</td>
+	</tr>
+    <tr >
+		<td class="item_title">结束时间:</td>
+		<td class="item_input">
+            <input type="text" class="textbox" name="end_date" id="end_date" value="" onfocus="this.blur(); return showCalendar('end_date', '%Y-%m-%d', false, false, 'end_date');" />
+			<input type="button" class="button" id="btn_end_date" value="{%SELECT_TIME}" onclick="return showCalendar('end_date', '%Y-%m-%d', false, false, 'btn_end_date');" />	
+			<input type="button" class="button" value="{%CLEAR_TIME}" onclick="$('#end_date').val('');" />	
+		</td>
+	</tr>
+    <tr id='time_limit_row'>
+		<td class="item_title">理财期限:</td>
+		<td class="item_input">
+        	 <input type="text" class="textbox" name="time_limit"  id="time_limit"/>个月
+        </td>
+	</tr>
+	<tr>
+		<td class="item_title">起始金额:</td>
+		<td class="item_input">
+			<input type="text" class="textbox" name="min_money" value="" />万元
+		</td>
+	</tr>
+    <tr>
+		<td class="item_title">单笔最大购买限额:</td>
+		<td class="item_input">
+			<input type="text" class="textbox" name="max_money" value="" />万元
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">利息类型:</td>
+		<td class="item_input">
+        	<select name="begin_interest_type">
+            	<option value="0"  >当天生效</option>
+ 				<option value="1"  >次日生效</option>
+				<option value="2"  >下个工作日起息</option>
+                <option value="3"  >下二工作日起息</option>
+			</select>
+        </td>
+	</tr>
+    <tr id='site_buy_fee_rate_row'>
+		<td class="item_title">购买手续费率:</td>
+		<td class="item_input">
+        	 <input type="text" class="textbox require" name="site_buy_fee_rate" id='site_buy_fee_rate' onkeyup="amount(this)" value="0.0000"/>%
+        </td>
+	</tr>
+    <tr id='platform_rate_row'>
+		<td class="item_title">平台收益率:</td>
+		<td class="item_input">
+        	 <input type="text" class="textbox require" name="platform_rate" id='platform_rate' onkeyup="amount(this)" value="0.0000"/>%
+        </td>
+	</tr>
+    <tr id='redemption_fee_rate_row'>
+		<td class="item_title">赎回手续费:</td>
+		<td class="item_input">
+        	 <input type="text" class="textbox require" name="redemption_fee_rate" onkeyup="amount(this)" id='redemption_fee_rate' value="0.0000"/>%
+        </td>
+	</tr>
+	<tr>
+		<td class="item_title">成交服务费率:</td>
+		<td class="item_input">
+        	 <input type="text" class="textbox require" name="service_fee_rate" id="service_fee_rate" onkeyup="amount(this)" value="0.0000"/>% 
+        </td>
+	</tr>
+	<tr>
+		<td class="item_title">利率范围(文字描述):</td>
+		<td class="item_input"><input type="text" class="textbox" name="scope" value="" /></td>
+	</tr>
+	
+	<tr>
+		<td class="item_title">产品规模:</td>
+		<td class="item_input"><input type="text" class="textbox" name="product_size" value="" /><span class='tip_span'>填写数字</span></td>
+	</tr>
+    <tr>
+		<td class="item_title">风险等级:</td>
+		<td class="item_input">
+        	<select name="risk_rank">
+ 				<option value="0"  >低</option>
+				<option value="1"  >中</option>
+                <option value="2"  >高</option>
+			</select>
+        </td>
+	</tr>
+    <tr style="display:none;">
+		<td class="item_title">赎回到账方式:</td>
+		<td class="item_input">
+        	<input type="radio" name='review_type' id='review_type_0' value="0" checked='checked'/>
+            <label for="review_type_0">发起人审核</label>
+            <input type="radio" name='review_type' id='review_type_1' value="1" />
+            <label for="review_type_1">网站和发起人审核</label>
+            <input type="radio" name='review_type' id='review_type_2' value="2" />
+            <label for="review_type_2">自动审核</label>
+ 		</td>
+	</tr>
+    
+    <tr >
+		<td class="item_title">理财详情:</td>
+		<td class="item_input">	
+             <html:editor id="description" name="description" type="KINDEDITOR" content="{$vo.description}" />
+ 		</td>
+	</tr>
+    <tr  >
+		<td class="item_title">赎回到账时间描述:</td>
+		<td class="item_input">
+			 <textarea name="purchasing_time" class="textarea require"></textarea>
+			 <span class='tip_span'>*必填项</span>
+ 		</td>
+	</tr>
+    <tr>
+		<td class="item_title">规则:</td>
+		<td class="item_input">
+        	 <html:editor id="rule_info" name="rule_info" type="KINDEDITOR" content="{$vo.rule_info}" />
+ 		</td>
+	</tr>
+    <tr>
+		<td class="item_title">是否托管:</td>
+		<td class="item_input">
+        	<select name="is_deposit">
+				<option value="1" >非托管</option>
+                <option value="0" >托管</option>
+			</select>
+        </td>
+	</tr>
+    <tr>
+		<td class="item_title">获取收益方式：</td>
+		<td class="item_input"><input type="text" class="textbox" name="profit_way"  /></td>
+	</tr>
+    
+	<tr>
+		<td class="item_title">排序:</td>
+		<td class="item_input"><input type="text" class="textbox" name="sort"  value="{$sort}"/></td>
+	</tr>
+	<tr>
+		<td class="item_title">简介:</td>
+		<td class="item_input">
+        	<html:editor id="brief" name="brief" type="KINDEDITOR" content="{$vo.brief}" />
+		</td>
+	</tr>
+	<if condition="$vo.type eq '' or  $vo.type eq 0 ">
+	<tr id="net_value">
+		<td class="item_title">最新净值:</td>
+		<td class="item_input"><input type="text" class="textbox" name="net_value"  /></td>
+	</tr>
+	</if>
+	 <tr id="pay_type">
+		<td class="item_title">是否允许垫付:</td>
+		<td class="item_input">
+        	<select name="pay_type">
+ 				<option value="0" <if condition="$vo.pay_type eq '' or  $vo.pay_type eq 0 ">selected="selected"</if> >不允许</option>
+				<option value="1" <if condition="$vo.pay_type eq 1 ">selected="selected"</if> >允许</option>
+			</select>
+        </td>
+	 </tr>
+	
+   <!-- <tr>
+		<td class="item_title">关联的基金编号:</td>
+		<td class="item_input">
+        	 <input type="text" class="textbox" name="fund_key"  />	
+        </td>
+	</tr>
+	
+    <tr>
+		<td class="item_title">基金种类:</td>
+		<td class="item_input">
+        	<select name="fund_type_id">
+            	<foreach name='fund_type' item="fund_type_item">
+ 				<option value="{$fund_type_item.id}" >{$fund_type_item.name}</option>
+                </foreach>
+			</select> 	 
+   		</td>
+	</tr>
+    <tr>
+		<td class="item_title">基金品牌:</td>
+		<td class="item_input">
+        	<select name="fund_brand_id">
+ 				<foreach name='fund_brand' item="fund_brand_item">
+ 				<option value="{$fund_brand_item.id}" >{$fund_brand_item.name}</option>
+                </foreach>
+			</select>	
+   		</td>
+   </tr>-->
+   
+	<tr>
+		<td colspan=2 class="bottomTd"></td>
+	</tr>
+</table>
+
+<div class="blank5"></div>
+	<table class="form" cellpadding=0 cellspacing=0>
+		<tr>
+			<td colspan=2 class="topTd"></td>
+		</tr>
+		<tr>
+			<td class="item_title"></td>
+			<td class="item_input">
+			<!--隐藏元素-->
+			<input type="hidden" name="{:conf("VAR_MODULE")}" value="Licai" />
+			<input type="hidden" name="{:conf("VAR_ACTION")}" value="insert" />
+			<!--隐藏元素-->
+			<input type="submit" class="button" value="{%ADD}" />
+			<input type="reset" class="button" value="{%RESET}" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan=2 class="bottomTd"></td>
+		</tr>
+	</table> 		 
+</form>
+<script>
+	change_type();
+	$("#select_type").bind("change",function(){
+			change_type();
+	});
+	function change_type()
+	{
+		//余额宝
+		if($("#select_type").val() == 0)
+		{
+			$("#show_begin_interest_date").hide();
+			$("#show_end_buy_time").hide();
+			$("#time_limit_row").hide();
+			$("#site_buy_fee_rate_row").show();
+			$("#platform_rate_row").show();
+			$("#redemption_fee_rate_row").show();
+			$("#net_value").show();
+			$("#pay_type").hide();
+			
+			$("#begin_interest_date").removeClass("require");
+			
+			$("#end_date").addClass("require");
+			$("#site_buy_fee_rate").addClass("require");
+			$("#platform_rate").addClass("require");
+			$("#redemption_fee_rate").addClass("require");
+		}
+		else
+		{
+			$("#show_begin_interest_date").show();
+			$("#show_end_buy_time").show();
+			$("#time_limit_row").show();
+			$("#site_buy_fee_rate_row").hide();
+			$("#platform_rate_row").hide();
+			$("#redemption_fee_rate_row").hide();
+			$("#net_value").hide();
+			$("#pay_type").show();
+			
+			$("#begin_interest_date").addClass("require");
+			
+			$("#end_date").removeClass("require");
+			$("#site_buy_fee_rate").removeClass("require");
+			$("#platform_rate").removeClass("require");
+			$("#redemption_fee_rate").removeClass("require");
+		}
+	}
+	$("form").bind("submit",function(){
+		//余额宝
+		if($("#select_type").val() == 0)
+		{
+			if($("#end_date").val() != ''){
+				var end_date = $("#end_date").val();
+				var begin_buy_date = $("#begin_buy_date").val();
+				if(end_date < begin_buy_date){
+					alert("开始购买时间不能大于结束时间");
+					$("#end_date").focus();
+					return false;
+				}
+			}
+		}else
+		{
+			var begin_buy_date = $("#begin_buy_date").val();
+			var begin_interest_date = $("#begin_interest_date").val();
+			var end_buy_date = $("#end_buy_date").val();
+			var end_date = $("#end_date").val();
+	
+			if(begin_buy_date > begin_interest_date){
+					alert("起息时间不能小于开始购买时间");
+					$("#end_date").focus();
+					return false;
+			}
+			if(end_buy_date != ''){
+				if(begin_interest_date > end_buy_date){
+					alert("购买结束时间不能小于起息时间");
+					$("#end_date").focus();
+					return false;
+				}
+			}
+			if(end_buy_date != '' && end_date != ''){
+				if(end_buy_date > end_date){
+					alert("购买结束时间不能大于结束时间");
+					$("#end_date").focus();
+					return false;
+				}
+			}
+		}
+	});
+	// 限制只能输入金额
+function amount(th){
+    var regStrs = [
+        ['^0(\\d+)$', '$1'], //禁止录入整数部分两位以上，但首位为0
+        ['[^\\d\\.]+$', ''], //禁止录入任何非数字和点
+        ['\\.(\\d?)\\.+', '.$1'], //禁止录入两个以上的点
+        ['^(\\d+\\.\\d{4}).+', '$1'] //禁止录入小数点后两位以上
+    ];
+    for(i=0; i<regStrs.length; i++){
+        var reg = new RegExp(regStrs[i][0]);
+        th.value = th.value.replace(reg, regStrs[i][1]);
+    }
+}
+</script>
+</div>
+<include file="Public:footer" />

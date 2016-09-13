@@ -1,0 +1,72 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/notify.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/notify.js";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/notify.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<div id="J_wrap">
+	{include file="inc/home_user_info.html"}
+	<div class="dlmain Myhomepage">
+	 	{include file="inc/account_left.html"} 
+		<div class="homeright pageright f_r">
+			<div class="list_title clearfix">
+				<div {if $all eq 0}class="cur"{/if}>
+					<a href="{url r="notify#index"}">未读通知</a>
+				</div>
+				<div {if $all eq 1}class="cur"{/if}>
+					<a href="{url r="notify#index" p="all=1"}">全部通知</a>
+				</div>
+			</div>
+			<div class="list_content">
+				{if $notify_list}
+				{foreach from=$notify_list item=notify_item}
+				<div class="notify_item">
+					<a {if $notify_item.is_read eq 0} href="javascript:void(0);" onclick="deal_notify(this);" {else}href="{$notify_item.url}"{/if} rel="{$notify_item.url}"  target="_blank" class="linkgreen">{$notify_item.log_info}</a> <span>{function name="pass_date" v=$notify_item.log_time}</span>
+					<div class="blank5"></div>
+					<div class="notify_op">
+						{if $notify_item.is_read eq 0}
+						<a href="{url r="notify#ignore" p="id=$notify_item.id"}" class="ui-small-button theme_bgcolor mr10">忽略</a>
+						{/if}
+						<a href="{url r="notify#delnotify" p="id=$notify_item.id"}" class="ui-small-button bg_red">删除</a>
+					</div>
+					<div class="blank5"></div>
+				</div>
+				<div class="blank"></div>
+				{/foreach}
+				<div class="blank10"></div>
+				<a href="{url r="notify#ignoreall"}" class="ui-small-button bg_red" style="font-size:14px;">忽略全部通知</a>
+				<div class="blank"></div>
+				<div class="pages">{$pages}</div>
+				{else}
+				<div class="empty_tip">{if $all eq 0}没有新通知{else}没有通知记录{/if}</div>
+				{/if}	
+			</div>
+		</div>
+		<div class="blank0"></div>
+	</div>
+	<div class="blank0"></div>
+</div>
+<script>
+ 	function deal_notify(obj){
+		object = $(obj);
+ 		var ajaxurl = object.attr("rel");
+ 		$.ajax({ 
+			url: ajaxurl,
+			dataType: "json",
+			//data:query,
+			type: "POST",
+			success: function(ajaxobj){
+				if(ajaxobj.status==1){
+					location.href = ajaxobj.jump;
+ 					return false;
+				}else{
+					$.showErr(ajaxobj.info);
+					return false;
+				}
+			}
+		})
+	}
+</script>
+{include file="inc/footer.html"} 

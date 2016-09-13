@@ -1,0 +1,64 @@
+{include file="inc/header.html"}
+<div class="blank15"></div>
+<section class="account_money_carry">
+	<form name="Jcarry_From" id="account_money_carry_form" action="{url_wap r="account#submitrefund"}" method="post">
+	<div class="ul_block">
+		<ul>
+			<li class="webkit-box">
+				<label class="input_lable">卡号：</label>
+                <span class="text webkit-box-flex">{$bank_info.bankcard}</span>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">银行：</label>
+             	<span class="text webkit-box-flex">{$bank_info.bank_name}</span>
+             	<a href="#" onclick="RouterURL('{url_wap r="account#money_carry_bank"}','#account-money_carry_bank');" class="f12 f_999">我想重新选择</a>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">户名：</label>
+             	<span class="text webkit-box-flex">{$bank_info.real_name}</span>
+			</li>
+		</ul>
+		<div class="blank10"></div>
+		<ul>
+			<li class="webkit-box">
+				<label class="input_lable">可用金额：</label>
+                <span class="text webkit-box-flex f_money">{function name="format_price" v=$user_info.money p=2}</span>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">提现审核中金额：</label>
+                <span class="text webkit-box-flex f_money">{function name="format_price" v=$bank_info.ready_refund_money p=2}</span>
+			</li>
+		</ul>
+		<div class="blank10"></div>
+		<ul>
+			<li class="webkit-box">
+				<label class="input_lable">提取金额：</label>
+               	<input type="text" placeholder="请输入提取金额" id="Jcarry_amount" name="money" value="" class="textbox webkit-box-flex" onKeyUp="amount(this)" /><span>元</span>
+			</li>
+			{if app_conf("PAYPASS_STATUS")}
+			<li class="webkit-box">
+				<label class="input_lable">付款密码：</label>
+               	<input type="password"  autocomplete="off" placeholder="请输入密码" autocomplete="off" class="textbox webkit-box-flex" name="paypassword" id="J_PAYPASSWORD" /><span class="f_666 f12">{if $user_info.paypassword eq ''}还未设置！{else}忘记了？{/if}<a href="#" onclick="RouterURL('{url r="settings#security" p="method=setting-pass-box"}','#settings-security');" class='theme_fcolor'>点这里</a></span>
+			</li>
+			{/if}
+		</ul>
+		<div class="mod_main">
+			<div class="f_red f12">警告：禁止信用卡套现、虚假交易等行为，一经确认，将终止该账户的使用。</div>
+			<div class="blank15"></div>
+			<div class="button_row tc">
+	            <input type="button" value="申请提现" class="ui-button theme_color">
+	       		<input type="hidden" name="acount_balance" id="Jcarry_acount_balance_res" />
+	       		<input type="hidden" name="user_bank_id" value="{$bank_info.id}" />
+				<input type="hidden" name="ajax" value="1">
+		    </div>
+	    </div>
+	</div>
+	</form>
+</section>
+<div class="blank15"></div>
+<script>
+	var money = parseFloat({$user_info.money});
+	var ready_refund_money = {$bank_info.ready_refund_money};
+</script>
+<!-- account_money_carry.js -->
+{include file="inc/footer.html"} 

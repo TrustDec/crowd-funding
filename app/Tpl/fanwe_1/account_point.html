@@ -1,0 +1,59 @@
+{include file="inc/header.html"} 
+{include file="inc/home_user_info.html"}
+<!--中间开始-->
+<div class="dlmain Myhomepage">
+	{include file="inc/account_left.html"}
+	<div class="homeright pageright f_r">
+		<div class="account_money">
+			<div class="list_title clearfix">
+				<div {if $all eq 0}class="cur"{/if}>
+					<span>信用明细</span>
+				</div>
+			</div>
+			
+			<div><strong>信用值：</strong><span class="f_red">{if $total_point gt 0}{$total_point}{else}0{/if}</span></div>
+			
+			<div class="blank20"></div>
+			<div class="list_conment">
+				{if $log_list}
+				<div class="i_deal_list clearfix">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc_table">
+						<tbody>
+							<tr>
+								<th>日志内容</th>
+								<th>类型</th>
+								<th width="120">信用</th>
+								<th width="160">时间</th>
+				
+							</tr>
+							{foreach from=$log_list item=log_item}
+							<tr>
+								<td class="deal_name" style="text-align:left;">{$log_item.log_info}</td>
+								<td>{if $log_item.point gt 0}增加{else}减少{/if}</td>
+								<td>
+									<span class="f_money b">{$log_item.point}</span>
+								</td>
+								<td>{function name="to_date" v=$log_item.log_time}</td>
+							</tr>
+							{/foreach}
+						</tbody>
+					</table>
+				</div>
+				<div class="blank20"></div>
+				<div class="pages">{$pages}</div>
+				<div class="blank20"></div>
+				{else}
+				<div class="empty_tip">
+					还没有信用记录
+				</div>
+				{/if}
+			</div>
+		</div>
+	</div>
+	
+	
+<!--中间结束-->
+<div class="blank"></div>
+</div>
+<div class="blank"></div>
+{include file="inc/footer.html"} 

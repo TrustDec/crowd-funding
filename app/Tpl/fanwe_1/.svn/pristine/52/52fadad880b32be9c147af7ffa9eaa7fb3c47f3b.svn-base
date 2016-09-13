@@ -1,0 +1,538 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0026)http://t1.fanwe.net:93/zc/ -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="Generator">
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<title>方维众筹 - 预购一个梦想 启动项目</title>
+<meta name="keywords" content="SEO关键词">
+
+<meta name="description" content="SEO描述">
+<link rel="stylesheet" type="text/css" href="../css/font-awesome.css"/>
+<link rel="stylesheet" type="text/css" href="../css/index.css"/>
+<link rel="stylesheet" type="text/css" href="../css/style.css"/>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/js1.js"></script>
+<script type="text/javascript" src="../js/comm.js"></script>
+<script type="text/javascript" src="../js/data.js"></script>
+<script type="text/javascript" src="../js/picker.js"></script>
+<script type="text/javascript">
+
+var container = null;
+container = document.getElementById("pcd");
+var picker_1 = new AreaPicker(container ,"AreaPicker_1" ,1).init().bind();
+
+container = document.getElementById("pce");
+var picker_2 = new AreaPicker(container ,"AreaPicker_2" ,2);
+picker_2.init().bind();
+
+container = document.getElementById("pcf");
+var picker_3 = new AreaPicker(container ,"AreaPicker_2" ,3);
+picker_3.init();
+picker_3.bind();
+
+</script>
+</head>
+
+<body style="background: #fff;">	
+<div class="header">
+	<div class="wrap">
+		<div class="logo f_l">
+			<a class="link" href="#">
+			<img src="../images/logo.png"/>	
+            </a>
+		</div>
+		
+		
+		<ul class="main_nav f_l">
+					<li class="current">
+						<span>
+						<a href="#" target="" title="首页">首页</a>	
+						</span>		
+					</li>
+					<li>
+						<span>
+						<a href="#" target="" title="浏览项目">浏览项目</a>	
+						</span>		
+					</li>
+					<li>
+						<span>
+						<a href="#" target="" title="新手帮助">新手帮助</a>	
+						</span>		
+					</li>
+						</ul>
+		<div class="f_l">
+			<form action="http://t1.fanwe.net:93/zc/index.php?ctl=deals" method="post" id="header_search_form">
+			<div class="header_seach f_l">		
+			<input type="button" value="" class="seach_submit" id="header_submit">
+			<input type="text" id="header_keyword" name="k" value="搜索项目" class="seach_text">	
+			<input type="hidden" name="redirect" value="1">				
+			</div>
+			</form>	
+        </div>
+		<div class="f_r" style="width:350px;">
+			<div class="login_tip1">	
+            <span style="margin-top:0px;">
+				<a href="#" class="usertop1" title="消息">消息</a>
+				<a href="" class="usertop"><img src="../images/tu2.png"></a>
+				<a href="javascript:show();" class="usertop1" title="注册">你是逗比吗  <i class="fa fa-caret-down"></i></a>&nbsp;&nbsp;	
+               
+            </span>	
+				 <a href="#" class="add_project"></a>			
+			</div>	
+			<div class="menu_user" id="menu_user">
+				<div class="menu_list">
+					<ul>
+						<li><a href="">钢板日穿</a></li>
+						<li><a href="">范爷的事业线</a></li>
+						<li><a href="">什么啊</a></li>
+					</ul>
+				</div>
+			</div>	
+		</div>		
+	</div>	
+<div class="blank"></div>	
+</div>
+<div class="blank"></div>
+
+
+<!--中间开始-->
+<div class="userhomehd">
+	<div class="wrap userhomehd1">
+		<div class="userbox1img f_l"><img src="../images/userbox1img.png"></div>
+		<div class="homebox1main f_l">
+		  	<span class="username">钢板日穿君</span>
+		  	<a class="sentmail" href=""></a><br>
+		  	<span style="margin-top:8px;">他很忙，忙的什么都没来得及留下。</span><br>
+		  	<span>加入时间：2014-06-20</span><br>
+		  	<span>所在地区：暂无信息</span><br>
+		</div>
+	 <div class="blank"></div>
+	 	<div class="userbox">
+			<ul>
+			   <li id="one1" onclick="setTab('one',1,7)" class="hover">发起的项目（12）</li>
+			   <li id="one2" onclick="setTab('one',2,7)" class="">支持的项目（12）</li> 
+			</ul>
+		</div>
+
+
+
+	</div>
+</div>
+
+<div class="wrap">
+	   <div id="con_one_1" class="hover" style="display: block;">
+	   <div id="pin_box">
+			<!--第一行-->
+				<div class="deal_item_box f_l first">
+			    <!--1-->
+						<div class="deal_content_box">
+						<a href="http://t1.fanwe.net:93/zc/index.php?ctl=deal&act=show&id=56" title="拥有自己的咖啡馆">
+						<img src="../images/1.png" alt="拥有自己的咖啡馆">
+						</a>
+						<div class="blank"></div>
+			            <div class="blank"></div>
+			            <div class="blank"></div>
+						<a href="http://t1.fanwe.net:93/zc/index.php?ctl=deal&act=show&id=56" title="拥有自己的咖啡馆" class="deal_title">【大卫咖啡】国内首家电商咖啡馆</a>
+						<div class="blank"></div>
+						</div>
+			            <!--2-->
+			            <div class="paiduan">
+			            	<span class="caption-title">目标：<em>90天</em> <em><i class="font-yen">¥</i>300000</em></span>
+								<span class="f_r ">
+								<span class="common-sprite">众筹中</span>
+								</span>
+			            </div>
+
+			             <!--3-->
+			             <div class="deal_content_box" style="padding:0 15px 0 15px; ">             
+			                 <div class="ui-progress">
+			                  <span style="width:28%;"></span>
+			                 </div>				
+							<div class="blank"></div>
+							<div class="div3" style="text-align:left;"><span class="num">28%</span><span class="til">已达</span></div>
+							<div class="div3"><span class="num"><font>5500</font>元</span><span class="til">已筹资</span></div>
+							<div class="div3" style="text-align:right;">
+			                	<span class="num">12/11/07</span>
+								<span class="til">剩余时间</span>				
+							</div>
+							<div class="blank1"></div>
+						</div>
+				</div>
+			    
+			    
+			    
+			    
+			    
+					<div class="deal_item_box f_l ">
+			    <!--1-->
+						<div class="deal_content_box">
+						<a href="http://t1.fanwe.net:93/zc/index.php?ctl=deal&act=show&id=56" title="拥有自己的咖啡馆">
+						<img src="../images/2.png" alt="拥有自己的咖啡馆">
+						</a>
+						<div class="blank"></div>
+			            <div class="blank"></div>
+			            <div class="blank"></div>
+						<a href="http://t1.fanwe.net:93/zc/index.php?ctl=deal&act=show&id=56" title="拥有自己的咖啡馆" class="deal_title">【大卫咖啡】国内首家电商咖啡馆</a>
+						<div class="blank"></div>
+						</div>
+			            <!--2-->
+			            <div class="paiduan">
+			            	<span class="caption-title">目标：<em>90天</em> <em><i class="font-yen">¥</i>300000</em></span>
+								<span class="f_r ">
+								<span class="common-success">已成功</span>
+								</span>
+			            </div>
+
+			             <!--3-->
+			             <div class="deal_content_box" style="padding:0 15px 0 15px; ">             
+			                 <div class="ui-success">
+			                  <span style="width:100%;"></span>
+			                 </div>				
+							<div class="blank"></div>
+							<div class="div3" style="text-align:left;"><span class="num">100%</span><span class="til">已达</span></div>
+							<div class="div3"><span class="num"><font>5500</font>元</span><span class="til">已筹资</span></div>
+							<div class="div3" style="text-align:right;">
+			                	<span class="num">12/11/07</span>
+								<span class="til">剩余时间</span>				
+							</div>
+							<div class="blank1"></div>
+						</div>
+				</div>
+			    
+			    
+			    
+			    
+					<div class="deal_item_box f_l ">
+			    <!--1-->
+						<div class="deal_content_box">
+						<a href="http://t1.fanwe.net:93/zc/index.php?ctl=deal&act=show&id=56" title="拥有自己的咖啡馆">
+						<img src="../images/3.png" alt="拥有自己的咖啡馆">
+						</a>
+						<div class="blank"></div>
+			            <div class="blank"></div>
+			            <div class="blank"></div>
+						<a href="#" title="拥有自己的咖啡馆" class="deal_title">【大卫咖啡】国内首家电商咖啡馆</a>
+						<div class="blank"></div>
+						</div>
+			            <!--2-->
+			            <div class="paiduan">
+			            	<span class="caption-title">目标：<em>90天</em> <em><i class="font-yen">¥</i>300000</em></span>
+								<span class="f_r ">
+								<span class="common-begin">即将开始</span>
+								</span>
+			            </div>
+
+			             <!--3-->
+			             <div class="deal_content_box" style="padding:0 15px 0 15px; ">             
+			                 <div class="ui-progress">
+			                  <span style="width:0%;"></span>
+			                 </div>				
+							<div class="blank"></div>
+							<div style="text-align:center;margin:13px auto;*margin:10px auto;">
+							<font color="#999">离开始时间：</font><font>3天25时48分</font>
+							</div>
+							<div class="blank1"></div>
+						</div>
+				</div>
+			    
+			    
+					<div class="deal_item_box f_l ">
+			    <!--1-->
+						<div class="deal_content_box">
+						<a href="#" title="拥有自己的咖啡馆">
+						<img src="../images/4.png" alt="拥有自己的咖啡馆">
+						</a>
+						<div class="blank"></div>
+			            <div class="blank"></div>
+			            <div class="blank"></div>
+						<a href="#" title="拥有自己的咖啡馆" class="deal_title">【大卫咖啡】国内首家电商咖啡馆</a>
+						<div class="blank"></div>
+						</div>
+			            <!--2-->
+			            <div class="paiduan">
+			            	<span class="caption-title">目标：<em>90天</em> <em><i class="font-yen">¥</i>300000</em></span>
+								<span class="f_r ">
+								<span class="common-fail">众筹失败</span>
+								</span>
+			            </div>
+
+			             <!--3-->
+			             <div class="deal_content_box" style="padding:0 15px 0 15px; ">             
+			                 <div class="ui-progress">
+			                  <span style="width:0%;"></span>
+			                 </div>				
+							<div class="blank"></div>
+							<div class="div3" style="text-align:left;"><span class="num">28%</span><span class="til">已达</span></div>
+							<div class="div3"><span class="num"><font>5500</font>元</span><span class="til">已筹资</span></div>
+							<div class="div3" style="text-align:right;">
+			                	<span class="num">12/11/07</span>
+								<span class="til">剩余时间</span>				
+							</div>
+							<div class="blank1"></div>
+						</div>
+				</div>
+			<!--第一行结束--> 
+			<!--第一行-->
+				<div class="deal_item_box f_l first">
+			    <!--1-->
+						<div class="deal_content_box">
+						<a href="http://t1.fanwe.net:93/zc/index.php?ctl=deal&act=show&id=56" title="拥有自己的咖啡馆">
+						<img src="../images/1.png" alt="拥有自己的咖啡馆">
+						</a>
+						<div class="blank"></div>
+			            <div class="blank"></div>
+			            <div class="blank"></div>
+						<a href="http://t1.fanwe.net:93/zc/index.php?ctl=deal&act=show&id=56" title="拥有自己的咖啡馆" class="deal_title">【大卫咖啡】国内首家电商咖啡馆</a>
+						<div class="blank"></div>
+						</div>
+			            <!--2-->
+			            <div class="paiduan">
+			            	<span class="caption-title">目标：<em>90天</em> <em><i class="font-yen">¥</i>300000</em></span>
+								<span class="f_r ">
+								<span class="common-sprite">众筹中</span>
+								</span>
+			            </div>
+
+			             <!--3-->
+			             <div class="deal_content_box" style="padding:0 15px 0 15px; ">             
+			                 <div class="ui-progress">
+			                  <span style="width:28%;"></span>
+			                 </div>				
+							<div class="blank"></div>
+							<div class="div3" style="text-align:left;"><span class="num">28%</span><span class="til">已达</span></div>
+							<div class="div3"><span class="num"><font>5500</font>元</span><span class="til">已筹资</span></div>
+							<div class="div3" style="text-align:right;">
+			                	<span class="num">12/11/07</span>
+								<span class="til">剩余时间</span>				
+							</div>
+							<div class="blank1"></div>
+						</div>
+				</div>
+			    
+			    
+			    
+			    
+			    
+					<div class="deal_item_box f_l ">
+			    <!--1-->
+						<div class="deal_content_box">
+						<a href="http://t1.fanwe.net:93/zc/index.php?ctl=deal&act=show&id=56" title="拥有自己的咖啡馆">
+						<img src="../images/2.png" alt="拥有自己的咖啡馆">
+						</a>
+						<div class="blank"></div>
+			            <div class="blank"></div>
+			            <div class="blank"></div>
+						<a href="http://t1.fanwe.net:93/zc/index.php?ctl=deal&act=show&id=56" title="拥有自己的咖啡馆" class="deal_title">【大卫咖啡】国内首家电商咖啡馆</a>
+						<div class="blank"></div>
+						</div>
+			            <!--2-->
+			            <div class="paiduan">
+			            	<span class="caption-title">目标：<em>90天</em> <em><i class="font-yen">¥</i>300000</em></span>
+								<span class="f_r ">
+								<span class="common-success">已成功</span>
+								</span>
+			            </div>
+
+			             <!--3-->
+			             <div class="deal_content_box" style="padding:0 15px 0 15px; ">             
+			                 <div class="ui-success">
+			                  <span style="width:100%;"></span>
+			                 </div>				
+							<div class="blank"></div>
+							<div class="div3" style="text-align:left;"><span class="num">100%</span><span class="til">已达</span></div>
+							<div class="div3"><span class="num"><font>5500</font>元</span><span class="til">已筹资</span></div>
+							<div class="div3" style="text-align:right;">
+			                	<span class="num">12/11/07</span>
+								<span class="til">剩余时间</span>				
+							</div>
+							<div class="blank1"></div>
+						</div>
+				</div>
+			    
+			    
+			    
+			    
+					<div class="deal_item_box f_l ">
+			    <!--1-->
+						<div class="deal_content_box">
+						<a href="http://t1.fanwe.net:93/zc/index.php?ctl=deal&act=show&id=56" title="拥有自己的咖啡馆">
+						<img src="../images/3.png" alt="拥有自己的咖啡馆">
+						</a>
+						<div class="blank"></div>
+			            <div class="blank"></div>
+			            <div class="blank"></div>
+						<a href="#" title="拥有自己的咖啡馆" class="deal_title">【大卫咖啡】国内首家电商咖啡馆</a>
+						<div class="blank"></div>
+						</div>
+			            <!--2-->
+			            <div class="paiduan">
+			            	<span class="caption-title">目标：<em>90天</em> <em><i class="font-yen">¥</i>300000</em></span>
+								<span class="f_r ">
+								<span class="common-begin">即将开始</span>
+								</span>
+			            </div>
+
+			             <!--3-->
+			             <div class="deal_content_box" style="padding:0 15px 0 15px; ">             
+			                 <div class="ui-progress">
+			                  <span style="width:0%;"></span>
+			                 </div>				
+							<div class="blank"></div>
+							<div style="text-align:center;margin:13px auto;*margin:10px auto;">
+							<font color="#999">离开始时间：</font><font>3天25时48分</font>
+							</div>
+							<div class="blank1"></div>
+						</div>
+				</div>
+			    
+			    
+					<div class="deal_item_box f_l ">
+			    <!--1-->
+						<div class="deal_content_box">
+						<a href="#" title="拥有自己的咖啡馆">
+						<img src="../images/4.png" alt="拥有自己的咖啡馆">
+						</a>
+						<div class="blank"></div>
+			            <div class="blank"></div>
+			            <div class="blank"></div>
+						<a href="#" title="拥有自己的咖啡馆" class="deal_title">【大卫咖啡】国内首家电商咖啡馆</a>
+						<div class="blank"></div>
+						</div>
+			            <!--2-->
+			            <div class="paiduan">
+			            	<span class="caption-title">目标：<em>90天</em> <em><i class="font-yen">¥</i>300000</em></span>
+								<span class="f_r ">
+								<span class="common-fail">众筹失败</span>
+								</span>
+			            </div>
+
+			             <!--3-->
+			             <div class="deal_content_box" style="padding:0 15px 0 15px; ">             
+			                 <div class="ui-progress">
+			                  <span style="width:0%;"></span>
+			                 </div>				
+							<div class="blank"></div>
+							<div class="div3" style="text-align:left;"><span class="num">28%</span><span class="til">已达</span></div>
+							<div class="div3"><span class="num"><font>5500</font>元</span><span class="til">已筹资</span></div>
+							<div class="div3" style="text-align:right;">
+			                	<span class="num">12/11/07</span>
+								<span class="til">剩余时间</span>				
+							</div>
+							<div class="blank1"></div>
+						</div>
+				</div>
+			<!--第一行结束--> 					
+		<div class="blank"></div>
+			<div class="pageuser">
+				<a class="prev" href="#">＜＜上一页</a>     &nbsp;
+				<a class="" href="#">&nbsp;1&nbsp;</a>&nbsp;
+				<a class="select1" href="javascript:(0);">2</a>&nbsp;
+				<a class="" href="#">&nbsp;3&nbsp;</a>&nbsp;
+				<a class="" href="#">&nbsp;4&nbsp;</a>&nbsp;
+				<a class="next" href="#">下一页 ＞＞</a> 
+			</div>
+		</div>
+
+	   <div class="blank"></div>		
+	   </div>
+	   <div id="con_one_2" style="display: none;"> 支持的项目（12）</div>
+
+ <div class="blank"></div>	
+</div>
+<!--中间结束-->
+
+
+
+  <div class="blank"></div>
+
+
+
+
+<div id="gotop" style="display: block;z-index:99;"></div>
+
+
+<!--footer static-->
+<div class="footer" pbid="footer">
+  <!--footer section start-->
+  <div class="footer-section">
+    <div class="wrap">
+    <!--footer map start-->
+    <div class="foot-map">
+      <dl>
+        <dt>我要发布</dt>
+        <dd><a href="#">会员注册</a></dd>
+        <dd><a href="#">发起项目</a></dd>
+        <dd><a href="#">查看项目</a></dd>
+      </dl>
+      <dl>
+        <dt>关于</dt>
+        <dd><a href="#">关于众筹</a></dd>
+        <dd><a href="#">团队介绍</a></dd>
+        <dd><a href="#">联系我们</a></dd>
+        <dd><a href="#">帮助中心</a></dd>
+      </dl>
+       <dl>
+        <dt>关注我们</dt>
+        <dd><a href="#">百度贴吧</a></dd>
+        <dd><a href="#">豆瓣小站</a></dd>
+        <dd><a href="#">QQ空间</a></dd>
+        <dd><a href="#">新浪微博</a></dd>
+      </dl>
+      <dl class="last">
+        <dt>服务</dt>
+        <dd><a href="#">投融资服务</a></dd> 
+        <dd><a href="#">项目发起规范</a></dd> 
+      </dl>
+    </div>
+    <!--foot map end-->
+    <div class="foot-logo">
+	    <h1></h1>
+	    <h2></h2>
+     
+    </div>
+  </div>
+  </div>
+  <div class="blank"></div>
+  <!--footer section start-->
+  <div class="footer-copy ">
+    <div class="wrap">
+    <div class="ft-links">
+		
+		<p>
+    	    		<a href="#">阿里巴巴集团</a>|
+    	    		<a href="#">阿里巴巴集团</a>|
+    	    		<a href="#">阿里巴巴集团</a>|
+    	    		<a href="#">全球速卖通</a>|
+    	    		<a href="#">淘宝网</a>|
+    	    		<a href="#">天猫</a>|
+    	    		<a href="#">聚划算</a>|
+    	    		<a href="#">一淘</a>|
+    	    		<a href="#">阿里妈妈</a>|
+    	    		<a href="#">淘宝旅行</a>|
+    	    		<a href="#">虾米</a>|
+    	    		<a href="#">阿里云计算</a>|
+    	    		<a href="#">云OS</a>|
+    	    		<a href="#">万网</a>
+		</p>
+	</div>
+	<div class="db">
+		关注我们：
+		<a href="#" class="db1"></a>
+		<a href="#" class="db2"></a>
+		<a href="#" class="db3"></a>
+		<a href="#" class="db4"></a>
+		<a href="#" class="db"></a>
+	</div>
+	<div style="float:right;height:60px;text-align:right;">
+		 ©2007-2014  福州方维网络科技有限公司-网站地图</br>
+		 闽网文[2011]0012-005号   闽ICP备08103200号-2    经营许可编号  闽B2-20110188
+	</div>	
+     
+    </div>
+  </div>
+</div>	
+
+          
+</body>
+</html>

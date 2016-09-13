@@ -1,0 +1,60 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/finance/company_manage.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+{include file="inc/home_user_info.html"}
+<!--中间开始-->
+<div class="dlmain Myhomepage">
+ 	{include file="inc/account_left.html"} 
+	<div class="homeright pageright f_r">
+		<div class="list_title clearfix">
+			<div {if $all eq 0}class="cur"{/if}>
+				<span>我关注的公司</span>
+			</div>
+		</div>
+		<div class="list_content">
+			<!-- 公司列表 开始 -->
+			<div class="company-list ng-scope">
+				
+				<!-- 公司模块 开始 -->
+				{foreach from=$focus_list item=item}
+				<div class="item ng-scope">
+					<div class="bg ng-isolate-scope" style="background-image:url({$TMPL}/images/finance/company_bg_8.jpg);"></div>
+					<div class="item-inner">
+	                    <a href="{url r="finance#company_show" p="cid=$item.company_id"}"  target="_blank" class="avatar">
+	                        <img src="{$item.company_logo}" width="70" height="70" alt="" />
+	                    </a>
+	                    <div class="info">
+	                        <div class="info-heading">
+	                            <a href="{url r="finance#company_show" p="id=$item.company_id"}" target="_blank" class="ng-binding">{$item.company_name}</a>
+	                            <i class="ng-scope">|</i>
+	                            <span><a href="{url r="home#index" p="id=$item.user_id"}" target="_blank" class="ng-binding">{$item.user_name}</a></span>
+	                        </div>
+	                        <div class="clearfix">
+	                            <p class="ng-binding">{$item.company_brief}</p>
+	                            <div class="op-links">
+	                                <a href="{url r="finance#company_update" p="id=$item.deal_id"}" target="_blank">公司动态</a>
+	                                <span class="ng-scope"> | <a href="{url r="message#index" p="dest_user_id=$item.user_name_id&company_name=$item.company_name"}"  target="_blank">查看聊天记录</a></span>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+				</div>
+				{/foreach}
+				<!-- 公司模块 结束 -->
+				
+			</div>
+			<!-- 公司列表 结束 -->
+		</div>
+		<div class="blank20"></div>
+		<div class="pages">{$pages}</div>
+		<div class="blank20"></div>
+	</div>
+	<div class="blank0"></div>
+</div>
+<!--中间结束-->
+<script type="text/javascript">
+	
+</script>
+{include file="inc/footer.html"} 

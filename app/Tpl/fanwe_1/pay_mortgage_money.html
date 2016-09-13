@@ -1,0 +1,36 @@
+{include file="inc/header.html"}
+<div class="blank20"></div>
+<div class="mod_box project_edit project_agencyAdd_stepthree">
+	<div class="con_tit theme_fcolor f_20">获得认筹询价资格(交纳诚意金...)</div>
+	<div class="con3">
+   		<h1>交纳诚意金：{$money}</h1>
+		<span>
+			<div>
+				为回馈投资人对大家投平台的支持，截止2014年12月31日之前，平台投资人只需要缴纳100元即可获得询价认筹资格； 2015年1月1日起，询价认筹诚意金价格将恢复为原价格：1000元。
+				温馨提示：
+				缴纳询价认筹诚意金1000元后，您可以获得每个项目 2 次询价的机会，只要您不反悔，取得的项目询价认筹资格永远有效；您永远拥有对每个项目2次询价的机会！
+				出现下面任一情况，均属于投资人反悔：
+				① 投资人询价认筹成功后，又要求取消认投的；
+				② 项目达到付款阶段，接到大家投付款通知超过5个工作日仍不付款的；
+			</div>
+		</span>
+		
+		 <div class="button_row tc">
+                <input type="button" value="交纳诚意金" name="submit_form" class="ui-button theme_bgcolor mr20" id="ui-button" style="display:inline-block;float:none" />
+                <input type="hidden" name="deal_id" value="{$deal_id}">
+				<input type="hidden" name="user_id" value="{$user_id}">
+				<input type="hidden" name="money" value="{$money}">
+				<input type="hidden" value="1" name="ajax" />
+                <div class="blank15"></div>
+         </div>
+	</div>
+</div>
+<div class="blank20"></div>
+<script type="text/javascript">
+	$(function(){
+		$("#ui-button").bind("click",function(){
+			window.location.href='{url r="account#mortgate_incharge"}';
+		});
+	});
+</script>
+{include file="inc/footer.html"}

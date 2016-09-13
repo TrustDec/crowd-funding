@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="Generator" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=0,minimum-scale=0.5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{if $page_title neq ''}{$page_title} - {/if}{$site_name} - {$seo_title}</title>
+    <meta name="keywords" content="{$seo_keyword}" />
+    <meta name="description" content="{$seo_description}" />
+    <?php
+	$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/layout.css";
+	$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/style.css";
+ 	$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/jquery-1.8.2.min.js";
+ 	$this->_var['cpagejs'][] = $this->_var['TMPL_REAL']."/js/jquery-1.8.2.min.js";
+	?>
+    <link rel="stylesheet" type="text/css" href="{$REAL_APP_ROOT}/public/script/Font-Awesome-4.2.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$pagecss"}" />
+    <script type="text/javascript" src="{function name="parse_script" v="$pagejs" c="$cpagejs"}"></script>
+    <!--百度轻应用-->
+    <meta name="baidu-tc-cerfication" content="688cdfaa49f7c8f87fd5883492587d8e">
+</head>
+<body>
+	<script type="text/javascript" src="{$TMPL}/js/TouchSlide.1.1.js"></script>
+	<!-- 首页分类 开始 -->
+    <div class="index_category sizing" id="category_slidebox">
+        <div class="bd">
+            <ul>
+            {foreach from=$cate_list item=cate name=cate_list key=k}
+            {if $cate.pid eq 0}
+                {if $smarty.foreach.cate_list.iteration mod 8 eq 1}
+                <li class="itemss">
+                {/if}
+                    <div class="items">
+                        <div class="item {if $k%6 eq 0}bg1{/if}{if $k%6 eq 1}bg2{/if}{if $k%6 eq 2}bg3{/if}{if $k%6 eq 3}bg4{/if}{if $k%6 eq 4}bg5{/if}{if $k%6 eq 5}bg6{/if}">
+                            <a href="" onclick="App.zc_detail({$cate.url_type},{$cate.id})">
+                                <span>{$cate.name}</span>
+                            </a>
+                        </div>
+                    </div>
+                {if $smarty.foreach.cate_list.iteration % 8 eq 0}
+                </li>
+                {/if}
+            {/if}
+            {/foreach}
+            </ul>
+        </div>
+        <div class="hd">
+            <ul></ul>
+        </div>
+    </div>
+    <script type="text/javascript">
+        if($("#category_slidebox .bd ul").find('li').length>1){
+            TouchSlide({ 
+                slideCell:"#category_slidebox",
+                titCell:"#category_slidebox .hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+                mainCell:"#category_slidebox .bd ul", 
+                effect:"leftLoop", 
+                autoPage:true,//自动分页
+                autoPlay:false //自动播放
+            });
+        }
+        if($("#category_slidebox .hd").find("li").length <=1){
+            $("#category_slidebox .hd").hide();
+        }
+    </script>
+    <!-- 首页分类 结束 -->
+</body>
+</html>

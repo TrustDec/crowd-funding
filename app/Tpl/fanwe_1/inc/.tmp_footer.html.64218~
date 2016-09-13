@@ -1,0 +1,75 @@
+<style>
+	.db .bdshare-button-style0-16 { float:left; }  
+	.db .bdshare-button-style0-16 a , .db .bdshare-button-style0-16 .bds_more { padding-left:0; background-image:none; margin-top:0; }
+	.bdshare-button-style0-16 a:hover { filter:alpha(opacity=100); opacity:1; }
+	.foot-logo img{ width:90px; height:90px;}
+</style>
+<!--footer static-->
+<div class="footer" pbid="footer" id="J_footer">
+	<!--footer section start-->
+	<div class="footer-section">
+		<div class="footer-wrap">
+			<!--footer map start-->
+			<div class="foot-map">
+				{foreach from=$help_cates item=help_item name="help_items"}
+					{if $smarty.foreach.help_items.index lt 6}
+						<dl {if $smarty.foreach.help_items.last}class="last"{/if}>
+							<dt>{$help_item.title}</dt>
+							{foreach from=$help_item.article item=article_list}
+							<dd><a href="{$article_list.url}" target="_blank">{$article_list.title}</a></dd>
+							{/foreach}
+						</dl>
+					{/if}
+				{/foreach}
+			</div>
+			<!--foot map end-->
+			<div class="foot-logo">
+				<h1>
+					<span><img src="{function name="app_conf" v="QR_CODE"}" /></span>
+				</h1>
+				<h2></h2>
+			</div>
+		</div>
+	</div>
+	<div class="blank"></div>
+	<!--footer section start-->
+	<div class="footer-copy ">
+		<div class="footer-wrap">
+			{if $g_links[0] neq ''}
+			<div class="ft-links">
+				<p>
+				{foreach from=$g_links item=g_links key=k}
+					<a href="{$g_links.url}" target="_blank">{$g_links.name}</a>|
+				{/foreach}       		
+				</p>
+			</div>
+			{/if}
+			<div class="blank10"></div>
+			<div class="db">
+				<span class="f_l">关注我们：</span>
+				<div class="bdsharebuttonbox">
+					<a href="#" class="db3" data-cmd="qzone" title="分享到QQ空间"></a>
+					<a href="#" class="db1" data-cmd="tsina" title="分享到新浪微博"></a>
+					<a href="#" class="db4" data-cmd="tqq" title="分享到腾讯微博"></a>
+					<a href="#" class="db2" data-cmd="renren" title="分享到人人网"></a>
+				</div>
+				<script>
+					window._bd_share_config={
+					"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{}};
+					with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+				</script>
+			</div>
+			<div style="color:#a5a5a5;font:12px 'SimSun';float:right;line-height:24px; text-align:right;">
+				{function name="app_conf" v="SITE_LICENSE"}</br>
+				{function name="app_conf" v="NETWORK_FOR_RECORD"}
+			</div>	
+		</div>
+	</div>
+</div>	    
+<script type="text/javascript">
+	$(document).ready(function(){
+		resetWindowBox();
+	});
+</script>
+</body>
+</html>

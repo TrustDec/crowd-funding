@@ -1,0 +1,88 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/refund.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/refund.js";
+?>
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+{include file="inc/home_user_info.html"}
+<div class="dlmain Myhomepage">
+ 	{include file="inc/account_left.html"} 
+	<div class="homeright pageright f_r">
+		<div class="account_money">
+			<div class="list_title clearfix">
+				<div {if $module eq 'account'&& ($action eq 'money_carry_bank'|| $action eq 'money_carry')}class="cur"{/if}>
+					<a href="{url r="account#money_carry_bank"}">我要提现</a>
+				</div>
+				<div {if $module eq 'account'&& $action eq 'refund'}class="cur"{/if}>
+					<a href="{url r="account#refund"}">提现日志</a>
+				</div>
+			</div>
+			<div class="list_conment">
+				{if $refund_list}
+				{if $bank_sum gt 0}
+				<div class="list_conment">
+					<div class="ui_button theme_bgcolor mr20">
+						<span>待审核总额：{function name="format_price" v=$bank_sum}</span>
+					</div>
+					<div class="ui_button bg_red">
+						<span>可用资金：{function name="format_price" v=$user_info.money p=2}</span>
+					</div>
+					<div class="blank20"></div>
+				</div>
+				{/if}
+				<div class="i_deal_list clearfix">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc_table">
+						<tbody>
+							<tr>
+								<th>金额</th>
+								<th>时间</th>
+								<th>提现备注</th>
+								<th>状态</th>
+								<th>支付时间</th>
+								<th>操作</th>
+							</tr>
+							{foreach from=$refund_list item=refund_item}
+							<tr>
+								<td>{function name="format_price" v=$refund_item.money}</td>
+								<td>{function name="to_date" v=$refund_item.create_time}</td>
+								<td>{$refund_item.memo}</td>
+								<td>
+									{if $refund_item.is_pay eq 1}
+									申请通过，请耐心等待金额支付 {$refund_item.reply}
+									{elseif $refund_item.is_pay eq 2}
+									申请未通过 {$refund_item.reply}
+									{elseif $refund_item.is_pay eq 3}
+									提现成功，金额已发放，请查收 {$refund_item.pay_log}
+									{else}
+									审核中，请耐心等待
+									{/if}
+								</td>
+								<td>{function name="to_date" v=$refund_item.pay_time}</td>
+								<td>
+									{if $refund_item.is_pay eq 3}
+										已成功
+									{else}
+										<a href="{url r="account#delrefund" p="id=$refund_item.id"}" class="delrefund linkgreen red">删除</a>
+									{/if}
+								</td>
+							</tr>	
+						</tbody>
+						{/foreach}
+					</table>
+				</div>
+				<div class="blank20"></div>
+				<div class="pages">{$pages}</div>
+				<div class="blank20"></div>
+				{else}
+				<div class="empty_tip">
+					还没任何提现记录
+				</div>
+				<div class="blank20"></div>
+				{/if}
+			</div>
+		</div>
+	</div>
+	<div class="blank0"></div>
+</div>	
+<div class="blank"></div>
+{include file="inc/footer.html"} 

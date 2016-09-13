@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>for pay layer</title>
+</head>
+<body>  
+<script> 
+window.onload = function(){
+    var searchUrl = window.location.search,
+        wyplus_ctrl = parent.parent.WYPLUS;
+
+    if(searchUrl.indexOf('urlStr=') > 0){
+        wyplus_ctrl.close();
+        var urlStr = searchUrl.split("urlStr=");
+        urlStr = urlStr[1];
+        wyplus_ctrl.redirect(urlStr); 
+    }else if(searchUrl.indexOf('reStart=1') > 0){ 
+        wyplus_ctrl.repay(); 
+    }else{
+        wyplus_ctrl.close();
+    }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<PHP>
+	function get_refund_user_name($uid)
+	{
+		return M("User")->where("id=".$uid)->getField("user_name");
+	}
+	function get_confirm($id,$vo)
+	{
+		if($vo['is_pay']==0){
+			return "<a href='javascript:refund_allow(".$id.");'>允许</a> <a href='javascript:refund_not_allow(".$id.");'>不允许</a> ";
+ 		}elseif($vo['is_pay']==1){
+			return "<a href='javascript:refund_confirm(".$id.");'>确认支付</a> ";
+		}elseif($vo['is_pay']==2){
+			return "未允许支付";
+		}elseif($vo['is_pay']==3){
+			return "支付成功";
+		}
+	}
+</PHP>
+<include file="Public:header" />
+<load href='__TMPL__Common/js/jquery.bgiframe.js' />
+<load href='__TMPL__Common/js/jquery.weebox.js' />
+<script type="text/javascript">
+function refund_confirm(id)
+{
+	$.weeboxs.open(ROOT+'?m=UserConfirmRefund&a=refund_confirm&id='+id, {contentType:'ajax',showButton:false,title:"确认提现",width:600,height:140});
+}
+</script>
+<load href='__TMPL__Common/style/weebox.css' />
+<div class="main">
+<div class="main_title">提现确认审核</div>
+<div class="blank5"></div>
+<div class="button_row">
+	<input type="button" class="button" value="删除" onclick="del();" />
+</div>
+<div class="blank5"></div>
+<div class="search_row">
+	<form name="search" action="__APP__" method="get">	
+		会员ID: <input type="text" class="textbox" name="user_id" value="{:trim($_REQUEST['user_id'])}" style="width:30px;" />	
+		状态: 
+		<select name="is_pay">	
+			<option value="1" <if condition="$_REQUEST['is_pay'] eq 1">selected="selected"</if> >确认支付</option>
+			<option value="3" <if condition="$_REQUEST['is_pay'] eq 3">selected="selected"</if> >支付成功</option>
+		</select>
+		<input type="hidden" value="UserConfirmRefund" name="m" />
+		<input type="hidden" value="confirm_list" name="a" />
+		
+		<input type="submit" class="button" value="{%SEARCH}" />
+		
+		<input type="button" class="button" value="{%EXPORT}" onclick="export_csv();" />
+	</form>
+</div>
+<div class="blank5"></div>
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="deal" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{%ID}|50px
+		,money|format_price:金额
+		,user_id|get_refund_user_name:会员名
+		,create_time|to_date:申请时间
+		,memo|get_title:申请备注
+		,user_bank_id|get_carray_info=$deal['user_id']:提现信息
+		,is_pay|get_status:是否审核
+		,pay_time|to_date:确认支付时间
+		,reply|get_title:操作备注
+		,pay_log|get_title:支付备注" 
+	actionlist="del:删除,id|get_confirm=$deal" /> 
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

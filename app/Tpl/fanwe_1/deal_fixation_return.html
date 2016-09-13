@@ -1,0 +1,189 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/deal_invest_show.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/finance/company_deal_overviews.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/deal_comment.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/fancybox.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/jquery.fancybox.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/deal.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/deal.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/deal_comment.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/deal_comment.js";
+
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<div class="blank0"></div>
+<!--中间开始-->
+<div class="xqmain">
+	<!--中间页面头部start-->	
+	{include file="inc/deal_invest_header.html"}
+	<!--中间页面头部end-->
+	<div class="blank20"></div>
+	<div class="xqmain_main">
+		<!--左-->	
+		<div class="xqmain_left">
+			<div class="box_main">
+				<div class="send-cnt">
+					<div class="control-group smaller-control-group">
+						<label class="control-label">固定回报说明：</label>
+						<div class="control-text" style="height:auto;line-height:1.5;">{$deal_info.return_descripe}</div>
+					</div>
+					{if $fixation_return_num}
+		       	 	<div class="bonus_deal_box">
+		       	 		
+						<div class="control-group smaller-control-group">
+							<label class="control-label">已发放期数：</label>
+							<div class="control-text">{$fixation_return_num}期</div>
+						</div>
+						<div class="control-group smaller-control-group">
+							<label class="control-label">已发放回报总金额：</label>
+							<div class="control-text"><span class="f_money">￥{$total_bonus_money}</span></div>
+						</div>
+						<div class="control-group smaller-control-group">
+							<label class="control-label">回报周期：</label>
+							<div class="control-text">{$deal_info.return_cycle}个月</div>
+						</div>
+						<div class="control-group smaller-control-group">
+							<label class="control-label">预期年利率：</label>
+							<div class="control-text">{$deal_info.annual_interest_rate}%</div>
+						</div>
+						<div class="control-group smaller-control-group">
+							<label class="control-label">回报明细：</label>
+						</div>
+						<div>
+							<form method="post" action="{url r="deal#fixation_return"}">
+								<div class="account_search" id="account_search">
+									<div class="form_row control-group f_l">
+										
+										<select name="year" id='year' class="ui-select field_select small">
+											<option value="0">选择回报年度</option>
+											{foreach from=$fixation_return_year item=fixation_return_year }
+												<option value="{$fixation_return_year.year}" {if $fixation_return_year.year eq $year} selected="selected"{/if}>{$fixation_return_year.year}</option>
+											{/foreach}
+										</select>
+										<select name="number" id='number' class="ui-select field_select small">
+											<option value="0">选择回报期数</option>
+											{foreach from=$fixation_return_number item=fixation_return_number }
+												<option value="{$fixation_return_number.number}" {if $fixation_return_number.number eq $number} selected="selected"{/if}>第{$fixation_return_number.number}期</option>
+											{/foreach}
+											
+										</select>
+									
+									</div>
+									<input type="submit" value="搜索" class="ui-button ui-small37-button theme_bgcolor w100" />
+									<input type="hidden" name="id" value="{$id}">
+								</div>
+							</form>						
+						</div>
+						<div class="blank15"></div>
+						<div>
+							{if $fixation_return_list}
+								<p class="mb5">该期回报金额：<span class="f_money">{$fixation_return.money}</span></p>
+								<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc_table" id="user_share_bonus_table">
+									<thead>
+										<tr>
+											<th width="20%">编号</th>
+											<th width="20%">投资人</th>
+											<th width="20%">投资金额</th>
+											<th width="20%">回报周期</th>
+											<th width="20%">回报金额</th>
+											<th width="0"></th>
+										</tr>
+									</thead>
+									<tbody>
+										{foreach from=$fixation_return_list item=user_bonus_list_item}
+											<tr>
+												<td>
+													<span>{$user_bonus_list_item.notice_sn}</span>
+													
+												</td>
+												<td>
+													<span>{function name="substr_cut" v=$user_bonus_list_item.investor}</span>
+												
+												</td>
+												<td>
+													<span>{$user_bonus_list_item.investor_money}元</span>
+													
+												</td>
+												<td>
+													<span>{$fixation_return.return_cycle}个月</span>
+													
+												</td>							
+												<td>
+													<span class="amount">{$user_bonus_list_item.amount}元</span>
+													
+												</td>
+											</tr>
+										{/foreach}
+									</tbody>
+								</table>
+								<div class="blank15"></div>
+								<div class="pages">{$pages}</div>
+								<div class="blank15"></div>
+								<p class="mb5">回报描述：</p>
+								<p>{if $fixation_return.descripe}{$fixation_return.descripe}{else}<span class="f_999">暂无回报描述</span>{/if}</p>
+							{else}
+								<div class="f_999">&nbsp;&nbsp;暂无该期回报信息</div>
+							{/if}
+						</div>
+					</div>
+					{else}
+						暂无回报纪录
+					{/if}
+				</div>
+			</div>
+		</div>
+		<!--左结束-->
+		<!--右-->
+		{if $deal_info.type eq 0}
+		{include file="inc/deal_right.html"}
+		{/if}
+		{if $deal_info.type eq 1}
+		{include file="inc/deal_investor_right.html"}
+		{/if}
+		<!--右结束-->
+		<div class="blank0"></div>
+	</div>
+</div>
+<script>
+	bind_ajax_bonus_form("#ajax_bonus_form");
+	// 输入框选择城市
+	function bind_ajax_bonus_form(str)
+	{
+		$(str).find("#auto_bonus").bind("blur",function(){
+			$(str).submit();
+		});
+		$(str).bind("submit",function(){
+			var ajaxurl = $(this).attr("action");
+			var query=new Object();
+			query.year = $("input[name='year']").val();
+			$.ajax({ 
+				url: ajaxurl,
+				dataType: "json",
+				data:query,
+				type: "POST",
+				success: function(ajaxobj){
+					if(ajaxobj.status==1)
+					{
+						if(ajaxobj.url!="")
+						{
+							location.href = ajaxobj.url;
+						}
+					}
+					else
+					{
+						// if(ajaxobj.info!="")
+						// {
+						// 	$.showErr(ajaxobj.info);	
+						// }						
+					}
+				}
+			});
+			return false;
+		});
+	}
+</script>
+<!--中间结束-->
+<div class="blank0"></div>
+{include file="inc/footer.html"} 

@@ -1,0 +1,3 @@
+rewrite ^(.*)/([^\.&]*)$  $1/index.php?rewrite_param=$2;
+或
+rewrite ^/([^\.&]*)$  /index.php?rewrite_param=$1;

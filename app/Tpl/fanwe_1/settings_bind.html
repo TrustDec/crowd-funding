@@ -1,0 +1,52 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/api_bind.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/api_bind.js";
+?>
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+{include file="inc/home_user_info.html"}
+<!--中间开始-->
+<div class="dlmain Myhomepage">
+ 	{include file="inc/account_left.html"} 
+	<div class="homeright pageright f_r">
+		<div>
+			<div class="list_title clearfix">
+				<div class="cur">
+					<span>帐户绑定</span>
+				</div>
+			</div>
+			<div class="blank"></div>
+			<div class="left">
+				<div class="blank15"></div>
+				{foreach from=$api_list item=api_item}		
+				<div class="control-group">
+					{if $api_item.is_bind}
+					{if $api_item.weibo_url neq ''}
+					<input type="text" class="textbox" value="{$api_item.weibo_url}" disabled="true" />
+					{/if}
+					<div class="ui-button bg_red" rel="green" style="margin-left:10px;display:inline" url="{url r="settings#unbind" p="c=$api_item.class_name"}">
+						<div>
+							<span>取消绑定</span>
+						</div>
+					</div>
+					<label class="title" style="height:40px; line-height:40px;margin-left:10px;">{$api_item.dispname}</label>
+					{else}
+					<div class="ui-button theme_bgcolor" rel="green" style="margin-left:10px;display:inline" url="{$api_item.url}">
+						<div>
+							<span >立即绑定</span>
+						</div>
+					</div>
+					<label class="title" style="height:40px; line-height:40px; margin-left:10px;">{$api_item.dispname}</label>
+					{/if}
+					<div class="blank15"></div>
+				</div>
+				{/foreach}
+			</div><!--left-->
+			<div class="blank"></div>
+		</div>
+ 		<div class="blank"></div>	
+	</div>
+	<div class="blank"></div>
+</div>
+<div class="blank"></div>
+{include file="inc/footer.html"} 

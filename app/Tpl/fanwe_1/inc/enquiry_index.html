@@ -1,0 +1,172 @@
+<style>
+	.fileupload .filebox{ cursor:pointer; filter:alpha(opacity=0); -moz-opacity:0; -khtml-opacity:0; opacity:0; padding:0; height:40px; width:97px; }
+	.control-group input.textbox { width:97px; }
+	.mod_lf{ width:60%; margin-right:5%; }
+	.mod_rt{ width:35%; }
+	.chance_left h3{
+		width:150px;
+		height:30px;
+		line-height:30px;
+		color:#fff;
+		font-weight:normal;
+	}
+	.chance_left span{
+		width:148px;
+		height:40px;
+		line-height:40px;
+		border:1px solid #e3e3e3;
+		border-top:0;
+		display:block;
+	}
+</style>
+<form id="enquiry_index" action="{url r="investor#enquiry_page"}" autocomplete="off">				
+	<div class="mod_lf f_l tl">
+		<div class="prompt_box f_999" style="width:100%;padding:0;background:none;border:0">
+			温馨提示：每个项目有{$inquiry_total_num}次询价的机会，创业者拒绝{$inquiry_total_num}次后，您将不能再询价，只能以最终估值认筹该项目，请谨慎填写您能接受的项目估值！
+		</div>
+	</div>
+	<div class="mod_rt f_r">
+		<div class="chance_left tc">
+			<h3 class="theme_bgcolor f14">该项目剩余询价机会</h3>
+			<span class="theme_fcolor f20">{$inquiry_num}次</span>
+		</div>
+	</div>
+	<div class="blank10"></div>
+ 	<div class="f14 tc">
+		<label class="ui_radiobox mr10" rel="enquiry">
+			<input type="radio" name="enquiry" value="1" {if $inquiry_num>0}checked="checked"{/if} />
+			询价
+		</label>
+		<label class="ui_radiobox mr10" rel="enquiry">
+			<input type="radio" name="enquiry" value="0" {if $inquiry_num<=0} checked="checked"{/if} />不参与询价无条件接受项目最终估值
+		</label>
+	</div>
+	<div class="blank20"></div>
+	<div class="submit_btn_row tc">
+		<span class="ui-center-button theme_bgcolor button_y" rel="green">下一步</span>
+		<span class="ui-center-button bg_red button_n" rel="green">取消</span>
+		<input type="hidden" value="1" name="ajax" />
+		<input type="hidden" value="{$user_id}" name="user_id" id="user_id"/>
+		<input type="hidden" value="{$deal_id}" name="deal_id" id="deal_id"/>
+		<input type="hidden" value="{$inquiry_num}" name="inquiry_num" id="inquiry_num"/>
+	</div>
+	<div class="blank5"></div>
+</form>
+<script type="text/javascript">
+//筛选
+$(function(){
+	ui_radiobox();
+	enquiry_page();
+	$(".button_n").click(function(){
+		$.weeboxs.close();
+	});
+});
+//进入询价页面
+function enquiry_page(){
+	$("#enquiry_index .button_y").bind("click",function(){
+		var ajaxurl=$("#enquiry_index").attr("action");
+		var query=$("#enquiry_index").serialize();
+		$.ajax({
+			url: ajaxurl,
+			dataType: "json",
+			data:query,
+			type: "POST",
+			success:function(ajaxobj){
+				if(ajaxobj.status==1){
+					//调取询价“项目投资”页面(次数大于0)
+					$("body").find(".dialog-mask").first().remove();
+					$("body").find(".weebox").first().remove();
+					$.weeboxs.open(ajaxobj.html, {boxid:'enquiry_two_from',contentType:'text',showButton:false, showCancel:false, showOk:false,title:'项目询价',width:600,type:'wee'});
+				}
+				if(ajaxobj.status==2){
+					//调取第一次跟投页面
+					$("body").find(".dialog-mask").first().remove();
+					$("body").find(".weebox").first().remove();
+					$.weeboxs.open(ajaxobj.html, {boxid:'enquiry_one',contentType:'text',showButton:false, showCancel:false, showOk:false,title:'项目投资',width:480,type:'wee'});
+				}
+				if(ajaxobj.status==4){
+					//调取后续追加跟投页面
+					$("body").find(".dialog-mask").first().remove();
+					$("body").find(".weebox").first().remove();
+					$.weeboxs.open(ajaxobj.html, {boxid:'enquiry_two',contentType:'text',showButton:false, showCancel:false, showOk:false,title:'项目追加投资',width:480,type:'wee'});
+				}
+				if(ajaxobj.status==3){
+					//(次数大于0,不能再次询价)
+					//$("body").find(".dialog-mask").first().remove();
+					//$("body").find(".weebox").first().remove();
+					$.showErr(ajaxobj.info,function(){
+						//location.reload();
+					});
+				}
+				if(ajaxobj.status==5){
+					//无法再次跟投追加金额
+					$.showErr(ajaxobj.info,function(){
+						location.reload();
+					});
+				}
+				if(ajaxobj.status==8){
+					//您已为领投人,无需再进行跟投！
+					$.showSuccess(ajaxobj.info,function(){
+						
+						//location.reload();
+					});
+				}
+				if(ajaxobj.status==7){
+					//已经申请“领投”，但是未审核
+					$.showConfirm("您确定要取消,领投申请吗？",function(){
+						delete_leader_investor();
+					});
+				}
+			}
+		});
+	});
+}
+function ui_check(){
+	$(".ui_check").click(function(){
+		if($(this).find("input").attr("type")=="radio"){
+			var rel=$(this).attr("rel");
+			$(".ui_check[rel='"+rel+"']").removeClass("ui_checked");
+			$(".ui_check[rel='"+rel+"'] input").attr("checked",false);
+			$(this).addClass("ui_checked");
+			$(this).find("input").attr("checked","checked");
+		}
+		else{
+			if($(this).hasClass("ui_checked")){
+				$(this).removeClass("ui_checked");
+				$(this).find("input").attr("checked",false);
+			}
+			else{
+				$(this).addClass("ui_checked");
+				$(this).find("input").attr("checked","checked");
+			}
+		}
+	});
+}
+//ajax删除“领投”，但是未审核的数据
+	function delete_leader_investor(){
+			var ajaxurl='{url r="investor#delete_leader_investor" p="deal_id=$deal_id"}';
+			var leader_ajax=$("#leader_ajax").val();
+			var query =new Object();
+			query.leader_ajax=leader_ajax;
+			$.ajax({
+				url: ajaxurl,
+				dataType: "json",
+				type: "POST",
+				data:query,
+				success:function(ajaxobj){
+					if(ajaxobj.status==1){
+						//"领投申请"取消成功
+						$.showSuccess(ajaxobj.info,function(){
+							location.reload();
+						});
+					}
+					if(ajaxobj.status==0){
+						//删除失败
+						$.showErr(ajaxobj.info,function(){
+							location.reload();
+						});
+					}
+				}
+			});
+	}
+</script>

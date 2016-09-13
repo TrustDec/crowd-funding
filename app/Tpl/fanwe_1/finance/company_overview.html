@@ -1,0 +1,141 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/fanwe_utils/jcDate.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/fanwe_utils/jcDate.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jQuery-jcDate.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jQuery-jcDate.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/switch_city.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/switch_city.js";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/finance/company_overview.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/finance/company_overview.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/finance/company_common.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/finance/company_overview.js";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss" c="$dcpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<script type="text/javascript" src="{$TMPL}/js/fanwe_utils/angular.min.js"></script>
+<script type="text/javascript">
+    var ROOT = '{$APP_ROOT}/{$URL_NAME}';
+    var VAR_MODULE = "m";
+    var VAR_ACTION = "a";
+    var WEB_SESSION_ID = '<?php echo es_session::id(); ?>';
+    var EMOT_URL = '{$APP_ROOT}/public/emoticons/';
+    var MAX_FILE_SIZE =  '{$max_size_byte}b';
+    var UPLOAD_URL ='{$APP_ROOT}/{$URL_NAME}?m=File&a=do_upload&upload_type=1&dir=image' ;
+	var UPLOAD_SWF='{$TMPL}/js/plupload/Moxie.swf';
+	var UPLOAD_XAP='{$TMPL}/js/plupload//Moxie.xap/';
+	var ALLOW_IMAGE_EXT= "gif,jpg,jpeg,png,bmp";
+	var MAX_IMAGE_SIZE= '{$max_size_byte}b';
+	function get_sigle_file_fun(name){
+   		$("#"+name).ui_upload({multi:false,
+		FileUploaded:function(ajaxobj){
+ 				if(ajaxobj.error==1)
+				{
+					$.showErr(ajaxobj.info);
+				}else{
+					$("#"+name+"_url").val(ajaxobj.public_url);
+					if(name == "company_business_card"){
+						$("#"+name+"_image").attr({"src":ajaxobj.url,"width":140,"height":90}).css("marginBottom","15px").removeClass("hide");
+					}
+					else{
+						$("#"+name+"_image").attr('src',ajaxobj.url);
+					}
+					
+ 				}
+			},Error:function(error){
+			if(error.code==-600){
+				$.showErr("您上传的文件太大，最大允许上传{$max_size}");
+			}else{
+				$.showErr(error.message);
+			}
+ 		}});
+	}
+</script>
+<script type="text/javascript">
+	var company_id = {$company.id};
+</script>
+<!--中间开始-->
+<div class="main-content-wrap">
+	<div ng-controller="VisibleController">
+		<div ng-show="is_edit">
+			<div class="company-page-status J_draftStatusBar">
+		        <div class="container">
+		            <h2>草稿模式</h2>
+		            <p>公司的<em>图文介绍、创始团队、团队优势</em>都是我们审核的重要依据。 <br>
+		                完成并提交，通过审核后，即可<em>申请在线融资。</em></p>
+		            <a href="javascript:void(0);" class="ui-button bg_red" id="btn_company_overview" ajaxurl="{url r="finance#submit_finance" p="id=$company.id"}" jump="{url r="finance#company_manage"}" onclick="submit_finance(this);">提交审核</a>
+		        </div>
+		    </div>
+		</div>
+	</div>
+    <div class="basic_box">
+    	<div ng-controller="VisibleController">
+	    	<!-- 公司总览 -->
+	    	<div class="company-basic">
+		    	{include file="finance/inc/company_basic.html"}
+			</div>
+		</div>
+	</div>
+    <div class="editable clearfix">
+    	<div class="content-wrap">
+    		<div class="container">
+    			<div ng-controller="VisibleController">
+			    	<div class="content-detail">
+			    		<div class="overview-intro clearfix">
+			    			<!-- 公司介绍 -->
+							<div class="list-editor-companyInfo">
+								{include file="finance/inc/company_info.html"}
+							</div>
+			    			<!-- 创始团队 -->
+			    			<div class="list-editor-foundingTeam">
+			    				{include file="finance/inc/founding_team.html"}
+			    			</div>
+			    			<!-- 投资案例 -->
+			    			<div class="list-editor-invest">
+			    				{include file="finance/inc/invest_exp.html"}
+			    			</div>
+			    			<!-- 融资经历 -->
+			    			<div class="list-editor-finance">
+			    				{include file="finance/inc/financing_exp.html"}
+			    			</div>
+			    			<!-- 过往投资方 -->
+			    			<div class="list-editor-pastInvestors">
+			    				{include file="finance/inc/past_investors.html"}
+			    			</div>
+			    			<!-- 团队成员 -->
+			    			<div class="list-editor-item">
+			    				{include file="finance/inc/team.html"}
+			    			</div>
+			    			<!-- 过往成员 -->
+			    			<div class="list-editor-pastItem">
+			    				{include file="finance/inc/past_team.html"}
+			    			</div>
+			    		</div>
+			    	</div>
+		    	</div>
+		    	<div class="content-guide">
+		    		<div class="guide guide-tips">
+				        <div class="guide-info">
+				            完善左侧页面，审核通过后，可在
+				            “<a ui-sref="companys.detail.finance({id:companyId})" ng-click="financeTabCLick($event)" href="/company/169020/finance">融资</a>”
+				            页申请在线融资。
+				        </div>
+				    </div>
+		    	</div>
+	    	</div>
+    	</div>
+    </div>
+</div>
+<div class="blank30"></div>
+<script>
+	var app = angular.module('myApp', []);
+	app.controller('VisibleController', function($scope) {
+	    $scope.is_edit = {$company.company_is_edit};
+	});
+</script>
+<script type="text/javascript">
+	get_sigle_file_fun("company_logo");
+	// 一句话简介字数控制
+	checkstrlength("textarea[name='company_brief']",'#c_company_basic_left_words',30);
+</script>
+{include file="inc/footer.html"} 

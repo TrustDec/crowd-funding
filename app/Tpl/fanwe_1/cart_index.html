@@ -1,0 +1,218 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/cart.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/switch_city.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/switch_city.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/consignee.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/consignee.js";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/consignee.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/cart.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/cart.js";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<script type="text/javascript">
+var support_count='{$deal_item.support_count}';
+var is_limit_user='{$deal_item.is_limit_user}';	
+var limit_user='{$deal_item.limit_user}';
+var maxbuy='{$deal_item.maxbuy}';
+var remain_user_buy='{$deal_item.remain_user_buy}';
+</script>
+<div class="blank20"></div>
+<div class="shadow_bg">
+	<div class="white_box">
+		<div class="page_title">
+			<span>{$deal_info.name}</span>
+			<div class="support_price">
+ 				{if $deal_item.type eq 0}
+				支持金额 <span>¥{$deal_item.price_format}</span> 元				
+ 				{/if}
+				{if $deal_item.is_delivery eq 1}				
+				<font class="delivery_fee">
+					{if $deal_item.delivery_fee neq 0}
+					邮费:¥{$deal_item.delivery_fee_format}
+					{else}
+					包邮
+					{/if}
+				</font>
+				{/if}
+				<input name="is_delivery" id="is_delivery" type="hidden" value="{$deal_item.is_delivery}" />
+			</div>
+		</div>
+		<div class="blank0"></div>
+		<div class="public_left" style="padding:20px;">
+			<form id="cart_form" action="{url r="cart#check"}" method="post">	
+				{if $deal_item.type eq 1}
+				<div class="form_title">输入金额</div>
+				<div class="form_row control-group form_pay_money">
+					<input type="text" class="textbox w200 mr10" name="pay_money" value="" onkeyup="amount(this);" />
+					<div class="form_cont">元</div>
+				</div>
+				<div class="blank10"></div>	
+				{/if}
+				{if $deal_item.type eq 2}
+				<div class="form_content buy_box">
+					<span class="buy_title">数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;量：</span>
+					<div class="buy_main">
+						<a href="javascript:void(0);" class="plus" id="minus" >-</a>
+						<input type="text" name="num" value="{if $deal_item.maxbuy gt 0 && $deal_item.remain_user_buy eq 0}0{else}1{/if}" class="buy_num" id="buy_num">
+						<a href="javascript:void(0);" class="minus" id="plus" >+</a>
+					</div>
+					<span class="buy_tip {if $deal_item.maxbuy gt 0 && $deal_item.remain_user_buy eq 0}{else}hidden{/if}" id="buy_tip">你的支持数已达到上限</span>
+					<div class="blank15"></div>
+					<div class="blank15"></div>
+				</div>
+				<div class="blank10"></div>
+				{/if}
+				{if $deal_item.is_delivery}							
+					<div class="form_title">
+						<div class="f_l">收件地址</div>
+						{if $consignee_list}
+						<div class="f_r" style="margin-top:7px">
+							<div class="ui-small-button theme_bgcolor" rel="green" id="add_consignee" url="{url r="settings#add_consignee"}">
+								<div>
+									<span class="f14">添加配送地址</span>
+								</div>
+							</div>
+						</div>	
+						{/if}
+					</div>
+					<div class="blank20"></div>
+					{if $consignee_list}
+					{foreach from=$consignee_list item=consignee key=k}
+					<div class="consignee_radio_row">
+						<div class="cbo">
+							<input type="radio" name="consignee_id" {if $consignee.is_default} checked="checked"{else}{if $k eq 0}checked="checked"{/if}{/if} value="{$consignee.id}" />
+						</div>
+						<div class="cnt">
+							<span>{$consignee.province}{$consignee.city}{$consignee.address} {$consignee.zip} {$consignee.consignee} {$consignee.mobile}</span>
+						</div>
+					</div>
+					{/foreach}
+					{else}
+					<!--begin_consignee-->
+					<div class="control-group">
+						<label class="title control-label w100">收货人姓名:</label>
+						<input type="text" class="textbox" value="{$consignee_info.consignee}" name="consignee" />
+					</div>
+					<div class="blank10"></div>
+					<div class="control-group">
+						<label class="title control-label w100">地区:</label>
+						<select name="province" id="province" class="ui-select field_select small">
+							<option value="" rel="0">请选择省份</option>			
+							{foreach from=$region_lv2 item=region}
+							<option value="{$region.name}" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+							{/foreach}
+						</select>
+						<select name="city" id="city" class="ui-select field_select small">
+							<option value="" rel="0">请选择城市</option>
+							{foreach from=$region_lv3 item=region}
+							<option value="{$region.name}" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+							{/foreach}
+						</select>
+					</div>
+					<div class="blank10"></div>
+					<div class="control-group">
+						<label class="title control-label w100">详细地址:</label>
+						<textarea name="address" class="textareabox w300" style="height:60px">{$consignee_info.address}</textarea>
+					</div>
+					<div class="blank10"></div>
+					<div class="control-group">
+						<label class="title control-label w100">邮编:</label>
+						<input type="text"  name="zip" class="textbox" value="{$consignee_info.zip}" />
+					</div>
+					<div class="blank10"></div>
+					<div class="control-group">
+						<label class="title control-label w100">手机:</label>
+						<input type="text"  name="mobile" class="textbox" value="{$consignee_info.mobile}" />
+						<div class="blank15"></div>
+					</div>
+					<!--end conignee-->
+					{/if}
+				{/if}
+				<div class="blank10"></div>
+				<div class="form_title">
+					回报内容
+				</div>
+				<div class="form_content">
+					{function name="nl2br" v=$deal_item.description}
+				</div>
+				<div class="blank10"></div>
+				<div class="form_title">
+					备注信息
+				</div>
+				<div class="form_content">
+				<textarea name="memo" class="textarea">在此填写关于回报内容的具体选择或者任何你想告诉项目发起人的话</textarea>
+				</div>
+				<div class="blank20"></div>
+				<div>
+					<div class="ui-button theme_bgcolor" rel="green" id="stand_by">
+						<div>
+							<span>确定，提交</span>
+						</div>
+					</div>
+					<input type="hidden" name="id" value="{$deal_item.id}" />
+					<input type="hidden" name="ajax" value="1" />
+					<div class="blank15"></div>
+				</div>
+			</form>
+		</div>
+		<div class="public_right" style="padding:20px;width:287px">
+			<div class="deal_item_box" style="height:auto">
+				<div class="deal_content_box">
+					<a href="{url r="deal#show" p="id=$deal_info.id"}" title="{$deal_info.name}" target="_blank" style="display:block;overflow:hidden">
+						<img  src="{if $deal_info.image eq ''}{$TMPL}/images/empty_thumb.gif{else}{function name="get_spec_image" v=$deal_info.image w="285" h="200" g="1"}{/if}" />
+					</a>
+					<div class="blank0"></div>
+					<a href="{url r="deal#show" p="id=$deal_info.id"}" class="deal_title" title="{$deal_info.name}">{$deal_info.name}</a>
+					<div class="blank0"></div>
+					<a href="{url r="home" p="id=$deal_info.user_id"}" style="padding-left:12px;">{$deal_info.user_name}</a></a>&nbsp;&nbsp;(<span><a href="{url r="deals" p="loc=$deal_info.province"}" title="{$deal_info.province}">{$deal_info.province}</a></span><span><a href="{url r="deals" p="loc=$deal_info.city"}" title="{$deal_info.city}">{$deal_info.city}</a></span>)
+					<div class="blank"></div>
+					<div class="p10">{$deal_info.brief}</div>
+				</div>
+				<div class="deal_item_dash"></div>
+				<div class="deal_content_box" style="padding:0 12px">
+					<div class="ui-progress">
+						<span class="theme_bgcolor" style="width:{$deal_info.percent}%;"></span>
+					</div>
+					<div class="blank"></div>
+					<div class="div3" style="text-align:left">
+						<span class="num">{$deal_info.percent}%</span>
+						<div class="blank5"></div>
+						<span class="til">达到</span>
+					</div>
+					<div class="div3">
+						<span class="num" ><font>{function name="round" v=$deal_info.support_amount e=2}</font>元</span>
+						<div class="blank5"></div>
+						<span class="til">已获支持</span>
+					</div>
+					<div class="div3" style="border-right:0;text-align:right">
+						{if $deal_info.begin_time > $now}
+						<span class="num">未上线</span>
+						<div class="blank5"></div>
+						<span class="til">剩余时间</span>
+						{elseif $deal_info.end_time < $now and $deal_info.end_time neq 0}
+						<span class="num">已过期</span>
+						<div class="blank5"></div>
+						<span class="til">剩余时间</span>
+						{else}
+						<span class="num">
+							{if $deal_info.end_time eq 0}
+							长期项目
+							{else}
+							<font>{$deal_info.remain_days}</font>天
+							{/if}
+						</span>
+						<div class="blank5"></div>
+						<span class="til">剩余时间</span>
+						{/if}					
+					</div>
+					<div class="blank10"></div>
+				</div>
+			</div>	
+		</div>
+		<div class="blank"></div>
+	</div>
+</div>
+<div class="blank20"></div>
+{include file="inc/footer.html"} 

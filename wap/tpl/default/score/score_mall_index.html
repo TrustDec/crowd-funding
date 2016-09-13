@@ -1,0 +1,91 @@
+{if $smarty.request.is_ajax neq 1}
+{include file="inc/header.html"}
+<?php 
+ $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/score.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$pagecss"}" />
+<input type="hidden" class="pull_to_refresh_url" value="{url_wap r="score_mall#index"}" />
+<!-- 默认的下拉刷新层 -->
+<div class="pull-to-refresh-layer">
+    <div class="preloader"></div>
+    <div class="pull-to-refresh-arrow"></div>
+</div>
+<div class="deals_index">
+	<div class="main_menu_box">
+		<div class="hide_list">
+		  	<div class="abbr">
+		  	   	<div class="first_list webkit-box-flex" id="first_list">
+		  	   	    <ul>
+						{foreach from=$cate_list item=cate_item }
+						<li class="directory">{$cate_item.name}</li>
+						{/foreach}
+		  	   	    </ul>
+		  	   	</div>
+			   	<div class="second_list webkit-box-flex" id="second_list">
+			   		{foreach from=$cate_list item=cate_item}
+			   	    <ul>
+			   	    	<li class="two_directory"><a href="{$cate_item.url}">全部</a></li>
+			   	    	{if $cate_item.sub_list}
+						{foreach from=$cate_item.sub_list item=clist}
+						{if $clist}
+						<li class="two_directory"><a href="{$clist.url}">{$clist.name}</a></li>
+				   		{/if}
+					    {/foreach}
+						{/if}	
+		  	   	    </ul>
+					{/foreach}
+			   	</div>
+		  	</div>
+			<div class="abbr">
+		  	   	<div class="all_list" id="first_list">
+		  	   	    <ul>
+						{foreach from=$integral_url item=integral key=key}
+						<li class="directory"><a href="{$integral.url}" title="{$integral.name}" {if $integral.integral eq integral_str}class="current"{/if}>{$integral.name}</a></li>
+						{/foreach}	
+		  	   	    </ul>
+		  	   	</div>  
+		  	</div>
+		</div>
+		<div class="main_list">
+	 	   	<ul class="mall-cate webkit-box">
+	 	   	   	<li class="webkit-box-flex">{if $cate_name}{$cate_name}{else}全部分类 {/if}<i class="icon iconfont ml5">&#xe607;</i></li>
+			   	<li class="webkit-box-flex">{if $state_name}{$state_name}{else}积分范围{/if}<i class="icon iconfont ml5">&#xe607;</i></li>
+	 	   	</ul>
+	 	</div>
+ 	</div>
+	<div class="blank10"></div>
+	<div class="sort_box">
+		<ul class="webkit-box">
+		{foreach from=$sort_info item=sort key=key}
+		<li class="webkit-box-flex ">
+			<a class="{if $sort.sort eq $sort_str}sort_cur{/if}" {if $key eq 3}style="border-right:none"{/if} href="{$sort.url}">{$sort.name}</a>
+		</li>
+		{/foreach}
+		</ul>
+	</div>
+	<div class="blank10"></div>
+	<div class="score_goods pull-to-refresh-content">
+	{/if}
+		{foreach from=$goods_list item=good}
+		<div class="good_item b_radius3 clearfix">
+			<a href="{url_wap r="score_good_show#index" p="id=$good.id"}" class="webkit-box">
+				<div class="img_a">
+					<img src="{if $good.img eq ''}{$TMPL}/images/empty_thumb.gif{else}{function name="get_spec_image" v=$good.img w="150" h="150" g="1" }{/if}" alt="{$good.name}" />
+				</div>
+				<div class="webkit-box-flex">
+					<div class="name">{$good.name}</div>
+					<div><span class="f_red">{$good.score}积分</span></div>
+					<div class="sales">{$good.total_buy}人兑换</div>
+				</div>
+			</a>
+		</div>
+		{/foreach}
+	{if $smarty.request.is_ajax neq 1}
+	</div>
+	<div class="blank15"></div>
+	<div class="pages">{$pages}</div>
+	<div class="blank15"></div>
+</div>
+<!-- score_mall_index.js -->
+{include file="inc/footer.html"}
+{/if}

@@ -1,0 +1,107 @@
+{include file="inc/header.html"} 
+<seation class="account_mortgate_pay">
+	<h2>
+		缴纳诚意金：<span class="f_red">{function name="format_price" v=$money p=2}</span>元
+	</h2>
+	<div class="tip_text">
+		温馨提示：缴纳询价认筹诚意金{function name="format_price" v=$money p=2}元后，您可以获得每个项目&nbsp;<span class="f_ora f_b">2</span>&nbsp;次询价的机会，只要您不反悔，取得的项目询价认筹资格永远有效；您永远拥有对每个项目2次询价的机会！
+		<div class="blank5"></div>
+	 	出现下面任一情况，均属于投资人反悔：<br />
+		<span class="f_red">①&nbsp;投资人询价认筹成功后，又要求取消认投的；<br />
+		②&nbsp;项目达到付款阶段，接到付款通知在规定时间内不付款的</span>
+	</div>
+	{if $deal_info.ips_bill_no neq "" && $is_tg}
+	<form class="pay_form" action="{url_wap r="account#go_pay"}" target="_blank" method="post">
+		{if $deal_info.ips_bill_no neq "" && $is_tg}
+		<div class="ul_block">
+			<ul>
+				<li class="webkit-box">
+					<label class="input_lable mr10">支付方式</label>
+					<div class="text webkit-box-flex tr">{$coll.name}</div>
+					<input type="hidden" name="is_tg" value="1">
+				</li>
+			</ul>
+		</div>
+		{else}
+		{$payment_html}
+		{/if}
+		{if app_conf("PAYPASS_STATUS")}
+		<div class="ul_block">
+			<ul>
+				<li class="webkit-box">
+					<label class="input_lable mr10">付款密码</label>
+					<input type="password"  autocomplete="off" placeholder="请输入付款密码" class="textbox webkit-box-flex" value="" name="paypassword" >
+					<span class="f12 f_999">&nbsp;&nbsp;忘记了？<a href="#" onclick="RouterURL('{url_wap r="settings#security" v="method=setting-pass-box"}','#settings-security');" class="theme_fcolor">点这里</a></span>
+				</li>
+			</ul>
+		</div>
+		{/if}
+		<div class="mod_main">
+			<div class="ui-button bg_red" rel="green">
+				<div>
+					<span>确定，去付款</span>
+				</div>
+			</div>				
+			<input type="hidden" id="back_url" value="{url_wap r="account#mortgate_pay" p="deal_id=$deal_id"}} " />	
+			<input type="hidden" value="{$money}" name="money" />
+			<input type="hidden" value="1" name="ajax" />
+			<input type="hidden" value="1" name="is_mortgate">	
+			<input type="hidden" value="{$deal_id}" name="deal_id">
+		</div>
+	</form>
+	{else}
+		{if $left_money}
+		<div class="ul_block ul_block_list">
+			<ul>
+				<li class="tc"> 
+					<a href="#" onclick="RouterURL('{url_wap r="account#incharge" p="money=$left_money"}','#account-incharge',2);">余额不够，<span class="f_red b">点击充值</span></a>
+				</li>
+			</ul>
+		</div>
+		{else}
+		<div class="ul_block">
+			<ul>
+				<li class="webkit-box">
+					<label class="input_lable mr10">支付方式</label>
+					<div class="text webkit-box-flex tr">余额支付</div>
+				</li>
+			</ul>
+		</div>
+		<div class="ul_block">
+			<ul>
+				<li class="webkit-box">
+					<label class="input_lable mr10">可用余额</label>
+					<div class="text webkit-box-flex tr">{function name="format_price" v=$user_info.money}</div>
+				</li>
+			</ul>
+		</div>
+		<form class="pay_form" action="{url_wap r="account#ye_mortgage_pay"}"   method="post">
+			<div class="ul_block">
+				<ul>
+					<li class="webkit-box">
+						<label class="input_lable mr10">付款密码</label>
+						<input type="password"  autocomplete="off" placeholder="请输入付款密码" class="textbox webkit-box-flex" value="" name="paypassword" >
+						<span class="f12 f_999">&nbsp;&nbsp;忘记了？<a href="#" onclick="RouterURL('{url_wap r="settings#security" v="method=setting-pass-box"}','#settings-security');" class="theme_fcolor">点这里</a></span>
+					</li>
+				</ul>
+			</div>
+			<div class="blank15"></div>
+			<div class="submit_btn_row pl10 pr10">
+				<div class="ui-button bg_red" rel="green">确定，去付款</span></div>				
+				<input type="hidden" id="back_url" value="{url_wap r="account#mortgate_pay"  p="deal_id=$deal_id"}" />
+				<input type="hidden" value="{$money}" name="money" />
+				<input type="hidden" value="1" name="ajax" />
+				<input type="hidden" value="1" name="is_mortgate" />
+				<input type="hidden" value="{$deal_id}" name="deal_id">	
+				<div class="blank15"></div>
+			</div>
+		</form>
+		{/if}	
+	{/if}
+</seation>
+<script type="text/javascript">
+	var ips_bill_no = '{$deal_info.ips_bill_no}';
+	var is_tg = '{$is_tg}';
+</script>
+<!-- cart_pay.js -->
+{include file="inc/footer.html"} 

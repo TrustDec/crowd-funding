@@ -1,0 +1,470 @@
+{include file="inc/header.html"} 
+<script type="text/javascript">
+var gz_region_i = {$gz_region_count};
+</script>
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/fanwe_utils/jcDate.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/fanwe_utils/jcDate.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jQuery-jcDate.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jQuery-jcDate.js";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/setting_index.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/setting_index.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/ajaxupload.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/switch_city.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/switch_city.js";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<script type="text/javascript">
+    var ROOT = '{$APP_ROOT}/{$URL_NAME}';
+    var VAR_MODULE = "m";
+    var VAR_ACTION = "a";
+    var WEB_SESSION_ID = '<?php echo es_session::id(); ?>';
+    var EMOT_URL = '{$APP_ROOT}/public/emoticons/';
+    var MAX_FILE_SIZE =  '{$max_size_byte}b';
+    var UPLOAD_URL ='{$APP_ROOT}/index.php?ctl=avatar&act=upload&uid={$user_info.id}' ;
+	var UPLOAD_SWF='{$TMPL}/js/plupload/Moxie.swf';
+	var UPLOAD_XAP='{$TMPL}/js/plupload/Moxie.xap';
+	var ALLOW_IMAGE_EXT= "gif,jpg,jpeg,png,bmp";
+	var MAX_IMAGE_SIZE= '{$max_size_byte}b';
+	function get_file_fun(name){
+		$("#"+name).ui_upload({multi:false,
+			FileUploaded:function(ajaxobj){
+				if(ajaxobj.status!=1)
+				{
+					$.showErr(ajaxobj.message);
+				}else{
+					 $("#avatar_img").attr("src",ajaxobj.middle_url+"?r="+Math.random());
+	 				}
+			},Error:function(error){
+				if(error.code==-600){
+					$.showErr("您上传的文件太大，最大允许上传{$max_size}");
+				}else{
+					$.showErr(error.message);
+				}
+ 			}
+ 		});
+	}
+
+	$(document).ready(function(){
+		//选择日期控件
+		$("input.jcDate").jcDate({
+		    IcoClass : "jcDateIco",
+		    Event : "click",
+		    Speed : 100,
+		    Left :-125,
+		    Top : 28,
+		    format : "-",
+		    Timeout : 100,
+		    Oldyearall : 17,  // 配置过去多少年
+		    Newyearall : 0  // 配置未来多少年
+		});
+	});
+
+</script>
+<script type="text/javascript">
+	//var key_region= {$key_region};
+</script>
+{include file="inc/home_user_info.html"}
+<!--中间开始-->
+<div class="dlmain Myhomepage">
+	{include file="inc/account_left.html"} 
+	<div class="homeright pageright f_r">
+		<div class="list_title clearfix">
+			<div class="cur">
+				<span>个人资料</span>
+			</div>
+		</div>
+		<div class="list_conment setting_index">
+			<div class="left">
+				<form class="ajax_form" action="{url r="settings#save_index"}" id="user_register_form">
+					<div class="btn_group tl mb15" id="btn_group">
+						<span class="l_btn cur" id="l_btn">个人设置</span><span class="r_btn" id="r_btn">投资设置</span>
+					</div>
+					<div id="setting_group">
+						<div class="setting_box" id="l_btn_box">
+							<div class="control-group">
+								<label class="control-label">会员名称：</label>
+								<div class="control-text">
+									<input type="text" value="{$user_info.user_name}" class="textbox" disabled="true" />
+								</div>
+								<div class="blank0"></div>
+							</div>
+							<div class="control-group {if !($user_info.email)}smaller-control-group{/if}">
+								<label class="control-label">EMAIL：</label>
+								<div class="control-text">
+									{if $user_info.email}
+									<input type="text" value="{$user_info.email}" class="textbox" disabled="true" />
+									<a href="{url r="settings#security" v="method=setting-email-box"}">修改</a>
+									{else}
+									邮箱未绑定，点击&nbsp;<a href="{url r="settings#security" p="method=setting-email-box"}" class="f_red" style="text-decoration:underline">去绑定</a>
+									{/if}
+								</div>
+								<div class="blank0"></div>
+							</div>
+							<div class="control-group {if !($user_info.identify_name)}smaller-control-group{/if}">
+								<label class="control-label">真实姓名：</label>
+								<div class="control-text">
+									{if $user_info.identify_name}
+									<input type="text" value="{$user_info.identify_name}" class="textbox" disabled="true" />
+									{else}
+									未实名认证，点击&nbsp;<a href="{url r="settings#security" p="method=setting-id-box"}" class="f_red" style="text-decoration:underline">去认证</a>
+									{/if}
+								</div>
+								<div class="blank0"></div>
+							</div>
+							<div class="control-group {if !($user_info.identify_number)}smaller-control-group{/if}">
+								<label class="control-label">身份证号：</label>
+								<div class="control-text">
+									{if $user_info.identify_number}
+									<input type="text" value="{$user_info.identify_number}" class="textbox" disabled="true" />
+									{else}
+									未实名认证，点击&nbsp;<a href="{url r="settings#security" p="method=setting-id-box"}" class="f_red" style="text-decoration:underline">去认证</a>
+									{/if}
+								</div>
+								<div class="blank0"></div>
+							</div>
+							<div class="control-group {if !($user_info.mobile)}smaller-control-group{/if}">
+								<label class="control-label">手机号码：</label>
+								<div class="control-text">
+									{if $user_info.mobile}
+									<input type="text" value="{$user_info.mobile}" class="textbox" {if $user_info.mobile}disabled="true"{/if} />
+									{else}
+									为了账户更安全，请绑定手机号码！点击&nbsp;<a href="{url r="settings#security" v="method=setting-mobile-box"}" class="f_red" style="text-decoration:underline">去绑定</a>
+									{/if}
+								</div>
+								<div class="blank0"></div>
+							</div>
+							<div class="control-group small-control-group" style="*z-index:1;">	
+								<label class="control-label">性别：</label>
+								<div class="control-text">
+									<label class="ui_radiobox mr10" rel="sex" style="margin-top:12px">
+										<input type="radio" name="sex" {if $user_info.sex eq 1}checked="checked"{/if} value="1" />男
+									</label>
+									<label class="ui_radiobox" rel="sex" style="margin-top:12px">
+										<input type="radio" name="sex" {if $user_info.sex eq 0}checked="checked"{/if} value="0" />女
+									</label>
+								</div>
+								<div class="blank0"></div>
+							</div>
+							<div class="control-group small-control-group">
+								<label class="control-label">所在地区：</label>
+								<div class="control-text">
+									<select name="province" id="province" class="ui-select field_select small">
+										<option value="" rel="0">请选择省份</option>			
+										{foreach from=$region_lv2 item=region}
+										<option value="{$region.name}" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+										{/foreach}
+									</select>
+									<select name="city" id="city" class="ui-select field_select small">
+										<option value="" rel="0">请选择城市</option>
+										{foreach from=$region_lv3 item=region}
+										<option value="{$region.name}" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+										{/foreach}
+									</select>
+								</div>
+								<div class="blank0"></div>
+							</div>
+							<div class="control-group" style="height:163px">
+								<label class="control-label">自我介绍：</label>
+								<div class="control-text" style="height:auto;line-height:1.5;">
+									<textarea name="intro" class="textareabox w300" onkeyup="checkstrlength(this,'#left_words',200);">{$user_info.intro}</textarea>
+									<div class="blank5"></div>
+									<div class="f12 f_999">这里可以输入大约<span id="left_words">200</span>字的自我介绍，让大家多了解你</div>
+								</div>
+								<div class="blank0"></div>
+							</div>
+							
+							<div class="control-group">
+								<label class="control-label">博客或微博：</label>
+								<div class="control-text" style="height:auto;">
+									<div  id="weibo_list">
+									{if $weibo_list}
+									{foreach from=$weibo_list item=weibo_item key=key}
+										<div>
+											<input type="text" value="{$weibo_item.weibo_url}" class="textbox" name="weibo_url[]" />
+											{if $key gt 0}
+											<a href="javascript:void(0);" onclick="del_weibo(this);" class="f_red">删除</a>
+											{/if}
+											<div class="blank10"></div>
+										</div>
+									{/foreach}
+									{else}
+										<div>
+											<input type="text" value="" class="textbox" name="weibo_url[]" />
+											<div class="blank10"></div>
+										</div>
+									{/if}
+									</div>
+									<a href="javascript:void(0);" onclick="add_weibo();" class="theme_fcolor" style="line-height:1.5;">更多</a>
+								</div>
+								<div class="blank0"></div>
+							</div>
+						</div>
+						<div class="setting_box hide" id="r_btn_box">
+							{if $user_info.is_investor eq 2}
+								<div class="control-group">
+									<label class="control-label">机构名称：</label>
+									<div class="control-text">
+										<div class="pr f_l">
+											<input type="text" value="{$user_info.identify_business_name}" class="textbox" name="identify_business_name" disabled="true"/>
+										</div>
+									</div>
+									<div class="blank0"></div>
+								</div>
+								<div class="control-group">
+									<label class="control-label">机构英文名称：</label>
+									<div class="control-text">
+										<div class="pr f_l">
+											<input type="text" value="{$user_info.company_english_name}" class="textbox" name="company_english_name" />
+										</div>
+									</div>
+									<div class="blank0"></div>
+								</div>
+								<div class="control-group">
+									<label class="control-label">机构网址：</label>
+									<div class="control-text">
+										<div class="holder_tip_box">
+											<input type="text" value="{$user_info.company_url}" class="textbox" name="company_url" onfocus="auto_write_focus(this);" onblur="auto_write_blur(this);" />
+											<div class="holder_tip small_holder_tip">
+												<span>如：http://www.zcjiudian.com</span>
+											</div>
+										</div>
+									</div>
+									<div class="blank0"></div>
+								</div>
+								<div class="control-group">
+									<label class="control-label">机构成立时间：</label>
+									<div class="control-group small-control-group">
+										<div class="control-text">
+											<input readonly type="text" class="small_textbox w100 jcDate" rel="input-text" value="{$company_create_time}" name="company_create_time" id="inputLaunchTime" placeholder="请选择时间">
+										</div>
+										<div class="clear"></div>
+									</div>
+									<div class="blank0"></div>
+								</div>
+							{else}
+								<div class="control-group">
+									<label class="control-label">所在公司：</label>
+									<div class="control-text">
+										<div class="pr f_l">
+											<input type="text" value="{$user_info.company}" class="textbox" name="company" />
+											<span class="holder_tip">请输入所在公司名称</span>
+										</div>
+									</div>
+									<div class="blank0"></div>
+								</div>
+								<div class="control-group">
+									<label class="control-label">所在职位：</label>
+									<div class="control-text">
+										<div class="pr f_l">
+											<input type="text" value="{$user_info.job}" class="textbox" name="job" />
+											<span class="holder_tip">请输入所在公司职位</span>
+										</div>
+									</div>
+									<div class="blank0"></div>
+								</div>
+							{/if}
+							
+							
+							<div class="control-group">
+								<label class="control-label radio_lable">
+									投资领域：
+									<div class="cate_note">(最多只能选择3个)</div>
+								</label>
+								<div class="control-text" style="width:375px;height:auto">
+									<div id="cate_name_list">
+										{foreach from=$deal_cate item=cates_item name=key}
+					                    <label class="mr15">
+						                	<span class="ui_check info_view {if $user_info.cate_name[$cates_item.id]}ui_checked{/if}" type="radio" rel="info_view">
+						                        <input class="cate_name" type="checkbox" name="cates[{$cates_item.id}]" id="pc" value="{$cates_item.name}" {if $user_info.cate_name[$cates_item.id]}checked="checked"{/if} rel="cate_name" />
+						                    </span>
+											{$cates_item.name}
+					                    </label>
+					                    {/foreach}
+									</div>
+			                    </div>
+								<div class="blank0"></div>
+							</div>
+							<div class="control-group">
+								<label class="control-label radio_lable">
+									关注城市：
+									<div class="cate_note">(最多只能选择3个)</div>
+								</label>
+								<div class="control-text" style="width:375px;height:auto">
+									<div class="gz_region_box">
+										{if $gz_region}
+										{foreach from=$gz_region item=gz_region_c key=key_region}
+										<label>
+											<span class="gz_region">{$gz_region_c}</span>
+											<i class="icon iconfont del_region" onclick="del_region(this);"></i>
+											<input type="hidden" name="gz_region[{$key_region}]" value="{$gz_region_c}">
+										</label>
+										{/foreach}
+										{/if}
+									</div>
+									<div class="gz_region_select">
+										<select name="gz_province" id="gz_province" class="ui-select field_select small">
+											<option value="" rel="0">请选择省份</option>			
+											{foreach from=$gz_city_lv2 item=region}
+											<option value="{$region.name}" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+											{/foreach}
+										</select>
+										<select name="gz_city" id="gz_city" class="ui-select field_select small">
+											<option value="" rel="0">请选择城市</option>
+											{foreach from=$gz_city_lv3 item=region}
+											<option value="{$region.name}" rel="{$region.id}" {if $region.selected}selected="selected"{/if}>{$region.name}</option>
+											{/foreach}
+										</select>
+										<a class="ui_button ui-small37-button theme_bgcolor" id="btn_gz_city" onclick="btn_addCity(this,'gz_province','gz_city');">添加城市</a>
+									</div>
+			                    </div>
+								<div class="blank0"></div>
+							</div>
+							<div class="control-group" style="height:163px">
+								{if $user_info.is_investor eq 2}
+									<label class="control-label">机构简介：</label>
+								{else}
+									<label class="control-label"><span class="f_red b">*</span>投资理念：</label>
+								{/if}
+								<div class="control-text" style="height:auto;line-height:1.5;">
+									<textarea name="concept" class="textareabox w300">{$user_info.concept}</textarea>
+									<div class="blank5"></div>
+									<div class="f12 f_999">这里可以输入大约300字的投资理念，让大家多了解你</div>
+								</div>
+								<div class="blank0"></div>
+							</div>
+							<div class="control-group">
+								{if $user_info.is_investor eq 2}
+									<label class="control-label"><span class="f_red b">*</span>投资案例总数：</label>
+									<div class="control-text">
+										<div class="pr f_l">
+											<input type="text" value="{$user_info.investment_num}" class="textbox w100" name="investment_num" />个
+						          			<span class="holder_tip">请输入投资案例总数</span>
+						          		</div>
+									</div>
+									<div class="blank0"></div>
+								{else}
+									<label class="control-label"><span class="f_red b">*</span>一年计划投资项目：</label>
+									<div class="control-text">
+										<div class="pr f_l">
+											<input type="text" value="{$user_info.investment_num}" class="textbox w100" name="investment_num" />个
+						          			<span class="holder_tip">请输入项目数量</span>
+						          		</div>
+									</div>
+									<div class="blank0"></div>
+								{/if}
+							</div>
+							<div class="control-group">
+								<label class="control-label"><span class="f_red b">*</span>单个项目投资额度范围：</label>
+								<div class="control-text">
+									<div class="pr f_l">
+										<input type="text" value="{if $user_info.investment_begin gt 0}{$user_info.investment_begin}{/if}" class="textbox w100" name="investment_begin" onKeyUp="amount(this);"/>
+										<span class="holder_tip">请输入最小金额</span>
+									</div><span class="f_l">至&nbsp;&nbsp;</span>
+									<div class="pr f_l">
+										<input type="text" value="{if $user_info.investment_end gt 0}{$user_info.investment_end}{/if}" class="textbox w100" name="investment_end" onKeyUp="amount(this);"/>
+										<span class="holder_tip">请输入最大金额</span>
+									</div>万
+								</div>
+								<div class="blank0"></div>
+							</div>
+						</div>
+					</div>
+					<div class="blank10"></div>
+					<div class="submit_btn_row control-group">
+						<label class="control-label"></label>
+						<input type="button" value="保存最新的设置" class="ui-button theme_bgcolor" />
+						<input type="hidden" value="1" name="ajax" />
+					</div>
+					<div class="blank10"></div>
+				</form>
+			</div>
+			<div class="right" style="width:210px;">
+				<span style="font-size:14px">个人头像</span>
+				<div class="blank10"></div>
+				<img id="avatar_img" src="{function name="get_user_avatar" uid=$user_info.id type="middle"}" />
+				<div class="blank20"></div>
+				<label class="fileupload"  id="avatar_file">
+					<input type="button" class="filebox" name="avatar_file"   style="cursor:pointer;padding: 0;height: 39px;width: 97px;filter: alpha(opacity=0);-moz-opacity: 0;-khtml-opacity: 0;opacity: 0;"/>
+				</label>
+				<label class="fileuploading hide" ></label>
+				<span class="prompt" style="width:180px;margin-top:15px;color:#999;">支持jpg、jpeg、png、gif格式，大小不超过{$max_size}</span>
+			</div>
+			<div class="blank"></div>
+		</div>
+	</div>
+	<div class="blank"></div>
+</div>
+<!--中间结束-->
+<div class="blank"></div>
+<script type="text/javascript">
+	// 自动强制前缀(http://)
+	function auto_write_focus(obj){
+		if($(obj).val() == "http://" || $(obj).val() == ""){
+	  		$(obj).val("http://");
+	  	}
+	}
+	function auto_write_blur(obj){
+	  	if($(obj).val() == "http://"){
+			$(obj).val("");
+			$(obj).next(".holder_tip").show();
+		}
+	}
+</script>
+<script>
+	$("#btn_group span").bind('click',function(){
+		var $o = $(this);
+		var i = $o.index();
+		$o.addClass("cur").siblings().removeClass("cur");
+		$("#setting_group").find(".setting_box").eq(i).show().siblings().hide();
+
+	});
+	get_file_fun('avatar_file');
+
+	// 投资领域限制只能3个
+	(function(){
+		var cate_name_list=$("#cate_name_list");
+		var cate_name=cate_name_list.find("input[rel='cate_name']");
+		var notChecked = cate_name_list.find("input[rel='cate_name']").not("input:checked");
+		var isChecked = cate_name_list.find("input[rel='cate_name']:checked");
+		cate_name.bind('click',function(){
+			check();
+		});
+	  	if(isChecked.length>=3){
+	  		for(var i=0; i<notChecked.length; i++){
+				notChecked[i].disabled=true;
+			}
+	  	}
+		function disableCheckBox(){ 
+			for(var i=0; i<cate_name.length; i++){
+				if(!cate_name[i].checked) 
+				cate_name[i].disabled=true;
+			}
+		}
+		function ableCheckBox(){
+		    for(var i=0; i<cate_name.length; i++)
+		    cate_name[i].disabled = false;
+		}
+
+		function check(){
+		    var sun=0;
+		    for(var i=0; i<cate_name.length; i++){
+		        if(cate_name[i].type=="checkbox" && cate_name[i].checked)
+		        	sun++;
+		        if(sun<3) {
+		            ableCheckBox();
+		            //break; 
+		        } else if (sun==3) {
+		            disableCheckBox();
+		           	event.srcElement.checked = true;
+		            break;
+		        } else if (sun>3) {
+		            event.srcElement.checked = false;
+		            break;
+		        }
+		    }
+		}
+	})();
+</script>
+{include file="inc/footer.html"} 

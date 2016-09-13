@@ -1,0 +1,433 @@
+/* 底部开始 */
+#gotop {
+	background:url(../images/images/top.png) no-repeat;
+	width:41px;
+	height:41px;
+	cursor:pointer;
+	_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/images/top.png',sizingMethod='scale');
+	_background-image:none;
+	display:none;
+	position:fixed;
+	right:10px;
+	bottom:10px;
+	_position:absolute;
+	_top:0px;
+	_bottom:auto;
+	_display:block;
+	_visibility:hidden;
+}
+.footer {
+	width:100%;
+	background:#283645;
+	overflow:hidden;
+}
+.footer-wrap {
+	width:1200px;
+	margin:0 auto;
+	overflow:hidden;
+}
+.footer-section {
+	padding:10px 0;
+	overflow:hidden;
+}
+.footer-section-1{
+	background:#2F4052;
+}
+.footer-section-2{
+	background:#2F4052;
+}
+.foot-map {
+	float:left;
+	overflow:hidden;
+	display:inline;
+	width:960px;
+}
+.foot-map dl {
+	float:left;
+	padding-right:20px;
+	width:120px;
+}
+.foot-map dl dd {
+	line-height:20px;
+	margin-bottom:10px;
+}
+.foot-map .last {
+	padding-right:0
+}
+.ft-links {
+	padding:10px 0;
+	overflow:hidden;
+}
+.ft-links .g_links h3{
+	position:relative;
+	height:25px;
+	line-height:30px;
+	padding-left:30px;
+	font-size:14px;
+	font-weight:normal;
+	margin-bottom:10px;
+}
+.ft-links .g_links h3 i{
+	position:absolute;
+	top:4px;
+	left:0;
+	width:22px;
+	height:22px;
+	display:block;
+	background:url(../images/all.png) 0 -375px no-repeat;
+}
+.ft-links .g_imglinks h3 i{
+	background-position:-28px -375px;
+}
+.ft-links span{
+	font-family:'Microsoft Yahei';
+	font-size:14px;
+	font-weight:bold;
+}
+.ft-links .links-arrow {
+	float:left;
+	font-weight:bold;
+}
+.ft-links .g_links {
+	margin-left:0px;
+	display:block;
+	width:100%;
+	overflow:hidden;
+}
+.ft-links .g_links .g_links_text{width:1200px;font:11px "微软雅黑,SimSun";}
+.ft-links .g_links .g_links_text img {width:160px;height:60px;overflow:hidden;}
+.ft-links a{
+	margin-right:20px;
+	float:left;
+	display:inline;
+}
+.ft-links a:hover {
+	color:#12adff;
+}
+.foot-map dl dt , .ft-links .g_links span {
+	font-size:16px;
+	color:#a3b1bf;
+	font-weight:bold;
+}
+.foot-map dl dt {
+	line-height:32px;
+	margin-bottom:10px;
+}
+.foot-map dl dd a , .ft-links a {
+	color:#a3b1bf;
+}
+.foot-map dl dd a:hover, .ft-links a:hover{color:#188eee;}
+.foot-map dl dd em {
+	color:#707070;
+	padding:0px 7px;
+}
+.foot-contact {
+	float:right;
+	width:240px;
+	overflow:hidden;
+}
+.foot-contact h3{
+	height:27px;
+	text-indent:-999em;
+	background:url(../images/all2.png) 138px 0px no-repeat; 
+}
+.foot-contact .text i{
+	width:47px;
+	height:47px;
+	display:inline;
+	float:right;
+	background:url(../images/all1.png) no-repeat;
+	margin-right:5px;
+}
+.foot-contact .text .text_show{
+	float:right;
+	overflow:hidden;
+	color:#7b7b7b;
+	font-size:12px;
+	padding-top:5px;
+}
+.foot-contact .text .iphone{
+	font-size:24px;
+	line-height:24px;
+	font-family:'Impact';
+}
+.text_show div{	color:#A3B1BF;}
+.copy_text{
+	text-align:center;
+	color:#707e8c;
+	font:13px "微软雅黑";
+	line-height:25px;
+}
+.copy_text a{
+	color:#707e8c;
+}
+.copy_text a:hover{
+	color:#188eee;
+}
+
+/* 悬浮客服 开始 */
+.sidebar{
+	position:fixed;
+	width:40px;
+	bottom:20px;
+	margin-left:620px;
+	z-index:1000;
+}
+
+.sidebar a.ui-sidebar-block {
+  width: 40px;
+  height: 40px;
+  border-radius: 3px;
+  display: block;
+  position: relative;
+  background: url(../images/ui_sidebar.png) -9999px -9999px no-repeat #939393;
+  -webkit-transition: all .2s;
+  -moz-transition: all .2s;
+  -ms-transition: all .2s;
+  transition: all .2s;
+}
+.sidebar a.app{background-position:0 0;position:relative;}
+.sidebar a.app:hover{background-position:0 -40px;}
+.sidebar a.service{background-position:-90px 0;position:relative;}
+.sidebar a.service:hover{background-position:-90px -40px;}
+.sidebar a.feedback{background-position:-135px 0;position:relative;}
+.sidebar a.feedback:hover{background-position:-135px -40px;}
+.sidebar a.survey{background-position:-225px 0;position:relative;}
+.sidebar a.survey:hover{background-position:-225px -40px;}
+.sidebar a.backtop{background-position:-180px 0;position:relative;}
+.sidebar a.backtop:hover{background-position:-180px -40px;}
+
+/* 修正IE6振动bug */
+/* * html,* html body{background-image:url(about:blank);background-attachment:fixed} */
+/* 修正IE6不支持fixed */
+* html .sidebar{position:absolute;right:expression(eval(document.documentElement.scrollRight));top:expression(eval(document.documentElement.scrollTop+214))}
+
+.sidebar ul li{ 
+	width:40px;
+	height:40px;
+	line-height:40px;
+	float:left;
+	position:relative;
+	margin-top:2px;
+}
+.sidebar ul li .sidebox ,
+.sidebar ul li .sidebox_ewm ,
+.sidebar ul li .sidebox_link {
+	position:absolute;
+	width:40px;
+	height:40px;
+	line-height:40px;
+	top:0;
+	right:0;
+	transition:all 0.3s;
+	background:#939393;
+	color:#fff;
+	overflow:hidden;
+	-moz-border-radius:2px;
+	-khtml-border-radius:2px;
+	-webkit-border-radius:2px;
+	border-radius:2px;
+}
+.sidebar ul li .sidebox_ewm:hover{background:#3d9eeb;}
+.sidebar ul li img{float:left;}
+.sidebar ul li .sidebox_hide{
+  	position: absolute;
+  	display:none;
+}
+.sidebar ul li.ewm_box .sidebox_ewm_hide{
+	position:absolute;
+	width:220px;
+  	height:113px;
+  	padding:5px 0 5px 5px;
+  	left:-224px;
+  	top:-83px;
+  	visibility: hidden;
+ 	background-position: 0 0;
+ 	background:url(../images/float_ewmbg.png) no-repeat;
+ 	-webkit-transition: all .2s;
+  	-moz-transition: all .2s;
+  	-ms-transition: all .2s;
+  	transition: all .2s;
+}
+.sidebar a.ui-sidebar-block:hover .sidebox_ewm_hide {
+	
+	visibility: visible;
+}
+.sidebar ul li.ewm_box .sidebox_ewm_hide img{
+	width:200px;
+	height:110px;
+	overflow:hidden;
+}
+.sidebar ul li.link_box a:hover .sidebox_link{
+	background:#3d9eeb;
+}
+.sidebar ul li.link_box i{
+	font-size:22px;
+}
+.sidebar ul li.link_box .sidebox_link_hide{
+	position: absolute;
+	width:300px;
+  	height:80px;
+  	left:-360px;
+  	top:-90px;
+ 	font-size:12px;
+ 	background:#eee;
+ 	padding:25px;
+ 	color:#333;
+ 	visibility: hidden;
+ 	-moz-border-radius:5px;
+ 	-khtml-border-radius:5px;
+ 	-webkit-border-radius:5px;
+ 	border-radius:5px;
+ 	-webkit-transition: all .2s;
+  	-moz-transition: all .2s;
+  	-ms-transition: all .2s;
+  	transition: all .2s;
+}
+.sidebar a.ui-sidebar-block:hover .sidebox_link_hide {
+	left:-355px;
+	visibility: visible;
+}
+.sidebar ul li.link_box .sidebox_link_hide{
+	line-height:24px;
+}
+.muxfb_dialog {
+	position:fixed;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+	z-index:2147483647;
+	line-height:1.8;
+	font-size:14px;
+	color:#666;
+	font-family:'helvetica neue',tahoma,'hiragino sans gb',stheiti,'wenquanyi micro hei',sans-serif;
+	display:none;
+}
+.muxfb_dialog .muxfb_dialog_panel {
+	position:absolute;
+	bottom:80px;
+	right:-532px;
+	z-index:1;
+	border-radius:2px;
+	border:1px solid #e7e7e7;
+	background-color:#fff;
+	width:380px;
+	height:500px;
+	overflow:hidden;
+	-webkit-transition:right 0.4s;
+	transition:right 0.4s;
+	padding-left:150px;
+}
+.muxfb_dialog .muxfb_dialog_panel .muxfb_dialog_close:hover {
+	color:#61a500;
+}
+.muxfb_dialog .muxfb_dialog_panel .muxfb_dialog_close {
+	position:absolute;
+	top:25px;
+	right:28px;
+	color:#d0d0d0;
+	width:25px;
+	height:25px;
+	font-family:"fbsdkicon";
+	font-size:16px;
+	font-style:normal;
+	font-weight:normal;
+	font-variant:normal;
+	display:inline-block;
+	line-height:1;
+	speak:none;
+	-webkit-font-smoothing:antialiased;
+	-moz-osx-font-smoothing:grayscale;
+	font-size:20px;
+	cursor:pointer;
+}
+.muxfb_left_tab_wrap {
+	position:absolute;
+	left:0px;
+	top:0px;
+	width:150px;
+}
+.muxfb_left_tab_wrap .muxfb_left_logo {
+	width:100px;
+	height:auto;
+	display:block;
+	text-align:center;
+	margin-top:30px;
+	*margin-top:15px;
+}
+.muxfb_left_tab_wrap .muxfb_left_logo i {
+	font-size:42px;
+	line-height:50px;
+	display:block;
+}
+.muxfb_left_tab_wrap .muxfb_left_logo .title {
+	font-size:12px;
+	display:block;
+	margin-top:10px;
+}
+.muxfb_left_tab_wrap ul {
+	list-style:none;
+	margin-left:50px;
+	padding-left:0;
+	margin-top:15px;
+}
+.muxfb_left_tab_wrap ul li {
+	margin-bottom:8px;
+	height:25px;
+	line-height:25px;
+}
+.muxfb_left_tab_wrap ul li a {
+	font-size:16px;
+	color:#61a500;
+	text-decoration:underline;
+}
+.muxfb_left_tab_wrap ul li.current a {
+	color:#666;
+	text-decoration:none;
+	cursor:default;
+}
+.muxfb_form {
+	padding:25px 30px;
+}
+.muxfb_form .muxfb_form_title {
+	margin:0;
+	padding:0 0 8px 0;
+	font-size:16px;
+}
+.muxfb_form .control-group{
+	margin-left:0;
+}
+.muxfb_form .control-group .form_lable {
+	width:auto;
+	margin-right:10px;
+}
+.muxfb_form .control-group .small_textbox{
+	width:190px;
+	margin-right:0;
+}
+.muxfb_form .textareabox{
+	width:260px;
+}
+.muxfb_form .control-group .holder_tip{
+	width:188px;
+	top:0;
+	left:0;
+	height:37px;
+	line-height:37px;
+}
+.muxfb_form .control-group .user_name_tip ,
+.muxfb_form .control-group .tel_tip ,
+.muxfb_form .control-group .content_tip{display:none;padding-left:72px;}
+.muxfb_form .control-group .content_tip{padding-left:0}
+.muxfb_dialog .muxfb_dialog_mask {
+	position:absolute;
+	width:100%;
+	height:100%;
+	background-color:#000;
+	opacity:0.5;
+	filter:alpha(opacity=50);
+}
+/* 悬浮客服 结束 */
+
+/* 底部结束 */

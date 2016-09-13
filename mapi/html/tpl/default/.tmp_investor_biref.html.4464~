@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="Generator" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=0,minimum-scale=0.5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{if $page_title neq ''}{$page_title} - {/if}{$site_name} - {$seo_title}</title>
+    <meta name="keywords" content="{$seo_keyword}" />
+    <meta name="description" content="{$seo_description}" />
+    <?php
+    $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/layout.css";
+	$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/style.css";
+	$this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/jquery-1.8.2.min.js";
+ 	$this->_var['cpagejs'][] = $this->_var['TMPL_REAL']."/js/jquery-1.8.2.min.js";
+	?>
+    <link rel="stylesheet" type="text/css" href="{$REAL_APP_ROOT}/public/script/Font-Awesome-4.2.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$pagecss"}" />
+	<script type="text/javascript" src="{function name="parse_script" v="$pagejs" c="$cpagejs"}"></script>
+    <!--百度轻应用-->
+    <meta name="baidu-tc-cerfication" content="688cdfaa49f7c8f87fd5883492587d8e">
+</head>
+<body>
+<div class="wraper">
+	<div class="detailmain_2">
+		<div>
+			<label class="f_666">项目简介：</label>
+			<div class="blank0"></div>
+			<div class="f13">
+				{$deal_item.business_descripe}
+			</div>
+		</div>
+	
+		<a class="detailmain_a" href="javascript:void(0);" id="detailmain_a">
+			<span id="view_details">展开详情</span><i class="fa fa-angle-right"></i>
+		</a>
+		<div id="deal_info_box" style="display:none">
+			 <div class="blank10"></div>
+			<table width="100%" border="0" cellspacing="1" cellpadding="0" class="tab3">
+			    <tbody>
+			        <tr>
+			            <td align="right" class="td_l">项目类别：</td>
+			            <td>{$cates}</td>
+			        </tr>
+			        <tr>
+			        	<td align="right" class="td_l">项目标签：</td>
+			            <td>{$deal_item.tags}</td>
+			        </tr>
+			        <tr>
+			        	<td align="right" class="td_l">项目所属阶段：</td>
+			            <td>{if $deal_item.project_step eq 0}尚未启动{/if}{if $deal_item.project_step eq 1}产品开发中{/if}{if $deal_item.project_step eq 2}产品已上市或上线{/if}{if $deal_item.project_step eq 3}已经有收入{/if}{if $deal_item.project_step eq 4}已经盈利{/if}</td>
+			        </tr>
+			        <tr>
+			            <td align="right" class="td_l">出让股份：</td>
+			            <td>{$deal_item.transfer_share}%</td>
+			        </tr>
+			        <tr>
+			        	<td align="right" class="td_l">是否有其他项目：</td>
+			            <td>{if $deal_item.has_another_project eq 0}否{else}是{/if}</td>
+			        </tr>
+			        <tr>
+			            <td align="right" class="td_l">企业所在城市：</td>
+			            <td>{$deal_item.city}</td>
+			        </tr>
+			        <tr>
+			        	{if $deal_item.business_is_exist eq 1}
+			        	<td align="right" class="td_l">企业成立时间：</td>
+			            <td>{$deal_item.business_create_time}</td>
+			            {else}
+			            <td align="right" class="td_l">公司是否已经成立：</td>
+			            <td>否</td>
+			            {/if}
+			        </tr>
+		            <tr>
+			            <td align="right" class="td_l">企业员工人数：</td>
+			            <td>{$deal_item.business_employee_num}</td>
+			        </tr>
+			        <tr>
+			            <td align="right" class="td_l">公司名称：</td>
+			            <td>{$deal_item.business_name}</td>
+			        </tr>
+			        <tr>
+			        	<td align="right" class="td_l">公司地址：</td>
+			            <td>{$deal_item.business_address}</td>
+			        </tr>
+			    </tbody>
+			</table>
+			<div class="blank15"></div>
+			<table width="100%" border="0" cellspacing="1" cellpadding="0" class="tab3 tab4">
+			    <tbody>
+			    	<tr>
+			            <td align="center" colspan="2">其他资质材料</td>
+			        </tr>
+			        <tr>
+			            <td>审核项目</td>
+			            <td>审核状态</td>
+			        </tr>
+			        {if $audit_data_list.legal_id.display_type eq 0}
+			        <tr>
+			        	<td align="right" class="td_l">法人代表身份证</td>
+			            <td>{if $audit_data_list.legal_id.status neq 1}<i class="fa fa-times-circle f_gray"></i>{else}<i class="fa fa-check-circle theme_fcolor"></i>{/if}</td>
+			        </tr>
+			        {/if}
+			        {if $audit_data_list.legal_credit.display_type eq 0}
+			        <tr>
+			        	<td align="right" class="td_l">法人代表个人信用报告</td>
+			            <td>{if $audit_data_list.legal_credit.status neq 1}<i class="fa fa-times-circle f_gray"></i>{else}<i class="fa fa-check-circle theme_fcolor"></i>{/if}</td>
+			        </tr>
+			        {/if}
+			        {if $audit_data_list.business_license.display_type eq 0}
+			        <tr>
+			            <td align="right" class="td_l">营业执照</td>
+			            <td>{if $audit_data_list.business_license.status neq 1}<i class="fa fa-times-circle f_gray"></i>{else}<i class="fa fa-check-circle theme_fcolor"></i>{/if}</td>
+			        </tr>
+			        {/if}
+			        {if $audit_data_list.tax_registration_certificate.display_type eq 0}
+			        <tr>
+			        	<td align="right" class="td_l">税务登记证</td>
+			            <td>{if $audit_data_list.tax_registration_certificate.status neq 1}<i class="fa fa-times-circle f_gray"></i>{else}<i class="fa fa-check-circle theme_fcolor"></i>{/if}</td>
+			        </tr>
+			        {/if}
+			        {if $audit_data_list.organization_code.display_type eq 0}
+			        <tr>
+			            <td align="right" class="td_l">组织机构代码证</td>
+			            <td>{if $audit_data_list.organization_code.status neq 1}<i class="fa fa-times-circle f_gray"></i>{else}<i class="fa fa-check-circle theme_fcolor"></i>{/if}</td>
+			        </tr>
+			        {/if}
+			        {if $audit_data_list.company_photo.display_type eq 0}
+			        <tr>
+			        	<td align="right" class="td_l">公司照片</td>
+			            <td>{if $audit_data_list.company_photo.status neq 1}<i class="fa fa-times-circle f_gray"></i>{else}<i class="fa fa-check-circle theme_fcolor"></i>{/if}</td>
+			        </tr>
+			        {/if}
+			        {if $audit_data_list.site_contract.display_type eq 0}
+		            <tr>
+			            <td align="right" class="td_l">场地租赁合同</td>
+			            <td>{if $audit_data_list.site_contract.status neq 1}<i class="fa fa-times-circle f_gray"></i>{else}<i class="fa fa-check-circle theme_fcolor"></i>{/if}</td>
+			        </tr>
+			        {/if}
+			    </tbody>
+			</table>
+		</div>
+		
+	</div>
+</div>
+<script type="text/javascript">
+	// 显隐详情
+	$(function view_details_click(){
+		$("#detailmain_a").bind('click',function(){
+			if($("#deal_info_box").is(":hidden")){
+				$("#deal_info_box").show();
+				$(this).find("#view_details").text("收起详情");
+				$(this).find(".fa").removeClass("fa-angle-right").addClass("fa-angle-down");
+			}
+			else{
+				$("#deal_info_box").hide();
+				$(this).find("#view_details").text("展开详情");
+				$(this).find(".fa").removeClass("fa-angle-down").addClass("fa-angle-right");
+			}
+		});
+		$("#detailmain_aa").bind('click',function(){
+			$("#deal_info_box").hide();
+			$("#view_details").text("展开详情");
+		});
+	});
+</script>
+</body>
+</html>

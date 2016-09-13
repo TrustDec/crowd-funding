@@ -1,0 +1,274 @@
+/* 详细顶部 开始 */
+.deal_header{
+  background:url(../images/bg_company_deal.jpg) no-repeat;
+  padding:0.5rem;
+  color:#fff;
+  background-size:cover;
+}
+.deal_header .logo{
+  width:3rem;
+  height:3rem;
+  padding:0.25rem;
+  background:#64686e;
+  border-radius:50%;
+  margin-bottom:0.4rem;
+}
+.deal_header .logo img{
+  width:100%;
+  height:100%;
+  border-radius:50%;
+}
+.deal_header .name{
+  font-size:0.85rem;
+  margin-bottom:0.25rem;
+}
+.deal_header .name .level_icon{display:inline;}
+.home_organize .deal_header .name{
+  margin-bottom:0;
+}
+.home_organize .deal_header .sub_name{
+  margin-bottom:0.25rem;
+}
+.home_organize .deal_header .sub_name a{color:#fff;}
+.deal_header .info{margin-bottom:0.25rem;}
+.deal_header .other{
+  color:#999;
+  margin-bottom:0.5rem;
+}
+.deal_header .other span{margin:0 0.25rem;}
+.deal_header .other .iconfont{
+  line-height:1;
+  vertical-align: initial;
+}
+.deal_header .operat{padding:0.3rem 0;}
+a.btn_custom{
+  padding:0.3rem 1.5rem;
+  border:1px solid #fff;
+  border-radius:5px;
+  color:#fff;
+  background-color:rgba(86,87,92,0.5);
+  font-size:0.8rem;
+}
+/* 详细顶部 结束 */
+
+/* 详细主体 开始 */
+.box{background:#fff;}
+.box .link{color:#55acef;}
+.box small{color:#666;}
+.box_title{
+  background:#f4f4f4;
+  padding:0 0.5rem;
+  border-top:1px solid #dfdfdf;
+  border-bottom:1px solid #dfdfdf;
+  height:2rem;
+  line-height:2rem;
+}
+.focus .box_title span{
+  padding:0 0.5rem;
+  height:1.5rem;
+  line-height: 1.5rem;
+  text-align: center;
+  float:left;
+  background:#c9c9c9;
+  margin-right:10px;
+  border-radius:3px;
+  margin-top:0.2rem;
+}
+.focus .box_title span.cur{
+  background:#55acef;
+  color:#fff;
+}
+.box_content{
+  padding:0.5rem;
+}
+.box_content .image{
+  width:2.5rem;
+  margin-right:0.5rem;
+}
+.focus .box_content .image{float:left;}
+.box_content .image img{
+  width:2.5rem;
+  height:2.5rem;
+  border-radius:50%;
+}
+.box_content .text{
+  display:block;
+}
+.box_content .text .name{font-size:0.8rem;}
+.box_content .text .company_name,.box_content .text .job_type,.box_content .sub_name{font-size:0.75rem;color:#666;}
+.box_content .info{color:#999;}
+.box .company_img{
+  margin:0.5rem -0.5rem -0.5rem;
+}
+.about_link .iconfont{
+  font-size:0.7rem;
+  vertical-align: inherit;
+}
+.about_link .iconfont.ios{font-size:1rem;}
+.about_link .iconfont.anzhuo{font-size:0.8rem;}
+.about_link .ui-button{
+  width:46%;
+  float:left;
+  margin:0 2% 2%;
+  font-size:0.7rem;
+}
+.sub_project li{
+  margin:0 -0.5rem;
+  padding:0.5rem;
+  border-bottom: 1px dashed #e5e5e5;
+  clear:both;
+}
+.sub_project li:first-child{padding-top:0;}
+.sub_project li:last-child{border-bottom:0;padding-bottom:0;}
+
+.invest_exp .exp_item{
+  border-bottom:1px dashed #e5e5e5;
+  margin:0 -0.5rem;
+  padding:0.6rem;
+}
+.invest_exp .financing_exp_items{border-bottom:0}
+.invest_exp .exp_item:first-child{padding-top:0;}
+.invest_exp .exp_item:last-child{
+  border-bottom:0;
+}
+.invest_exp .exp_item:nth-child(n+4){
+  display:none;
+}
+.invest_exp .autoheight_wrap .exp_item:nth-child(n+4){
+  display:block;
+}
+.invest_exp .text .name{
+  color:#666;
+}
+.invest_exp .time_line{
+  position:relative;
+}
+.invest_exp .time_line:before{
+  position:absolute;
+  left:0;
+  border-left:1px solid #e5e5e5;
+  content:"";
+  height:100%;
+}
+.invest_exp .time_line li{
+  padding-left:10px;
+  margin-top:10px;
+}
+.invest_exp .time_line li:nth-child(n+4){
+  display:none;
+}
+.invest_exp .time_line.autoheight_wrap li:nth-child(n+4){
+  display:block;
+}
+.invest_exp .time_line .time{
+  position:relative;
+  line-height: 1;
+  margin-bottom:5px;
+  color:#999;
+}
+.invest_exp .time_line .time:before{
+  position:absolute;
+  left:-11px;
+  border-left:3px solid #55acef;
+  content:"";
+  height:100%;
+}
+.view_more{
+  border-top:1px solid #e5e5e5;
+  height:2rem;
+  line-height:2rem;
+  text-align:center;
+  display:block;
+  margin:-1px -0.5rem -0.5rem;
+  font-size:0.8rem;
+}
+.financing_exp_item{
+  border:1px solid #e5e5e5;
+  border-radius:5px;
+}
+.financing_exp_item .item_phase{
+  height:2rem;
+  line-height:2rem;
+  background: #f4f4f4;
+  text-align: center;
+  border-bottom:1px solid #e5e5e5;
+}
+.item_money{
+  padding:0.5rem 0;
+  margin:0 0.5rem;
+  border-bottom:1px solid #e5e5e5;
+}
+.sub_item_money{
+  text-align:center;
+}
+.sub_item_money_l{
+  border-right:1px solid #e5e5e5;
+}
+.sub_item_money .label{color:#999;}
+.sub_item_money .val{
+  color:#666;
+  margin-bottom:0.5rem;
+}
+.item_subject{
+  padding:0.5rem;
+  overflow: hidden;
+}
+.item_subject .item_subject_item{
+  color:#999;
+  margin:0.25rem;
+  text-align:left;
+  float:left;
+}
+.item_subject .item_subject_item img{
+  width:1rem;
+  height:1rem;
+  border-radius:50%;
+  display:inline;
+  margin-top:-3px;
+}
+
+.teams{
+  margin:0 -0.5rem;
+  padding:0.5rem;
+  border-bottom:1px dashed #e5e5e5;
+}
+.teams:first-child{padding-top:0;}
+.teams:last-child{padding-bottom:0;border-bottom:0;}
+.teams:nth-child(n+4){
+  display:none;
+}
+.autoheight_wrap .teams:nth-child(n+4){
+  display:block;
+}
+
+.item_view_more:nth-child(n+4){
+  display:none;
+}
+.autoheight_wrap .item_view_more:nth-child(n+4){
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+}
+.sub_item{
+  border-bottom:1px dashed #e5e5e5;
+  margin:0 -0.5rem;
+  padding:0.6rem;
+}
+.sub_item:first-child{padding-top:0;}
+.sub_item:last-child{
+  border-bottom:0;
+  padding-bottom:0;
+}
+.sub_item .sub_name{
+  color:#333;
+}
+.sub_item .sub_name{
+  color:#333;
+}
+.sub_item .text{
+  color:#666;
+}
+
+.items_list .items{border-bottom:1px solid #e5e5e5;}
+.items_list .items:last-child{border-bottom:0;}
+.items_list .items .item{border:0;}
+/* 详细主体 结束 */

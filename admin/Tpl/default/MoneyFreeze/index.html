@@ -1,0 +1,73 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<PHP>
+	function get_payment_user_name($uid)
+	{
+		return M("User")->where("id=".$uid)->getField("user_name");
+	}
+	function get_pay_type($pay_type){
+ 		if($pay_type==1){
+			return "网站余额支付";
+		}else{
+			return "第三方托管";
+		}
+	}
+	function get_moneyfreeze_status($status){
+ 		if($status==1){
+			return "冻结";
+		}elseif($status==2){
+			return "解冻";
+		}else{
+			return "申请解冻";
+		}
+	}
+	
+</PHP>
+<include file="Public:header" />
+<load href='__TMPL__Common/js/jquery.bgiframe.js' />
+<load href='__TMPL__Common/js/jquery.weebox.js' />
+
+<load href='__TMPL__Common/style/weebox.css' />
+<div class="main">
+<div class="main_title">诚意金记录</div>
+<div class="blank5"></div>
+<div class="button_row">
+	<input type="button" class="button" value="删除" onclick="del();" />
+</div>
+<div class="blank5"></div>
+<div class="search_row">
+	<form name="search" action="__APP__" method="get">	
+		类型:
+		<select name="status">	
+			<option value="1" <if condition="$_REQUEST['status'] eq 1">selected="selected"</if> >冻结</option>
+			<option value="2" <if condition="$_REQUEST['status'] eq 2">selected="selected"</if> >解冻</option>
+			<option value="3" <if condition="$_REQUEST['status'] eq 3">selected="selected"</if> >申请解冻</option>
+		</select>	
+		<input type="hidden" value="MoneyFreeze" name="m" />
+		<input type="hidden" value="index" name="a" />
+		<input type="submit" class="button" value="{%SEARCH}" />
+	</form>
+</div>
+<div class="blank5"></div>
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="moneyfreeze" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{%ID}|50px
+		,deal_id|get_deal_name:项目名称
+		,platformUserNo|get_payment_user_name:会员名
+		,requestNo:商户诚意金订单号
+		,status|get_moneyfreeze_status:类型
+		,create_time|to_date:完成时间
+		,amount:操作金额
+		,pay_type|get_pay_type:支付类型" 
+		
+	actionlist="del:删除" /> 
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

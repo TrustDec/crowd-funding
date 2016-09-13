@@ -1,0 +1,161 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/deal_list.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/deal_list.js";
+?>
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<style type="text/css">
+	.hide_area{display:none;}
+	.hide_area td{padding:20px;text-align:left}
+	.deletebox{
+		display:none;
+		width:16px;
+		margin:0 auto;
+	}
+	.deletebox i {
+		background:url({$TMPL}/images/del_icon.png) no-repeat;
+		display:inline-block;
+		vertical-align:middle;
+		width:16px;
+		height:16px;
+	}
+	.uc_table td{border-bottom:1px solid #f2f2f2;}
+</style>
+{include file="inc/home_user_info.html"}
+<!-- 中间开始 -->
+<div class="dlmain Myhomepage">
+	<!-- 左侧菜单 开始 -->
+	{include file="inc/account_left.html"}
+	<!-- 左侧菜单 结束 -->
+
+	<!-- 右侧内容 开始 -->
+	<div class="homeright pageright f_r">
+		<div class="list_title clearfix">
+			<div {if $all eq 0}class="cur"{/if}>
+				<span>推荐给我的项目</span>
+			</div>
+		</div>
+		<div class="list_conment">
+			{if $recommend_info neq null}
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc_table" id="account_recommend">
+				<thead>
+					<tr>
+						<th>项目名称</th>
+						{if $recommend_act eq 'recommend_investor' ||  $recommend_act eq 'recommend_finance' }
+						<th>融资阶段</th>
+						{/if}
+						<th style="width:20%">类型</th>
+						<th style="width:20%">推荐时间</th>
+						<th style="width:13%">操作</th>
+						<th style="width:4%">&nbsp;</th>
+					</tr>
+				</thead>
+				<tbody>
+					{foreach from=$recommend_info item=recommend_info_item}
+					<tr>
+						<td class="lf">
+							{if $recommend_info_item.type eq 4}
+							<a href="{url r="finance#company_finance" p="id=$recommend_info_item.deal_id"}" target="_blank" title="{$recommend_info_item.deal_name}">
+								<img src="{function name="get_spec_image" v=$recommend_info_item.deal_image w=60 h=45 g=1}" alt="{$recommend_info_item.deal_name}" class="f_l p_img"/>
+								<span class="p_name">{$recommend_info_item.deal_name}</span>
+							</a>
+							{else}
+							<a href="{url r="deal#show" p="id=$recommend_info_item.deal_id"}" target="_blank" title="{$recommend_info_item.deal_name}">
+								<img src="{function name="get_spec_image" v=$recommend_info_item.deal_image w=60 h=45 g=1}" alt="{$recommend_info_item.deal_name}" class="f_l p_img"/>
+								<span class="p_name">{$recommend_info_item.deal_name}</span>
+							</a>
+							{/if}
+						</td>
+						{if $recommend_act eq 'recommend_investor' ||  $recommend_act eq 'recommend_finance' }
+						<td>{if $recommend_info_item.type eq 4}{function name="get_invest_phase" v=$recommend_info_item.invest_phase}{else}无{/if}</td>
+						{/if}
+						<td>{if $recommend_info_item.deal_type eq 1}{$gq_name}{/if}{if $recommend_info_item.deal_type eq 0}普通众筹{/if}</td>
+						<td>{function name="to_date" v=$recommend_info_item.create_time}</td>
+						<td	class="p_op">
+							<a href="javascript:void(0);" class="view_deal theme_fcolor">查看推荐理由</a><br />
+						</td>
+						<td class="p_del">
+							<a href="javascript:void(0);" class="deletebox sc" rel="{$recommend_info_item.id}">
+                                <i></i>
+                            </a>
+						</td>
+					</tr>
+					<tr class="hide_area">
+						<td colspan="5">
+							{$recommend_info_item.memo}
+						</td>
+					</tr>
+				{/foreach}
+				</tbody>	
+			</table>
+			<div class="blank20"></div>
+			<div class="pages">{$pages}</div>
+			<div class="blank20"></div>
+			{else}
+			<div class="f14 tc">
+				暂时没有推送的项目，点击立即<a href="{url r="deals"}" class="btn_creat ml10" target="_blank">浏览更多项目</a>
+			</div>
+			{/if}
+		</div>
+		<div class="blank"></div>
+	</div>
+	<!-- 右侧内容 结束 -->
+	<div class="blank"></div>
+</div>
+<!-- 中间结束 -->
+<script type="text/javascript">
+$(function(){
+	$(".view_deal").bind("click",function(){
+		var $this = $(this);
+		var $td = $this.parent().parent().find("td");
+		var $hide_area = $this.parent().parent().next(".hide_area");
+		if($hide_area.is(":hidden")){
+			$this.html("关闭推荐理由");
+			$td.css("borderBottom","0");
+			$hide_area.show();
+		}
+		else{
+			$this.html("查看推荐理由");
+			$td.css("borderBottom","1px solid #f2f2f2");
+			$hide_area.hide();
+		}
+	});
+
+	$("#account_recommend tr").bind('mouseover mouseout', function(e){
+		$(this).find(".deletebox").toggle();
+	});
+	
+	ajax_delete_recommend();
+})
+function ajax_delete_recommend(){
+	$(".sc").bind("click",function(){
+		if (confirm("确认要删除吗？")) {
+			var id=$(this).attr("rel");
+          	var ajaxurl ='{url r="ajax#ajax_delete_recommend"}';
+			var query=new Object();
+			query.id=id;
+			$.ajax({
+				url: ajaxurl,
+				dataType: "json",
+				data:query,
+				type: "POST",
+				success:function(ajaxobj){
+					if(ajaxobj.status==0){
+						$.showErr(ajaxobj.info);
+						return false;
+					}
+					if(ajaxobj.status==1){
+						$.showSuccess(ajaxobj.info,function(){
+							window.location.reload();
+						});
+						return false;
+					}
+					
+				}
+			});
+        }
+	});
+	return false;
+}
+</script>
+{include file="inc/footer.html"} 

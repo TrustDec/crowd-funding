@@ -1,0 +1,49 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<load href='__TMPL__Common/js/jquery.bgiframe.js' />
+<load href='__TMPL__Common/js/jquery.weebox.js' />
+<load href='__TMPL__Common/js/user.js' />
+<load href='__TMPL__Common/style/weebox.css' />
+<script type="text/javascript">
+	function show_content(id)
+	{
+		$.weeboxs.open(ROOT+'?m=StationMessageMsgList&a=show_content&id='+id, {contentType:'ajax',showButton:false,title:LANG['SHOW_CONTENT'],width:800,height:400});
+	}
+	
+</script>
+<div class="main">
+<div class="main_title">{$main_title}</div>
+<div class="blank5"></div>
+<div class="button_row">
+	
+	
+</div>
+<div class="blank5"></div>
+<div class="search_row">
+	<form name="search" action="__APP__" method="get">	
+		{%SEND_DEST}：<input type="text" class="textbox" name="dest" value="{:trim($_REQUEST['dest'])}" style="width:100px;" />
+		{%CONTENT}：<input type="text" class="textbox" name="content" value="{:trim($_REQUEST['content'])}" />
+		<input type="hidden" value="StationMessage" name="m" />
+		<input type="hidden" value="msg_list" name="a" />
+		<input type="submit" class="button" value="{%SEARCH}" />
+	</form>
+</div>
+<div class="blank5"></div>
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="msg" 
+	datasource="list" 
+	show="id:{%ID}|50px
+	,user_id:{%SEND_DEST}
+	,log_info|show_content=$msg['id']:{%CONTENT}
+	,log_time|to_date:{%SEND_TIME}
+	,url_route:{%LINK_URL}
+	,url_param:{%U_PARAM}" 
+	 /> 
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

@@ -1,0 +1,202 @@
+{include file="inc/header.html"} 
+<script type="text/javascript">
+    var ROOT = '{$APP_ROOT}/{$URL_NAME}';
+    var VAR_MODULE = "m";
+    var VAR_ACTION = "a";
+    var WEB_SESSION_ID = '<?php echo es_session::id(); ?>';
+    var EMOT_URL = '{$APP_ROOT}/public/emoticons/';
+    var MAX_FILE_SIZE = '{$max_size_byte}b';
+    var UPLOAD_URL ='{$APP_ROOT}/{$URL_NAME}?m=File&a=do_upload&upload_type=1&dir=image' ;
+	var UPLOAD_SWF='{$TMPL}/js/plupload/Moxie.swf';
+	var UPLOAD_XAP='{$TMPL}/js/plupload//Moxie.xap';
+	var ALLOW_IMAGE_EXT= "gif,jpg,jpeg,png,bmp";
+	var MAX_IMAGE_SIZE= '{$max_size_byte}b';
+	function get_file_fun(name){
+		$("#"+name).ui_upload({
+			multi:false,
+			FilesAdded:function(){
+				$.showPreloader('图片上传中');
+			},
+			FileUploaded:function(ajaxobj){
+				if($("#image_box .image_item").length>=4) {
+					$.alert("最多只能上传4张图片");
+				}
+ 				else if(ajaxobj.error==1) {
+					$.alert(ajaxobj.info);
+				}
+				else {
+		   			$("#image_box").append(
+		   				'<div class="image_item">'+
+							'<div class="remove_image bg_red"><i class="icon iconfont">&#xe620;</i></div>'+
+							'<img src="'+ajaxobj.url+'" width=80 height=80 class="b_radius6" />'+
+							'<input type="hidden" name="image[]" value="'+ajaxobj.public_url+'"  />'+
+						'</div>'
+					);
+		   			bind_del_image(); // 删除已上传的图片
+		   			hide_imgupload(); // 上传4张图片后，隐藏上传图片按钮
+ 				}
+ 				$.hidePreloader();
+			},Error:function(error) {
+				if(error.code==-600){
+					$.alert("您上传的文件太大，最大允许上传{$max_size}");
+				}else{
+					$.alert(error.message);
+				}
+	 		}
+	 	});
+	}
+</script>
+<div class="blank15"></div>
+<section class="project_add" id="project_add_item">
+	<div class="ul_block">
+		<ul class="reward_list">
+			{if $deal_item_list}
+			{foreach from=$deal_item_list item=item}
+			<li class="item_row webkit-box">
+				<a href="{url_wap r="project#edit_item" p="id=$item.id"}" class="webkit-box-flex">
+					<div class="text webkit-box-flex">
+						<p class="f16 mb5">
+						{if $item.type eq 1}
+							无私奉献
+						{else}
+							支持&nbsp;<span class="f_red">{function name="format_price" v=$item.price}</span>&nbsp;元({function name=get_deal_item_type v=$item.type})
+						{/if}
+						</p>
+						<span class="f12 f_999">{function name="msubstr" v=$item.description b=0 e=20}</span>
+					</div>
+				</a>
+				<a href="{url_wap r="project#del_item" p="id=$item.id"}" class="del_item oper_btn bg_red" style="margin-top:8px">
+					<i class="icon iconfont">&#xe620;</i>
+				</a>
+			</li>
+			{/foreach}
+			{/if}
+		</ul>
+	</div>
+	<div class="reward_add">
+		<a href="#" class="J_add_reward">
+			<i class="fa fa-plus-circle"></i>&nbsp;<span>添加回报方式</span>
+		</a>
+	</div>
+	<div class="add_item_btn mod_main" id="submit_deal_btn" url="{url_wap r="project#submit_deal" p="id=$deal_item.id"}" jump="{url_wap r="account#project" p="first_post=1"}">
+		<div class="ui-button theme_color">提交审核</div>
+	</div>
+</section>
+<section class="project_add hide" id="add_item_form">
+	<form id="project_add_form" action="{url_wap r="project#save_deal_item"}" method="post">
+	<div class="ul_block">
+		<ul>
+			<li class="webkit-box" style="height:auto;">
+				<label class="input_lable">类型</label>
+				<div class="list_con webkit-box-flex" style="padding-left:10px;">
+					<label><input type="radio" name="type" value="0" checked="checked" class="mt">&nbsp;产品回报</label><br>
+					<label><input type="radio" name="type" value="1" class="mt">&nbsp;无私奉献</label><br>
+					<label><input type="radio" name="type" value="2" class="mt">&nbsp;抽奖</label>
+				</div>
+			</li>
+			<li class="webkit-box type_0 type_2">
+				<label class="input_lable">支持金额</label>
+				<input type="text" placeholder="请输入支持金额" value="" name="price" class="textbox webkit-box-flex" onkeyup="amount(this);" />
+				<span>元</span>
+			</li>
+			<li class="webkit-box type_2">
+				<label class="input_lable">抽奖量数</label>
+				<input type="text" placeholder="如：值为100，即每100人抽一人，不满100也抽" value="" name="lottery_measure" class="textbox webkit-box-flex" onkeyup="amount(this);" />
+			</li>
+			<li class="webkit-box type_2">
+				<label class="input_lable" style="line-height:20px;">每个会员<br />最大支持数量</label>
+				<input type="text" placeholder="当为0或不填写时，不限制" value="" name="maxbuy" class="textbox webkit-box-flex" onkeyup="amount(this);" />
+			</li>
+			<li class="textarea webkit-box">
+				<textarea placeholder="请输入回报内容" name="description" class="textareabox webkit-box-flex"></textarea>
+			</li>
+			<li class="uploadbox">
+				<label class="input_lable mr10">回报说明图<span class="f12 f_999">（最多上传4张）</span></label>
+				<div class="blank0"></div>
+				<div>
+					<div id="image_box"></div>
+					<div class="fileupload_box">
+						<label class="fileupload">
+							<div class="pic_show">
+								{if $deal_image.thumb_url eq ''}
+								<div class="text">
+									<i class="icon icon_plus"></i>
+									<span class="f12">上传图片</span>
+								</div>
+								{/if}
+								<img id="image_file_image" src="{$deal_image.thumb_url}" {if $deal_image.thumb_url}width="80" height="80"{/if} />
+								<input type="button" class="filebox" name="image_file" id="image_file" />	
+								<div class="fileuploading"></div>
+							</div>
+						</label>
+						<div class="f12 f_999" style="margin-top:10px;">支持jpg、jpeg、png、gif格式，大小不超过{$max_size}。最佳尺寸：<span class="f_red b">760px*530px</span></div>
+					</div>
+				</div>
+			</li>
+			<li class="webkit-box type_0 type_2">
+				<label class="input_lable mr10">是否配送</label>
+				<div class="list_con webkit-box-flex">
+					<input type="radio" name="is_delivery" value="0" checked="checked" class="mt" style="display:inline-block;margin-top:-3px" onclick="ischeck(this);" />
+					<span class="mr10">否</span>
+					<input type="radio" name="is_delivery" value="1" class="mt" style="display:inline-block;margin-top:-3px" onclick="ischeck(this);" />
+					<span>是</span>
+				</div>
+			</li>
+			<li class="webkit-box hide type_0 type_2" id="limit_user_box">
+				<label class="input_lable mr5">运费</label>
+				<input type="text" value="" name="delivery_fee" class="textbox webkit-box-flex" />
+				<span>元</span>
+			</li>
+			<li class="webkit-box type_0 type_2">
+				<label class="input_lable mr10">是否限购</label>
+				<div class="list_con webkit-box-flex">
+					<input type="radio" name="is_limit_user" value="0" checked="checked" class="mt" style="display:inline-block;margin-top:-3px" onclick="ischeck(this);" />
+					<span class="mr10">否</span>
+					<input type="radio" name="is_limit_user" value="1" class="mt" style="display:inline-block;margin-top:-3px" onclick="ischeck(this);" />
+					<span>是</span>
+				</div>
+			</li>
+			<li class="webkit-box hide type_0 type_2" id="limit_user_box">
+				<label class="input_lable mr5">限购人数</label>
+				<input type="text" placeholder="请输入限购人数" value="" name="limit_user" class="textbox webkit-box-flex" />
+				<span>人</span>
+			</li>
+			<li class="webkit-box type_0">
+				<label class="input_lable mr10">是否分红</label>
+				<div class="list_con webkit-box-flex">
+					<input type="radio" name="is_share" value="0" checked="checked" class="mt" style="display:inline-block;margin-top:-3px" onclick="ischeck(this);" />
+					<span class="mr10">否</span>
+					<input type="radio" name="is_share" value="1" class="mt" style="display:inline-block;margin-top:-3px" onclick="ischeck(this);" />
+					<span>是</span>
+				</div>
+			</li>
+			<li class="webkit-box hide type_0" id="limit_user_box">
+				<label class="input_lable mr5">分红金额</label>
+				<input type="text" placeholder="请输入分红金额" value="" name="share_fee" class="textbox webkit-box-flex" />
+				<span>元</span>
+			</li>
+			<li class="webkit-box type_0 type_2">
+				<label class="input_lable mr10">回报时间</label>
+				<span class="f_666">项目成功后</span>
+				<input type="text" placeholder="请输入天数" value="" name="repaid_day" class="textbox webkit-box-flex" />
+				<span>天</span>
+			</li>
+		</ul>
+	</div>
+	<div class="add_item_btn two_btn webkit-box mod_main">
+		<div class="ui-button ui_button_l theme_color">添加保存</div>
+		<div class="ui_button bg_red J_cancel_add">返回</div>
+	</div>
+	<div class="blank0"></div>
+	<input type="hidden" name="deal_id" value="{$deal_item.id}" />
+	<input type="hidden" name="ajax" value="1" />
+	</form>
+</section>
+<div class="blank15"></div>
+<script type="text/javascript">
+	var user_info_id = '{$user_info.id}';
+</script>
+<!-- edit_deal_item.js -->
+{include file="inc/footer.html"} 
+
+

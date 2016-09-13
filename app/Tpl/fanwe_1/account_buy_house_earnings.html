@@ -1,0 +1,133 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/account_after_vote.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+{include file="inc/home_user_info.html"}
+<!--中间开始-->
+<div class="dlmain Myhomepage">
+	{include file="inc/account_left.html"}
+	<div class="homeright pageright f_r">
+		<div class="list_title clearfix">
+			<div class="cur">
+				<span>买房收益管理</span>
+			</div>
+		</div>
+		{if $deal_info}
+		<div class="list_conment">
+			{foreach from=$deal_info item=deal_item }
+			{if $deal_item.support_list}
+			<div class="i_deal_list clearfix">
+				
+				<div class="uc_table_info clearfix">
+					<h3>{$deal_item.name}</h3>
+					<div class="left">
+						<ul>
+							<li>
+								<label>融资金额：</label>
+								<span>￥{$deal_item.limit_price}</span>
+							</li>
+							<li>
+								<label>已筹金额：</label>
+								<span>￥{$deal_item.support_amount}</span>
+							</li>
+							<li>
+								<label>投资人数：</label>
+								<span>{$deal_item.support_count}人</span>
+							</li>
+							<li>
+								<label>收益周期：</label>
+								<span>{$deal_item.earnings_cycle}个月</span>
+							</li>
+							<li>
+								<label>已发放期数：</label>
+								<span>{$deal_item.bonus_num}期</span>
+							</li>
+							<li>
+								<label>已发放收益：</label>
+								<span>{if $deal_item.total_bonus_money gt 0}￥{$deal_item.total_bonus_money}{else}0{/if} </span>
+							</li>
+							<li>
+								<label>待发放收益：</label>
+								<span>{if $deal_item.dai_money gt 0}￥{$deal_item.dai_money}{else}0{/if} </span>
+							</li>
+							{if $deal_item.earnings_send_capital}
+							<li>
+								<label>已发放本金：</label>
+								<span>{if $deal_item.ben_money gt 0}￥{$deal_item.ben_money}{else}0{/if} </span>
+							</li>
+							{/if}
+						</ul>
+					</div>
+					<div class="right">
+						<a href="{url r="account#buy_house_earnings_apply" p="deal_id=$deal_item.id"}" class="ui-button theme_bgcolor" style="float:right">发放收益</a>
+					</div>
+				</div>
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc_table">
+					<thead>
+						<tr>
+							<th width="10%">编号</th>
+							<th width="8%">收益年度</th>
+							<th width="8%">收益期数</th>
+							<th width="10%">收益金额</th>
+							<th width="12%">收益周期</th>
+							<th width="12%">年利率</th>
+							<th width="12%">收益开始时间</th>
+							<th width="12%">收益结束时间</th>
+							<th width="8%">状态</th>
+							<th width="8%" style="text-align:right;padding-right:24px">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{foreach from=$deal_item.user_bonus item=user_bonus_item }
+						<tr>
+							<td>{$user_bonus_item.id}</td>
+							<td>{$user_bonus_item.year}</td>
+							<td>第 {$user_bonus_item.number}期</td>
+							<td><span class="f_money b">￥{$user_bonus_item.money}</span></td>
+							<td>{$user_bonus_item.return_cycle}个月</td>
+							<td>{$user_bonus_item.average_annualized_return}%</td>
+							<td>{$user_bonus_item.begin_time}</td>
+							<td>{$user_bonus_item.end_time}</td>
+							<td>
+								{if $user_bonus_item.status eq 0}
+									等待审核
+								{elseif $user_bonus_item.status eq 1}
+									通过
+								{else}
+									未通过		
+								{/if}
+							</td>
+							<td class="lf">
+								{if $user_bonus_item.status eq 0}
+									无
+								{elseif $user_bonus_item.status eq 1}
+									<a href="{url r="account#buy_house_earnings_detail" p="id=$user_bonus_item.id"} ">收益明细</a>
+								{else}				
+									<a href="{url r="account#buy_house_earnings_apply" p="id=$user_bonus_item.id"}">编辑</a>
+									<a href="{url r="account#del_share_bonus" p="id=$user_bonus_item.id"}">删除</a>
+								{/if}
+							</td>
+						</tr>
+						{/foreach}
+					</tbody>
+				</table>
+			</div>
+			
+			<div class="blank20"></div>
+			{/if}
+			{/foreach}
+
+			<div class="pages">{$pages}</div>
+
+			<div class="blank20"></div>
+		</div>
+		{else}
+			<div class="empty_tip">
+				没有相关的记录
+			</div>
+		{/if}
+	</div>
+	<div class="blank0"></div>
+</div>
+{include file="inc/footer.html"}

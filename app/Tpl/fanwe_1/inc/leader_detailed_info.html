@@ -1,0 +1,59 @@
+<style type="text/css">
+	.leader_info_hd{
+		border-bottom:1px dashed #d4d4d4;
+		padding-bottom:20px;
+	}
+	.invester_all .con5_r .sub{height:auto;}
+	.leader_info_bd .title{
+		background: url({$TMPL}/images/bg_col_01.gif) left center no-repeat;
+		width:120px;
+		height:30px;
+		line-height:30px;
+		color:#fff;
+		float:left;
+		font-size:18px;
+		margin-top:20px;
+		text-align:center;
+	}
+	.leader_info_bd .conment{
+		line-height:28px;
+		padding:20px 0;
+		overflow:hidden;
+		text-align:left;
+	}
+	.leader_info_hd .leader_icon,.leader_info_hd .level_icon,.leader_info_hd .investor_type{margin-top:5px;}
+</style>
+<div class="full pr">
+	<div class="leader_info_hd invester_all overflow_hide">
+		<div class="con5_l f_gray">
+			{function name="show_avatar" p="$leader_info.user_id" t="middle"}
+			<div class="blank0"></div>
+		</div>
+		<div class="con5_r">
+			<div class="name">
+				<span class="inline_user_name f24 theme_fcolor">{$leader_info.user_name}</span>
+				<i class="inline_leader_icon leader_icon" title="项目领投人"></i>
+				{if $leader_info.user_icon}
+                	<img src="{$leader_info.user_icon}" title="会员等级" class="inline_level_icon level_icon" />
+				{/if}
+				<i class="inline_investor_type investor_type {if $leader_info.is_investor==0 || $leader_info.is_investor==1}personal_icon{else}agency_icon{/if}" title="{if $leader_info.is_investor==0 || $leader_info.is_investor==1}个人投资者{else}机构投资者{/if}"></i>
+	            <div class="blank0"></div>
+			</div>
+			<div class="sub">
+				<span class="sub1">{$leader_info.identify_name}</span>
+				<div class="blank0"></div>
+			</div>
+			<div class="blank0"></div>
+		</div>
+	</div>
+	<div class="leader_info_bd overflow_hide">
+		<div class="title">详细资料</div>
+		<div class="blank0"></div>
+		<div class="conment">
+			<div>{$leader_info.introduce}</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(".weebox").css("width","700px");
+</script>

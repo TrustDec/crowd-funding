@@ -1,0 +1,57 @@
+<tagLib name="html" />
+<include file="Public:header" />
+<div class="main">
+<div class="main_title">微信第三方平台配置</div>
+<div class="blank5"></div>
+	<form method='post' id="form" name="form" action="__APP__">
+	<table cellpadding="4" cellspacing="0" border="0" class="form">
+		<tr>
+			<td colspan="2" class="topTd"></td>
+		</tr>
+		<foreach name="config" item="cfg">
+		<tr>		
+			<td class="item_title" style=" width:200px;">{$cfg.title}</th>
+			<td class="item_input">
+				<if condition="$cfg['type'] eq 1">
+				<html:editor id="{$cfg.name}" name="{$cfg.name}" type="KINDEDITOR" style=" height:150px;width:750px;" content="{$cfg.value}" />
+				</if>
+				<if condition="$cfg['type'] eq 2">
+				<html:imgUpload id="{$cfg.name}" name="{$cfg.name}" value='$cfg.value' />
+				</if>
+				<if condition="$cfg['type'] eq 0">
+				<input type="text" class="textbox <if condition="$cfg['is_require'] eq 1">require</if>" name="{$cfg.name}" value="{$cfg.value}"   />
+				</if>
+				<if condition="$cfg['type'] eq 3">				
+				<textarea class="textbox " name="{$cfg.name}"  style="height:100px;width:250px;">{$cfg.value}</textarea>
+				</if>
+				<if condition="$cfg['type'] eq 4">
+					<select name="{$cfg.name}">
+	  					<foreach name="cfg.value_scope" item="preset_value">
+							<option value="{$preset_value}" <if condition="$cfg['value'] eq $preset_value">selected="selected"</if>>
+								{:l("mconf_".$cfg['name']."_".$preset_value)}
+							</option>
+						</foreach>
+					</select>
+				</if>
+			</td>
+		</tr>
+		</foreach>
+		<tr>		
+		
+		<tr>
+			<td class="item_title"></td>
+			<td class="item_input">
+				<input type="hidden" name="{:conf("VAR_MODULE")}" value="WeixinConf" />
+			
+				<input type="hidden" name="{:conf("VAR_ACTION")}" value="update" />
+				<input type="submit" class="button" value="{%EDIT}" />
+				<input type="reset" class="button" value="{%RESET}" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" class="bottomTd"></td>
+		</tr>
+	</table>
+	</form>
+</div>
+<include file="Public:footer" />

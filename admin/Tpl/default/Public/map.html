@@ -1,0 +1,61 @@
+<div class="control-group cf clearfix">
+    <label class="control-label" for="weixin_account">
+        
+    </label>
+    <div class="controls">
+            <div id="qqmapcontainer" style="width:750px; height:300px; float:left;"></div>
+            <input type="hidden" name="x_point" id="qqXpoint" value="{$reply.x_point}" />
+            <input type="hidden" name="y_point" id="qqYpoint" value="{$reply.y_point}" />
+    </div>
+</div>
+<script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp&key=<?php echo QQ_MAP_KEY; ?>"></script>
+<script type="text/javascript">
+var qqgeocoder,qqmap,qqmarker = null;
+$(document).ready(function(){
+	<if condition="$qq_x_point_val neq '' and $qq_y_point_val neq ''">
+		var mapcenter = new qq.maps.LatLng({$qq_y_point_val},{$qq_x_point_val});
+	<else />
+		 var mapcenter = new qq.maps.LatLng(39.916527,116.397128);
+	</if>
+    
+    qqmap = new qq.maps.Map(document.getElementById('qqmapcontainer'),{
+        center: mapcenter,
+        zoom: 13
+    });
+    qqmarker = new qq.maps.Marker({
+        map:qqmap,
+        draggable:true,
+        position: mapcenter
+    });
+    qq.maps.event.addListener(qqmarker, 'dragend', function(event) {
+        $("#qqXpoint").val(event.latLng.getLng());
+        $("#qqYpoint").val(event.latLng.getLat());
+    });
+ 	<if condition="$qq_x_point_val eq '' or $qq_y_point_val eq ''">
+    var citylocation = new qq.maps.CityService({
+        complete : function(result){
+            qqmap.setCenter(result.detail.latLng);
+            qqmarker.setPosition(result.detail.latLng);
+            $("#qqXpoint").val(result.detail.latLng.getLng());
+            $("#qqYpoint").val(result.detail.latLng.getLat());
+        }
+    });
+    citylocation.searchLocalCity();
+   </if>
+
+    qqgeocoder = new qq.maps.Geocoder({
+        complete : function(result){
+            qqmap.setCenter(result.detail.location);
+            qqmarker.setPosition(result.detail.location);
+            $("#qqXpoint").val(result.detail.location.getLng());
+            $("#qqYpoint").val(result.detail.location.getLat());
+        }
+    });
+
+    $("#lbs_btn").click(function(){
+        if($.trim($("#api_address").val()) != ""){
+            qqgeocoder.getLocation($("#api_address").val());
+        }
+    });
+});
+</script>

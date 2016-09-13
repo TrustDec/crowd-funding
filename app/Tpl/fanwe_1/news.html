@@ -1,0 +1,164 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/deal_show.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/news.css";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/deal_log.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/news.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/news.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/discover.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/discover.js";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<style>
+.xqmain_main{background:none;}
+.hot_recommended a , .more_category a { float:left; padding:5px; white-space:nowrap; }
+.news_right_title { padding-left:5px; }
+.change_item{margin-bottom:15px;}
+.change_item a{padding:2px 5px;background:#ccc;color:#fff;}
+.news_deal_info .div3{width:26.3%}
+.news_deal_info .div3.tc{width:47.3%}
+.deal_news_info_row .div3 span.num{font-size:12px;}
+</style>
+<div class="blank"></div>
+
+<div class="xqmain news_update">
+	<adv adv_id="news_top" />
+	<div class="xqmain_main">		
+		{include file="inc/news_update_header.html"}	
+		<div class="news_list_box">	
+		<div class="news_left">	
+		<div class="blank"></div>
+			<div id="pin_box">		
+			{include file="inc/news_item.html"}
+			</div>
+			<div class="ajax_loading_log" id="pin_loading" rel="{$ajaxurl}">加载更多动态</div>
+			<div class="pages">{$pages}</div>
+		</div><!--end left-->
+		<div class="news_right">
+			<div class="blank10"></div>
+			<div class="news_right_title">
+				<span class="f_l">你可能感兴趣的项目</span>
+				<a href="javascript:void(0);" id="chang_rand" rel="{url r="ajax#randdeal"}" class="c_change linkgreen f_r">换一换</a>
+				<div class="blank0"></div>
+			</div>
+			<div class="blank"></div>
+			<div id="rand_deal">
+				{include file="inc/rand_deals.html"}
+			</div>
+			<div class="blank20"></div>
+			<div class="change_item" id="change_item">
+				{if app_conf("INVEST_STATUS") eq 0}
+				<a href="javascript:void(0);" class="cur">回报众筹</a>
+				<a href="javascript:void(0);">{$gq_name}</a>
+				{/if}
+				{if app_conf("INVEST_STATUS") eq 1}
+				<a href="javascript:void(0);" class="cur">回报众筹</a>
+				{/if}
+				{if app_conf("INVEST_STATUS") eq 2}
+				<a href="javascript:void(0);" class="cur">{$gq_name}</a>
+				{/if}
+			</div>
+			<div class="change_item_box">
+				{if app_conf("INVEST_STATUS") eq 0}
+				<div class="item_box">
+					<div class="hot_recommended">
+						<div class="news_right_title">热门推荐</div>
+						<div class="blank5"></div>
+						<a href="{url r="deals" p="r=rec"}" target="_blank" class="linkgreen block lh24">推荐项目</a>
+						<a href="{url r="deals" p="r=new"}" target="_blank" class="linkgreen block lh24">最新上线</a>
+						<a href="{url r="deals" p="r=nend"}" target="_blank" class="linkgreen block lh24">即将结束</a>
+					</div>
+					<div class="blank10"></div>
+					<div class="more_category">
+						<div class="news_right_title">更多类别</div>
+						<div class="blank5"></div>
+						{foreach from=$cate_list item=cate_item}
+						{if $cate_item.pid eq 0}
+							<a href="{url r="deals" p="id=$cate_item.id"}" target="_blank" class="linkgreen block lh24">{$cate_item.name}</a>
+						{/if}
+						{/foreach}
+					</div>
+					<div class="blank0"></div>
+				</div>
+				<div class="item_box" style="display:none">
+					<div class="hot_recommended">
+						<div class="news_right_title">热门推荐</div>
+						<div class="blank5"></div>
+						<a href="{url r="deals" p="r=rec&type=1"}" target="_blank" class="linkgreen block lh24">推荐项目</a>
+						<a href="{url r="deals" p="r=new&type=1"}" target="_blank" class="linkgreen block lh24">最新上线</a>
+						<a href="{url r="deals" p="r=nend&type=1"}" target="_blank "class="linkgreen block lh24">即将结束</a>
+					</div>
+					<div class="blank10"></div>
+					<div class="more_category">
+						<div class="news_right_title">更多类别</div>
+						<div class="blank5"></div>
+						{foreach from=$cate_list item=cate_item}
+						{if $cate_item.pid eq 0}
+							<a href="{url r="deals" p="id=$cate_item.id&type=1"}" target="_blank" class="linkgreen block lh24">{$cate_item.name}</a>
+						{/if}
+						{/foreach}
+					</div>
+					<div class="blank0"></div>
+				</div>
+				{/if}
+				{if app_conf("INVEST_STATUS") eq 1}
+				<div class="item_box">
+					<div class="hot_recommended">
+						<div class="news_right_title">热门推荐</div>
+						<div class="blank5"></div>
+						<a href="{url r="deals" p="r=rec"}" target="_blank" class="linkgreen block lh24">推荐项目</a>
+						<a href="{url r="deals" p="r=new"}" target="_blank" class="linkgreen block lh24">最新上线</a>
+						<a href="{url r="deals" p="r=nend"}" target="_blank" class="linkgreen block lh24">即将结束</a>
+					</div>
+					<div class="blank10"></div>
+					<div class="more_category">
+						<div class="news_right_title">更多类别</div>
+						<div class="blank5"></div>
+						{foreach from=$cate_list item=cate_item}
+						{if $cate_item.pid eq 0}
+							<a href="{url r="deals" p="id=$cate_item.id"}" target="_blank" class="linkgreen block lh24">{$cate_item.name}</a>
+						{/if}
+						{/foreach}
+					</div>
+					<div class="blank0"></div>
+				</div>
+				{/if}
+				{if app_conf("INVEST_STATUS") eq 2}
+				<div class="item_box">
+					<div class="hot_recommended">
+						<div class="news_right_title">热门推荐</div>
+						<div class="blank5"></div>
+						<a href="{url r="deals" p="r=rec&type=1"}" target="_blank" class="linkgreen block lh24">推荐项目</a>
+						<a href="{url r="deals" p="r=new&type=1"}" target="_blank" class="linkgreen block lh24">最新上线</a>
+						<a href="{url r="deals" p="r=nend&type=1"}" target="_blank "class="linkgreen block lh24">即将结束</a>
+					</div>
+					<div class="blank10"></div>
+					<div class="more_category">
+						<div class="news_right_title">更多类别</div>
+						<div class="blank5"></div>
+						{foreach from=$cate_list item=cate_item}
+						{if $cate_item.pid eq 0}
+							<a href="{url r="deals" p="id=$cate_item.id&type=1"}" target="_blank" class="linkgreen block lh24">{$cate_item.name}</a>
+						{/if}
+						{/foreach}
+					</div>
+					<div class="blank0"></div>
+				</div>
+				{/if}
+			</div>
+		</div><!--end right-->		
+		<div class="blank"></div>	
+		</div>	
+	</div>
+</div>
+<div class="blank"></div>
+<script type="text/javascript">
+	$("#change_item").find("a").on('click',function(){
+		$obj=$(this);
+		var index=$obj.index();
+		$obj.addClass("cur").siblings().removeClass("cur");
+		$(".change_item_box").find(".item_box").eq(index).fadeIn().siblings().hide();
+	});
+</script>
+{include file="inc/footer.html"} 

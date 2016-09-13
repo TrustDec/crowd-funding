@@ -1,0 +1,17 @@
+<style>
+	.usermessage textarea{  border:#ccc solid 1px; width:100%; height:100px; min-height:100px; max-height:100px; padding:5px; color:#666; font-size:14px; line-height:18px; border-radius:3px;   }
+</style>
+<div class="usermessage" style="height:auto;border-color: rgb(169, 169, 169);">
+	<form name="user_message" id="user_message_form" action="{url_wap r="message#send" p="id=$send_user_info.id"}">
+		
+		<textarea name="message" class="sizing"></textarea>
+		<input type="hidden" name="ajax" value="1" />
+		<div class="tl mb10">
+			<a href="#" onclick="RouterURL('{url_wap r="message#history" p="id=$send_user_info.id"}','#message-history',2);$.closeModal();" class="webkit-box-flex">查看私信记录</a>
+		</div>
+	 	<div class="btn_row row">
+	      	<div class="col-50"><a href="#" class="button button-fill theme_bgcolor btn_send">发送</a></div>
+	      	<div class="col-50"><a href="#" class="button button-fill bg_red" onclick="$.closeModal();">取消</a></div>
+	    </div>
+	</form>
+</div>

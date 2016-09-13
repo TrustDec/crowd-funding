@@ -1,0 +1,46 @@
+{include file="inc/header.html"}
+<section class="account_yeepay_recharge">
+	<ul class="tab-nav webkit-box">
+		{if $is_tg && $user_info.ips_acct_no}
+		<li class="webkit-box-flex tc">
+			<a href="#" onclick="RouterURL('{url_wap r="account#record"}','#account-record');">在线支付</a>
+		</li>
+		<li class="webkit-box-flex tc current">
+			<a href="#" onclick="RouterURL('{url_wap r="account#yeepay_recharge"}','#account-yeepay_recharge');">第三方托管</a>
+		</li>
+		{/if}
+	</ul>
+	<div class="blank15"></div>
+	{if $yeepay_recharge_list}
+	<ul class="ui_account_record">
+		{foreach from=$yeepay_recharge_list item=yeepay_recharge_item}
+		<li class="webkit-box sizing p10">
+			<div class="accountlist_fl half tl">
+				<h1>第三方托管</h1>
+				<span class="f_999">商户充值订单号：{$yeepay_recharge_item.requestNo}</span>
+				<span class="f_999">{function name="to_date" v=$yeepay_recharge_item.create_time}</span>
+			</div>
+			<div class="accountlist_fr half tr">
+				<h2 class="f_money">¥{$yeepay_recharge_item.amount}</h2>
+				<!-- <span>
+					<em class="f_999">平台手续费：</em>¥{$yeepay_recharge_item.fee}
+					<div class="blank0"></div>
+				</span> -->
+				<span>
+					<em class="f_999">状态：</em>{if $yeepay_recharge_item.code eq 1}已支付{else}未支付{/if}
+				</span>
+			</div>
+		</li>
+		{/foreach}
+	</ul>
+	<div class="blank15"></div>
+	<div class="pages">{$pages}</div>
+	<div class="blank15"></div>
+	{else}
+	<div class="empty_tip tc">还没有充值记录</div>
+	<div class="blank15"></div>
+	{/if}
+</section>
+<!--中间开始-->
+<div class="blank15"></div>
+{include file="inc/footer.html"} 

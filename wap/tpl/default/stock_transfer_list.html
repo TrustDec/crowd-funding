@@ -1,0 +1,76 @@
+{include file="inc/header.html"}
+<div class="deals_index"> 	
+ 	<section class="items_list mt10">
+ 		<div class="main_menu_box">
+		<div class="hide_list" style="display:block;">
+		  	<div class="abbr">
+		  	   	<div class="first_list webkit-box-flex" id="first_list">
+		  	   	    <ul>
+		  	   	    	<li class="directory">
+							<a  onclick="$.router.loadPage('{url_wap r="stock_transfer" p="loc=$p_loc&type=$p_type"}');"  title="全部">全部</a>
+						</li>
+						{foreach from=$cate_list item=cate_item }
+						<li class="directory">{$cate_item.name}</li>
+						{/foreach}
+		  	   	    </ul>
+		  	   	</div>
+			   	<div class="second_list webkit-box-flex" id="second_list">
+			   		<ul>
+			   	    	<li class="two_directory">
+							<a   onclick="$.router.loadPage('{url_wap r="stock_transfer" p="loc=$p_loc&type=$p_type&state=$p_state"}');" >全部</a>
+						</li>
+		  	   	    </ul>
+			   		{foreach from=$cate_list item=cate_item}
+			   	    <ul>
+			   	    	<li class="two_directory"><a    onclick="$.router.loadPage('{$cate_item.url}');" >全部</a></li>
+			   	    	{if $cate_item.child}
+						{foreach from=$cate_item.child item=clist}
+						{if $clist}
+						<li class="two_directory"><a    onclick="$.router.loadPage('{$clist.url}');">{$clist.name}</a></li>
+				   		{/if}
+					    {/foreach}
+						{/if}	
+		  	   	    </ul>
+					{/foreach}
+			   	</div>
+		  	</div>
+		</div>
+	 	<div class="main_list">
+	 	   <ul class="mall-cate webkit-box">
+	 	   	   	<li class="webkit-box-flex">{if $cate_name}{$cate_name}{else}全部分类 {/if}<i class="icon iconfont ml5">&#xe607;</i></li>
+	 	   </ul>
+	 	</div>
+ 	</div>
+ 	
+ 		<div class="items">
+			{foreach from=$transfer_list item=transfer_item key=k}
+			<div class="card">
+ 			   	<div class="card-header">{$transfer_item.deal_name}</div>
+  			  	<div class="card-content">
+  			    	<div class="card-content-inner">{$transfer_item.user_name}转让{$transfer_item.num}股，总价{$transfer_item.price}元，原估值{$transfer_item.stock_value}元</div>
+ 			   	</div>
+		  		<div class="card-footer">
+				{if $transfer_item.is_success == 1}
+					已成功
+				{elseif $transfer_item.is_success == 0}
+					{if $transfer_item.purchaser_id > 0}
+						交易中
+					{else}
+						{if $transfer_item.end_time > $now}								
+							<a href="#" onclick="RouterURL('{url_wap r="stock_transfer#go_transfer" p="id=$transfer_item.id"}','#stock_transfer-go_transfer',2);" class="button button-fill theme_bgcolor f_r">前往交易</a>
+						{else}
+							已过期，交易失效
+						{/if}		
+					{/if}
+				{else}
+					已取消交易
+				{/if}
+				</div>
+		 	</div>
+			{/foreach}
+		</div>
+	</section>
+	<input type="hidden" name="page_count" value="{$page_count}" />
+</div>
+<div class="pages">{$pages}</div>
+{include file="inc/footer.html"}

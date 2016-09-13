@@ -1,0 +1,108 @@
+{include file="inc/header.html"} 
+
+<script type="text/javascript">
+    var ROOT = '{$APP_ROOT}/{$URL_NAME}';
+    var VAR_MODULE = "m";
+    var VAR_ACTION = "a";
+    var WEB_SESSION_ID = '<?php echo es_session::id(); ?>';
+    var EMOT_URL = '{$APP_ROOT}/public/emoticons/';
+    var MAX_FILE_SIZE = "<?php echo (app_conf("MAX_IMAGE_SIZE")/1000000)."MB"; ?>";
+    var UPLOAD_URL ='{$APP_ROOT}/{$URL_NAME}?m=File&a=do_upload&upload_type=0&dir=file' ;
+	var UPLOAD_SWF='{$TMPL}/js/plupload/Moxie.swf';
+	var UPLOAD_XAP='{$TMPL}/js/plupload//Moxie.xap';
+	var ALLOW_IMAGE_EXT= "doc,docx,xls,xlsx,ppt,txt,zip,rar";
+	var MAX_IMAGE_SIZE= "<?php echo (app_conf("MAX_IMAGE_SIZE")/1000000)."MB"; ?>";
+ 	function get_file_fun(num){
+ 		$("table[rel='attach_form'] #attach_"+num).ui_upload({
+ 			multi:false,
+ 			FileUploaded:function(ajaxobj){
+				if(ajaxobj.error==1)
+				{
+					$.alert(ajaxobj.info);
+				}else{
+					$("table[rel='attach_form'] #attach_"+num+"_url").val(ajaxobj.url);
+					$.showSuccess("上传成功");
+				}
+			},Error:function(error){
+				$.alert(error.message);
+			}
+		});
+	}
+	
+</script>
+<?php
+
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/account.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<style type="text/css">
+	.control-group label{width:auto;}
+	.textareabox{width:750px;}
+</style>
+<div class="blank"></div>
+<!--中间开始-->
+<div class="dlmain Myhomepage">
+	{include file="inc/account_left.html"}
+	<div class="homeright pageright f_r">
+		<div>
+			<div class="page_title">
+				<a href="#" onclick="RouterURL('{url r="deal#show" p="id=$leader_info.deal_id"}','#deal-show',2);">{$leader_info.deal_name}</a>-{$title}
+			</div>
+			<div class="blank"></div>
+			<div class="full">
+				<div class="f_l" style="height:24px; overflow:hidden; margin-bottom:20px;">
+					<ul class="tab-nav">
+						{if app_conf("IS_ENQUIRY") eq 1}
+						<li><a href="{url_wap r="account#mine_investor_status" p="type=0"}">询价</a></li>
+						{/if}
+						<li><a href="{url_wap r="account#mine_investor_status" p="type=1"}">领投</a></li>
+						<li><a href="{url_wap r="account#mine_investor_status" p="type=2"}">跟投</a></li>
+					</ul>
+				</div>
+				<div class="blank10"></div>
+				<table rel="attach_form">
+					<tr>
+						<td class="f14 pr10" style="color:#666">尽职调查和条款清单模板:</td>
+						<td class="tc">
+					    	<input type="text" value="{$file}" name="attach[1][file]" id="attach_1_url" class="textbox attach_but w200 mr10">
+					     	<input type="button" value="选择文件"  name="attach_1_but" id="attach_1" class="ui-button theme_bgcolor" />
+					    </td>
+					</tr>
+				</table>
+			</div>
+			<div class="blank"></div>
+		</div>
+		<div class="form_row control-group">
+			<label class="form_lable">他为创业者还能提供的其它帮助:</label>
+			<div class="blank0"></div>
+			<textarea name="leader_help" id="leader_help" class="textareabox">{$leader_info.leader_help}</textarea>
+			<div class="blank0"></div>
+		</div>
+		<div class="form_row control-group">
+			<label class="form_lable">对创业团队评价:</label>
+			<div class="blank0"></div>
+			<textarea name="leader_for_team" id="leader_for_team" class="textareabox">{$leader_info.leader_for_team}</textarea>
+			<div class="blank0"></div>
+		</div>
+		<div class="form_row control-group">
+			<label class="form_lable">对创业项目评价:</label>
+			<div class="blank0"></div>
+			<textarea name="leader_for_project" name="leader_for_project" id="leader_for_project" class="textareabox">{$leader_info.leader_for_project}</textarea>
+			<div class="blank0"></div>
+		</div>
+		<div class="blank20"></div>
+		<div class="submit_btn_row tc">
+			<div class="ui-center-button theme_bgcolor button_leader_submit" rel="green">
+				<div>
+					<span>保存最新的设置</span>
+				</div>
+			</div>
+			<input type="hidden" value="1" name="ajax" />
+			<input type="hidden" value="{$leader_info.id}" name="id" id="leader_info_id"/>
+		</div>
+	</div>
+	<div class="blank"></div>	
+</div>
+<!--中间结束-->
+<div class="blank"></div>
+{include file="inc/footer.html"} 

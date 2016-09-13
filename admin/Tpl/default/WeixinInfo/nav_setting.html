@@ -1,0 +1,159 @@
+<tagLib name="html" />
+<include file="Public:header" />
+<include file="Public:weixin_script" />
+
+<div class="main">
+<div class="main_title">自定义菜单</div>
+<div class="blank5"></div>
+  <div class="container-f">
+	<div class="box-title clearfix">
+		<div class="f_l">
+			<h3>
+				<i class="fa fa-table"></i>
+				自定义菜单
+			</h3>
+		</div>
+ 	</div>
+ 	<div class="box-content clearfix">
+	<div class="app_auth_tip">
+              <p>注意：1级菜单最多只能开启3个，2级子菜单最多开启5个!</p>
+              <p>只有保存主菜单后才可以添加子菜单</p>
+              <p>生成自定义菜单,必须在已经保存的基础上进行,临时勾选启用点击生成是无效的! 第一步必须先修改保存状态！第二步点击生成!</p>
+              <p>当您为自定义菜单填写链接地址时请填写以"http://"开头，这样可以保证用户手机浏览的兼容性更好</p><br/>
+           </div>
+          <div class="blank"></div>
+          <div class="control-group f_l ">
+            <div class="f_l">
+                <a class="btn cf" href="javascript:void(0);" id="add_weixin_main_nav" rel="{:u("WeixinInfo/new_nav_row",array("row_type"=>"main"))}"><i class="fa fa-plus"></i><span>添加主菜单</span></a>
+           		<a class="btn cf" href="javascript:location.reload()"><i class="fa fa-refresh"></i>
+<span>刷新</span></a>
+		    </div>
+
+        </div>
+        <div class="blank"></div>
+		<div class="row clearfix">
+ 			<form action="{:u("WeixinInfo/nav_save")}" method="post" class="form-horizontal ajax_form">
+ 				<div class="changeStepBox clearfix  cf">
+ 					<div class="clearfix cf">
+ 						<table id="listTable" class="table-hover dataTable" >
+ 		                        <tr>
+		                            <th>	显示排序</th>
+		                            <th>主菜单名称</th>
+		                            <th>触发关键词或地址链接</th>
+		                             <th>同步结果</th>
+		                            <th class="norightborder" width=120>操作</th>
+		                        </tr>
+  		                    	<foreach name="result_navs" item="nav">
+		                    	<tr class="<if condition="$nav.pid eq 0">main<else />sub sub_{$nav.pid}</if>">
+									<td>
+										<if condition="$nav.pid neq 0">
+										<i class="board">&nbsp;&nbsp;</i>
+										</if>
+										<input type="text" name="sort[]" class=" ipt_require" size="5" value="<if condition="$nav.sort">{$nav.sort}<else />0</if>"  />
+										<input type="hidden" name="id[]" value="{$nav.id}" />
+										<input type="hidden" name="pid[]" value="{$nav.pid}" />
+										<input type="hidden" name="row_type[]" value="<if condition="$nav.pid eq 0">main<else />sub</if>" />
+									</td>
+									<td>
+										<if condition="$nav.pid neq 0">
+										<i class="board">&nbsp;&nbsp;</i>
+										</if>
+										
+ 										<input type="text" name="name[]"  class="ipt_require" value="{$nav.name}"  />
+										<span class="maroon">*</span>
+ 										<if condition="$nav.pid eq 0">
+										<a href="javascript:void(0);" class="add_sub_nav"  rel="{:u("WeixinInfo/new_nav_row",array("row_type"=>"sub","id"=>$nav['id']))}" pid="{$nav.id}">+</a>
+										</if>
+									</td>
+									<td>
+										<select name="u_module[]">
+												<option value="">{%U_DEFINE}</option>
+												<foreach name="navs" item="nav_item" key="key" >
+													<option value="{$key}" <if condition="$key eq $nav['u_module']">selected="selected"</if> >{$nav_item.name}</option>
+												</foreach>
+										</select>
+										<span class="u_act">
+											<input type="hidden" class="textbox" name="u_action[]"  value=""/>
+										</span>
+										<span class="u_config">				
+											{%U_PARAM}：<input type="text" class="textbox" name="u_param[]"  value="{$nav.u_param} "/>
+										</span>
+										
+										<span class="u_define">
+											<input type="text" class="textbox" name="key_or_url[]" value="{$nav.key_or_url}" />
+										</span>
+ 										<span class="maroon">*</span>
+									</td>
+									<td><if condition="$nav.status eq 0">未同步<else />已同步</if></td>
+									<td><a href="javascript:void(0);" class="del_nav">删除</a></td>
+								</tr>
+		                    	</foreach>
+ 		                </table>
+ 					</div>					
+
+					<div class="cf clearfix"></div>
+					<div>	                    
+	                    <input type="submit" class="btn btn-primary" value="保存" />	&nbsp;
+	                    <input type="button" class="btn btn-primary" value="同步到微信公众平台" id="syn_weixin" rel="{:u("WeixinInfo/syn_to_weixin")}" />	                    
+	                </div>
+				</div>				
+			
+            </form>
+		</div>
+	</div>
+</div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+ 		$("select[name='u_module[]']").each(function(i){
+  			load_u_define($(this).parent());
+ 		});
+		
+		
+		$("select[name='u_module[]']").live("change",function(){ load_u_define($(this).parent());});		
+	});
+	function load_u_define($obj_td)
+	{
+ 		if($obj_td.find("select[name='u_module[]']").val()=='')
+		{
+			$obj_td.find(".u_config").hide();
+			$obj_td.find(".u_act").hide();
+			$obj_td.find(".u_define").show();
+		}
+		else
+		{
+			var module = $obj_td.find("select[name='u_module[]']").val();
+			var id = $obj_td.find("input[name='id[]']").val();
+			$.ajax({ 
+					url: ROOT+"?"+VAR_MODULE+"="+MODULE_NAME+"&"+VAR_ACTION+"=load_module&module="+module+"&id="+id, 
+					data: "ajax=1",
+					dataType: "json",
+					success: function(obj){
+						if(obj.data)
+						{
+							var html="<select name='u_action[]'>";
+							for(names in obj.data)
+							{
+								html+="<option value='"+names+"' ";
+								if(obj.info==names)
+								{
+									html+=" selected='selected' ";
+								}
+								html+=" >"+obj.data[names]+"</option>";
+							}
+							html+="</select>";
+							$obj_td.find(".u_act").html(html);
+						}
+						else
+						{
+							$obj_td.find(".u_act").html("");
+						}
+					}
+			});
+			$obj_td.find(".u_act").show();
+			$obj_td.find(".u_define").hide();
+			$obj_td.find(".u_config").show();
+		}
+	}
+</script>
+<include file="Public:footer" />

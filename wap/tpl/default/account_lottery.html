@@ -1,0 +1,28 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/account_lottery.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<section class="account_support">
+	<h2 class="page_title">{$deal_info.name}</h2>
+	{if $deal_info.is_success eq 1}
+		{if !$deal_info.lottery_draw_time}
+		<div class="lottery_start tc">
+			<span class="ui-button theme_color" rel="green" id="get_lottery_sn" deal_id={$param.id} style="width:100px;margin:0 auto;">开始抽奖</span>
+		</div>
+		<div id="lottery_luckyer_box" class="lottery_luckyer_box hide"></div>
+		{else}
+		<div class="lottery_status f_red">
+			幸运号已揭晓
+		</div>	
+		{/if}
+	{else}
+		<div class="lottery_status f_red">
+			等待抽奖中...
+		</div>
+	{/if}
+	<div id="lottery_box_ajax" class="mt15">
+		{include file="inc/account_lottery_ajax.html"}
+	</div>
+</section>
+{include file="inc/footer.html"} 

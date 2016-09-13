@@ -1,0 +1,259 @@
+{include file="inc/header.html"} 
+<style>
+	body{ background:#f3f3f3; }
+	.setlist_new {
+		padding: 5px 0;
+		width: 100%;
+	}
+	.tip_box{
+		height:50px;
+		line-height:50px;
+		
+	}
+	.tip_box .form_tip{ color:red;}
+	.tip_box .form_success{ color:green;}
+	.mobile_change_step{
+		width:760px;
+		height:40px;
+		line-height:40px;
+		background:url({$TMPL}/images/mobile_change_step.png) no-repeat;
+	}
+	.mobile_change_step span{
+		font-size:16px;
+		width:33.3%;
+		display:block;
+		float:left;
+		text-align:center;
+	}
+	.mobile_change_step span.cur{ color:#fff; }
+	.mobile_change_stepTwo{
+		background-position:0 -45px;
+	}
+	.mobile_change_stepThree{
+		background-position:0 -90px;
+	}
+</style>
+{include file="inc/home_user_info.html"}
+<!--中间开始-->
+<div class="dlmain Myhomepage">
+		 {include file="inc/account_left.html"} 
+		<div class="homeright pageright f_r">
+			
+			<div >
+				{if $step eq 0}
+				<div class="page_title">
+					修改手机号
+				</div>
+				<div class="blank"></div>
+				<div class="mobile_change_step mobile_change_stepOne">
+					<span class="cur">1 核实原手机信息	</span>
+					<span>2 输入新手机号码</span>
+					<span>3 修改成功</span>
+				</div>
+				<div class="blank20"></div>
+				<div class="left" >
+					<form class="ajax_form" action="{url r="settings#mobile_change_step" }">
+						<div class="form_row control-group">
+							<label class="form_lable">原手机号:</label>
+							<input type="text" id="settings-mobile" value="" class="textbox" name="mobile"  style="width:310px;"/>
+ 						</div>
+ 						<div class="blank0"></div>
+					 	<div class="form_row control-group">
+							<label class="form_lable">验证码:</label>
+							<input type="text" value="" class="textbox" name="verify"  style="width:188px;"/>
+ 							<input type="button" value="获取验证码" class="ui_button send_sms_verify bg_red" id="J_send_sms_verify" />
+ 						</div>
+ 						<div class="blank15"></div>
+						<div class="submit_btn_row control-group">
+							<label class="form_lable"></label>
+							<div class="ui-button theme_bgcolor" rel="green">
+								<div>
+									<span>下一步</span>
+								</div>
+							</div>
+							<input type="hidden" value="1" name="ajax" />
+							<input type="hidden" value="0" name="step" />
+						</div>
+						<div class="blank15"></div>
+					</form>
+				</div> 
+				{elseif $step eq 1}
+				<div class="page_title">
+					修改手机号
+				</div>
+				<div class="blank"></div>
+				<div class="mobile_change_step mobile_change_stepTwo">
+					<span>1 核实原手机信息	</span>
+					<span class="cur">2 输入新手机号码</span>
+					<span>3 修改成功</span>
+				</div>
+				<div class="blank20"></div>
+				<div class="left" >
+					<form class="ajax_form" action="{url r="settings#mobile_change_step" }">
+						<div class="form_row control-group">
+							<label class="form_lable">新机号:</label>
+							<input type="text" id="settings-mobile" value="" class="textbox" name="mobile"  style="width:310px;"/>
+ 						</div>
+ 						<div class="blank0"></div>	
+ 						<div class="form_row control-group">
+							<label class="form_lable">验证码:</label>
+							<input type="text" value="" class="textbox" name="verify"  style="width:188px;"/>
+ 							<input type="button" value="获取验证码" class="ui-button send_sms_verify bg_red" id="J_send_sms_verify" />
+ 						</div>
+ 						<div class="blank15"></div>
+						<div class="submit_btn_row control-group">
+							<label class="form_lable"></label>
+							<div class="ui-button theme_bgcolor" rel="green">
+								<div>
+									<span>下一步</span>
+								</div>
+							</div>
+							<input type="hidden" value="1" name="ajax" />
+							<input type="hidden" value="1" name="step" />
+						</div>
+						<div class="blank15"></div>
+					</form>
+				</div><!--left-->
+				{elseif $step eq 2}
+				<div class="page_title">
+					修改手机号
+				</div>
+				<div class="blank"></div>
+				<div class="mobile_change_step mobile_change_stepThree">
+					<span>1 核实原手机信息	</span>
+					<span>2 输入新手机号码</span>
+					<span class="cur">3 修改成功</span>
+				</div>
+				<div class="blank20"></div>
+					<p class="tc f16">修改成功</p>
+				{/if}
+				 
+				<div class="blank"></div>
+			</div>
+			
+	 		<div class="blank"></div>
+		</div>
+<script>
+	var code_timeer = null;
+	var code_lefttime = 0 ;
+		$(document).ready(function(){
+			$("#J_send_sms_verify").bind("click",function(){
+				send_mobile_verify_sms();
+			});
+			$("#user_register_form").find("input[name='verify_coder']").bind("blur",function(){
+				
+				check_register_verifyCoder();
+			});
+		})
+		 
+		function send_mobile_verify_sms(){
+		if($.trim($("#settings-mobile").val()).length == 0)
+		{			
+ 			$.showErr("手机号码不能为空");
+			return false;
+		}
+ 		if(!$.checkMobilePhone($("#settings-mobile").val()))
+		{
+ 			$.showErr("手机号码格式错误");
+			return false;
+		}
+		
+		
+		if(!$.maxLength($("#settings-mobile").val(),11,true))
+		{
+			$.showErr("长度不能超过11位");
+			return false;
+		}
+ 		
+		 
+		var sajaxurl = APP_ROOT+"/index.php?ctl=ajax&act=send_change_mobile_verify_code";
+ 		
+		var squery = new Object();
+		squery.mobile = $.trim($("#settings-mobile").val());
+		squery.step = $.trim($("input[name='step']").val());
+		$.ajax({ 
+			url: sajaxurl,
+			data:squery,
+			type: "POST",
+			dataType: "json",
+			success: function(sdata){
+				if(sdata.status==1)
+				{
+					code_lefttime = 60;
+					code_lefttime_func();
+					$.showSuccess(sdata.info);
+					return false;
+				}
+				else
+				{
+ 					$.showErr(sdata.info);
+					return false;
+				}
+			}
+		});	
+		
+		
+	}
+	function code_lefttime_func(){
+		
+		clearTimeout(code_timeer);
+		$("#J_send_sms_verify").val(code_lefttime+"秒后重新发送");
+		$("#J_send_sms_verify").css({"color":"#f1f1f1"});
+		code_lefttime--;
+		if(code_lefttime >0){
+			//$("#J_send_sms_verify").attr("disabled","true");
+			code_timeer = setTimeout(code_lefttime_func,1000);
+		}
+		else{
+			code_lefttime = 60;
+			$("#J_send_sms_verify").val("发送验证码");
+			//$("#J_send_sms_verify").attr("disabled","false");
+			$("#J_send_sms_verify").css({"color":"#fff"});
+			$("#J_send_sms_verify").bind("click",function(){
+				send_mobile_verify_sms();
+			});
+		}
+		
+	}
+	//检查验证码
+	function check_register_verifyCoder(){
+ 		if($.trim($("#user_register_form").find("input[name='verify_coder']").val())=="")
+		{
+			form_error($("#user_register_form").find("input[name='verify_coder']"),"请输入验证码");		
+		}
+		else
+		{
+			
+			var mobile = $.trim($("#user_register_form").find("input[name='mobile']").val());
+		
+			var code = $.trim($("#user_register_form").find("input[name='verify_coder']").val());
+			if(mobile!=""||code!=""){
+				var ajaxurl = APP_ROOT+"/index.php?ctl=user&act=check_verify_code";
+				var query = new Object();
+				query.mobile = mobile;
+				query.code = code;
+				$.ajax({
+					url: ajaxurl,
+					dataType: "json",
+					data:query,
+					type: "POST",
+					success:function(ajaxobj){
+						if(ajaxobj.status==1)
+						{
+							form_success($("#user_register_form").find("input[name='verify_coder']"),"验证码正确");
+						}
+						if(ajaxobj.status==0)
+						{
+							form_error($("#user_register_form").find("input[name='verify_coder']"),"验证码不正确");
+						}
+					}
+				});
+			}
+		}
+	}
+</script>
+<!--中间结束-->
+<div class="blank"></div>
+</div>
+<div class="blank"></div>
+{include file="inc/footer.html"} 

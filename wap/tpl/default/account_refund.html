@@ -1,0 +1,53 @@
+{include file="inc/header.html"} 
+<div class="blank15"></div>
+<section class="account_incharge">
+	<form class="ajax_form" action="{url_wap r="account#submitrefund"}">
+		<div class="ul_block">
+			<ul>
+				{if $user_info.ex_account_bank}
+				<li class="webkit-box">
+					<label class="input_lable">卡号</label>
+					<input type="text" value="{$user_info.ex_account_info}" class="textbox webkit-box-flex" name="bank_number" />
+				</li>
+				<li class="webkit-box">
+					<label class="input_lable mr10">银行</label>
+					<div class="list_cont webkit-box-flex">{$user_info.ex_account_bank}</div>
+					
+				</li>
+				<li class="webkit-box">
+					<label class="input_lable mr10">姓名</label>
+					<div class="list_cont">{$user_info.ex_real_name}</div>
+				</li>
+				{else}
+				<li class="webkit-box pr">
+						<a href="#" onclick="RouterURL('{url_wap r="settings#bank"}','#settings-bank');" class="webkit-box-flex b" style="color:#4dbdf5">立即绑定银行卡</a>
+						<div class="go_see"><i class="fa fa-chevron-right"></i></div>
+				</li>
+				{/if}
+			</ul>
+			<div class="blank10"></div>
+			<ul>
+				<li class="webkit-box">
+					<label class="input_lable mr10">可用金额</label>
+					<div class="list_cont">{function name="format_price" v=$user_info.money p=2}</div>
+				</li>
+				<li class="webkit-box">
+					<label class="input_lable">提现金额</label>
+					<input type="text" value="" placeholder="请输入提现金额" class="textbox webkit-box-flex" name="money" />
+				</li>
+				<li class="webkit-box">
+					<label class="input_lable">提现备注</label>
+					<textarea name="memo" class="textbox webkit-box-flex"></textarea>
+				</li>
+			</ul>
+		</div>
+		<div class="blank15"></div>
+		<div class="submit_btn_row">
+			<input type="submit" value="提交提现申请" class="ui-button theme_color" rel="ui-button"/>
+			<input type="hidden" value="1" name="ajax" />
+		</div>	
+		<div class="blank15"></div>
+	</form>
+</section>
+<div class="blank15"></div>
+{include file="inc/footer.html"}

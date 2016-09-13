@@ -1,0 +1,23 @@
+.term span{ display:inline-block; background:url(../images/tip_ico.gif) no-repeat 0 -182px; padding-left:15px; }
+.term span a{ color:#12ADFF; font-size:14px; text-decoration:none;}
+.term span a:hover{ color:#12ADFF; font-size:14px; text-decoration:none;}
+.btn_do_register , .btn_do_getpassword { background:#00b0f5; font-family:"Microsoft YaHei"; height:40px; line-height:40px; width:97px; text-align:center; font-size:16px; color:#fff; -moz-border-radius:3px; -khtml-border-radius:3px; -webkit-border-radius:3px; border-radius:3px; }
+.btn_do_register_hover , .btn_do_register_active , .btn_do_getpassword_hover , .btn_do_getpassword_active { background:#01a5e6; cursor:pointer; font-family:"Microsoft YaHei"; height:40px; line-height:40px; width:97px; text-align:center; font-size:16px; color:#fff; -moz-border-radius:3px; -khtml-border-radius:3px; -webkit-border-radius:3px; border-radius:3px; }
+
+.btn_user_register{ background:#00b0f5; font-family:"Microsoft YaHei"; height:40px; line-height:40px; width:97px; text-align:center; font-size:16px; color:#fff; -moz-border-radius:3px; -khtml-border-radius:3px; -webkit-border-radius:3px; border-radius:3px; }
+.btn_user_register_hover , .btn_user_register_active { background:#01a5e6; cursor:pointer; font-family:"Microsoft YaHei"; height:40px; line-height:40px; width:97px; text-align:center; font-size:16px; color:#fff; -moz-border-radius:3px; -khtml-border-radius:3px; -webkit-border-radius:3px; border-radius:3px; }
+
+
+.tip_box{ margin-top:10px; }
+.form_error{ background:url(../images/tip_ico.gif) no-repeat 0 -1px; height:25px; font-size:12px; line-height:25px; padding-left:30px; float:left; display:inline-block; margin-left:10px; color:#787878;}
+.form_success{ background:url(../images/tip_ico.gif) no-repeat 0 -50px; height:25px;  font-size:12px; line-height:25px; padding-left:30px; float:left; display:inline-block; margin-left:10px; color:#787878;}
+.form_tip{ background:url(../images/tip_ico.gif) no-repeat 0 -108px; height:25px; line-height:25px;  font-size:12px; padding-left:30px; display:inline-block; margin-left:10px; color:#787878;}
+.form_loading{ background:url(../images/ajax_loading.gif) no-repeat -130px -47px; width:25px; height:28px; float:left; display:inline-block; margin-left:10px;}
+.btn_go_login{ background:url(../images/go_login.gif) no-repeat; width:113px; height:39px; text-decoration:none; display:block;}
+
+.user_register_two .control-group .control-label{width:150px;}
+.user_register_two .identity_conditions_box .control-label{
+	height:inherit;
+	line-height:1.5;
+}
+.user_register_two .tip_show{margin-top:50px;}

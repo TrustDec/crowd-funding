@@ -1,0 +1,157 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/fanwe_utils/jcDate.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/fanwe_utils/jcDate.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jQuery-jcDate.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jQuery-jcDate.js";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/account.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+{include file="inc/home_user_info.html"}
+<div class="blank0"></div>
+<!--中间开始-->
+<div class="dlmain Myhomepage licai_uc">
+	{include file="inc/account_left.html"} 
+	<div class="homeright pageright f_r">
+		<div class="list_title clearfix">
+			<div class="cur">
+				<span>购买记录</span>
+			</div>
+			<a href="javascript:history.go(-1)" class="ui_button ui-small-button bg_red f_r mt10">返回</a>
+		</div>
+		<div class="list_content uc_buyed_finance">
+			<div class="licai_total_box">
+				<div class="lf theme_bgcolor">
+					<div>成交总额</div>
+					<span>{$vo.licai_total_money_format}</span>
+				</div>
+				<div class="rt">
+					<ul>
+						<li>
+							<div>订单数量</div>
+							<div class="text">{$vo.licai_order_total_count}个</div>
+						</li>
+						<li>
+							<div>正在进行的总额</div>
+							<div class="text">{$vo.licai_total_ing_money_format}</div>
+						</li>
+						<li>
+							<div>购买人数</div>
+							<div class="text">{$vo.total_people_count}</div>
+						</li>
+						<li class="last">
+							<div></div>
+							<div class="text"></div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="account_search" id="account_search">
+				<div class="blank10"></div>
+				<div class="form_row control-group f_l">
+                	<form method="get" id="account_project">
+					<label class="form_lable small_form_lable">购买时间：</label>
+					<div class="small_form_text">
+						<input readonly="" type="text" class="small_textbox w100 jcDate" rel="input-text"  name="buy_begin_time" id="inputLaunchTime" placeholder="开始时间" value="{$search.buy_begin_time}">
+						<span class="f_l pl10 pr10">-</span>
+						<input readonly="" type="text" class="small_textbox w100 jcDate mr10" rel="input-text" name="buy_end_time" id="inputLaunchTime" placeholder="结束时间" value="{$search.buy_end_time}">
+					</div>
+					<label class="form_lable small_form_lable">到期时间：</label>
+					<div class="small_form_text">
+						<input readonly="" type="text" class="small_textbox w100 jcDate" rel="input-text" name="begin_time" id="inputLaunchTime" placeholder="开始时间" value="{$search.begin_time}">
+						<span class="f_l pl10 pr10">-</span>
+						<input readonly="" type="text" class="small_textbox w100 jcDate mr10" rel="input-text"  name="end_time" id="inputLaunchTime" placeholder="结束时间" value="{$search.end_time}">
+					</div>
+				</div>
+				<input type="submit" value="搜索" class="ui-button bg_red" />
+                <input type="hidden" name="ctl" value="licai">
+				<input type="hidden" name="act" value="uc_record_lc">
+                <input type="hidden" name="id" value="{$vo.id}" />
+				<!--<a href="javascript:void(0);" id="more_search_btn" class="more_search_btn f_red">更多筛选</a>
+				<div id="more_search" style="display:none;">
+					<div class="blank0"></div>
+					<div class="form_row control-group f_l">
+						<label class="form_lable small_form_lable">状态：</label>
+						<select name="licai_status" id='licai_status' class="ui-select field_select small">
+							<option value="1" {if $licai_status eq 1} selected="selected"{/if}>预热期</option>
+							<option value="2" {if $licai_status eq 2} selected="selected"{/if}>理财期</option>
+							<option value="3" {if $licai_status eq 2} selected="selected"{/if}>已到期</option>
+							<option value="4" {if $licai_status eq 2} selected="selected"{/if}>部分赎回</option>
+							<option value="4" {if $licai_status eq 2} selected="selected"{/if}>已结清</option>
+						</select>
+						<div class="blank0"></div>
+					</div>
+				</div>-->
+                </form>
+			</div>
+			<div class="blank20"></div>
+			<div class="uc_table_common">
+				<div class="f_l tl">
+					<span>{function name="msubstr" v=$vo.name b=0 e=32}</span>
+				</div>
+				<div class="f_r tr">
+					<span class="mr20">收益率：{$vo.average_income_rate_format}</span>
+					<span>理财期限：{$vo.time_limit}个月</span>
+				</div>
+			</div>
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc_table">
+				<thead>
+					<tr>
+						<th>购买人</th>
+						<th width="15%">持有本金</th>
+						<th width="15%">收益率</th>
+						<th width="20%">购买时间</th>
+						<th width="15%">状态</th>
+						<th width="15%">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+                	{if $list}
+                    {foreach from=$list item=item}
+					<tr>
+						<td>{$item.user_name}</td>
+						<td>{$item.have_money_format}</td>
+						<td><span class="f_money">{$item.interest_rate_format}</span></td>
+						<td>{$item.create_date}</td>
+                        <td>{$item.status_format}</td>
+						<td>
+							<a href="{url r="licai#uc_deal_lc" p="id=$item.licai_id"}" target="_blank">查看详情</a>
+							<div class="blank5"></div>
+                            <a href="{url r="licai#uc_u_buyed_deal_lc" p="id=$item.id"}">审核管理</a>
+						</td>
+					</tr>
+					{/foreach}
+					{else}
+					<tr>
+						<td colspan="6">无任何记录</td>
+					</tr>
+                    {/if}
+				</tbody>
+			</table>
+			<div class="blank20"></div>
+			<div class="pages">{$pages}</div>
+			<div class="blank20"></div>
+		</div>
+		<div class="blank0"></div>
+	</div>
+	<div class="blank0"></div>
+</div>
+<div class="blank0"></div>
+<script type="text/javascript">
+	account_more_search("#more_search_btn","#more_search");
+	//选择日期控件
+    $("input.jcDate").jcDate({
+        IcoClass : "jcDateIco",
+        Event : "click",
+        Speed : 100,
+        Left :-125,
+        Top : 28,
+        format : "-",
+        Timeout : 100,
+        Oldyearall : 17,  // 配置过去多少年
+		Newyearall : 0  // 配置未来多少年
+    });
+	
+</script>
+{include file="inc/footer.html"} 

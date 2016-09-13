@@ -1,0 +1,206 @@
+{include file="inc/header.html"}
+<style type="text/css">
+	.uc_table th {color: #999; background-color: #f4f4f4; height: 40px; text-align: center; }
+</style>
+<div class="blank20"></div>
+<!--中间 开始-->
+<div class="wrap">
+	<div class="location_box">
+		<div class="location">
+			<i class="fl ico loc_ico mr5"></i>
+			<label>您现在的位置：</label><a href='{url r="licai#uc_published_lc"}'>发起的理财</a><em>>></em><a>{$vo.name}</a><em>>></em><a>基本信息</a>
+		</div>
+		<div class="blank10"></div>
+	</div>
+<div class="licai_uc_deal_lc">
+		<div class="page_title">{$vo.name}</div>
+		<div class="switch_nav">
+			<ul>
+				<li class="current">
+					<a href="{url r="licai#deal" p="id=$vo.id"}">项目介绍</a>
+				</li>		
+			</ul>
+		</div>
+		<div class="blank20"></div>
+		<div class="pl20 pr20 mb20">
+			<div class="tl mb10 f14">收益率列表：金额单位(万元)</div>
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc_table">
+			{if $vo.type > 0}
+				<thead>
+					<tr>
+						<th>最小金额</th>
+						<th>最大金额</th>
+						<th>原手续费率</th>
+						<th>网站手续费率</th>
+						<th>赎回手续费率</th>
+						<th>预热期收益率</th>
+						<th>预热期违约收益率</th>
+						<th>收益率</th>
+						<th>违约收益率</th>
+						<th>平台收益率</th>
+						<th>用户违约平台收益率</th>
+						<th>保证金比率</th>
+					</tr>
+				</thead>
+				<tbody>
+				{if $list}
+                {foreach from=$list item=item}
+					<tr>
+						<td>{$item.min_money_format}</td>
+						<td>{$item.max_money_format}</td>
+						<td>{$item.buy_fee_rate_format}</td>
+						<td>{$item.site_buy_fee_rate_format}</td>
+						<td>{$item.redemption_fee_rate_format}</td>
+						<td>{$item.before_rate_format}</td>
+						<td>{$item.before_breach_rate_format}</td>
+						<td>{$item.interest_rate_format}</td>
+						<td>{$item.breach_rate_format}</td>
+						<td>{$item.platform_rate_format}</td>
+						<td>{$item.platform_breach_rate_format}</td>
+						<td>{$item.freeze_bond_rate_format}</td>
+					</tr>
+                 {/foreach}
+                 {else}
+                 <tr>
+                 	<td colspan="12">无任何记录</td>
+                 </tr>
+                 {/if}
+				</tbody>
+		 	{else}
+			 	<thead>
+					<tr>
+						<th>日期</th>
+						<th>每万份收益</th>
+						<th>收益率</th>
+					</tr>
+				</thead>
+				<tbody>
+				{if $list}
+                {foreach from=$list item=item}
+					<tr>
+						<td>{$item.history_date}</td>
+						<td>{$item.net_value_format}</td>
+						<td>{$item.rate_format}</td>
+					</tr>
+                 {/foreach}
+                 {else}
+                 <tr>
+                 	<td colspan="12">无任何记录</td>
+                 </tr>
+                 {/if}
+				</tbody>
+         	{/if}
+			</table>
+		</div>
+		<div class="pl20 pr20 tl mb10 f14">基本信息</div>
+		<div class="deal_lc_lf">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc_table uc_table1">
+				<tbody>
+					<tr>
+						<td class="deal_name" width="30%">产品名称：</td>
+						<td width="70%">{$vo.name}</td>
+					</tr>
+					<tr>
+						<td class="deal_name">理财代码：</td>
+						<td>{$vo.licai_sn}</td>
+					</tr>
+					<tr>
+						<td class="deal_name">产品规模：</td>
+						<td>{$vo.product_size}</td>
+					</tr>
+					<tr>
+						<td class="deal_name">购买开始时间：</td>
+						<td>{$vo.begin_buy_date}</td>
+					</tr>
+					<tr>
+						<td class="deal_name">购买结束时间：</td>
+						<td>{$vo.end_buy_date}</td>
+					</tr>
+					<tr>
+						<td class="deal_name">起购金额：</td>
+						<td>{$vo.min_money_format}</td>
+					</tr>
+					<tr>
+						<td class="deal_name">理财期限：</td>
+						<td>{if $vo.type > 0}{$vo.time_limit}个月{else}{$vo.buy_day}天{/if}</td>
+					</tr>
+					<tr>
+						<td class="deal_name">项目起息时间：</td>
+						<td>{$vo.begin_interest_date}</td>
+					</tr>
+					<tr>
+						<td class="deal_name">利息类型：</td>
+						<td>{$vo.begin_interest_type_format}</td>
+					</tr>
+					<tr>
+						<td class="deal_name">项目结束时间：</td>
+						<td>{$vo.end_date}</td>
+					</tr>
+					<tr>
+						<td class="deal_name">获取收益方式：</td>
+						<td>{$vo.profit_way}</td>
+					</tr>
+					<tr>
+						<td class="deal_name">赎回到账方式：</td>
+						<td>{$vo.review_type_format}</td>
+					</tr>
+					<tr>
+						<td class="deal_name">赎回到账时间描述：</td>
+						<td>{$vo.purchasing_time}</td>
+					</tr>
+					<tr>
+						<td class="deal_name">成交服务费率：</td>
+						<td>{$vo.service_fee_rate_format}</td>
+					</tr>
+					{if $vo.type == 0}
+                    <tr>
+						<td class="deal_name">平台收益费率：</td>
+						<td>{$vo.platform_rate_format}</td>
+					</tr>
+                    <tr>
+						<td class="deal_name">购买手续费率：</td>
+						<td>{$vo.site_buy_fee_rate_format}</td>
+					</tr>
+                    <tr>
+						<td class="deal_name">赎回手续费率：</td>
+						<td>{$vo.redemption_fee_rate_format}</td>
+					</tr>
+                    {/if}
+					<tr>
+						<td class="deal_name">风险等级：</td>
+						<td>{$vo.risk_rank_format}</td>
+					</tr>
+					<tr>
+						<td class="deal_name">理财规则：</td>
+						<td>{$vo.rule_info}</td>
+					</tr>
+					<tr>
+						<td class="deal_name">详情：</td>
+						<td>{$vo.description}</td>
+					</tr>
+					<tr>
+						<td class="deal_name">状态：</td>
+						<td>{$vo.licai_status_format}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="deal_lc_rt">
+			<div class="item_lc">
+				<a href="{url r="licai#deal" p="id=$vo.id"}">
+					<img src="{if $vo.img eq ''}{$TMPL}/images/empty_thumb.gif{else}{$vo.img}{/if}" width="360" height="200" alt="{$vo.name}" />
+					<div class="text">
+						<span class="tl"><label>收益率:</label>{$vo.average_income_rate_format}</span>
+						<span class="tc"><label>理财期限:</label>{if $vo.type > 0}{$vo.time_limit}个月{else}{$vo.buy_day}天{/if}</span>
+						<span class="tr"><label>起购金额:</label>{$vo.min_money_format}</span>
+						<div><label>获取收益方式:</label>{$vo.profit_way}</div>
+					</div>
+				</a>
+			</div>
+			<div class="blank20"></div>
+		</div>
+	</div>
+</div>
+<!--中间 结束-->
+<div class="blank20"></div>
+{include file="inc/footer.html"} 

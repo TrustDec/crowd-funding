@@ -1,0 +1,105 @@
+<?php
+$this->_var['repaycss'][] = $this->_var['TMPL_REAL']."/css/datepicker.css";
+$this->_var['repayjs'][] = $this->_var['TMPL_REAL']."/js/utils/jquery.ui.core.js";
+$this->_var['repayjs'][] = $this->_var['TMPL_REAL']."/js/utils/jquery.ui.widget.js";
+$this->_var['repayjs'][] = $this->_var['TMPL_REAL']."/js/utils/jquery.ui.datepicker.js";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$repaycss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$repayjs" c="$repayjs"}"></script>
+
+<script type="text/javascript">
+jQuery(function(){
+	$("input#begin_time").datepicker({showAnim:'fadeIn'});
+	$("input#end_time").datepicker({showAnim:'fadeIn'});
+	$("input#buy_begin_time").datepicker({showAnim:'fadeIn'});
+	$("input#buy_end_time").datepicker({showAnim:'fadeIn'});
+	
+	$("form#search-form").submit(function(){
+		var val = $("input#begin_time").val();
+		$("input[name='begin_time']").val(val.replace(/-/g,""));
+		
+		var val = $("input#end_time").val();
+		$("input[name='end_time']").val(val.replace(/-/g,""));
+		
+		var val = $("input#buy_begin_time").val();
+		$("input[name='buy_begin_time']").val(val.replace(/-/g,""));
+		
+		var val = $("input#buy_end_time").val();
+		$("input[name='buy_end_time']").val(val.replace(/-/g,""));
+		
+	});	
+	account_more_search("#more_search_btn","#more_search");
+});
+</script>
+<!--中间开始-->
+{include file="inc/home_user_info.html"}
+<div class="tabbox clearfix">
+	<div class="tab cur"><a href="{url x="index" r="licai#uc_redeem_lc"}">收益详情</a></div>
+    <div class="tab"><a href="javascript:history.go(-1)">返回</a></div>
+</div>
+	<div class="dlmain Myhomepage licai_uc bdd bt0 uc_box">  
+            <div class="clearfix tra_box p10">
+        	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc-table">
+				<thead>
+					<tr>
+						<th width="30%">收益所属日期</th>
+                        <th width="30%">每万份收益（元）</th>
+						<th width="30%">收益金额（元）</th>
+					</tr>
+				</thead>
+				<tbody>
+                	{if $list}
+                    {foreach from=$list item=item key=key name=deal}
+					<tr class='item {if $key mod 2 eq 1}item_1{/if}' {if $smarty.foreach.deal.last}style="border-bottom:0"{/if}>
+						<td>{$item.history_date}</td>
+                        <td>{$item.net_value_format}</td>
+						<td>{$item.money_format}</td>
+                    </tr>
+                    {/foreach}
+                    {else}
+                    <tr>
+                    	<td colspan="7">无任何记录</td>
+                    </tr>
+                    {/if}
+				</tbody>
+			</table>
+			<div class="blank20"></div>
+			<div class="pages">{$pages}</div>
+		</div>	
+		</div>
+		<div class="blank0"></div>
+	</div>
+	<div class="blank0"></div>
+</div>
+<div class="blank0"></div>
+<script type="text/javascript">
+	$(".trader_box .tab").click(function(){
+		$(".y").removeClass("y");
+		$(this).addClass("y");
+		$(".trader_box .tra_box").addClass("hide");
+		$(".trader_box .tra_box:eq("+$(this).index()+")").removeClass("hide");
+	});
+	
+	function set_status(id)
+	{
+		$.showConfirm("您确定要取消赎回吗？",function(){				
+			$.ajax({ 
+				url: '{url x="index" r="licai#uc_buyed_deal_cancel"}',
+				data: {"ajax":1,"redempte_id":id},
+				dataType: "json",
+				success: function(obj){
+					if(obj.status == 1)
+					{
+						$.showSuccess(obj.info);
+						location.reload();
+					}
+					else
+					{
+						$.showErr(obj.info);
+						location.reload();
+					}
+				}
+			});
+		});
+	}
+</script>

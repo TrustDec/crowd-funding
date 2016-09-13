@@ -1,0 +1,89 @@
+<script type="text/javascript">
+	var c_past_investors_ajaxurl = '{url r="finance#do_company_overview" p="method=company_investor"}';
+	var c_past_investors_checkname_ajaxurl = '{url r="finance#chack_investor_name"}';
+</script>
+<div class="edit-panel clearfix">
+	<div class="title line clearfix">
+        <h3>过往投资方</h3>
+        <a href="javascript:void(0);" class="icon-add c_past_investors_icon_edit" onclick="f_item.add_item(this);" rel="c_past_investors" ng-show="is_edit"><i class="icon iconfont">&#xe60e;</i></a>
+    </div>
+    <!-- 添加操作 -->
+    <div class="add-item c_past_investors_btn_add {if $company_investor}hide{/if}" onclick="f_item.edit_item(this);" rel="c_past_investors" ng-show="is_edit">
+		<span class="icon-big-add"><i class="icon iconfont">&#xe60d;</i></span> 添加过往投资方
+    </div>
+    <!-- 编辑 -->
+	<div class="item-panel-edit c_past_investors_edit edit_form hide" ng-show="is_edit">
+    	<form class="ajax_company_investor_form c_past_investors_form ml20" action="{url r="finance#do_company_overview" p="method=company_investor"}" method="post" rel="c_past_investors">
+    		<div class="control-group small-control-group pr" style="overflow:inherit;">
+				<label class="control-label"><span class="f_red f12">*</span>投资方</label>
+				<div class="control-text">
+					<div class="holder_tip_box">
+						<input type="text" value="" name="past_investor_name" class="textbox small_textbox init_data c_past_investors_name c_past_investors_input J_check_c_past_investors_name" rel="c_past_investors" />
+						<div class="holder_tip small_holder_tip" style="display: block;">
+							<span>输入已注册的过往投资方名称</span>
+						</div>
+					</div>
+				</div>
+				<div class="clear"></div>
+				<ul class="ui_select_choices c_past_investors_menu hide" role="menu">
+					<li class="ui_select_choices_group">
+					</li>
+				</ul>
+			</div>
+			<div class="submit_row clearfix">
+				<a href="javascript:void(0);" class="ui-button bg_gray cancle-btn" rel="c_past_investors">跳过</a>
+				<a href="javascript:void(0);" class="ui-button theme_bgcolor mr10 save-btn" rel="c_past_investors">保存</a>
+				<input type="hidden" name="company_id" value="{$company.id}">
+				<input type="hidden" name="invest_id" value="">
+				<input type="hidden" name="invest_type" value="">
+				<input type="hidden" name="type" value="2">
+				<input type="hidden" name="ajax_act" value="save">
+			</div>
+    	</form>
+    </div>
+    <!-- 生成 -->
+    <div class="item-panel-normal c_past_investors_normal">
+    	<ul class="panel-model-b past-investors-list c_past_investors_normal_list clearfix">
+		{if $company_investor}
+			{foreach from=$company_investor item=company_investor_item}
+			<li class="c_past_investors_{$company_investor_item.id}_item">
+				<a class="media-avatar" target="_blank" href="{url r="home" p="id=$company_investor_item.user_id"}">
+					<img alt="{$company_investor_item.name}" width="40" src="{$company_investor_item.image}">
+				</a>
+				<div class="media-body">
+					<div class="media-heading"  target="_blank" href="{url r="home" p="id=$company_investor_item.user_id"}">
+						<span class="member-name oh">{$company_investor_item.name}</span>
+                        <i class="gray-icon">{if $company_investor_item.status eq 1}已确认{elseif $company_investor_item.status eq 2}已拒绝{else}待确认{/if}</i>
+					</div>
+					<p title="asdads" clamp="3" class="ng-binding" style="overflow: hidden; text-overflow: ellipsis; -webkit-box-orient: vertical; display: -webkit-box; -webkit-line-clamp: 3;">{$company_investor_item.brief}</p>
+				</div>
+				<div ng-show="is_edit">
+					<a href="javascript:void(0)" class="icon-del btn-delete c_past_investors_ajax_del" ajax_act="del" rel="c_past_investors_{$company_investor_item.id}">
+						<i class="icon iconfont">&#xe604;</i>
+					</a>
+					<input type="hidden" name="ajax_item_id" value="{$company_investor_item.id}" />
+		            <input type="hidden" name="method" value="company_investor" />
+					<input type="hidden" name="ajax" value="1" />
+					<input type="hidden" name="ajax_url" value="{url r="finance#do_company_overview" p="method=company_investor"}" />
+				</div>
+			</li>
+			{/foreach}
+		{/if}
+    	</ul>
+    </div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		$(".c_past_investors_ajax_del").live('click',function(){
+			f_item.del_ajax_item(this,'{url r="finance#do_company_overview" p="method=company_investor"}');
+		});
+
+		$(".J_check_c_past_investors_name").bind('keyup',function(){
+			check_u_name(this,c_past_investors_checkname_ajaxurl,'c_past_investors');
+		});
+		$(document).click(function(){
+			$(".ui_select_choices").hide();
+			$(".ui_select_choices_group").html("");
+		});
+	});
+</script>

@@ -1,0 +1,5 @@
+.consignee_row{ border-bottom:1px dashed #e3e3e3; padding:10px 0; overflow:hidden; font-size:14px;}
+.consignee_item{ float:left; width:610px; overflow:hidden; }
+.consignee_op{ float:right; padding-right:80px; overflow:hidden;}
+.consignee_op a{ color:#690; text-decoration:none; }
+.consignee_op a:hover{ color:#12adff; text-decoration:none; }

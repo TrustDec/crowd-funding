@@ -1,0 +1,124 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/consignee.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/consignee.js";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/consignee.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<style>
+.note {
+padding: 2px 5px;
+border-color: #ff3800;
+-webkit-border-radius: 3px;
+-moz-border-radius: 3px;
+border-radius: 3px;
+background: #ffd6cc;
+color: #f30;
+}
+.note_show {
+padding: 4px 5px;
+background: #f60;
+color: #fff;
+border: 1px solid #f60;
+border-radius: 3px;
+text-decoration: none;
+}
+.note_hide{ display:none;}
+.note_type{ float:right; }
+.consignee_row{ cursor:pointer;}
+</style>
+{include file="inc/home_user_info.html"}
+<!--中间开始-->
+<div class="dlmain Myhomepage">
+		 {include file="inc/account_left.html"} 
+		<div class="homeright pageright f_r">
+			<div>
+				<div class="list_title clearfix">
+					<div class="cur">
+						<span>配送地址</span>
+					</div>
+				</div>
+				<div class="blank"></div>
+				<div class="full">
+						<div class="ui-button theme_bgcolor" rel="green" id="add_consignee" url="{url r="settings#add_consignee"}">
+								<div>
+									<span>添加配送地址</span>
+								</div>
+						</div>
+						
+						<div class="blank15"></div>
+						
+						{if $consignee_list}
+							{foreach from=$consignee_list item=consignee_item}
+							<div class="consignee_row">
+								<div class="consignee_item">
+								{$consignee_item.province}{$consignee_item.city} {$consignee_item.address} {$consignee_item.zip}
+								{$consignee_item.consignee} {$consignee_item.mobile}
+								</div>
+								<div class="consignee_op pr">
+									<a href="javascript:void(0);" class="edit_consignee f_l mr10" rel="{$consignee_item.id}" style="color:#12adff;">修改</a>
+									<a href="javascript:void(0);" class="del_consignee f_l" rel="{$consignee_item.id}" style="color:#12adff;">删除</a>
+ 									&nbsp;
+									<div class="note_type ps" style="top:0;right:0">
+ 										{if $consignee_item.is_default}	
+										<span class="note w100">默认地址</span>
+										{else}
+										<span  class="note_hide note_show" id="{$consignee_item.id}">默认地址</span>
+										{/if}
+ 									</div>
+										
+ 								</div>
+							</div>
+							{/foreach}
+							<script>
+								$(function(){
+									$(".consignee_row").bind("mouseover",function(){
+										$(this).find(".note_hide").show();
+									});
+									$(".consignee_row").bind("mouseout",function(){
+										$(this).find(".note_hide").hide();
+									});
+									$(".consignee_row").find(".note_show").bind("click",function(){
+										$id=$(this).attr("id");
+										post_url="{url r="settings#set_default_consignee"}";
+										var obj=new Object();
+										obj.id=$id;
+										obj.user_id={$user_id};
+										$.ajax({
+											url:post_url,
+											type:"POST",
+											data:obj,
+											dataType:"JSON",
+											success:function(data){
+												if(data.status==0||data.status==2){
+													alert(data.info);
+												}
+												if(data.status==1){
+													window.location.reload();
+												}
+											}
+											
+										});
+									});
+								});
+							</script>
+						{else}
+						<div class="empty_tip">
+							还未设置任何配送地址
+						</div>			
+						{/if}
+				</div><!--full-->
+				
+				
+				<div class="blank"></div>
+			</div>
+	
+	 		<div class="blank"></div>	
+		</div>
+
+<!--中间结束-->
+<div class="blank"></div>
+</div>
+<div class="blank"></div>
+{include file="inc/footer.html"} 

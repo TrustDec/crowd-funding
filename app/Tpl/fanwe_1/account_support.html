@@ -1,0 +1,303 @@
+{include file="inc/header.html"} 
+<?php
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/deal_list.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/deal_list.js";
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/fanwe_utils/jcDate.css";
+$this->_var['dcpagecss'][] = $this->_var['TMPL_REAL']."/css/fanwe_utils/jcDate.css";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jQuery-jcDate.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jQuery-jcDate.js";
+$this->_var['dpagejs'][] = $this->_var['TMPL_REAL']."/js/account_support.js";
+$this->_var['dcpagejs'][] = $this->_var['TMPL_REAL']."/js/account_support.js";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<script type="text/javascript" src="{function name="parse_script" v="$dpagejs" c="$dcpagejs"}"></script>
+<style type="text/css">
+	.ui-small-center-button{font-size:12px;margin:0;}
+</style>
+{include file="inc/home_user_info.html"}
+<div class="dlmain Myhomepage">
+ 	{include file="inc/account_left.html"} 
+	<div class="homeright pageright f_r">
+		<div class="list_title clearfix">
+			<div {if $all eq 0}class="cur"{/if}>
+				<span>{$deal_info.name} {if $deal_info.type eq 0 || $deal_info.type eq 2 || $deal_info.type eq 3}支持记录{else}投资记录{/if}</span>
+			</div>
+		</div>
+		{if $deal_info.type eq 1}
+		<div class="mb10">
+			<strong>项目融资金额：</strong><span class="f_money f16">{function name="format_price" v=$deal_info.limit_price}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+			<strong>项目出让股份：</strong><span class="f_money f16">{$deal_info.transfer_share}%</span>
+		</div>
+		{/if}
+		<form name="support_form"  action="{url r="account#support"}" method="post">
+		<div class="account_search" id="account_search">
+			<div class="blank10"></div>
+			<div class="form_row control-group f_l">
+				<label class="form_lable small_form_lable">会员名称：</label>
+				<div class="pr f_l">
+					<input type="text" name="user_name" value="{$user_name}" class="small_textbox w150 mr10" />
+					<span class="holder_tip">请输入会员名称</span>
+				</div>
+				{if $type eq 0}
+				<label class="form_lable small_form_lable">手机号码：</label>
+				<div class="pr f_l">
+					<input type="text" name="mobile" value="{$mobile}" class="small_textbox w150 mr10" />
+					<span class="holder_tip">请输入手机号码</span>
+				</div>
+				{/if}
+				{if $deal_info.type eq 0 || $deal_info.type eq 2 || $deal_info.type eq 3}
+					<select name="repay_status" id='repay_status' class="ui-select field_select small">
+				<!--	<option>按回报状态查询</option>-->
+					<option value="0" {if $repay_status eq 0} selected="selected"{/if}>全部</option>
+					<option value="1" {if $repay_status eq 1} selected="selected"{/if}>已发放回报</option>
+					<option value="2" {if $repay_status eq 2} selected="selected"{/if}>未发放回报</option>
+					<option value="3" {if $repay_status eq 3} selected="selected"{/if}>会员确认收到</option>
+					</select>
+				{/if}
+				{if $deal_info.type eq 1}
+					<select name="repay_status" id='repay_status' class="ui-select field_select small">
+				<!--	<option>按回报状态查询</option>-->
+					<option value="0" {if $repay_status eq 0} selected="selected"{/if}>全部</option>
+					<option value="1" {if $repay_status eq 1} selected="selected"{/if}>已发放回报</option>
+					<option value="2" {if $repay_status eq 2} selected="selected"{/if}>未发放回报</option>
+					
+					</select>
+				{/if}
+				
+			</div>
+			<input type="submit" value="搜索" class="ui-button theme_bgcolor" style="margin-right:10px;" />
+			<a href="javascript:void();" id="export_support" rel="{$type}" data_id={$deal_id} class="ui-button theme_bgcolor">导出</a>
+			<input type="hidden" name="type" value="{$type}">
+			<input type="hidden" name="id" value="{$deal_id}">	
+			
+			<input type="hidden" name="more_search" value="{$more_search}" >		
+			<a href="javascript:void(0);" id="more_invest_support_search_btn" class="more_search_btn f_red">更多筛选条件<i class="icon iconfont iconfont_down" id="iconfont_down">&#xe61d;</i><i class="icon iconfont iconfont_up" id="iconfont_up">&#xe61c;</i></a>
+			<div id="more_support_search_btn"  {if $more_search}style="display:block;"{else}style="display:none;"{/if}>
+				<div class="blank0"></div>
+				<div class="form_row control-group f_l">
+					<label class="form_lable small_form_lable">{if $type eq 1}付款时间：{else}下单时间{/if}</label>
+					<div class="small_form_text">
+						<input readonly="" type="text" class="small_textbox w100 jcDate" rel="input-text" value="{$begin_time}" name="begin_time" id="inputLaunchTime" placeholder="请选择日期">
+						<span class="f_l pl10 pr10">─</span>
+						<input readonly="" type="text" class="small_textbox w100 jcDate mr20" rel="input-text" value="{$end_time}" name="end_time" id="inputLaunchTime" placeholder="请选择日期">
+					</div>
+					<div class="blank0"></div>
+				</div>
+			</div>
+			
+		</div>
+		</form>
+		<div class="blank0"></div>
+		<div class="list_content">
+			{if $support_list}
+			<div class="i_deal_list clearfix">
+				{if $deal_info.type eq 0 || $deal_info.type eq 2 || $deal_info.type eq 3}
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc_table">
+					<thead>
+						<tr>
+							<th width="8%" class="lf">编号</th>
+							<th width="10%">会员名称</th>
+							<th width="8%">类型</th>
+							<th width="10%">支付金额</th>
+							<th width="10%">分红金额</th>
+							<th width="24%">回报内容</th>
+							<th width="20%">收货信息</th>
+							<th width="12%" class="rt">回报操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{foreach from=$support_list item=support_item}
+						<tr>
+							<td class="lf">{$support_item.id}</td>
+							<td class="deal_name">
+								<a href="{url r="home" p="id=$support_item.user_id"}" class="linkgreen" target="_blank">{$support_item.user_name}</a>
+								{if $support_item.is_winner eq 1 && $support_item.type eq 3}
+								<br />
+								<span class="f_red">(幸运星)<span>
+								{/if}
+							</td>
+							<td>{function name="order_type_name" v=$support_item.type}</td>
+							<td>
+								{if $support_item.delivery_fee gt 0}
+								{function name="format_price" v=$support_item.deal_price}+运费{function name="format_price" v=$support_item.delivery_fee}={function name="format_price" v=$support_item.total_price}
+								{else}
+								{function name="format_price" v=$support_item.total_price}
+								{/if}
+								{if $support_item.type eq 3}(抽奖){/if}
+							</td>
+							<td>
+								{if $support_item.share_fee}
+								{function name="format_price" v=$support_item.share_fee}
+								{else}
+								- -
+								{/if}
+							</td>
+							<td style="padding:20px 10px;text-align:left">
+								<span>{$support_item.item_description}</span>
+								{if $support_item.support_memo}
+								<div>
+									<div class="blank10"></div>
+									<span>备注：{$support_item.support_memo}</span>
+								</div>
+								{/if}
+							</td>
+							<td style="padding:20px 10px;{if $support_item.is_delivery eq 1}text-align:left{/if}">
+								{if $support_item.is_delivery eq 1}
+								<div class="mb5">收件人：{$support_item.consignee}</div>
+								<div class="mb5">地址：{$support_item.province}{$support_item.city}{$support_item.address}</div>
+								<div class="mb5">邮编：{$support_item.zip}</div>
+								<div class="mb5">电话：{$support_item.mobile}</div>
+								<div class="blank5"></div>
+								<div class="mb5 pt5" style="border-top:1px dashed #aaa;">物流公司：{if $support_item.logistics_company}<a href="{$support_item.logistics_links}" target="_blank" style="text-decoration:underline" class="theme_fcolor">{$support_item.logistics_company}</a>{else}无{/if}</div>
+								<div>物流编号：{if $support_item.logistics_number}{$support_item.logistics_number}{else}无{/if}</div>
+								
+								{else}
+								无
+								{/if}
+							</td>
+							<td class="rt">
+								{if $support_item.is_success eq 1}
+									{if $support_item.order_status eq 3 && $support_item.repay_time gt 0}
+										{if $support_item.repay_make_time gt 0}
+											<span>会员确认收到</span>
+										{else}
+											<span>已发放回报</span>
+										{/if}
+									{else}
+										{if $support_item.type eq 3 }
+											{if $support_item.is_winner eq 1}
+												<span class="f_red">(幸运星)<span><br />
+												<a href="{url r="account#set_repay" p="id=$support_item.id"}" rel="{$support_item.id}">立即设置回报</a>
+											{else}
+												抽奖支持
+											{/if}
+										{else}
+											<a href="{url r="account#set_repay" p="id=$support_item.id"}" rel="{$support_item.id}">立即设置回报</a>
+										{/if}
+									{/if}
+								{else}
+									<span>未成功</span>
+								{/if}
+							</td>
+						</tr>
+						{/foreach}
+					</tbody>	
+				</table>
+				{/if}
+				{if $deal_info.type eq 1 || $deal_info.type eq 4}
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc_table">
+					<thead>
+						<tr>
+							<th width="10%" class="lf">编号</th>
+							<th width="12%">投资人</th>
+							<th width="18%">项目估值</th>
+							<th width="10%">投资金额</th>
+							<th width="10%">支付时间</th>
+							<th width="10%">所占股份</th>
+							<th width="15%">状态</th>
+							<th width="15%" class="rt">回报操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{foreach from=$support_list item=support_item}
+						<tr>
+							<td class="lf">{$support_item.id}</td>
+							<td class="deal_name" style="text-align:left;padding-left:20px;">
+								<a href="{url r="home" p="id=$support_item.user_id"}" class="linkgreen" target="_blank">{$support_item.user_name}</a>
+							</td>
+							<td>
+								{if $support_item.investment_stock_value eq '0.00' }
+									<span>无</span>
+								{else}
+									<span class="f_money">{function name="format_price" v=$support_item.investment_stock_value}</span>
+								{/if}
+							</td>
+							<td>
+								{$support_item.invest_type_val}：
+								{if $support_item.delivery_fee gt 0}
+								{function name="format_price" v=$support_item.deal_price}+运费{function name="format_price" v=$support_item.delivery_fee}={function name="format_price" v=$support_item.total_price}
+								{else}
+								{function name="format_price" v=$support_item.total_price}
+								{/if}
+							</td>
+							<td>{function name="to_date" v=$support_item.pay_time}</td>
+							<td>{$support_item.user_stock}%</td>
+							<td width="200">
+								{if $support_item.order_status eq 3 && $support_item.repay_time gt 0}
+									{if $support_item.repay_make_time gt 0}
+										<span>会员确认收到</span>
+									{else}
+										<span>已发放回报</span>
+									{/if}
+								{else}
+								<span>待发放回报</span>
+								{/if}
+							</td>
+							<td class="rt">
+								{if $support_item.order_status eq 3 && $support_item.repay_time gt 0}
+									{if $support_item.repay_make_time gt 0}
+										<span>会员确认收到</span>
+									{else}
+										<span>已发放回报</span>
+									{/if}
+								{else}
+								<a href="{url r="account#set_repay" p="id=$support_item.id&type=1"}" rel="{$support_item.id}">立即发放</a>
+								{/if}
+							</td>
+						</tr>
+						{/foreach}
+					</tbody>	
+				</table>
+				{/if}
+			</div>
+			<div class="blank20"></div>
+			<div class="pages">{$pages}</div>
+			<div class="blank20"></div>
+			{else}
+			<div class="empty_tip">
+				没有任何支持记录
+			</div>
+			{/if}
+		</div>
+		<div class="blank10"></div>
+	</div>
+	<div class="blank0"></div>
+</div>
+<div class="blank"></div>
+<div id="repay_form_demo" style="display:none">
+	<form id="repay_form_itemid" class="repay_form" action="{url r="account#save_repay" p="id=itemid"}">
+		<input type="hidden" name="ajax" value="1" />
+		<textarea class="repay_memo" name="repay_memo"></textarea>
+		<div class="blank0"></div>
+		<div class="ui-button theme_bgcolor set_repay" rel="green" id="itemid">
+			<span>立即设置回报</span>
+		</div>
+		<div class="blank5"></div>
+		<div class="repay_tip tl">请设置回报内容，如需配送的请输入相应的配送信息与单号。</div>
+	</form>
+</div>
+<script type="text/javascript">
+	account_more_search("#more_invest_support_search_btn","#more_support_search_btn");
+	//选择日期控件
+    $("input.jcDate").jcDate({
+        IcoClass : "jcDateIco",
+        Event : "click",
+        Speed : 100,
+        Left :-125,
+        Top : 28,
+        format : "-",
+        Timeout : 100,
+        Oldyearall : 17,  // 配置过去多少年
+		Newyearall : 0  // 配置未来多少年
+    });
+	if($("#share_fee_td_show").length){
+		$("#share_fee_th_show").show();
+	}
+	$(".btn_give").bind('click',function(){
+		var item_id=$(this).attr("rel");
+		var repay_form_demo="<div>"+$('#repay_form_demo').html()+"</div>";
+		var new_repay_form_demo=repay_form_demo.replace(/itemid/g,item_id);
+		$.weeboxs.open(new_repay_form_demo, {boxid:'pop_region',contentType:'text',showButton:false, showCancel:false, showOk:false,title:'设置回报',width:500,type:'wee',onopen:function(){bind_repay_form();}});
+	});
+</script>
+{include file="inc/footer.html"} 

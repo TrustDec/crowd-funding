@@ -1,0 +1,24 @@
+@CHARSET "UTF-8";
+
+body{background:#fff; font-size:12px; font-family: Arial,"宋体",Verdana; line-height:150%; margin:0px; padding:0px; color:#404040;}
+div{margin:0 auto; padding:0;}
+h1,h2,h3,h4,h5,h6,ul,li,dl,dt,dd,form,img,p{margin:0; padding:0; border:none; list-style-type:none;}
+.block{ width:960px; height:auto;} /*主体容器*/
+.blockfull{ width:100%;}/*全宽的容器*/
+.f_l{float:left;}
+.f_r{float:right;}
+.tl{ text-align:left;}
+.tc{ text-align:center;}
+.tr{ text-align:right;}
+.dis{display:block;}
+.inline{display:inline;}
+.none{display:none;}
+.blank{height:10px; line-height:10px; clear:both; visibility:hidden;}
+
+.install{width:700px; height:auto; background: url("../images/titlebg.gif") no-repeat; padding-top:71px; border:#b5cfd9 solid 1px; margin-top:50px;}
+.install table{ background: #f3f9fd;}
+.install table td{ padding:5px 25px;}
+.install div{ text-align: center; line-height:30px;  background: #f3f9fd;}
+#ajax_outter{ position:absolute; left:0px; top:180px; width:100%;}
+#ajax_loading{ display: none; color:#f60; width:200px; background:#ffebdd; text-align:center;  padding:10px 30px; border:#f60 solid 1px; top:2px; left:2px;}
+#tip{ }

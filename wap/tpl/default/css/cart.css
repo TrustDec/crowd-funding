@@ -1,0 +1,17 @@
+.pay_way_list img { 
+	display: inline;
+	max-width: 90px;
+	height: 30px;
+	vertical-align: middle;
+	padding-left: 5px;
+}
+.bank_list{
+	padding:5px 0;
+}
+.bank_list label{
+	width:50%;
+	display: block;
+	float: left;
+	box-sizing: border-box;
+}
+.ul_block ul li.textarea .text{margin-top: 5px;}

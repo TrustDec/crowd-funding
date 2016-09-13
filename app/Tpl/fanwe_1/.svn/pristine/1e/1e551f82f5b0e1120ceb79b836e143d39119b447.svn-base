@@ -1,0 +1,30 @@
+{include file="inc/header.html"}
+<style>
+	.wrap1{ width:1000px; height:auto;}
+	.blank
+	{
+		height: 20px;
+		line-height: 20px;
+		clear: both;
+		visibility: hidden;
+	}
+</style>
+<div class="adv_1">
+	<div class="wenzhang_adv_bg"></div>
+</div>
+<div id="bdw">
+	<div class="wrap1 cf clearfix" style=" padding:20px;padding-top:10px; background-color:#fff;">
+		<div class="article_box_left ">
+			<div >
+				<h1 class="top_1" style="text-align:center; padding-top:20px;">{$article.title}</h1>
+				<p class="time" style="text-align:center; padding-top:10px;">发布日期：{function name="to_date" v=$article.update_time f="Y-m-d"}&nbsp;&nbsp;来源：方维网</p>
+			</div>
+			<div class="content" style="text-align:center;padding-top:10px;">
+				{$article.content}
+			</div>
+		</div>
+		
+	</div>
+</div>
+<div class="blank"></div>
+{include file="inc/footer.html"} 

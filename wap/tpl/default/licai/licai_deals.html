@@ -1,0 +1,38 @@
+{include file="inc/header.html"}
+<?php
+    $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/licai/licai.css";
+    $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/licai/deals.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$pagecss"}" />
+<!--理财列表-->
+<article id="earn_list" class="earn-list">
+    {foreach from="$list" item="list_item" name="list_items"}
+    <section class="earn-item">
+        <a href="{url_wap r="licai#deal" p="id=$list_item.id"}">
+            <h1 class="earn-title"><i class="fa fa-chevron-right earn-entry"></i>{$list_item.name}</h1>
+            <div class="earn-body">
+                <div class="earn-profit">
+                    <p class="earn-profit-percent"><span>{function name="number_format" v=$list_item.average_income_rate f="2"}</span>%</p>
+                    <p>历史收益率</p>
+                </div>
+                <div class="earn-info">
+                    <ul class="earn-info-list">
+                        <li><span class="earn-remaining">{$list_item.min_money}元</span>起购金额</li>
+                        <li><span>{if $list_item.time_limit}{$list_item.time_limit}个月{else}无期限{/if}</span>理财期限</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="blank15"></div>
+            <div class="ui-button {if $data.today gt $list_item.end_buy_date}bg_gray{/if}{if $data.today gt $list_item.begin_buy_date && $list_item.end_buy_date gt $data.today}theme_color{/if}{if $list_item.begin_buy_date gt $data.today}bg_red{/if}" href="javascript:;">
+                {if $data.today gt $list_item.begin_buy_date && $list_item.end_buy_date gt $data.today}立即抢购{/if}
+                {if $data.today gt $list_item.end_buy_date}已经抢光{/if}
+                {if $list_item.begin_buy_date gt $data.today}未开始{/if}
+            </div>
+        </a>
+    </section>
+    {/foreach}
+	<div class="blank10"></div>
+	<div class="pages">{$pages}</div>
+	<div class="blank10"></div>
+</div>
+{include file="inc/footer.html"} 

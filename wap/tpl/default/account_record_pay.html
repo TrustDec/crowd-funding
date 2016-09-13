@@ -1,0 +1,43 @@
+{include file="inc/header.html"} 
+<section class="account_view_order">
+	
+	{if $order_info.order_status eq 0}
+	<div class="blank"></div>
+	<form class="ajax_form" action="{url_wap r="account#record_go_pay"}" method="post">
+		{if $user_info.money gt 0}
+        <div class="sbmbj">
+            <div class="form_row pt5 pb5 pl15">
+            	<div class="mod_1 webkit-box">
+                     <label class="input_lable" style="color:#333">支付金额：</label>
+                    <input type="text" class="textbox webkit-box-flex" value="{$payment_info.money}" disabled="true" name="credit" style="font-size:20px;border:1px solid #e3e3e3;padding:12px 10px;"/>   
+                </div>
+                 
+            </div>
+        </div>
+        {/if}
+	    <div class="sbmbj">
+	        <div class="blocktitle">选择支付方式</div>
+	        {foreach from=$payment_list item=payment name=payment key=k} 
+	        <label class="webkit-box p15 pt5 pb5">
+	            <input type="radio" value="{$payment.id}" {if $payment.id eq $payment_info.payment_id}checked="checked"{/if} name="payment_id" class="mt mt10" />
+	            <div class="ml5 webkit-box-flex" style="height:40px;line-height:40px">{$payment.name}</div>
+	        </label>
+	        <div class="clear"></div>
+	        {/foreach}
+	    </div>
+		<div class="blank15"></div>
+		<div>		 
+			<input class="ui-button theme_color" type="submit" value="付款" rel="ui-button">				
+ 			<input type="hidden" value="{$payment_info.id}" name="notice_id" />	
+			<input type="hidden" value="1" name="ajax" />		
+			<div class="blank15"></div>
+		</div>	
+	</form>
+	{/if}
+</section>
+<!-- cart_pay.js -->
+<script type="text/javascript">
+	var trade_score='{function name='app_conf' value='SCORE_TRADE_NUMBER'}';
+</script>
+<!-- cart_pay.js -->
+{include file="inc/footer.html"} 

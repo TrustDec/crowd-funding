@@ -1,0 +1,55 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<load href='__TMPL__Common/js/jquery.bgiframe.js' />
+<load href='__TMPL__Common/js/jquery.weebox.js' />
+<load href='__TMPL__Common/js/user.js' />
+<load href='__TMPL__Common/style/weebox.css' />
+<script type="text/javascript" src="__TMPL__Common/js/calendar/calendar.php?lang=zh-cn" ></script>
+<load href='__TMPL__Common/js/calendar/calendar.css' />
+<load href='__TMPL__Common/js/calendar/calendar.js' />
+<php>
+    function verify($id){
+ 		if($item['type']==0){
+			return "<a href=\"javascript:verify('".$id."')\">审核操作</a>";
+		}
+	}
+</php>
+<script>
+	function verify(id){
+		location.href = '{:u("Licai/verify_edit")}'+"&id="+id;
+	}
+</script>
+<div class="main">
+<div class="main_title">{$main_title}</div>
+<div class="blank5"></div>
+<div class="button_row">
+	<input type="button" class="button" value="{%DEL}" onclick="foreverdel();" />
+</div>
+<div class="blank5"></div>
+
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="item" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{%ID}|5%
+    ,name|msubstr:产品名称:edit
+    ,licai_sn:理财代码
+    ,user_name:发起人
+    ,product_size:产品规模
+    ,show_time:产品期限
+    ,type_format:类型
+    ,sort:排序
+    ,verify_format:审核状态
+    ,id|verify:审核操作" 
+    
+	actionlist="foreverdel:{%DEL}" /> 
+
+<div class="blank5"></div>
+
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

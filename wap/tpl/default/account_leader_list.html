@@ -1,0 +1,99 @@
+{include file="inc/header.html"} 
+<style type="text/css">
+	.ui_small_button{width:90px;display:inline-block;}
+</style>
+<section class="account_index account_mod">
+	<ul class="tab-nav webkit-box">
+		{if app_conf("IS_ENQUIRY") eq 1}
+		<li class="webkit-box-flex tc">
+			<a href="{url_wap r="account#get_investor_status" p="type=0&id=$deal_id"}">询价</a>
+		</li>
+		{/if}
+		<li class="webkit-box-flex tc">
+			<a href="{url_wap r="account#get_investor_status" p="type=1&id=$deal_id"}">领投</a>
+		</li>
+		<li class="webkit-box-flex tc">
+			<a href="{url_wap r="account#get_investor_status" p="type=2&id=$deal_id"}">跟投</a>
+		</li>
+		<li class="webkit-box-flex tc current">
+			<a href="{url_wap r="account#get_leader_list" p="type=2&id=$deal_id"}">领投资格</a>
+		</li>
+	</ul>
+	{if $investor_list}
+	<div class="blank10"></div>
+	<div class="ul_block ul_block_list">
+		{foreach from=$investor_list item=item}
+		<ul>
+			<li class="webkit-box">
+				<label class="input_lable">领投人：</label>
+				<div class="tr webkit-box-flex">
+					<span class="user_name mr5">{$item.user_name}</span>
+					{if $item.user_icon}
+					<div class="user_icon">
+	                	<img src="{$item.user_icon}" title="会员等级" class="inline_level_icon level_icon" />
+	                </div>
+					{/if}
+					<div class="user_icon">
+						{if $item.is_investor==0 || $item.is_investor==1}
+						<i class="icon iconfont" rel="个人投资者认证">&#xe609;</i>
+						{else}
+						<i class="icon iconfont" rel="机构投资者认证">&#xe608;</i>
+						{/if}
+					</div>
+					{if $item.status==1}
+					<div class="user_icon"><i class="fa fa-flag"></i></div>
+					{/if}
+				</div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">申请时间：</label>
+				<div class="tr webkit-box-flex">
+					{function name=""to_date v=$item.create_time}
+				</div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">手机号：</label>
+				<div class="tr webkit-box-flex">
+					{$item.mobile}
+				</div>
+			</li>
+			<li class="webkit-box">
+				<label class="input_lable">投资领域：</label>
+				<div class="tr webkit-box-flex">
+					{foreach from=$item.cates item=cate key=k name=cates_name}
+					{$cate}{if $k neq 0}{if !$smarty.foreach.cates_name.last}、{/if}{/if}
+					{/foreach}
+				</div>
+			</li>
+			<li class="textarea webkit-box">
+				<label class="input_lable">投资人简介：</label>
+				<div class="tr webkit-box-flex">
+					<div class="f12 mt5">{$item.introduce}</div>
+				</div>
+			</li>
+			<li class="last webkit-box">
+				<label class="input_lable">审核结果：</label>
+				<div class="tr webkit-box-flex">
+					{if $item.status eq 0}
+					<a class="button button-success lead_yes f_l mr10" rel="{$item.id}">允许通过</a>
+					<a class="button button-warning lead_no f_l"  rel="{$item.id}">不允许通过</a>
+					{elseif $item.status eq 1}
+						<span class="check_status theme_fcolor f14">投资人审核通过</span>
+						{elseif $item.status eq 2}
+						<span class="check_status f_red f14">投资人审核不通过</span>
+					{/if}
+				</div>
+			</li>
+		</ul>
+		<div class="blank10"></div>
+		{/foreach}
+		<div class="pages">{$pages}</div>
+		<div class="blank15"></div>
+	</div>
+	{else}
+	<div class="tc mod_main">
+		还没有{$title}记录
+	</div>
+	{/if}
+</section>
+{include file="inc/footer.html"} 

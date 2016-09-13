@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+   <head>
+      <meta charset="UTF-8" />
+      <title>A date range picker for Twitter Bootstrap</title>
+      <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" type="text/css" media="all" href="daterangepicker-bs3.css" />
+      <script type="text/javascript" src="jquery.js"></script>
+      <script type="text/javascript" src="moment.js"></script>
+      <script type="text/javascript" src="daterangepicker.js"></script>
+   </head>
+   <body>
+
+      <div class="container">
+         <div class="span12">
+ 
+
+            <h4>Simple Date &amp; Time Picker</h4>
+            <div class="well">
+
+               <form class="form-horizontal">
+                 <fieldset>
+                  <div class="control-group">
+                    <label class="control-label" for="reservationtime">Reservation dates:</label>
+                    <div class="controls">
+                     <div class="input-prepend">
+                       <span class="add-on"><i class="glyphicon glyphicon-calendar icon-calendar"></i></span>
+                       <input type="text" style="width: 300px" name="reservation" id="reservationtime" value="2015-01-13 - 2015-01-16"  class="span4"/>
+                     </div>
+                    </div>
+                  </div>
+                 </fieldset>
+               </form>
+
+               <script type="text/javascript">
+               $(document).ready(function() {
+                  $('#reservationtime').daterangepicker({
+                    timePicker: true,
+                    timePickerIncrement: 30,
+                    format: 'YYYY-MM-DD'
+                  });
+               });
+               </script>
+
+            </div>            
+
+            
+
+            
+
+         </div>
+      </div>
+
+   </body>
+</html>

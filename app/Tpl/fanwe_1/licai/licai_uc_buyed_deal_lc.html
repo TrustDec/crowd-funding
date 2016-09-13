@@ -1,0 +1,134 @@
+{include file="inc/header.html"}
+<?php
+$this->_var['dpagecss'][] = $this->_var['TMPL_REAL']."/css/account.css";
+?>
+<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$dpagecss"}" />
+<div class="blank0"></div>
+{include file="inc/home_user_info.html"}
+<!--中间开始-->
+<div class="dlmain Myhomepage licai_uc">
+	{include file="inc/account_left.html"}
+	<div class="homeright pageright f_r">
+		<div class="list_title clearfix">
+			<div class="cur">
+				<span>购买的理财产品详情</span>
+			</div>
+			<a href="javascript:history.go(-1)" class="ui_button ui-small-button bg_red f_r mt10">返回</a>
+		</div>
+		<div class="list_content uc_buyed_finance">
+			<div class="licai_total_box">
+				<div class="lf theme_bgcolor">
+					<div>已赎回总额</div>
+					<span>{$vo.licai_all_redempte_format}</span>
+				</div>
+				<div class="rt">
+					<ul>
+						<li>
+							<div>赎回申请</div>
+							<div class="text">{$vo.licai_total_count}个</div>
+						</li>
+						<li>
+							<div>处理中</div>
+							<div class="text">{$vo.licai_ing_money_format}</div>
+						</li>
+						<li class="last">
+							<div>累计收益</div>
+							<div class="text">{$vo.total_earn_money_format}</div>
+						</li>
+					</ul>
+					<a href="{url r="licai#uc_redeem" p="id=$vo.order_id"}" class="ui-button ui-small-button bg_red f_r" style="margin-top:35px">我要赎回</a>
+				</div>
+			</div>
+			<div class="uc_table_common">
+				<div class="f_l tl">
+					<span>{function name="msubstr" v=$vo.name b=0 e=32}</span>
+				</div>
+				<div class="f_r tr">
+					<span class="mr20">收益率：{$vo.average_income_rate_format}</span>
+					<span>理财期限：{$vo.time_limit}个月</span>
+				</div>
+			</div>
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="uc_table">
+				<thead>
+					<tr>
+						<th width="14%">赎回本金</th>
+						<th width="14%"><span class="f_red">收益金额</span></th>
+						<th width="14%">手续费</th>
+						<th width="14%">到账金额</th>
+						<th width="24%">申请/到账时间</th>
+						<th width="10%">类型</th>
+						<th width="10%">状态</th>
+					</tr>
+				</thead>
+				<tbody>
+                	{if $list}
+                    {foreach from=$list item=item key=key name=deal}
+					<tr class='item {if $key mod 2 eq 1}item_1{/if}' {if $smarty.foreach.deal.last}style="border-bottom:0"{/if}>
+						<td>{$item.money_format}</td>
+						<td><span class="f_money">{$item.earn_money_format}</span></td>
+						<td>{$item.fee_format}</td>
+						<td>{$item.real_money_format}</td>
+						<td>
+                        	{if $item.update_date}
+                            	<em class="time_type"></em><span>{$item.update_date}</span>
+                            {else}
+                            	<em class="time_type">申</em><span>{$item.create_date}</span>
+                            {/if}
+						</td>
+						<td>{$item.type_format}</td>
+						<td>
+                        <span>{$item.status_format}</span>
+                        {if $item.status == 0}
+                        	<div class="blank5"></div>
+                        	<a href="javascript:void(0);" onclick="return set_status({$item.id});">取消</a>
+                        {/if}
+                        </td>
+					</tr>
+                    {/foreach}
+                    {else}
+                    <tr>
+                    	<td colspan="7">无任何记录</td>
+                    </tr>
+                    {/if}
+				</tbody>
+			</table>
+			<div class="blank20"></div>
+			<div class="pages">{$pages}</div>
+			<div class="blank20"></div>
+		</div>
+		<div class="blank0"></div>
+	</div>
+	<div class="blank0"></div>
+</div>
+<script type="text/javascript">
+	
+	function set_status(id)
+	{
+		var ajaxurl = APP_ROOT+"/index.php?ctl=licai&act=uc_buyed_deal_cancel";
+		$.showConfirm("您确定要取消赎回吗？",function(){				
+			$.ajax({ 
+				url: ajaxurl,
+				data: {"ajax":1,"redempte_id":id},
+				dataType: "json",
+				success: function(obj){
+					if(obj.status == 1)
+					{
+						$.showSuccess(obj.info,function(){
+
+							location.reload();	
+						});
+						
+					}
+					else
+					{
+						$.showErr(obj.info,function(){
+							location.reload();	
+						});
+						
+					}
+				}
+			});
+		});
+	}
+</script>
+{include file="inc/footer.html"}

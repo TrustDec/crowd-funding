@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <title>{if $page_title neq ''}{$page_title} - {/if}{$site_name} - {$seo_title}</title>
+    <meta name="keywords" content="{$seo_keyword}" />
+    <meta name="description" content="{$seo_description}" />
+    <?php
+    $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/common_css/base.reset.css";
+    $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/common_css/base.frame.css";
+    $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/common_css/base.theme.css";
+    $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/common_css/base.ui.css";
+    $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/common_css/style.css";
+    $this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/fanwe_utils/weebox.css";
+
+    $this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/common_js/jquery-1.10.2.min.js";
+    $this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/common_js/jquery-migrate-1.1.0.min.js";
+    $this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jquery.bgiframe.js";
+    $this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/jquery.weebox.js";
+    $this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/touch.js";
+    $this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/fanweUI.js";
+    $this->_var['cpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/fanweUI.js";
+    $this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/zcUI.js";
+    $this->_var['cpagejs'][] = $this->_var['TMPL_REAL']."/js/fanwe_utils/zcUI.js";
+    $this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/common_js/script.js";
+    $this->_var['cpagejs'][]='';
+    if(app_conf("APP_MSG_SENDER_OPEN")==1)
+    {
+        $this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/msg_sender.js";
+        $this->_var['cpagejs'][] = $this->_var['TMPL_REAL']."/js/msg_sender.js";
+    }
+    $this->_var['pagejs'][] = $this->_var['TMPL_REAL']."/js/plupload/plupload.full.min.js";
+    $this->_var['cpagejs'][] = $this->_var['TMPL_REAL']."/js/plupload/plupload.full.min.js";
+    ?>
+    <link rel="stylesheet" type="text/css" href="{$font_url}" />
+    <link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$pagecss"}" />
+    <script type="text/javascript" src="{function name="parse_script" v="$pagejs" c="$cpagejs"}"></script>
+    <script type="text/javascript">
+        var APP_ROOT = '{$APP_URL}';
+        var APP_ROOT_ORA = '{$PC_URL}';
+        {if app_conf("APP_MSG_SENDER_OPEN") eq 1}
+        var send_span = {function name="app_conf" v="SEND_SPAN"}000;
+        {/if}
+		var __HASH_KEY__ = "{$hash_key}";
+    </script>
+    <script type='text/javascript' src='{$APP_ROOT}/public/region.js'></script>
+    <!--百度轻应用-->
+    <meta name="baidu-tc-cerfication" content="688cdfaa49f7c8f87fd5883492587d8e">
+</head>
+<body {if ACT eq ('account' and 'settings' and 'index')}style="background:#f0f0f0;"{/if}>
+<div class="navbar theme_color1">
+    <div class="nav-wrap-left">
+        <a  {if $pre_page}href="{$pre_page}"{else}onclick="window.history.go(-1);"{/if} class="back"><i class="fa fa-chevron-left"></i></a>
+    </div>
+    <span>{$page_title}</span>
+   <div class="nav-wrap-right">
+        <a class="mybtn" href="{url_wap r="settings"}"><i class="fa fa-user"></i></a>
+    </div>
+</div>
+{include file="inc/header_search.html"}
+<div class="wraper">
+<section class="deal_update">
+	<div class="deal_log_title webkit-box">
+		<div class="title webkit-box-flex"><i class="fa fa-clock-o mr5"></i>项目最新动态</div>
+		{if $deal_info.user_id eq $user_info.id and $deal_info.is_effect eq 1}
+			<div class="ui-button ui-small-button theme_color" id="add_update" url="{url_wap r="deal#add_update" p="id=$deal_info.id"}">更新动态</div>
+		{/if}
+	</div>
+	<div class="mod_main">
+		<div class="timeline">
+			<div id="pin_box" style="margin-left:-10px;">
+				{foreach from=$log_list item=log_item}
+				{if $log_item.online_time_key}
+				<div class="entry timeline-time-mark-t pl10 mt10 sizing" rel="{$log_item.online_time_key}">
+					<i class="fa fa-circle"></i>
+				    <div class="entry-trangle"></div>
+				    {$log_item.online_time}
+				</div>
+				{/if}					
+				<!--time-box-->
+				<div class="timeline-box" id="post_{$log_item.id}">
+					<div class="timeline-left-gray-box">
+						<i class="fa fa-circle timeline-left-gray"></i>
+						<div class="entry-trangle"></div>
+					</div>
+					{if $log_item.user_id gt 0}
+					<!--<a title="打开动态详情" href="{url_wap r="deal#updatedetail" p="id=$log_item.id"}" class="projects-dynamic-open"></a>-->
+					{/if}
+					{if $log_item.user_id gt 0}
+					<div class="log_auth_row webkit-box">
+						<div class="log_user_avatar mr10">{function name="show_empty_avatar" p="$log_item.user_id" t="small" h=''}</div>
+						<div class="log_user_info webkit-box-flex">
+							<div class="deal_user_name" style="height:25px; line-height:25px;"><a class="theme_fcolor">{$log_item.user_name}</a></div>
+							<div class="blank1"></div>
+							<span class="f_l" style="font-size:12px;" onclick="send_message('{$log_item.user_id}');">项目发起人</span>	
+							<span onclick="send_message('{$log_item.user_id}');" class="send_message f_l" style="margin-left:5px; height:20px; background-position:0px 5px;">
+								<i class="fa fa-envelope"></i>
+							</span>	
+						</div>
+						<span class="f_r" style="padding-top:15px;">{$log_item.pass_time}</span>
+						<div class="blank1"></div>
+					</div>
+					{else}
+					<div class="timeline-start">
+						<span>项目上线</span><strong class="timeline-posted-at">{function name="to_date" v=$deal_info.begin_time }</strong>
+						<div class="blank1"></div>
+					</div>
+					{/if}
+					<div class="blank10"></div>
+					{if $log_item.log_info neq ''}
+					{function name="nl2br" v=$log_item.log_info}
+					{else}
+					由 {$deal_info.user_name} 发起的项目「{$deal_info.name}」上线了。
+					此项目必须
+					{if $deal_info.end_time > 0}
+					在 {function name="to_date" v=$deal_info.end_time f="Y年m月d日H:i"} 之前，
+					{/if}
+					达到 ¥{function name="number_price_format" v=$deal_info.limit_price} 的目标才可成功。
+					{/if}
+					{if $log_item.source_vedio neq ''}
+					<div class="blank"></div>
+					<embed wmode="opaque"wmode="opaque"src="{$log_item.source_vedio}" allowFullScreen="true" quality="high" width="100%" height="100%" align="middle" allowScriptAccess="always" ></embed>				
+					{/if}
+					{if $log_item.image neq ''}
+					<div class="blank10"></div>
+					<img src="{function name="get_spec_image" v=$log_item.image w=520 h=400}" />
+					{/if}
+				</div>
+				{/foreach}
+			</div>
+			<div class="blank5"></div>
+				<div class="ajax_loading_log" id="pin_loading" rel="{url_wap r="ajax#dealupdate"}&id={$deal_info.id}&p={$current_page}">加载更多动态</div>
+			<div class="pages">{$pages}</div>
+		</div>
+	</div>
+</section>
+<div class="blank15"></div>
+</div>
+<div class="foot webkit-box" id="foot">
+    <a href="{url_wap r="index"}" class="webkit-box-flex"><i class="fa fa-home"></i>&nbsp;首页</a>
+	{if !app_conf("PROJECT_HIDE")}
+	{if app_conf("INVEST_STATUS") neq 2}
+	<a href="javascript:check_tg();" class="invest_plus"><i class="icon_plus"></i></a>
+	<input type="hidden" name="check_login" value="{$user_info.id}">
+	{/if}
+	{/if}
+ 	<a href="{url_wap r="investor#invester_list"}" class="webkit-box-flex" style="border:none;"><i class="fa fa-users"></i>&nbsp;投资人</a>
+ 	<div class="blank"></div>
+</div>
+<div id="jumphelper" style="display:block;">
+    <a href="{url_wap r="user_message#index"}" class="investor_btn sizing">
+        <i class="fa fa-pencil-square-o"></i>
+    </a>
+	
+ 	<a href="{url_wap r="project#choose"}" class="investor_btn sizing" style="display:none">
+        <i class="fa fa-plus-circle"></i>
+    </a>
+	
+    <a href="javascript:void(0);" id="gotop" class="gotop">∧</a>
+    <a href="javascript:void(0);" id="gobot" class="gotop" style="display:none">∨</a>
+</div>
+</body>
+<script type="text/javascript">
+	// 滑动触发
+	isTouchDevice();
+	// 返回顶部
+	init_gotop();
+</script>
+<script type="text/javascript">
+	function check_tg(){
+		var is_tg={$is_tg};
+		var is_user_tg={$is_user_tg};
+		var	is_user_investor={$is_user_investor};
+		var	check_login=$("input[name='check_login']").val();
+		if(check_login){
+			if(is_tg){
+				if(!is_user_tg){
+					$.showConfirm("您还未绑定资金托管账户，无法发起项目，现在去绑定？",function(){
+						window.location.href=APP_ROOT+"/index.php?ctl=collocation&act=CreateNewAcct&user_type=0&user_id={$user_info.id}";
+					});
+				}else{
+					window.location.href="{url_wap r="project#choose"}";
+				}
+			}else{
+				
+				if(is_user_investor ==1){
+					window.location.href="{url_wap r="project#choose"}";
+				}else if(is_user_investor ==2){
+					$.showErr("您的实名认证正在审核中，还不能发起项目，请联系网站管理员");
+				}
+				else{
+					$.showErr("您未进行身份认证，无法发起项目，点击确定后跳转到身份认证页面",function(){
+						window.location.href="{url_wap r="settings#security" p="method=setting-id-box"}";
+					});
+				}
+				
+			}
+		}
+		else{
+			$.showErr("请先登录再进行发起项目",function(){
+				window.location.href="{url_wap r="user#login"}";
+			});
+		}
+	}
+</script>
+{if $signPackage}
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+  wx.config({
+      debug: false,
+      appId: '{$signPackage.appId}',
+      timestamp: {$signPackage.timestamp},
+      nonceStr: '{$signPackage.nonceStr}',
+      signature: '{$signPackage.signature}',
+      jsApiList: [
+        'checkJsApi',
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo',
+        'hideMenuItems',
+        'showMenuItems',
+        'hideAllNonBaseMenuItem',
+        'showAllNonBaseMenuItem',
+        'translateVoice',
+        'startRecord',
+        'stopRecord',
+        'onRecordEnd',
+        'playVoice',
+        'pauseVoice',
+        'stopVoice',
+        'uploadVoice',
+        'downloadVoice',
+        'chooseImage',
+        'previewImage',
+        'uploadImage',
+        'downloadImage',
+        'getNetworkType',
+        'openLocation',
+        'getLocation',
+        'hideOptionMenu',
+        'showOptionMenu',
+        'closeWindow',
+        'scanQRCode',
+        'chooseWXPay',
+        'openProductSpecificView',
+        'addCard',
+        'chooseCard',
+        'openCard'
+      ]
+  });
+   wx.ready(function () {
+    // 在这里调用 API
+			{if $wx.title}
+			var wx_title="{$wx.title}";
+			{else}
+			var wx_title='{$seo_title}';
+ 			{/if}
+			 {if $wx.desc}
+			var wx_desc= '{$wx.desc}'; // 分享描述
+			{else}
+			var wx_desc=  '{$seo_description}'; // 分享描述
+			{/if}
+			var wx_link='{$wx_url}';
+			{if $wx.img_url}
+			var  wx_img= "{$wx.img_url}"; // 分享图标
+			{else}
+			var  wx_img=  '{$site_logo}'; // 分享图标
+			{/if}
+		wx.onMenuShareTimeline({
+		 	title: wx_title, // 分享标题
+		    link: wx_link, // 分享链接
+ 			imgUrl: wx_img, // 分享图标
+ 		    success: function () { 
+		        // 用户确认分享后执行的回调函数
+		    },
+		    cancel: function () { 
+		        // 用户取消分享后执行的回调函数
+		    }
+		});
+		wx.onMenuShareAppMessage({
+			title: wx_title, // 分享标题
+ 			desc: wx_desc, // 分享描述
+ 		    link: wx_link,  // 分享链接
+ 			imgUrl: wx_img, // 分享图标
+ 		    type: 'link', // 分享类型,music、video或link，不填默认为link
+		   // dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+		    success: function () { 
+		        // 用户确认分享后执行的回调函数
+		    },
+		    cancel: function () { 
+		        // 用户取消分享后执行的回调函数
+		    }
+		});
+  });
+</script>
+{/if}
+</html>
